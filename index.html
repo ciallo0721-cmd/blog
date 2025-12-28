@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>开发者空间 - 个人博客</title>
+    <title>ciallo0721-cmd - 个人博客</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!--2057是文章-->
     <style>
         /* 全局样式 */
         :root {
@@ -792,7 +793,180 @@
             margin-right: 8px;
         }
 
-        /* 联系方式 */
+        /* 文章板块样式 */
+        .articles-container {
+            margin-bottom: 60px;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .article-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .article-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .article-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .article-content {
+            padding: 30px;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--bili-blue);
+        }
+
+        .article-number {
+            font-weight: 600;
+            background: rgba(0, 161, 214, 0.1);
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        .article-date {
+            color: var(--text-secondary);
+        }
+
+        .article-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .article-excerpt {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-more {
+            color: var(--bili-pink);
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .read-more i {
+            transition: var(--transition);
+        }
+
+        .article-card:hover .read-more i {
+            transform: translateX(5px);
+        }
+
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .article-tag {
+            background: rgba(251, 114, 153, 0.1);
+            color: var(--bili-pink);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(251, 114, 153, 0.2);
+        }
+
+        /* 文章分页 */
+        .article-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(251, 114, 153, 0.2);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .page-btn:hover {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+        }
+
+        .page-ellipsis {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            color: var(--text-secondary);
+        }
+
+        /* 联系方式部分 */
         .contact-content {
             text-align: center;
             background: rgba(255, 255, 255, 0.95);
@@ -1347,6 +1521,20 @@
             .donation-content .highlight {
                 font-size: 1.2rem;
             }
+            
+            /* 文章响应式 */
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .article-content {
+                padding: 20px;
+            }
+            
+            .article-content h3 {
+                font-size: 1.2rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1488,12 +1676,13 @@
                 <img src="images/avatar.png" alt="头像" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'60\' height=\'60\' viewBox=\'0 0 60 60\'><rect width=\'60\' height=\'60\' fill=\'%23FB7299\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>头像</text></svg>'">
             </div>
             <div>
-                <div style="font-weight: bold;">开发者</div>
+                <div style="font-weight: bold;">ciallo0721-cmd</div>
                 <div style="font-size: 0.8rem; color: #666;">Python/Ren'Py开发者</div>
             </div>
         </div>
         <ul class="mobile-menu-links">
             <li><a href="#home"><i class="fas fa-home"></i> 主页</a></li>
+            <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章</a></li>
             <li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> Bilibili</a></li>
             <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k?from_tab_name=main" target="_blank"><i class="fab fa-tiktok"></i> 抖音</a></li>
             <li><a href="#python"><i class="fab fa-python"></i> renpy示例</a></li>
@@ -1512,7 +1701,7 @@
                 <img src="images/avatar.png" alt="头像" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 80 80\'><rect width=\'80\' height=\'80\' fill=\'%23FB7299\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>头像</text></svg>'">
             </div>
             <div class="header-text">
-                <h1>开发者空间</h1>
+                <h1>ciallo0721-cmd</h1>
                 <p class="tagline">Ren'Py视觉小说创作者 | 文化爱好者</p>
             </div>
         </div>
@@ -1524,6 +1713,7 @@
             <a href="index.html" class="logo"><i class="fas fa-gamepad"></i> 关于</a>
             <ul class="nav-links">
                 <li><a href="#home"><i class="fas fa-home"></i> 主页</a></li>
+                <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章</a></li>
                 <li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> B站</a></li>
                 <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k?from_tab_name=main" target="_blank"><i class="fab fa-tiktok"></i> 抖音</a></li>
                 <li><a href="#python"><i class="fab fa-python"></i> renpy示例</a></li>
@@ -1546,7 +1736,7 @@
             </div>
             <div class="about-content">
                 <div class="about-text">
-                    <p>你好！我是一名热爱二次元文化的Ren'Py视觉小说开发者，专注于创作富有情感深度和故事性的游戏作品。我的创作理念是将二次元美学与深刻的故事叙述相结合，通过视觉小说这一媒介，为玩家带来独特的沉浸式体验。</p>
+                    <p>你好！我是一名热爱二次元文化的Ren'Py视觉小说开发者ciallo0721-cmd，专注于创作富有情感深度和故事性的游戏作品。我的创作理念是将二次元美学与深刻的故事叙述相结合，通过视觉小说这一媒介，为玩家带来独特的沉浸式体验。</p>
                     <p>目前我已经开发了多款不同类型的Ren'Py游戏，涵盖从温馨日常到心理惊悚的各种题材。每一款作品都是我用心创作的成果，希望能与大家分享。</p>
                     <p>除了游戏开发，我也喜欢研究动画制作和角色设计，时常在社交媒体上分享我的创作心得和开发过程。</p>
                     
@@ -1559,15 +1749,15 @@
                 </div>
                 <div class="about-image">
                     <!-- 在线Python运行器界面 -->
-                    <div class="python-runner">
+                    <!-- <div class="python-runner">
                         <div class="code-header">
                             <span class="red-dot"></span>
                             <span class="yellow-dot"></span>
                             <span class="green-dot"></span>
                             <span class="file-name">renpy_demo.py</span>
                         </div>
-                        <div class="code-content">
-                            <pre><code># Ren'Py 游戏示例代码
+                        <!- <div class="code-content">
+                            <- <pre><code># Ren'Py 游戏示例代码
 define mc = Character("主角")
 define lily = Character("莉莉")
 
@@ -1595,9 +1785,26 @@ label play_game:
 
 label weekend_end:
     "周末就这样愉快地结束了。"
-    return</code></pre>
-                        </div>
+    return</code></pre> --
+                        </div> ->
                     </div>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- 文章板块 -->
+        <section id="articles" class="section">
+            <div class="section-title">
+                <h2>技术文章</h2>
+            </div>
+            <div class="articles-container">
+                <div class="articles-grid" id="articlesGrid">
+                    <!-- 文章卡片将通过JavaScript动态生成 -->
+                </div>
+                
+                <!-- 文章分页 -->
+                <div class="article-pagination" id="articlePagination">
+                    <!-- 分页按钮将通过JavaScript动态生成 -->
                 </div>
             </div>
         </section>
@@ -1663,11 +1870,11 @@ label weekend_end:
                 </div>
 
                 <!-- 普通的对话 -->
-                <div class="game-card" data-game-id="2">
+                <!-- <div class="game-card" data-game-id="2">
                     <div class="game-image">
                         <img src="images/covers/cover.png" alt="普通的对话" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'><rect width=\'400\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>普通的对话</text></svg>'">
                     </div>
-                    <div class="game-content">
+                    <-- <div class="game-content">
                         <span class="age-rating age-all">全年龄</span>
                         <h3>普通的对话</h3>
                         <p>日常生活中的小确幸，平凡对话中的不平凡情感。一部关于日常生活的温馨小品。</p>
@@ -1678,8 +1885,8 @@ label weekend_end:
                             <span class="feature-tag">简单操作</span>
                         </div>
                     </div>
-                </div>
-                <div class="game-detail-expanded" id="detail-2">
+                </div> -->
+                <!-- <div class="game-detail-expanded" id="detail-2">
                     <div class="detail-header">
                         <div class="detail-cover">
                             <img src="images/covers/cover.png" alt="普通的对话" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'200\' viewBox=\'0 0 150 200\'><rect width=\'150\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>普通的对话</text></svg>'">
@@ -1701,7 +1908,7 @@ label weekend_end:
                                     <span class="feature-tag">短篇故事</span>
                                 </div>
                             </div>
-                        </div>
+                        </div> --
                         <button class="close-detail">
                             <i class="fas fa-times"></i>
                         </button>
@@ -1711,7 +1918,7 @@ label weekend_end:
                         <p>这个项目让我学会了如何在简单的对话中传达深刻的情感。通过观察日常生活中的小细节，我发现最平凡的对话往往蕴含着最真实的情感。</p>
                         <p>在开发过程中，我专注于创造自然流畅的对话系统，让玩家能够真正沉浸在这个温馨的小故事中。</p>
                     </div>
-                </div>
+                </div> -->
             </div>
             
             <!-- 14+游戏 -->
@@ -1726,7 +1933,7 @@ label weekend_end:
                         <span class="age-rating age-14">14+</span>
                         <h3>病娇契约</h3>
                         <p>与病娇角色签订契约的恋爱故事，包含复杂情感关系和轻微心理恐怖元素。</p>
-                        <div class="game-status">状态: 开发中</div>
+                        <div class="game-status">状态: 发行</div>
                         <div class="game-features">
                             <span class="feature-tag">病娇角色</span>
                             <span class="feature-tag">契约主题</span>
@@ -1802,7 +2009,7 @@ label weekend_end:
                 <p class="highlight">有你们的支持，腐竹我就能买一个服务器，给大家带来更好的游戏体验！</p>
                 
                 <div class="donation-qr">
-                    <img src="images/pay.png" alt="收款码" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'280\' height=\'280\' viewBox=\'0 0 280 280\'><rect width=\'280\' height=\'280\' fill=\'%23f0f0f0\'/><text x=\'50%\' y=\'50%\' font-size=\'20\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23666\'>收款码</text></svg>'">
+                    <img src="./pay.png" alt="收款码" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"280\" height=\"280\" viewBox=\"0 0 280 280\"><rect width=\"280\" height=\"280\" fill=\"#f0f0f0\"/><text x=\"50%\" y=\"50%\" font-size=\"20\" text-anchor=\"middle\" dy=\".3em\" fill=\"#666\">收款码</text></svg>'">
                 </div>
                 
                 <p>扫码赞助，支持腐竹继续开发好玩的游戏！</p>
@@ -1826,7 +2033,7 @@ label weekend_end:
     <!-- 页脚 -->
     <footer>
         <div class="container footer-content">
-            <div class="footer-logo">开发者空间</div>
+            <div class="footer-logo">ciallo0721-cmd</div>
             <p>感谢访问我的个人博客！期待与您交流游戏开发心得</p>
             
             <!-- 添加电脑版切换按钮 -->
@@ -1848,6 +2055,133 @@ label weekend_end:
     </div>
 
     <script>
+        // 文章数据（模拟从服务器获取）
+        const articles = [
+            {
+                id: 1,
+                title: "UTAU教程",
+                excerpt: "从调音到发布完全指南",
+                date: "2025-12-28",
+                tags: ["UTAU", "虚拟歌姬"]
+            },
+        ];
+
+        // 每页显示的文章数量
+        const articlesPerPage = 6;
+        let currentPage = 1;
+        let totalPages = 0;
+
+        // 初始化文章板块
+        function initArticles() {
+            totalPages = Math.ceil(articles.length / articlesPerPage);
+            renderArticles(currentPage);
+            renderPagination();
+        }
+
+        // 渲染文章列表
+        function renderArticles(page) {
+            const grid = document.getElementById('articlesGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+            
+            const startIndex = (page - 1) * articlesPerPage;
+            const endIndex = Math.min(startIndex + articlesPerPage, articles.length);
+            
+            for (let i = startIndex; i < endIndex; i++) {
+                const article = articles[i];
+                const articleCard = document.createElement('a');
+                articleCard.href = `${article.id}.html`;
+                articleCard.className = 'article-card fade-in-up';
+                articleCard.style.animationDelay = `${(i - startIndex) * 0.1}s`;
+                
+                articleCard.innerHTML = `
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-number">文章 ${article.id}</span>
+                            <span class="article-date">${article.date}</span>
+                        </div>
+                        <h3>${article.title}</h3>
+                        <p class="article-excerpt">${article.excerpt}</p>
+                        <span class="read-more">
+                            阅读全文 <i class="fas fa-arrow-right"></i>
+                        </span>
+                        <div class="article-tags">
+                            ${article.tags.map(tag => `<span class="article-tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(articleCard);
+            }
+        }
+
+        // 渲染分页
+        function renderPagination() {
+            const pagination = document.getElementById('articlePagination');
+            if (!pagination) return;
+            
+            pagination.innerHTML = '';
+            
+            // 上一页按钮
+            if (currentPage > 1) {
+                const prevBtn = document.createElement('div');
+                prevBtn.className = 'page-btn';
+                prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                prevBtn.addEventListener('click', () => {
+                    currentPage--;
+                    renderArticles(currentPage);
+                    renderPagination();
+                    window.scrollTo({
+                        top: document.getElementById('articles').offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                });
+                pagination.appendChild(prevBtn);
+            }
+            
+            // 页码按钮
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    const pageBtn = document.createElement('div');
+                    pageBtn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                    pageBtn.textContent = i;
+                    pageBtn.addEventListener('click', () => {
+                        currentPage = i;
+                        renderArticles(currentPage);
+                        renderPagination();
+                        window.scrollTo({
+                            top: document.getElementById('articles').offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    });
+                    pagination.appendChild(pageBtn);
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    const ellipsis = document.createElement('div');
+                    ellipsis.className = 'page-ellipsis';
+                    ellipsis.textContent = '...';
+                    pagination.appendChild(ellipsis);
+                }
+            }
+            
+            // 下一页按钮
+            if (currentPage < totalPages) {
+                const nextBtn = document.createElement('div');
+                nextBtn.className = 'page-btn';
+                nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                nextBtn.addEventListener('click', () => {
+                    currentPage++;
+                    renderArticles(currentPage);
+                    renderPagination();
+                    window.scrollTo({
+                        top: document.getElementById('articles').offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                });
+                pagination.appendChild(nextBtn);
+            }
+        }
+
         // 欢迎弹窗功能
         const welcomePopup = document.getElementById('welcomePopup');
         const enterButton = document.getElementById('enterButton');
@@ -1866,7 +2200,7 @@ label weekend_end:
             document.body.style.overflow = ''; // 恢复背景滚动
             
             // 显示成功消息
-            showSuccess('欢迎来到开发者空间！');
+            showSuccess('欢迎来到开发者ciallo0721-cmd的空间！');
         }
 
         // 页面加载完成后显示弹窗
@@ -2117,7 +2451,10 @@ label weekend_end:
 
         // 页面加载完成后的初始化
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('游戏开发者网站已加载完成');
+            console.log('网站已加载完成');
+            
+            // 初始化文章板块
+            initArticles();
             
             // 添加一些交互效果
             const gameCards = document.querySelectorAll('.game-card');
@@ -2149,7 +2486,7 @@ label weekend_end:
             }, observerOptions);
             
             // 观察需要动画的元素
-            const animatedElements = document.querySelectorAll('.game-card, .intro, .about-content, .contact-content, .donation-content');
+            const animatedElements = document.querySelectorAll('.game-card, .intro, .about-content, .contact-content, .donation-content, .article-card');
             animatedElements.forEach(el => {
                 observer.observe(el);
             });

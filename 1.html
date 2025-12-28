@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTAU教程：从调音到发布完全指南 - ciallo0721-cmd的文章</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 全局样式 */
+        :root {
+            --bili-pink: #FB7299;
+            --bili-blue: #00A1D6;
+            --text-primary: #1D1D1F;
+            --text-secondary: #515154;
+            --bg-light: #F5F5F7;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 导航栏 */
+        nav {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--bili-pink);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+            color: var(--bili-blue);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(251, 114, 153, 0.4);
+        }
+
+        /* 文章内容样式 */
+        .article-detail-container {
+            padding: 60px 0;
+        }
+
+        .article-detail {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .article-detail::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+        }
+
+        .article-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .article-number {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+        }
+
+        .article-title {
+            font-size: 2.4rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            line-height: 1.3;
+            font-weight: 700;
+        }
+
+        .article-intro {
+            font-size: 1.2rem;
+            color: var(--bili-blue);
+            font-weight: 500;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .article-date {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .article-date i {
+            color: var(--bili-pink);
+        }
+
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .article-tag {
+            background: rgba(251, 114, 153, 0.1);
+            color: var(--bili-pink);
+            padding: 6px 15px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(251, 114, 153, 0.2);
+            transition: var(--transition);
+        }
+
+        .article-tag:hover {
+            background: var(--bili-pink);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .article-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .article-content h2 {
+            color: var(--text-primary);
+            margin: 30px 0 15px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .article-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            border-radius: 3px;
+        }
+
+        .article-content h3 {
+            color: var(--text-primary);
+            margin: 25px 0 12px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .article-content li {
+            margin-bottom: 8px;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid var(--bili-pink);
+            padding: 20px 25px;
+            margin: 25px 0;
+            background: rgba(251, 114, 153, 0.05);
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        .article-content pre {
+            background: linear-gradient(135deg, #2D2D30, #1E1E1E);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .article-content code {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: #E8E8E8;
+            font-size: 0.95rem;
+        }
+
+        .article-content .highlight {
+            background: rgba(251, 114, 153, 0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: var(--bili-pink);
+            font-weight: 500;
+        }
+
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
+
+        .article-content .image-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: -15px;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .article-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(251, 114, 153, 0.2);
+            color: var(--text-primary);
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(251, 114, 153, 0.3);
+        }
+
+        .nav-btn i {
+            font-size: 1.2rem;
+        }
+
+        .nav-btn.prev {
+            text-align: left;
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            flex-direction: row-reverse;
+        }
+
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .nav-btn.disabled:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-primary);
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 页脚 */
+        footer {
+            background: linear-gradient(135deg, var(--text-primary), #2D2D2F);
+            color: white;
+            text-align: center;
+            padding: 50px 0 30px;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--bili-pink);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        footer p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+            font-size: 1.05rem;
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 12px 20px;
+            }
+            
+            .logo {
+                font-size: 1.4rem;
+            }
+            
+            .article-detail {
+                padding: 30px;
+            }
+            
+            .article-title {
+                font-size: 1.8rem;
+            }
+            
+            .article-intro {
+                font-size: 1.1rem;
+            }
+            
+            .article-content {
+                font-size: 1rem;
+            }
+            
+            .article-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .article-content h3 {
+                font-size: 1.3rem;
+            }
+            
+            .article-navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .article-detail {
+                padding: 25px;
+            }
+            
+            .article-title {
+                font-size: 1.6rem;
+            }
+            
+            .article-intro {
+                font-size: 1rem;
+            }
+            
+            .article-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* 滚动条优化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--bili-pink), #ff2e63);
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i> 开发者空间
+            </a>
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </div>
+    </nav>
+
+    <!-- 文章内容 -->
+    <main class="container article-detail-container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="article-number">UTAU-001</div>
+                <h1 class="article-title">UTAU教程：从调音到发布完全指南</h1>
+                
+                <p class="article-intro">UTAU是一款免费的歌声合成软件，允许用户创建自己的虚拟歌手。本教程将带你从零开始，学习如何调音并发布你的第一个UTAU歌曲。</p>
+                
+                <div class="article-meta">
+                    <div class="article-date">
+                        <i class="far fa-calendar"></i> 发布日期: 2025-12-28
+                    </div>
+                    <div class="article-date">
+                        <i class="far fa-clock"></i> 阅读时间: 约15分钟
+                    </div>
+                </div>
+                
+                <div class="article-tags">
+                    <span class="article-tag">UTAU</span>
+                    <span class="article-tag">调音</span>
+                    <span class="article-tag">歌声合成</span>
+                    <span class="article-tag">教程</span>
+                    <span class="article-tag">音乐制作</span>
+                </div>
+            </header>
+            
+            <div class="article-content">
+                <!-- 文章正文开始 -->
+                <h2>什么是UTAU？</h2>
+                <p><span class="highlight">UTAU</span> 是一款由日本开发者饴屋／菖蒲氏开发的免费歌声合成软件。与商业软件如VOCALOID不同，UTAU是完全开源的，允许用户创建和使用自己的音源库（音源库通常被称为"音源"或"UTAU音源"）。</p>
+                
+                <h2>准备工作</h2>
+                <h3>1. 下载和安装UTAU</h3>
+                <ul>
+                    <li>访问官方网站下载UTAU软件</li>
+                    <li>确保系统语言设置为日语（可通过Locale Emulator或更改系统区域设置）</li>
+                    <li>安装必要的插件和音源库</li>
+                </ul>
+                
+                <h3>2. 获取音源</h3>
+                <p>UTAU音源分为多种类型：</p>
+                <ul>
+                    <li><strong>CV音源</strong>：连续音，每个假名单独录音</li>
+                    <li><strong>VCV音源</strong>：连续音，包含过渡音</li>
+                    <li><strong>CVVC音源</strong>：更自然的过渡效果</li>
+                    <li><strong>多音阶音源</strong>：覆盖多个音阶</li>
+                </ul>
+                
+                <h2>基础调音步骤</h2>
+                
+                <h3>1. 导入音源</h3>
+                <p>将下载的音源文件解压到UTAU的"voice"文件夹中。在UTAU中选择"工具"→"音源管理"来注册新音源。</p>
+                
+                <h3>2. 创建新项目</h3>
+                <p>点击"文件"→"新建"创建新工程。在音轨上右键选择"插入音符"来添加音符。</p>
+                
+                <blockquote>
+                    提示：UTAU使用音符和歌词来生成声音。每个音符对应一个音节，歌词使用罗马音或假名输入。
+                </blockquote>
+                
+                <h3>3. 输入歌词</h3>
+                <p>双击音符输入歌词：</p>
+                <ul>
+                    <li>对于CV音源：输入单个假名（如"ka", "shi", "tsu"）</li>
+                    <li>对于VCV音源：使用"-"连接假名（如"-ka", "a-ka", "ka-i"）</li>
+                </ul>
+                
+                <h3>4. 基本参数调整</h3>
+                <p>右键音符选择"音符属性"可以调整以下参数：</p>
+                
+                <pre><code>// UTAU调音基础参数示例
+Velocity（VEL）: 控制音量强弱
+Modulation（MOD）: 控制颤音强度
+Flags参数:
+  - B: 呼吸声
+  - g: 气泡音
+  - H: 硬发音
+  - Y0: 清音化</code></pre>
+                
+                <h2>高级调音技巧</h2>
+                
+                <h3>1. 音高调整（Pitch Bend）</h3>
+                <p>使用"音高编辑"工具绘制音高曲线：</p>
+                <ol>
+                    <li>选择"工具"→"音高编辑"</li>
+                    <li>在音高编辑器中手动绘制曲线</li>
+                    <li>使用"R"重置，"S"平滑曲线</li>
+                </ol>
+                
+                <h3>2. 共振峰调整</h3>
+                <p>使用Resampler参数调整音色：</p>
+                <ul>
+                    <li><strong>B</strong>：增加呼吸感</li>
+                    <li><strong>g</strong>：增加气泡音效果</li>
+                    <li><strong>C</strong>：清音化</li>
+                    <li><strong>F</strong>：女声化</li>
+                </ul>
+                
+                <h3>3. 颤音制作</h3>
+                <p>两种方法制作颤音：</p>
+                <ol>
+                    <li>使用颤音插件自动生成</li>
+                    <li>手动绘制MOD曲线制作自定义颤音</li>
+                </ol>
+                
+                <h2>插件使用</h2>
+                <p>UTAU支持多种插件增强功能：</p>
+                <ul>
+                    <li><strong>TIPS</strong>：调音辅助插件</li>
+                    <li><strong>OpenUTAU</strong>：现代版UTAU，支持更多功能</li>
+                    <li><strong>Various Plugins</strong>：社区开发的各种实用插件</li>
+                </ul>
+                
+                <h2>渲染和导出</h2>
+                
+                <h3>1. 选择Resampler</h3>
+                <p>在"工具"→"设置"中选择Resampler：</p>
+                <ul>
+                    <li>resampler.exe：标准Resampler</li>
+                    <li>tn_fnds.exe：更好的音质</li>
+                    <li>moresampler：现代Resampler，支持更多功能</li>
+                </ul>
+                
+                <h3>2. 渲染设置</h3>
+                <ol>
+                    <li>点击"项目"→"渲染"</li>
+                    <li>选择输出格式（WAV或MP3）</li>
+                    <li>设置比特率和采样率</li>
+                    <li>点击"确定"开始渲染</li>
+                </ol>
+                
+                <h3>3. 后期处理建议</h3>
+                <p>在DAW中进行后期处理：</p>
+                <ul>
+                    <li>使用EQ调整频率平衡</li>
+                    <li>添加混响增加空间感</li>
+                    <li>使用压缩器平衡动态范围</li>
+                    <li>添加母带处理效果</li>
+                </ul>
+                
+                <h2>发布你的作品</h2>
+                
+                <h3>1. 选择合适的平台</h3>
+                <ul>
+                    <li><strong>Niconico动画</strong>：日本最大的UTAU作品分享平台</li>
+                    <li><strong>YouTube</strong>：全球最大的视频分享平台</li>
+                    <li><strong>Bilibili</strong>：中国最大的二次创作平台</li>
+                    <li><strong>SoundCloud</strong>：音乐分享平台</li>
+                </ul>
+                
+                <h3>2. 制作PV（宣传视频）</h3>
+                <p>为你的UTAU歌曲制作PV：</p>
+                <ol>
+                    <li>准备歌词字幕</li>
+                    <li>制作或寻找合适的背景素材</li>
+                    <li>添加UTAU角色的立绘或动画</li>
+                    <li>使用视频编辑软件合成</li>
+                </ol>
+                
+                <h3>3. 遵守使用规范</h3>
+                <p>发布时注意：</p>
+                <ul>
+                    <li>确认音源的使用条款</li>
+                    <li>正确标注音源制作者</li>
+                    <li>遵守平台的内容政策</li>
+                    <li>考虑CC协议或版权声明</li>
+                </ul>
+                
+                <h2>常见问题解答</h2>
+                
+                <h3>Q1: UTAU无法正确发声怎么办？</h3>
+                <p>A: 检查系统语言设置、音源路径、Resampler配置，确保所有文件使用正确编码。</p>
+                
+                <h3>Q2: 如何让UTAU唱中文？</h3>
+                <p>A: 使用支持中文的音源，或使用VCV/CVVC音源配合中文转换工具。</p>
+                
+                <h3>Q3: 音质不佳如何改善？</h3>
+                <p>A: 使用高质量音源、合适的Resampler、精细调音，以及在DAW中进行后期处理。</p>
+                
+                <h2>总结</h2>
+                <p>UTAU是一个强大而灵活的歌声合成工具，虽然学习曲线较陡，但一旦掌握，你将能够创作出独特的音乐作品。记住：</p>
+                
+                <ol>
+                    <li>从基础开始，逐步学习高级技巧</li>
+                    <li>多听多分析优秀的UTAU作品</li>
+                    <li>参与社区交流，获取反馈和建议</li>
+                    <li>保持耐心，调音是一个需要练习的技能</li>
+                </ol>
+                
+                <p>无论你是想为游戏制作音乐，还是想创作自己的歌曲，UTAU都是一个绝佳的选择。现在就开始你的UTAU创作之旅吧！</p>
+                
+                <blockquote>
+                    创作提示：最好的学习方法是动手实践。选择一个简单的旋律，从头到尾完成一个完整的作品，你会学到比阅读教程更多的东西。
+                </blockquote>
+                
+                <p>祝你在UTAU的世界里创作愉快！如果有任何问题，欢迎在评论区留言讨论。</p>
+                <!-- 文章正文结束 -->
+            </div>
+        </article>
+        
+        <!-- 文章导航 -->
+        <div class="article-navigation">
+            <a href="javascript:void(0)" class="nav-btn prev disabled">
+                <i class="fas fa-chevron-left"></i>
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                    <div>已是第一篇</div>
+                </div>
+            </a>
+            
+            <a href="javascript:void(0)" class="nav-btn next disabled">
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                    <div>没有更多文章</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
+            <p>感谢阅读我的文章！期待与您交流UTAU和歌声合成心得</p>
+            <p>© 2025 ciallo0721-cmd · 专注技术教程与创作分享</p>
+        </div>
+    </footer>
+
+    <script>
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('UTAU教程文章已加载完成');
+            
+            // 阅读进度指示器
+            const progressBar = document.createElement('div');
+            progressBar.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 3px;
+                background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+                width: 0%;
+                z-index: 9999;
+                transition: width 0.1s ease;
+            `;
+            document.body.appendChild(progressBar);
+            
+            // 更新阅读进度
+            window.addEventListener('scroll', function() {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight - windowHeight;
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollPercent = (scrollTop / documentHeight) * 100;
+                
+                progressBar.style.width = scrollPercent + '%';
+            });
+            
+            // 代码块复制功能
+            document.querySelectorAll('pre code').forEach((codeBlock) => {
+                const pre = codeBlock.parentElement;
+                const copyButton = document.createElement('button');
+                copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+                copyButton.style.cssText = `
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    background: rgba(251, 114, 153, 0.2);
+                    border: 1px solid rgba(251, 114, 153, 0.4);
+                    color: white;
+                    padding: 5px 12px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 0.8rem;
+                    transition: all 0.3s ease;
+                `;
+                
+                pre.style.position = 'relative';
+                pre.appendChild(copyButton);
+                
+                copyButton.addEventListener('click', () => {
+                    navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                        copyButton.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                        copyButton.style.background = 'rgba(0, 161, 214, 0.5)';
+                        setTimeout(() => {
+                            copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+                            copyButton.style.background = 'rgba(251, 114, 153, 0.2)';
+                        }, 2000);
+                    });
+                });
+            });
+        });
+        
+        // 键盘快捷键支持
+        document.addEventListener('keydown', function(e) {
+            // ESC键返回首页
+            if (e.key === 'Escape') {
+                window.location.href = 'index.html';
+            } else if (e.key === 'h' && (e.ctrlKey || e.metaKey)) {
+                // Ctrl/Cmd+H 返回首页
+                e.preventDefault();
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
