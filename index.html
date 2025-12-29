@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ciallo0721-cmd - 个人博客</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入文章数据 -->
+    <script src="articles-data.js"></script>
     <!--2057是文章-->
     <style>
         /* 全局样式 */
@@ -1583,6 +1585,14 @@
                 width: 180px;
                 height: 180px;
             }
+            
+            .article-content {
+                padding: 20px;
+            }
+            
+            .article-content h3 {
+                font-size: 1.1rem;
+            }
         }
 
         /* 滚动条优化 */
@@ -1668,6 +1678,7 @@
             <button class="welcome-button" id="enterButton">进入</button>
         </div>
     </div>
+    
 
     <!-- 移动端菜单 -->
     <div class="mobile-menu" id="mobileMenu">
@@ -1748,7 +1759,7 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <!-- 在线Python运行器界面 -->
+                    <!-- Python 代码运行器界面（注释掉） -->
                     <!-- <div class="python-runner">
                         <div class="code-header">
                             <span class="red-dot"></span>
@@ -1756,8 +1767,8 @@
                             <span class="green-dot"></span>
                             <span class="file-name">renpy_demo.py</span>
                         </div>
-                        <!- <div class="code-content">
-                            <- <pre><code># Ren'Py 游戏示例代码
+                        <div class="code-content">
+                            <pre><code># Ren'Py 游戏示例代码
 define mc = Character("主角")
 define lily = Character("莉莉")
 
@@ -1785,29 +1796,33 @@ label play_game:
 
 label weekend_end:
     "周末就这样愉快地结束了。"
-    return</code></pre> --
-                        </div> ->
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
-        <!-- 文章板块 -->
-        <section id="articles" class="section">
-            <div class="section-title">
-                <h2>技术文章</h2>
-            </div>
-            <div class="articles-container">
-                <div class="articles-grid" id="articlesGrid">
-                    <!-- 文章卡片将通过JavaScript动态生成 -->
-                </div>
-                
-                <!-- 文章分页 -->
-                <div class="article-pagination" id="articlePagination">
-                    <!-- 分页按钮将通过JavaScript动态生成 -->
+    return</code></pre>
+                        </div>
+                    </div> -->
                 </div>
             </div>
         </section>
+
+        <!-- 文章板块 -->
+        <!-- 文章板块 -->
+    <section id="articles" class="section">
+        <div class="section-title">
+            <h2>技术文章</h2>
+        </div>
+        <div class="articles-container">
+            <div class="articles-grid" id="articlesGrid">
+                <!-- 显示最新的3篇文章 -->
+            </div>
+            
+            <!-- 添加"查看全部文章"按钮 -->
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="wz.html" class="welcome-button" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <i class="fas fa-book-open"></i>
+                    查看全部文章
+                </a>
+            </div>
+        </div>
+    </section>
 
         <!-- 游戏介绍部分 -->
         <section id="games" class="section">
@@ -1868,57 +1883,6 @@ label weekend_end:
                         <p>这个项目的灵感来源于我高中时期与朋友们在周末相聚写诗的经历。那些美好的回忆成为了这个故事的核心。</p>
                     </div>
                 </div>
-
-                <!-- 普通的对话 -->
-                <!-- <div class="game-card" data-game-id="2">
-                    <div class="game-image">
-                        <img src="images/covers/cover.png" alt="普通的对话" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'><rect width=\'400\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>普通的对话</text></svg>'">
-                    </div>
-                    <-- <div class="game-content">
-                        <span class="age-rating age-all">全年龄</span>
-                        <h3>普通的对话</h3>
-                        <p>日常生活中的小确幸，平凡对话中的不平凡情感。一部关于日常生活的温馨小品。</p>
-                        <div class="game-status">状态: 已完成</div>
-                        <div class="game-features">
-                            <span class="feature-tag">日常对话</span>
-                            <span class="feature-tag">温馨治愈</span>
-                            <span class="feature-tag">简单操作</span>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- <div class="game-detail-expanded" id="detail-2">
-                    <div class="detail-header">
-                        <div class="detail-cover">
-                            <img src="images/covers/cover.png" alt="普通的对话" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'200\' viewBox=\'0 0 150 200\'><rect width=\'150\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>普通的对话</text></svg>'">
-                        </div>
-                        <div class="detail-info">
-                            <span class="age-rating age-all">全年龄</span>
-                            <h3>普通的对话</h3>
-                            <div class="detail-meta">
-                                <span class="game-status">状态: 已完成</span>
-                                <span class="game-category">分类: 全年龄</span>
-                            </div>
-                            <p class="detail-description">日常生活中的小确幸，平凡对话中的不平凡情感。一部关于日常生活的温馨小品。</p>
-                            <div class="detail-features">
-                                <h4>游戏特色</h4>
-                                <div class="features-list">
-                                    <span class="feature-tag">日常对话</span>
-                                    <span class="feature-tag">温馨治愈</span>
-                                    <span class="feature-tag">简单操作</span>
-                                    <span class="feature-tag">短篇故事</span>
-                                </div>
-                            </div>
-                        </div> --
-                        <button class="close-detail">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="detail-notes">
-                        <h4>开发笔记</h4>
-                        <p>这个项目让我学会了如何在简单的对话中传达深刻的情感。通过观察日常生活中的小细节，我发现最平凡的对话往往蕴含着最真实的情感。</p>
-                        <p>在开发过程中，我专注于创造自然流畅的对话系统，让玩家能够真正沉浸在这个温馨的小故事中。</p>
-                    </div>
-                </div> -->
             </div>
             
             <!-- 14+游戏 -->
@@ -1933,7 +1897,7 @@ label weekend_end:
                         <span class="age-rating age-14">14+</span>
                         <h3>病娇契约</h3>
                         <p>与病娇角色签订契约的恋爱故事，包含复杂情感关系和轻微心理恐怖元素。</p>
-                        <div class="game-status">状态: 发行</div>
+                        <div class="game-status">状态: 开发中</div>
                         <div class="game-features">
                             <span class="feature-tag">病娇角色</span>
                             <span class="feature-tag">契约主题</span>
@@ -2044,7 +2008,7 @@ label weekend_end:
                 </a>
             </div>
             
-            <!-- <p class="copyright">© 2023 二次元游戏开发者. 保留所有权利.</p> -->
+            <p class="copyright">© 2025 ciallo0721-cmd. 保留所有权利.</p>
         </div>
     </footer>
 
@@ -2055,45 +2019,27 @@ label weekend_end:
     </div>
 
     <script>
-        // 文章数据（模拟从服务器获取）
-        const articles = [
-            {
-                id: 1,
-                title: "UTAU教程",
-                excerpt: "从调音到发布完全指南",
-                date: "2025-12-28",
-                tags: ["UTAU", "虚拟歌姬"]
-            },
-        ];
-
         // 每页显示的文章数量
         const articlesPerPage = 6;
         let currentPage = 1;
         let totalPages = 0;
 
         // 初始化文章板块
+        // 初始化文章板块
         function initArticles() {
-            totalPages = Math.ceil(articles.length / articlesPerPage);
-            renderArticles(currentPage);
-            renderPagination();
-        }
-
-        // 渲染文章列表
-        function renderArticles(page) {
             const grid = document.getElementById('articlesGrid');
             if (!grid) return;
             
+            // 获取最新的3篇文章
+            const articles = window.articlesData.getSortedArticles().slice(0, 3);
+            
             grid.innerHTML = '';
             
-            const startIndex = (page - 1) * articlesPerPage;
-            const endIndex = Math.min(startIndex + articlesPerPage, articles.length);
-            
-            for (let i = startIndex; i < endIndex; i++) {
-                const article = articles[i];
+            articles.forEach((article, index) => {
                 const articleCard = document.createElement('a');
-                articleCard.href = `${article.id}.html`;
+                articleCard.href = article.fileName;
                 articleCard.className = 'article-card fade-in-up';
-                articleCard.style.animationDelay = `${(i - startIndex) * 0.1}s`;
+                articleCard.style.animationDelay = `${index * 0.1}s`;
                 
                 articleCard.innerHTML = `
                     <div class="article-content">
@@ -2113,13 +2059,61 @@ label weekend_end:
                 `;
                 
                 grid.appendChild(articleCard);
+            });
+        }
+
+        // 渲染文章列表
+        function renderArticles(articles) {
+            const grid = document.getElementById('articlesGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+            
+            if (articles.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
+                        <i class="fas fa-newspaper" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.3;"></i>
+                        <h3 style="margin-bottom: 15px;">暂无文章</h3>
+                        <p>目前还没有发布文章，请稍后再来查看。</p>
+                    </div>
+                `;
+                return;
             }
+            
+            articles.forEach((article, index) => {
+                const articleCard = document.createElement('a');
+                articleCard.href = article.fileName;
+                articleCard.className = 'article-card fade-in-up';
+                articleCard.style.animationDelay = `${index * 0.1}s`;
+                
+                articleCard.innerHTML = `
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-number">文章 #${String(article.id).padStart(3, '0')}</span>
+                            <span class="article-date">${article.date}</span>
+                        </div>
+                        <h3>${article.title}</h3>
+                        <p class="article-excerpt">${article.excerpt}</p>
+                        <span class="read-more">
+                            阅读全文 <i class="fas fa-arrow-right"></i>
+                        </span>
+                        <div class="article-tags">
+                            ${article.tags.map(tag => `<span class="article-tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(articleCard);
+            });
         }
 
         // 渲染分页
         function renderPagination() {
             const pagination = document.getElementById('articlePagination');
-            if (!pagination) return;
+            if (!pagination || totalPages <= 1) {
+                if (pagination) pagination.innerHTML = '';
+                return;
+            }
             
             pagination.innerHTML = '';
             
@@ -2130,8 +2124,7 @@ label weekend_end:
                 prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
                 prevBtn.addEventListener('click', () => {
                     currentPage--;
-                    renderArticles(currentPage);
-                    renderPagination();
+                    initArticles();
                     window.scrollTo({
                         top: document.getElementById('articles').offsetTop - 100,
                         behavior: 'smooth'
@@ -2148,8 +2141,7 @@ label weekend_end:
                     pageBtn.textContent = i;
                     pageBtn.addEventListener('click', () => {
                         currentPage = i;
-                        renderArticles(currentPage);
-                        renderPagination();
+                        initArticles();
                         window.scrollTo({
                             top: document.getElementById('articles').offsetTop - 100,
                             behavior: 'smooth'
@@ -2171,8 +2163,7 @@ label weekend_end:
                 nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
                 nextBtn.addEventListener('click', () => {
                     currentPage++;
-                    renderArticles(currentPage);
-                    renderPagination();
+                    initArticles();
                     window.scrollTo({
                         top: document.getElementById('articles').offsetTop - 100,
                         behavior: 'smooth'
@@ -2511,6 +2502,12 @@ label weekend_end:
                 if (desktopSwitch) {
                     desktopSwitch.click();
                 }
+            }
+            
+            // Ctrl+H 回到顶部
+            if (e.ctrlKey && e.key === 'h') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         });
     </script>

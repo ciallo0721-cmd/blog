@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UTAU教程：从调音到发布完全指南 - ciallo0721-cmd的文章</title>
+    <title>Unity 2D角色移动系统完全指南 - ciallo0721-cmd的文章</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="articles-data.js"></script>
     <style>
@@ -576,17 +576,17 @@
     <main class="container article-detail-container">
         <article class="article-detail">
             <header class="article-header">
-                <div class="article-number" id="articleNumber">文章 #001</div>
-                <h1 class="article-title" id="articleTitle">UTAU教程：从调音到发布完全指南</h1>
+                <div class="article-number" id="articleNumber">文章 #002</div>
+                <h1 class="article-title" id="articleTitle">Unity 2D角色移动系统完全指南</h1>
                 
-                <p class="article-intro" id="articleIntro">学习如何使用UTAU进行歌声合成，从基础调音到高级技巧，完整指南带你入门。</p>
+                <p class="article-intro" id="articleIntro">从零开始构建一个完整的2D角色移动系统，包含平滑移动、跳跃、冲刺和动画控制。</p>
                 
                 <div class="article-meta">
                     <div class="article-date">
-                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2025-12-28</span>
+                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2025-12-29</span>
                     </div>
                     <div class="article-date">
-                        <i class="far fa-clock"></i> 阅读时间: <span id="readTime">约15分钟</span>
+                        <i class="far fa-clock"></i> 阅读时间: <span id="readTime">约20分钟</span>
                     </div>
                 </div>
                 
@@ -596,174 +596,348 @@
             </header>
             
             <div class="article-content" id="articleContent">
-                <h2>什么是UTAU？</h2>
-                <p><span class="highlight">UTAU</span> 是一款由日本开发者饴屋／菖蒲氏开发的免费歌声合成软件。与商业软件如VOCALOID不同，UTAU是完全开源的，允许用户创建和使用自己的音源库（音源库通常被称为"音源"或"UTAU音源"）。</p>
+                <h2>概述</h2>
+                <p>在2D游戏中，角色移动是玩家交互的核心。一个流畅、响应迅速的角色移动系统可以显著提升游戏体验。本教程将引导你一步步构建一个完整的2D角色移动系统。</p>
                 
-                <h2>准备工作</h2>
-                <h3>1. 下载和安装UTAU</h3>
+                <h2>1. 设置2D环境</h2>
+                <p>首先，确保你的Unity项目设置为2D模式：</p>
+                
                 <ul>
-                    <li>访问官方网站下载UTAU软件</li>
-                    <li>确保系统语言设置为日语（可通过Locale Emulator或更改系统区域设置）</li>
-                    <li>安装必要的插件和音源库</li>
+                    <li>在Unity编辑器中，选择 <span class="highlight">Edit > Project Settings > Editor</span></li>
+                    <li>将 <span class="highlight">Default Behavior Mode</span> 设置为 <span class="highlight">2D</span></li>
+                    <li>确保摄像机设置为 <span class="highlight">Orthographic</span>（正交投影）</li>
                 </ul>
                 
-                <h3>2. 获取音源</h3>
-                <p>UTAU音源分为多种类型：</p>
+                <h3>创建玩家对象</h3>
+                <p>在Hierarchy面板中，右键点击选择 <span class="highlight">2D Object > Sprite</span> 创建一个精灵对象。</p>
+                <p>为这个对象添加以下组件：</p>
+                
                 <ul>
-                    <li><strong>CV音源</strong>：连续音，每个假名单独录音</li>
-                    <li><strong>VCV音源</strong>：连续音，包含过渡音</li>
-                    <li><strong>CVVC音源</strong>：更自然的过渡效果</li>
-                    <li><strong>多音阶音源</strong>：覆盖多个音阶</li>
+                    <li><span class="highlight">Rigidbody2D</span> - 处理物理</li>
+                    <li><span class="highlight">BoxCollider2D</span> - 碰撞检测</li>
+                    <li><span class="highlight">Animator</span> - 动画控制</li>
                 </ul>
                 
-                <h2>基础调音步骤</h2>
+                <h2>2. 基础移动脚本</h2>
+                <p>创建一个名为 <span class="highlight">PlayerMovement.cs</span> 的C#脚本：</p>
                 
-                <h3>1. 导入音源</h3>
-                <p>将下载的音源文件解压到UTAU的"voice"文件夹中。在UTAU中选择"工具"→"音源管理"来注册新音源。</p>
+                <pre><code>using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    [Header("移动参数")]
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float jumpForce = 10f;
+    
+    [Header("地面检测")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] private LayerMask groundLayer;
+    
+    private Rigidbody2D rb;
+    private float horizontalInput;
+    private bool isGrounded;
+    private bool canJump = true;
+    
+    private void Start()
+    {
+        rb = GetComponent&lt;Rigidbody2D&gt;();
+    }
+    
+    private void Update()
+    {
+        GetInput();
+        CheckGround();
+        
+        if (Input.GetButtonDown("Jump") && isGrounded && canJump)
+        {
+            Jump();
+        }
+    }
+    
+    private void FixedUpdate()
+    {
+        Move();
+    }
+    
+    private void GetInput()
+    {
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+    }
+    
+    private void Move()
+    {
+        rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+    }
+    
+    private void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        canJump = false;
+        Invoke(nameof(ResetJump), 0.2f);
+    }
+    
+    private void ResetJump()
+    {
+        canJump = true;
+    }
+    
+    private void CheckGround()
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+    }
+    
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
+    }
+}</code></pre>
                 
-                <h3>2. 创建新项目</h3>
-                <p>点击"文件"→"新建"创建新工程。在音轨上右键选择"插入音符"来添加音符。</p>
+                <h2>3. 高级移动功能</h2>
+                
+                <h3>3.1 冲刺功能</h3>
+                <p>为角色添加冲刺功能，让移动更加灵活：</p>
+                
+                <pre><code>[Header("冲刺参数")]
+[SerializeField] private float dashSpeed = 15f;
+[SerializeField] private float dashDuration = 0.2f;
+[SerializeField] private float dashCooldown = 1f;
+
+private bool canDash = true;
+private bool isDashing = false;
+
+private void Update()
+{
+    // ... 之前的代码
+    
+    if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+    {
+        StartCoroutine(Dash());
+    }
+}
+
+private System.Collections.IEnumerator Dash()
+{
+    canDash = false;
+    isDashing = true;
+    float originalGravity = rb.gravityScale;
+    rb.gravityScale = 0f;
+    
+    // 根据方向冲刺
+    float dashDirection = Mathf.Sign(horizontalInput);
+    if (dashDirection == 0) dashDirection = transform.localScale.x > 0 ? 1 : -1;
+    
+    rb.velocity = new Vector2(dashDirection * dashSpeed, 0f);
+    
+    yield return new WaitForSeconds(dashDuration);
+    
+    isDashing = false;
+    rb.gravityScale = originalGravity;
+    
+    yield return new WaitForSeconds(dashCooldown);
+    canDash = true;
+}</code></pre>
+                
+                <h3>3.2 墙体跳跃</h3>
+                <p>实现墙体跳跃功能，增加游戏的操作深度：</p>
+                
+                <pre><code>[Header("墙体跳跃")]
+[SerializeField] private Transform wallCheck;
+[SerializeField] private float wallSlideSpeed = 2f;
+[SerializeField] private Vector2 wallJumpForce = new Vector2(10f, 15f);
+
+private bool isTouchingWall;
+private bool isWallSliding;
+
+private void CheckWall()
+{
+    isTouchingWall = Physics2D.OverlapCircle(wallCheck.position, groundCheckRadius, groundLayer);
+    
+    if (isTouchingWall && !isGrounded && horizontalInput != 0)
+    {
+        isWallSliding = true;
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlideSpeed, float.MaxValue));
+    }
+    else
+    {
+        isWallSliding = false;
+    }
+}
+
+private void WallJump()
+{
+    if (isWallSliding && Input.GetButtonDown("Jump"))
+    {
+        // 向远离墙体的方向跳跃
+        float wallJumpDirection = -Mathf.Sign(horizontalInput);
+        rb.velocity = new Vector2(wallJumpDirection * wallJumpForce.x, wallJumpForce.y);
+    }
+}</code></pre>
+                
+                <h2>4. 动画控制</h2>
+                
+                <h3>4.1 创建动画控制器</h3>
+                <p>为角色创建动画状态机：</p>
+                
+                <ul>
+                    <li>在Animator窗口中创建以下状态：</li>
+                    <ul>
+                        <li>Idle (空闲)</li>
+                        <li>Run (奔跑)</li>
+                        <li>Jump (跳跃)</li>
+                        <li>Fall (下落)</li>
+                        <li>Dash (冲刺)</li>
+                    </ul>
+                    <li>设置适当的转换条件和参数：</li>
+                    <ul>
+                        <li>Speed (Float)</li>
+                        <li>isGrounded (Bool)</li>
+                        <li>isDashing (Bool)</li>
+                    </ul>
+                </ul>
+                
+                <h3>4.2 动画控制脚本</h3>
+                <p>创建一个脚本处理动画状态：</p>
+                
+                <pre><code>using UnityEngine;
+
+public class PlayerAnimation : MonoBehaviour
+{
+    private Animator animator;
+    private PlayerMovement movement;
+    private Rigidbody2D rb;
+    
+    private void Start()
+    {
+        animator = GetComponent&lt;Animator&gt;();
+        movement = GetComponent&lt;PlayerMovement&gt;();
+        rb = GetComponent&lt;Rigidbody2D&gt;();
+    }
+    
+    private void Update()
+    {
+        UpdateAnimation();
+    }
+    
+    private void UpdateAnimation()
+    {
+        // 设置速度参数
+        animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
+        
+        // 设置地面状态
+        animator.SetBool("isGrounded", movement.IsGrounded);
+        
+        // 设置跳跃/下落状态
+        if (!movement.IsGrounded)
+        {
+            animator.SetFloat("VerticalVelocity", rb.velocity.y);
+        }
+        
+        // 冲刺动画
+        animator.SetBool("isDashing", movement.IsDashing);
+        
+        // 翻转角色
+        if (rb.velocity.x > 0.1f)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (rb.velocity.x < -0.1f)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+    }
+}</code></pre>
+                
+                <h2>5. 优化和调试</h2>
+                
+                <h3>5.1 移动平滑处理</h3>
+                <p>添加移动平滑，防止角色移动过于僵硬：</p>
+                
+                <pre><code>[Header("移动平滑")]
+[SerializeField] private float acceleration = 10f;
+[SerializeField] private float deceleration = 10f;
+[SerializeField] private float velPower = 0.9f;
+
+private void MoveWithSmoothing()
+{
+    float targetSpeed = horizontalInput * moveSpeed;
+    float speedDiff = targetSpeed - rb.velocity.x;
+    float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
+    float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelRate, velPower) * Mathf.Sign(speedDiff);
+    
+    rb.AddForce(movement * Vector2.right);
+}</code></pre>
+                
+                <h3>5.2 空中控制</h3>
+                <p>调整空中移动控制，提供更好的游戏体验：</p>
+                
+                <pre><code>[Header("空中控制")]
+[SerializeField] private float airAcceleration = 5f;
+[SerializeField] private float airDeceleration = 5f;
+[SerializeField] private float airControlMultiplier = 0.5f;
+
+private void AirControl()
+{
+    if (!isGrounded)
+    {
+        float targetSpeed = horizontalInput * moveSpeed * airControlMultiplier;
+        float speedDiff = targetSpeed - rb.velocity.x;
+        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? airAcceleration : airDeceleration;
+        float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelRate, velPower) * Mathf.Sign(speedDiff);
+        
+        rb.AddForce(movement * Vector2.right);
+    }
+}</code></pre>
+                
+                <h2>6. 测试和调试</h2>
                 
                 <blockquote>
-                    提示：UTAU使用音符和歌词来生成声音。每个音符对应一个音节，歌词使用罗马音或假名输入。
+                    <strong>重要提示：</strong>在测试角色移动系统时，请注意以下要点：
+                    <ul>
+                        <li>确保地面检测点位置正确</li>
+                        <li>调整碰撞器大小以匹配角色精灵</li>
+                        <li>测试不同平台上的表现（Windows、Android等）</li>
+                        <li>使用Unity Profiler监控性能</li>
+                    </ul>
                 </blockquote>
                 
-                <h3>3. 输入歌词</h3>
-                <p>双击音符输入歌词：</p>
-                <ul>
-                    <li>对于CV音源：输入单个假名（如"ka", "shi", "tsu"）</li>
-                    <li>对于VCV音源：使用"-"连接假名（如"-ka", "a-ka", "ka-i"）</li>
-                </ul>
-                
-                <h3>4. 基本参数调整</h3>
-                <p>右键音符选择"音符属性"可以调整以下参数：</p>
-                
-                <pre><code>// UTAU调音基础参数示例
-Velocity（VEL）: 控制音量强弱
-Modulation（MOD）: 控制颤音强度
-Flags参数:
-  - B: 呼吸声
-  - g: 气泡音
-  - H: 硬发音
-  - Y0: 清音化</code></pre>
-                
-                <h2>高级调音技巧</h2>
-                
-                <h3>1. 音高调整（Pitch Bend）</h3>
-                <p>使用"音高编辑"工具绘制音高曲线：</p>
+                <h3>调试技巧：</h3>
                 <ol>
-                    <li>选择"工具"→"音高编辑"</li>
-                    <li>在音高编辑器中手动绘制曲线</li>
-                    <li>使用"R"重置，"S"平滑曲线</li>
+                    <li>使用 <span class="highlight">Debug.DrawRay</span> 可视化射线检测</li>
+                    <li>在Inspector中添加调试信息显示</li>
+                    <li>创建调试模式开关，方便测试</li>
+                    <li>使用Unity的Frame Debugger分析每帧状态</li>
                 </ol>
-                
-                <h3>2. 共振峰调整</h3>
-                <p>使用Resampler参数调整音色：</p>
-                <ul>
-                    <li><strong>B</strong>：增加呼吸感</li>
-                    <li><strong>g</strong>：增加气泡音效果</li>
-                    <li><strong>C</strong>：清音化</li>
-                    <li><strong>F</strong>：女声化</li>
-                </ul>
-                
-                <h3>3. 颤音制作</h3>
-                <p>两种方法制作颤音：</p>
-                <ol>
-                    <li>使用颤音插件自动生成</li>
-                    <li>手动绘制MOD曲线制作自定义颤音</li>
-                </ol>
-                
-                <h2>插件使用</h2>
-                <p>UTAU支持多种插件增强功能：</p>
-                <ul>
-                    <li><strong>TIPS</strong>：调音辅助插件</li>
-                    <li><strong>OpenUTAU</strong>：现代版UTAU，支持更多功能</li>
-                    <li><strong>Various Plugins</strong>：社区开发的各种实用插件</li>
-                </ul>
-                
-                <h2>渲染和导出</h2>
-                
-                <h3>1. 选择Resampler</h3>
-                <p>在"工具"→"设置"中选择Resampler：</p>
-                <ul>
-                    <li>resampler.exe：标准Resampler</li>
-                    <li>tn_fnds.exe：更好的音质</li>
-                    <li>moresampler：现代Resampler，支持更多功能</li>
-                </ul>
-                
-                <h3>2. 渲染设置</h3>
-                <ol>
-                    <li>点击"项目"→"渲染"</li>
-                    <li>选择输出格式（WAV或MP3）</li>
-                    <li>设置比特率和采样率</li>
-                    <li>点击"确定"开始渲染</li>
-                </ol>
-                
-                <h3>3. 后期处理建议</h3>
-                <p>在DAW中进行后期处理：</p>
-                <ul>
-                    <li>使用EQ调整频率平衡</li>
-                    <li>添加混响增加空间感</li>
-                    <li>使用压缩器平衡动态范围</li>
-                    <li>添加母带处理效果</li>
-                </ul>
-                
-                <h2>发布你的作品</h2>
-                
-                <h3>1. 选择合适的平台</h3>
-                <ul>
-                    <li><strong>Niconico动画</strong>：日本最大的UTAU作品分享平台</li>
-                    <li><strong>YouTube</strong>：全球最大的视频分享平台</li>
-                    <li><strong>Bilibili</strong>：中国最大的二次创作平台</li>
-                    <li><strong>SoundCloud</strong>：音乐分享平台</li>
-                </ul>
-                
-                <h3>2. 制作PV（宣传视频）</h3>
-                <p>为你的UTAU歌曲制作PV：</p>
-                <ol>
-                    <li>准备歌词字幕</li>
-                    <li>制作或寻找合适的背景素材</li>
-                    <li>添加UTAU角色的立绘或动画</li>
-                    <li>使用视频编辑软件合成</li>
-                </ol>
-                
-                <h3>3. 遵守使用规范</h3>
-                <p>发布时注意：</p>
-                <ul>
-                    <li>确认音源的使用条款</li>
-                    <li>正确标注音源制作者</li>
-                    <li>遵守平台的内容政策</li>
-                    <li>考虑CC协议或版权声明</li>
-                </ul>
-                
-                <h2>常见问题解答</h2>
-                
-                <h3>Q1: UTAU无法正确发声怎么办？</h3>
-                <p>A: 检查系统语言设置、音源路径、Resampler配置，确保所有文件使用正确编码。</p>
-                
-                <h3>Q2: 如何让UTAU唱中文？</h3>
-                <p>A: 使用支持中文的音源，或使用VCV/CVVC音源配合中文转换工具。</p>
-                
-                <h3>Q3: 音质不佳如何改善？</h3>
-                <p>A: 使用高质量音源、合适的Resampler、精细调音，以及在DAW中进行后期处理。</p>
                 
                 <h2>总结</h2>
-                <p>UTAU是一个强大而灵活的歌声合成工具，虽然学习曲线较陡，但一旦掌握，你将能够创作出独特的音乐作品。记住：</p>
+                <p>通过本教程，你已经创建了一个完整的2D角色移动系统，包含：</p>
                 
+                <ul>
+                    <li>基础移动和跳跃</li>
+                    <li>冲刺功能</li>
+                    <li>墙体跳跃和滑墙</li>
+                    <li>完整的动画控制</li>
+                    <li>移动平滑和空中控制优化</li>
+                </ul>
+                
+                <p>这个系统可以作为大多数2D平台游戏的基础。你可以根据自己的游戏需求进行扩展和修改，比如添加二段跳、爬墙、特殊技能等。</p>
+                
+                <h3>下一步建议：</h3>
                 <ol>
-                    <li>从基础开始，逐步学习高级技巧</li>
-                    <li>多听多分析优秀的UTAU作品</li>
-                    <li>参与社区交流，获取反馈和建议</li>
-                    <li>保持耐心，调音是一个需要练习的技能</li>
+                    <li>添加声音效果（脚步声、跳跃声等）</li>
+                    <li>实现粒子特效（冲刺特效、落地灰尘等）</li>
+                    <li>创建状态机管理角色状态</li>
+                    <li>添加输入缓冲改善手感</li>
+                    <li>实现镜头跟随和镜头效果</li>
                 </ol>
                 
-                <p>无论你是想为游戏制作音乐，还是想创作自己的歌曲，UTAU都是一个绝佳的选择。现在就开始你的UTAU创作之旅吧！</p>
+                <p>希望这个教程对你有所帮助！如果你有任何问题或建议，欢迎在评论区留言讨论。</p>
                 
-                <blockquote>
-                    创作提示：最好的学习方法是动手实践。选择一个简单的旋律，从头到尾完成一个完整的作品，你会学到比阅读教程更多的东西。
-                </blockquote>
-                
-                <p>祝你在UTAU的世界里创作愉快！如果有任何问题，欢迎在评论区留言讨论。</p>
+                <p><strong>Happy Coding! 🎮</strong></p>
             </div>
         </article>
         
@@ -785,18 +959,18 @@ Flags参数:
     <footer>
         <div class="container footer-content">
             <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
-            <p>感谢阅读我的文章！期待与您交流UTAU和歌声合成心得</p>
-            <p>© 2025 ciallo0721-cmd · 专注技术教程与创作分享</p>
+            <p>感谢阅读我的Unity教程！期待与您交流游戏开发心得</p>
+            <p>下一篇教程预告：Unity 2D敌人AI与战斗系统实现</p>
         </div>
     </footer>
 
     <script>
         // 文章特定的初始化
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('UTAU教程文章已加载完成');
+            console.log('Unity教程文章已加载完成');
             
             // 获取当前文章ID
-            const currentArticleId = 1;
+            const currentArticleId = 2;
             
             // 更新文章信息
             function updateArticleInfo(articleId) {
