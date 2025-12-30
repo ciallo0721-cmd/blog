@@ -20,7 +20,19 @@ window.articlesData = {
             fileName: "2.html",
             readTime: 20,
             featured: true
+        },
+        {
+            id: 3,
+            title: "2.5头身小人绘画全攻略：从基础到头发细节",
+            excerpt: "本教程将详细讲解如何绘制可爱的2.5头身小人，涵盖比例结构、面部表情、头发与呆毛绘制技巧，适合初学者和有一定基础的画手。",
+            date: "2025-12-30",
+            tags: ["绘画教程", "Q版人物", "2.5头身", "头发绘制", "呆毛技巧", "角色设计"],
+            fileName: "3.html",
+            readTime: 15,
+            featured: true,
         }
+        //test
+        //放文章的
     ],
     
     getSortedArticles: function() {

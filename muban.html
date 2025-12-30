@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>标题` - ciallo0721-cmd的文章</title>
+    <title>文章标题 - ciallo0721-cmd的文章</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="articles-data.js"></script>
     <style>
         /* 全局样式 */
         :root {
@@ -364,6 +365,69 @@
             box-shadow: none;
         }
 
+        /* 推荐文章区域 */
+        .related-articles {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .related-title {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .related-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .related-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--bili-blue);
+        }
+
+        .related-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .related-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .related-tag {
+            background: rgba(251, 114, 153, 0.1);
+            color: var(--bili-pink);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
         /* 页脚 */
         footer {
             background: linear-gradient(135deg, var(--text-primary), #2D2D2F);
@@ -451,6 +515,10 @@
             .nav-btn {
                 max-width: 100%;
             }
+            
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -496,7 +564,7 @@
     <nav>
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <i class="fas fa-gamepad"></i> 首页
+                <i class="fas fa-gamepad"></i> 开发者ciallo0721-cmd的空间
             </a>
             <a href="index.html" class="back-btn">
                 <i class="fas fa-arrow-left"></i> 返回首页
@@ -508,81 +576,64 @@
     <main class="container article-detail-container">
         <article class="article-detail">
             <header class="article-header">
-                <div class="article-number">文章 ID</div>
-                <h1 class="article-title">标题`</h1>
+                <div class="article-number" id="articleNumber">文章 #000</div>
+                <h1 class="article-title" id="articleTitle">文章标题</h1>
                 
-                <p class="article-intro">介绍111111111</p>
+                <p class="article-intro" id="articleIntro">文章简介：这是一个文章简介的占位文本，实际使用时将通过JavaScript动态替换。</p>
                 
                 <div class="article-meta">
                     <div class="article-date">
-                        <i class="far fa-calendar"></i> 发布日期: YYYY-MM-DD
+                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2025-12-30</span>
                     </div>
                     <div class="article-date">
-                        <i class="far fa-clock"></i> 阅读时间: 约X分钟
+                        <i class="far fa-clock"></i> 阅读时间: <span id="readTime">约10分钟</span>
                     </div>
                 </div>
                 
-                <div class="article-tags">
-                    <span class="article-tag">标签1</span>
-                    <span class="article-tag">标签2</span>
-                    <span class="article-tag">标签3</span>
+                <div class="article-tags" id="articleTags">
+                    <!-- 标签将通过JavaScript动态生成 -->
+                    <span class="article-tag">示例标签1</span>
+                    <span class="article-tag">示例标签2</span>
+                    <span class="article-tag">示例标签3</span>
                 </div>
             </header>
             
-            <div class="article-content">
-                <!-- 文章正文开始 -->
-                <p>1234567890</p>
-                <!-- 文章正文结束 -->
+            <div class="article-content" id="articleContent">
+                <!-- 文章内容将通过JavaScript动态生成 -->
+                <p>文章内容将在这里显示。这是一个文章内容的占位区域，实际内容将通过JavaScript从articles-data.js文件中动态加载。</p>
                 
-                <h2>详细内容</h2>
-                <p>这里可以添加更多的段落内容。你可以按照自己的需求修改和扩展以下内容：</p>
+                <h2>章节标题示例</h2>
+                <p>这是一个章节的内容示例。您可以在文章数据中定义HTML格式的内容，包括标题、段落、列表、代码块等。</p>
                 
-                <h3>1. 第一部分</h3>
-                <p>在这里添加第一部分的内容。你可以介绍主题的背景、重要性或相关概念。</p>
+                <h3>子标题示例</h3>
+                <p>这是一个子章节的内容示例。文章内容支持完整的HTML格式。</p>
                 
                 <ul>
-                    <li>要点1：说明一个重要的事实或观点</li>
-                    <li>要点2：提供相关的数据或例子</li>
-                    <li>要点3：解释如何应用这个知识</li>
+                    <li>示例列表项1</li>
+                    <li>示例列表项2</li>
+                    <li>示例列表项3</li>
                 </ul>
                 
-                <h3>2. 第二部分</h3>
-                <p>在这里添加第二部分的内容。可以深入讨论具体的技术细节、步骤或方法。</p>
+                <pre><code>// 示例代码块
+public class ExampleClass : MonoBehaviour
+{
+    void Start()
+    {
+        Debug.Log("这是一个示例代码块");
+    }
+}</code></pre>
                 
                 <blockquote>
-                    重要提示：这里可以添加引用或特别重要的信息。引用可以是来自他人的话，也可以是你想要强调的内容。
+                    这是一个引用块的示例。用于突出显示重要的内容或引用。
                 </blockquote>
                 
-                <p>如果你需要展示代码，可以使用下面的代码块格式：</p>
-                
-                <pre><code>// 示例代码
-function example() {
-    console.log("这是一个代码示例");
-    return "Hello World";
-}
-
-// 调用函数
-const result = example();
-console.log(result);</code></pre>
-                
-                <h3>3. 第三部分</h3>
-                <p>在这里添加总结或展望。可以讨论这个主题的未来发展方向，或者给出一些实用的建议。</p>
-                
-                <ol>
-                    <li>建议1：给读者的第一个建议</li>
-                    <li>建议2：给读者的第二个建议</li>
-                    <li>建议3：给读者的第三个建议</li>
-                </ol>
-                
-                <h2>总结</h2>
-                <p>在文章的最后，总结一下主要观点。强调读者应该记住的关键信息，并鼓励他们采取行动或进一步探索。</p>
-                
-                <p>感谢阅读！</p>
+                <p>文章结尾示例。实际使用时，所有内容都将从articles-data.js文件中获取并动态渲染。</p>
             </div>
         </article>
         
         <!-- 文章导航 -->
-        <div class="article-navigation">
+        <div class="article-navigation" id="articleNavigation">
+            <!-- 将通过JavaScript动态生成 -->
             <a href="javascript:void(0)" class="nav-btn prev disabled">
                 <i class="fas fa-chevron-left"></i>
                 <div>
@@ -590,99 +641,333 @@ console.log(result);</code></pre>
                     <div>已是第一篇</div>
                 </div>
             </a>
-            
             <a href="javascript:void(0)" class="nav-btn next disabled">
                 <div>
                     <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
-                    <div>没有更多文章</div>
+                    <div>已是最后一篇</div>
                 </div>
                 <i class="fas fa-chevron-right"></i>
             </a>
+        </div>
+        
+        <!-- 推荐文章 -->
+        <div class="related-articles" id="relatedArticles">
+            <h3 class="related-title">推荐文章</h3>
+            <div class="related-grid" id="relatedGrid">
+                <!-- 将通过JavaScript动态生成 -->
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例1</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">111</span>
+                        <span class="related-tag">111</span>
+                    </div>
+                </a>
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例2</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">教程</span>
+                        <span class="related-tag">C#</span>
+                    </div>
+                </a>
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例3</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">游戏开发</span>
+                        <span class="related-tag">动画</span>
+                    </div>
+                </a>
+            </div>
         </div>
     </main>
 
     <!-- 页脚 -->
     <footer>
         <div class="container footer-content">
-            <div class="footer-logo">ciallo0721-cmd</div>
-            <p>感谢阅读我的文章！期待与您交流游戏开发心得</p>
+            <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
+            <p>感谢阅读我的文章！期待与您交流开发心得</p>
         </div>
     </footer>
 
     <script>
-        // 页面加载完成后的初始化
+        // 文章特定的初始化
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('文章详情页已加载完成');
+            console.log('文章模板已加载完成');
             
-            // 设置当前日期
-            const currentDate = new Date();
-            const formattedDate = currentDate.toISOString().split('T')[0];
-            document.querySelectorAll('.article-date').forEach(el => {
-                if (el.textContent.includes('YYYY-MM-DD')) {
-                    el.innerHTML = el.innerHTML.replace('YYYY-MM-DD', formattedDate);
+            // 获取当前文章ID（从URL参数或默认值）
+            function getCurrentArticleId() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const articleId = parseInt(urlParams.get('id')) || "换成id"; // 默认ID为2
+                return articleId;
+            }
+            
+            const currentArticleId = getCurrentArticleId();
+            
+            // 更新文章信息
+            function updateArticleInfo(articleId) {
+                // 确保articlesData已加载
+                if (typeof window.articlesData === 'undefined') {
+                    console.error('articlesData未加载');
+                    return;
                 }
-            });
-            
-            // 计算阅读时间（基于字数）
-            const wordCount = document.querySelector('.article-content').textContent.split(/\s+/).length;
-            const readingTime = Math.ceil(wordCount / 200); // 假设每分钟阅读200字
-            document.querySelectorAll('.article-date').forEach(el => {
-                if (el.textContent.includes('约X分钟')) {
-                    el.innerHTML = el.innerHTML.replace('约X分钟', `约${readingTime}分钟`);
-                }
-            });
-            
-            // 自动生成文章ID（如果没有指定）
-            const articleNumber = document.querySelector('.article-number');
-            if (articleNumber && articleNumber.textContent === '文章 ID') {
-                // 从URL获取ID，如果没有则生成随机ID
-                const pathParts = window.location.pathname.split('/');
-                const filename = pathParts[pathParts.length - 1];
-                const idMatch = filename.match(/(\d+)\.html$/);
                 
-                if (idMatch && idMatch[1]) {
-                    articleNumber.textContent = `文章 ${idMatch[1]}`;
+                const articleData = window.articlesData.getArticleById(articleId);
+                
+                if (articleData) {
+                    document.getElementById('articleNumber').textContent = `文章 #${String(articleData.id).padStart(3, '0')}`;
+                    document.getElementById('articleTitle').textContent = articleData.title;
+                    document.getElementById('articleIntro').textContent = articleData.excerpt;
+                    document.getElementById('articleDate').textContent = articleData.date;
+                    document.getElementById('readTime').textContent = `约${articleData.readTime}分钟`;
+                    
+                    // 更新标签
+                    const tagsContainer = document.getElementById('articleTags');
+                    tagsContainer.innerHTML = '';
+                    if (articleData.tags && articleData.tags.length > 0) {
+                        articleData.tags.forEach(tag => {
+                            const tagElement = document.createElement('span');
+                            tagElement.className = 'article-tag';
+                            tagElement.textContent = tag;
+                            tagsContainer.appendChild(tagElement);
+                        });
+                    }
+                    
+                    // 更新文章内容
+                    const contentContainer = document.getElementById('articleContent');
+                    if (articleData.content) {
+                        contentContainer.innerHTML = articleData.content;
+                    }
                 } else {
-                    // 生成随机ID
-                    const randomId = Math.floor(Math.random() * 1000) + 1;
-                    articleNumber.textContent = `文章 ${randomId}`;
+                    console.warn(`未找到ID为${articleId}的文章数据`);
                 }
             }
             
-            // 阅读进度指示器
-            const progressBar = document.createElement('div');
-            progressBar.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 3px;
-                background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
-                width: 0%;
-                z-index: 9999;
-                transition: width 0.1s ease;
-            `;
-            document.body.appendChild(progressBar);
-            
-            // 更新阅读进度
-            window.addEventListener('scroll', function() {
-                const windowHeight = window.innerHeight;
-                const documentHeight = document.documentElement.scrollHeight - windowHeight;
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const scrollPercent = (scrollTop / documentHeight) * 100;
+            // 生成文章导航（上一篇/下一篇）
+            function initArticleNavigation(articleId) {
+                const navigation = document.getElementById('articleNavigation');
+                if (!navigation) return;
                 
-                progressBar.style.width = scrollPercent + '%';
+                // 确保articlesData已加载
+                if (typeof window.articlesData === 'undefined') {
+                    console.error('articlesData未加载');
+                    return;
+                }
+                
+                const adjacent = window.articlesData.getAdjacentArticles(articleId);
+                let navigationHTML = '';
+                
+                // 上一篇按钮
+                if (adjacent.prev) {
+                    navigationHTML += `
+                        <a href="${adjacent.prev.fileName}" class="nav-btn prev">
+                            <i class="fas fa-chevron-left"></i>
+                            <div>
+                                <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                                <div>${adjacent.prev.title}</div>
+                            </div>
+                        </a>
+                    `;
+                } else {
+                    navigationHTML += `
+                        <a href="javascript:void(0)" class="nav-btn prev disabled">
+                            <i class="fas fa-chevron-left"></i>
+                            <div>
+                                <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                                <div>已是第一篇</div>
+                            </div>
+                        </a>
+                    `;
+                }
+                
+                // 下一篇按钮
+                if (adjacent.next) {
+                    navigationHTML += `
+                        <a href="${adjacent.next.fileName}" class="nav-btn next">
+                            <div>
+                                <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                                <div>${adjacent.next.title}</div>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    `;
+                } else {
+                    navigationHTML += `
+                        <a href="javascript:void(0)" class="nav-btn next disabled">
+                            <div>
+                                <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                                <div>已是最后一篇</div>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    `;
+                }
+                
+                navigation.innerHTML = navigationHTML;
+            }
+            
+            // 生成推荐文章
+            function initRelatedArticles(articleId) {
+                const grid = document.getElementById('relatedGrid');
+                if (!grid) return;
+                
+                // 确保articlesData已加载
+                if (typeof window.articlesData === 'undefined') {
+                    console.error('articlesData未加载');
+                    return;
+                }
+                
+                const relatedArticles = window.articlesData.getFeaturedArticles(articleId, 3);
+                grid.innerHTML = '';
+                
+                if (relatedArticles && relatedArticles.length > 0) {
+                    relatedArticles.forEach(article => {
+                        const card = document.createElement('a');
+                        card.href = article.fileName;
+                        card.className = 'related-card';
+                        card.innerHTML = `
+                            <h4>${article.title}</h4>
+                            <p>${article.excerpt}</p>
+                            <div class="related-tags">
+                                ${article.tags.slice(0, 3).map(tag => `<span class="related-tag">${tag}</span>`).join('')}
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                } else {
+                    // 如果没有推荐文章，显示默认内容
+                    grid.innerHTML = `
+                        <a href="#" class="related-card">
+                            <h4>推荐文章标题示例1</h4>
+                            <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                            <div class="related-tags">
+                                <span class="related-tag">示例标签</span>
+                            </div>
+                        </a>
+                    `;
+                }
+            }
+            
+            // 添加代码复制功能
+            function addCodeCopyFunction() {
+                document.querySelectorAll('pre code').forEach((codeBlock) => {
+                    const pre = codeBlock.parentElement;
+                    
+                    // 避免重复添加复制按钮
+                    if (pre.querySelector('.copy-button')) return;
+                    
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'copy-button';
+                    copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+                    copyButton.style.cssText = `
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        background: rgba(251, 114, 153, 0.2);
+                        border: 1px solid rgba(251, 114, 153, 0.4);
+                        color: white;
+                        padding: 5px 12px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        font-size: 0.8rem;
+                        transition: all 0.3s ease;
+                    `;
+                    
+                    pre.style.position = 'relative';
+                    pre.appendChild(copyButton);
+                    
+                    copyButton.addEventListener('click', () => {
+                        navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                            copyButton.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                            copyButton.style.background = 'rgba(0, 161, 214, 0.5)';
+                            setTimeout(() => {
+                                copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+                                copyButton.style.background = 'rgba(251, 114, 153, 0.2)';
+                            }, 2000);
+                        }).catch(err => {
+                            console.error('复制失败:', err);
+                        });
+                    });
+                });
+            }
+            
+            // 添加阅读进度指示器
+            function addReadingProgressBar() {
+                // 避免重复添加进度条
+                if (document.getElementById('reading-progress-bar')) return;
+                
+                const progressBar = document.createElement('div');
+                progressBar.id = 'reading-progress-bar';
+                progressBar.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    height: 3px;
+                    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+                    width: 0%;
+                    z-index: 9999;
+                    transition: width 0.1s ease;
+                `;
+                document.body.appendChild(progressBar);
+                
+                // 更新阅读进度
+                window.addEventListener('scroll', function() {
+                    const windowHeight = window.innerHeight;
+                    const documentHeight = document.documentElement.scrollHeight - windowHeight;
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    
+                    if (documentHeight > 0) {
+                        const scrollPercent = (scrollTop / documentHeight) * 100;
+                        progressBar.style.width = scrollPercent + '%';
+                    }
+                });
+            }
+            
+            // 初始化页面
+            function initPage() {
+                // 等待articlesData加载完成
+                if (typeof window.articlesData === 'undefined') {
+                    // 如果articlesData未定义，尝试等待
+                    setTimeout(initPage, 100);
+                    return;
+                }
+                
+                updateArticleInfo(currentArticleId);
+                initArticleNavigation(currentArticleId);
+                initRelatedArticles(currentArticleId);
+                addCodeCopyFunction();
+                addReadingProgressBar();
+            }
+            
+            // 初始化页面
+            initPage();
+            
+            // 键盘快捷键支持
+            document.addEventListener('keydown', function(e) {
+                // ESC键返回首页
+                if (e.key === 'Escape') {
+                    window.location.href = 'index.html';
+                } else if (e.key === 'h' && (e.ctrlKey || e.metaKey)) {
+                    // Ctrl/Cmd+H 返回首页
+                    e.preventDefault();
+                    window.location.href = 'index.html';
+                }
             });
-        });
-        
-        // 键盘快捷键支持
-        document.addEventListener('keydown', function(e) {
-            // ESC键返回首页
-            if (e.key === 'Escape') {
-                window.location.href = 'index.html';
-            } else if (e.key === 'h' && (e.ctrlKey || e.metaKey)) {
-                // Ctrl/Cmd+H 返回首页
-                e.preventDefault();
-                window.location.href = 'index.html';
+            
+            // 监听文章内容更新，重新添加代码复制按钮
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'childList') {
+                        addCodeCopyFunction();
+                    }
+                });
+            });
+            
+            // 开始观察articleContent的变化
+            const articleContent = document.getElementById('articleContent');
+            if (articleContent) {
+                observer.observe(articleContent, { childList: true, subtree: true });
             }
         });
     </script>

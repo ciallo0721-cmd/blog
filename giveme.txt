@@ -1,0 +1,12 @@
+===如果上传到那个blog库中===
+
+
+一般是上传那个.js和编号.html
+有的时候上传index.html
+
+写:
+upload {编号}.html and articles-data.js
+
+或者
+
+reupload all
