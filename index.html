@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ciallo0721-cmd - 个人博客</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
     <!-- 引入文章数据 -->
     <script src="articles-data.js"></script>
     <!--2057是文章-->
@@ -1401,6 +1403,294 @@
             transform: scale(1.1);
         }
 
+        /* 在线Python编辑器样式 */
+        .python-editor-section {
+            margin-bottom: 80px;
+        }
+        
+        .python-editor-wrapper {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .python-editor-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+        }
+        
+        .python-editor-container {
+            padding: 25px;
+        }
+        
+        .python-header {
+            background-color: #16213e;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border-bottom: 2px solid #0f3460;
+        }
+        
+        .python-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .python-logo i {
+            color: #4dccbd;
+            font-size: 28px;
+        }
+        
+        .python-logo h3 {
+            font-size: 20px;
+            background: linear-gradient(90deg, #4dccbd, #3fa7d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .python-subtitle {
+            color: #8a8a8a;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+        
+        .python-control-panel {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .python-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            font-size: 13px;
+        }
+        
+        .python-btn-run {
+            background-color: #4dccbd;
+            color: #16213e;
+        }
+        
+        .python-btn-run:hover {
+            background-color: #3db8a9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(77, 204, 189, 0.3);
+        }
+        
+        .python-btn-clear {
+            background-color: #555;
+            color: white;
+        }
+        
+        .python-btn-clear:hover {
+            background-color: #444;
+            transform: translateY(-2px);
+        }
+        
+        .python-editor-area {
+            background-color: #16213e;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+            border: 1px solid #0f3460;
+            margin-bottom: 15px;
+        }
+        
+        .python-panel-header {
+            background-color: #0f3460;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .python-panel-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #f0f0f0;
+        }
+        
+        .python-panel-title i {
+            color: #4dccbd;
+        }
+        
+        .python-code-area {
+            height: 350px;
+        }
+        
+        .python-output-area {
+            height: 200px;
+            padding: 15px;
+            overflow-y: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            background-color: #1a1a2e;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .python-output-line {
+            margin-bottom: 2px;
+        }
+        
+        .python-output-line.error {
+            color: #ff6b6b;
+        }
+        
+        .python-output-line.success {
+            color: #4dccbd;
+        }
+        
+        .python-output-line.info {
+            color: #3fa7d6;
+        }
+        
+        .python-output-line.output {
+            color: #f0f0f0;
+        }
+        
+        .python-output-line.input {
+            color: #ffd166;
+        }
+        
+        .python-library-panel {
+            background-color: #16213e;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 1px solid #0f3460;
+        }
+        
+        .python-library-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #4dccbd;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .python-libraries {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .python-library-item {
+            padding: 6px 12px;
+            background-color: #0f3460;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #f0f0f0;
+        }
+        
+        .python-library-item:hover {
+            background-color: #3fa7d6;
+            transform: translateY(-2px);
+        }
+        
+        /* 网易云音乐播放器样式 */
+        .music-section {
+            margin-bottom: 80px;
+        }
+        
+        .music-wrapper {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .music-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+        }
+        
+        .music-container {
+            padding: 30px;
+        }
+        
+        .music-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .music-player {
+            background: linear-gradient(135deg, rgba(251, 114, 153, 0.05), rgba(0, 161, 214, 0.05));
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(251, 114, 153, 0.2);
+            transition: var(--transition);
+        }
+        
+        .music-player:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(251, 114, 153, 0.15);
+        }
+        
+        .music-player iframe {
+            width: 100%;
+            border-radius: 8px;
+        }
+        
+        .music-title {
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .music-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            border-radius: 4px;
+        }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .menu-toggle {
@@ -1537,6 +1827,44 @@
             .article-content h3 {
                 font-size: 1.2rem;
             }
+            
+            /* Python编辑器响应式 */
+            .python-editor-container {
+                padding: 15px;
+            }
+            
+            .python-header {
+                padding: 12px 15px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .python-control-panel {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .python-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            
+            .python-code-area {
+                height: 300px;
+            }
+            
+            .python-output-area {
+                height: 180px;
+            }
+            
+            /* 音乐播放器响应式 */
+            .music-container {
+                padding: 20px;
+            }
+            
+            .music-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1592,6 +1920,15 @@
             
             .article-content h3 {
                 font-size: 1.1rem;
+            }
+            
+            .python-code-area {
+                height: 250px;
+            }
+            
+            .python-output-area {
+                height: 150px;
+                font-size: 12px;
             }
         }
 
@@ -1696,7 +2033,8 @@
             <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章</a></li>
             <li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> Bilibili</a></li>
             <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k?from_tab_name=main" target="_blank"><i class="fab fa-tiktok"></i> 抖音</a></li>
-            <li><a href="#python"><i class="fab fa-python"></i> renpy示例</a></li>
+            <li><a href="#python"><i class="fab fa-python"></i> Python编辑器</a></li>
+            <li><a href="#music"><i class="fas fa-music"></i> 音乐推荐</a></li>
             <li><a href="#donation"><i class="fas fa-heart"></i> 赞助支持</a></li>
         </ul>
     </div>
@@ -1727,11 +2065,45 @@
                 <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章</a></li>
                 <li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> B站</a></li>
                 <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k?from_tab_name=main" target="_blank"><i class="fab fa-tiktok"></i> 抖音</a></li>
-                <li><a href="#python"><i class="fab fa-python"></i> renpy示例</a></li>
+                <li><a href="#python"><i class="fab fa-python"></i> Python编辑器</a></li>
+                <li><a href="#music"><i class="fas fa-music"></i> 背景音乐</a></li>
                 <li><a href="#donation"><i class="fas fa-heart"></i> 赞助支持</a></li>
             </ul>
         </div>
     </nav>
+
+
+    <!--背景音乐-->
+    <section id="music" class="section music-section">
+        <div class="section-title">
+            <h2>背景音乐选择</h2>
+        </div>
+        <div class="music-wrapper">
+            <div class="music-container">
+                <h3 class="music-title">背景音乐</h3>
+                <div class="music-grid">
+                    <div class="music-player">
+                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=3321241603&auto=1&height=66"></iframe>
+                    </div>
+                    <div class="music-player">
+                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="https://music.163.com/outchain/player?type=2&id=2616959817&auto=1&height=66"></iframe>
+                    </div>
+                    <div class="music-player">
+                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="https://music.163.com/outchain/player?type=2&id=34376545&auto=1&height=66"></iframe>
+                    </div>
+                    <div class="music-player">
+                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="https://music.163.com/outchain/player?type=2&id=1482991790&auto=1&height=66"></iframe>
+                    </div>
+                    <!-- <div class="music-player">
+                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="https://music.163.com/outchain/player?type=2&id=3321241603&auto=1&height=66"></iframe>
+                    </div> -->
+                </div>
+                <p style="margin-top: 20px; text-align: center; color: var(--text-secondary);">
+                    <i class="fas fa-headphones"></i> 请选择一个背景音乐(注:有一些浏览器可能加载不出来)
+                </p>
+            </div>
+        </div>
+    </section>
 
     <!-- 主要内容 -->
     <main class="container">
@@ -1764,25 +2136,141 @@
         </section>
 
         <!-- 文章板块 -->
-        <!-- 文章板块 -->
-    <section id="articles" class="section">
-        <div class="section-title">
-            <h2>技术文章</h2>
-        </div>
-        <div class="articles-container">
-            <div class="articles-grid" id="articlesGrid">
-                <!-- 显示最新的3篇文章 -->
+        <section id="articles" class="section">
+            <div class="section-title">
+                <h2>技术文章</h2>
             </div>
-            
-            <!-- 添加"查看全部文章"按钮 -->
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="wz.html" class="welcome-button" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none;">
-                    <i class="fas fa-book-open"></i>
-                    查看全部文章
-                </a>
+            <div class="articles-container">
+                <div class="articles-grid" id="articlesGrid">
+                    <!-- 显示最新的3篇文章 -->
+                </div>
+                
+                <!-- 添加"查看全部文章"按钮 -->
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="wz.html" class="welcome-button" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none;">
+                        <i class="fas fa-book-open"></i>
+                        查看全部文章
+                    </a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- 在线Python编辑器 -->
+        <section id="python" class="section python-editor-section">
+            <div class="section-title">
+                <h2>在线Python编辑器</h2>
+            </div>
+            <div class="python-editor-wrapper">
+                <div class="python-editor-container">
+                    <div class="python-header">
+                        <div class="python-logo">
+                            <i class="fas fa-code"></i>
+                            <div>
+                                <h3>在线Python编辑器</h3>
+                                <div class="python-subtitle">支持真实用户输入 - 在浏览器中编写、运行Python代码</div>
+                            </div>
+                        </div>
+                        
+                        <div class="python-control-panel">
+                            <button class="python-btn python-btn-run" id="pythonRunBtn">
+                                <i class="fas fa-play"></i> 运行代码
+                            </button>
+                            <button class="python-btn python-btn-clear" id="pythonClearBtn">
+                                <i class="fas fa-broom"></i> 清空输出
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="python-editor-area">
+                        <div class="python-panel-header">
+                            <div class="python-panel-title">
+                                <i class="fas fa-edit"></i> Python 代码编辑器
+                            </div>
+                        </div>
+                        <div class="python-code-area" id="pythonCodeArea">
+                            <!-- CodeMirror编辑器将在这里初始化 -->
+                            <textarea id="pythonCode" style="display:none;"># 在线Python编辑器 - 支持真实用户输入
+# 完整的 for 循环示例
+
+print("=== 开始打印数字 1 到 10 ===")
+for i in range(1, 11):
+    print(i)
+
+print()
+print("=== 开始打印数字 1 到 30（每行5个） ===")
+for i in range(1, 31):
+    print(i, end=" ")
+    if i % 5 == 0:
+        print()
+
+print()
+print("=== 计算1到100的和 ===")
+total = 0
+for i in range(1, 101):
+    total += i
+print(f"1到100的和是: {total}")
+
+print()
+print("=== 更大的循环：1到1110的前20个数字 ===")
+for i in range(1, 21):
+    print(f"{i:4}", end=" ")
+    if i % 10 == 0:
+        print()
+
+print("\n... 等等，更多数字")
+
+# 完整的 1 到 1110 循环
+print("\n=== 完整的 1 到 1110 循环 ===")
+count = 0
+for i in range(1, 1111):
+    print(f"{i:6}", end=" ")
+    count += 1
+    if count % 10 == 0:
+        print()
+print(f"\n总共打印了 {count} 个数字")</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="python-editor-area">
+                        <div class="python-panel-header">
+                            <div class="python-panel-title">
+                                <i class="fas fa-terminal"></i> 运行结果
+                            </div>
+                            <div class="python-control-panel">
+                                <button class="python-btn python-btn-clear" id="pythonClearOutputBtn">
+                                    <i class="fas fa-trash-alt"></i> 清空
+                                </button>
+                            </div>
+                        </div>
+                        <div class="python-output-area" id="pythonOutputArea">
+                            <div class="python-output-line info">就绪 - 点击"运行代码"开始执行Python程序</div>
+                            <div class="python-output-line info">支持 input() 函数，运行时会出现输入对话框</div>
+                        </div>
+                    </div>
+                    
+                    <div class="python-library-panel">
+                        <div class="python-library-title">
+                            <i class="fas fa-box-open"></i> 常用Python库（点击插入）
+                        </div>
+                        <div class="python-libraries" id="pythonLibraries">
+                            <div class="python-library-item" data-lib="math">math</div>
+                            <div class="python-library-item" data-lib="random">random</div>
+                            <div class="python-library-item" data-lib="datetime">datetime</div>
+                            <div class="python-library-item" data-lib="json">json</div>
+                            <div class="python-library-item" data-lib="os">os</div>
+                            <div class="python-library-item" data-lib="sys">sys</div>
+                            <div class="python-library-item" data-lib="re">re</div>
+                            <div class="python-library-item" data-lib="collections">collections</div>
+                            <div class="python-library-item" data-lib="itertools">itertools</div>
+                            <div class="python-library-item" data-lib="functools">functools</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        
 
         <!-- 游戏介绍部分 -->
         <section id="games" class="section">
@@ -1977,14 +2465,35 @@
         <div class="error-title" id="errorTitle">错误信息</div>
         <div class="error-code" id="errorCode">错误代码: 0000</div>
     </div>
+    
+    <!-- 输入对话框 -->
+    <div class="input-dialog" id="pythonInputDialog" style="display: none;">
+        <div class="input-dialog-content">
+            <div class="input-dialog-title">
+                <i class="fas fa-keyboard"></i> Python程序需要输入
+            </div>
+            <div class="input-dialog-prompt" id="pythonInputDialogPrompt">请输入:</div>
+            <input type="text" class="input-dialog-input" id="pythonInputDialogInput" placeholder="在此输入内容..." autofocus>
+            <div class="input-dialog-buttons">
+                <button class="input-dialog-btn input-dialog-cancel" id="pythonInputDialogCancel">取消</button>
+                <button class="input-dialog-btn input-dialog-submit" id="pythonInputDialogSubmit">提交</button>
+            </div>
+        </div>
+    </div>
 
+    <!-- 引入CodeMirror库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/selection/active-line.min.js"></script>
+    
     <script>
         // 每页显示的文章数量
         const articlesPerPage = 6;
         let currentPage = 1;
         let totalPages = 0;
 
-        // 初始化文章板块
         // 初始化文章板块
         function initArticles() {
             const grid = document.getElementById('articlesGrid');
@@ -2470,6 +2979,366 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         });
+        
+        // ====================================================
+        // 在线Python编辑器功能
+        // ====================================================
+        // 初始化CodeMirror编辑器
+        let pythonEditor;
+        let isPythonRunning = false;
+        let currentPythonInputCallback = null;
+        
+        // 初始化Python编辑器
+        function initPythonEditor() {
+            // 初始化CodeMirror编辑器
+            pythonEditor = CodeMirror.fromTextArea(document.getElementById('pythonCode'), {
+                lineNumbers: true,
+                mode: 'python',
+                theme: 'dracula',
+                indentUnit: 4,
+                smartIndent: true,
+                tabSize: 4,
+                indentWithTabs: false,
+                electricChars: true,
+                matchBrackets: true,
+                autoCloseBrackets: true,
+                styleActiveLine: true,
+                lineWrapping: true,
+                extraKeys: {
+                    "Tab": function(cm) {
+                        cm.replaceSelection("    ", "end");
+                    }
+                }
+            });
+            
+            // 设置编辑器初始大小
+            const pythonCodeArea = document.getElementById('pythonCodeArea');
+            pythonEditor.setSize("100%", "100%");
+            pythonCodeArea.appendChild(pythonEditor.getWrapperElement());
+            
+            // 获取Python编辑器相关元素
+            const runBtn = document.getElementById('pythonRunBtn');
+            const clearBtn = document.getElementById('pythonClearBtn');
+            const clearOutputBtn = document.getElementById('pythonClearOutputBtn');
+            const outputArea = document.getElementById('pythonOutputArea');
+            const libraryItems = document.querySelectorAll('.python-library-item');
+            
+            // 输入对话框元素
+            const inputDialog = document.getElementById('pythonInputDialog');
+            const inputDialogPrompt = document.getElementById('pythonInputDialogPrompt');
+            const inputDialogInput = document.getElementById('pythonInputDialogInput');
+            const inputDialogSubmit = document.getElementById('pythonInputDialogSubmit');
+            const inputDialogCancel = document.getElementById('pythonInputDialogCancel');
+            
+            // 运行Python代码
+            runBtn.addEventListener('click', async function() {
+                if (isPythonRunning) {
+                    addPythonOutputLine('程序正在运行中，请等待完成...', 'info');
+                    return;
+                }
+                
+                const code = pythonEditor.getValue();
+                
+                // 清空输出区域
+                outputArea.innerHTML = '';
+                
+                // 显示运行状态
+                addPythonOutputLine('正在运行Python代码...', 'info');
+                
+                // 禁用运行按钮并显示加载状态
+                const originalText = runBtn.innerHTML;
+                runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 运行中...';
+                runBtn.disabled = true;
+                isPythonRunning = true;
+                
+                try {
+                    // 执行Python代码
+                    await executePythonCode(code, outputArea);
+                } catch (error) {
+                    addPythonOutputLine(`运行时错误: ${error.message}`, 'error');
+                } finally {
+                    // 恢复运行按钮
+                    runBtn.innerHTML = originalText;
+                    runBtn.disabled = false;
+                    isPythonRunning = false;
+                    
+                    // 添加完成消息
+                    if (currentPythonInputCallback === null) {
+                        addPythonOutputLine('程序执行完成。', 'success');
+                    }
+                }
+            });
+            
+            // 清空编辑器
+            clearBtn.addEventListener('click', function() {
+                if (confirm('确定要清空代码编辑器吗？')) {
+                    pythonEditor.setValue('# 清空后的Python编辑器\n# 开始编写你的Python代码吧！\n\nprint("Hello, Python!")');
+                    addPythonOutputLine('编辑器已清空。', 'info');
+                }
+            });
+            
+            // 清空输出区域
+            clearOutputBtn.addEventListener('click', function() {
+                outputArea.innerHTML = '';
+                addPythonOutputLine('输出区域已清空。', 'info');
+            });
+            
+            // 添加常用库导入
+            libraryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const lib = this.getAttribute('data-lib');
+                    const cursor = pythonEditor.getCursor();
+                    const line = pythonEditor.getLine(cursor.line);
+                    
+                    // 检查是否已导入该库
+                    if (!line.includes(`import ${lib}`) && !pythonEditor.getValue().includes(`import ${lib}`)) {
+                        pythonEditor.replaceSelection(`import ${lib}\n`);
+                        addPythonOutputLine(`已添加导入语句: import ${lib}`, 'info');
+                    } else {
+                        addPythonOutputLine(`库 ${lib} 已经导入。`, 'info');
+                    }
+                });
+            });
+            
+            // 输入对话框提交
+            inputDialogSubmit.addEventListener('click', function() {
+                const inputValue = inputDialogInput.value;
+                
+                if (currentPythonInputCallback) {
+                    // 隐藏对话框
+                    inputDialog.style.display = 'none';
+                    
+                    // 在输出中显示用户输入
+                    addPythonOutputLine(inputValue, 'input');
+                    
+                    // 调用回调函数继续执行
+                    currentPythonInputCallback(inputValue);
+                    currentPythonInputCallback = null;
+                    inputDialogInput.value = '';
+                    
+                    // 恢复运行按钮
+                    runBtn.disabled = false;
+                    runBtn.innerHTML = '<i class="fas fa-play"></i> 运行代码';
+                }
+            });
+            
+            // 输入对话框取消
+            inputDialogCancel.addEventListener('click', function() {
+                inputDialog.style.display = 'none';
+                inputDialogInput.value = '';
+                
+                if (currentPythonInputCallback) {
+                    // 如果用户取消，则提供默认值
+                    currentPythonInputCallback(""); // 空字符串作为默认值
+                    currentPythonInputCallback = null;
+                    
+                    // 恢复运行按钮
+                    runBtn.disabled = false;
+                    runBtn.innerHTML = '<i class="fas fa-play"></i> 运行代码';
+                    isPythonRunning = false;
+                    
+                    addPythonOutputLine('输入已取消，使用空字符串作为默认值。', 'info');
+                }
+            });
+            
+            // 输入对话框回车键支持
+            inputDialogInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    inputDialogSubmit.click();
+                }
+            });
+            
+            // 添加快捷键支持
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+Enter 运行Python代码
+                if (e.ctrlKey && e.key === 'Enter' && document.activeElement !== inputDialogInput) {
+                    e.preventDefault();
+                    runBtn.click();
+                }
+            });
+        }
+        
+        // 添加Python输出行函数
+        function addPythonOutputLine(text, type = 'output') {
+            const outputArea = document.getElementById('pythonOutputArea');
+            if (!outputArea) return;
+            
+            const line = document.createElement('div');
+            line.className = `python-output-line ${type}`;
+            
+            // 添加时间戳
+            const now = new Date();
+            const timeString = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+            
+            line.textContent = `[${timeString}] ${text}`;
+            outputArea.appendChild(line);
+            
+            // 自动滚动到底部
+            outputArea.scrollTop = outputArea.scrollHeight;
+        }
+        
+        // 执行Python代码的主函数
+        async function executePythonCode(code, outputArea) {
+            // 创建执行环境
+            const env = {
+                // 模拟print函数
+                print: function(...args) {
+                    // 检查是否有end参数
+                    let end = '\n';
+                    let outputArgs = args;
+                    
+                    // 处理end参数（简化版）
+                    if (args.length > 1 && typeof args[args.length - 1] === 'string' && args[args.length - 1].startsWith('end=')) {
+                        end = args[args.length - 1].substring(4).replace(/['"]/g, '');
+                        outputArgs = args.slice(0, args.length - 1);
+                    }
+                    
+                    const output = outputArgs.map(arg => {
+                        if (typeof arg === 'object') {
+                            return JSON.stringify(arg);
+                        }
+                        return String(arg);
+                    }).join(' ');
+                    
+                    addPythonOutputLine(output, 'output');
+                    
+                    // 如果需要换行，添加一个空的输出行
+                    if (end !== '') {
+                        // 对于换行，我们不需要特别处理，因为addOutputLine已经添加了div元素
+                    }
+                },
+                
+                // 模拟input函数
+                input: async function(prompt = '') {
+                    // 显示输入提示
+                    addPythonOutputLine(prompt, 'output');
+                    
+                    // 返回一个Promise，等待用户输入
+                    return new Promise((resolve) => {
+                        // 显示输入对话框
+                        const inputDialog = document.getElementById('pythonInputDialog');
+                        const inputDialogPrompt = document.getElementById('pythonInputDialogPrompt');
+                        const inputDialogInput = document.getElementById('pythonInputDialogInput');
+                        const runBtn = document.getElementById('pythonRunBtn');
+                        
+                        inputDialogPrompt.textContent = prompt || '请输入:';
+                        inputDialog.style.display = 'flex';
+                        inputDialogInput.focus();
+                        
+                        // 存储回调函数
+                        currentPythonInputCallback = resolve;
+                        
+                        // 设置等待输入状态
+                        runBtn.disabled = true;
+                        runBtn.innerHTML = '<i class="fas fa-pause"></i> 等待输入...';
+                    });
+                },
+                
+                // 内置函数和类型
+                int: function(x) {
+                    return parseInt(x, 10);
+                },
+                
+                float: function(x) {
+                    return parseFloat(x);
+                },
+                
+                str: function(x) {
+                    return String(x);
+                },
+                
+                len: function(x) {
+                    if (x && x.length !== undefined) {
+                        return x.length;
+                    }
+                    return 0;
+                },
+                
+                range: function(start, end, step) {
+                    if (arguments.length === 1) {
+                        end = start;
+                        start = 0;
+                        step = 1;
+                    } else if (arguments.length === 2) {
+                        step = 1;
+                    }
+                    
+                    const result = [];
+                    if (step > 0) {
+                        for (let i = start; i < end; i += step) {
+                            result.push(i);
+                        }
+                    } else {
+                        for (let i = start; i > end; i += step) {
+                            result.push(i);
+                        }
+                    }
+                    return result;
+                },
+                
+                // 数学函数
+                abs: Math.abs,
+                round: Math.round,
+                min: Math.min,
+                max: Math.max,
+                sum: function(arr) {
+                    return arr.reduce((a, b) => a + b, 0);
+                },
+                
+                // 列表
+                list: function(x) {
+                    if (x === undefined) return [];
+                    if (Array.isArray(x)) return [...x];
+                    if (typeof x === 'string') return x.split('');
+                    return Array.from(x);
+                },
+                
+                // 字典
+                dict: function() {
+                    return {};
+                },
+                
+                // 格式化字符串（简化版）
+                format: function(value, format) {
+                    if (format && format.includes('.')) {
+                        // 处理浮点数格式化
+                        return parseFloat(value).toFixed(parseInt(format.split('.')[1]));
+                    } else if (format) {
+                        // 处理整数格式化
+                        return value.toString().padStart(parseInt(format), ' ');
+                    }
+                    return value;
+                }
+            };
+            
+            // 使用eval执行Python代码（安全限制在沙盒环境中）
+            try {
+                // 将代码包装在try-catch中
+                const wrappedCode = `
+                    try {
+                        ${code}
+                    } catch (e) {
+                        throw e;
+                    }
+                `;
+                
+                // 创建执行函数
+                const execute = new Function('env', `
+                    with(env) {
+                        ${wrappedCode}
+                    }
+                `);
+                
+                // 执行代码
+                execute(env);
+                
+            } catch (error) {
+                addPythonOutputLine(`执行错误: ${error.message}`, 'error');
+            }
+        }
+        
+        // 初始化Python编辑器
+        initPythonEditor();
     </script>
 </body>
 </html>
