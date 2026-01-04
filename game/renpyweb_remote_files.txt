@@ -1,0 +1,122 @@
+audio/bgm/after_date.ogg
+music -
+audio/bgm/happy_end.ogg
+music -
+audio/bgm/main_theme.ogg
+music -
+audio/bgm/movie_theater.ogg
+music -
+audio/bgm/night_theme.ogg
+music -
+audio/bgm/night_walk.ogg
+music -
+audio/bgm/park_ambience.ogg
+music -
+audio/bgm/restaurant.ogg
+music -
+audio/bgm/store.ogg
+music -
+audio/sfx/achievement.ogg
+music -
+audio/sfx/basketball_bounce.ogg
+music -
+audio/sfx/notification.ogg
+music -
+images/backgrounds/apartment.png
+image 1536,864
+images/backgrounds/basketball_court.png
+image 1536,864
+images/backgrounds/exhibition_hall.png
+image 1536,864
+images/backgrounds/movie_theater.png
+image 1536,864
+images/backgrounds/park_day.png
+image 1584,1056
+images/backgrounds/park_night.png
+image 1584,1056
+images/backgrounds/restaurant.png
+image 1536,864
+images/backgrounds/room_day.png
+image 1536,1152
+images/backgrounds/room_night.png
+image 1536,1152
+images/backgrounds/street_night.png
+image 1536,864
+images/backgrounds/sunset.png
+image 1536,864
+images/basketball_court.png
+image 1536,864
+images/bg apartment.png
+image 1536,864
+images/bg basketball_court.png
+image 1536,864
+images/bg exhibition_hall.png
+image 1536,864
+images/bg movie_theater.png
+image 1536,864
+images/bg park_day.png
+image 1584,1056
+images/bg park_night.png
+image 1584,1056
+images/bg restaurant.png
+image 1536,864
+images/bg room_day.png
+image 1536,1152
+images/bg room_night.png
+image 1536,1152
+images/bg store_day.png
+image 1536,864
+images/bg street_night.png
+image 1536,864
+images/bg sunset.png
+image 1536,864
+images/characters/friend.png
+image 420,720
+images/characters/friend/normal.png
+image 420,720
+images/characters/sister.png
+image 320,720
+images/characters/sister/happy.png
+image 320,720
+images/characters/sister/normal.png
+image 320,720
+images/characters/you/blush.png
+image 420,720
+images/characters/you/happy.png
+image 420,720
+images/characters/you/normal.png
+image 420,720
+images/characters/zj/happy.png
+image 320,720
+images/characters/zj/normal.png
+image 320,720
+images/friend (2).png
+image 420,720
+images/friend at right with dissolve.png
+image 420,720
+images/friend.png
+image 420,720
+images/friend/normal.png
+image 420,720
+images/movie_theater.png
+image 1536,864
+images/sister.png
+image 320,720
+images/sister/happy.png
+image 320,720
+images/sister/normal.png
+image 320,720
+images/you.png
+image 420,720
+images/you/blush.png
+image 420,720
+images/you/happy.png
+image 420,720
+images/you/normal.png
+image 420,720
+images/zj.png
+image 320,720
+images/zj/happy.png
+image 320,720
+images/zj/normal.png
+image 320,720
