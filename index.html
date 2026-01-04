@@ -1691,6 +1691,104 @@
             border-radius: 4px;
         }
 
+        /* iframe容器样式 */
+        .iframe-section {
+            margin-bottom: 80px;
+        }
+        
+        .iframe-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .iframe-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+        }
+        
+        .iframe-wrapper {
+            padding: 30px;
+        }
+        
+        .iframe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .iframe-item {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(251, 114, 153, 0.2);
+            transition: var(--transition);
+        }
+        
+        .iframe-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(251, 114, 153, 0.15);
+        }
+        
+        .iframe-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .iframe-header i {
+            color: var(--bili-pink);
+            font-size: 1.5rem;
+        }
+        
+        .iframe-header h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        
+        .iframe-content {
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .iframe-content iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        
+        .iframe-description {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        
+        .iframe-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #856404;
+        }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .menu-toggle {
@@ -1865,6 +1963,24 @@
             .music-grid {
                 grid-template-columns: 1fr;
             }
+            
+            /* iframe响应式 */
+            .iframe-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .iframe-item {
+                padding: 15px;
+            }
+            
+            .iframe-content iframe {
+                height: 400px;
+            }
+            
+            .iframe-header h3 {
+                font-size: 1.1rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1929,6 +2045,15 @@
             .python-output-area {
                 height: 150px;
                 font-size: 12px;
+            }
+            
+            /* iframe响应式 */
+            .iframe-content iframe {
+                height: 300px;
+            }
+            
+            .iframe-wrapper {
+                padding: 20px;
             }
         }
 
@@ -2029,6 +2154,97 @@
         .game-jump-btn i {
             font-size: 0.9rem;
         }
+        
+        /* 输入对话框样式 */
+        .input-dialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .input-dialog-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .input-dialog-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--bili-pink);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-dialog-prompt {
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+        
+        .input-dialog-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(251, 114, 153, 0.3);
+            border-radius: 12px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+        
+        .input-dialog-input:focus {
+            outline: none;
+            border-color: var(--bili-pink);
+            box-shadow: 0 0 0 3px rgba(251, 114, 153, 0.1);
+        }
+        
+        .input-dialog-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+        
+        .input-dialog-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .input-dialog-cancel {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-primary);
+        }
+        
+        .input-dialog-cancel:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .input-dialog-submit {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+        }
+        
+        .input-dialog-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -2059,6 +2275,7 @@
         <ul class="mobile-menu-links">
             <li><a href="#home"><i class="fas fa-home"></i> 主页的说～</a></li>
             <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章喵～</a></li>
+            <li><a href="#iframes"><i class="fas fa-gamepad"></i> 游戏预览喵～</a></li>
             <li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> Bilibili</a></li>
             <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k?from_tab_name=main" target="_blank"><i class="fab fa-tiktok"></i> 抖音的说～</a></li>
             <li><a href="#python"><i class="fab fa-python"></i> Python编辑器</a></li>
@@ -2091,6 +2308,7 @@
             <ul class="nav-links">
                 <li><a href="#home"><i class="fas fa-home"></i> 主页的说～</a></li>
                 <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章喵～</a></li>
+                <li><a href="#iframes"><i class="fas fa-gamepad"></i> 游戏预览喵～</a></li>
                 <li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> B站喵～</a></li>
                 <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k?from_tab_name=main" target="_blank"><i class="fab fa-tiktok"></i> 抖音的说～</a></li>
                 <li><a href="#python"><i class="fab fa-python"></i> Python编辑器</a></li>
@@ -2178,6 +2396,46 @@
                     </div>
                 </div>
                 <div class="about-image">
+                </div>
+            </div>
+        </section>
+
+        <!-- iframe游戏预览部分 -->
+        <section id="iframes" class="section iframe-section">
+            <div class="section-title">
+                <h2>游戏预览喵～</h2>
+            </div>
+            <div class="iframe-container">
+                <div class="iframe-wrapper">
+                    <div class="iframe-grid">
+                        <!-- 第一个iframe：op.html,合成大西瓜-但是18+版本 -->
+                        <div class="iframe-item fade-in-up">
+                            <div class="iframe-header">
+                                <i class="fas fa-play-circle"></i>
+                                <h3>合成大欧派</h3>
+                            </div>
+                            <div class="iframe-content">
+                                <iframe src="./op.html" title="合成大欧派" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+                            </div>
+                            <p class="iframe-description">合成大西瓜-但是18+版本喵～ (◕‿◕✿) </p>
+                        </div>
+                        
+                        <!-- 第二个iframe：外部游戏链接 -->
+                        <div class="iframe-item fade-in-up">
+                            <div class="iframe-header">
+                                <i class="fas fa-external-link-alt"></i>
+                                <h3>在线游戏体验喵～</h3>
+                            </div>
+                            <div class="iframe-content">
+                                <iframe src="https://play-46.erogemy.com/cmfvic6770001ha1t205lk70z/ingogame/8/play?exp=1767526885&salt=274aeedb8fd4b8fffc1d4becdd8f222f&sig=aa925a50de39242b76c9f4f663871ed2a9d1130ffd58a91b6394a617d2b4d4f7" title="外部游戏体验" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+                            </div>
+                            <p class="iframe-description">这是一个外部游戏链接，提供在线游戏体验喵～ (づ｡◕‿‿◕｡)づ</p>
+                            <div class="iframe-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>注意喵～：</strong>此iframe加载的是外部网站内容，加载速度可能较慢，请耐心等待喵～
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -2315,9 +2573,6 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 </div>
             </div>
         </section>
-
-        
-        
 
         <!-- 游戏介绍部分 -->
         <section id="games" class="section">
@@ -2999,7 +3254,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
             }, observerOptions);
             
             // 观察需要动画的元素
-            const animatedElements = document.querySelectorAll('.game-card, .intro, .about-content, .contact-content, .donation-content, .article-card');
+            const animatedElements = document.querySelectorAll('.game-card, .intro, .about-content, .contact-content, .donation-content, .article-card, .iframe-item');
             animatedElements.forEach(el => {
                 observer.observe(el);
             });
