@@ -2400,7 +2400,48 @@
                 </div>
             </div>
         </section>
+        <section class="section">
+            <div class="section-title">
+                <h2>游戏预览（新版）</h2>
+            </div>
+            <div class="content-warning" style="margin-bottom:20px;">
+                <i class="fas fa-info-circle"></i>
+                已取消内嵌 iframe，改为在新标签页打开游戏，以提升兼容性与隐私。点击下方按钮将在新标签页打开对应页面喵～。
+            </div>
+        </section>
 
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 将页面中所有 iframe 替换为“在新标签页打开”的按钮
+            document.querySelectorAll('.iframe-item').forEach(function(item) {
+                var iframe = item.querySelector('iframe');
+                if (!iframe) return;
+
+                var src = iframe.getAttribute('src') || '#';
+                var title = item.querySelector('.iframe-header h3') ? item.querySelector('.iframe-header h3').textContent.trim() : (iframe.getAttribute('title') || '打开游戏');
+
+                // 创建容器和按钮，保留视觉风格（复用已有类名）
+                var newWrapper = document.createElement('div');
+                newWrapper.className = 'iframe-content';
+
+                var link = document.createElement('a');
+                link.href = src;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.className = 'game-jump-btn';
+                link.style.display = 'inline-flex';
+                link.style.alignItems = 'center';
+                link.style.gap = '8px';
+                link.innerHTML = '<i class="fas fa-external-link-alt"></i> 在新标签页打开：' + title;
+
+                // 可选：保留原来的描述/警告区域（不移动 DOM，只替换 iframe）
+                newWrapper.appendChild(link);
+
+                // 替换 iframe 元素
+                iframe.parentNode.replaceChild(newWrapper, iframe);
+            });
+        });
+        </script>
         <!-- iframe游戏预览部分 -->
         <section id="iframes" class="section iframe-section">
             <div class="section-title">
@@ -2425,16 +2466,16 @@
                         <div class="iframe-item fade-in-up">
                             <div class="iframe-header">
                                 <i class="fas fa-external-link-alt"></i>
-                                <h3>在线游戏体验喵～</h3>
+                                <h3>合成大oho</h3>
                             </div>
                             <div class="iframe-content">
-                                <iframe src="https://play-46.erogemy.com/cmfvic6770001ha1t205lk70z/ingogame/8/play?exp=1767526885&salt=274aeedb8fd4b8fffc1d4becdd8f222f&sig=aa925a50de39242b76c9f4f663871ed2a9d1130ffd58a91b6394a617d2b4d4f7" title="外部游戏体验" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+                                <iframe src="https://play-46.erogemy.com/cmfvic6770001ha1t205lk70z/ingogame/8/play?exp=1767526885&salt=274aeedb8fd4b8fffc1d4becdd8f222f&sig=aa925a50de39242b76c9f4f663871ed2a9d1130ffd58a91b6394a617d2b4d4f7" title="合成大oho" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
                             </div>
                             <p class="iframe-description">这是一个外部游戏链接，提供在线游戏体验喵～ (づ｡◕‿‿◕｡)づ</p>
-                            <div class="iframe-warning">
+                            <!-- <div class="iframe-warning">
                                 <i class="fas fa-exclamation-triangle"></i>
-                                <strong>注意喵～：</strong>此iframe加载的是外部网站内容，加载速度可能较慢，请耐心等待喵～
-                            </div>
+                                <!-- <strong>注意喵～：</strong>此iframe加载的是外部网站内容，加载速度可能较慢，请耐心等待喵～ ->
+                            </div> -->
                         </div>
                     </div>
                 </div>
