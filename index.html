@@ -2401,6 +2401,7 @@
         </section>
 
         <!-- iframe游戏预览部分 -->
+        <!-- iframe游戏预览部分 -->
         <section id="iframes" class="section iframe-section">
             <div class="section-title">
                 <h2>游戏预览喵～</h2>
@@ -2408,18 +2409,45 @@
             <div class="iframe-container">
                 <div class="iframe-wrapper">
                     <div class="iframe-grid">
-                        <!-- 第一个iframe：op.html,合成大西瓜-但是18+版本 -->
-                        <div class="iframe-item fade-in-up">
+                        <!-- 第一个项目：op.html，改为点击跳转 -->
+                        <div class="iframe-item fade-in-up" id="openOpGame">
                             <div class="iframe-header">
                                 <i class="fas fa-play-circle"></i>
                                 <h3>合成大欧派</h3>
                             </div>
-                            <div class="iframe-content">
-                                <iframe src="./op.html" title="合成大欧派" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+                            <div class="iframe-content" style="height: 400px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(251, 114, 153, 0.1), rgba(0, 161, 214, 0.1)); border-radius: 10px; cursor: pointer;">
+                                <div style="text-align: center; padding: 30px;">
+                                    <i class="fas fa-gamepad" style="font-size: 4rem; color: var(--bili-pink); margin-bottom: 20px;"></i>
+                                    <h3 style="color: var(--bili-pink); margin-bottom: 15px;">点击打开游戏喵～</h3>
+                                    <p style="color: var(--text-secondary);">合成大西瓜-但是18+版本喵～ (◕‿◕✿)</p>
+                                    <button class="game-jump-btn" style="margin-top: 20px;">
+                                        <i class="fas fa-external-link-alt"></i> 在新标签页中打开
+                                    </button>
+                                </div>
                             </div>
                             <p class="iframe-description">合成大西瓜-但是18+版本喵～ (◕‿◕✿) </p>
                         </div>
-                        
+                        <div class="iframe-item fade-in-up">
+                            <div class="iframe-header">
+                                <i class="fas fa-external-link-alt"></i>
+                                <h3>在线游戏体验喵～</h3>
+                            </div>
+                            <div class="iframe-content" style="height: 400px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(251, 114, 153, 0.1), rgba(0, 161, 214, 0.1)); border-radius: 10px; cursor: default;">
+                                <div style="text-align: center; padding: 30px;">
+                                    <i class="fas fa-gamepad" style="font-size: 4rem; color: var(--bili-pink); margin-bottom: 20px;"></i>
+                                    <h3 style="color: var(--bili-pink); margin-bottom: 15px;">在新标签页中打开游戏喵～</h3>
+                                    <p style="color: var(--text-secondary);">此游戏托管在外部网站，将在新标签页打开以获得更稳定的加载体验喵～</p>
+                                    <a class="game-jump-btn" href="https://erogemy.com/play/cmfvic6740000ha1tktra0dt6/ingogame" target="_blank" rel="noopener noreferrer" style="margin-top: 20px;">
+                                        <i class="fas fa-external-link-alt"></i> 在新标签页中打开
+                                    </a>
+                                </div>
+                            <!-- </div>
+                            <p class="iframe-description">这是一个外部游戏链接，已设置为在新标签页中打开喵～ (づ｡◕‿‿◕｡)づ</p>
+                            <div class="iframe-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>注意喵～：</strong>此链接将会在新标签页打开，加载速度可能较慢，请耐心等待喵～
+                            </div> -->
+                        </div>
                         <!-- 第二个iframe：外部游戏链接 -->
                         <div class="iframe-item fade-in-up">
                             <div class="iframe-header">
@@ -2427,12 +2455,12 @@
                                 <h3>在线游戏体验喵～</h3>
                             </div>
                             <div class="iframe-content">
-                                <iframe src="https://play-46.erogemy.com/cmfvic6770001ha1t205lk70z/ingogame/8/play?exp=1767526885&salt=274aeedb8fd4b8fffc1d4becdd8f222f&sig=aa925a50de39242b76c9f4f663871ed2a9d1130ffd58a91b6394a617d2b4d4f7" title="外部游戏体验" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+                                <iframe src="https://erogemy.com/play/cmfvic6740000ha1tktra0dt6/ingogame"></iframe>
                             </div>
                             <p class="iframe-description">这是一个外部游戏链接，提供在线游戏体验喵～ (づ｡◕‿‿◕｡)づ</p>
                             <div class="iframe-warning">
                                 <i class="fas fa-exclamation-triangle"></i>
-                                <strong>注意喵～：</strong>此iframe加载的是外部网站内容，加载速度可能较慢，请耐心等待喵～
+                                <strong>注意喵～：</strong>此iframe加载的是外部网站内容，加载速度可能较慢，请耐心等待喵～(ps:如果加载失败可以尝试打开<a href="https://erogemy.com/play/cmfvic6740000ha1tktra0dt6/ingogame" target="_blank"></a>https://erogemy.com/play/cmfvic6740000ha1tktra0dt6/ingogame</a>直接游玩的说～)
                             </div>
                         </div>
                     </div>
@@ -2801,7 +2829,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
         const articlesPerPage = 6;
         let currentPage = 1;
         let totalPages = 0;
-
+    
         // 初始化文章板块
         function initArticles() {
             const grid = document.getElementById('articlesGrid');
@@ -2838,7 +2866,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 grid.appendChild(articleCard);
             });
         }
-
+    
         // 渲染文章列表
         function renderArticles(articles) {
             const grid = document.getElementById('articlesGrid');
@@ -2883,7 +2911,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 grid.appendChild(articleCard);
             });
         }
-
+    
         // 渲染分页
         function renderPagination() {
             const pagination = document.getElementById('articlePagination');
@@ -2949,11 +2977,11 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 pagination.appendChild(nextBtn);
             }
         }
-
+    
         // 欢迎弹窗功能
         const welcomePopup = document.getElementById('welcomePopup');
         const enterButton = document.getElementById('enterButton');
-
+    
         // 显示欢迎弹窗
         function showWelcomePopup() {
             setTimeout(() => {
@@ -2961,7 +2989,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 document.body.style.overflow = 'hidden'; // 禁止背景滚动
             }, 500);
         }
-
+    
         // 隐藏欢迎弹窗
         function hideWelcomePopup() {
             welcomePopup.classList.remove('active');
@@ -2970,34 +2998,34 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
             // 显示成功消息
             showSuccess('欢迎来到开发者ciallo0721-cmd的空间喵～！');
         }
-
+    
         // 页面加载完成后显示弹窗
         window.addEventListener('load', showWelcomePopup);
-
+    
         // 点击进入按钮关闭弹窗
         if (enterButton) {
             enterButton.addEventListener('click', hideWelcomePopup);
         }
-
+    
         // 点击弹窗背景也可以关闭（可选）
         welcomePopup.addEventListener('click', function(e) {
             if (e.target === this) {
                 hideWelcomePopup();
             }
         });
-
+    
         // ESC键关闭弹窗
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && welcomePopup.classList.contains('active')) {
                 hideWelcomePopup();
             }
         });
-
+    
         // 移动端菜单控制
         const menuToggle = document.getElementById('menuToggle');
         const mobileMenu = document.getElementById('mobileMenu');
         const menuOverlay = document.getElementById('menuOverlay');
-
+    
         if (menuToggle && mobileMenu && menuOverlay) {
             menuToggle.addEventListener('click', function() {
                 mobileMenu.classList.toggle('active');
@@ -3021,7 +3049,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 });
             });
         }
-
+    
         // 错误信息显示函数
         function showError(title, code) {
             const errorNotification = document.getElementById('errorNotification');
@@ -3039,7 +3067,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 }, 5000);
             }
         }
-
+    
         // 成功消息显示函数
         function showSuccess(message) {
             const successDiv = document.createElement('div');
@@ -3073,7 +3101,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 }
             }, 3000);
         }
-
+    
         // 简单的滚动动画
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -3091,7 +3119,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 }
             });
         });
-
+    
         // 导航栏滚动效果
         window.addEventListener('scroll', function() {
             const nav = document.querySelector('nav');
@@ -3105,7 +3133,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 }
             }
         });
-
+    
         // 游戏详情展开/收起功能
         document.addEventListener('DOMContentLoaded', function() {
             const gameCards = document.querySelectorAll('.game-card');
@@ -3168,7 +3196,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 }
             });
         });
-
+    
         // 电脑版切换功能
         document.addEventListener('DOMContentLoaded', function() {
             const desktopSwitch = document.getElementById('desktopSwitch');
@@ -3216,7 +3244,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 }
             }
         });
-
+    
         // 页面加载完成后的初始化
         document.addEventListener('DOMContentLoaded', function() {
             console.log('网站已加载完成喵～');
@@ -3258,8 +3286,31 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
             animatedElements.forEach(el => {
                 observer.observe(el);
             });
+            
+            // ====== op.html点击事件处理 ======
+            // 为op游戏添加点击事件
+            const opGameElement = document.getElementById('openOpGame');
+            if (opGameElement) {
+                opGameElement.addEventListener('click', function(e) {
+                    // 防止事件冒泡
+                    if (e.target.closest('.game-jump-btn')) return;
+                    
+                    // 在新标签页中打开op.html
+                    window.open('./op.html', '_blank');
+                });
+                
+                // 为按钮添加单独的点击事件
+                const opButton = opGameElement.querySelector('.game-jump-btn');
+                if (opButton) {
+                    opButton.addEventListener('click', function(e) {
+                        e.stopPropagation(); // 阻止事件冒泡
+                        window.open('./op.html', '_blank');
+                    });
+                }
+            }
+            // ====== 结束 op.html点击事件处理 ======
         });
-
+    
         // 添加键盘快捷键支持
         document.addEventListener('keydown', function(e) {
             // ESC键关闭所有展开的游戏详情
