@@ -2001,6 +2001,34 @@
                 display: flex;
             }
         }
+        
+        /* 游戏跳转按钮样式 */
+        .game-jump-btn {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        
+        .game-jump-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(251, 114, 153, 0.4);
+        }
+        
+        .game-jump-btn i {
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -2010,9 +2038,9 @@
             <div class="welcome-icon">
                 <i class="fas fa-exclamation-triangle"></i>
             </div>
-            <h2 class="welcome-title">警告</h2>
-            <p class="welcome-message">内容可能引起不适,请确保你已满18+岁</p>
-            <button class="welcome-button" id="enterButton">进入</button>
+            <h2 class="welcome-title">警告喵~</h2>
+            <p class="welcome-message">内容可能引起不适呢，请确保你已满18+岁哦～ (｡•́︿•̀｡)</p>
+            <button class="welcome-button" id="enterButton">进入的说～</button>
         </div>
     </div>
     
@@ -2029,13 +2057,13 @@
             </div>
         </div>
         <ul class="mobile-menu-links">
-            <li><a href="#home"><i class="fas fa-home"></i> 主页</a></li>
-            <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章</a></li>
+            <li><a href="#home"><i class="fas fa-home"></i> 主页的说～</a></li>
+            <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章喵～</a></li>
             <li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> Bilibili</a></li>
-            <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k?from_tab_name=main" target="_blank"><i class="fab fa-tiktok"></i> 抖音</a></li>
+            <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k?from_tab_name=main" target="_blank"><i class="fab fa-tiktok"></i> 抖音的说～</a></li>
             <li><a href="#python"><i class="fab fa-python"></i> Python编辑器</a></li>
-            <li><a href="#music"><i class="fas fa-music"></i> 音乐推荐</a></li>
-            <li><a href="#donation"><i class="fas fa-heart"></i> 赞助支持</a></li>
+            <li><a href="#music"><i class="fas fa-music"></i> 音乐推荐喵～</a></li>
+            <li><a href="#donation"><i class="fas fa-heart"></i> 赞助支持的说～</a></li>
         </ul>
     </div>
     <div class="menu-overlay" id="menuOverlay"></div>
@@ -2051,7 +2079,7 @@
             </div>
             <div class="header-text">
                 <h1>ciallo0721-cmd</h1>
-                <p class="tagline">Ren'Py视觉小说创作者 | 文化爱好者</p>
+                <p class="tagline">Ren'Py视觉小说创作者 | 文化爱好者喵～</p>
             </div>
         </div>
     </header>
@@ -2059,15 +2087,15 @@
     <!-- 导航栏 -->
     <nav>
         <div class="container nav-container">
-            <a href="index.html" class="logo"><i class="fas fa-gamepad"></i> 关于</a>
+            <a href="index.html" class="logo"><i class="fas fa-gamepad"></i> 关于的说～</a>
             <ul class="nav-links">
-                <li><a href="#home"><i class="fas fa-home"></i> 主页</a></li>
-                <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章</a></li>
-                <li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> B站</a></li>
-                <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k?from_tab_name=main" target="_blank"><i class="fab fa-tiktok"></i> 抖音</a></li>
+                <li><a href="#home"><i class="fas fa-home"></i> 主页的说～</a></li>
+                <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章喵～</a></li>
+                <li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> B站喵～</a></li>
+                <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k?from_tab_name=main" target="_blank"><i class="fab fa-tiktok"></i> 抖音的说～</a></li>
                 <li><a href="#python"><i class="fab fa-python"></i> Python编辑器</a></li>
-                <li><a href="#music"><i class="fas fa-music"></i> 背景音乐</a></li>
-                <li><a href="#donation"><i class="fas fa-heart"></i> 赞助支持</a></li>
+                <li><a href="#music"><i class="fas fa-music"></i> 背景音乐喵～</a></li>
+                <li><a href="#donation"><i class="fas fa-heart"></i> 赞助支持的说～</a></li>
             </ul>
         </div>
     </nav>
@@ -2076,15 +2104,16 @@
     <!--背景音乐-->
     <section id="music" class="section music-section">
         <div class="section-title">
-            <h2>背景音乐选择</h2>
+            <h2>背景音乐选择喵～</h2>
         </div>
         <!-- <div class="music-grid">
             
         </div> -->
         <div class="music-wrapper">
             <div class="music-container">
-                <h3 class="music-title">背景音乐</h3>
+                <h3 class="music-title">背景音乐喵～</h3>
                 <div class="music-grid">
+                    <!-- 重新排序的背景音乐 -->
                     <div class="music-player">
                         <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=3321241603&auto=1&height=66"></iframe>
                     </div>
@@ -2112,8 +2141,12 @@
                     <div class="music-player">
                         <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=2614435703&auto=1&height=66"></iframe>
                     </div>
+                    <div class="music-player">
+                        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=2617397587&auto=1&height=66"></iframe>
+                    </div>
+                </div>
                 <p style="margin-top: 20px; text-align: center; color: var(--text-secondary);">
-                    <i class="fas fa-headphones"></i> 请选择一个背景音乐(注:有一些浏览器可能加载不出来)
+                    <i class="fas fa-headphones"></i> 请选择一个背景音乐吧～ (注:有一些浏览器可能加载不出来哦) (๑•́ ₃ •̀๑)
                 </p>
             </div>
         </div>
@@ -2123,19 +2156,19 @@
     <main class="container">
         <!-- 个人介绍 -->
         <section class="intro">
-            <p>一个专注于Python编程和语言学的初中生，擅长使用Ren'Py引擎创作视觉小说游戏。热爱二次元文化，致力于将编程技术与创意表达相结合，通过代码讲述动人的故事。</p>
+            <p>人家是一个专注于Python编程和语言学的初中生哦~ 擅长使用Ren'Py引擎创作视觉小说游戏呢！热爱二次元文化，致力于将编程技术与创意表达相结合，通过代码讲述动人的故事的说~ (๑>ᴗ<๑)</p>
         </section>
 
         <!-- 关于我部分 -->
         <section id="about" class="section">
             <div class="section-title">
-                <h2>关于我</h2>
+                <h2>关于我的说～</h2>
             </div>
             <div class="about-content">
                 <div class="about-text">
-                    <p>你好！我是一名热爱二次元文化的Ren'Py视觉小说开发者ciallo0721-cmd，专注于创作富有情感深度和故事性的游戏作品。我的创作理念是将二次元美学与深刻的故事叙述相结合，通过视觉小说这一媒介，为玩家带来独特的沉浸式体验。</p>
-                    <p>目前我已经开发了多款不同类型的Ren'Py游戏，涵盖从温馨日常到心理惊悚的各种题材。每一款作品都是我用心创作的成果，希望能与大家分享。</p>
-                    <p>除了游戏开发，我也喜欢研究动画制作和角色设计，时常在社交媒体上分享我的创作心得和开发过程。</p>
+                    <p>Ciallo～(∠・ω< )⌒★ 你好呀！人家是一名热爱二次元文化的Ren'Py视觉小说开发者ciallo0721-cmd哦～专注于创作富有情感深度和故事性的游戏作品呢！我的创作理念是将二次元美学与深刻的故事叙述相结合，通过视觉小说这一媒介，为玩家带来独特的沉浸式体验的说～ (๑´ㅂ`๑)</p>
+                    <p>目前人家已经开发了多款不同类型的Ren'Py游戏，涵盖从温馨日常到心理惊悚的各种题材呢～每一款作品都是我用心创作的成果，希望能与大家分享哦！(๑•̀ㅂ•́)و✧</p>
+                    <p>除了游戏开发，人家也喜欢研究动画制作和角色设计呢～时常在社交媒体上分享我的创作心得和开发过程的说～ (✪ω✪)</p>
                     
                     <div class="skills">
                         <div class="skill-tag">Ren'Py 引擎</div>
@@ -2152,7 +2185,7 @@
         <!-- 文章板块 -->
         <section id="articles" class="section">
             <div class="section-title">
-                <h2>技术文章</h2>
+                <h2>技术文章喵～</h2>
             </div>
             <div class="articles-container">
                 <div class="articles-grid" id="articlesGrid">
@@ -2163,7 +2196,7 @@
                 <div style="text-align: center; margin-top: 40px;">
                     <a href="wz.html" class="welcome-button" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none;">
                         <i class="fas fa-book-open"></i>
-                        查看全部文章
+                        查看全部文章的说～
                     </a>
                 </div>
             </div>
@@ -2172,7 +2205,7 @@
         <!-- 在线Python编辑器 -->
         <section id="python" class="section python-editor-section">
             <div class="section-title">
-                <h2>在线Python编辑器</h2>
+                <h2>在线Python编辑器喵～</h2>
             </div>
             <div class="python-editor-wrapper">
                 <div class="python-editor-container">
@@ -2181,16 +2214,16 @@
                             <i class="fas fa-code"></i>
                             <div>
                                 <h3>在线Python编辑器</h3>
-                                <div class="python-subtitle">支持真实用户输入 - 在浏览器中编写、运行Python代码</div>
+                                <div class="python-subtitle">支持真实用户输入 - 在浏览器中编写、运行Python代码的说～</div>
                             </div>
                         </div>
                         
                         <div class="python-control-panel">
                             <button class="python-btn python-btn-run" id="pythonRunBtn">
-                                <i class="fas fa-play"></i> 运行代码
+                                <i class="fas fa-play"></i> 运行代码喵～
                             </button>
                             <button class="python-btn python-btn-clear" id="pythonClearBtn">
-                                <i class="fas fa-broom"></i> 清空输出
+                                <i class="fas fa-broom"></i> 清空输出喵～
                             </button>
                         </div>
                     </div>
@@ -2198,7 +2231,7 @@
                     <div class="python-editor-area">
                         <div class="python-panel-header">
                             <div class="python-panel-title">
-                                <i class="fas fa-edit"></i> Python 代码编辑器
+                                <i class="fas fa-edit"></i> Python 代码编辑器喵～
                             </div>
                         </div>
                         <div class="python-code-area" id="pythonCodeArea">
@@ -2248,23 +2281,23 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                     <div class="python-editor-area">
                         <div class="python-panel-header">
                             <div class="python-panel-title">
-                                <i class="fas fa-terminal"></i> 运行结果
+                                <i class="fas fa-terminal"></i> 运行结果喵～
                             </div>
                             <div class="python-control-panel">
                                 <button class="python-btn python-btn-clear" id="pythonClearOutputBtn">
-                                    <i class="fas fa-trash-alt"></i> 清空
+                                    <i class="fas fa-trash-alt"></i> 清空喵～
                                 </button>
                             </div>
                         </div>
                         <div class="python-output-area" id="pythonOutputArea">
-                            <div class="python-output-line info">就绪 - 点击"运行代码"开始执行Python程序</div>
-                            <div class="python-output-line info">支持 input() 函数，运行时会出现输入对话框</div>
+                            <div class="python-output-line info">就绪 - 点击"运行代码"开始执行Python程序的说～</div>
+                            <div class="python-output-line info">支持 input() 函数，运行时会出现输入对话框喵～</div>
                         </div>
                     </div>
                     
                     <div class="python-library-panel">
                         <div class="python-library-title">
-                            <i class="fas fa-box-open"></i> 常用Python库（点击插入）
+                            <i class="fas fa-box-open"></i> 常用Python库（点击插入喵～）
                         </div>
                         <div class="python-libraries" id="pythonLibraries">
                             <div class="python-library-item" data-lib="math">math</div>
@@ -2289,11 +2322,11 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
         <!-- 游戏介绍部分 -->
         <section id="games" class="section">
             <div class="section-title">
-                <h2>我的游戏作品</h2>
+                <h2>我的游戏作品喵～</h2>
             </div>
             
             <!-- 全年龄游戏 -->
-            <h3 class="game-category-title">全年龄游戏</h3>
+            <h3 class="game-category-title">全年龄游戏喵～</h3>
             <div class="games">
                 <!-- 周末的诗篇 -->
                 <div class="game-card" data-game-id="1">
@@ -2302,13 +2335,13 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                     </div>
                     <div class="game-content">
                         <span class="age-rating age-all">全年龄</span>
-                        <h3>周末的诗篇</h3>
-                        <p>一款关于文学与友谊的温馨视觉小说，讲述一群年轻人在周末相聚，分享诗歌与故事的美好时光。</p>
-                        <div class="game-status">状态: 已完成</div>
+                        <h3>周末的诗篇喵～</h3>
+                        <p>一款关于文学与友谊的温馨视觉小说，讲述一群年轻人在周末相聚，分享诗歌与故事的美好时光的说～</p>
+                        <div class="game-status">状态: 已完成喵～</div>
                         <div class="game-features">
-                            <span class="feature-tag">温馨日常</span>
-                            <span class="feature-tag">文学主题</span>
-                            <span class="feature-tag">多结局</span>
+                            <span class="feature-tag">温馨日常喵～</span>
+                            <span class="feature-tag">文学主题喵～</span>
+                            <span class="feature-tag">多结局喵～</span>
                         </div>
                     </div>
                 </div>
@@ -2318,21 +2351,27 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                             <img src="images/covers/weekend_poetry.png" alt="周末的诗篇" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'200\' viewBox=\'0 0 150 200\'><rect width=\'150\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>周末的诗篇</text></svg>'">
                         </div>
                         <div class="detail-info">
-                            <span class="age-rating age-all">全年龄</span>
-                            <h3>周末的诗篇</h3>
+                            <span class="age-rating age-all">全年龄喵～</span>
+                            <h3>周末的诗篇喵～</h3>
                             <div class="detail-meta">
-                                <span class="game-status">状态: 已完成</span>
-                                <span class="game-category">分类: 全年龄</span>
+                                <span class="game-status">状态: 已完成喵～</span>
+                                <span class="game-category">分类: 全年龄喵～</span>
                             </div>
-                            <p class="detail-description">一款关于文学与友谊的温馨视觉小说，讲述一群年轻人在周末相聚，分享诗歌与故事的美好时光。</p>
+                            <p class="detail-description">一款关于文学与友谊的温馨视觉小说，讲述一群年轻人在周末相聚，分享诗歌与故事的美好时光的说～ (◕‿◕✿)</p>
                             <div class="detail-features">
-                                <h4>游戏特色</h4>
+                                <h4>游戏特色喵～</h4>
                                 <div class="features-list">
-                                    <span class="feature-tag">温馨日常</span>
-                                    <span class="feature-tag">文学主题</span>
-                                    <span class="feature-tag">多结局</span>
-                                    <span class="feature-tag">原创音乐</span>
+                                    <span class="feature-tag">温馨日常喵～</span>
+                                    <span class="feature-tag">文学主题喵～</span>
+                                    <span class="feature-tag">多结局喵～</span>
+                                    <span class="feature-tag">原创音乐喵～</span>
                                 </div>
+                            </div>
+                            <!-- 添加跳转按钮 -->
+                            <div style="margin-top: 20px;">
+                                <a href="./indexzm.html" class="game-jump-btn">
+                                    <i class="fas fa-gamepad"></i> 立即体验《周末的诗篇》喵～
+                                </a>
                             </div>
                         </div>
                         <button class="close-detail">
@@ -2340,15 +2379,15 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                         </button>
                     </div>
                     <div class="detail-notes">
-                        <h4>开发笔记</h4>
-                        <p>这是我第一次尝试制作全年龄向的视觉小说，专注于温馨的日常和深刻的友情描写。创作过程中，我深入研究了如何通过简单的对话传达深刻的情感，以及如何构建让人沉浸的文学氛围。</p>
-                        <p>这个项目的灵感来源于我高中时期与朋友们在周末相聚写诗的经历。那些美好的回忆成为了这个故事的核心。</p>
+                        <h4>开发笔记喵～</h4>
+                        <p>这是我第一次尝试制作全年龄向的视觉小说，专注于温馨的日常和深刻的友情描写的说～创作过程中，我深入研究了如何通过简单的对话传达深刻的情感，以及如何构建让人沉浸的文学氛围的说～</p>
+                        <p>这个项目的灵感来源于我高中时期与朋友们在周末相聚写诗的经历的说～那些美好的回忆成为了这个故事的核心喵～(๑´ㅂ`๑)</p>
                     </div>
                 </div>
             </div>
             
             <!-- 14+游戏 -->
-            <h3 class="game-category-title">14+ 游戏</h3>
+            <h3 class="game-category-title">14+ 游戏喵～</h3>
             <div class="games">
                 <!-- 病娇契约 -->
                 <div class="game-card" data-game-id="6">
@@ -2356,14 +2395,14 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                         <img src="images/covers/yandere_contract.png" alt="病娇契约" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'><rect width=\'400\' height=\'200\' fill=\'%23FF9800\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>病娇契约</text></svg>'">
                     </div>
                     <div class="game-content">
-                        <span class="age-rating age-14">14+</span>
-                        <h3>病娇契约</h3>
-                        <p>与病娇角色签订契约的恋爱故事，包含复杂情感关系和轻微心理恐怖元素。</p>
-                        <div class="game-status">状态: 开发中</div>
+                        <span class="age-rating age-14">14+喵～</span>
+                        <h3>病娇契约喵～</h3>
+                        <p>与病娇角色签订契约的恋爱故事，包含复杂情感关系和轻微心理恐怖元素的说～</p>
+                        <div class="game-status">状态: 开发中喵～</div>
                         <div class="game-features">
-                            <span class="feature-tag">病娇角色</span>
-                            <span class="feature-tag">契约主题</span>
-                            <span class="feature-tag">心理描写</span>
+                            <span class="feature-tag">病娇角色喵～</span>
+                            <span class="feature-tag">契约主题喵～</span>
+                            <span class="feature-tag">心理描写喵～</span>
                         </div>
                     </div>
                 </div>
@@ -2373,20 +2412,20 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                             <img src="images/covers/yandere_contract.png" alt="病娇契约" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'200\' viewBox=\'0 0 150 200\'><rect width=\'150\' height=\'200\' fill=\'%23FF9800\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>病娇契约</text></svg>'">
                         </div>
                         <div class="detail-info">
-                            <span class="age-rating age-14">14+</span>
-                            <h3>病娇契约</h3>
+                            <span class="age-rating age-14">14+喵～</span>
+                            <h3>病娇契约喵～</h3>
                             <div class="detail-meta">
-                                <span class="game-status">状态: 开发中</span>
-                                <span class="game-category">分类: 14+</span>
+                                <span class="game-status">状态: 开发中喵～</span>
+                                <span class="game-category">分类: 14+喵～</span>
                             </div>
-                            <p class="detail-description">与病娇角色签订契约的恋爱故事，包含复杂情感关系和轻微心理恐怖元素。</p>
+                            <p class="detail-description">与病娇角色签订契约的恋爱故事，包含复杂情感关系和轻微心理恐怖元素的说～</p>
                             <div class="detail-features">
-                                <h4>游戏特色</h4>
+                                <h4>游戏特色喵～</h4>
                                 <div class="features-list">
-                                    <span class="feature-tag">病娇角色</span>
-                                    <span class="feature-tag">契约主题</span>
-                                    <span class="feature-tag">心理描写</span>
-                                    <span class="feature-tag">多路线</span>
+                                    <span class="feature-tag">病娇角色喵～</span>
+                                    <span class="feature-tag">契约主题喵～</span>
+                                    <span class="feature-tag">心理描写喵～</span>
+                                    <span class="feature-tag">多路线喵～</span>
                                 </div>
                             </div>
                         </div>
@@ -2395,9 +2434,9 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                         </button>
                     </div>
                     <div class="detail-notes">
-                        <h4>开发笔记</h4>
-                        <p>正在设计复杂的角色心理和剧情分支，希望能创造出一个令人印象深刻的病娇角色。这个项目让我深入探索了人物心理的复杂性。</p>
-                        <p>在开发过程中，我研究了各种心理学理论，以确保角色的行为既有戏剧性又符合逻辑，同时保持故事的紧张感和吸引力。</p>
+                        <h4>开发笔记喵～</h4>
+                        <p>正在设计复杂的角色心理和剧情分支，希望能创造出一个令人印象深刻的病娇角色的说～这个项目让我深入探索了人物心理的复杂性喵～</p>
+                        <p>在开发过程中，我研究了各种心理学理论，以确保角色的行为既有戏剧性又符合逻辑，同时保持故事的紧张感和吸引力的说～</p>
                     </div>
                 </div>
             </div>
@@ -2406,14 +2445,14 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
         <!-- 联系方式部分 -->
         <section id="contact" class="section">
             <div class="section-title">
-                <h2>联系我</h2>
+                <h2>联系我的说～</h2>
             </div>
             <div class="contact-content">
-                <p>如果您对我的作品感兴趣，想要了解更多信息，或者有合作意向，欢迎通过以下方式联系我：</p>
+                <p>如果对我的作品感兴趣，想要了解更多信息，或者有合作意向的话，欢迎通过以下方式联系人家哦～ (｡･ω･｡)ﾉ♡</p>
                 <div class="qr-code">
                     <img src="images/wechat.png" alt="微信二维码" onerror="this.parentNode.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f0f0f0;color:#666;border-radius:12px;\'>微信二维码<br>images/wechat.png</div>';">
                 </div>
-                <p>扫描上方二维码添加我的微信</p>
+                <p>扫描上方二维码添加我的微信吧～ ٩(◕‿◕｡)۶</p>
                 <div class="social-links">
                     <a href="https://space.bilibili.com/478967440" class="social-link bilibili" target="_blank">
                         <i class="fab fa-bilibili"></i>
@@ -2428,29 +2467,29 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
         <!-- 赞助支持部分 -->
         <section id="donation" class="section">
             <div class="section-title">
-                <h2>赞助支持</h2>
+                <h2>赞助支持的说～</h2>
             </div>
             <div class="donation-content">
-                <p>家人们！求求各位赞助一下吧！！！🥺</p>
-                <p class="highlight">有你们的支持，腐竹我就能买一个服务器，给大家带来更好的游戏体验！</p>
+                <p>家人们！求求各位赞助一下人家吧！！！🥺</p>
+                <p class="highlight">有你们的支持，腐竹我就能买一个服务器，给大家带来更好的游戏体验呢！(๑•́ ₃ •̀๑)</p>
                 
                 <div class="donation-qr">
                     <img src="./pay.png" alt="收款码" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"280\" height=\"280\" viewBox=\"0 0 280 280\"><rect width=\"280\" height=\"280\" fill=\"#f0f0f0\"/><text x=\"50%\" y=\"50%\" font-size=\"20\" text-anchor=\"middle\" dy=\".3em\" fill=\"#666\">收款码</text></svg>'">
                 </div>
                 
-                <p>扫码赞助，支持腐竹继续开发好玩的游戏！</p>
+                <p>扫码赞助，支持腐竹继续开发好玩的游戏吧！拜托啦～ (。・ω・。)</p>
                 
                 <div class="donation-note">
-                    <h4>赞助说明</h4>
-                    <p>各位大佬们，你们的支持对我真的超级重要！作为一个独立开发者，服务器费用真的是一笔不小的开销。</p>
-                    <p>有了你们的赞助，我就可以：</p>
+                    <h4>赞助说明喵～</h4>
+                    <p>各位大佬们，你们的支持对人家真的超级重要！作为一个独立开发者，服务器费用真的是一笔不小的开销呢～ (；ω；)</p>
+                    <p>有了你们的赞助，人家就可以：</p>
                     <ul>
-                        <li>购买更好的服务器，让网站运行更流畅</li>
-                        <li>投入更多时间开发新游戏</li>
-                        <!-- <li>购买正版素材，让游戏质量更高</li> -->
-                        <!-- <li>实现更多创意想法，给大家带来更好玩的游戏</li> -->
+                        <li>购买更好的服务器，让网站运行更流畅喵～</li>
+                        <li>投入更多时间开发新游戏喵～</li>
+                        <!-- <li>购买正版素材，让游戏质量更高喵～</li> -->
+                        <!-- <li>实现更多创意想法，给大家带来更好玩的游戏喵～</li> -->
                     </ul>
-                    <p>每一份赞助，无论大小，都是对我最大的鼓励！感谢各位的支持！🙏</p>
+                    <p>每一份赞助，无论大小，都是对人家最大的鼓励！感谢各位的支持！🙏 (๑´`๑)♡</p>
                 </div>
             </div>
         </section>
@@ -2460,23 +2499,23 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
     <footer>
         <div class="container footer-content">
             <div class="footer-logo">ciallo0721-cmd</div>
-            <p>感谢访问我的个人博客！期待与您交流游戏开发心得</p>
+            <p>感谢访问我的个人博客！期待与您交流游戏开发心得哦～ (๑˃̵ᴗ˂̵)و</p>
             
             <!-- 添加电脑版切换按钮 -->
             <div class="desktop-switch">
                 <a href="#" class="desktop-switch-btn" id="desktopSwitch">
                     <i class="fas fa-desktop"></i>
-                    <span>切换到电脑版</span>
+                    <span>切换到电脑版喵～</span>
                 </a>
             </div>
             
-            <p class="copyright">© 2025 ciallo0721-cmd. 保留所有权利.</p>
+            <p class="copyright">© 2025 ciallo0721-cmd. 保留所有权利喵～</p>
         </div>
     </footer>
 
     <!-- 错误信息显示 -->
     <div class="error-notification" id="errorNotification">
-        <div class="error-title" id="errorTitle">错误信息</div>
+        <div class="error-title" id="errorTitle">错误信息喵～</div>
         <div class="error-code" id="errorCode">错误代码: 0000</div>
     </div>
     
@@ -2484,13 +2523,13 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
     <div class="input-dialog" id="pythonInputDialog" style="display: none;">
         <div class="input-dialog-content">
             <div class="input-dialog-title">
-                <i class="fas fa-keyboard"></i> Python程序需要输入
+                <i class="fas fa-keyboard"></i> Python程序需要输入喵～
             </div>
-            <div class="input-dialog-prompt" id="pythonInputDialogPrompt">请输入:</div>
-            <input type="text" class="input-dialog-input" id="pythonInputDialogInput" placeholder="在此输入内容..." autofocus>
+            <div class="input-dialog-prompt" id="pythonInputDialogPrompt">请输入喵～:</div>
+            <input type="text" class="input-dialog-input" id="pythonInputDialogInput" placeholder="在此输入内容喵～..." autofocus>
             <div class="input-dialog-buttons">
-                <button class="input-dialog-btn input-dialog-cancel" id="pythonInputDialogCancel">取消</button>
-                <button class="input-dialog-btn input-dialog-submit" id="pythonInputDialogSubmit">提交</button>
+                <button class="input-dialog-btn input-dialog-cancel" id="pythonInputDialogCancel">取消喵～</button>
+                <button class="input-dialog-btn input-dialog-submit" id="pythonInputDialogSubmit">提交喵～</button>
             </div>
         </div>
     </div>
@@ -2533,7 +2572,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                         <h3>${article.title}</h3>
                         <p class="article-excerpt">${article.excerpt}</p>
                         <span class="read-more">
-                            阅读全文 <i class="fas fa-arrow-right"></i>
+                            阅读全文喵～ <i class="fas fa-arrow-right"></i>
                         </span>
                         <div class="article-tags">
                             ${article.tags.map(tag => `<span class="article-tag">${tag}</span>`).join('')}
@@ -2556,8 +2595,8 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 grid.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
                         <i class="fas fa-newspaper" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.3;"></i>
-                        <h3 style="margin-bottom: 15px;">暂无文章</h3>
-                        <p>目前还没有发布文章，请稍后再来查看。</p>
+                        <h3 style="margin-bottom: 15px;">暂无文章喵～</h3>
+                        <p>目前还没有发布文章，请稍后再来查看喵～</p>
                     </div>
                 `;
                 return;
@@ -2578,7 +2617,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                         <h3>${article.title}</h3>
                         <p class="article-excerpt">${article.excerpt}</p>
                         <span class="read-more">
-                            阅读全文 <i class="fas fa-arrow-right"></i>
+                            阅读全文喵～ <i class="fas fa-arrow-right"></i>
                         </span>
                         <div class="article-tags">
                             ${article.tags.map(tag => `<span class="article-tag">${tag}</span>`).join('')}
@@ -2674,7 +2713,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
             document.body.style.overflow = ''; // 恢复背景滚动
             
             // 显示成功消息
-            showSuccess('欢迎来到开发者ciallo0721-cmd的空间！');
+            showSuccess('欢迎来到开发者ciallo0721-cmd的空间喵～！');
         }
 
         // 页面加载完成后显示弹窗
@@ -2887,13 +2926,13 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                     if (document.body.classList.contains('mobile-view')) {
                         // 切换到电脑版
                         document.body.classList.remove('mobile-view');
-                        desktopSwitch.innerHTML = '<i class="fas fa-mobile-alt"></i><span>切换到手机版</span>';
-                        showSuccess('已切换到电脑版视图');
+                        desktopSwitch.innerHTML = '<i class="fas fa-mobile-alt"></i><span>切换到手机版喵～</span>';
+                        showSuccess('已切换到电脑版视图喵～');
                     } else {
                         // 切换到手机版
                         document.body.classList.add('mobile-view');
-                        desktopSwitch.innerHTML = '<i class="fas fa-desktop"></i><span>切换到电脑版</span>';
-                        showSuccess('已切换到手机版视图');
+                        desktopSwitch.innerHTML = '<i class="fas fa-desktop"></i><span>切换到电脑版喵～</span>';
+                        showSuccess('已切换到手机版视图喵～');
                     }
                     
                     // 保存用户偏好
@@ -2904,20 +2943,20 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 const preferredView = localStorage.getItem('preferredView');
                 if (preferredView === 'mobile') {
                     document.body.classList.add('mobile-view');
-                    desktopSwitch.innerHTML = '<i class="fas fa-desktop"></i><span>切换到电脑版</span>';
+                    desktopSwitch.innerHTML = '<i class="fas fa-desktop"></i><span>切换到电脑版喵～</span>';
                 } else if (preferredView === 'desktop') {
                     document.body.classList.remove('mobile-view');
-                    desktopSwitch.innerHTML = '<i class="fas fa-mobile-alt"></i><span>切换到手机版</span>';
+                    desktopSwitch.innerHTML = '<i class="fas fa-mobile-alt"></i><span>切换到手机版喵～</span>';
                 }
                 
                 // 根据屏幕宽度自动设置初始视图
                 if (!preferredView) {
                     if (window.innerWidth < 769) {
                         document.body.classList.add('mobile-view');
-                        desktopSwitch.innerHTML = '<i class="fas fa-desktop"></i><span>切换到电脑版</span>';
+                        desktopSwitch.innerHTML = '<i class="fas fa-desktop"></i><span>切换到电脑版喵～</span>';
                     } else {
                         document.body.classList.remove('mobile-view');
-                        desktopSwitch.innerHTML = '<i class="fas fa-mobile-alt"></i><span>切换到手机版</span>';
+                        desktopSwitch.innerHTML = '<i class="fas fa-mobile-alt"></i><span>切换到手机版喵～</span>';
                     }
                 }
             }
@@ -2925,7 +2964,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
 
         // 页面加载完成后的初始化
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('网站已加载完成');
+            console.log('网站已加载完成喵～');
             
             // 初始化文章板块
             initArticles();
@@ -2941,7 +2980,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
             const images = document.querySelectorAll('img');
             images.forEach(img => {
                 img.addEventListener('error', function() {
-                    console.warn(`图片加载失败: ${this.src}`);
+                    console.warn(`图片加载失败喵～: ${this.src}`);
                 });
             });
             
@@ -3047,7 +3086,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
             // 运行Python代码
             runBtn.addEventListener('click', async function() {
                 if (isPythonRunning) {
-                    addPythonOutputLine('程序正在运行中，请等待完成...', 'info');
+                    addPythonOutputLine('程序正在运行中，请等待完成喵～...', 'info');
                     return;
                 }
                 
@@ -3057,11 +3096,11 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 outputArea.innerHTML = '';
                 
                 // 显示运行状态
-                addPythonOutputLine('正在运行Python代码...', 'info');
+                addPythonOutputLine('正在运行Python代码喵～...', 'info');
                 
                 // 禁用运行按钮并显示加载状态
                 const originalText = runBtn.innerHTML;
-                runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 运行中...';
+                runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 运行中喵～...';
                 runBtn.disabled = true;
                 isPythonRunning = true;
                 
@@ -3069,7 +3108,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                     // 执行Python代码
                     await executePythonCode(code, outputArea);
                 } catch (error) {
-                    addPythonOutputLine(`运行时错误: ${error.message}`, 'error');
+                    addPythonOutputLine(`运行时错误喵～: ${error.message}`, 'error');
                 } finally {
                     // 恢复运行按钮
                     runBtn.innerHTML = originalText;
@@ -3078,23 +3117,23 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                     
                     // 添加完成消息
                     if (currentPythonInputCallback === null) {
-                        addPythonOutputLine('程序执行完成。', 'success');
+                        addPythonOutputLine('程序执行完成喵～。', 'success');
                     }
                 }
             });
             
             // 清空编辑器
             clearBtn.addEventListener('click', function() {
-                if (confirm('确定要清空代码编辑器吗？')) {
-                    pythonEditor.setValue('# 清空后的Python编辑器\n# 开始编写你的Python代码吧！\n\nprint("Hello, Python!")');
-                    addPythonOutputLine('编辑器已清空。', 'info');
+                if (confirm('确定要清空代码编辑器喵～？')) {
+                    pythonEditor.setValue('# 清空后的Python编辑器喵～\n# 开始编写你的Python代码吧喵～！\n\nprint("Hello, Python喵～!")');
+                    addPythonOutputLine('编辑器已清空喵～。', 'info');
                 }
             });
             
             // 清空输出区域
             clearOutputBtn.addEventListener('click', function() {
                 outputArea.innerHTML = '';
-                addPythonOutputLine('输出区域已清空。', 'info');
+                addPythonOutputLine('输出区域已清空喵～。', 'info');
             });
             
             // 添加常用库导入
@@ -3107,9 +3146,9 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                     // 检查是否已导入该库
                     if (!line.includes(`import ${lib}`) && !pythonEditor.getValue().includes(`import ${lib}`)) {
                         pythonEditor.replaceSelection(`import ${lib}\n`);
-                        addPythonOutputLine(`已添加导入语句: import ${lib}`, 'info');
+                        addPythonOutputLine(`已添加导入语句喵～: import ${lib}`, 'info');
                     } else {
-                        addPythonOutputLine(`库 ${lib} 已经导入。`, 'info');
+                        addPythonOutputLine(`库 ${lib} 已经导入喵～。`, 'info');
                     }
                 });
             });
@@ -3132,7 +3171,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                     
                     // 恢复运行按钮
                     runBtn.disabled = false;
-                    runBtn.innerHTML = '<i class="fas fa-play"></i> 运行代码';
+                    runBtn.innerHTML = '<i class="fas fa-play"></i> 运行代码喵～';
                 }
             });
             
@@ -3148,10 +3187,10 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                     
                     // 恢复运行按钮
                     runBtn.disabled = false;
-                    runBtn.innerHTML = '<i class="fas fa-play"></i> 运行代码';
+                    runBtn.innerHTML = '<i class="fas fa-play"></i> 运行代码喵～';
                     isPythonRunning = false;
                     
-                    addPythonOutputLine('输入已取消，使用空字符串作为默认值。', 'info');
+                    addPythonOutputLine('输入已取消，使用空字符串作为默认值喵～。', 'info');
                 }
             });
             
@@ -3235,7 +3274,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                         const inputDialogInput = document.getElementById('pythonInputDialogInput');
                         const runBtn = document.getElementById('pythonRunBtn');
                         
-                        inputDialogPrompt.textContent = prompt || '请输入:';
+                        inputDialogPrompt.textContent = prompt || '请输入喵～:';
                         inputDialog.style.display = 'flex';
                         inputDialogInput.focus();
                         
@@ -3244,7 +3283,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                         
                         // 设置等待输入状态
                         runBtn.disabled = true;
-                        runBtn.innerHTML = '<i class="fas fa-pause"></i> 等待输入...';
+                        runBtn.innerHTML = '<i class="fas fa-pause"></i> 等待输入喵～...';
                     });
                 },
                 
@@ -3347,7 +3386,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                 execute(env);
                 
             } catch (error) {
-                addPythonOutputLine(`执行错误: ${error.message}`, 'error');
+                addPythonOutputLine(`执行错误喵～: ${error.message}`, 'error');
             }
         }
         
