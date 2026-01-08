@@ -4,24 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>网站公告</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 引入字体 */
-        @font-face {
-            font-family: 'MKHT';
-            src: url('./f/mkht.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
+        /* 从副本复制的全局样式 */
+        :root {
+            --bili-pink: #FB7299;
+            --bili-blue: #00A1D6;
+            --text-primary: #1D1D1F;
+            --text-secondary: #515154;
+            --bg-light: #F5F5F7;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'MKHT', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
             line-height: 1.6;
+            color: var(--text-primary);
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             display: flex;
@@ -29,188 +39,357 @@
             justify-content: center;
             padding: 20px;
         }
-        
+
+        /* 公告容器样式 */
         .announcement {
             background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 50px;
-            max-width: 800px;
+            padding: 60px;
+            max-width: 900px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-hover);
             text-align: center;
-            border: 1px solid rgba(251, 114, 153, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
         }
-        
+
+        .announcement::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+        }
+
         .announcement-icon {
-            font-size: 4rem;
+            font-size: 5rem;
             margin-bottom: 30px;
-            color: #FB7299;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
+
         .announcement h1 {
-            font-size: 2.5rem;
-            color: #1D1D1F;
+            font-size: 3rem;
+            color: var(--text-primary);
             margin-bottom: 30px;
-            font-weight: 600;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
         }
-        
+
+        .announcement h1::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            border-radius: 4px;
+        }
+
         .announcement-content {
-            font-size: 1.3rem;
-            color: #515154;
+            font-size: 1.4rem;
+            color: var(--text-secondary);
             line-height: 1.8;
             margin-bottom: 30px;
+            padding: 0 20px;
         }
-        
+
         .announcement-details {
             background: rgba(251, 114, 153, 0.05);
-            padding: 25px;
-            border-radius: 12px;
+            padding: 30px;
+            border-radius: 15px;
             margin: 40px 0;
-            border-left: 4px solid #FB7299;
+            border-left: 4px solid var(--bili-pink);
             text-align: left;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
-        
+
+        .announcement-details p {
+            margin-bottom: 15px;
+        }
+
+        .announcement-details p:last-child {
+            margin-bottom: 0;
+        }
+
         /* 导航栏样式 */
         .navigation {
-            margin-top: 40px;
-            padding-top: 30px;
+            margin-top: 50px;
+            padding-top: 40px;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
         }
-        
+
         .navigation h3 {
-            font-size: 1.4rem;
-            color: #1D1D1F;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
             font-weight: 600;
+            position: relative;
+            display: inline-block;
         }
-        
+
+        .navigation h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            border-radius: 4px;
+        }
+
         .nav-links {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             margin-top: 20px;
         }
-        
+
         .nav-link {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #FB7299;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 30px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
             color: white;
             text-decoration: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(251, 114, 153, 0.2);
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 6px 20px rgba(251, 114, 153, 0.3);
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--bili-blue), var(--bili-pink));
+            transition: var(--transition);
+            z-index: -1;
+        }
+
         .nav-link:hover {
-            background: #e65a85;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(251, 114, 153, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(251, 114, 153, 0.5);
         }
-        
-        .nav-link:nth-child(2) {
-            background: #4CAF50;
+
+        .nav-link:hover::before {
+            left: 0;
         }
-        
-        .nav-link:nth-child(2):hover {
-            background: #43a047;
+
+        .nav-link i {
+            font-size: 1.2rem;
         }
-        
-        .nav-link:nth-child(3) {
-            background: #2196F3;
-        }
-        
-        .nav-link:nth-child(3):hover {
-            background: #1e87dc;
-        }
-        
-        .nav-link:nth-child(4) {
-            background: #9C27B0;
-        }
-        
-        .nav-link:nth-child(4):hover {
-            background: #8a23a0;
-        }
-        
-        .nav-link:nth-child(5) {
-            background: #FF9800;
-        }
-        
-        .nav-link:nth-child(5):hover {
-            background: #f57c00;
-        }
-        
-        .nav-link:nth-child(6) {
-            background: #607D8B;
-        }
-        
-        .nav-link:nth-child(6):hover {
-            background: #546e7a;
-        }
-        
+
         .note {
-            font-size: 0.9rem;
-            color: #757575;
-            margin-top: 15px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-top: 25px;
             font-style: italic;
+            opacity: 0.8;
         }
-        
+
+        /* 滚动条优化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--bili-pink), #ff2e63);
+        }
+
+        /* 加载动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 响应式设计 */
         @media (max-width: 768px) {
             .announcement {
-                padding: 30px;
+                padding: 40px 30px;
+            }
+            
+            .announcement-icon {
+                font-size: 4rem;
             }
             
             .announcement h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+            
+            .announcement-content {
+                font-size: 1.2rem;
+                padding: 0;
+            }
+            
+            .announcement-details {
+                padding: 25px;
+                font-size: 1.1rem;
+            }
+            
+            .navigation h3 {
+                font-size: 1.5rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .nav-link {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+                padding: 14px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .announcement {
+                padding: 30px 20px;
+            }
+            
+            .announcement-icon {
+                font-size: 3rem;
+            }
+            
+            .announcement h1 {
+                font-size: 1.8rem;
             }
             
             .announcement-content {
                 font-size: 1.1rem;
             }
             
-            .nav-links {
-                flex-direction: column;
-                align-items: center;
+            .announcement-details {
+                padding: 20px;
+                font-size: 1rem;
+            }
+            
+            .navigation h3 {
+                font-size: 1.3rem;
             }
             
             .nav-link {
-                width: 100%;
-                max-width: 250px;
-                text-align: center;
+                padding: 12px 20px;
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="announcement">
-        <div class="announcement-icon">⚠️</div>
+        <div class="announcement-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
         <h1>网站公告</h1>
         <div class="announcement-content">
             由于一些校内原因，本网站将停止更新与支持。<br>
             感谢大家一直以来的关注与支持！
         </div>
         <div class="announcement-details">
-            因学校相关管理规定和学业要求，我需要将更多精力投入到学习中。<br>
-            网站所有功能和服务将暂停，感谢理解与支持。
+            <p><i class="fas fa-info-circle" style="color: var(--bili-pink); margin-right: 8px;"></i> 
+                因学校相关管理规定和学业要求，我需要将更多精力投入到学习中。</p>
+            <p><i class="fas fa-exclamation-circle" style="color: var(--bili-blue); margin-right: 8px;"></i> 
+                网站所有功能和服务将暂停，感谢理解与支持。</p>
         </div>
         
         <!-- 导航栏部分 -->
         <div class="navigation">
             <h3>其他页面链接</h3>
             <div class="nav-links">
-                <a href="1.html" class="nav-link">文章1 (1.html)</a>
-                <a href="2.html" class="nav-link">文章2 (2.html)</a>
-                <a href="3.html" class="nav-link">文章3 (3.html)</a>
-                <a href="indexzm.html" class="nav-link">旮旯game (indexzm.html)</a>
-                <a href="op.html" class="nav-link">合成大西瓜2创 (op.html)</a>
-                <a href="yituodade/www/index.html" class="nav-link">rpg游戏 (yituodade/www/index.html)</a>
+                <a href="1.html" class="nav-link">
+                    <i class="fas fa-newspaper"></i> 文章1 (1.html)
+                </a>
+                <a href="2.html" class="nav-link">
+                    <i class="fas fa-newspaper"></i> 文章2 (2.html)
+                </a>
+                <a href="3.html" class="nav-link">
+                    <i class="fas fa-newspaper"></i> 文章3 (3.html)
+                </a>
+                <a href="indexzm.html" class="nav-link">
+                    <i class="fas fa-gamepad"></i> 旮旯game (indexzm.html)
+                </a>
+                <a href="op.html" class="nav-link">
+                    <i class="fas fa-gamepad"></i> 合成大西瓜2创 (op.html)
+                </a>
+                <a href="yituodade/www/index.html" class="nav-link">
+                    <i class="fas fa-gamepad"></i> rpg游戏 (yituodade/www/index.html)
+                </a>
             </div>
             <p class="note">点击上方按钮可以访问其他页面</p>
         </div>
     </div>
+
+    <script>
+        // 添加一些交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为导航链接添加点击效果
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+            
+            // 添加键盘快捷键支持
+            document.addEventListener('keydown', function(e) {
+                // ESC键回到页面顶部
+                if (e.key === 'Escape') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                
+                // 数字键1-6快速访问链接
+                if (e.key >= '1' && e.key <= '6') {
+                    const index = parseInt(e.key) - 1;
+                    const links = document.querySelectorAll('.nav-link');
+                    if (links[index]) {
+                        links[index].click();
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
