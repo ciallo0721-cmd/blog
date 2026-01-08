@@ -240,6 +240,104 @@
             }
         }
 
+        /* iframe容器样式 */
+        .iframe-section {
+            margin-bottom: 80px;
+        }
+        
+        .iframe-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .iframe-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+        }
+        
+        .iframe-wrapper {
+            padding: 30px;
+        }
+        
+        .iframe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .iframe-item {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(251, 114, 153, 0.2);
+            transition: var(--transition);
+        }
+        
+        .iframe-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(251, 114, 153, 0.15);
+        }
+        
+        .iframe-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .iframe-header i {
+            color: var(--bili-pink);
+            font-size: 1.5rem;
+        }
+        
+        .iframe-header h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        
+        .iframe-content {
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .iframe-content iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        
+        .iframe-description {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        
+        .iframe-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #856404;
+        }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .announcement {
@@ -316,6 +414,8 @@
     </style>
 </head>
 <body>
+    <!-- Embedded music player: use valid attributes and accessibility improvements -->
+    
     <div class="announcement">
         <div class="announcement-icon">
             <i class="fas fa-exclamation-triangle"></i>
@@ -330,6 +430,11 @@
                 因学校相关管理规定和学业要求，我需要将更多精力投入到学习中。</p> -->
             <p><i class="fas fa-exclamation-circle" style="color: var(--bili-blue); margin-right: 8px;"></i> 
                 网站主页功能和服务将暂时暂停，感谢理解与支持。</p>
+        </div>
+
+        
+        <div class="music-player">
+            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="https://music.163.com/outchain/player?type=2&id=1387385598&auto=1&height=66"></iframe>
         </div>
         
         <!-- 导航栏部分 -->
