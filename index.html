@@ -65,10 +65,98 @@
             background: rgba(251, 114, 153, 0.05);
             padding: 25px;
             border-radius: 12px;
-            margin-top: 40px;
+            margin: 40px 0;
             border-left: 4px solid #FB7299;
             text-align: left;
             font-size: 1.1rem;
+        }
+        
+        /* 导航栏样式 */
+        .navigation {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .navigation h3 {
+            font-size: 1.4rem;
+            color: #1D1D1F;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .nav-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #FB7299;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(251, 114, 153, 0.2);
+        }
+        
+        .nav-link:hover {
+            background: #e65a85;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(251, 114, 153, 0.3);
+        }
+        
+        .nav-link:nth-child(2) {
+            background: #4CAF50;
+        }
+        
+        .nav-link:nth-child(2):hover {
+            background: #43a047;
+        }
+        
+        .nav-link:nth-child(3) {
+            background: #2196F3;
+        }
+        
+        .nav-link:nth-child(3):hover {
+            background: #1e87dc;
+        }
+        
+        .nav-link:nth-child(4) {
+            background: #9C27B0;
+        }
+        
+        .nav-link:nth-child(4):hover {
+            background: #8a23a0;
+        }
+        
+        .nav-link:nth-child(5) {
+            background: #FF9800;
+        }
+        
+        .nav-link:nth-child(5):hover {
+            background: #f57c00;
+        }
+        
+        .nav-link:nth-child(6) {
+            background: #607D8B;
+        }
+        
+        .nav-link:nth-child(6):hover {
+            background: #546e7a;
+        }
+        
+        .note {
+            font-size: 0.9rem;
+            color: #757575;
+            margin-top: 15px;
+            font-style: italic;
         }
         
         @media (max-width: 768px) {
@@ -82,6 +170,17 @@
             
             .announcement-content {
                 font-size: 1.1rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-link {
+                width: 100%;
+                max-width: 250px;
+                text-align: center;
             }
         }
     </style>
@@ -97,6 +196,20 @@
         <div class="announcement-details">
             因学校相关管理规定和学业要求，我需要将更多精力投入到学习中。<br>
             网站所有功能和服务将暂停，感谢理解与支持。
+        </div>
+        
+        <!-- 导航栏部分 -->
+        <div class="navigation">
+            <h3>其他页面链接</h3>
+            <div class="nav-links">
+                <a href="1.html" class="nav-link">文章1 (1.html)</a>
+                <a href="2.html" class="nav-link">文章2 (2.html)</a>
+                <a href="3.html" class="nav-link">文章3 (3.html)</a>
+                <a href="indexzm.html" class="nav-link">旮旯game (indexzm.html)</a>
+                <a href="op.html" class="nav-link">合成大西瓜2创 (op.html)</a>
+                <a href="yituodade/www/index.html" class="nav-link">rpg游戏 (yituodade/www/index.html)</a>
+            </div>
+            <p class="note">点击上方按钮可以访问其他页面</p>
         </div>
     </div>
 </body>
