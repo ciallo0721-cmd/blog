@@ -380,6 +380,30 @@
             }
         }
 
+        /* 音乐播放器样式 */
+        .music-player {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .music-player iframe {
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .music-player iframe:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .music-player-description {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
         @media (max-width: 480px) {
             .announcement {
                 padding: 30px 20px;
