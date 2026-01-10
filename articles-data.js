@@ -1,4 +1,4 @@
-// articles-data.js
+// articles-data.js 更新后内容
 window.articlesData = {
     articles: [
         {
@@ -30,9 +30,17 @@ window.articlesData = {
             fileName: "3.html",
             readTime: 15,
             featured: true,
+        },
+        {
+            id: 4,
+            title: "关于为什么主页变成了这样",
+            excerpt: "网站被攻击、性能问题大揭秘！详细解释网站主页暂时变成公告页面的原因，以及维护到1月18日的恢复计划。",
+            date: "2026-01-10",
+            tags: ["网站公告", "被攻击", "性能优化", "DDoS攻击", "维护", "GitHub Pages", "未来计划"],
+            fileName: "4.html",
+            readTime: 15,
+            featured: true,
         }
-        //test
-        //放文章的
     ],
     
     getSortedArticles: function() {
