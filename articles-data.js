@@ -40,6 +40,26 @@ window.articlesData = {
             fileName: "4.html",
             readTime: 15,
             featured: true,
+        },
+        {
+            id: 5,
+            title: "主页大更新",
+            excerpt: "修复了加载时间过长的问题,更新音乐播放器",
+            date: "2026-01-13",
+            tags: ["主页", "更新", "新设计", "用户体验", "功能改进"],
+            fileName: "5.html",
+            readTime: 7,
+            featured: true,
+        },
+        {
+            id: 6,
+            title: "闲聊",
+            excerpt: "......",
+            date: "2026-01-13",
+            tags: ["闲聊"],
+            fileName: "6.html",
+            readTime: 4,
+            featured: true,
         }
     ],
     
