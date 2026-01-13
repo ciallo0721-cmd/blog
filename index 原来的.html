@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
     <!-- 引入文章数据 -->
     <script src="articles-data.js"></script>
-    <!--2057是文章-->
-    <!--我再看看吧,ai的审查给我网站搞成屎了-->
     <link rel="icon" href="./images/avatar.png" type="image/png">
     <link rel="stylesheet" href="./css/cs.css">
     <style>
@@ -236,18 +234,13 @@
         <div class="section-title">
             <h2>背景音乐选择喵～</h2>
         </div>
-        <!-- <div class="music-grid">
-            
-        </div> -->
         <div class="music-wrapper">
             <div class="music-container">
                 <h3 class="music-title">背景音乐喵～</h3>
                 <div class="music-grid">
-                    <!-- 重新排序的背景音乐 -->
                     <div class="music-player">
                         <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="https://music.163.com/outchain/player?type=0&id=8900977421&auto=1&height=430"></iframe>
                     </div>
-                    <!--从多个音乐变成歌曲列表-->
                 </div>
                 <p style="margin-top: 20px; text-align: center; color: var(--text-secondary);">
                     <i class="fas fa-headphones"></i> 请选择一个背景音乐吧～ (注:有一些浏览器可能加载不出来哦) (๑•́ ₃ •̀๑)
@@ -295,38 +288,6 @@
             </div>
         </section>
 
-        <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // 将页面中所有 iframe 替换为"在新标签页打开"的按钮
-            document.querySelectorAll('.iframe-item').forEach(function(item) {
-                var iframe = item.querySelector('iframe');
-                if (!iframe) return;
-
-                var src = iframe.getAttribute('src') || '#';
-                var title = item.querySelector('.iframe-header h3') ? item.querySelector('.iframe-header h3').textContent.trim() : (iframe.getAttribute('title') || '打开游戏');
-
-                // 创建容器和按钮，保留视觉风格（复用已有类名）
-                var newWrapper = document.createElement('div');
-                newWrapper.className = 'iframe-content';
-
-                var link = document.createElement('a');
-                link.href = src;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
-                link.className = 'game-jump-btn';
-                link.style.display = 'inline-flex';
-                link.style.alignItems = 'center';
-                link.style.gap = '8px';
-                link.innerHTML = '<i class="fas fa-external-link-alt"></i> 在新标签页打开：' + title;
-
-                // 可选：保留原来的描述/警告区域（不移动 DOM，只替换 iframe）
-                newWrapper.appendChild(link);
-
-                // 替换 iframe 元素
-                iframe.parentNode.replaceChild(newWrapper, iframe);
-            });
-        });
-        </script>
         <!-- iframe游戏预览部分 -->
         <section id="iframes" class="section iframe-section">
             <div class="section-title">
@@ -335,45 +296,51 @@
             <div class="iframe-container">
                 <div class="iframe-wrapper">
                     <div class="iframe-grid">
-                        <!-- 第一个iframe：op.html,合成大西瓜-但是18+版本 -->
+                        <!-- 第一个游戏：合成大欧派 -->
                         <div class="iframe-item fade-in-up">
                             <div class="iframe-header">
                                 <i class="fas fa-play-circle"></i>
                                 <h3>合成大欧派</h3>
                             </div>
                             <div class="iframe-content">
-                                <iframe src="./op.html" title="合成大欧派" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+                                <a href="./op.html" target="_blank" class="game-jump-btn" style="display:inline-flex;align-items:center;gap:8px;">
+                                    <i class="fas fa-external-link-alt"></i> 在新标签页打开：合成大欧派
+                                </a>
                             </div>
                             <p class="iframe-description">合成大西瓜-但是18+版本喵～ (◕‿◕✿) </p>
                         </div>
                         
-                        <!-- 第二个iframe：外部游戏链接 -->
+                        <!-- 第二个游戏：合成大oho -->
                         <div class="iframe-item fade-in-up">
                             <div class="iframe-header">
                                 <i class="fas fa-external-link-alt"></i>
                                 <h3>合成大oho</h3>
                             </div>
                             <div class="iframe-content">
-                                <iframe src="https://play-46.erogemy.com/cmfvic6770001ha1t205lk70z/ingogame/8/play?exp=1767526885&salt=274aeedb8fd4b8fffc1d4becdd8f222f&sig=aa925a50de39242b76c9f4f663871ed2a9d1130ffd58a91b6394a617d2b4d4f7" title="合成大oho" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+                                <a href="https://play-46.erogemy.com/cmfvic6770001ha1t205lk70z/ingogame/8/play?exp=1767526885&salt=274aeedb8fd4b8fffc1d4becdd8f222f&sig=aa925a50de39242b76c9f4f663871ed2a9d1130ffd58a91b6394a617d2b4d4f7" 
+                                   target="_blank" 
+                                   class="game-jump-btn" 
+                                   style="display:inline-flex;align-items:center;gap:8px;"
+                                   onclick="return confirm('即将打开外部游戏网站，请确认是否继续？')">
+                                    <i class="fas fa-external-link-alt"></i> 在新标签页打开：合成大oho
+                                </a>
                             </div>
-                            <p class="iframe-description">这是一个外部游戏链接，提供在线游戏体验喵～ (づ｡◕‿‿◕｡)づ</p>
-                            <!-- <div class="iframe-warning">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <!-- <strong>注意喵～：</strong>此iframe加载的是外部网站内容，加载速度可能较慢，请耐心等待喵～ ->
-                            </div> -->
+                            <p class="iframe-description">外部游戏链接，加载可能较慢喵～ (づ｡◕‿‿◕｡)づ</p>
                         </div>
-                        <!-- 新增的第三个iframe：一拖大的首页 -->
+                        
+                        <!-- 第三个游戏：一个rpg游戏 -->
                         <div class="iframe-item fade-in-up">
                             <div class="iframe-header">
                                 <i class="fas fa-desktop"></i>
                                 <h3>一个rpg游戏</h3>
                             </div>
                             <div class="iframe-content">
-                                <iframe src="./yituodade/www/index.html" title="一拖大的首页" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+                                <a href="./yituodade/www/index.html" target="_blank" class="game-jump-btn" style="display:inline-flex;align-items:center;gap:8px;">
+                                    <i class="fas fa-external-link-alt"></i> 在新标签页打开：RPG游戏
+                                </a>
                             </div>
                             <p class="iframe-description">嵌入的一个rpg游戏页面喵～ (◠‿◠✿)</p>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>
@@ -432,7 +399,6 @@
                             </div>
                         </div>
                         <div class="python-code-area" id="pythonCodeArea">
-                            <!-- CodeMirror编辑器将在这里初始化 -->
                             <textarea id="pythonCode" style="display:none;"># 在线Python编辑器 - 支持真实用户输入
 # 完整的 for 循环示例
 
@@ -575,8 +541,7 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                     <div class="detail-notes">
                         <h4>开发笔记喵～</h4>
                         <p>这是我第一次尝试制作全年龄向的视觉小说，专注于温馨的日常和深刻的友情描写的说～创作过程中，我深入研究了如何通过简单的对话传达深刻的情感，以及如何构建让人沉浸的文学氛围的说～</p>
-                        <!-- <p>这个项目的灵感来源于我高中时期与朋友们在周末相聚写诗的经历的说～那些美好的回忆成为了这个故事的核心喵～(๑´ㅂ`๑)</p> -->
-                         <!--就是这里,正常来说应该是初中-->>
+                        <p>这个项目的灵感来源于我初中时期与朋友们在周末相聚写诗的经历的说～那些美好的回忆成为了这个故事的核心喵～(๑´ㅂ`๑)</p>
                     </div>
                 </div>
             </div>
@@ -681,8 +646,6 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
                     <ul>
                         <li>购买更好的服务器，让网站运行更流畅喵～</li>
                         <li>投入更多时间开发新游戏喵～</li>
-                        <!-- <li>购买正版素材，让游戏质量更高喵～</li> -->
-                        <!-- <li>实现更多创意想法，给大家带来更好玩的游戏喵～</li> -->
                     </ul>
                     <p>每一份赞助，无论大小，都是对人家最大的鼓励！感谢各位的支持！🙏 (๑´`๑)♡</p>
                 </div>
@@ -1180,6 +1143,11 @@ print(f"\n总共打印了 {count} 个数字")</textarea>
             images.forEach(img => {
                 img.addEventListener('error', function() {
                     console.warn(`图片加载失败喵～: ${this.src}`);
+                    // 显示备用方案
+                    if (!this.onerrorCalled) {
+                        this.onerrorCalled = true;
+                        showError('部分图片加载失败', 'IMG_LOAD_ERR');
+                    }
                 });
             });
             
