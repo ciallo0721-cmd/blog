@@ -60,7 +60,17 @@ window.articlesData = {
             fileName: "6.html",
             readTime: 4,
             featured: true,
-        }
+        },
+        {
+              id: 7,
+              title: "新歌姬发布",
+              excerpt: "新歌姬发布：沙雕の贤者V2 正式上线！",
+              date: "2026-01-17",
+              tags: ["UTAU","虚拟歌姬","沙雕の贤者","音源发布"],
+              fileName: "7.html",
+              readTime: 3,
+              featured: true,
+       },
     ],
     
     getSortedArticles: function() {

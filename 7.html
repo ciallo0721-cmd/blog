@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新歌姬发布 - ciallo0721-cmd的文章</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="articles-data.js"></script>
+    <link rel="stylesheet" href="./css/wz.css">
+    <link rel="stylesheet" href="./css/share.css">
+</head>
+<!-- 在html中，我们保留静态的文章内容，然后修改JavaScript,不需要补充content字段 -->
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i> 开发者ciallo0721-cmd的空间
+            </a>
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </div>
+    </nav>
+
+    <!-- 文章内容 -->
+    <main class="container article-detail-container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="article-number" id="articleNumber">文章 #007</div>
+                <h1 class="article-title" id="articleTitle">新歌姬发布：沙雕の贤者V2 正式上线！</h1>
+                
+                <p class="article-intro" id="articleIntro">大家好，我是ciallo0721-cmd！昨天我完成了一个全新的UTAU音源——「沙雕の贤者V2」，今天正式向大家发布！</p>
+                
+                <div class="article-meta">
+                    <div class="article-date">
+                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2026-01-17</span>
+                    </div>
+                    <div class="article-date">
+                        <i class="far fa-clock"></i> 阅读时间: <span id="readTime">约3分钟</span>
+                    </div>
+                </div>
+                
+                <div class="article-tags" id="articleTags">
+                    <span class="article-tag">UTAU</span>
+                    <span class="article-tag">虚拟歌姬</span>
+                    <span class="article-tag">沙雕の贤者</span>
+                    <span class="article-tag">音源发布</span>
+                </div>
+            </header>
+            
+            <div class="article-content" id="7">
+                <!-- 公告内容 -->
+                <h2>【新歌姬发布】沙雕の贤者V2 正式上线！</h2>
+                
+                <p>大家好，我是ciallo0721-cmd！昨天我完成了一个全新的UTAU音源——<strong>「沙雕の贤者V2」</strong>，今天正式向大家发布！</p>
+                
+                <p>这个音源是一位自带"相声BGM"的男声音源，擅长将正经歌曲变成欢乐向鬼畜，适合用来制作整活、吐槽、沙雕向的音乐作品。如果你喜欢轻松搞笑的创作氛围，他绝对会是你的好搭档！</p>
+                
+                <h3>✨ 核心特色：</h3>
+                <ul>
+                    <li>✅ 情绪自适应引擎（欢乐模式常驻）</li>
+                    <li>✅ 自带"防抑郁光环"，调校过程绝不枯燥</li>
+                    <li>✅ 支持日语（塑料级），自带沙雕能量</li>
+                    <li>✅ 兼容常见歌声合成软件（如VOCALOID, UTAU等）</li>
+                </ul>
+                
+                <!-- <h3>📦 获取方式：</h3>
+                <p>你可以在我的GitHub仓库下载这个音源文件，附有详细的安装说明与使用建议。</p> -->
+                
+                <h3>📌 注意：</h3>
+                <blockquote>
+                    使用前请务必阅读免责声明，本音源不适用于严肃正剧，否则可能触发"反向调教"模式哦！
+                </blockquote>
+                
+                <!-- <h3>🎧 试听 & 下载链接：</h3>
+                <pre><code>// 此处可放置你的Demo试听链接与下载地址
+// GitHub仓库：https://github.com/ciallo0721-cmd/shadiao-xianzhe-v2
+// 试听Demo：https://soundcloud.com/your-demo-link</code></pre> -->
+                
+                <h3>反馈与支持</h3>
+                <p>如果你使用后有任何反馈或想分享作品，欢迎通过邮件或社交媒体联系我！期待听到大家的创作～</p>
+                
+                <p>最后，感谢每一位支持我的小伙伴！让我们一起用歌声（和笑声）创造快乐吧！</p>
+                
+                <hr>
+                
+                <h3>声库基本信息</h3>
+                <p><strong>声库名称：</strong>[沙雕の贤者].V2</p>
+                <p><strong>性别：</strong>男 (但请不要期待普通的帅气男声)</p>
+                <p><strong>声音提供者：</strong>管哥 (据说是一位在录音棚里笑场了87次的神秘男子)</p>
+                <p><strong>发布日期：</strong>2026年1月16日</p>
+                <p><strong>语言支持：</strong>日语(塑料级)</p>
+            </div>
+            
+            <!-- 分享按钮 -->
+            <div style="text-align: center;">
+                <button class="share-btn" id="shareButton">
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                </button>
+            </div>
+        </article>
+        
+        <!-- 文章导航 -->
+        <div class="article-navigation" id="articleNavigation">
+            <!-- 将通过JavaScript动态生成 -->
+            <a href="javascript:void(0)" class="nav-btn prev disabled">
+                <i class="fas fa-chevron-left"></i>
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                    <div>已是第一篇</div>
+                </div>
+            </a>
+            <a href="javascript:void(0)" class="nav-btn next disabled">
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                    <div>已是最后一篇</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+        <!-- 推荐文章 -->
+        <div class="related-articles" id="relatedArticles">
+            <h3 class="related-title">推荐文章</h3>
+            <div class="related-grid" id="relatedGrid">
+                <!-- 将通过JavaScript动态生成 -->
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例1</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">111</span>
+                        <span class="related-tag">111</span>
+                    </div>
+                </a>
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例2</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">教程</span>
+                        <span class="related-tag">C#</span>
+                    </div>
+                </a>
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例3</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">游戏开发</span>
+                        <span class="related-tag">动画</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 分享弹窗 -->
+    <div class="share-modal" id="shareModal">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3 class="share-modal-title">
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                </h3>
+                <button class="share-close-btn" id="closeShareModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="share-text" id="shareText">
+                快来看看这篇文章: https://ciallo0721-cmd.github.io/blog/{编号}.html
+            </div>
+            <div class="share-actions">
+                <button class="share-copy-btn" id="copyShareText">
+                    <i class="far fa-copy"></i> 复制分享链接
+                </button>
+                <button class="share-close-modal-btn" id="closeShareModalBtn">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
+            <p>感谢阅读我的文章！期待与您交流开发心得</p>
+        </div>
+    </footer>
+
+    <script src="./css/wz/7/wzjsid7.js"></script>
+    <!-- 实际使用时, 请确保脚本路径正确并已加载所需的库。 -->
+    <!-- ./css/wz/{文章id}/wzjsid{换成id}.js  -->
+</body>
+</html>
