@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更多游戏 - ciallo0721-cmd的博客</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 全局样式 */
+        :root {
+            --bili-pink: #FB7299;
+            --bili-blue: #00A1D6;
+            --text-primary: #1D1D1F;
+            --text-secondary: #515154;
+            --bg-light: #F5F5F7;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --game-green: #4CAF50;
+            --game-yellow: #FFC107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 导航栏 */
+        nav {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--bili-pink);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+            color: var(--bili-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover::before {
+            left: 0;
+        }
+
+        .nav-links a i {
+            font-size: 1.1rem;
+        }
+
+        /* 头部区域 */
+        header {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 1000,50 1000,100 0,100"/></svg>') bottom center no-repeat;
+            background-size: cover;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-content h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #e0f7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-content p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 游戏列表容器 */
+        .games-main-container {
+            padding: 40px 0 80px;
+        }
+
+        .games-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .games-header h2 {
+            font-size: 2.4rem;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .games-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            border-radius: 4px;
+        }
+
+        .games-count {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-top: 30px;
+        }
+
+        .games-count .highlight {
+            color: var(--bili-pink);
+            font-weight: 600;
+        }
+
+        /* 特色游戏横幅 */
+        .featured-game {
+            background: linear-gradient(135deg, rgba(251, 114, 153, 0.1), rgba(0, 161, 214, 0.1));
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .featured-game:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .featured-game-image {
+            width: 40%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .featured-game-content {
+            padding: 40px;
+            width: 60%;
+        }
+
+        .featured-game-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .featured-game-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .featured-game-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .featured-game-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .featured-game-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(251, 114, 153, 0.4);
+        }
+
+        /* 游戏网格 */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .game-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .game-content {
+            padding: 25px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .game-title {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            line-height: 1.4;
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .game-rating {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--game-yellow);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .game-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+        }
+
+        .game-platforms {
+            display: flex;
+            gap: 8px;
+        }
+
+        .game-platform {
+            background: rgba(0, 161, 214, 0.1);
+            color: var(--bili-blue);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .game-size {
+            color: var(--text-secondary);
+        }
+
+        .game-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .game-tag {
+            background: rgba(251, 114, 153, 0.1);
+            color: var(--bili-pink);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(251, 114, 153, 0.2);
+        }
+
+        .game-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .play-button {
+            color: var(--bili-pink);
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .game-downloads {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .game-card:hover .play-button i {
+            transform: translateX(5px);
+        }
+
+        /* 搜索和筛选区域 */
+        .games-filters {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--bili-pink);
+            box-shadow: 0 0 0 3px rgba(251, 114, 153, 0.1);
+        }
+
+        .search-button {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(251, 114, 153, 0.4);
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+        }
+
+        .filter-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-tag {
+            background: rgba(251, 114, 153, 0.1);
+            color: var(--bili-pink);
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid rgba(251, 114, 153, 0.2);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-tag:hover, .filter-tag.active {
+            background: var(--bili-pink);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--bili-pink);
+        }
+
+        /* 页脚 */
+        footer {
+            background: linear-gradient(135deg, var(--text-primary), #2D2D2F);
+            color: white;
+            text-align: center;
+            padding: 50px 0 30px;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--bili-pink);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        footer p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+            font-size: 1.05rem;
+        }
+
+        .back-home {
+            margin-top: 25px;
+        }
+
+        .back-home a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .back-home a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            header {
+                padding: 60px 0 40px;
+            }
+            
+            .header-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .games-header h2 {
+                font-size: 2rem;
+            }
+            
+            .featured-game {
+                flex-direction: column;
+            }
+            
+            .featured-game-image {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .featured-game-content {
+                width: 100%;
+                padding: 25px;
+            }
+            
+            .featured-game-title {
+                font-size: 1.5rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .search-button {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header-content p {
+                font-size: 1rem;
+            }
+            
+            .games-header h2 {
+                font-size: 1.7rem;
+            }
+            
+            .game-content {
+                padding: 20px;
+            }
+            
+            .game-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* 滚动条优化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--bili-pink), #ff2e63);
+        }
+
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-gamepad"></i> ciallo0721-cmd
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html"><i class="fas fa-home"></i> 首页</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 头部 -->
+    <header>
+        <div class="container header-content">
+            <h1>更多游戏</h1>
+            <p>探索我的游戏开发作品和独立游戏项目</p>
+        </div>
+    </header>
+
+    <!-- 游戏列表 -->
+    <main class="container games-main-container">
+        <!-- 特色游戏 -->
+        <div class="featured-game fade-in-up">
+            <img src="../images/covers/weekend_poetry.png" alt="周末的诗篇" class="featured-game-image">
+            <div class="featured-game-content">
+                <span class="featured-game-badge">精选游戏</span>
+                <h2 class="featured-game-title">周末的诗篇</h2>
+                <p class="featured-game-description">
+                    这是一款视觉小说
+                </p>
+                <a href="../indexzm.html" class="featured-game-button">
+                    <i class="fas fa-play-circle"></i> 立即体验
+                </a>
+            </div>
+        </div>
+
+        <!-- 搜索和筛选 -->
+        <div class="games-filters">
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="搜索游戏名称、描述或标签...">
+                <button id="searchButton" class="search-button">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+            
+            <div class="filter-section">
+                <h3>游戏类型</h3>
+                <div class="filter-tags" id="typeTags">
+                    <!-- 类型标签将通过JavaScript动态生成 -->
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <h3>游戏平台</h3>
+                <div class="filter-tags" id="platformTags">
+                    <!-- 平台标签将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 游戏列表头部 -->
+        <div class="games-header">
+            <h2>所有游戏</h2>
+            <p class="games-count">共 <span class="highlight" id="gameCount">0</span> 款游戏</p>
+        </div>
+
+        <!-- 游戏网格 -->
+        <div class="games-grid" id="gamesGrid">
+            <!-- 游戏卡片将通过JavaScript动态生成 -->
+        </div>
+
+        <!-- 无结果提示 -->
+        <div class="no-results" id="noResults">
+            <i class="fas fa-gamepad"></i>
+            <h3>未找到相关游戏</h3>
+            <p>请尝试其他搜索关键词或筛选条件</p>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">ciallo0721-cmd</div>
+            <p>感谢访问我的游戏作品集！这里展示了我独立开发的游戏项目</p>
+            
+            <div class="back-home">
+                <a href="../index.html">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>返回首页</span>
+                </a>
+            </div>
+            
+            <p class="copyright">© 2026 ciallo0721-cmd. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 游戏数据
+        const gamesData = [
+            {
+                id: 1,
+                title: "周末的诗篇",
+                description: "一款视觉小说。",
+                image: "../images/covers/weekend_poetry.png",
+                rating: N/A,
+                downloads: "(没对外开放)",
+                size: "180MB",
+                platforms: ["PC", "Mac","Android"],
+                tags: ["视觉小说", "独立游戏"],
+                type: "剧情向",
+                link: "../indexzm.html",
+                featured: true  // 这个游戏在顶部特色区域展示，不在下面的网格中显示
+            },
+            
+        ];
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('游戏列表页面已加载完成');
+            
+            const gamesGrid = document.getElementById('gamesGrid');
+            const gameCount = document.getElementById('gameCount');
+            const typeTags = document.getElementById('typeTags');
+            const platformTags = document.getElementById('platformTags');
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const noResults = document.getElementById('noResults');
+            
+            // 存储所有标签
+            let allTypes = [];
+            let allPlatforms = [];
+            let activeTypeFilters = new Set();
+            let activePlatformFilters = new Set();
+            let currentSearch = '';
+            
+            // 初始化页面
+            function initPage() {
+                // 提取所有游戏类型和平台
+                extractAllFilters();
+                
+                // 生成过滤器
+                generateFilterTags();
+                
+                // 显示所有游戏（排除特色游戏，因为已单独展示）
+                const regularGames = gamesData.filter(game => !game.featured);
+                displayGames(regularGames);
+                
+                // 更新游戏数量
+                updateGameCount(regularGames.length);
+            }
+            
+            // 提取所有游戏类型和平台
+            function extractAllFilters() {
+                const typeSet = new Set();
+                const platformSet = new Set();
+                
+                gamesData.forEach(game => {
+                    typeSet.add(game.type);
+                    game.platforms.forEach(platform => {
+                        platformSet.add(platform);
+                    });
+                });
+                
+                allTypes = Array.from(typeSet).sort();
+                allPlatforms = Array.from(platformSet).sort();
+            }
+            
+            // 生成过滤器标签
+            function generateFilterTags() {
+                typeTags.innerHTML = '';
+                platformTags.innerHTML = '';
+                
+                // 添加"全部类型"标签
+                const allTypeTag = document.createElement('div');
+                allTypeTag.className = 'filter-tag active';
+                allTypeTag.textContent = '全部类型';
+                allTypeTag.dataset.filter = 'type';
+                allTypeTag.dataset.value = '全部类型';
+                allTypeTag.addEventListener('click', () => {
+                    activeTypeFilters.clear();
+                    document.querySelectorAll('.filter-tag[data-filter="type"]').forEach(t => t.classList.remove('active'));
+                    allTypeTag.classList.add('active');
+                    filterGames();
+                });
+                typeTags.appendChild(allTypeTag);
+                
+                // 添加其他类型标签
+                allTypes.forEach(type => {
+                    const tagElement = document.createElement('div');
+                    tagElement.className = 'filter-tag';
+                    tagElement.textContent = type;
+                    tagElement.dataset.filter = 'type';
+                    tagElement.dataset.value = type;
+                    tagElement.addEventListener('click', () => {
+                        tagElement.classList.toggle('active');
+                        
+                        if (tagElement.classList.contains('active')) {
+                            activeTypeFilters.add(type);
+                        } else {
+                            activeTypeFilters.delete(type);
+                        }
+                        
+                        // 如果没有选中的类型，激活"全部类型"
+                        if (activeTypeFilters.size === 0) {
+                            document.querySelector('.filter-tag[data-filter="type"][data-value="全部类型"]').classList.add('active');
+                        } else {
+                            document.querySelector('.filter-tag[data-filter="type"][data-value="全部类型"]').classList.remove('active');
+                        }
+                        
+                        filterGames();
+                    });
+                    typeTags.appendChild(tagElement);
+                });
+                
+                // 添加"全部平台"标签
+                const allPlatformTag = document.createElement('div');
+                allPlatformTag.className = 'filter-tag active';
+                allPlatformTag.textContent = '全部平台';
+                allPlatformTag.dataset.filter = 'platform';
+                allPlatformTag.dataset.value = '全部平台';
+                allPlatformTag.addEventListener('click', () => {
+                    activePlatformFilters.clear();
+                    document.querySelectorAll('.filter-tag[data-filter="platform"]').forEach(t => t.classList.remove('active'));
+                    allPlatformTag.classList.add('active');
+                    filterGames();
+                });
+                platformTags.appendChild(allPlatformTag);
+                
+                // 添加其他平台标签
+                allPlatforms.forEach(platform => {
+                    const tagElement = document.createElement('div');
+                    tagElement.className = 'filter-tag';
+                    tagElement.textContent = platform;
+                    tagElement.dataset.filter = 'platform';
+                    tagElement.dataset.value = platform;
+                    tagElement.addEventListener('click', () => {
+                        tagElement.classList.toggle('active');
+                        
+                        if (tagElement.classList.contains('active')) {
+                            activePlatformFilters.add(platform);
+                        } else {
+                            activePlatformFilters.delete(platform);
+                        }
+                        
+                        // 如果没有选中的平台，激活"全部平台"
+                        if (activePlatformFilters.size === 0) {
+                            document.querySelector('.filter-tag[data-filter="platform"][data-value="全部平台"]').classList.add('active');
+                        } else {
+                            document.querySelector('.filter-tag[data-filter="platform"][data-value="全部平台"]').classList.remove('active');
+                        }
+                        
+                        filterGames();
+                    });
+                    platformTags.appendChild(tagElement);
+                });
+            }
+            
+            // 显示游戏列表
+            function displayGames(games) {
+                gamesGrid.innerHTML = '';
+                
+                if (games.length === 0) {
+                    noResults.style.display = 'block';
+                    return;
+                }
+                
+                noResults.style.display = 'none';
+                
+                games.forEach((game, index) => {
+                    const gameCard = document.createElement('a');
+                    gameCard.href = game.link;
+                    gameCard.className = 'game-card fade-in-up';
+                    gameCard.style.animationDelay = `${index * 0.1}s`;
+                    
+                    // 生成星级评分
+                    let stars = '';
+                    const fullStars = Math.floor(game.rating);
+                    const hasHalfStar = game.rating % 1 >= 0.5;
+                    
+                    for (let i = 0; i < fullStars; i++) {
+                        stars += '<i class="fas fa-star"></i>';
+                    }
+                    
+                    if (hasHalfStar) {
+                        stars += '<i class="fas fa-star-half-alt"></i>';
+                    }
+                    
+                    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                    for (let i = 0; i < emptyStars; i++) {
+                        stars += '<i class="far fa-star"></i>';
+                    }
+                    
+                    gameCard.innerHTML = `
+                        <img src="${game.image}" alt="${game.title}" class="game-image">
+                        <div class="game-content">
+                            <div class="game-header">
+                                <h3 class="game-title">${game.title}</h3>
+                                <div class="game-rating">
+                                    <span>${game.rating}</span>
+                                    ${stars}
+                                </div>
+                            </div>
+                            <p class="game-description">${game.description}</p>
+                            <div class="game-meta">
+                                <div class="game-platforms">
+                                    ${game.platforms.map(platform => `<span class="game-platform">${platform}</span>`).join('')}
+                                </div>
+                                <div class="game-size">${game.size}</div>
+                            </div>
+                            <div class="game-tags">
+                                ${game.tags.map(tag => `<span class="game-tag">${tag}</span>`).join('')}
+                            </div>
+                            <div class="game-footer">
+                                <span class="play-button">
+                                    开始游戏 <i class="fas fa-arrow-right"></i>
+                                </span>
+                                <span class="game-downloads">
+                                    <i class="fas fa-download"></i> ${game.downloads}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    gamesGrid.appendChild(gameCard);
+                });
+            }
+            
+            // 过滤游戏
+            function filterGames() {
+                let filteredGames = gamesData.filter(game => !game.featured);
+                
+                // 应用类型过滤
+                if (activeTypeFilters.size > 0) {
+                    filteredGames = filteredGames.filter(game => {
+                        return activeTypeFilters.has(game.type);
+                    });
+                }
+                
+                // 应用平台过滤
+                if (activePlatformFilters.size > 0) {
+                    filteredGames = filteredGames.filter(game => {
+                        return game.platforms.some(platform => activePlatformFilters.has(platform));
+                    });
+                }
+                
+                // 应用搜索过滤
+                if (currentSearch.trim() !== '') {
+                    const searchTerm = currentSearch.toLowerCase().trim();
+                    filteredGames = filteredGames.filter(game => {
+                        return (
+                            game.title.toLowerCase().includes(searchTerm) ||
+                            game.description.toLowerCase().includes(searchTerm) ||
+                            game.tags.some(tag => tag.toLowerCase().includes(searchTerm)) ||
+                            game.type.toLowerCase().includes(searchTerm)
+                        );
+                    });
+                }
+                
+                // 显示过滤后的游戏
+                displayGames(filteredGames);
+                
+                // 更新游戏数量
+                updateGameCount(filteredGames.length);
+            }
+            
+            // 更新游戏数量
+            function updateGameCount(count) {
+                gameCount.textContent = count;
+            }
+            
+            // 搜索功能
+            function performSearch() {
+                currentSearch = searchInput.value;
+                filterGames();
+            }
+            
+            // 事件监听
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // 清空搜索
+            document.addEventListener('click', function(event) {
+                if (event.target.classList.contains('clear-search')) {
+                    searchInput.value = '';
+                    currentSearch = '';
+                    filterGames();
+                }
+            });
+            
+            // 初始化页面
+            initPage();
+            
+            // 键盘快捷键
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+F 聚焦搜索框
+                if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+                
+                // ESC 清空搜索
+                if (e.key === 'Escape') {
+                    searchInput.value = '';
+                    currentSearch = '';
+                    filterGames();
+                }
+            });
+            
+            // 添加滚动动画效果
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in-up');
+                    }
+                });
+            }, observerOptions);
+            
+            // 观察需要动画的元素
+            const animatedElements = document.querySelectorAll('.game-card, .featured-game');
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
