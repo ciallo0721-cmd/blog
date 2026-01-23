@@ -305,133 +305,408 @@ print("\n代码执行完毕，感谢使用喵～！")</textarea>
         </section>
 
         <!-- 游戏介绍部分 -->
-        <section id="games" class="section">
-            <div class="section-title">
-                <h2>我的游戏作品喵～</h2>
+        <section id="games" class="section" style="
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 50px 20px;
+            border-radius: 25px;
+            margin: 50px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        ">
+            <!-- 装饰性背景元素 -->
+            <div style="
+                position: absolute;
+                top: -50px;
+                right: -50px;
+                width: 200px;
+                height: 200px;
+                background: linear-gradient(45deg, rgba(106, 17, 203, 0.1) 0%, rgba(255, 107, 157, 0.1) 100%);
+                border-radius: 50%;
+                z-index: 0;
+            "></div>
+            <div style="
+                position: absolute;
+                bottom: -30px;
+                left: -30px;
+                width: 150px;
+                height: 150px;
+                background: linear-gradient(45deg, rgba(37, 117, 252, 0.1) 0%, rgba(69, 199, 209, 0.1) 100%);
+                border-radius: 50%;
+                z-index: 0;
+            "></div>
+            
+            <div class="section-title" style="text-align: center; margin-bottom: 50px; position: relative; z-index: 1;">
+                <h2 style="
+                    display: inline-block;
+                    background: linear-gradient(45deg, #ff6b9d, #4ecdc4, #45b7d1, #96c93d);
+                    background-size: 400% 400%;
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                    padding: 15px 40px;
+                    font-size: 2.5rem;
+                    animation: gradientShift 5s ease infinite;
+                    position: relative;
+                    border-radius: 15px;
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                    border: 2px solid rgba(255, 255, 255, 0.3);
+                ">我的游戏作品喵～</h2>
+                <p style="
+                    color: #666;
+                    margin-top: 15px;
+                    font-size: 1.1rem;
+                    max-width: 800px;
+                    margin-left: auto;
+                    margin-right: auto;
+                ">点击游戏卡片查看详细介绍，支持腐竹继续开发的说～ (๑>ᴗ<๑)</p>
             </div>
 
+            <style>
+                @keyframes gradientShift {
+                    0% { background-position: 0% 50%; }
+                    50% { background-position: 100% 50%; }
+                    100% { background-position: 0% 50%; }
+                }
+                
+                .games-section-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    width: 100%;
+                    position: relative;
+                    z-index: 1;
+                }
+                
+                .desktop-switch {
+                    text-align: center;
+                    margin: 30px 0;
+                }
+                
+                .desktop-switch-btn {
+                    background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+                    color: white;
+                    padding: 15px 30px;
+                    border-radius: 30px;
+                    text-decoration: none;
+                    font-weight: bold;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+                    font-size: 1.1rem;
+                    position: relative;
+                    overflow: hidden;
+                }
+                
+                .desktop-switch-btn:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 6px 20px rgba(106, 17, 203, 0.4);
+                }
+                
+                .desktop-switch-btn:active {
+                    transform: translateY(1px);
+                }
+                
+                .desktop-switch-btn::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                    transition: 0.5s;
+                }
+                
+                .desktop-switch-btn:hover::after {
+                    left: 100%;
+                }
+            </style>
 
-            <div class="desktop-switch">
-                <a href="./gamee/more.html" class="desktop-switch-btn" id="desktopSwitch">
-                    <i class="fas fa-desktop"></i>
-                    <span>游戏选择喵～</span>
-                </a>
-            </div>
-            
-            <!-- 全年龄游戏 -->
-            <h3 class="game-category-title">全年龄游戏喵～</h3>
-            <div class="games">
-                <!-- 周末的诗篇 -->
-                <div class="game-card" data-game-id="1">
-                    <div class="game-image">
-                        <img src="images/covers/weekend_poetry.png" alt="周末的诗篇" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'><rect width=\'400\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>周末的诗篇</text></svg>'">
-                    </div>
-                    <div class="game-content">
-                        <span class="age-rating age-all">全年龄</span>
-                        <h3>周末的诗篇喵～</h3>
-                        <p>一款关于文学与友谊的温馨视觉小说，讲述一群年轻人在周末相聚，分享诗歌与故事的美好时光的说～</p>
-                        <div class="game-status">状态: 已完成喵～</div>
-                        <div class="game-features">
-                            <span class="feature-tag">温馨日常喵～</span>
-                            <span class="feature-tag">文学主题喵～</span>
-                            <span class="feature-tag">多结局喵～</span>
-                        </div>
-                    </div>
+            <div class="games-section-container">
+                <div class="desktop-switch">
+                    <a href="./gamee/more.html" class="desktop-switch-btn" id="desktopSwitch">
+                        <i class="fas fa-desktop"></i>
+                        <span>点击查看更多游戏选择喵～</span>
+                    </a>
                 </div>
-                <div class="game-detail-expanded" id="detail-1">
-                    <div class="detail-header">
-                        <div class="detail-cover">
-                            <img src="images/covers/weekend_poetry.png" alt="周末的诗篇" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'200\' viewBox=\'0 0 150 200\'><rect width=\'150\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>周末的诗篇</text></svg>'">
-                        </div>
-                        <div class="detail-info">
-                            <span class="age-rating age-all">全年龄喵～</span>
-                            <h3>周末的诗篇喵～</h3>
-                            <div class="detail-meta">
-                                <span class="game-status">状态: 已完成喵～</span>
-                                <span class="game-category">分类: 全年龄喵～</span>
+                
+                <!-- 全年龄游戏 -->
+                <div style="width: 100%; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;">
+                    <h3 class="game-category-title" style="
+                        text-align: center;
+                        color: #6a11cb;
+                        font-size: 1.8rem;
+                        margin: 30px 0 20px;
+                        padding: 15px;
+                        background: linear-gradient(90deg, rgba(106, 17, 203, 0.1) 0%, rgba(37, 117, 252, 0.1) 100%);
+                        border-radius: 15px;
+                        border-left: 5px solid #6a11cb;
+                        border-right: 5px solid #2575fc;
+                        position: relative;
+                        overflow: hidden;
+                    ">
+                        <span style="position: relative; z-index: 2;">全年龄游戏喵～</span>
+                        <div style="
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+                            animation: shine 3s infinite;
+                        "></div>
+                    </h3>
+                    
+                    <style>
+                        @keyframes shine {
+                            0% { transform: translateX(-100%); }
+                            100% { transform: translateX(100%); }
+                        }
+                    </style>
+                    
+                    <div class="games" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; margin-bottom: 40px;">
+                        <!-- 周末的诗篇 -->
+                        <div class="game-card" data-game-id="1" style="
+                            max-width: 500px;
+                            border-radius: 20px;
+                            overflow: hidden;
+                            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                            transition: all 0.3s ease;
+                            background: white;
+                            position: relative;
+                        ">
+                            <div class="game-image" style="overflow: hidden; height: 250px;">
+                                <img src="images/covers/weekend_poetry.png" alt="周末的诗篇" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'><rect width=\'400\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>周末的诗篇</text></svg>'" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;">
                             </div>
-                            <p class="detail-description">一款关于文学与友谊的温馨视觉小说，讲述一群年轻人在周末相聚，分享诗歌与故事的美好时光的说～ (◕‿◕✿)</p>
-                            <div class="detail-features">
-                                <h4>游戏特色喵～</h4>
-                                <div class="features-list">
-                                    <span class="feature-tag">温馨日常喵～</span>
-                                    <span class="feature-tag">文学主题喵～</span>
-                                    <span class="feature-tag">多结局喵～</span>
-                                    <span class="feature-tag">原创音乐喵～</span>
-                                </div>
-                            </div>
-                            <!-- 添加跳转按钮 -->
-                            <div style="margin-top: 20px;">
-                                <a href="./indexzm.html" class="game-jump-btn">
-                                    <i class="fas fa-gamepad"></i> 立即体验《周末的诗篇》喵～
-                                </a>
-                            </div>
-                        </div>
-                        <button class="close-detail">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="detail-notes">
-                        <h4>开发笔记喵～</h4>
-                        <p>这是我第一次尝试制作全年龄向的视觉小说，专注于温馨的日常和深刻的友情描写的说～创作过程中，我深入研究了如何通过简单的对话传达深刻的情感，以及如何构建让人沉浸的文学氛围的说～</p>
-                        <p>这个项目的灵感来源于我初中时期与朋友们在周末相聚写诗的经历的说～那些美好的回忆成为了这个故事的核心喵～(๑´ㅂ`๑)</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 14+游戏 -->
-            <h3 class="game-category-title">14+ 游戏喵～</h3>
-            <div class="games">
-                <!-- 病娇契约 -->
-                <div class="game-card" data-game-id="6">
-                    <div class="game-image">
-                        <img src="images/covers/yandere_contract.png" alt="病娇契约" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'><rect width=\'400\' height=\'200\' fill=\'%23FF9800\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>病娇契约</text></svg>'">
-                    </div>
-                    <div class="game-content">
-                        <span class="age-rating age-14">14+喵～</span>
-                        <h3>病娇契约喵～</h3>
-                        <p>与病娇角色签订契约的恋爱故事，包含复杂情感关系和轻微心理恐怖元素的说～</p>
-                        <div class="game-status">状态: 开发中喵～</div>
-                        <div class="game-features">
-                            <span class="feature-tag">病娇角色喵～</span>
-                            <span class="feature-tag">契约主题喵～</span>
-                            <span class="feature-tag">心理描写喵～</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="game-detail-expanded" id="detail-6">
-                    <div class="detail-header">
-                        <div class="detail-cover">
-                            <img src="images/covers/yandere_contract.png" alt="病娇契约" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'200\' viewBox=\'0 0 150 200\'><rect width=\'150\' height=\'200\' fill=\'%23FF9800\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>病娇契约</text></svg>'">
-                        </div>
-                        <div class="detail-info">
-                            <span class="age-rating age-14">14+喵～</span>
-                            <h3>病娇契约喵～</h3>
-                            <div class="detail-meta">
-                                <span class="game-status">状态: 开发中喵～</span>
-                                <span class="game-category">分类: 14+喵～</span>
-                            </div>
-                            <p class="detail-description">与病娇角色签订契约的恋爱故事，包含复杂情感关系和轻微心理恐怖元素的说～</p>
-                            <div class="detail-features">
-                                <h4>游戏特色喵～</h4>
-                                <div class="features-list">
-                                    <span class="feature-tag">病娇角色喵～</span>
-                                    <span class="feature-tag">契约主题喵～</span>
-                                    <span class="feature-tag">心理描写喵～</span>
-                                    <span class="feature-tag">多路线喵～</span>
+                            <div class="game-content" style="padding: 25px;">
+                                <span class="age-rating age-all" style="
+                                    background: linear-gradient(45deg, #4CAF50, #8BC34A);
+                                    color: white;
+                                    padding: 5px 15px;
+                                    border-radius: 20px;
+                                    font-size: 0.9rem;
+                                    font-weight: bold;
+                                    display: inline-block;
+                                    margin-bottom: 15px;
+                                ">全年龄</span>
+                                <h3 style="color: #333; margin-bottom: 15px; font-size: 1.5rem;">周末的诗篇喵～</h3>
+                                <p style="color: #666; line-height: 1.6; margin-bottom: 20px;">一款关于文学与友谊的温馨视觉小说，讲述一群年轻人在周末相聚，分享诗歌与故事的美好时光的说～</p>
+                                <div class="game-status" style="color: #4CAF50; font-weight: bold; margin-bottom: 15px;">状态: 已完成喵～</div>
+                                <div class="game-features" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                    <span class="feature-tag" style="
+                                        background: rgba(76, 175, 80, 0.1);
+                                        color: #4CAF50;
+                                        padding: 5px 12px;
+                                        border-radius: 15px;
+                                        font-size: 0.85rem;
+                                        border: 1px solid rgba(76, 175, 80, 0.2);
+                                    ">温馨日常喵～</span>
+                                    <span class="feature-tag" style="
+                                        background: rgba(76, 175, 80, 0.1);
+                                        color: #4CAF50;
+                                        padding: 5px 12px;
+                                        border-radius: 15px;
+                                        font-size: 0.85rem;
+                                        border: 1px solid rgba(76, 175, 80, 0.2);
+                                    ">文学主题喵～</span>
+                                    <span class="feature-tag" style="
+                                        background: rgba(76, 175, 80, 0.1);
+                                        color: #4CAF50;
+                                        padding: 5px 12px;
+                                        border-radius: 15px;
+                                        font-size: 0.85rem;
+                                        border: 1px solid rgba(76, 175, 80, 0.2);
+                                    ">多结局喵～</span>
                                 </div>
                             </div>
                         </div>
-                        <button class="close-detail">
-                            <i class="fas fa-times"></i>
-                        </button>
+                        <div class="game-detail-expanded" id="detail-1" style="display: none;">
+                            <div class="detail-header">
+                                <div class="detail-cover">
+                                    <img src="images/covers/weekend_poetry.png" alt="周末的诗篇" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'200\' viewBox=\'0 0 150 200\'><rect width=\'150\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>周末的诗篇</text></svg>'">
+                                </div>
+                                <div class="detail-info">
+                                    <span class="age-rating age-all">全年龄喵～</span>
+                                    <h3>周末的诗篇喵～</h3>
+                                    <div class="detail-meta">
+                                        <span class="game-status">状态: 已完成喵～</span>
+                                        <span class="game-category">分类: 全年龄喵～</span>
+                                    </div>
+                                    <p class="detail-description">一款关于文学与友谊的温馨视觉小说，讲述一群年轻人在周末相聚，分享诗歌与故事的美好时光的说～ (◕‿◕✿)</p>
+                                    <div class="detail-features">
+                                        <h4>游戏特色喵～</h4>
+                                        <div class="features-list">
+                                            <span class="feature-tag">温馨日常喵～</span>
+                                            <span class="feature-tag">文学主题喵～</span>
+                                            <span class="feature-tag">多结局喵～</span>
+                                            <span class="feature-tag">原创音乐喵～</span>
+                                        </div>
+                                    </div>
+                                    <!-- 添加跳转按钮 -->
+                                    <div style="margin-top: 20px;">
+                                        <a href="./indexzm.html" class="game-jump-btn">
+                                            <i class="fas fa-gamepad"></i> 立即体验《周末的诗篇》喵～
+                                        </a>
+                                    </div>
+                                </div>
+                                <button class="close-detail">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="detail-notes">
+                                <h4>开发笔记喵～</h4>
+                                <p>这是我第一次尝试制作全年龄向的视觉小说，专注于温馨的日常和深刻的友情描写的说～创作过程中，我深入研究了如何通过简单的对话传达深刻的情感，以及如何构建让人沉浸的文学氛围的说～</p>
+                                <p>这个项目的灵感来源于我初中时期与朋友们在周末相聚写诗的经历的说～那些美好的回忆成为了这个故事的核心喵～(๑´ㅂ`๑)</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="detail-notes">
-                        <h4>开发笔记喵～</h4>
-                        <p>正在设计复杂的角色心理和剧情分支，希望能创造出一个令人印象深刻的病娇角色的说～这个项目让我深入探索了人物心理的复杂性喵～</p>
-                        <p>在开发过程中，我研究了各种心理学理论，以确保角色的行为既有戏剧性又符合逻辑，同时保持故事的紧张感和吸引力的说～</p>
+                    
+                    <!-- 14+游戏 -->
+                    <h3 class="game-category-title" style="
+                        text-align: center;
+                        color: #ff6b9d;
+                        font-size: 1.8rem;
+                        margin: 40px 0 20px;
+                        padding: 15px;
+                        background: linear-gradient(90deg, rgba(255, 107, 157, 0.1) 0%, rgba(255, 193, 104, 0.1) 100%);
+                        border-radius: 15px;
+                        border-left: 5px solid #ff6b9d;
+                        border-right: 5px solid #ffc168;
+                        position: relative;
+                        overflow: hidden;
+                    ">
+                        <span style="position: relative; z-index: 2;">14+ 游戏喵～</span>
+                        <div style="
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+                            animation: shine 3s infinite;
+                            animation-delay: 1s;
+                        "></div>
+                    </h3>
+                    
+                    <div class="games" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 30px;">
+                        <!-- 病娇契约 -->
+                        <div class="game-card" data-game-id="6" style="
+                            max-width: 500px;
+                            border-radius: 20px;
+                            overflow: hidden;
+                            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                            transition: all 0.3s ease;
+                            background: white;
+                            position: relative;
+                        ">
+                            <div class="game-image" style="overflow: hidden; height: 250px;">
+                                <img src="images/covers/yandere_contract.png" alt="病娇契约" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'><rect width=\'400\' height=\'200\' fill=\'%23FF9800\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>病娇契约</text></svg>'" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;">
+                            </div>
+                            <div class="game-content" style="padding: 25px;">
+                                <span class="age-rating age-14" style="
+                                    background: linear-gradient(45deg, #FF9800, #FF5722);
+                                    color: white;
+                                    padding: 5px 15px;
+                                    border-radius: 20px;
+                                    font-size: 0.9rem;
+                                    font-weight: bold;
+                                    display: inline-block;
+                                    margin-bottom: 15px;
+                                ">14+喵～</span>
+                                <h3 style="color: #333; margin-bottom: 15px; font-size: 1.5rem;">病娇契约喵～</h3>
+                                <p style="color: #666; line-height: 1.6; margin-bottom: 20px;">与病娇角色签订契约的恋爱故事，包含复杂情感关系和轻微心理恐怖元素的说～</p>
+                                <div class="game-status" style="color: #FF9800; font-weight: bold; margin-bottom: 15px;">状态: 开发中喵～</div>
+                                <div class="game-features" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                    <span class="feature-tag" style="
+                                        background: rgba(255, 107, 157, 0.1);
+                                        color: #ff6b9d;
+                                        padding: 5px 12px;
+                                        border-radius: 15px;
+                                        font-size: 0.85rem;
+                                        border: 1px solid rgba(255, 107, 157, 0.2);
+                                    ">病娇角色喵～</span>
+                                    <span class="feature-tag" style="
+                                        background: rgba(255, 107, 157, 0.1);
+                                        color: #ff6b9d;
+                                        padding: 5px 12px;
+                                        border-radius: 15px;
+                                        font-size: 0.85rem;
+                                        border: 1px solid rgba(255, 107, 157, 0.2);
+                                    ">契约主题喵～</span>
+                                    <span class="feature-tag" style="
+                                        background: rgba(255, 107, 157, 0.1);
+                                        color: #ff6b9d;
+                                        padding: 5px 12px;
+                                        border-radius: 15px;
+                                        font-size: 0.85rem;
+                                        border: 1px solid rgba(255, 107, 157, 0.2);
+                                    ">心理描写喵～</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="game-detail-expanded" id="detail-6" style="display: none;">
+                            <div class="detail-header">
+                                <div class="detail-cover">
+                                    <img src="images/covers/yandere_contract.png" alt="病娇契约" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'200\' viewBox=\'0 0 150 200\'><rect width=\'150\' height=\'200\' fill=\'%23FF9800\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>病娇契约</text></svg>'">
+                                </div>
+                                <div class="detail-info">
+                                    <span class="age-rating age-14">14+喵～</span>
+                                    <h3>病娇契约喵～</h3>
+                                    <div class="detail-meta">
+                                        <span class="game-status">状态: 开发中喵～</span>
+                                        <span class="game-category">分类: 14+喵～</span>
+                                    </div>
+                                    <p class="detail-description">与病娇角色签订契约的恋爱故事，包含复杂情感关系和轻微心理恐怖元素的说～</p>
+                                    <div class="detail-features">
+                                        <h4>游戏特色喵～</h4>
+                                        <div class="features-list">
+                                            <span class="feature-tag">病娇角色喵～</span>
+                                            <span class="feature-tag">契约主题喵～</span>
+                                            <span class="feature-tag">心理描写喵～</span>
+                                            <span class="feature-tag">多路线喵～</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="close-detail">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="detail-notes">
+                                <h4>开发笔记喵～</h4>
+                                <p>正在设计复杂的角色心理和剧情分支，希望能创造出一个令人印象深刻的病娇角色的说～这个项目让我深入探索了人物心理的复杂性喵～</p>
+                                <p>在开发过程中，我研究了各种心理学理论，以确保角色的行为既有戏剧性又符合逻辑，同时保持故事的紧张感和吸引力的说～</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+            
+            <!-- 底部装饰 -->
+            <div style="
+                text-align: center;
+                margin-top: 50px;
+                padding: 20px;
+                position: relative;
+                z-index: 1;
+            ">
+                <p style="
+                    color: #666;
+                    font-style: italic;
+                    font-size: 1rem;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 15px;
+                    background: rgba(255, 255, 255, 0.7);
+                    border-radius: 15px;
+                    border-left: 4px solid #6a11cb;
+                    border-right: 4px solid #ff6b9d;
+                ">
+                    <i class="fas fa-heart" style="color: #ff6b9d; margin-right: 8px;"></i>
+                    感谢支持独立游戏开发！每一个游戏都是用心创作的作品，希望大家喜欢喵～ (๑˃̵ᴗ˂̵)و
+                </p>
             </div>
         </section>
 
