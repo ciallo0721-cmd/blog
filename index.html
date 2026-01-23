@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
     <!-- 引入文章数据 -->
-    <script src="articles-data.js"></script>
+    <script src="articles-data.js" defer></script>
     <link rel="icon" href="./images/avatar.png" type="image/png">
     <!-- 引入css -->
     <link rel="stylesheet" href="./css/cs.css">
-    <link rel="stylesheet" href="./css/shubiaogenzongtexiao.css"> 
-
+    <link rel="stylesheet" href="./css/shubiaogenzongtexiao.css">
 </head>
 <body>
     <!-- 欢迎弹窗 -->
@@ -28,12 +27,11 @@
         </div>
     </div>
     
-
     <!-- 移动端菜单 -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
             <div class="mobile-avatar">
-                <img src="images/avatar.png" alt="头像" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'60\' height=\'60\' viewBox=\'0 0 60 60\'><rect width=\'60\' height=\'60\' fill=\'%23FB7299\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>头像</text></svg>'">
+                <img src="images/avatar.png" alt="头像" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'60\' height=\'60\' viewBox=\'0 0 60 60\'><rect width=\'60\' height=\'60\' fill=\'%23FB7299\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>头像</text></svg>'">
             </div>
             <div>
                 <div style="font-weight: bold;">ciallo0721-cmd</div>
@@ -41,16 +39,13 @@
             </div>
         </div>
         <ul class="mobile-menu-links">
-            <!-- <li><a href="#home"><i class="fas fa-home"></i> 主页的说～</a></li> -->
             <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章喵～</a></li>
             <li><a href="#iframes"><i class="fas fa-gamepad"></i> 游戏预览喵～</a></li>
             <li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> Bilibili</a></li>
             <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k" target="_blank"><i class="fab fa-tiktok"></i> 抖音的说～</a></li>
-            <!-- 删除后面的?id...标记,便于阅读,缺点就是每个人都需要验证 -->
             <li><a href="#python"><i class="fab fa-python"></i> Python编辑器</a></li>
             <li><a href="#music"><i class="fas fa-music"></i> 音乐推荐喵～</a></li>
             <li><a href="#donation"><i class="fas fa-heart"></i> 赞助支持的说～</a></li>
-            <!--做了些优化-->
         </ul>
     </div>
     <div class="menu-overlay" id="menuOverlay"></div>
@@ -62,7 +57,7 @@
         </button>
         <div class="container header-content">
             <div class="avatar">
-                <img src="images/avatar.png" alt="头像" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 80 80\'><rect width=\'80\' height=\'80\' fill=\'%23FB7299\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>头像</text></svg>'">
+                <img src="images/avatar.png" alt="头像" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 80 80\'><rect width=\'80\' height=\'80\' fill=\'%23FB7299\'/><text x=\'50%\' y=\'50%\' font-size=\'32\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>头像</text></svg>'">
             </div>
             <div class="header-text">
                 <h1>ciallo0721-cmd</h1>
@@ -76,20 +71,16 @@
         <div class="container nav-container">
             <a href="index.html" class="logo"><i class="fas fa-gamepad"></i> 关于的说～</a>
             <ul class="nav-links">
-                <!-- <li><a href="#home"><i class="fas fa-home"></i> 主页的说～</a></li> -->
                 <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章喵～</a></li>
                 <li><a href="#iframes"><i class="fas fa-gamepad"></i> 游戏预览喵～</a></li>
                 <li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> Bilibili</a></li>
                 <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k" target="_blank"><i class="fab fa-tiktok"></i> 抖音的说～</a></li>
-                <!-- 删除后面的?id...标记,便于阅读,缺点就是每个人都需要验证 -->
                 <li><a href="#python"><i class="fab fa-python"></i> Python编辑器</a></li>
                 <li><a href="#music"><i class="fas fa-music"></i> 音乐推荐喵～</a></li>
                 <li><a href="#donation"><i class="fas fa-heart"></i> 赞助支持的说～</a></li>
-            <!--和上面一样-->
             </ul>
         </div>
     </nav>
-
 
     <!--背景音乐-->
     <section id="music" class="section music-section">
@@ -106,7 +97,6 @@
                 </div>
                 <p style="margin-top: 20px; text-align: center; color: var(--text-secondary);">
                     <i class="fas fa-headphones"></i> 请选择一个背景音乐吧～ (注:有一些浏览器可能加载不出来哦) (๑•́ ₃ •̀๑)
-                    <!--因为浏览器的安全原因,可能会拦截iframe-->
                 </p>
             </div>
         </div>
@@ -141,15 +131,6 @@
                 </div>
             </div>
         </section>
-         <section class="section">
-            <div class="section-title">
-                <h2>游戏预览（新版）</h2>
-            </div>
-            <div class="content-warning" style="margin-bottom:20px;">
-                <i class="fas fa-info-circle"></i>
-                已取消内嵌 iframe，改为在新标签页打开游戏，以提升兼容性与隐私。点击下方按钮将在新标签页打开对应页面喵～。
-            </div>
-        </section> -->
 
         <!-- iframe游戏预览部分 -->
         <section id="iframes" class="section iframe-section">
@@ -172,7 +153,6 @@
                             </div>
                             <p class="iframe-description">外部游戏链接，加载可能较慢喵～ (づ｡◕‿‿◕｡)づ</p>
                         </div>
-                        <!--玩了一下，不错-->
                         
                         <!-- 第二个游戏：合成大oho -->
                         <div class="iframe-item fade-in-up">
@@ -190,7 +170,6 @@
                                 </a>
                             </div>
                             <p class="iframe-description">合成大西瓜-但是18+版本喵～ (◕‿◕✿) </p>
-                            <!--一个小妙招,遇到有"ero","H","hentai","エロイ"，”gure”，＂gore＂,"18+","R"的域名或者名称...,一律按18+或R级处理-->
                         </div>
                         
                         <!-- 第三个游戏：一个rpg游戏 -->
@@ -265,7 +244,25 @@
                         </div>
                         <div class="python-code-area" id="pythonCodeArea">
                             <textarea id="pythonCode" style="display:none;">
-</textarea>
+print("欢迎使用在线Python编辑器喵～！")
+print("这是一个简单的Python代码运行环境。")
+
+# 支持输入的例子
+name = input("请输入你的名字喵～: ")
+print(f"你好，{name}！")
+
+# 简单的计算
+print("\n让我们来做一些计算吧！")
+num1 = float(input("请输入第一个数字: "))
+num2 = float(input("请输入第二个数字: "))
+print(f"{num1} + {num2} = {num1 + num2}")
+
+# 循环示例
+print("\n循环示例：")
+for i in range(1, 6):
+    print(f"这是第 {i} 次循环喵～")
+
+print("\n代码执行完毕，感谢使用喵～！")</textarea>
                         </div>
                     </div>
                     
@@ -319,7 +316,7 @@
                 <!-- 周末的诗篇 -->
                 <div class="game-card" data-game-id="1">
                     <div class="game-image">
-                        <img src="images/covers/weekend_poetry.png" alt="周末的诗篇" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'><rect width=\'400\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>周末的诗篇</text></svg>'">
+                        <img src="images/covers/weekend_poetry.png" alt="周末的诗篇" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'><rect width=\'400\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>周末的诗篇</text></svg>'">
                     </div>
                     <div class="game-content">
                         <span class="age-rating age-all">全年龄</span>
@@ -336,7 +333,7 @@
                 <div class="game-detail-expanded" id="detail-1">
                     <div class="detail-header">
                         <div class="detail-cover">
-                            <img src="images/covers/weekend_poetry.png" alt="周末的诗篇" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'200\' viewBox=\'0 0 150 200\'><rect width=\'150\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>周末的诗篇</text></svg>'">
+                            <img src="images/covers/weekend_poetry.png" alt="周末的诗篇" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'200\' viewBox=\'0 0 150 200\'><rect width=\'150\' height=\'200\' fill=\'%234CAF50\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>周末的诗篇</text></svg>'">
                         </div>
                         <div class="detail-info">
                             <span class="age-rating age-all">全年龄喵～</span>
@@ -380,7 +377,7 @@
                 <!-- 病娇契约 -->
                 <div class="game-card" data-game-id="6">
                     <div class="game-image">
-                        <img src="images/covers/yandere_contract.png" alt="病娇契约" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'><rect width=\'400\' height=\'200\' fill=\'%23FF9800\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>病娇契约</text></svg>'">
+                        <img src="images/covers/yandere_contract.png" alt="病娇契约" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'><rect width=\'400\' height=\'200\' fill=\'%23FF9800\'/><text x=\'50%\' y=\'50%\' font-size=\'24\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>病娇契约</text></svg>'">
                     </div>
                     <div class="game-content">
                         <span class="age-rating age-14">14+喵～</span>
@@ -397,7 +394,7 @@
                 <div class="game-detail-expanded" id="detail-6">
                     <div class="detail-header">
                         <div class="detail-cover">
-                            <img src="images/covers/yandere_contract.png" alt="病娇契约" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'200\' viewBox=\'0 0 150 200\'><rect width=\'150\' height=\'200\' fill=\'%23FF9800\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>病娇契约</text></svg>'">
+                            <img src="images/covers/yandere_contract.png" alt="病娇契约" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'200\' viewBox=\'0 0 150 200\'><rect width=\'150\' height=\'200\' fill=\'%23FF9800\'/><text x=\'50%\' y=\'50%\' font-size=\'18\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'>病娇契约</text></svg>'">
                         </div>
                         <div class="detail-info">
                             <span class="age-rating age-14">14+喵～</span>
@@ -438,7 +435,7 @@
             <div class="contact-content">
                 <p>如果对我的作品感兴趣，想要了解更多信息，或者有合作意向的话，欢迎通过以下方式联系人家哦～ (｡･ω･｡)ﾉ♡</p>
                 <div class="qr-code">
-                    <img src="images/wechat.png" alt="微信二维码" onerror="this.parentNode.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f0f0f0;color:#666;border-radius:12px;\'>微信二维码<br>images/wechat.png</div>';">
+                    <img src="images/wechat.png" alt="微信二维码" loading="lazy" onerror="this.parentNode.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f0f0f0;color:#666;border-radius:12px;\'>微信二维码<br>images/wechat.png</div>';">
                 </div>
                 <p>扫描上方二维码添加我的微信吧～ ٩(◕‿◕｡)۶</p>
                 <div class="social-links">
@@ -462,7 +459,7 @@
                 <p class="highlight">有你们的支持，腐竹我就能买一个服务器，给大家带来更好的游戏体验呢！(๑•́ ₃ •̀๑)</p>
                 
                 <div class="donation-qr">
-                    <img src="./pay.png" alt="收款码" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"280\" height=\"280\" viewBox=\"0 0 280 280\"><rect width=\"280\" height=\"280\" fill=\"#f0f0f0\"/><text x=\"50%\" y=\"50%\" font-size=\"20\" text-anchor=\"middle\" dy=\".3em\" fill=\"#666\">收款码</text></svg>'">
+                    <img src="./pay.png" alt="收款码" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"280\" height=\"280\" viewBox=\"0 0 280 280\"><rect width=\"280\" height=\"280\" fill=\"#f0f0f0\"/><text x=\"50%\" y=\"50%\" font-size=\"20\" text-anchor=\"middle\" dy=\".3em\" fill=\"#666\">收款码</text></svg>'">
                 </div>
                 
                 <p>扫码赞助，支持腐竹继续开发好玩的游戏吧！拜托啦～ (。・ω・。)</p>
@@ -487,26 +484,17 @@
             <div class="footer-logo">ciallo0721-cmd</div>
             <p>感谢访问我的个人博客！期待与您交流游戏开发心得哦～ (๑˃̵ᴗ˂̵)و</p>
             
-            
             <div class="desktop-switch">
                 <a href="./gamee/more.html" class="desktop-switch-btn" id="desktopSwitch">
                     <i class="fas fa-desktop"></i>
                     <span>游戏选择喵～</span>
                 </a>
             </div>
-            <!-- 因为我们做了适配,所以不需要切换手机版这个按钮,这里我换成了html -->
             
             <p class="copyright">© 2026 ciallo0721-cmd. 保留所有权利喵～</p>
         </div>
     </footer>
 
-    <!-- 错误信息显示 -->
-    <!-- <div class="error-notification" id="errorNotification">
-        <div class="error-title" id="errorTitle">错误信息喵～</div>
-        <div class="error-code" id="errorCode">错误代码: 0000</div>
-    </div> -->
-    <!-- 没有用 -->
-    
     <!-- 输入对话框 -->
     <div class="input-dialog" id="pythonInputDialog" style="display: none;">
         <div class="input-dialog-content">
@@ -532,8 +520,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/selection/active-line.min.js"></script>
-    <!--js脚本放在别的文件夹(应该能提升速度)-->
-    <script src="./css/indexjs.js"></script>
     
+    <!-- 主脚本 -->
+    <script src="./css/indexjs.js"></script>
 </body>
 </html>
