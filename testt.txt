@@ -1,0 +1,9 @@
+# 查看网站根目录
+python wzckq.py https://example.com
+
+# 指定扫描深度
+python wzckq.py https://example.com -d 3
+
+
+
+给我(站长)使用
