@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>病娇契约 - 网页版</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: #0a0a1a;
+            color: #e0e0ff;
+            overflow: hidden;
+            position: relative;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(100, 0, 100, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 100, 150, 0.1) 0%, transparent 20%);
+        }
+
+        /* 主容器 */
+        #game-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: none;
+        }
+
+        /* 主菜单样式 */
+        #main-menu {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, #0a0a1a 0%, #1a0a2a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            z-index: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .title-container {
+            text-align: center;
+            margin-bottom: 60px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .game-title {
+            font-size: 4.5rem;
+            color: #fff;
+            text-shadow: 
+                0 0 10px rgba(255, 0, 100, 0.8),
+                0 0 20px rgba(255, 0, 100, 0.5),
+                0 0 30px rgba(255, 0, 100, 0.3);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            font-weight: 800;
+            background: linear-gradient(to right, #ff0064, #ff4d94);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 3s infinite alternate;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0a0ff;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        .version {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        /* 菜单按钮 */
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .menu-btn {
+            padding: 18px 50px;
+            font-size: 1.5rem;
+            background: rgba(20, 10, 40, 0.7);
+            border: 2px solid rgba(255, 0, 100, 0.5);
+            color: #e0e0ff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 300px;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255, 0, 100, 0.2);
+            border-color: rgba(255, 0, 100, 0.8);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 0, 100, 0.3);
+        }
+
+        .menu-btn:active {
+            transform: translateY(0);
+        }
+
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .menu-btn:hover::before {
+            left: 100%;
+        }
+
+        /* 游戏界面 */
+        .game-screen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: #0a0a1a;
+            position: relative;
+        }
+
+        /* 对话框区域 */
+        .dialog-area {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            overflow: hidden;
+            background: rgba(5, 5, 15, 0.9);
+        }
+
+        .dialog-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .dialog-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .character-name {
+            font-size: 1.8rem;
+            color: #ff4d94;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 0, 100, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dialog-text {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #ff0064;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 选择区域 */
+        .choices-area {
+            padding: 20px;
+            background: rgba(10, 5, 20, 0.9);
+            border-top: 1px solid rgba(255, 0, 100, 0.3);
+        }
+
+        .choices-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .choice-btn {
+            padding: 18px 25px;
+            background: rgba(30, 15, 50, 0.8);
+            border: 1px solid rgba(100, 100, 255, 0.3);
+            color: #e0e0ff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .choice-btn:hover {
+            background: rgba(50, 25, 80, 0.9);
+            border-color: rgba(100, 100, 255, 0.6);
+            transform: translateX(10px);
+        }
+
+        .choice-btn:active {
+            transform: translateX(5px);
+        }
+
+        /* 设置界面 */
+        #settings-screen {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            background: rgba(10, 10, 30, 0.95);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 0, 100, 0.5);
+        }
+
+        .settings-title {
+            font-size: 2.5rem;
+            color: #ff4d94;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #e0e0ff;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #ff4d94;
+        }
+
+        .settings-section {
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #a0a0ff;
+            margin-bottom: 20px;
+            padding-left: 10px;
+            border-left: 4px solid #ff0064;
+        }
+
+        .settings-group {
+            background: rgba(20, 15, 40, 0.7);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .setting-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .setting-label {
+            font-size: 1.3rem;
+        }
+
+        .slider-container {
+            width: 200px;
+        }
+
+        .slider-value {
+            min-width: 40px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: rgba(50, 50, 100, 0.7);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: #ff0064;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #ff0064;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        /* 致谢界面 */
+        #credits-screen {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            background: rgba(10, 10, 30, 0.95);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .credits-content {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .credits-section {
+            margin-bottom: 40px;
+            background: rgba(20, 15, 40, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .credits-title {
+            font-size: 2rem;
+            color: #ff4d94;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .credits-text {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .credits-list {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        .credits-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .credits-list li:before {
+            content: "•";
+            color: #ff4d94;
+            position: absolute;
+            left: 0;
+        }
+
+        /* 加载界面 */
+        #loading-screen {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #0a0a1a;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .loading-text {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #ff4d94;
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 10px;
+            background: rgba(50, 50, 100, 0.5);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(to right, #ff0064, #ff4d94);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* 游戏UI元素 */
+        .game-ui {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 15px;
+        }
+
+        .ui-btn {
+            background: rgba(20, 10, 40, 0.7);
+            border: 1px solid rgba(255, 0, 100, 0.5);
+            color: #e0e0ff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .ui-btn:hover {
+            background: rgba(255, 0, 100, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* 动画效果 */
+        @keyframes pulse {
+            0% { text-shadow: 0 0 10px rgba(255, 0, 100, 0.8), 0 0 20px rgba(255, 0, 100, 0.5); }
+            100% { text-shadow: 0 0 15px rgba(255, 0, 100, 1), 0 0 30px rgba(255, 0, 100, 0.7), 0 0 40px rgba(255, 0, 100, 0.4); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .game-title {
+                font-size: 3rem;
+            }
+            
+            .menu-btn {
+                min-width: 250px;
+                padding: 15px 30px;
+                font-size: 1.3rem;
+            }
+            
+            .dialog-text {
+                font-size: 1.2rem;
+                padding: 20px;
+            }
+            
+            .character-name {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 加载界面 -->
+    <div id="loading-screen">
+        <div class="loading-text">正在加载《病娇契约》...</div>
+        <div class="loading-bar">
+            <div class="loading-progress" id="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- 主菜单 -->
+    <div id="main-menu">
+        <div class="menu-bg"></div>
+        <div class="title-container">
+            <h1 class="game-title">病娇契约</h1>
+            <div class="subtitle">Yandere Contract - 网页增强版</div>
+            <div class="version">Version 10.0.1.christmas | 心理恐怖视觉小说</div>
+        </div>
+        
+        <div class="menu-buttons">
+            <button class="menu-btn" id="start-game-btn">
+                <i class="fas fa-play"></i> 开始游戏
+            </button>
+            <button class="menu-btn" id="continue-btn">
+                <i class="fas fa-undo"></i> 继续游戏
+            </button>
+            <button class="menu-btn" id="settings-btn">
+                <i class="fas fa-cog"></i> 游戏设置
+            </button>
+            <button class="menu-btn" id="credits-btn">
+                <i class="fas fa-star"></i> 制作人员
+            </button>
+            <button class="menu-btn" id="quit-btn">
+                <i class="fas fa-power-off"></i> 退出游戏
+            </button>
+        </div>
+    </div>
+
+    <!-- 游戏主界面 -->
+    <div id="game-container">
+        <div class="game-ui">
+            <button class="ui-btn" id="menu-btn" title="返回菜单">
+                <i class="fas fa-home"></i>
+            </button>
+            <button class="ui-btn" id="save-btn" title="保存游戏">
+                <i class="fas fa-save"></i>
+            </button>
+            <button class="ui-btn" id="load-btn" title="读取游戏">
+                <i class="fas fa-folder-open"></i>
+            </button>
+            <button class="ui-btn" id="settings-in-game-btn" title="游戏设置">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+        
+        <div class="game-screen">
+            <div class="dialog-area">
+                <div class="dialog-bg" id="dialog-bg"></div>
+                <div class="dialog-content">
+                    <div class="character-name" id="character-name">
+                        <i class="fas fa-user"></i> 系统
+                    </div>
+                    <div class="dialog-text" id="dialog-text">
+                        欢迎来到《病娇契约》网页版。这是一个关于爱与创伤的故事，请做好准备...
+                    </div>
+                </div>
+            </div>
+            
+            <div class="choices-area">
+                <div class="choices-container" id="choices-container">
+                    <!-- 选择按钮将在这里动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置界面 -->
+    <div id="settings-screen">
+        <div class="settings-header">
+            <h2 class="settings-title">游戏设置</h2>
+            <button class="close-btn" id="close-settings-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="settings-section">
+            <h3 class="section-title">显示设置</h3>
+            <div class="settings-group">
+                <div class="setting-item">
+                    <span class="setting-label">文字显示速度</span>
+                    <div class="slider-container">
+                        <input type="range" id="text-speed" min="1" max="100" value="50">
+                    </div>
+                    <span class="slider-value" id="text-speed-value">50</span>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">自动播放速度</span>
+                    <div class="slider-container">
+                        <input type="range" id="auto-speed" min="1" max="100" value="30">
+                    </div>
+                    <span class="slider-value" id="auto-speed-value">30</span>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">字体大小</span>
+                    <div class="slider-container">
+                        <input type="range" id="font-size" min="14" max="24" value="18">
+                    </div>
+                    <span class="slider-value" id="font-size-value">18px</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3 class="section-title">音频设置</h3>
+            <div class="settings-group">
+                <div class="setting-item">
+                    <span class="setting-label">背景音乐音量</span>
+                    <div class="slider-container">
+                        <input type="range" id="bgm-volume" min="0" max="100" value="70">
+                    </div>
+                    <span class="slider-value" id="bgm-volume-value">70</span>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">音效音量</span>
+                    <div class="slider-container">
+                        <input type="range" id="sfx-volume" min="0" max="100" value="80">
+                    </div>
+                    <span class="slider-value" id="sfx-volume-value">80</span>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">语音音量</span>
+                    <div class="slider-container">
+                        <input type="range" id="voice-volume" min="0" max="100" value="90">
+                    </div>
+                    <span class="slider-value" id="voice-volume-value">90</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3 class="section-title">游戏设置</h3>
+            <div class="settings-group">
+                <div class="setting-item">
+                    <span class="setting-label">跳过已读文本</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="skip-read-text" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">自动保存</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="auto-save" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">显示历史记录</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="show-history" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3 class="section-title">高级设置</h3>
+            <div class="settings-group">
+                <div class="setting-item">
+                    <span class="setting-label">启用系统交互</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="system-interaction">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">启用第四面墙突破</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="fourth-wall" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">显示警告信息</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="show-warnings" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <button class="menu-btn" id="reset-settings-btn" style="max-width: 300px; margin: 0 auto;">
+                <i class="fas fa-undo"></i> 恢复默认设置
+            </button>
+        </div>
+    </div>
+
+    <!-- 致谢界面 -->
+    <div id="credits-screen">
+        <div class="settings-header">
+            <h2 class="settings-title">制作人员</h2>
+            <button class="close-btn" id="close-credits-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="credits-content">
+            <div class="credits-section">
+                <h3 class="credits-title">《病娇契约》</h3>
+                <p class="credits-text">一个突破第四面墙的心理恐怖游戏</p>
+                <p class="credits-text">网页增强版 - 基于Ren'Py原版游戏重制</p>
+            </div>
+            
+            <div class="credits-section">
+                <h3 class="credits-title">开发团队</h3>
+                <ul class="credits-list">
+                    <li><strong>墨羽</strong> - 游戏原案、剧本、程序设计</li>
+                    <li><strong>HTML5引擎开发</strong> - 网页版移植与优化</li>
+                    <li><strong>界面设计</strong> - UI/UX设计</li>
+                </ul>
+            </div>
+            
+            <div class="credits-section">
+                <h3 class="credits-title">特别感谢</h3>
+                <ul class="credits-list">
+                    <li><strong>Sky遥鲲</strong> - 测试与反馈</li>
+                    <li><strong>美咕噜这一块</strong> - 宣传支持</li>
+                    <li><strong>甘茶の音楽工房</strong> - 背景音乐提供</li>
+                    <li><strong>所有测试玩家</strong> - 宝贵意见与Bug反馈</li>
+                </ul>
+            </div>
+            
+            <div class="credits-section">
+                <h3 class="credits-title">游戏特色</h3>
+                <p class="credits-text">• 动态剧情，根据选择变化</p>
+                <p class="credits-text">• 谜题解密元素</p>
+                <p class="credits-text">• 多重结局系统</p>
+                <p class="credits-text">• 真实系统交互（增强版）</p>
+                <p class="credits-text">• 突破第四面墙的沉浸体验</p>
+            </div>
+            
+            <div class="credits-section">
+                <h3 class="credits-title">背景音乐</h3>
+                <p class="credits-text">• 雨の恋人たち</p>
+                <p class="credits-text">• Cradles</p>
+                <p class="credits-text">• 呪われた館</p>
+                <p class="credits-text">• 落葉</p>
+                <p class="credits-text">• 用于营造游戏的恐怖氛围和情感张力</p>
+            </div>
+            
+            <div class="credits-section">
+                <h3 class="credits-title">警告声明</h3>
+                <p class="credits-text">本游戏包含以下内容：</p>
+                <ul class="credits-list">
+                    <li>心理恐怖元素</li>
+                    <li>强烈的情感依赖表现</li>
+                    <li>创伤后应激障碍描写</li>
+                    <li>突破第四面墙的互动</li>
+                </ul>
+                <p class="credits-text" style="margin-top: 15px; color: #ff4d94;">
+                    本游戏仅为虚构作品，请不要模仿游戏中的任何行为。
+                    如果您在现实中遇到类似情况，请及时寻求专业帮助。
+                </p>
+            </div>
+            
+            <div class="credits-section">
+                <h3 class="credits-title">技术信息</h3>
+                <p class="credits-text">引擎：HTML5 + JavaScript + CSS3</p>
+                <p class="credits-text">版本：10.0.1.christmas (圣诞特别版)</p>
+                <p class="credits-text">发布日期：2025年12月</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 游戏状态
+        const gameState = {
+            currentScene: 0,
+            playerName: "玩家",
+            intimacyLevel: 0,
+            lonelinessLevel: 0,
+            jealousyLevel: 0,
+            mentalState: "normal",
+            relationshipPhase: "initial",
+            choices: [],
+            gameProgress: 0,
+            chapter: 1,
+            endingsUnlocked: [],
+            settings: {
+                textSpeed: 50,
+                autoSpeed: 30,
+                fontSize: 18,
+                bgmVolume: 70,
+                sfxVolume: 80,
+                voiceVolume: 90,
+                skipReadText: true,
+                autoSave: true,
+                showHistory: true,
+                systemInteraction: false,
+                fourthWall: true,
+                showWarnings: true
+            }
+        };
+
+        // 游戏数据
+        const gameData = {
+            // 角色定义
+            characters: {
+                system: { name: "系统", color: "#0ff", icon: "fa-terminal" },
+                a: { name: "小雅", color: "#fff", icon: "fa-female" },
+                y: { name: "小雨", color: "#6cf", icon: "fa-user" },
+                af: { name: "小雅朋友", color: "#f9f", icon: "fa-user-friends" },
+                pf: { name: "主角朋友", color: "#9f9", icon: "fa-user" },
+                doctor: { name: "心理医生", color: "#9cf", icon: "fa-user-md" },
+                player: { name: "我", color: "#9f9", icon: "fa-user" }
+            },
+            
+            // 背景定义
+            backgrounds: {
+                black: "#000",
+                white: "#fff",
+                room: "#346856",
+                room_dark: "#123456",
+                city_rain: "#2a2a2a",
+                park: "#228822",
+                cafe: "#876543",
+                terminal: "#000",
+                basement: "#223344",
+                hospital: "#ffffff",
+                classroom: "#4682B4"
+            },
+            
+            // 开场警告
+            openingWarning: [
+                { character: "system", text: "警告：本游戏包含以下内容：" },
+                { character: "system", text: "• 心理恐怖元素" },
+                { character: "system", text: "• 强烈的情感依赖表现" },
+                { character: "system", text: "• 创伤后应激障碍描写" },
+                { character: "system", text: "• 突破第四面墙的互动" },
+                { character: "system", text: "" },
+                { character: "system", text: "本游戏仅为虚构作品，" },
+                { character: "system", text: "请不要模仿游戏中的任何行为。" },
+                { character: "system", text: "如果您在现实中遇到类似情况，" },
+                { character: "system", text: "请及时寻求专业帮助。" },
+            ],
+            
+            // 游戏场景
+            scenes: [
+                // 场景0: 开场
+                {
+                    type: "dialog",
+                    background: "city_rain",
+                    character: "system",
+                    text: "2023年3月15日，雨夜。",
+                    next: 1
+                },
+                {
+                    type: "dialog",
+                    background: "city_rain",
+                    character: "system",
+                    text: "我一个人坐在空荡荡的公寓里，窗外是湿漉漉的城市。",
+                    next: 2
+                },
+                {
+                    type: "dialog", 
+                    background: "city_rain",
+                    character: "system",
+                    text: "父母上个月正式离婚了，我被夹在中间，感觉自己像个多余的累赘。",
+                    next: 3
+                },
+                {
+                    type: "dialog",
+                    background: "city_rain",
+                    character: "system", 
+                    text: "父亲搬去了另一个城市，母亲陷入了深深的抑郁。",
+                    next: 4
+                },
+                {
+                    type: "dialog",
+                    background: "city_rain",
+                    character: "system",
+                    text: "而我，25岁的程序员，每天对着代码，却无法编出人生的答案。",
+                    next: 5
+                },
+                {
+                    type: "input",
+                    background: "city_rain",
+                    character: "system",
+                    text: "在开始这段故事之前，我需要知道你的名字……",
+                    prompt: "你的名字是？",
+                    next: 6
+                },
+                {
+                    type: "dialog",
+                    background: "city_rain",
+                    character: "player",
+                    text: "我叫[playerName]，在这个陌生的城市里，我感觉自己像个透明人。",
+                    next: 7
+                },
+                {
+                    type: "dialog",
+                    background: "city_rain",
+                    character: "player",
+                    text: "每天重复着上班、下班、独处的循环，这种孤独几乎要把我吞噬。",
+                    next: 8
+                },
+                // 场景8: 进入论坛
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "system",
+                    text: "那是在一个叫'心灵港湾'的心理互助论坛上……",
+                    next: 9
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "system",
+                    text: "我发了一个帖子：『家庭破碎后，如何重新找到生活的意义？』",
+                    next: 10
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "你好，看到你发的帖子……你的文字让我感同身受。",
+                    next: 11
+                },
+                {
+                    type: "dialog",
+                    background: "room", 
+                    character: "a",
+                    text: "我父母在我高中时离婚了，我知道那种被抛弃的感觉。",
+                    next: 12
+                },
+                // 场景12: 第一个选择
+                {
+                    type: "choice",
+                    background: "room",
+                    character: "a",
+                    text: "你怎么知道的？",
+                    choices: [
+                        { 
+                            text: "你怎么知道的？", 
+                            effect: () => { gameState.lonelinessLevel += 5; },
+                            next: 13
+                        },
+                        { 
+                            text: "我不需要同情", 
+                            effect: () => { gameState.insecurityLevel += 5; },
+                            next: 14
+                        },
+                        { 
+                            text: "谢谢你的关心", 
+                            effect: () => { gameState.lonelinessLevel += 3; },
+                            next: 15
+                        }
+                    ]
+                },
+                // 不同选择的分支
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "因为你的文字里透着同样的孤独和迷茫……我能感觉到。",
+                    next: 16
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "不是同情，是理解。我们都懂那种家庭破碎的痛苦。",
+                    next: 16
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "不用谢……只是不想看到有人像我当年一样独自承受。",
+                    next: 16
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "system",
+                    text: "那天晚上，我们聊了很多。",
+                    next: 17
+                },
+                // 更多场景...
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "我父亲离开时，连一张纸条都没留。",
+                    next: 18
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "那天我放学回家，发现他的东西全都不见了。",
+                    next: 19
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "player",
+                    text: "我父亲也是突然离开的，说要去追求新生活",
+                    next: 20
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "母亲因此精神崩溃，住了半年医院",
+                    next: 21
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "从那时起，我就害怕失去重要的人……",
+                    next: 22
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "player",
+                    text: "我能理解那种感觉，每天都活在不安中",
+                    next: 23
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "你真的能理解吗？那种被最信任的人背叛的感觉？",
+                    next: 24
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "player",
+                    text: "我父亲也背叛了家庭，我懂那种痛苦",
+                    next: 25
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "那我们就是同类了……受伤的同类",
+                    next: 26
+                },
+                // 场景26: 介绍
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "system",
+                    text: "她的名字叫小雅，24岁，是一名插画师。",
+                    next: 27
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "system",
+                    text: "我们的对话持续到深夜，像是找到了理解彼此的知己。",
+                    next: 28
+                },
+                // 场景28: 第二天
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "早安，昨晚睡得好吗？",
+                    next: 29
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "我一直在想我们的对话……你让我感到不那么孤单了。",
+                    next: 30
+                },
+                // 场景30: 第二个选择
+                {
+                    type: "choice",
+                    background: "room",
+                    character: "a",
+                    text: "早安，昨晚睡得好吗？",
+                    choices: [
+                        { 
+                            text: "我也是，谢谢你的理解", 
+                            effect: () => { gameState.intimacyLevel += 5; },
+                            next: 31
+                        },
+                        { 
+                            text: "我睡得不太好，一直在想家里的事", 
+                            effect: () => { gameState.intimacyLevel += 8; },
+                            next: 32
+                        },
+                        { 
+                            text: "还好，就是有点累", 
+                            effect: () => { gameState.intimacyLevel += 3; },
+                            next: 33
+                        }
+                    ]
+                },
+                // 分支场景...
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "能遇到理解的人真好。你今天心情怎么样？",
+                    next: 34
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "那种感觉我懂……要聊聊吗？我随时都在。",
+                    next: 34
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "a",
+                    text: "累了就休息一下，别太勉强自己。",
+                    next: 34
+                },
+                {
+                    type: "dialog",
+                    background: "room",
+                    character: "system",
+                    text: "从那天起，我们开始了频繁的交流。",
+                    next: 35
+                },
+                // 更多游戏内容...
+            ]
+        };
+
+        // DOM元素
+        const elements = {
+            loadingScreen: document.getElementById('loading-screen'),
+            loadingProgress: document.getElementById('loading-progress'),
+            mainMenu: document.getElementById('main-menu'),
+            gameContainer: document.getElementById('game-container'),
+            settingsScreen: document.getElementById('settings-screen'),
+            creditsScreen: document.getElementById('credits-screen'),
+            
+            // 主菜单按钮
+            startGameBtn: document.getElementById('start-game-btn'),
+            continueBtn: document.getElementById('continue-btn'),
+            settingsBtn: document.getElementById('settings-btn'),
+            creditsBtn: document.getElementById('credits-btn'),
+            quitBtn: document.getElementById('quit-btn'),
+            
+            // 游戏内UI
+            menuBtn: document.getElementById('menu-btn'),
+            saveBtn: document.getElementById('save-btn'),
+            loadBtn: document.getElementById('load-btn'),
+            settingsInGameBtn: document.getElementById('settings-in-game-btn'),
+            
+            // 游戏内容
+            dialogBg: document.getElementById('dialog-bg'),
+            characterName: document.getElementById('character-name'),
+            dialogText: document.getElementById('dialog-text'),
+            choicesContainer: document.getElementById('choices-container'),
+            
+            // 设置界面
+            closeSettingsBtn: document.getElementById('close-settings-btn'),
+            closeCreditsBtn: document.getElementById('close-credits-btn'),
+            resetSettingsBtn: document.getElementById('reset-settings-btn'),
+            
+            // 设置滑块
+            textSpeed: document.getElementById('text-speed'),
+            textSpeedValue: document.getElementById('text-speed-value'),
+            autoSpeed: document.getElementById('auto-speed'),
+            autoSpeedValue: document.getElementById('auto-speed-value'),
+            fontSize: document.getElementById('font-size'),
+            fontSizeValue: document.getElementById('font-size-value'),
+            bgmVolume: document.getElementById('bgm-volume'),
+            bgmVolumeValue: document.getElementById('bgm-volume-value'),
+            sfxVolume: document.getElementById('sfx-volume'),
+            sfxVolumeValue: document.getElementById('sfx-volume-value'),
+            voiceVolume: document.getElementById('voice-volume'),
+            voiceVolumeValue: document.getElementById('voice-volume-value'),
+            
+            // 设置开关
+            skipReadText: document.getElementById('skip-read-text'),
+            autoSave: document.getElementById('auto-save'),
+            showHistory: document.getElementById('show-history'),
+            systemInteraction: document.getElementById('system-interaction'),
+            fourthWall: document.getElementById('fourth-wall'),
+            showWarnings: document.getElementById('show-warnings')
+        };
+
+        // 初始化函数
+        function init() {
+            // 模拟加载过程
+            simulateLoading();
+            
+            // 设置事件监听器
+            setupEventListeners();
+            
+            // 加载保存的设置
+            loadSettings();
+            
+            // 更新设置显示
+            updateSettingsDisplay();
+        }
+
+        // 模拟加载过程
+        function simulateLoading() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // 加载完成后显示主菜单
+                    setTimeout(() => {
+                        elements.loadingScreen.style.display = 'none';
+                        elements.mainMenu.style.display = 'flex';
+                    }, 300);
+                }
+                
+                elements.loadingProgress.style.width = `${progress}%`;
+            }, 100);
+        }
+
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 主菜单按钮
+            elements.startGameBtn.addEventListener('click', startGame);
+            elements.continueBtn.addEventListener('click', continueGame);
+            elements.settingsBtn.addEventListener('click', showSettings);
+            elements.creditsBtn.addEventListener('click', showCredits);
+            elements.quitBtn.addEventListener('click', quitGame);
+            
+            // 游戏内UI按钮
+            elements.menuBtn.addEventListener('click', returnToMenu);
+            elements.saveBtn.addEventListener('click', saveGame);
+            elements.loadBtn.addEventListener('click', loadGame);
+            elements.settingsInGameBtn.addEventListener('click', showSettings);
+            
+            // 设置界面按钮
+            elements.closeSettingsBtn.addEventListener('click', hideSettings);
+            elements.closeCreditsBtn.addEventListener('click', hideCredits);
+            elements.resetSettingsBtn.addEventListener('click', resetSettings);
+            
+            // 设置滑块
+            elements.textSpeed.addEventListener('input', updateTextSpeed);
+            elements.autoSpeed.addEventListener('input', updateAutoSpeed);
+            elements.fontSize.addEventListener('input', updateFontSize);
+            elements.bgmVolume.addEventListener('input', updateBgmVolume);
+            elements.sfxVolume.addEventListener('input', updateSfxVolume);
+            elements.voiceVolume.addEventListener('input', updateVoiceVolume);
+            
+            // 设置开关
+            elements.skipReadText.addEventListener('change', updateSkipReadText);
+            elements.autoSave.addEventListener('change', updateAutoSave);
+            elements.showHistory.addEventListener('change', updateShowHistory);
+            elements.systemInteraction.addEventListener('change', updateSystemInteraction);
+            elements.fourthWall.addEventListener('change', updateFourthWall);
+            elements.showWarnings.addEventListener('change', updateShowWarnings);
+            
+            // 键盘快捷键
+            document.addEventListener('keydown', handleKeyPress);
+            
+            // 点击对话框继续
+            elements.dialogText.addEventListener('click', advanceDialog);
+        }
+
+        // 开始新游戏
+        function startGame() {
+            // 重置游戏状态
+            resetGameState();
+            
+            // 显示游戏界面
+            elements.mainMenu.style.display = 'none';
+            elements.gameContainer.style.display = 'block';
+            
+            // 显示开场警告
+            showOpeningWarning();
+        }
+
+        // 继续游戏
+        function continueGame() {
+            // 尝试加载保存的游戏
+            const savedGame = localStorage.getItem('yandereContract_save');
+            
+            if (savedGame) {
+                try {
+                    const savedState = JSON.parse(savedGame);
+                    Object.assign(gameState, savedState);
+                    
+                    elements.mainMenu.style.display = 'none';
+                    elements.gameContainer.style.display = 'block';
+                    
+                    // 加载到上次的场景
+                    loadScene(gameState.currentScene);
+                } catch (e) {
+                    alert('无法加载保存的游戏，开始新游戏。');
+                    startGame();
+                }
+            } else {
+                alert('没有找到保存的游戏，开始新游戏。');
+                startGame();
+            }
+        }
+
+        // 显示开场警告
+        function showOpeningWarning() {
+            let index = 0;
+            
+            function showNextWarning() {
+                if (index < gameData.openingWarning.length) {
+                    const warning = gameData.openingWarning[index];
+                    displayDialog(warning.character, warning.text);
+                    
+                    // 设置点击继续
+                    elements.dialogText.onclick = function() {
+                        index++;
+                        showNextWarning();
+                    };
+                    
+                    // 移除选择区域
+                    elements.choicesContainer.innerHTML = '';
+                } else {
+                    // 警告结束后显示选择
+                    elements.dialogText.onclick = null;
+                    showWarningChoice();
+                }
+            }
+            
+            // 开始显示警告
+            showNextWarning();
+        }
+
+        // 显示警告后的选择
+        function showWarningChoice() {
+            displayDialog('system', '您已阅读并理解上述警告内容吗？');
+            
+            elements.choicesContainer.innerHTML = '';
+            
+            const understandBtn = document.createElement('button');
+            understandBtn.className = 'choice-btn';
+            understandBtn.innerHTML = '<i class="fas fa-check"></i> 我理解并继续游戏';
+            understandBtn.addEventListener('click', () => {
+                // 开始游戏第一章
+                gameState.currentScene = 0;
+                loadScene(0);
+            });
+            
+            const moreInfoBtn = document.createElement('button');
+            moreInfoBtn.className = 'choice-btn';
+            moreInfoBtn.innerHTML = '<i class="fas fa-info-circle"></i> 我需要了解更多';
+            moreInfoBtn.addEventListener('click', () => {
+                displayDialog('a', '游戏中的角色关系是虚构的，现实中的健康关系应该建立在互相尊重的基础上。');
+                setTimeout(() => {
+                    displayDialog('a', '请记住，游戏是游戏，现实是现实。');
+                    setTimeout(() => {
+                        showWarningChoice();
+                    }, 2000);
+                }, 2000);
+            });
+            
+            elements.choicesContainer.appendChild(understandBtn);
+            elements.choicesContainer.appendChild(moreInfoBtn);
+        }
+
+        // 加载场景
+        function loadScene(sceneIndex) {
+            gameState.currentScene = sceneIndex;
+            
+            if (sceneIndex >= gameData.scenes.length) {
+                // 游戏结束
+                showEnding();
+                return;
+            }
+            
+            const scene = gameData.scenes[sceneIndex];
+            
+            // 设置背景
+            if (scene.background && gameData.backgrounds[scene.background]) {
+                elements.dialogBg.style.backgroundColor = gameData.backgrounds[scene.background];
+            }
+            
+            // 根据场景类型处理
+            switch (scene.type) {
+                case 'dialog':
+                    displayDialog(scene.character, scene.text);
+                    setupNextAction(scene.next);
+                    break;
+                    
+                case 'choice':
+                    displayDialog(scene.character, scene.text);
+                    showChoices(scene.choices);
+                    break;
+                    
+                case 'input':
+                    displayDialog(scene.character, scene.text);
+                    showInput(scene.prompt, scene.next);
+                    break;
+            }
+            
+            // 自动保存
+            if (gameState.settings.autoSave) {
+                saveGame();
+            }
+        }
+
+        // 显示对话
+        function displayDialog(characterId, text) {
+            const character = gameData.characters[characterId];
+            
+            // 替换玩家名字
+            let displayText = text.replace(/\[playerName\]/g, gameState.playerName);
+            
+            // 设置角色名
+            elements.characterName.innerHTML = `
+                <i class="fas ${character.icon}"></i> 
+                <span style="color: ${character.color}">${character.name}</span>
+            `;
+            
+            // 设置对话框文本
+            elements.dialogText.innerHTML = displayText;
+            
+            // 应用字体大小
+            elements.dialogText.style.fontSize = `${gameState.settings.fontSize}px`;
+        }
+
+        // 设置下一步动作
+        function setupNextAction(nextSceneIndex) {
+            elements.choicesContainer.innerHTML = '';
+            
+            const continueBtn = document.createElement('button');
+            continueBtn.className = 'choice-btn';
+            continueBtn.innerHTML = '<i class="fas fa-arrow-right"></i> 继续';
+            continueBtn.addEventListener('click', () => {
+                loadScene(nextSceneIndex);
+            });
+            
+            elements.choicesContainer.appendChild(continueBtn);
+        }
+
+        // 显示选择
+        function showChoices(choices) {
+            elements.choicesContainer.innerHTML = '';
+            
+            choices.forEach(choice => {
+                const choiceBtn = document.createElement('button');
+                choiceBtn.className = 'choice-btn';
+                choiceBtn.innerHTML = choice.text;
+                choiceBtn.addEventListener('click', () => {
+                    // 执行选择效果
+                    if (choice.effect) {
+                        choice.effect();
+                    }
+                    
+                    // 跳转到下一个场景
+                    loadScene(choice.next);
+                });
+                
+                elements.choicesContainer.appendChild(choiceBtn);
+            });
+        }
+
+        // 显示输入
+        function showInput(promptText, nextSceneIndex) {
+            elements.choicesContainer.innerHTML = '';
+            
+            const inputContainer = document.createElement('div');
+            inputContainer.style.display = 'flex';
+            inputContainer.style.flexDirection = 'column';
+            inputContainer.style.gap = '15px';
+            
+            const inputLabel = document.createElement('div');
+            inputLabel.textContent = promptText;
+            inputLabel.style.fontSize = '1.2rem';
+            
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.placeholder = '输入你的名字';
+            nameInput.style.padding = '15px';
+            nameInput.style.fontSize = '1.2rem';
+            nameInput.style.backgroundColor = 'rgba(30, 15, 50, 0.8)';
+            nameInput.style.border = '1px solid rgba(100, 100, 255, 0.3)';
+            nameInput.style.borderRadius = '8px';
+            nameInput.style.color = '#e0e0ff';
+            
+            const confirmBtn = document.createElement('button');
+            confirmBtn.className = 'choice-btn';
+            confirmBtn.textContent = '确认';
+            confirmBtn.addEventListener('click', () => {
+                if (nameInput.value.trim()) {
+                    gameState.playerName = nameInput.value.trim();
+                    loadScene(nextSceneIndex);
+                } else {
+                    alert('请输入一个有效的名字');
+                }
+            });
+            
+            // 回车键确认
+            nameInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    confirmBtn.click();
+                }
+            });
+            
+            inputContainer.appendChild(inputLabel);
+            inputContainer.appendChild(nameInput);
+            inputContainer.appendChild(confirmBtn);
+            
+            elements.choicesContainer.appendChild(inputContainer);
+            
+            // 自动聚焦输入框
+            setTimeout(() => {
+                nameInput.focus();
+            }, 100);
+        }
+
+        // 显示结局
+        function showEnding() {
+            // 根据游戏状态决定结局
+            let endingType = 'normal';
+            
+            if (gameState.intimacyLevel > 80 && gameState.jealousyLevel < 30) {
+                endingType = 'healing';
+            } else if (gameState.jealousyLevel > 70) {
+                endingType = 'bad';
+            } else if (gameState.mentalState === 'broken') {
+                endingType = 'hidden';
+            }
+            
+            // 记录解锁的结局
+            if (!gameState.endingsUnlocked.includes(endingType)) {
+                gameState.endingsUnlocked.push(endingType);
+            }
+            
+            // 显示结局
+            const endings = {
+                healing: {
+                    title: "治愈结局",
+                    description: "伤痕累累的爱",
+                    message: "真正的治愈不是忘记伤痛，而是学会带着伤痕继续前行。我们都有伤，但愿意为彼此包扎。",
+                    color: "#006600"
+                },
+                normal: {
+                    title: "普通结局", 
+                    description: "理智的救赎",
+                    message: "承认需要帮助，是走向治愈的第一步。有时候，专业的指引比盲目的爱更有效。",
+                    color: "#0066cc"
+                },
+                bad: {
+                    title: "坏结局",
+                    description: "痛苦的觉醒", 
+                    message: "有时候，结束一段有毒的关系，是对彼此最大的仁慈。真正的爱不应该以伤害为代价。",
+                    color: "#660000"
+                },
+                hidden: {
+                    title: "隐藏结局",
+                    description: "第二次机会",
+                    message: "爱情中最美的不是完美，而是在破碎后仍有勇气重新拼凑。",
+                    color: "#330033"
+                }
+            };
+            
+            const ending = endings[endingType];
+            
+            elements.dialogBg.style.backgroundColor = ending.color;
+            displayDialog('system', `结局达成：【${ending.description}】`);
+            
+            setTimeout(() => {
+                displayDialog('system', ending.message);
+                
+                setTimeout(() => {
+                    displayDialog('system', '游戏结束了，但思考还在继续。爱情不应该是一场救赎他人的冒险。');
+                    
+                    setTimeout(() => {
+                        displayDialog('system', '也许真正的爱情……是两个完整的人相遇，而不是两个残缺的灵魂互相填补。');
+                        
+                        setTimeout(() => {
+                            displayDialog('a', '无论你选择了哪条路……希望我们都能从这段经历中学到什么。');
+                            
+                            setTimeout(() => {
+                                showEndingChoices();
+                            }, 3000);
+                        }, 3000);
+                    }, 3000);
+                }, 3000);
+            }, 2000);
+        }
+
+        // 显示结局选择
+        function showEndingChoices() {
+            elements.choicesContainer.innerHTML = '';
+            
+            const replayBtn = document.createElement('button');
+            replayBtn.className = 'choice-btn';
+            replayBtn.innerHTML = '<i class="fas fa-redo"></i> 重新开始游戏';
+            replayBtn.addEventListener('click', () => {
+                startGame();
+            });
+            
+            const menuBtn = document.createElement('button');
+            menuBtn.className = 'choice-btn';
+            menuBtn.innerHTML = '<i class="fas fa-home"></i> 返回主菜单';
+            menuBtn.addEventListener('click', () => {
+                elements.gameContainer.style.display = 'none';
+                elements.mainMenu.style.display = 'flex';
+            });
+            
+            elements.choicesContainer.appendChild(replayBtn);
+            elements.choicesContainer.appendChild(menuBtn);
+        }
+
+        // 前进对话
+        function advanceDialog() {
+            // 如果当前是对话场景，点击继续
+            const currentScene = gameData.scenes[gameState.currentScene];
+            if (currentScene && currentScene.type === 'dialog' && currentScene.next !== undefined) {
+                loadScene(currentScene.next);
+            }
+        }
+
+        // 显示设置界面
+        function showSettings() {
+            elements.settingsScreen.style.display = 'flex';
+            updateSettingsDisplay();
+        }
+
+        // 隐藏设置界面
+        function hideSettings() {
+            elements.settingsScreen.style.display = 'none';
+        }
+
+        // 显示制作人员
+        function showCredits() {
+            elements.creditsScreen.style.display = 'flex';
+        }
+
+        // 隐藏制作人员
+        function hideCredits() {
+            elements.creditsScreen.style.display = 'none';
+        }
+
+        // 返回主菜单
+        function returnToMenu() {
+            if (confirm('返回主菜单将丢失当前进度，是否继续？')) {
+                elements.gameContainer.style.display = 'none';
+                elements.mainMenu.style.display = 'flex';
+            }
+        }
+
+        // 保存游戏
+        function saveGame() {
+            try {
+                localStorage.setItem('yandereContract_save', JSON.stringify(gameState));
+                showNotification('游戏已保存');
+            } catch (e) {
+                showNotification('保存失败: ' + e.message);
+            }
+        }
+
+        // 加载游戏
+        function loadGame() {
+            const savedGame = localStorage.getItem('yandereContract_save');
+            
+            if (savedGame) {
+                try {
+                    const savedState = JSON.parse(savedGame);
+                    Object.assign(gameState, savedState);
+                    
+                    // 重新加载当前场景
+                    loadScene(gameState.currentScene);
+                    
+                    showNotification('游戏已加载');
+                } catch (e) {
+                    showNotification('加载失败: ' + e.message);
+                }
+            } else {
+                showNotification('没有找到保存的游戏');
+            }
+        }
+
+        // 退出游戏
+        function quitGame() {
+            if (confirm('确定要退出游戏吗？')) {
+                // 如果是浏览器环境，关闭窗口或跳转
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.close();
+                }
+            }
+        }
+
+        // 重置游戏状态
+        function resetGameState() {
+            gameState.currentScene = 0;
+            gameState.playerName = "玩家";
+            gameState.intimacyLevel = 0;
+            gameState.lonelinessLevel = 0;
+            gameState.jealousyLevel = 0;
+            gameState.mentalState = "normal";
+            gameState.relationshipPhase = "initial";
+            gameState.choices = [];
+            gameState.gameProgress = 0;
+            gameState.chapter = 1;
+            gameState.endingsUnlocked = [];
+        }
+
+        // 加载设置
+        function loadSettings() {
+            const savedSettings = localStorage.getItem('yandereContract_settings');
+            
+            if (savedSettings) {
+                try {
+                    const settings = JSON.parse(savedSettings);
+                    gameState.settings = { ...gameState.settings, ...settings };
+                } catch (e) {
+                    console.error('加载设置失败:', e);
+                }
+            }
+        }
+
+        // 保存设置
+        function saveSettings() {
+            try {
+                localStorage.setItem('yandereContract_settings', JSON.stringify(gameState.settings));
+            } catch (e) {
+                console.error('保存设置失败:', e);
+            }
+        }
+
+        // 更新设置显示
+        function updateSettingsDisplay() {
+            // 更新滑块值和显示
+            elements.textSpeed.value = gameState.settings.textSpeed;
+            elements.textSpeedValue.textContent = gameState.settings.textSpeed;
+            
+            elements.autoSpeed.value = gameState.settings.autoSpeed;
+            elements.autoSpeedValue.textContent = gameState.settings.autoSpeed;
+            
+            elements.fontSize.value = gameState.settings.fontSize;
+            elements.fontSizeValue.textContent = `${gameState.settings.fontSize}px`;
+            
+            elements.bgmVolume.value = gameState.settings.bgmVolume;
+            elements.bgmVolumeValue.textContent = gameState.settings.bgmVolume;
+            
+            elements.sfxVolume.value = gameState.settings.sfxVolume;
+            elements.sfxVolumeValue.textContent = gameState.settings.sfxVolume;
+            
+            elements.voiceVolume.value = gameState.settings.voiceVolume;
+            elements.voiceVolumeValue.textContent = gameState.settings.voiceVolume;
+            
+            // 更新开关状态
+            elements.skipReadText.checked = gameState.settings.skipReadText;
+            elements.autoSave.checked = gameState.settings.autoSave;
+            elements.showHistory.checked = gameState.settings.showHistory;
+            elements.systemInteraction.checked = gameState.settings.systemInteraction;
+            elements.fourthWall.checked = gameState.settings.fourthWall;
+            elements.showWarnings.checked = gameState.settings.showWarnings;
+        }
+
+        // 重置设置
+        function resetSettings() {
+            if (confirm('确定要恢复默认设置吗？')) {
+                gameState.settings = {
+                    textSpeed: 50,
+                    autoSpeed: 30,
+                    fontSize: 18,
+                    bgmVolume: 70,
+                    sfxVolume: 80,
+                    voiceVolume: 90,
+                    skipReadText: true,
+                    autoSave: true,
+                    showHistory: true,
+                    systemInteraction: false,
+                    fourthWall: true,
+                    showWarnings: true
+                };
+                
+                updateSettingsDisplay();
+                saveSettings();
+                showNotification('设置已恢复为默认值');
+            }
+        }
+
+        // 设置更新函数
+        function updateTextSpeed() {
+            gameState.settings.textSpeed = parseInt(elements.textSpeed.value);
+            elements.textSpeedValue.textContent = gameState.settings.textSpeed;
+            saveSettings();
+        }
+
+        function updateAutoSpeed() {
+            gameState.settings.autoSpeed = parseInt(elements.autoSpeed.value);
+            elements.autoSpeedValue.textContent = gameState.settings.autoSpeed;
+            saveSettings();
+        }
+
+        function updateFontSize() {
+            gameState.settings.fontSize = parseInt(elements.fontSize.value);
+            elements.fontSizeValue.textContent = `${gameState.settings.fontSize}px`;
+            elements.dialogText.style.fontSize = `${gameState.settings.fontSize}px`;
+            saveSettings();
+        }
+
+        function updateBgmVolume() {
+            gameState.settings.bgmVolume = parseInt(elements.bgmVolume.value);
+            elements.bgmVolumeValue.textContent = gameState.settings.bgmVolume;
+            saveSettings();
+        }
+
+        function updateSfxVolume() {
+            gameState.settings.sfxVolume = parseInt(elements.sfxVolume.value);
+            elements.sfxVolumeValue.textContent = gameState.settings.sfxVolume;
+            saveSettings();
+        }
+
+        function updateVoiceVolume() {
+            gameState.settings.voiceVolume = parseInt(elements.voiceVolume.value);
+            elements.voiceVolumeValue.textContent = gameState.settings.voiceVolume;
+            saveSettings();
+        }
+
+        function updateSkipReadText() {
+            gameState.settings.skipReadText = elements.skipReadText.checked;
+            saveSettings();
+        }
+
+        function updateAutoSave() {
+            gameState.settings.autoSave = elements.autoSave.checked;
+            saveSettings();
+        }
+
+        function updateShowHistory() {
+            gameState.settings.showHistory = elements.showHistory.checked;
+            saveSettings();
+        }
+
+        function updateSystemInteraction() {
+            gameState.settings.systemInteraction = elements.systemInteraction.checked;
+            saveSettings();
+        }
+
+        function updateFourthWall() {
+            gameState.settings.fourthWall = elements.fourthWall.checked;
+            saveSettings();
+        }
+
+        function updateShowWarnings() {
+            gameState.settings.showWarnings = elements.showWarnings.checked;
+            saveSettings();
+        }
+
+        // 处理键盘按键
+        function handleKeyPress(e) {
+            // 空格键或回车键继续对话
+            if ((e.key === ' ' || e.key === 'Enter') && 
+                elements.gameContainer.style.display === 'block') {
+                advanceDialog();
+            }
+            
+            // ESC键打开菜单
+            if (e.key === 'Escape') {
+                if (elements.settingsScreen.style.display === 'flex') {
+                    hideSettings();
+                } else if (elements.creditsScreen.style.display === 'flex') {
+                    hideCredits();
+                } else if (elements.gameContainer.style.display === 'block') {
+                    returnToMenu();
+                }
+            }
+            
+            // Ctrl+S保存
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                saveGame();
+            }
+            
+            // Ctrl+L加载
+            if (e.ctrlKey && e.key === 'l') {
+                e.preventDefault();
+                loadGame();
+            }
+        }
+
+        // 显示通知
+        function showNotification(message) {
+            // 创建通知元素
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = 'rgba(20, 10, 40, 0.9)';
+            notification.style.color = '#e0e0ff';
+            notification.style.padding = '15px 20px';
+            notification.style.borderRadius = '8px';
+            notification.style.border = '1px solid rgba(255, 0, 100, 0.5)';
+            notification.style.zIndex = '1000';
+            notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.5)';
+            notification.style.animation = 'fadeIn 0.3s ease';
+            
+            document.body.appendChild(notification);
+            
+            // 3秒后移除
+            setTimeout(() => {
+                notification.style.animation = 'fadeIn 0.3s ease reverse';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // 初始化游戏
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
