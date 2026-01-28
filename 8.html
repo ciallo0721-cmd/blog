@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站更新 - ciallo0721-cmd的文章</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="articles-data.js"></script>
+    <link rel="stylesheet" href="./css/wz.css">
+    <link rel="stylesheet" href="./css/share.css">
+</head>
+<!-- 在html中，我们保留静态的文章内容，然后修改JavaScript,不需要补充content字段 -->
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gamepad"></i> 开发者ciallo0721-cmd的空间
+            </a>
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </div>
+    </nav>
+
+    <!-- 文章内容 -->
+    <main class="container article-detail-container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="article-number" id="articleNumber">文章 #008</div>
+                <h1 class="article-title" id="articleTitle">网站小更新</h1>
+                
+                <p class="article-intro" id="articleIntro">更新了一些实用工具</p>
+                
+                <div class="article-meta">
+                    <div class="article-date">
+                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2026-1-28</span>
+                    </div>
+                    <div class="article-date">
+                        <i class="far fa-clock"></i> 阅读时间: <span id="readTime">约1分钟</span>
+                    </div>
+                </div>
+                
+                <div class="article-tags" id="articleTags">
+                    <!-- 标签将通过JavaScript动态生成 -->
+                    <span class="article-tag">更新</span>
+                </div>
+            </header>
+            
+            <div class="article-content" id="换成id">
+                <!-- 文章内容将通过JavaScript动态生成 -->  
+                <h2>网站更新了</h2>
+                <p>就在不久前，我们对网站进行了小幅更新，增加了一些实用工具和功能。</p>
+                <h1>新增功能</h1>
+                <ul>
+                    <li><strong>代码高亮显示：</strong> 现在，代码块可以自动识别编程语言并进行高亮显示，提升了代码的可读性。</li>
+                    <li><strong>实用工具：</strong> 我们新增了一些实用工具，包括网站根目录查看器等，帮助开发者提高工作效率。</li>
+                </ul>
+                <h1>怎么使用?</h1>
+                    <p>使用这些新功能非常简单，只需在浏览器中输入"https://ciallo0721-cmd.github.io/blog/实用工具/网站查看器.py".......</p>
+
+                <pre><code>
+                    https://ciallo0721-cmd.github.io/blog/实用工具/网站查看器.py
+                </code></pre>
+            </div>
+            
+            <!-- 分享按钮 -->
+            <div style="text-align: center;">
+                <button class="share-btn" id="shareButton">
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                </button>
+            </div>
+        </article>
+        
+        <!-- 文章导航 -->
+        <div class="article-navigation" id="articleNavigation">
+            <!-- 将通过JavaScript动态生成 -->
+            <a href="javascript:void(0)" class="nav-btn prev disabled">
+                <i class="fas fa-chevron-left"></i>
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                    <div>已是第一篇</div>
+                </div>
+            </a>
+            <a href="javascript:void(0)" class="nav-btn next disabled">
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                    <div>已是最后一篇</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+        <!-- 推荐文章 -->
+        <div class="related-articles" id="relatedArticles">
+            <h3 class="related-title">推荐文章</h3>
+            <div class="related-grid" id="relatedGrid">
+                <!-- 将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </main>
+
+    <!-- 分享弹窗 -->
+    <div class="share-modal" id="shareModal">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3 class="share-modal-title">
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                </h3>
+                <button class="share-close-btn" id="closeShareModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="share-text" id="shareText">
+                快来看看这篇文章: https://ciallo0721-cmd.github.io/blog/8.html
+            </div>
+            <div class="share-actions">
+                <button class="share-copy-btn" id="copyShareText">
+                    <i class="far fa-copy"></i> 复制分享链接
+                </button>
+                <button class="share-close-modal-btn" id="closeShareModalBtn">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
+            <p>感谢阅读我的文章！期待与您交流开发心得</p>
+        </div>
+    </footer>
+
+    <script src="./css/wz/8/wzjsid8.js"></script>
+    <!-- 实际使用时, 请确保脚本路径正确并已加载所需的库。 -->
+    <!-- ./css/wz/{文章id}/wzjsid{换成id}.js  -->
+</body>
+</html>

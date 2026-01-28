@@ -71,6 +71,16 @@ window.articlesData = {
               readTime: 3,
               featured: true,
        },
+       {
+        id: 8,
+        title: "网站小更新",
+        excerpt: "网站小更新：增加了一些实用工具和功能。",
+        date: "2026-01-28",
+        tags: ["更新"],
+        fileName: "8.html",
+        readTime: 1,
+        featured: true,
+ },
     ],
     
     getSortedArticles: function() {
