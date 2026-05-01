@@ -1,12 +1,12 @@
 // ⚠️ 此文件由 GitHub Actions 自动生成，请勿手动修改
-// 上次更新：2026-05-01 10:08:16（北京时间）
+// 上次更新：2026-05-01 10:52:22（北京时间）
 window.dynamicData = {
     // 当前时间信息
     currentTime: {
-        datetime: "2026-05-01 10:08:16",
+        datetime: "2026-05-01 10:52:22",
         date: "2026-05-01",
-        time: "10:08",
-        timestamp: 1777601296,
+        time: "10:52",
+        timestamp: 1777603942,
         timezone: "Asia/Shanghai (UTC+8)"
     },
     // 站点统计
@@ -17,13 +17,13 @@ window.dynamicData = {
         daysRunning: 193,
         siteStartDate: "2025-10-20",
         totalCommits: 1,
-        latestCommit: "61f0e2e Merge branch 'main' of https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io"
+        latestCommit: "99c839c Merge branch 'main' of https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io"
     },
     // 版本信息
     version: {
-        generatedAt: "2026-05-01 10:08:16",
-        workflowRun: "25198905364",
-        workflowRunNumber: "11"
+        generatedAt: "2026-05-01 10:52:22",
+        workflowRun: "25199976893",
+        workflowRunNumber: "12"
     }
 };
 
@@ -40,5 +40,5 @@ window.getArticleCount = function() {
 
 // 获取格式化的最后更新时间
 window.getLastUpdate = function() {
-    return "2026-05-01 10:08:16";
+    return "2026-05-01 10:52:22";
 };
