@@ -143,8 +143,8 @@ window.articlesData = {
         },
         {
             id: 15,
-            title: "视频",
-            excerpt: "占位视频页面",
+            title: "真白花音退网前最后五分钟",
+            excerpt: "真白花音退网前最后五分钟",
             date: "2026-05-01",
             tags: ["视频"],
             fileName: "15/",
