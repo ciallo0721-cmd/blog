@@ -761,6 +761,62 @@
         @media (max-width:992px) { .iframe-grid { grid-template-columns: 1fr; } .about-content { grid-template-columns: 1fr; } }
         @media (max-width:768px) { .header-content { flex-direction: column; } .header-text h1 { font-size:2.2rem; } .games { grid-template-columns:1fr; } .code-header { flex-direction: column; } }
         @media (max-width:576px) { .articles-grid { grid-template-columns:1fr; } .gender-select { grid-template-columns: repeat(2, 1fr); } .verify-box { padding: 24px 16px; } .gender-btn { padding: 8px 6px; font-size: 0.78rem; } .verify-title { font-size: 1.4rem; } }
+        /* ===== 网站运行状态栏 ===== */
+        .site-status-bar {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            margin: 20px auto;
+            max-width: 1200px;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(51,102,255,0.15);
+            flex-wrap: wrap;
+        }
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+        .status-item i {
+            color: var(--bili-pink);
+            font-size: 1.1rem;
+        }
+        .status-item .status-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+        }
+        .status-dot.normal {
+            background: #4CAF50;
+            box-shadow: 0 0 6px rgba(76,175,80,0.6);
+            animation: pulse-dot 2s infinite;
+        }
+        .status-dot.fault {
+            background: #f44336;
+            box-shadow: 0 0 6px rgba(244,67,54,0.6);
+            animation: pulse-dot 1s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        @media (max-width: 768px) {
+            .site-status-bar { gap: 16px; padding: 12px 16px; }
+            .status-item { font-size: 0.85rem; }
+        }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
         ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3366ff, #2575fc); border-radius: 4px; }
@@ -1033,6 +1089,30 @@
 
     <!-- 导航栏 -->
     <nav><div class="container nav-container"><a href="index.html" class="logo"><i class="fas fa-gamepad"></i> 关于我的说～</a><ul class="nav-links"><li><a href="#articles"><i class="fas fa-newspaper"></i> 文章喵～</a></li><li><a href="#iframes"><i class="fas fa-gamepad"></i> 游戏预览喵～</a></li><li><a href="#changelog"><i class="fas fa-history"></i> 更新记录喵～</a></li><li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> Bilibili</a></li><li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k" target="_blank"><i class="fab fa-tiktok"></i> 抖音的说～</a></li><li><a href="#code-editor"><i class="fas fa-code"></i> 在线编辑器</a></li><li><a href="adss.html"><i class="fas fa-envelope"></i> 联系方式</a></li></ul></div></nav>
+
+    <!-- 网站运行状态栏 -->
+    <div class="container">
+        <div class="site-status-bar">
+            <div class="status-item">
+                <i class="fas fa-heartbeat"></i>
+                <span>网站状态：</span>
+                <span class="status-value">
+                    <span class="status-dot" id="siteStatusDot"></span>
+                    <span id="siteStatusText">加载中...</span>
+                </span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-clock"></i>
+                <span>当前时间：</span>
+                <span class="status-value" id="currentTime">--:--:--</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>已运行：</span>
+                <span class="status-value" id="siteRunningDays">-- 天</span>
+            </div>
+        </div>
+    </div>
 
     <!-- 动画分隔线 -->
     <div class="animation-divider"><span></span><span></span><span></span><span></span><span></span></div>
@@ -2400,6 +2480,71 @@
             }
         })();
 
+    </script>
+
+    <!-- 网站运行状态实时更新 -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var SITE_START = new Date('2025-10-20T00:00:00+08:00');
+
+        // 更新当前时间（北京时间）
+        function updateCurrentTime() {
+            var now = new Date();
+            var timeStr = now.toLocaleString('zh-CN', {
+                timeZone: 'Asia/Shanghai',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            var el = document.getElementById('currentTime');
+            if (el) el.textContent = timeStr;
+        }
+
+        // 计算已运行天数
+        function updateRunningDays() {
+            var now = new Date();
+            var diffMs = now.getTime() - SITE_START.getTime();
+            var diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            var el = document.getElementById('siteRunningDays');
+            if (el) el.textContent = diffDays + ' 天';
+        }
+
+        // 更新网站状态
+        function updateSiteStatus() {
+            var dot = document.getElementById('siteStatusDot');
+            var text = document.getElementById('siteStatusText');
+            if (!dot || !text) return;
+
+            var status = '正常';
+            try {
+                if (window.dynamicData && window.dynamicData.siteStats && window.dynamicData.siteStats.siteStatus) {
+                    status = window.dynamicData.siteStats.siteStatus;
+                }
+            } catch(e) {}
+
+            if (status === '正常') {
+                dot.className = 'status-dot normal';
+                text.textContent = '正常';
+            } else {
+                dot.className = 'status-dot fault';
+                text.textContent = '故障';
+            }
+        }
+
+        // 初始化
+        updateCurrentTime();
+        updateRunningDays();
+        updateSiteStatus();
+
+        // 每秒更新时间
+        setInterval(updateCurrentTime, 1000);
+        // 每小时更新运行天数
+        setInterval(updateRunningDays, 3600000);
+    });
     </script>
 
     <!-- 伪动态 Footer 信息渲染 -->

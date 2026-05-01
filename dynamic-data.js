@@ -11,13 +11,13 @@ window.dynamicData = {
     },
     // 站点统计
     siteStats: {
-        articles: 0
-0,
+        articles: 14,
         totalWords: 33404,
-        daysRunning: 123,
-        siteStartDate: "2025-12-28",
-        totalCommits: 1,
-        latestCommit: "3e919bc Merge branch 'main' of https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io"
+        daysRunning: 193,
+        siteStartDate: "2025-10-20",
+        totalCommits: 2,
+        latestCommit: "3461e6d fix: 修复推荐文章/上一篇下一篇链接路径 blog/id/id 双重叠加 bug",
+        siteStatus: "正常"
     },
     // 版本信息
     version: {
@@ -29,16 +29,21 @@ window.dynamicData = {
 
 // 生成"站点已运行 X 天"的动态显示函数
 window.getSiteAge = function() {
-    return "123 天";
+    // 从 2025-10-20 起算，实时计算
+    var start = new Date('2025-10-20T00:00:00+08:00');
+    var now = new Date();
+    return Math.floor((now - start) / 86400000) + ' 天';
 };
 
 // 生成"当前有 X 篇文章"的动态显示函数
 window.getArticleCount = function() {
-    return 0
-0;
+    return 14;
 };
 
 // 获取格式化的最后更新时间
 window.getLastUpdate = function() {
-    return "2026-04-30 19:35:06";
+    if (window.dynamicData && window.dynamicData.currentTime) {
+        return window.dynamicData.currentTime.datetime;
+    }
+    return "未知";
 };

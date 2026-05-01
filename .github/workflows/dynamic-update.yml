@@ -35,8 +35,8 @@ jobs:
           TIME_ONLY=$(TZ='Asia/Shanghai' date '+%H:%M')
           TIMESTAMP=$(TZ='Asia/Shanghai' date '+%s')
 
-          # 站点创建日期（根据timeline.js最早记录推算）
-          SITE_START="2025-12-28"
+          # 站点创建日期：2025年10月20日
+          SITE_START="2025-10-20"
           SITE_START_TS=$(date -d "$SITE_START" '+%s' 2>/dev/null || date -j -f "%Y-%m-%d" "$SITE_START" '+%s' 2>/dev/null)
           NOW_TS=$(date '+%s')
           DAYS_RUNNING=$(( (NOW_TS - SITE_START_TS) / 86400 ))
