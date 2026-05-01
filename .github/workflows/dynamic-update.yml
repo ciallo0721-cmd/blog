@@ -1,0 +1,130 @@
+name: 伪动态数据更新
+
+on:
+  schedule:
+    # 每6小时更新一次（UTC时间 0,6,12,18点 = 北京时间 8,14,20,2点）
+    - cron: '0 0,6,12,18 * * *'
+  # 允许手动触发
+  workflow_dispatch:
+  # 推送到main时也触发
+  push:
+    branches: ["main"]
+    paths:
+      - 'articles-data.js'
+      - 'timeline.js'
+      - 'blog/**'
+
+permissions:
+  contents: write
+
+jobs:
+  update-dynamic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 生成伪动态数据
+        id: generate
+        run: |
+          # 获取当前时间（北京时间 UTC+8）
+          NOW=$(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')
+          DATE_ONLY=$(TZ='Asia/Shanghai' date '+%Y-%m-%d')
+          TIME_ONLY=$(TZ='Asia/Shanghai' date '+%H:%M')
+          TIMESTAMP=$(TZ='Asia/Shanghai' date '+%s')
+
+          # 站点创建日期（根据timeline.js最早记录推算）
+          SITE_START="2025-12-28"
+          SITE_START_TS=$(date -d "$SITE_START" '+%s' 2>/dev/null || date -j -f "%Y-%m-%d" "$SITE_START" '+%s' 2>/dev/null)
+          NOW_TS=$(date '+%s')
+          DAYS_RUNNING=$(( (NOW_TS - SITE_START_TS) / 86400 ))
+
+          # 统计文章数量
+          ARTICLE_COUNT=$(grep -c '"id":' articles-data.js 2>/dev/null || echo "0")
+
+          # 统计文章总字数（所有blog目录下的index.html）
+          TOTAL_WORDS=$(find blog -name "index.html" -exec cat {} \; 2>/dev/null | wc -w || echo "0")
+
+          # 获取最新的git commit信息
+          LATEST_COMMIT=$(git log -1 --format="%h %s" 2>/dev/null || echo "unknown")
+
+          # 获取总提交数
+          COMMIT_COUNT=$(git rev-list --count HEAD 2>/dev/null || echo "0")
+
+          # 生成动态数据JS文件
+          cat > dynamic-data.js << DYNEOF
+          // ⚠️ 此文件由 GitHub Actions 自动生成，请勿手动修改
+          // 上次更新：${NOW}（北京时间）
+          window.dynamicData = {
+              // 当前时间信息
+              currentTime: {
+                  datetime: "${NOW}",
+                  date: "${DATE_ONLY}",
+                  time: "${TIME_ONLY}",
+                  timestamp: ${TIMESTAMP},
+                  timezone: "Asia/Shanghai (UTC+8)"
+              },
+              // 站点统计
+              siteStats: {
+                  articles: ${ARTICLE_COUNT},
+                  totalWords: ${TOTAL_WORDS},
+                  daysRunning: ${DAYS_RUNNING},
+                  siteStartDate: "${SITE_START}",
+                  totalCommits: ${COMMIT_COUNT},
+                  latestCommit: "${LATEST_COMMIT}"
+              },
+              // 版本信息
+              version: {
+                  generatedAt: "${NOW}",
+                  workflowRun: "${{ github.run_id }}",
+                  workflowRunNumber: "${{ github.run_number }}"
+              }
+          };
+
+          // 生成"站点已运行 X 天"的动态显示函数
+          window.getSiteAge = function() {
+              return "${DAYS_RUNNING} 天";
+          };
+
+          // 生成"当前有 X 篇文章"的动态显示函数
+          window.getArticleCount = function() {
+              return ${ARTICLE_COUNT};
+          };
+
+          // 获取格式化的最后更新时间
+          window.getLastUpdate = function() {
+              return "${NOW}";
+          };
+          DYNEOF
+
+          echo "✅ 动态数据已生成"
+          echo "  当前时间: ${NOW}"
+          echo "  文章数量: ${ARTICLE_COUNT}"
+          echo "  运行天数: ${DAYS_RUNNING}"
+          echo "  总提交数: ${COMMIT_COUNT}"
+
+      - name: 检查是否有变更
+        id: check_changes
+        run: |
+          if git diff --quiet dynamic-data.js 2>/dev/null; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "📦 dynamic-data.js 无变更，跳过提交"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "📝 dynamic-data.js 有变更，准备提交"
+          fi
+
+      - name: 提交并推送
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dynamic-data.js
+          git commit -m "🤖 伪动态数据自动更新 - $(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M')"
+          git push
+
+      - name: 无变更时输出日志
+        if: steps.check_changes.outputs.changed == 'false'
+        run: echo "本次运行无文件变更，不创建提交"

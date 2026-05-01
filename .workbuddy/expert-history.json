@@ -1,0 +1,83 @@
+{
+  "version": 2,
+  "sessions": {
+    "395c214471754fd1b2fa99b3a0ed9366": [
+      {
+        "expertId": "SecurityEngineer",
+        "name": "Vic",
+        "profession": "安全工程师",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/02-Engineering/SecurityEngineer/SecurityEngineer.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/02-Engineering/SecurityEngineer/SecurityEngineer_zh.md",
+        "usedAt": 1774672153513,
+        "industryId": "all"
+      }
+    ],
+    "f75cb84611f14ce6b86693ab93c7954a": [
+      {
+        "expertId": "SecurityEngineer",
+        "name": "Vic",
+        "profession": "安全工程师",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/02-Engineering/SecurityEngineer/SecurityEngineer.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/02-Engineering/SecurityEngineer/SecurityEngineer_zh.md",
+        "usedAt": 1774672577165,
+        "industryId": "all"
+      }
+    ],
+    "51f61f20905b48cc994c62d4a4d70434": [
+      {
+        "expertId": "SecurityEngineer",
+        "name": "Vic",
+        "profession": "安全工程师",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/02-Engineering/SecurityEngineer/SecurityEngineer.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/02-Engineering/SecurityEngineer/SecurityEngineer_zh.md",
+        "usedAt": 1774757743012,
+        "industryId": "all"
+      }
+    ],
+    "d7391c371ab6431ba1d28cada18a66f1": [
+      {
+        "expertId": "SeoExpert",
+        "name": "Vega",
+        "profession": "SEO专家",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/03-Marketing/SeoExpert/SeoExpert.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/03-Marketing/SeoExpert/SeoExpert_zh.md",
+        "usedAt": 1774758887451,
+        "industryId": "all"
+      }
+    ],
+    "d441701e26514c478ee547a91c44bc3d": [
+      {
+        "expertId": "SeoExpert",
+        "name": "Vega",
+        "profession": "SEO专家",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/03-Marketing/SeoExpert/SeoExpert.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/03-Marketing/SeoExpert/SeoExpert_zh.md",
+        "usedAt": 1774869517863,
+        "industryId": "all"
+      }
+    ],
+    "efae12867e844cbfb8b9aff0636091a7": [
+      {
+        "expertId": "SeoExpert",
+        "name": "Vega",
+        "profession": "SEO专家",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/03-Marketing/SeoExpert/SeoExpert.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/03-Marketing/SeoExpert/SeoExpert_zh.md",
+        "usedAt": 1774958268736,
+        "industryId": "all"
+      }
+    ],
+    "3b7b0c1d2ebf455fbe1e5f1b3fc955b3": [
+      {
+        "expertId": "SeoExpert",
+        "name": "Vega",
+        "profession": "SEO专家",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/03-Marketing/SeoExpert/SeoExpert.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/03-Marketing/SeoExpert/SeoExpert_zh.md",
+        "usedAt": 1775975544407,
+        "industryId": "all"
+      }
+    ]
+  },
+  "lastUpdated": 1775977056327
+}

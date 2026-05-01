@@ -1,0 +1,49 @@
+# HTTP 代理端口（Clash 自身监听）
+port: 7890
+# SOCKS5 代理端口
+socks-port: 7891
+# 允许局域网连接
+allow-lan: true
+# 运行模式: 规则模式
+mode: rule
+# 日志级别
+log-level: info
+# 外部控制地址
+external-controller: 127.0.0.1:9090
+
+# DNS 配置
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  enhanced-mode: fake-ip
+  nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+
+# 代理服务器定义（你的上游代理）
+proxies:
+  - name: "一键绕过防火墙,访问b站"
+    type: http
+    server: 192.168.18.67
+    port: 8888
+    # 如果该代理需要用户名密码，去掉下面两行的 # 并填写
+    # username: "your-username"
+    # password: "your-password"
+
+# 代理组
+proxy-groups:
+  - name: "PROXY"
+    type: select
+    proxies:
+      - "一键绕过防火墙,访问b站"
+      - "DIRECT"
+
+# 路由规则
+rules:
+  # 特定域名走代理
+  - DOMAIN-SUFFIX,bilibili.com,PROXY
+  - DOMAIN-SUFFIX,91vip.xn--32v.ink,PROXY
+  - DOMAIN-SUFFIX,baidu.com,PROXY
+  - DOMAIN-SUFFIX,github.com,PROXY
+  # 其他所有流量直连
+  - MATCH,DIRECT

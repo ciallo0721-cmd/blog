@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站状态 | ciallo0721-cmd</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="./fanv.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./fanv.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
+    <style>
+        :root {
+            --blue: #3366ff;
+            --blue2: #2575fc;
+            --green: #22c55e;
+            --green-bg: #f0fdf4;
+            --green-border: #86efac;
+            --yellow: #f59e0b;
+            --yellow-bg: #fffbeb;
+            --yellow-border: #fcd34d;
+            --red: #ef4444;
+            --red-bg: #fef2f2;
+            --red-border: #fca5a5;
+            --text: #1D1D1F;
+            --text2: #515154;
+            --bg: #f5f5f7;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 16px rgba(0,0,0,0.08);
+            --radius: 16px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ===== 顶部导航 ===== */
+        .topbar {
+            background: linear-gradient(135deg, #1D1D1F, #2D2D2F);
+            color: white;
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+        }
+        .topbar-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .topbar-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .topbar-title i { color: var(--blue); }
+        .back-btn {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .back-btn:hover { color: white; }
+
+        /* ===== 主体 ===== */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        /* ===== 全局状态框 ===== */
+        .global-status {
+            border-radius: var(--radius);
+            padding: 32px 36px;
+            margin-bottom: 36px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            box-shadow: var(--shadow);
+            border: 2px solid;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .global-status::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+        }
+
+        /* 绿色 - 正常 */
+        .status-ok {
+            background: var(--green-bg);
+            border-color: var(--green-border);
+        }
+        .status-ok::before { background: var(--green); }
+        .status-ok .gs-icon { color: var(--green); }
+
+        /* 黄色 - 部分故障 */
+        .status-warn {
+            background: var(--yellow-bg);
+            border-color: var(--yellow-border);
+        }
+        .status-warn::before { background: var(--yellow); }
+        .status-warn .gs-icon { color: var(--yellow); }
+
+        /* 红色 - 严重故障 */
+        .status-error {
+            background: var(--red-bg);
+            border-color: var(--red-border);
+        }
+        .status-error::before { background: var(--red); }
+        .status-error .gs-icon { color: var(--red); }
+
+        .gs-icon {
+            font-size: 2.8rem;
+            flex-shrink: 0;
+        }
+        .gs-text h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .gs-text p {
+            font-size: 0.95rem;
+            color: var(--text2);
+            line-height: 1.6;
+        }
+        .gs-badge {
+            margin-left: auto;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+        .gs-badge .badge-label {
+            font-size: 0.75rem;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .gs-badge .badge-time {
+            font-size: 0.82rem;
+            color: var(--text2);
+        }
+
+        /* ===== 区块标题 ===== */
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            margin-top: 36px;
+        }
+        .section-head h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .section-head i {
+            color: var(--blue);
+            font-size: 1rem;
+        }
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, #ddd, transparent);
+        }
+
+        /* ===== 页面状态卡片列表 ===== */
+        .page-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .page-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid #e5e7eb;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .page-item:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
+        .page-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 0 6px currentColor;
+        }
+        .dot-ok    { background: var(--green);  color: var(--green); }
+        .dot-warn  { background: var(--yellow); color: var(--yellow); }
+        .dot-error { background: var(--red);    color: var(--red); }
+
+        .page-info { flex: 1; min-width: 0; }
+        .page-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .page-name a {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 400;
+        }
+        .page-name a:hover { text-decoration: underline; }
+        .page-desc {
+            font-size: 0.82rem;
+            color: var(--text2);
+            margin-top: 2px;
+        }
+
+        .page-tag {
+            flex-shrink: 0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .tag-ok    { background: #dcfce7; color: #16a34a; }
+        .tag-warn  { background: #fef9c3; color: #b45309; }
+        .tag-error { background: #fee2e2; color: #b91c1c; }
+
+        /* ===== 说明框 ===== */
+        .info-box {
+            background: white;
+            border-radius: 12px;
+            padding: 18px 22px;
+            border-left: 4px solid var(--blue);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            font-size: 0.88rem;
+            color: var(--text2);
+            line-height: 1.7;
+            margin-top: 36px;
+        }
+        .info-box strong { color: var(--text); }
+
+        /* ===== 图例 ===== */
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            margin-bottom: 4px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82rem;
+            color: var(--text2);
+        }
+        .legend-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+        }
+
+        /* ===== 底部 ===== */
+        .footer-bar {
+            text-align: center;
+            padding: 28px 0 12px;
+            font-size: 0.82rem;
+            color: var(--text2);
+        }
+        .footer-bar a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 600px) {
+            .global-status { flex-wrap: wrap; padding: 22px 20px; gap: 16px; }
+            .gs-badge { margin-left: 0; align-items: flex-start; }
+            .container { padding: 24px 16px 40px; }
+        }
+
+        /* ===== 脉冲动画（绿点） ===== */
+        @keyframes pulse-ok {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+            50%       { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+        }
+        .dot-ok { animation: pulse-ok 2.5s infinite; }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<div class="topbar">
+    <div class="topbar-inner">
+        <div class="topbar-title">
+            <i class="fas fa-shield-halved"></i>
+            网站状态监控
+        </div>
+        <a href="./index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> 返回主页
+        </a>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- ===== 全局状态框 ===== -->
+    <!-- 
+        修改说明：只需修改下面 <div> 的 class：
+        正常：class="global-status status-ok"
+        轻微故障：class="global-status status-warn"
+        严重故障：class="global-status status-error"
+        
+        图标和文字会自动同步，无需手动修改其他内容。
+    -->
+    <div class="global-status status-ok" id="globalStatusBox">
+        <div class="gs-icon">
+            <i class="fas fa-circle-check" id="globalStatusIcon"></i>
+        </div>
+        <div class="gs-text">
+            <h2 id="globalStatusTitle">所有系统正常运行喵～</h2>
+            <p id="globalStatusDesc">当前所有页面与功能均可正常访问，没有已知故障。(๑˃̵ᴗ˂̵)و</p>
+        </div>
+        <div class="gs-badge">
+            <span class="badge-label">最后更新</span>
+            <span class="badge-time" id="lastUpdateTime">—</span>
+        </div>
+    </div>
+
+    <!-- 图例 -->
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> 正常运行</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> 轻微故障 / 部分不可用</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> 严重故障 / 完全不可用</div>
+    </div>
+
+    <!-- ===== 主要页面 ===== -->
+    <div class="section-head">
+        <i class="fas fa-house"></i>
+        <h3>主页面</h3>
+        <div class="section-line"></div>
+    </div>
+    <div class="page-list">
+
+        <!-- 每个 page-item 说明：
+             正常：dot-ok / tag-ok
+             轻微：dot-warn / tag-warn  
+             严重：dot-error / tag-error
+        -->
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     首页 (index.html)
+                    <a href="./index.html" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">主页 · 验证流程 · Python 编辑器 · 文章列表 · 游戏入口</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+
+
+
+    </div>
+
+    <!-- ===== 文章页面 ===== -->
+    <div class="section-head">
+        <i class="fas fa-newspaper"></i>
+        <h3>文章页面</h3>
+        <div class="section-line"></div>
+    </div>
+    <div class="page-list">
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     文章 1 (blog/1/)
+                    <a href="./blog/1/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">文章页面</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     文章 2 (blog/2/)
+                    <a href="./blog/2/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">文章页面</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     文章 3 (blog/3/)
+                    <a href="./blog/3/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">文章页面</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     文章 4 (blog/4/)
+                    <a href="./blog/4/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">文章页面</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     文章 5 (blog/5/)
+                    <a href="./blog/5/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">文章页面</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     文章 6 (blog/6/)
+                    <a href="./blog/6/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">文章页面</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     文章 7 (blog/7/)
+                    <a href="./blog/7/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">文章页面</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     文章 8 (blog/8/)
+                    <a href="./blog/8/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">文章页面</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     文章 9 (blog/9/)
+                    <a href="./blog/9/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">文章页面</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     文章 10 (blog/10/)
+                    <a href="./blog/10/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">文章页面</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+    </div>
+
+    <!-- ===== 游戏/互动内容 ===== -->
+    <div class="section-head">
+        <i class="fas fa-gamepad"></i>
+        <h3>游戏 / 互动内容</h3>
+        <div class="section-line"></div>
+    </div>
+    <div class="page-list">
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     病娇契约 (bjqy/)
+                    <a href="./bjqy/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">Ren'Py 视觉小说 · 病娇契约</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     来东北指定没有你好果子吃 (LAIDB/)
+                    <a href="./LAIDB/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">Ren'Py 视觉小说 ·来东北指定没有你好果子吃</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+
+    </div>
+
+    <!-- ===== 错误/特殊页面 ===== -->
+    <div class="section-head">
+        <i class="fas fa-triangle-exclamation"></i>
+        <h3>错误 / 特殊页面</h3>
+        <div class="section-line"></div>
+    </div>
+    <div class="page-list">
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     404 页面 (404.html)
+                    <a href="./404.html" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">页面未找到 错误页</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+        <div class="page-item">
+            <div class="page-dot dot-ok"></div>
+            <div class="page-info">
+                <div class="page-name">
+                     403 页面 (403.html)
+                    <a href="./403.html" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> 访问</a>
+                </div>
+                <div class="page-desc">访问被拒绝 错误页</div>
+            </div>
+            <span class="page-tag tag-ok">正常</span>
+        </div>
+
+    </div>
+
+    <!-- 底部 -->
+    <div class="footer-bar">
+        <a href="./index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
+        &nbsp;·&nbsp;
+        © 2026 ciallo0721-cmd
+    </div>
+
+</div>
+
+<script>
+    // 自动填写最后更新时间
+    const timeEl = document.getElementById('lastUpdateTime');
+    if (timeEl) {
+        const now = new Date();
+        const pad = n => String(n).padStart(2, '0');
+        timeEl.textContent = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    }
+
+    // 根据全局状态框的 class 自动同步图标、标题和描述（只需修改一个 class）
+    function syncGlobalStatusByClass() {
+        const statusBox = document.getElementById('globalStatusBox');
+        if (!statusBox) return;
+
+        // 获取当前状态类型
+        let statusType = 'ok'; // 默认正常
+        if (statusBox.classList.contains('status-warn')) {
+            statusType = 'warn';
+        } else if (statusBox.classList.contains('status-error')) {
+            statusType = 'error';
+        } else if (statusBox.classList.contains('status-ok')) {
+            statusType = 'ok';
+        }
+
+        // 图标元素和文本元素
+        const iconEl = document.getElementById('globalStatusIcon');
+        const titleEl = document.getElementById('globalStatusTitle');
+        const descEl = document.getElementById('globalStatusDesc');
+
+        // 根据状态类型映射内容
+        const mapping = {
+            ok: {
+                iconClass: 'fas fa-circle-check',
+                title: '所有系统正常运行喵～',
+                desc: '当前所有页面与功能均可正常访问，没有已知故障。(๑˃̵ᴗ˂̵)و'
+            },
+            warn: {
+                iconClass: 'fas fa-exclamation-triangle',
+                title: '部分系统出现故障喵～',
+                desc: '部分页面或功能可能暂时无法使用，正在紧急修复中，请稍后再试。'
+            },
+            error: {
+                iconClass: 'fas fa-circle-exclamation',
+                title: '系统严重故障喵！',
+                desc: '当前服务无法正常访问，我们正在全力抢修，非常抱歉给您带来不便。'
+            }
+        };
+
+        const current = mapping[statusType];
+        if (iconEl) {
+            // 移除现有图标类，添加新图标类（保留 fas 基础类）
+            iconEl.className = ''; 
+            iconEl.classList.add(...current.iconClass.split(' '));
+        }
+        if (titleEl) titleEl.textContent = current.title;
+        if (descEl) descEl.textContent = current.desc;
+    }
+
+    // 页面加载完成后执行同步
+    window.addEventListener('DOMContentLoaded', syncGlobalStatusByClass);
+</script>
+
+</body>
+</html>

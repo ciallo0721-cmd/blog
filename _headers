@@ -1,0 +1,64 @@
+/*
+  # 防点击劫持：禁止本站被嵌入 iframe
+  X-Frame-Options: SAMEORIGIN
+
+  # 防 MIME 类型嗅探攻击
+  X-Content-Type-Options: nosniff
+
+  # 强制启用 XSS 过滤（旧浏览器兼容）
+  X-XSS-Protection: 1; mode=block
+
+  # 引用来源策略：仅发送 origin，不泄露完整 URL
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # 权限策略：禁用不必要的浏览器特性
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
+  # Content Security Policy (收紧版)
+  # 说明：
+  #   - default-src 'self'           默认仅允许同源资源
+  #   - script-src 'self'            仅允许同源脚本（静态站不需要内联脚本）
+  #   - style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com
+  #       保留 unsafe-inline 因为现有CSS需要它
+  #   - font-src 'self' cdnjs.cloudflare.com
+  #   - img-src 'self' data: blob:
+  #       允许 data URI（头像占位 SVG 用到）
+  #   - media-src 'self'
+  #   - frame-src 'self'             仅允许同源 iframe（移除外部嵌入）
+  #   - connect-src 'self'           仅允许同源请求
+  #   - object-src 'none'            禁止 Flash 等插件
+  #   - base-uri 'self'              防 base 标签劫持
+  #   注意：eval 和外部脚本已被移除，提高安全性
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; font-src 'self' cdnjs.cloudflare.com data:; img-src 'self' data: blob:; media-src 'self'; frame-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';
+
+  # 性能优化：缓存策略
+  # 静态资源缓存1年
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+# 媒体文件
+*.png, *.jpg, *.jpeg, *.gif, *.webp, *.svg, *.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+# 字体文件
+*.woff, *.woff2, *.ttf, *.otf, *.eot
+  Cache-Control: public, max-age=31536000, immutable
+
+# 音频文件
+*.mp3, *.ogg, *.wav, *.m4a
+  Cache-Control: public, max-age=2592000
+
+# HTML文件 - 不缓存，确保最新内容
+*.html, *.htm
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+# JSON文件
+*.json
+  Cache-Control: public, max-age=86400
+
+# JavaScript文件 - 长期缓存
+*.js
+  Cache-Control: public, max-age=31536000, immutable
+

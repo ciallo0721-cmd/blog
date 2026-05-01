@@ -1,0 +1,53 @@
+# SEO优化配置 - 允许所有主流搜索引擎爬虫
+# 站点地图声明
+Sitemap: https://91vip.xn--32v.ink/sitemap.xml
+
+# 允许所有搜索引擎爬虫访问
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /adm1n.html
+Disallow: /status.html
+Disallow: /71be36dc0c0ba97e70bcf7c00f614e0a.txt
+
+# 特别配置主流搜索引擎
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Allow: /static-index.html
+Crawl-delay: 1
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Sogou Spider
+Allow: /
+Crawl-delay: 2
+
+User-agent: Bytespider
+Allow: /
+Crawl-delay: 2
+
+User-agent: ToutiaoSpider
+Allow: /
+Crawl-delay: 2
+
+# 禁止爬虫访问敏感目录
+User-agent: *
+Disallow: /admin.html
+Disallow: /adm1n.html
+Disallow: /status.html
+Disallow: /71be36dc0c0ba97e70bcf7c00f614e0a.txt
+Disallow: /functions/
+Disallow: /images/
+Disallow: /备用站点beiyong.xn--32v.ink/
+Disallow: /公告(如果需要,换成index)/
+Disallow: /wenzhangyong/

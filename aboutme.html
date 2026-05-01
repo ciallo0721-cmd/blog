@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我 | ciallo0721-cmd</title>
+    <meta name="description" content="ciallo0721-cmd — Ren'Py视觉小说开发者、独立游戏创作者的个人介绍页面">
+    <link rel="icon" href="./fanv.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./fanv.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
+    <!-- IE9检测 -->
+    <!--[if lte IE 9]><style>body{background:#e8eeff!important}*{animation:none!important;transition:none!important}</style><![endif]-->
+    <style>
+        :root {
+            --neon-blue:  #1a4fff;
+            --neon-cyan:  #00d4ff;
+            --neon-pink:  #ff2d78;
+            --neon-yellow:#ffe000;
+            --neon-purple:#b721ff;
+            --dark:       #0d0d1a;
+            --card-bg:    rgba(255,255,255,0.06);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--dark);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== 粒子背景 ===== */
+        #particles {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            pointer-events:none; z-index:0;
+            background: radial-gradient(ellipse at 20% 30%, rgba(26,79,255,0.18) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 70%, rgba(183,33,255,0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 50% 50%, rgba(0,212,255,0.08) 0%, transparent 80%);
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed; top:0; left:0; right:0; z-index:1000;
+            padding: 14px 32px;
+            background: rgba(13,13,26,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(26,79,255,0.25);
+            display: flex; align-items:center; justify-content:space-between;
+        }
+        .nav-logo {
+            font-size: 1.15rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+        .nav-back {
+            display: inline-flex; align-items:center; gap:6px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan));
+            color: #fff; text-decoration:none;
+            padding: 8px 20px; border-radius:20px;
+            font-size: 0.88rem; font-weight:600;
+            box-shadow: 0 0 16px rgba(0,212,255,0.35);
+            transition: all 0.3s;
+        }
+        .nav-back:hover { transform:translateY(-2px); box-shadow:0 0 28px rgba(0,212,255,0.7); }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative; z-index:1;
+            min-height: 100vh;
+            display: flex; flex-direction:column; align-items:center; justify-content:center;
+            text-align: center;
+            padding: 100px 24px 60px;
+            overflow: hidden;
+        }
+        .hero::before {
+            content:'';
+            position:absolute; top:0;left:0;right:0;bottom:0;
+            background: linear-gradient(135deg,
+                rgba(26,79,255,0.25) 0%,
+                rgba(0,212,255,0.12) 40%,
+                rgba(183,33,255,0.2) 100%);
+            animation: heroBg 8s ease infinite alternate;
+        }
+        @keyframes heroBg {
+            0%   { opacity:0.7; }
+            100% { opacity:1; }
+        }
+
+        .hero-badge {
+            position: relative; z-index:2;
+            display: inline-block;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-yellow));
+            color: #0d0d1a; font-weight:800; font-size:0.78rem;
+            padding: 5px 16px; border-radius:20px; letter-spacing:1.5px;
+            text-transform: uppercase; margin-bottom:20px;
+            box-shadow: 0 0 18px rgba(255,45,120,0.55);
+            animation: badgePulse 2s ease-in-out infinite alternate;
+        }
+        @keyframes badgePulse {
+            from { box-shadow: 0 0 10px rgba(255,45,120,0.4); }
+            to   { box-shadow: 0 0 28px rgba(255,45,120,0.9), 0 0 50px rgba(255,224,0,0.3); }
+        }
+
+        .hero-name {
+            position: relative; z-index:2;
+            font-size: clamp(2.4rem, 7vw, 5.5rem);
+            font-weight: 900; line-height:1.1;
+            background: linear-gradient(135deg, #fff 0%, var(--neon-cyan) 40%, var(--neon-blue) 70%, var(--neon-purple) 100%);
+            background-size: 300% 300%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: nameGradient 5s ease infinite;
+            margin-bottom: 16px;
+        }
+        @keyframes nameGradient {
+            0%   { background-position:0% 50%; }
+            50%  { background-position:100% 50%; }
+            100% { background-position:0% 50%; }
+        }
+
+        .hero-sub {
+            position: relative; z-index:2;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: rgba(255,255,255,0.82);
+            margin-bottom: 10px;
+        }
+        .hero-sub strong { color: var(--neon-cyan); }
+
+        .hero-tags {
+            position: relative; z-index:2;
+            display: flex; flex-wrap:wrap; justify-content:center; gap:10px;
+            margin: 22px 0 32px;
+        }
+        .hero-tag {
+            padding: 7px 18px; border-radius:20px;
+            font-size: 0.88rem; font-weight:600;
+            border: 2px solid transparent;
+            cursor: default;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+        .hero-tag:nth-child(1) { background:rgba(26,79,255,0.2);  border-color:var(--neon-blue);   color:var(--neon-cyan); }
+        .hero-tag:nth-child(2) { background:rgba(0,212,255,0.15); border-color:var(--neon-cyan);   color:#fff; }
+        .hero-tag:nth-child(3) { background:rgba(255,45,120,0.15);border-color:var(--neon-pink);   color:var(--neon-yellow); }
+        .hero-tag:nth-child(4) { background:rgba(183,33,255,0.15);border-color:var(--neon-purple); color:#e0aaff; }
+        .hero-tag:nth-child(5) { background:rgba(255,224,0,0.12); border-color:var(--neon-yellow); color:var(--neon-yellow); }
+        .hero-tag:hover { transform:translateY(-4px) scale(1.08); box-shadow:0 8px 25px rgba(0,212,255,0.35); }
+
+        /* ===== ATTENTION 引导滚动 ===== */
+        .scroll-hint {
+            position: relative; z-index:2;
+            display: flex; flex-direction:column; align-items:center; gap:6px;
+            color: rgba(255,255,255,0.5); font-size:0.82rem;
+            animation: bounceDown 2s ease-in-out infinite;
+        }
+        @keyframes bounceDown {
+            0%,100% { transform:translateY(0); }
+            50%      { transform:translateY(8px); }
+        }
+        .scroll-hint i { font-size:1.4rem; color:var(--neon-cyan); }
+
+        /* ===== SECTION 通用 ===== */
+        .section {
+            position: relative; z-index:1;
+            max-width: 900px; margin:0 auto;
+            padding: 60px 24px;
+        }
+        .section-label {
+            display: inline-flex; align-items:center; gap:8px;
+            background: linear-gradient(135deg, rgba(26,79,255,0.25), rgba(0,212,255,0.15));
+            border: 1px solid rgba(0,212,255,0.4);
+            color: var(--neon-cyan); font-size:0.8rem; font-weight:700;
+            padding: 5px 14px; border-radius:20px; letter-spacing:1px;
+            text-transform:uppercase; margin-bottom:16px;
+        }
+        .section-title {
+            font-size: clamp(1.7rem, 4vw, 2.6rem);
+            font-weight: 800; line-height:1.2; margin-bottom:14px;
+        }
+        .section-title span {
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+        }
+        .section-desc {
+            color: rgba(255,255,255,0.68);
+            font-size: 1.05rem; line-height:1.8; margin-bottom:30px;
+        }
+
+        /* ===== INTEREST 卡片网格 ===== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px; padding:28px 22px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            cursor: default;
+        }
+        .card:hover {
+            transform: translateY(-7px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 12px 40px rgba(0,212,255,0.25);
+        }
+        .card-icon {
+            font-size: 2.2rem; margin-bottom:14px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+        }
+        .card h3 { font-size:1.15rem; font-weight:700; margin-bottom:8px; }
+        .card p  { color:rgba(255,255,255,0.6); font-size:0.92rem; line-height:1.7; }
+
+        /* ===== COMPARISON 技能进度条 ===== */
+        .skill-list { display:flex; flex-direction:column; gap:16px; }
+        .skill-item {}
+        .skill-head {
+            display:flex; justify-content:space-between;
+            font-size:0.95rem; font-weight:600; margin-bottom:7px;
+        }
+        .skill-head .pct { color:var(--neon-cyan); }
+        .skill-bar-bg {
+            width:100%; height:10px;
+            background: rgba(255,255,255,0.08);
+            border-radius:5px; overflow:hidden;
+        }
+        .skill-bar {
+            height:100%; border-radius:5px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
+            box-shadow: 0 0 10px rgba(0,212,255,0.5);
+            transition: width 1.2s cubic-bezier(.4,0,.2,1);
+            width: 0;
+        }
+        .skill-bar.pink   { background: linear-gradient(90deg, var(--neon-pink), var(--neon-yellow)); box-shadow:0 0 10px rgba(255,45,120,0.45); }
+        .skill-bar.purple { background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); box-shadow:0 0 10px rgba(183,33,255,0.45); }
+
+        /* ===== ACTION 高饱和CTA ===== */
+        .cta-box {
+            background: linear-gradient(135deg, rgba(26,79,255,0.3), rgba(183,33,255,0.25));
+            border: 2px solid rgba(0,212,255,0.4);
+            border-radius: 24px; padding: 44px 32px; text-align:center;
+            position: relative; overflow:hidden;
+        }
+        .cta-box::before {
+            content:'';
+            position:absolute; inset:-40%;
+            background: conic-gradient(from 0deg, transparent, rgba(0,212,255,0.08), transparent 60%);
+            animation: ctaSpin 8s linear infinite;
+        }
+        @keyframes ctaSpin { to { transform:rotate(360deg); } }
+        .cta-box h2 {
+            position:relative; z-index:1;
+            font-size: clamp(1.4rem,3vw,2rem); font-weight:800; margin-bottom:12px;
+        }
+        .cta-box p {
+            position:relative; z-index:1;
+            color:rgba(255,255,255,0.72); margin-bottom:28px; font-size:1.05rem;
+        }
+        .cta-btns {
+            position:relative; z-index:1;
+            display:flex; flex-wrap:wrap; gap:14px; justify-content:center;
+        }
+        .btn-primary {
+            display:inline-flex; align-items:center; gap:8px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan));
+            color:#fff; text-decoration:none; font-weight:700;
+            padding: 14px 32px; border-radius:30px; font-size:1rem;
+            box-shadow: 0 0 24px rgba(0,212,255,0.55);
+            transition: all 0.3s;
+        }
+        .btn-primary:hover { transform:translateY(-4px); box-shadow:0 0 40px rgba(0,212,255,0.9); }
+        .btn-secondary {
+            display:inline-flex; align-items:center; gap:8px;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-yellow));
+            color:#0d0d1a; text-decoration:none; font-weight:700;
+            padding: 14px 32px; border-radius:30px; font-size:1rem;
+            box-shadow: 0 0 24px rgba(255,45,120,0.45);
+            transition: all 0.3s;
+        }
+        .btn-secondary:hover { transform:translateY(-4px); box-shadow:0 0 40px rgba(255,45,120,0.85); }
+
+        /* ===== SHARE 分享条（最强刺激设计） ===== */
+        .share-strip {
+            position: relative; z-index:1;
+            background: linear-gradient(270deg, var(--neon-pink), var(--neon-yellow), var(--neon-cyan), var(--neon-blue), var(--neon-purple), var(--neon-pink));
+            background-size: 400% 400%;
+            animation: shareFlow 4s ease infinite;
+            border-radius: 20px; padding: 32px 28px;
+            text-align:center; margin: 0 24px 60px;
+            max-width: 860px; margin-left:auto; margin-right:auto;
+        }
+        @keyframes shareFlow {
+            0%  { background-position:0% 50%; }
+            50% { background-position:100% 50%; }
+            100%{ background-position:0% 50%; }
+        }
+        .share-strip h3 {
+            font-size:1.5rem; font-weight:900; color:#0d0d1a; margin-bottom:8px;
+        }
+        .share-strip p {
+            color: rgba(13,13,26,0.75); margin-bottom:18px; font-size:0.97rem; font-weight:600;
+        }
+        .share-btns { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
+        .share-btn {
+            display:inline-flex; align-items:center; gap:7px;
+            background: rgba(13,13,26,0.85);
+            color:#fff; text-decoration:none; font-weight:700;
+            padding: 11px 24px; border-radius:24px; font-size:0.9rem;
+            border: 2px solid rgba(255,255,255,0.25);
+            cursor:pointer; transition: all 0.25s;
+        }
+        .share-btn:hover { background:rgba(13,13,26,1); transform:scale(1.06); }
+
+        /* ===== 分隔线 ===== */
+        .divider {
+            display:flex; justify-content:center; align-items:center; gap:8px;
+            margin:10px 0; padding:10px 0;
+        }
+        .divider span {
+            width:7px; height:7px; border-radius:50%;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-cyan));
+            animation: bounce 1.5s infinite;
+        }
+        .divider span:nth-child(2){animation-delay:.2s}
+        .divider span:nth-child(3){animation-delay:.4s}
+        .divider span:nth-child(4){animation-delay:.6s}
+        .divider span:nth-child(5){animation-delay:.8s}
+        @keyframes bounce { 0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)} }
+
+        /* ===== Footer ===== */
+        footer {
+            text-align:center; padding:30px 24px;
+            color:rgba(255,255,255,0.35); font-size:0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            position:relative; z-index:1;
+        }
+
+        /* ===== 响应式 ===== */
+        @media(max-width:600px){
+            .hero-name{font-size:2.4rem}
+            .cta-btns{flex-direction:column;align-items:center}
+            nav{padding:12px 18px}
+        }
+    </style>
+</head>
+<body>
+<div id="particles"></div>
+
+<!-- NAV -->
+<nav>
+    <a class="nav-logo" href="./index.html">ciallo0721-cmd</a>
+    <a class="nav-back" href="./index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
+</nav>
+
+<!-- ① ATTENTION：Hero 区 -->
+<section class="hero">
+    <div class="hero-badge"> 独立游戏创作者 </div>
+    <h1 class="hero-name">ciallo0721-cmd</h1>
+    <p class="hero-sub">用代码写故事 · 用游戏讲情感<br><strong>Ren'Py × 二次元 × 创作分享</strong></p>
+    <div class="hero-tags">
+        <span class="hero-tag"><i class="fas fa-gamepad"></i> 视觉小说</span>
+        <span class="hero-tag"><i class="fas fa-code"></i> 代码创作</span>
+        <span class="hero-tag"><i class="fas fa-star"></i> Ren'Py 引擎</span>
+        <span class="hero-tag"><i class="fas fa-magic"></i> 二次元创作</span>
+        <span class="hero-tag"><i class="fas fa-book-open"></i> 故事叙述</span>
+    </div>
+    <div class="scroll-hint">
+        <i class="fas fa-chevron-down"></i>
+        <span>向下探索</span>
+    </div>
+</section>
+
+<div class="divider"><span></span><span></span><span></span><span></span><span></span></div>
+
+<!-- ② INTEREST：我是谁 -->
+<section class="section">
+    <div class="section-label"><i class="fas fa-user-astronaut"></i> Who Am I</div>
+    <h2 class="section-title">我是 <span>什么来头</span>？</h2>
+    <p class="section-desc">
+        Ciallo～(∠・ω＜)⌒★ 你好！人家是 <strong style="color:#00d4ff">ciallo0721-cmd</strong>，一名把"敲代码"当作艺术创作来对待的独立游戏开发者喵～<br>
+        从学会用 <strong style="color:#ff2d78">Ren'Py</strong> 写出第一行 label start: 开始，就再也停不下来了！
+        每一款游戏、每一段剧情，都是我对<strong style="color:#ffe000">二次元美学</strong>与<strong style="color:#b721ff">深度故事</strong>的真实探索。<br>
+         目前已发布多款视觉小说，题材从温馨日常到心理惊悚应有尽有——
+        <span style="color:#ff2d78;font-weight:700">你绝对没玩过这么有个性的国产视觉小说！</span>
+    </p>
+    <div class="card-grid">
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-gamepad"></i></div>
+            <h3>视觉小说开发</h3>
+            <p>Ren'Py 引擎深度玩家，已产出多款原创游戏，每款都有独特世界观和故事线。</p>
+        </div>
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-terminal"></i></div>
+            <h3>编程开发</h3>
+            <p>代码是实现一切创意的魔法工具，让每个想法都能变成现实。</p>
+        </div>
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-palette"></i></div>
+            <h3>角色设计 & 美术</h3>
+            <p>角色立绘、场景构图、UI 排版——视觉小说的美感从设计稿就开始了。</p>
+        </div>
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-music"></i></div>
+            <h3>UTAU 调音</h3>
+            <p>虚拟歌姬调音爱好者，用声音为游戏世界增添独特的情感温度。</p>
+        </div>
+    </div>
+</section>
+
+<div class="divider"><span></span><span></span><span></span><span></span><span></span></div>
+
+<!-- ③ SEARCH：技能雷达（用进度条呈现） -->
+<section class="section">
+    <div class="section-label"><i class="fas fa-chart-bar"></i> Skills</div>
+    <h2 class="section-title">技能<span>实力面板</span></h2>
+    <p class="section-desc">比攀比段位更重要的，是做出让玩家感动的作品。这是我的真实技能分布——</p>
+    <div class="skill-list">
+        <div class="skill-item">
+            <div class="skill-head"><span> Ren'Py 视觉小说引擎</span><span class="pct">92%</span></div>
+            <div class="skill-bar-bg"><div class="skill-bar" data-w="92"></div></div>
+        </div>
+        <div class="skill-item">
+            <div class="skill-head"><span> 编程开发</span><span class="pct">80%</span></div>
+            <div class="skill-bar-bg"><div class="skill-bar" data-w="80"></div></div>
+        </div>
+        <div class="skill-item">
+            <div class="skill-head"><span> HTML / CSS / JS 前端</span><span class="pct">75%</span></div>
+            <div class="skill-bar-bg"><div class="skill-bar pink" data-w="75"></div></div>
+        </div>
+        <div class="skill-item">
+            <div class="skill-head"><span> 角色设计 & 插画</span><span class="pct">70%</span></div>
+            <div class="skill-bar-bg"><div class="skill-bar purple" data-w="70"></div></div>
+        </div>
+        <div class="skill-item">
+            <div class="skill-head"><span> UTAU 调音</span><span class="pct">65%</span></div>
+            <div class="skill-bar-bg"><div class="skill-bar pink" data-w="65"></div></div>
+        </div>
+        <div class="skill-item">
+            <div class="skill-head"><span> Unity 游戏开发</span><span class="pct">50%</span></div>
+            <div class="skill-bar-bg"><div class="skill-bar purple" data-w="50"></div></div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"><span></span><span></span><span></span><span></span><span></span></div>
+
+<!-- ④ COMPARISON：作品展示 -->
+<section class="section">
+    <div class="section-label"><i class="fas fa-trophy"></i> Works</div>
+    <h2 class="section-title">我的<span>作品</span></h2>
+    <p class="section-desc">这些游戏全是我一个人从剧情→代码→美术→调音一条龙搞出来的——<span style="color:#ff2d78;font-weight:700">想知道哪款最好玩？点进去自己体验！</span></p>
+    <div class="card-grid">
+        <div class="card" style="border-color:rgba(0,212,255,0.3)">
+            <div class="card-icon"><i class="fas fa-book-open"></i></div>
+            <h3>周末的诗篇</h3>
+            <p>一款关于文学与青春的温馨视觉小说，字里行间都是真实的情感。</p>
+            <a href="./zmdspp/indexzm.html" target="_blank"
+               style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--neon-cyan);font-weight:700;font-size:0.9rem;text-decoration:none">
+               立即体验 <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+        <div class="card" style="border-color:rgba(255,45,120,0.3)">
+            <div class="card-icon"><i class="fas fa-snowflake"></i></div>
+            <h3>来东北指定没有你好果子吃</h3>
+            <p>脑洞大开的东北风情视觉小说，保证让你笑出声来。</p>
+            <a href="./LAIDB/index.html" target="_blank"
+               style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:#ff2d78;font-weight:700;font-size:0.9rem;text-decoration:none">
+               立即体验 <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+        <div class="card" style="border-color:rgba(183,33,255,0.3)">
+            <div class="card-icon"><i class="fas fa-heart-broken"></i></div>
+            <h3>病娇契约 (Demo)</h3>
+            <p>心理惊悚向视觉小说，体验病娇视角下扭曲而又真实的"爱情"。</p>
+            <a href="./bjqy" target="_blank"
+               style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:#e0aaff;font-weight:700;font-size:0.9rem;text-decoration:none">
+               立即体验 <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="divider"><span></span><span></span><span></span><span></span><span></span></div>
+
+<!-- ⑤ EXAMINATION + ACTION：CTA 行动区 -->
+<section class="section">
+    <div class="cta-box">
+        <h2> 准备好深入了解了吗？</h2>
+        <p>回到主页，探索更多游戏作品、在线编辑器和和技术文章——一切都等着你！</p>
+        <div class="cta-btns">
+            <a href="./index.html" class="btn-primary">
+                <i class="fas fa-home"></i> 前往主页探索
+            </a>
+            <a href="https://space.bilibili.com/478967440" target="_blank" class="btn-secondary">
+                <i class="fab fa-bilibili"></i> B站主页
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ⑥ SHARE：高饱和分享条 -->
+<div class="share-strip">
+    <h3> 觉得有意思？分享给朋友！</h3>
+    <p>你的一次分享，可能就是下一个玩家的入场券——<br>让更多人发现这里！(๑•̀ㅂ•́)و✧</p>
+    <div class="share-btns">
+        <button class="share-btn" onclick="copyLink()">
+            <i class="fas fa-link"></i> 复制链接
+        </button>
+        <a class="share-btn"
+           href="https://service.weibo.com/share/share.php?url=https://91vip.xn--32v.ink/aboutme.html&title=发现了一个超厉害的视觉小说创作者ciallo0721-cmd，游戏超好玩！🎮"
+           target="_blank">
+            <i class="fab fa-weibo"></i> 分享微博
+        </a>
+        <button class="share-btn" onclick="shareQQ()">
+            <i class="fab fa-qq"></i> 分享QQ
+        </button>
+    </div>
+    <div id="copyTip" style="margin-top:12px;color:#0d0d1a;font-weight:700;font-size:0.88rem;display:none">
+        链接已复制！快去粘贴给朋友吧～
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 ciallo0721-cmd · 独立游戏创作者</p>
+    <div style="margin-top:10px; display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+        <a href="./privacy-policy.html" style="color:rgba(0,212,255,0.6);text-decoration:none"><i class="fas fa-shield-alt"></i> 隐私政策</a>
+        <a href="./user-agreement.html" style="color:rgba(0,212,255,0.6);text-decoration:none"><i class="fas fa-file-contract"></i> 用户协议</a>
+    </div>
+    <p style="margin-top:10px"><a href="./index.html" style="color:rgba(0,212,255,0.6);text-decoration:none">← 返回主页</a></p>
+</footer>
+
+<script>
+// ===== 技能进度条动画（IntersectionObserver，IE9降级无动画） =====
+(function(){
+    if (!window.IntersectionObserver) {
+        // IE9 降级：直接设置宽度
+        document.querySelectorAll('.skill-bar').forEach(function(bar){
+            bar.style.width = (bar.getAttribute('data-w') || 0) + '%';
+        });
+        return;
+    }
+    var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+            if(entry.isIntersecting){
+                var bar = entry.target;
+                bar.style.width = (bar.getAttribute('data-w') || 0) + '%';
+                observer.unobserve(bar);
+            }
+        });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.skill-bar').forEach(function(bar){
+        observer.observe(bar);
+    });
+})();
+
+// ===== 复制链接 =====
+function copyLink() {
+    var url = 'https://91vip.xn--32v.ink/aboutme.html';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(showCopyTip);
+    } else {
+        var ta = document.createElement('textarea');
+        ta.value = url; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch(e){}
+        document.body.removeChild(ta);
+        showCopyTip();
+    }
+}
+function showCopyTip() {
+    var tip = document.getElementById('copyTip');
+    tip.style.display = 'block';
+    setTimeout(function(){ tip.style.display='none'; }, 3000);
+}
+
+// ===== 分享QQ =====
+function shareQQ() {
+    var url = encodeURIComponent('https://91vip.xn--32v.ink/aboutme.html');
+    var title = encodeURIComponent('发现了超厉害的视觉小说创作者！游戏真的很好玩🎮');
+    window.open('https://connect.qq.com/widget/shareqq/index.html?url='+url+'&title='+title, '_blank');
+}
+
+// ===== 原生分享（移动端） =====
+function nativeShare() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'ciallo0721-cmd — 视觉小说创作者',
+            text: '发现了一个超有个性的独立游戏创作者，游戏超好玩！',
+            url: 'https://91vip.xn--32v.ink/aboutme.html'
+        }).catch(function(){});
+    } else {
+        copyLink();
+    }
+}
+
+// ===== 验证检查（与主站保持一致） =====
+(function(){
+    var passed = sessionStorage.getItem('verify_passed') === 'true'
+              || sessionStorage.getItem('auth_passed') === 'true';
+    if (!passed) {
+        window.location.href = './index.html';
+    }
+})();
+</script>
+</body>
+</html>
