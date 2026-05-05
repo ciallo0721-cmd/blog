@@ -1,12 +1,12 @@
 // ⚠️ 此文件由 GitHub Actions 自动生成，请勿手动修改
-// 上次更新：2026-05-05 10:35:20（北京时间）
+// 上次更新：2026-05-05 16:06:50（北京时间）
 window.dynamicData = {
     // 当前时间信息
     currentTime: {
-        datetime: "2026-05-05 10:35:20",
+        datetime: "2026-05-05 16:06:50",
         date: "2026-05-05",
-        time: "10:35",
-        timestamp: 1777948520,
+        time: "16:06",
+        timestamp: 1777968410,
         timezone: "Asia/Shanghai (UTC+8)"
     },
     // 站点统计
@@ -17,13 +17,13 @@ window.dynamicData = {
         daysRunning: 197,
         siteStartDate: "2025-10-20",
         totalCommits: 1,
-        latestCommit: "3503621 🤖 伪动态数据自动更新 - 2026-05-05 03:26"
+        latestCommit: "66e446f 🤖 伪动态数据自动更新 - 2026-05-05 10:35"
     },
     // 版本信息
     version: {
-        generatedAt: "2026-05-05 10:35:20",
-        workflowRun: "25354809813",
-        workflowRunNumber: "29"
+        generatedAt: "2026-05-05 16:06:50",
+        workflowRun: "25365000942",
+        workflowRunNumber: "30"
     }
 };
 
@@ -40,5 +40,5 @@ window.getArticleCount = function() {
 
 // 获取格式化的最后更新时间
 window.getLastUpdate = function() {
-    return "2026-05-05 10:35:20";
+    return "2026-05-05 16:06:50";
 };
