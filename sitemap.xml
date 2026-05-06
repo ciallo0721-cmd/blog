@@ -129,25 +129,37 @@
   <!-- 游戏页面 -->
   <url>
     <loc>https://91vip.xn--32v.ink/bjqy/index.html</loc>
-    <lastmod>2026-04-30</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://91vip.xn--32v.ink/fors/index.html</loc>
-    <lastmod>2026-04-30</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://91vip.xn--32v.ink/LAIDB/index.html</loc>
-    <lastmod>2026-04-30</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://91vip.xn--32v.ink/zmdspp/indexzm.html</loc>
-    <lastmod>2026-04-30</lastmod>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://91vip.xn--32v.ink/91/index.html</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://91vip.xn--32v.ink/dkdfj/index.html</loc>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
