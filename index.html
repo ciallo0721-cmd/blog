@@ -820,6 +820,81 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
         ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3366ff, #2575fc); border-radius: 4px; }
+
+        /* ===== HTTP 检测提示框样式 ===== */
+        .http-warning-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .http-warning-box {
+            background: rgba(20,20,20,0.98);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid rgba(255,165,0,0.5);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            animation: slideInUp 0.6s ease-out;
+        }
+        .http-warning-icon {
+            font-size: 4rem;
+            color: #ff9800;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        .http-warning-title {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        .http-warning-text {
+            color: #b0b0b0;
+            margin-bottom: 25px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .http-warning-text strong {
+            font-weight: 600;
+        }
+        .http-warning-btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            margin: 0 8px;
+        }
+        .http-warning-btn.primary {
+            background: linear-gradient(135deg, #3366ff, #2575fc);
+            color: white;
+            box-shadow: 0 4px 15px rgba(51,102,255,0.4);
+        }
+        .http-warning-btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(51,102,255,0.6);
+        }
+        .http-warning-btn.secondary {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #888;
+        }
+        .http-warning-btn.secondary:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border-color: rgba(255,255,255,0.5);
+        }
     </style>
     <!-- 引入 Turnstile 脚本 -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -916,8 +991,64 @@
     </script>
     <!-- IP 地理检测（美国用户拒绝访问） -->
     <script src="./geo-check.js"></script>
+    <!-- HTTP 检测与提示 -->
+    <script>
+        // HTTP 检测：如果是 HTTP 协议，显示安全提示
+        (function() {
+            function checkHTTP() {
+                if (window.location.protocol === 'http:') {
+                    // 显示当前 URL
+                    var urlSpan = document.getElementById('currentHttpUrl');
+                    if (urlSpan) urlSpan.textContent = window.location.href;
+                    // 显示提示框
+                    var overlay = document.getElementById('httpWarningOverlay');
+                    if (overlay) overlay.style.display = 'flex';
+                }
+            }
+            function switchToHTTPS() {
+                var url = window.location.href;
+                url = url.replace(/^http:/i, 'https:');
+                window.location.href = url;
+            }
+            function continueHTTP() {
+                var overlay = document.getElementById('httpWarningOverlay');
+                if (overlay) overlay.style.display = 'none';
+            }
+            // 暴露到全局
+            window.switchToHTTPS = switchToHTTPS;
+            window.continueHTTP = continueHTTP;
+            // 页面加载后检测
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkHTTP);
+            } else {
+                checkHTTP();
+            }
+        })();
+    </script>
 </head>
 <body class="auth-passed">
+    <!-- HTTP 检测提示框 -->
+    <div class="http-warning-overlay" id="httpWarningOverlay" style="display:none;">
+        <div class="http-warning-box">
+            <div class="http-warning-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <h2 class="http-warning-title">不安全连接警告</h2>
+            <p class="http-warning-text">
+                您正在通过 <strong style="color:#ff9800;">HTTP</strong> 不安全连接访问此网站。<br>
+                建议您切换到 <strong style="color:#4CAF50;">HTTPS</strong> 安全连接以保护您的数据安全。
+            </p>
+            <div>
+                <button class="http-warning-btn primary" onclick="switchToHTTPS()">
+                    <i class="fas fa-lock"></i> 进入 HTTPS 安全连接
+                </button>
+                <button class="http-warning-btn secondary" onclick="continueHTTP()">
+                    继续访问（不安全）
+                </button>
+            </div>
+            <p style="color:#666; font-size:0.8rem; margin-top:20px;">
+                当前地址：<span id="currentHttpUrl" style="color:#ff9800;"></span>
+            </p>
+        </div>
+    </div>
     <!-- 
       SEO优化：body默认带auth-passed类，爬虫（不执行JS）直接看到所有内容
       JS检测到真实用户后会移除该类，触发验证流程
