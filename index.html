@@ -2577,5 +2577,97 @@
         setInterval(render, 60000);
     });
     </script>
+
+<!-- ===== 公告弹窗 ===== -->
+<div id="announcementModal" style="
+    display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.6); z-index:99999;
+    align-items:center; justify-content:center;
+    backdrop-filter:blur(4px);
+">
+    <div style="
+        background:#fff; border-radius:20px; padding:36px 32px 28px;
+        max-width:480px; width:90%; position:relative;
+        box-shadow:0 20px 60px rgba(51,102,255,0.25);
+        animation:announcePop .35s cubic-bezier(.34,1.56,.64,1);
+    ">
+        <!-- 顶部装饰条 -->
+        <div style="position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#3366ff,#2575fc,#66aaff);border-radius:20px 20px 0 0;"></div>
+        <!-- 关闭按钮 -->
+        <button onclick="closeAnnouncement()" style="
+            position:absolute; top:14px; right:16px;
+            background:none; border:none; font-size:1.4rem;
+            color:#999; cursor:pointer; line-height:1;
+            transition:color .2s;
+        " onmouseover="this.style.color='#3366ff'" onmouseout="this.style.color='#999'">×</button>
+        <!-- 图标 + 标题 -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+            <span style="font-size:1.6rem;">📢</span>
+            <h2 style="font-size:1.2rem;font-weight:700;background:linear-gradient(90deg,#3366ff,#2575fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0;">
+                站点公告
+            </h2>
+        </div>
+        <!-- 公告正文（在这里修改内容喵～） -->
+        <div id="announcementContent" style="
+            font-size:0.97rem; color:#444; line-height:1.8;
+            border-left:3px solid #3366ff; padding-left:14px;
+            margin-bottom:22px;
+        ">
+            <p>你好喵～欢迎来到 ciallo0721-cmd 的小站！(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</p>
+            <p style="margin-top:8px;">网站正在持续更新中，如果发现问题或有建议，欢迎在 <a href="./adss.html" style="color:#3366ff;text-decoration:none;font-weight:600;">联系页面</a> 告诉我的说～</p>
+        </div>
+        <!-- 底部按钮 -->
+        <div style="display:flex;gap:10px;justify-content:flex-end;align-items:center;">
+            <label style="display:flex;align-items:center;gap:6px;font-size:0.82rem;color:#888;cursor:pointer;margin-right:auto;">
+                <input type="checkbox" id="announceNoMore" style="cursor:pointer;accent-color:#3366ff;">
+                今天不再显示
+            </label>
+            <button onclick="closeAnnouncement()" style="
+                padding:9px 26px; background:linear-gradient(90deg,#3366ff,#2575fc);
+                color:#fff; border:none; border-radius:10px; cursor:pointer;
+                font-size:0.95rem; font-weight:600;
+                box-shadow:0 4px 12px rgba(51,102,255,0.35);
+                transition:opacity .2s;
+            " onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+                我知道了 ✓
+            </button>
+        </div>
+    </div>
+</div>
+<style>
+@keyframes announcePop {
+    from { transform: scale(.8); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+</style>
+<script>
+(function() {
+    function showAnnouncement() {
+        var todayKey = 'ann_hide_' + new Date().toISOString().slice(0,10);
+        if (localStorage.getItem(todayKey)) return; // 今天已关闭，不显示
+        var modal = document.getElementById('announcementModal');
+        if (modal) { modal.style.display = 'flex'; }
+    }
+    window.closeAnnouncement = function() {
+        var modal = document.getElementById('announcementModal');
+        if (modal) modal.style.display = 'none';
+        if (document.getElementById('announceNoMore') && document.getElementById('announceNoMore').checked) {
+            var todayKey = 'ann_hide_' + new Date().toISOString().slice(0,10);
+            localStorage.setItem(todayKey, '1');
+        }
+    };
+    // 点遮罩关闭
+    document.getElementById('announcementModal').addEventListener('click', function(e) {
+        if (e.target === this) closeAnnouncement();
+    });
+    // 等验证通过后再显示
+    var checkReady = setInterval(function() {
+        if (document.body.classList.contains('auth-passed')) {
+            clearInterval(checkReady);
+            setTimeout(showAnnouncement, 800);
+        }
+    }, 300);
+})();
+</script>
 </body>
 </html>
