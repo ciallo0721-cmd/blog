@@ -1,12 +1,12 @@
 // ⚠️ 此文件由 GitHub Actions 自动生成，请勿手动修改
-// 上次更新：2026-05-07 03:44:22（北京时间）
+// 上次更新：2026-05-07 10:42:02（北京时间）
 window.dynamicData = {
     // 当前时间信息
     currentTime: {
-        datetime: "2026-05-07 03:44:22",
+        datetime: "2026-05-07 10:42:02",
         date: "2026-05-07",
-        time: "03:44",
-        timestamp: 1778096662,
+        time: "10:42",
+        timestamp: 1778121722,
         timezone: "Asia/Shanghai (UTC+8)"
     },
     // 站点统计
@@ -14,22 +14,22 @@ window.dynamicData = {
         articles: 0
 0,
         totalWords: 33652,
-        daysRunning: 198,
+        daysRunning: 199,
         siteStartDate: "2025-10-20",
         totalCommits: 1,
-        latestCommit: "60b46dc 🤖 伪动态数据自动更新 - 2026-05-06 22:05"
+        latestCommit: "310ff71 🤖 伪动态数据自动更新 - 2026-05-07 03:44"
     },
     // 版本信息
     version: {
-        generatedAt: "2026-05-07 03:44:22",
-        workflowRun: "25457204855",
-        workflowRunNumber: "37"
+        generatedAt: "2026-05-07 10:42:02",
+        workflowRun: "25473048922",
+        workflowRunNumber: "38"
     }
 };
 
 // 生成"站点已运行 X 天"的动态显示函数
 window.getSiteAge = function() {
-    return "198 天";
+    return "199 天";
 };
 
 // 生成"当前有 X 篇文章"的动态显示函数
@@ -40,5 +40,5 @@ window.getArticleCount = function() {
 
 // 获取格式化的最后更新时间
 window.getLastUpdate = function() {
-    return "2026-05-07 03:44:22";
+    return "2026-05-07 10:42:02";
 };
