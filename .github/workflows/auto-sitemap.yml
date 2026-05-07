@@ -1,0 +1,147 @@
+name: Auto Update Sitemap
+
+on:
+  # 手动触发
+  workflow_dispatch:
+  # 每天 UTC 4:00（北京时间中午12:00）自动运行
+  schedule:
+    - cron: '0 4 * * *'
+  # 当有页面文件变更时也触发
+  push:
+    branches: [main]
+    paths:
+      - 'blog/**'
+      - '*.html'
+      - '**/*.html'
+
+permissions:
+  contents: write
+
+jobs:
+  update-sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate sitemap.xml
+        run: |
+          python3 << 'PYEOF'
+          import os
+          from datetime import datetime
+          from pathlib import Path
+
+          SITE_URL = "https://91vip.xn--32v.ink"
+
+          def get_lastmod(filepath):
+              if os.path.exists(filepath):
+                  ts = os.path.getmtime(filepath)
+                  return datetime.fromtimestamp(ts).strftime("%Y-%m-%d")
+              return datetime.now().strftime("%Y-%m-%d")
+
+          def find_blog_articles():
+              """自动扫描 blog/ 目录下的文章"""
+              articles = []
+              blog_dir = Path("blog")
+              if not blog_dir.exists():
+                  return articles
+              for item in sorted(blog_dir.iterdir(), key=lambda x: (not x.name.isdigit(), x.name)):
+                  if item.is_dir() and (item / "index.html").exists():
+                      articles.append((f"blog/{item.name}/", get_lastmod(str(item / "index.html"))))
+              return articles
+
+          lines = [
+              '<?xml version="1.0" encoding="UTF-8"?>',
+              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+          ]
+
+          # ===== 静态页面 =====
+          static_pages = [
+              ("index.html",           "1.0", "weekly"),
+              ("wz.html",              "0.9", "weekly"),
+              ("aboutme.html",         "0.7", "yearly"),
+              ("adss.html",            "0.6", "yearly"),
+              ("privacy.html",         "0.5", "yearly"),
+              ("help.html",            "0.5", "yearly"),
+              ("status.html",          "0.6", "monthly"),
+          ]
+          lines.append('  <!-- 静态页面 -->')
+          for path, priority, freq in static_pages:
+              lines.extend([
+                  '  <url>',
+                  f'    <loc>{SITE_URL}/{path}</loc>',
+                  f'    <lastmod>{get_lastmod(path)}</lastmod>',
+                  f'    <changefreq>{freq}</changefreq>',
+                  f'    <priority>{priority}</priority>',
+                  '  </url>', ''
+              ])
+
+          # ===== 博客文章（自动扫描）=====
+          articles = find_blog_articles()
+          if articles:
+              lines.append('  <!-- 博客文章 -->')
+              for art_path, lastmod in articles:
+                  lines.extend([
+                      '  <url>',
+                      f'    <loc>{SITE_URL}/{art_path}</loc>',
+                      f'    <lastmod>{lastmod}</lastmod>',
+                      '    <changefreq>monthly</changefreq>',
+                      '    <priority>0.8</priority>',
+                      '  </url>', ''
+              ])
+              print(f"📝 发现 {len(articles)} 篇博客文章")
+
+          # ===== 游戏页面 =====
+          game_pages = [
+              ("bjqy/index.html",      "0.6", "monthly"),
+              ("fors/index.html",      "0.6", "monthly"),
+              ("LAIDB/index.html",     "0.6", "monthly"),
+              ("zmdspp/indexzm.html",  "0.6", "monthly"),
+              ("91/index.html",        "0.6", "monthly"),
+              ("dkdfj/index.html",     "0.6", "monthly"),
+          ]
+          lines.append('  <!-- 游戏页面 -->')
+          for path, priority, freq in game_pages:
+              lines.extend([
+                  '  <url>',
+                  f'    <loc>{SITE_URL}/{path}</loc>',
+                  f'    <lastmod>{get_lastmod(path)}</lastmod>',
+                  f'    <changefreq>{freq}</changefreq>',
+                  f'    <priority>{priority}</priority>',
+                  '  </url>', ''
+              ])
+
+          lines.append('</urlset>')
+          sitemap = '\n'.join(lines)
+
+          with open("sitemap.xml", "w", encoding="utf-8") as f:
+              f.write(sitemap)
+
+          print("✅ sitemap.xml 生成完成！")
+          PYEOF
+
+      - name: Show sitemap preview
+        run: |
+          echo "=== 生成的 sitemap.xml ==="
+          cat sitemap.xml
+          echo ""
+          echo "=== 文件大小 ==="
+          wc -c sitemap.xml
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add sitemap.xml
+          if ! git diff --cached --quiet; then
+            git commit -m "🗺️ auto: 更新网站地图 $(date +'%Y-%m-%d')"
+            git push
+            echo "✅ sitemap.xml 已提交并推送"
+          else
+            echo "📋 sitemap.xml 无变化，跳过"
+          fi
