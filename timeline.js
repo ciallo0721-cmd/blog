@@ -30,4 +30,5 @@ window.timelineData = [
                     + '</div></div>';
             }).join('');
         }
+
         document.addEventListener('DOMContentLoaded', renderTimeline);

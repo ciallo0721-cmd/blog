@@ -7,6 +7,7 @@
     <meta name="description" content="2026年4月17日，B站第一日V真白花音宣布将于5月1日毕业。作为从2023年开始关注她的老粉，写下这篇告别文章。">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="../fanv.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../media-viewer.css">
     <script src="../articles-data.js"></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
@@ -881,6 +882,8 @@ document.addEventListener('DOMContentLoaded', function() {
         initNavigation(currentArticleId);
         initRelated(currentArticleId);
         initShare();
+        initImageZoom();
+        initCustomVideoPlayer();
     });
 });
 </script>
@@ -895,6 +898,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('DOMContentLoaded',function(){btn.style.display=window.scrollY>300?'flex':'none';});
     })();
     </script>
+
+    <script src="../media-viewer.js"></script>
 
 </body>
 </html>

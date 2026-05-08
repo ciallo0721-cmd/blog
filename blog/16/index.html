@@ -6,8 +6,10 @@
     <title>从零开始,怎么注册github并克隆仓库 - ciallo0721-cmd的文章</title>
     <meta name="description" content="从零开始,怎么注册github并克隆仓库 - ciallo0721-cmd的文章">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="./fanv.ico" type="image/x-icon">
-    <script src="articles-data.js"></script>    <!-- Google tag (gtag.js) -->
+    <link rel="icon" href="/fanv.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../video-player.css">
+    <script src="../../video-player.js"></script>
+    <script src="/articles-data.js"></script>    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -300,22 +302,101 @@
             font-weight: 500;
         }
 
-        .article-content img {
+        /* 图片容器 */
+        .article-image-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .article-content img,
+        .article-img {
             max-width: 100%;
             height: auto;
-            border-radius: 12px;
-            margin: 25px 0;
+            border-radius: 16px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             display: block;
+            margin: 0 auto;
+            cursor: zoom-in;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .article-img:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
         .article-content .image-caption {
             text-align: center;
             font-size: 0.9rem;
             color: var(--text-secondary);
-            margin-top: -15px;
+            margin-top: 15px;
             margin-bottom: 25px;
             font-style: italic;
+        }
+
+        /* 图片放大弹窗 */
+        .image-zoom-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            cursor: zoom-out;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .image-zoom-modal.active {
+            display: flex;
+        }
+
+        .image-zoom-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: zoomIn 0.3s ease;
+        }
+
+        .image-zoom-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .image-zoom-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* 视频容器 */
+        .article-video-container {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        /* 视频播放器容器样式 */
+        .article-video-container {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .article-video-container .video-player-container {
+            display: inline-block;
+            max-width: 100%;
         }
 
         .article-navigation {
@@ -761,47 +842,112 @@
                 <div class="article-tags" id="articleTags">
                     <!-- 标签将通过JavaScript动态生成 -->
                     <span class="article-tag">Github</span>
-                    <span class="article-tag">示例标签2</span>
-                    <span class="article-tag">示例标签3</span>
+                    <span class="article-tag">Git</span>
+                    <span class="article-tag">教程</span>
+                    <span class="article-tag">入门</span>
+                    <span class="article-tag">仓库管理</span>
                 </div>
             </header>
             
-            <div class="article-content" id="换成id">
-                <!-- 文章内容将通过JavaScript动态生成 -->
-                <p>文章内容将在这里显示。这是一个文章内容的占位区域</p>
-                
-                <h2>章节标题示例</h2>
-                <p>这是一个章节的内容示例。您可以在文章数据中定义HTML格式的内容，包括标题、段落、列表、代码块等。</p>
-                
-                <h3>子标题示例</h3>
-                <p>这是一个子章节的内容示例。文章内容支持完整的HTML格式。</p>
-                
+            <div class="article-content" id="articleContent">
+                <!-- 以下是完整文章内容，包含文字、图片与视频 -->
+
+                <h2>📌 前言：为什么需要 GitHub？</h2>
+                <p>GitHub 是全球最大的代码托管平台，无论你是开发者、设计师还是学生，都可以利用它来管理项目、备份代码、协作开发。<span class="highlight">"克隆仓库"</span> 就是从 GitHub 下载别人的项目到自己的电脑上，是学习和复用开源项目的基础技能。本教程将带着你一步一步完成所有操作，并配有真实截图和演示视频。</p>
+
+                <div class="article-image-container">
+                    <img src="images/github-home.png" alt="GitHub 首页示意图" class="article-img zoomable">
+                    <div class="image-caption">GitHub 官网首页 — 全球开发者的游乐场</div>
+                </div>
+
+                <h2>🚀 第一步：注册 GitHub 账号</h2>
+                <p>打开 GitHub 官网 (<a href="https://github.com" target="_blank" rel="noopener noreferrer">https://github.com</a>)，点击右上角绿色的 <strong>"Sign up"</strong> 按钮。</p>
                 <ul>
-                    <li>示例列表项1</li>
-                    <li>示例列表项2</li>
-                    <li>示例列表项3</li>
+                    <li>输入你的电子邮箱（建议常用邮箱）</li>
+                    <li>设置密码（要求足够复杂，至少8位）</li>
+                    <li>选择一个用户名，它将成为你个人主页的一部分</li>
+                    <li>通过邮箱验证码完成验证</li>
+                    <li>如有需要可跳过个性化设置</li>
                 </ul>
-                
-                <pre><code>// 示例代码块,不限语言
-using UnityEngine;
-public class ExampleClass : MonoBehaviour
-{
-    void Start()
-    {
-        Debug.Log("这是一个示例代码块");
-    }
-}
+                <p>注册成功后会自动跳转到 GitHub 仪表盘。此时你就拥有了一个属于自己的 GitHub 账户！</p>
 
+                <div class="article-image-container">
+                    <img src="images/github-signup.png" alt="注册界面示例" class="article-img zoomable">
+                    <div class="image-caption">GitHub 注册界面（示意）</div>
+                </div>
 
-print("这是一个示例代码块")
-1234567890
-saddfghjklmjnhgbfesdfgsf</code></pre>
-                
+                <h2>⚙️ 第二步：安装 Git 工具</h2>
+                <p>克隆仓库需要在你的电脑上安装 Git。访问 <a href="https://git-scm.com/" target="_blank">git-scm.com</a>，下载对应操作系统（Windows / macOS / Linux）的安装包。安装时使用默认选项即可，安装完成后打开终端 (Terminal / CMD) 输入 <code>git --version</code>，如果显示版本号说明安装成功。</p>
+
+                <pre><code>$ git --version
+git version 2.42.0</code></pre>
+
+                <h2>🔑 第三步：配置 Git 用户信息（可选但推荐）</h2>
+                <p>为了让提交记录更清晰，建议设置全局用户名和邮箱：</p>
+                <pre><code>git config --global user.name "你的用户名"
+git config --global user.email "你的邮箱@example.com"</code></pre>
+                <p>这样以后你克隆的仓库如果做修改，就能准确记录作者信息。</p>
+
+                <h2>📥 第四步：克隆第一个仓库</h2>
+                <p>先随意找一个公开仓库，比如 GitHub 官方示例。进入仓库页面后，点击绿色的 <strong>"<> Code"</strong> 按钮，选择 HTTPS 标签页，复制仓库地址（类似 <code>https://github.com/用户名/仓库名.git</code>）。</p>
+
+                <div class="article-image-container">
+                    <img src="images/github-code-btn.png" alt="Code按钮截图" class="article-img zoomable">
+                </div>
+
+                <p>打开电脑终端，进入你想要存放代码的目录（比如桌面或项目文件夹），然后输入：</p>
+                <pre><code>git clone https://github.com/用户名/仓库名.git</code></pre>
+                <p>按下回车，Git 就会自动下载整个仓库到本地。完成后当前文件夹会出现一个以仓库名命名的目录，打开它即可看到所有文件。</p>
+
+                <div class="article-video-container">
+                    <div class="video-player-container" data-src="video/git-clone-demo.mp4">
+                        <div class="video-poster">
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <video class="video-element" preload="metadata" crossorigin="anonymous"></video>
+                        <div class="vp-loading"></div>
+                        <div class="video-controls">
+                            <button class="vp-control-btn play-pause-btn"><i class="fas fa-play"></i></button>
+                            <div class="vp-progress-container">
+                                <div class="vp-progress-bar">
+                                    <div class="vp-progress-fill"></div>
+                                    <div class="vp-progress-handle"></div>
+                                </div>
+                            </div>
+                            <span class="vp-time-display">00:00 / 00:00</span>
+                            <div class="vp-volume-container">
+                                <button class="vp-control-btn vp-volume-btn"><i class="fas fa-volume-up"></i></button>
+                                <div class="vp-volume-slider">
+                                    <div class="vp-volume-fill"></div>
+                                </div>
+                            </div>
+                            <button class="vp-control-btn vp-fullscreen-btn"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="image-caption">视频：如何 Clone 仓库（演示基本流程）</div>
+                </div>
+
+                <h2>🧩 第五步：验证克隆成功 & 常见问题</h2>
+                <p>克隆完成后，进入仓库目录并查看文件列表：</p>
+                <pre><code>cd 仓库名
+ls</code></pre>
+                <p>如果能看到 README.md 或源码文件，说明克隆成功！常见错误：</p>
+                <ul>
+                    <li><strong>Permission denied</strong> → 如果是私人仓库需要配置 SSH 密钥或使用 HTTPS 并输入账号密码。</li>
+                    <li><strong>找不到 git 命令</strong> → 请检查 Git 是否安装并重启终端。</li>
+                    <li><strong>网络超时</strong> → 可以尝试使用国内镜像或科学上网。</li>
+                </ul>
+
                 <blockquote>
-                    这是一个引用块的示例。用于突出显示重要的内容或引用。
+                    💡 小贴士：GitHub 上每个仓库都有不同的分支，默认克隆的是主分支（main/master）。如果需要其他分支，可以克隆后执行 <code>git checkout 分支名</code> 切换。
                 </blockquote>
-                
-                <p>文章结尾示例。</p>
+
+                <h2>📝 结语</h2>
+                <p>现在你已经学会了注册 GitHub、安装 Git 并克隆远程仓库。这是参与开源项目、学习优秀代码的第一步。后续还可以学习 <code>git pull</code> 更新代码、<code>git push</code> 提交自己的修改。继续加油吧，未来的全栈工程师！</p>
+
+                <p>如果你有任何问题，欢迎在评论区留言或通过我的博客首页联系我。分享本文给更多需要的朋友～</p>
             </div>
             
             <!-- 分享按钮 -->
@@ -864,6 +1010,12 @@ saddfghjklmjnhgbfesdfgsf</code></pre>
         </div>
     </main>
 
+    <!-- 图片放大弹窗 -->
+    <div class="image-zoom-modal" id="imageZoomModal">
+        <span class="image-zoom-close" id="imageZoomClose">&times;</span>
+        <img src="" alt="放大图片" id="zoomedImage">
+    </div>
+
     <!-- 分享弹窗 -->
     <div class="share-modal" id="shareModal">
         <div class="share-modal-content">
@@ -913,7 +1065,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 获取当前文章ID（从URL参数或默认值）
     function getCurrentArticleId() {
         const urlParams = new URLSearchParams(window.location.search);
-        const articleId = parseInt(urlParams.get('id')) || "换成id"; // 请将“换成id”替换为当前文章的实际ID
+        const articleId = parseInt(urlParams.get('id')) || 16;
         return articleId;
     }
     
@@ -946,12 +1098,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     tagElement.textContent = tag;
                     tagsContainer.appendChild(tagElement);
                 });
-            }
-            
-            // 更新文章内容
-            const contentContainer = document.getElementById('articleContent');
-            if (articleData.content) {
-                contentContainer.innerHTML = articleData.content;
             }
         } else {
             console.warn(`未找到ID为${articleId}的文章数据`);
@@ -1061,6 +1207,94 @@ document.addEventListener('DOMContentLoaded', function() {
                 </a>
             `;
         }
+    }
+    
+    // 图片点击放大功能
+    function initImageZoom() {
+        const modal = document.getElementById('imageZoomModal');
+        const modalImg = document.getElementById('zoomedImage');
+        const closeBtn = document.getElementById('imageZoomClose');
+        
+        if (!modal || !modalImg) return;
+        
+        // 为所有可放大的图片添加点击事件
+        document.querySelectorAll('.zoomable').forEach(img => {
+            img.addEventListener('click', function() {
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // 关闭弹窗
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+        
+        // ESC键关闭
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
+    
+    // 自定义视频播放器 - 使用独立组件
+    function initCustomVideoPlayer() {
+        console.log('[DEBUG] initCustomVideoPlayer called');
+        console.log('[DEBUG] VideoPlayer exists:', typeof VideoPlayer !== 'undefined');
+        
+        // 直接查找所有可能的元素
+        const allDivs = document.querySelectorAll('div');
+        console.log('[DEBUG] Total divs in document:', allDivs.length);
+        
+        const vc = document.querySelector('.video-player-container');
+        console.log('[DEBUG] Found .video-player-container:', !!vc);
+        if (vc) {
+            console.log('[DEBUG] vc innerHTML preview:', vc.innerHTML.substring(0, 100));
+        }
+        
+        const articleContent = document.getElementById('articleContent');
+        console.log('[DEBUG] articleContent exists:', !!articleContent);
+        if (articleContent) {
+            console.log('[DEBUG] articleContent children count:', articleContent.children.length);
+            console.log('[DEBUG] articleContent innerHTML length:', articleContent.innerHTML.length);
+            console.log('[DEBUG] Has video-player-container in innerHTML:', articleContent.innerHTML.includes('video-player-container'));
+            console.log('[DEBUG] Has video-player-container in outerHTML:', articleContent.outerHTML.includes('video-player-container'));
+            console.log('[DEBUG] articleContent innerHTML preview:', articleContent.innerHTML.substring(0, 300));
+        }
+
+        document.querySelectorAll('.video-player-container').forEach(container => {
+            // 跳过已初始化的
+            if (container.dataset.initialized) {
+                console.log('[DEBUG] Skipping already initialized container');
+                return;
+            }
+            container.dataset.initialized = 'true';
+
+            const src = container.dataset.src || '';
+            const video = container.querySelector('video');
+            console.log('[DEBUG] video src:', src, 'video element:', !!video);
+            if (video && src) {
+                video.src = src;
+                video.load();
+                console.log('[DEBUG] video.src set to:', video.src);
+            }
+
+            if (typeof VideoPlayer !== 'undefined') {
+                console.log('[DEBUG] Calling VideoPlayer.init');
+                VideoPlayer.init(container);
+            } else {
+                console.error('[DEBUG] VideoPlayer not found!');
+            }
+        });
     }
     
     // 添加代码复制功能
@@ -1226,6 +1460,10 @@ document.addEventListener('DOMContentLoaded', function() {
         addCodeCopyFunction();
         addReadingProgressBar();
         initShareFunction();
+        initImageZoom();
+        
+        // 等待DOM更新后再初始化视频播放器
+        setTimeout(initCustomVideoPlayer, 50);
     }
     
     // 初始化页面
@@ -1260,44 +1498,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 </script>
+
     <!-- 实际使用时, 请确保脚本路径正确并已加载所需的库。 -->
     <!-- ./css/wz/{文章id}/wzjsid{换成id}.js  -->
 
-<script>
-/* ===== 骨架屏懒渲染：正文内容块 ===== */
-(function() {
-    var style = document.createElement('style');
-    style.textContent = '@keyframes blog_skelShimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}.blog-skel{display:block;border-radius:6px;background:linear-gradient(90deg,#eff2ff 25%,#dce3ff 50%,#eff2ff 75%);background-size:400px 100%;animation:blog_skelShimmer 1.3s ease-in-out infinite;}';
-    document.head.appendChild(style);
-    function setup() {
-        var content = document.querySelector('.article-content') || document.querySelector('[class*="article-content"]') || document.querySelector('main article') || document.querySelector('.content-body');
-        if (!content) return;
-        var targets = Array.from(content.children).filter(function(el) { return /^(H[1-6]|P|DIV|UL|OL|PRE|BLOCKQUOTE|TABLE)$/.test(el.tagName); });
-        if (targets.length < 3) return;
-        var cache = new Map();
-        function getSkeletonFor(el) {
-            var tag = el.tagName; var h = /^H[1-3]$/.test(tag) ? '22px' : '13px';
-            var w = /^H[1-3]$/.test(tag) ? '55%' : '85%'; var lines = /^P$/.test(tag) ? 3 : 1; var out = '';
-            for (var i = 0; i < lines; i++) {
-                var lw = (i === lines - 1 && lines > 1) ? '45%' : (i === 0 ? w : '100%');
-                out += '<span class="blog-skel" style="display:block;height:' + h + ';width:' + lw + ';margin-bottom:' + (i < lines-1 ? '8px' : '0') + ';"></span>';
-            }
-            return out;
-        }
-        var obs = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-                var el = entry.target;
-                if (entry.isIntersecting) { if (cache.has(el)) { el.innerHTML = cache.get(el); } }
-                else { if (!cache.has(el)) { cache.set(el, el.innerHTML); } el.innerHTML = getSkeletonFor(el); }
-            });
-        }, { rootMargin: '0px 0px -80px 0px', threshold: 0.05 });
-        targets.forEach(function(el) { obs.observe(el); });
-    }
-    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', setup); } else { setup(); }
-})();
-</script>
 
-    <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button> -->
     <script>
     (function(){
         var btn=document.getElementById('totop-btn');

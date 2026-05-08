@@ -1174,62 +1174,7 @@
                 }
             });
 
-            // ================================================================
-            // ===== 骨架屏懒渲染：正文内容块（像抖音那样滚出即消失）==========
-            // ================================================================
-            (function() {
-                var style = document.createElement('style');
-                style.textContent = [
-                    '@keyframes blog_skelShimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}',
-                    '.blog-skel{display:block;border-radius:6px;background:linear-gradient(90deg,#eff2ff 25%,#dce3ff 50%,#eff2ff 75%);background-size:400px 100%;animation:blog_skelShimmer 1.3s ease-in-out infinite;}'
-                ].join('\n');
-                document.head.appendChild(style);
-
-                var content = document.querySelector('.article-content');
-                if (!content) return;
-
-                // 只观察直接子块（h2/h3/p/div/ul/ol/pre/blockquote）
-                var targets = Array.from(content.children).filter(function(el) {
-                    return /^(H[1-6]|P|DIV|UL|OL|PRE|BLOCKQUOTE|TABLE)$/.test(el.tagName);
-                });
-                if (targets.length === 0) return;
-
-                var cache = new Map();
-
-                function getSkeletonFor(el) {
-                    var tag = el.tagName;
-                    var h = /^H[1-3]$/.test(tag) ? '24px' : '14px';
-                    var w = /^H[1-3]$/.test(tag) ? '60%' : (Math.floor(Math.random() * 25) + 70) + '%';
-                    var lines = /^(P|DIV)$/.test(tag) ? 3 : 1;
-                    var out = '';
-                    for (var i = 0; i < lines; i++) {
-                        var lw = i === lines - 1 && lines > 1 ? (Math.floor(Math.random() * 20) + 40) + '%' : (i === 0 ? w : '100%');
-                        out += '<span class="blog-skel" style="display:block;height:' + h + ';width:' + lw + ';margin-bottom:' + (i < lines - 1 ? '8px' : '0') + ';"></span>';
-                    }
-                    return out;
-                }
-
-                var obs = new IntersectionObserver(function(entries) {
-                    entries.forEach(function(entry) {
-                        var el = entry.target;
-                        if (entry.isIntersecting) {
-                            // 恢复
-                            if (cache.has(el)) {
-                                el.innerHTML = cache.get(el);
-                            }
-                        } else {
-                            // 骨架化
-                            if (!cache.has(el)) {
-                                cache.set(el, el.innerHTML);
-                            }
-                            el.innerHTML = getSkeletonFor(el);
-                        }
-                    });
-                }, { rootMargin: '0px 0px -80px 0px', threshold: 0.05 });
-
-                targets.forEach(function(el) { obs.observe(el); });
-            })();
-
+            // =============================================            }
         });
     </script>
 
