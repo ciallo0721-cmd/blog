@@ -849,5 +849,53 @@ footer p {
     });
     </script>
     <script src="../../media-viewer.js"></script>
+    <script>
+    // 从 articles-data.js 加载文章数据
+    (function() {
+        // 等待 articles-data.js 加载完成
+        function waitForArticlesData(callback, retries = 20) {
+            if (typeof window.articlesData !== 'undefined') {
+                callback();
+            } else if (retries > 0) {
+                setTimeout(function() { waitForArticlesData(callback, retries - 1); }, 100);
+            } else {
+                console.error('articlesData 加载超时');
+            }
+        }
+        
+        waitForArticlesData(function() {
+            var articleId = '灰度测试';
+            var article = window.articlesData.getArticleById(articleId);
+            
+            if (article) {
+                // 更新标题
+                document.getElementById('articleTitle').textContent = article.title || '灰度测试';
+                document.getElementById('articleIntro').textContent = article.excerpt || '';
+                document.getElementById('articleDate').textContent = article.date || '';
+                document.getElementById('readTime').textContent = '约' + (article.readTime || 5) + '分钟';
+                
+                // 更新标签
+                var tagsContainer = document.getElementById('articleTags');
+                if (tagsContainer && article.tags) {
+                    tagsContainer.innerHTML = '';
+                    article.tags.forEach(function(tag) {
+                        var span = document.createElement('span');
+                        span.className = 'article-tag';
+                        span.textContent = tag;
+                        tagsContainer.appendChild(span);
+                    });
+                }
+                
+                // 更新分享链接
+                var shareText = document.getElementById('shareText');
+                if (shareText) {
+                    shareText.textContent = '快来看看这篇文章: https://91vip.xn--32v.ink/blog/灰度测试/';
+                }
+            } else {
+                console.warn('未找到文章: ' + articleId);
+            }
+        });
+    })();
+    </script>
 </body>
 </html>
