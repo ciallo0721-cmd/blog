@@ -51,4 +51,4 @@ Disallow: /images/
 Disallow: /备用站点beiyong.xn--32v.ink/
 Disallow: /公告(如果需要,换成index)/
 Disallow: /wenzhangyong/
-Disallow: /blog/灰度测试/
+Disallow: /blog/grayscale-test/

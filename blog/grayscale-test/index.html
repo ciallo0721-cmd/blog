@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>灰度测试文章 - ciallo0721-cmd的文章</title>
-    <meta name="description" content="灰度测试页面，用于测试网站新功能和样式更新">
+    <title>Grayscale Test - ciallo0721-cmd's Articles</title>
+    <meta name="description" content="Grayscale test page for testing new website features and style updates">
     <link rel="icon" href="../../fanv.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../media-viewer.css">
@@ -667,7 +667,7 @@ footer p {
     <nav>
         <div class="container nav-container">
             <a href="../../index.html" class="logo">
-                <i class="fas fa-flask"></i> 灰度测试页面
+                <i class="fas fa-flask"></i> Grayscale Test
             </a>
             <a href="../../index.html" class="back-btn">
                 <i class="fas fa-arrow-left"></i> 返回首页
@@ -679,7 +679,7 @@ footer p {
     <main class="container article-detail-container">
         <article class="article-detail">
             <header class="article-header">
-                <div class="article-number" id="articleNumber">📋 灰度测试</div>
+                <div class="article-number" id="articleNumber">📋 Grayscale Test</div>
                 <h1 class="article-title" id="articleTitle">文章标题</h1>
                 
                 <p class="article-intro" id="articleIntro">文章简介</p>
@@ -703,11 +703,11 @@ footer p {
                 <!-- 🔔 重要提示区块 -->
                 <div class="test-section" style="background: linear-gradient(135deg, #FF6B6B 0%, #FF4757 100%); text-align: center;">
                     <h3 style="color: white; margin-bottom: 15px;">
-                        <i class="fas fa-info-circle"></i> 关于本页面
+                        <i class="fas fa-info-circle"></i> About This Page
                     </h3>
-                    <p style="margin-bottom: 10px;">想知道网站更新了什么新功能吗？</p>
-                    <p style="font-weight: bold; font-size: 1.1em;">点击进入 → <a href="./" style="color: #FFE66D; text-decoration: underline;">灰度测试页面</a></p>
-                    <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.9;">⚠️ 此页面为测试专用，所有内容随时可能修改</p>
+                    <p style="margin-bottom: 10px;">Want to know what new features are coming?</p>
+                    <p style="font-weight: bold; font-size: 1.1em;">Click to enter → <a href="./" style="color: #FFE66D; text-decoration: underline;">Grayscale Test Page</a></p>
+                    <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.9;">⚠️ This is a testing page, content may change at any time</p>
                 </div>
                 
                 <!-- 文章内容将通过JavaScript动态生成 -->
@@ -716,7 +716,7 @@ footer p {
             <!-- 分享按钮 -->
             <div style="text-align: center;">
                 <button class="share-btn" id="shareButton">
-                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                    <i class="fas fa-share-alt"></i> Share This Article
                 </button>
             </div>
         </article>
@@ -733,21 +733,21 @@ footer p {
         <div class="share-modal-content">
             <div class="share-modal-header">
                 <h3 class="share-modal-title">
-                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                    <i class="fas fa-share-alt"></i> Share This Article
                 </h3>
                 <button class="share-close-btn" id="closeShareModal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="share-text" id="shareText">
-                快来看看这篇文章: https://91vip.xn--32v.ink/blog/灰度测试/
+                Check out this article: https://91vip.xn--32v.ink/blog/grayscale-test/
             </div>
             <div class="share-actions">
                 <button class="share-copy-btn" id="copyShareText">
-                    <i class="far fa-copy"></i> 复制分享链接
+                    <i class="far fa-copy"></i> Copy Link
                 </button>
                 <button class="share-close-modal-btn" id="closeShareModalBtn">
-                    关闭
+                    Close
                 </button>
             </div>
         </div>
@@ -756,8 +756,8 @@ footer p {
     <!-- 页脚 -->
     <footer>
         <div class="container footer-content">
-            <div class="footer-logo">灰度测试专用</div>
-            <p>⚠️ 此页面为测试专用，所有内容随时可能修改</p>
+            <div class="footer-logo">Grayscale Test Only</div>
+            <p>⚠️ This is a testing page, content may change at any time</p>
         </div>
     </footer>
 
@@ -827,11 +827,11 @@ footer p {
             });
             
             copyShareTextBtn.addEventListener('click', function() {
-                navigator.clipboard.writeText('快来看看这篇文章: https://91vip.xn--32v.ink/blog/灰度测试/').then(() => {
-                    copyShareTextBtn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                navigator.clipboard.writeText('Check out this article: https://91vip.xn--32v.ink/blog/grayscale-test/').then(() => {
+                    copyShareTextBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
                     copyShareTextBtn.classList.add('copied');
                     setTimeout(() => {
-                        copyShareTextBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
+                        copyShareTextBtn.innerHTML = '<i class="far fa-copy"></i> Copy Link';
                         copyShareTextBtn.classList.remove('copied');
                     }, 3000);
                 });
@@ -852,8 +852,8 @@ footer p {
     <script>
     // 从 articles-data.js 加载文章数据
     (function() {
-        // 等待 articles-data.js 加载完成
-        function waitForArticlesData(callback, retries = 20) {
+        // 等待 articles-data.js 加载完成（使用宽松相等匹配）
+        function waitForArticlesData(callback, retries = 50) {
             if (typeof window.articlesData !== 'undefined') {
                 callback();
             } else if (retries > 0) {
@@ -864,19 +864,33 @@ footer p {
         }
         
         waitForArticlesData(function() {
-            var articleId = '灰度测试';
-            var article = window.articlesData.getArticleById(articleId);
+            // 查找 grayscale-test 文章
+            var article = window.articlesData.articles.find(function(a) { 
+                return a.id == 'grayscale-test'; 
+            });
+            
+            console.log('找到的文章:', article);
             
             if (article) {
                 // 更新标题
-                document.getElementById('articleTitle').textContent = article.title || '灰度测试';
-                document.getElementById('articleIntro').textContent = article.excerpt || '';
-                document.getElementById('articleDate').textContent = article.date || '';
-                document.getElementById('readTime').textContent = '约' + (article.readTime || 5) + '分钟';
+                var titleEl = document.getElementById('articleTitle');
+                if (titleEl) titleEl.textContent = article.title || 'Grayscale Test';
+                
+                // 更新简介
+                var introEl = document.getElementById('articleIntro');
+                if (introEl) introEl.textContent = article.excerpt || '';
+                
+                // 更新日期
+                var dateEl = document.getElementById('articleDate');
+                if (dateEl) dateEl.textContent = article.date || '';
+                
+                // 更新阅读时间
+                var readTimeEl = document.getElementById('readTime');
+                if (readTimeEl) readTimeEl.textContent = (article.readTime || 5) + ' min read';
                 
                 // 更新标签
                 var tagsContainer = document.getElementById('articleTags');
-                if (tagsContainer && article.tags) {
+                if (tagsContainer && article.tags && article.tags.length > 0) {
                     tagsContainer.innerHTML = '';
                     article.tags.forEach(function(tag) {
                         var span = document.createElement('span');
@@ -886,13 +900,9 @@ footer p {
                     });
                 }
                 
-                // 更新分享链接
-                var shareText = document.getElementById('shareText');
-                if (shareText) {
-                    shareText.textContent = '快来看看这篇文章: https://91vip.xn--32v.ink/blog/灰度测试/';
-                }
+                console.log('文章数据加载成功');
             } else {
-                console.warn('未找到文章: ' + articleId);
+                console.warn('Article not found: grayscale-test');
             }
         });
     })();
