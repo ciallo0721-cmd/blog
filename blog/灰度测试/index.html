@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>灰度测试文章 - ciallo0721-cmd的文章</title>
     <meta name="description" content="灰度测试页面，用于测试网站新功能和样式更新">
-    <link rel="icon" href="../fanv.ico" type="image/x-icon">
+    <link rel="icon" href="../../fanv.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../media-viewer.css">
-    <link rel="stylesheet" href="../video-player.css">
-    <script src="../articles-data.js"></script>
+    <link rel="stylesheet" href="../../media-viewer.css">
+    <link rel="stylesheet" href="../../video-player.css">
+    <script src="../../articles-data.js"></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
     <script>
@@ -592,7 +592,7 @@ footer p {
     background: linear-gradient(135deg, var(--bili-pink), #ff2e63);
 }
 </style>
-    <script src="../video-player.js"></script>
+    <script src="../../video-player.js"></script>
     <script>
     (function() {
         const ua = navigator.userAgent.toLowerCase();
@@ -636,7 +636,7 @@ footer p {
         function finishCheck(isAllowed) {
             if (isAllowed) {
                 // 允许访问：显示页面
-                document.body.style.display = 'block';
+                if (document.body) document.body.style.display = 'block';
             } else {
                 // 拒绝访问：显示提示，3秒后跳回首页
                 document.body.innerHTML = [
@@ -649,7 +649,7 @@ footer p {
                     '<p style="font-size:1.1rem;margin-bottom:10px;opacity:0.9;">本灰度测试页面仅限指定设备访问</p>',
                     '<p style="font-size:0.95rem;margin-bottom:20px;opacity:0.8;">允许设备：iPhone XR / iPhone 16 / Windows 11 / Windows 7 / 华为 P30 Pro</p>',
                     '<p style="font-size:0.9rem;opacity:0.7;">3秒后自动返回首页...</p>',
-                    '<a href="../index.html" style="display:inline-block;margin-top:20px;padding:10px 25px;',
+                    '<a href="../../index.html" style="display:inline-block;margin-top:20px;padding:10px 25px;',
                     'background:rgba(255,255,255,0.2);color:white;border-radius:25px;text-decoration:none;',
                     'font-weight:600;transition:all 0.3s;" onmouseover="this.style.background=&#39;rgba(255,255,255,0.35)&#39;"',
                     'onmouseout="this.style.background=&#39;rgba(255,255,255,0.2)&#39;">立即返回首页</a>',
@@ -666,10 +666,10 @@ footer p {
     <!-- 导航栏 -->
     <nav>
         <div class="container nav-container">
-            <a href="../index.html" class="logo">
+            <a href="../../index.html" class="logo">
                 <i class="fas fa-flask"></i> 灰度测试页面
             </a>
-            <a href="../index.html" class="back-btn">
+            <a href="../../index.html" class="back-btn">
                 <i class="fas fa-arrow-left"></i> 返回首页
             </a>
         </div>
@@ -848,6 +848,6 @@ footer p {
         }
     });
     </script>
-    <script src="../media-viewer.js"></script>
+    <script src="../../media-viewer.js"></script>
 </body>
 </html>
