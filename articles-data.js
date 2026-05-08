@@ -163,10 +163,10 @@ window.articlesData = {
         },
         {
             id: "grayscale-test",
-            title: "📋 Grayscale Test - Website Feature Testing",
-            excerpt: "This page is used to test various website features and style updates. Each new feature will be grayscale tested here before release. Want to see what's new? Click to check it out~",
+            title: "📋 灰度测试 - 网站功能测试专用",
+            excerpt: "本文档用于测试网站的各项功能和样式更新。每次有新功能上线前，都会在此页面进行灰度测试。想看更新内容？点击进入查看喵~",
             date: "2026-05-08",
-            tags: ["grayscale-test", "feature-test", "website-maintenance"],
+            tags: ["灰度测试", "功能测试", "网站维护"],
             fileName: "grayscale-test/",
             readTime: 5,
             featured: false

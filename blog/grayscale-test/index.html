@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grayscale Test - ciallo0721-cmd's Articles</title>
-    <meta name="description" content="Grayscale test page for testing new website features and style updates">
-    <link rel="icon" href="../../fanv.ico" type="image/x-icon">
+    <title>灰度测试文章 - ciallo0721-cmd</title>
+    <meta name="description" content="灰度测试页面，用于测试网站新功能和样式更新">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../media-viewer.css">
+    <link rel="icon" href="./fanv.ico" type="image/x-icon">
     <link rel="stylesheet" href="../../video-player.css">
-    <script src="../../articles-data.js"></script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script src="../../media-viewer.js"></script>
+    <script src="../../video-player.js"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -19,6 +18,7 @@
       gtag('config', 'G-TR4FT7JPDZ');
     </script>
 <style>
+
 /* 全局样式 */
 :root {
     --bili-pink: #FB7299;
@@ -47,7 +47,6 @@ body {
     color: var(--text-primary);
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     min-height: 100vh;
-    display: none;
 }
 
 .container {
@@ -328,7 +327,7 @@ nav {
     font-style: italic;
 }
 
-/* 灰度测试区块 */
+/* 灰度测试特殊区块 */
 .test-section {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -340,6 +339,132 @@ nav {
 .test-section h3 {
     color: white;
     border-left-color: white;
+}
+
+.test-section p {
+    color: rgba(255,255,255,0.9);
+}
+
+.test-section ul {
+    color: rgba(255,255,255,0.9);
+}
+
+/* 页脚 */
+footer {
+    background: linear-gradient(135deg, var(--text-primary), #2D2D2F);
+    color: white;
+    text-align: center;
+    padding: 50px 0 30px;
+    margin-top: 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+}
+
+.footer-content {
+    position: relative;
+    z-index: 2;
+}
+
+.footer-logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--bili-pink);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+footer p {
+    margin-bottom: 15px;
+    opacity: 0.9;
+    font-size: 1.05rem;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 12px 20px;
+    }
+    
+    .logo {
+        font-size: 1.4rem;
+    }
+    
+    .article-detail {
+        padding: 30px;
+    }
+    
+    .article-title {
+        font-size: 1.8rem;
+    }
+    
+    .article-intro {
+        font-size: 1.1rem;
+    }
+    
+    .article-content {
+        font-size: 1rem;
+    }
+    
+    .article-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .article-content h3 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .article-detail {
+        padding: 25px;
+    }
+    
+    .article-title {
+        font-size: 1.6rem;
+    }
+    
+    .article-intro {
+        font-size: 1rem;
+    }
+    
+    .article-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* 滚动条优化 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--bili-pink), #ff2e63);
 }
 
 /* 分享按钮样式 */
@@ -363,6 +488,10 @@ nav {
 .share-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(251, 114, 153, 0.4);
+}
+
+.share-btn i {
+    font-size: 1.2rem;
 }
 
 /* 分享弹窗样式 */
@@ -482,12 +611,6 @@ nav {
     background: rgba(0, 0, 0, 0.15);
 }
 
-/* 动画 */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
 @keyframes slideUp {
     from {
         opacity: 0;
@@ -499,175 +622,54 @@ nav {
     }
 }
 
-/* 页脚 */
-footer {
-    background: linear-gradient(135deg, var(--text-primary), #2D2D2F);
-    color: white;
-    text-align: center;
-    padding: 50px 0 30px;
-    margin-top: 80px;
-    position: relative;
-    overflow: hidden;
-}
-
-footer::before {
-    content: '';
-    position: absolute;
+/* 图片放大弹窗 */
+.image-zoom-modal {
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10001;
+    cursor: zoom-out;
 }
 
-.footer-content {
-    position: relative;
-    z-index: 2;
+.image-zoom-modal.active {
+    display: flex;
 }
 
-.footer-logo {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 20px;
+.image-zoom-modal img {
+    max-width: 95%;
+    max-height: 95%;
+    border-radius: 8px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+}
+
+.image-zoom-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 10002;
+}
+
+.image-zoom-close:hover {
     color: var(--bili-pink);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-footer p {
-    margin-bottom: 15px;
-    opacity: 0.9;
-    font-size: 1.05rem;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .nav-container {
-        padding: 12px 20px;
-    }
-    
-    .logo {
-        font-size: 1.4rem;
-    }
-    
-    .article-detail {
-        padding: 30px;
-    }
-    
-    .article-title {
-        font-size: 1.8rem;
-    }
-    
-    .article-intro {
-        font-size: 1.1rem;
-    }
-    
-    .article-content {
-        font-size: 1rem;
-    }
-    
-    .article-content h2 {
-        font-size: 1.5rem;
-    }
-    
-    .article-content h3 {
-        font-size: 1.3rem;
-    }
-}
-
-/* 滚动条优化 */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-}
-
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, var(--bili-pink), #ff2e63);
-}
 </style>
-    <script src="../../video-player.js"></script>
-    <script>
-    (function() {
-        const ua = navigator.userAgent.toLowerCase();
-        let allowed = false;
-
-        // 1. iPhone（所有iPhone，纯前端无法区分XR/16，UA不暴露具体型号）
-        if (ua.includes('iphone')) allowed = true;
-
-        // 2. 华为 P30 Pro
-        if (ua.includes('p30 pro') || ua.includes('huawei p30')) allowed = true;
-
-        // 3. Windows 7（UA特征：Windows NT 6.1）
-        if (ua.includes('windows nt 6.1')) allowed = true;
-
-        // 4. Windows 11（需要精确检测，UA中Win10/Win11都是"Windows NT 10.0"）
-        //    借助 userAgentData API 拿 platformVersion，>=13.0 才是 Win11
-        if (navigator.userAgentData && navigator.userAgentData.platform === 'windows') {
-            // Chromium系浏览器（Chrome/Edge/Opera）支持该API
-            navigator.userAgentData.getHighEntropyValues(['platformVersion']).then(data => {
-                const ver = data.platformVersion;
-                if (ver) {
-                    // platformVersion 格式如 "13.0.0.0"，取主版本号
-                    const major = parseInt(ver.split('.')[0]);
-                    if (major >= 13) allowed = true;
-                }
-                finishCheck(allowed);
-            }).catch(() => {
-                // API调用失败，降级：允许所有Win10/Win11
-                if (ua.includes('windows nt 10.0')) allowed = true;
-                finishCheck(allowed);
-            });
-            return; // 异步等待，不直接执行 finishCheck
-        } else {
-            // Firefox/Safari 不支持 userAgentData，无法区分Win10/Win11
-            // 选择放行所有 Windows NT 10.0
-            if (ua.includes('windows nt 10.0')) allowed = true;
-        }
-
-        finishCheck(allowed);
-
-        function finishCheck(isAllowed) {
-            if (isAllowed) {
-                // 允许访问：显示页面
-                if (document.body) document.body.style.display = 'block';
-            } else {
-                // 拒绝访问：显示提示，3秒后跳回首页
-                document.body.innerHTML = [
-                    '<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;',
-                    'height:100vh;background:linear-gradient(135deg,#FF6B6B,#FF4757);color:white;',
-                    'text-align:center;padding:20px;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Roboto,sans-serif;">',
-                    '<div style="max-width:500px;">',
-                    '<div style="font-size:4rem;margin-bottom:20px;">🚫</div>',
-                    '<h1 style="font-size:2rem;margin-bottom:15px;">访问被拒绝</h1>',
-                    '<p style="font-size:1.1rem;margin-bottom:10px;opacity:0.9;">本灰度测试页面仅限指定设备访问</p>',
-                    '<p style="font-size:0.95rem;margin-bottom:20px;opacity:0.8;">允许设备：iPhone XR / iPhone 16 / Windows 11 / Windows 7 / 华为 P30 Pro</p>',
-                    '<p style="font-size:0.9rem;opacity:0.7;">3秒后自动返回首页...</p>',
-                    '<a href="../../index.html" style="display:inline-block;margin-top:20px;padding:10px 25px;',
-                    'background:rgba(255,255,255,0.2);color:white;border-radius:25px;text-decoration:none;',
-                    'font-weight:600;transition:all 0.3s;" onmouseover="this.style.background=&#39;rgba(255,255,255,0.35)&#39;"',
-                    'onmouseout="this.style.background=&#39;rgba(255,255,255,0.2)&#39;">立即返回首页</a>',
-                    '</div></div>'
-                ].join('');
-                document.body.style.display = 'block';
-                setTimeout(function() { window.location.href = '../index.html'; }, 3000);
-            }
-        }
-    })();
-    </script>
 </head>
 <body>
     <!-- 导航栏 -->
     <nav>
         <div class="container nav-container">
             <a href="../../index.html" class="logo">
-                <i class="fas fa-flask"></i> Grayscale Test
+                <i class="fas fa-gamepad"></i> 开发者ciallo0721-cmd的空间
             </a>
             <a href="../../index.html" class="back-btn">
                 <i class="fas fa-arrow-left"></i> 返回首页
@@ -679,44 +681,206 @@ footer p {
     <main class="container article-detail-container">
         <article class="article-detail">
             <header class="article-header">
-                <div class="article-number" id="articleNumber">📋 Grayscale Test</div>
-                <h1 class="article-title" id="articleTitle">文章标题</h1>
+                <div class="article-number">灰度测试 #000</div>
+                <h1 class="article-title">📋 灰度测试文章 - 网站功能测试专用</h1>
                 
-                <p class="article-intro" id="articleIntro">文章简介</p>
+                <p class="article-intro">本文档用于测试网站的各项功能和样式更新。每次有新功能上线前，都会在此页面进行灰度测试，确保功能正常后再全量发布。</p>
                 
                 <div class="article-meta">
                     <div class="article-date">
-                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2026-05-08</span>
+                        <i class="far fa-calendar"></i> 发布日期: <span>2026-05-08</span>
                     </div>
                     <div class="article-date">
-                        <i class="far fa-clock"></i> 阅读时间: <span id="readTime">约5分钟</span>
+                        <i class="far fa-clock"></i> 阅读时间: <span>约5分钟</span>
                     </div>
                 </div>
                 
-                <div class="article-tags" id="articleTags">
+                <div class="article-tags">
                     <span class="article-tag">灰度测试</span>
                     <span class="article-tag">功能测试</span>
                 </div>
             </header>
             
-            <div class="article-content" id="articleContent">
-                <!-- 🔔 重要提示区块 -->
-                <div class="test-section" style="background: linear-gradient(135deg, #FF6B6B 0%, #FF4757 100%); text-align: center;">
-                    <h3 style="color: white; margin-bottom: 15px;">
-                        <i class="fas fa-info-circle"></i> About This Page
-                    </h3>
-                    <p style="margin-bottom: 10px;">Want to know what new features are coming?</p>
-                    <p style="font-weight: bold; font-size: 1.1em;">Click to enter → <a href="./" style="color: #FFE66D; text-decoration: underline;">Grayscale Test Page</a></p>
-                    <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.9;">⚠️ This is a testing page, content may change at any time</p>
-                </div>
+            <div class="article-content">
+                <h2>📖 什么是灰度测试？</h2>
+                <p>灰度测试，又称灰度发布或金丝雀发布，是一种软件部署策略。它指的是在正式全量发布新版本之前，先向一小部分用户开放新版本，收集反馈和问题，逐步扩大覆盖范围，最终实现全面上线。这种方式可以有效降低新版本带来的风险，确保产品质量和用户体验的稳定。</p>
                 
-                <!-- 文章内容将通过JavaScript动态生成 -->
+                <p>在我们的网站中，灰度测试扮演着非常重要的角色。作为一个个人站长，我需要确保每次更新都不会破坏现有功能，影响访客的浏览体验。因此，在正式上线任何新功能之前，我都会先在这个测试页面验证其稳定性和兼容性。</p>
+
+                <h2>🎯 本页测试功能清单</h2>
+                
+                <h3>一、图片查看器功能</h3>
+                <ul>
+                    <li>图片点击放大效果（使用 class="zoomable" 触发）</li>
+                    <li>ESC键关闭放大弹窗</li>
+                    <li>点击背景区域关闭弹窗</li>
+                    <li>淡入淡出动画效果</li>
+                    <li>移动端触摸支持</li>
+                </ul>
+                
+                <h3>二、视频播放器功能</h3>
+                <ul>
+                    <li>自定义播放器样式</li>
+                    <li>播放/暂停控制</li>
+                    <li>进度条拖动</li>
+                    <li>音量调节</li>
+                    <li>全屏切换</li>
+                    <li>视频封面显示</li>
+                </ul>
+                
+                <h3>三、排版与样式</h3>
+                <ul>
+                    <li>响应式布局适配</li>
+                    <li>深色/浅色主题切换</li>
+                    <li>字体加载与渲染</li>
+                    <li>动画效果流畅度</li>
+                    <li>超长文本自动换行</li>
+                    <li>代码块语法高亮</li>
+                </ul>
+
+                <h2>🖼️ 图片测试区</h2>
+                <p>下方展示的是测试用图片，点击即可查看放大效果：</p>
+                
+                <div class="article-image-container">
+                    <img src="pic.png" class="zoomable" alt="测试图片 - 点击放大查看">
+                    <div class="image-caption">图1：示例图片（点击可放大）</div>
+                </div>
+
+                <div class="article-image-container">
+                    <img src="2.png" alt="备用测试图片" style="max-width: 400px;">
+                    <div class="image-caption">图2：不带放大功能的普通图片</div>
+                </div>
+
+                <div class="article-image-container">
+                    <img src="3.png" alt="备用测试图片2" style="max-width: 400px;">
+                    <div class="image-caption">图3：普通图片</div>
+                </div>
+
+                <h2>🎵 音频播放器测试</h2>
+                <p>下方展示的是测试用音频文件，可以使用自定义播放器进行播放：</p>
+                
+                <div class="article-image-container">
+                    <audio controls style="width: 100%; max-width: 500px;">
+                        <source src="./music/2分人声.mp3" type="audio/mpeg">
+                        您的浏览器不支持音频播放
+                    </audio>
+                    <div class="image-caption">音频：测试音乐文件 2分钟人声</div>
+                </div>
+
+                <div class="article-image-container">
+                    <audio controls style="width: 100%; max-width: 500px;">
+                        <source src="./music/2分钟.mp3" type="audio/mpeg">
+                        您的浏览器不支持音频播放
+                    </audio>
+                    <div class="image-caption">音频：测试音乐文件 2分钟</div>
+                </div>
+
+                <div class="article-image-container">
+                    <audio controls style="width: 100%; max-width: 500px;">
+                        <source src="./music/3分钟.mp3" type="audio/mpeg">
+                        您的浏览器不支持音频播放
+                    </audio>
+                    <div class="image-caption">音频：测试音乐文件 3分钟</div>
+                </div>
+
+                <div class="article-image-container">
+                    <audio controls style="width: 100%; max-width: 500px;">
+                        <source src="./music/3分难压缩.mp3" type="audio/mpeg">
+                        您的浏览器不支持音频播放
+                    </audio>
+                    <div class="image-caption">音频：测试音乐文件 3分钟,但是难压缩</div>
+                </div>
+
+                <div class="article-image-container">
+                    <audio controls style="width: 100%; max-width: 500px;">
+                        <source src="./music/4分长.mp3" type="audio/mpeg">
+                        您的浏览器不支持音频播放
+                    </audio>
+                    <div class="image-caption">音频：测试音乐文件 4分钟长音频</div>
+                </div>
+
+                <h2>🎬 视频播放器测试</h2>
+                <p>下方展示的是测试用视频文件：</p>
+                
+                <div class="article-video-container">
+                    <div class="video-player-container" data-src="video.mp4">
+                        <div class="video-poster">
+                            <img src="pic.png" alt="视频封面">
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <video class="video-element" preload="metadata" crossorigin="anonymous"></video>
+                        <div class="vp-loading"></div>
+                        <div class="video-controls">
+                            <button class="vp-control-btn play-pause-btn"><i class="fas fa-play"></i></button>
+                            <div class="vp-progress-container">
+                                <div class="vp-progress-bar">
+                                    <div class="vp-progress-fill"></div>
+                                    <div class="vp-progress-handle"></div>
+                                </div>
+                            </div>
+                            <span class="vp-time-display">00:00 / 00:00</span>
+                            <div class="vp-volume-container">
+                                <button class="vp-control-btn vp-volume-btn"><i class="fas fa-volume-up"></i></button>
+                                <div class="vp-volume-slider">
+                                    <div class="vp-volume-fill"></div>
+                                </div>
+                            </div>
+                            <button class="vp-control-btn vp-fullscreen-btn"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="image-caption">视频：测试视频文件</div>
+                </div>
+
+                <h2>📝 超长文本测试区域</h2>
+                <p>为了测试页面在处理大量文本内容时的表现，包括排版、换行、滚动等方面，下面是一段较长的测试文本：</p>
+                
+                <p>在互联网飞速发展的今天，个人网站已经成为许多人展示自我、分享知识、交流想法的重要平台。一个优秀的个人网站不仅需要有精美的界面设计，更需要注重内容的质量和用户体验。作为一名初中生开发者，我在运营自己网站的过程中，深刻体会到了技术学习和实践的重要性。从最初的静态HTML页面，到后来的CSS样式美化，再到JavaScript交互功能的实现，每一步都充满了挑战和收获。</p>
+                
+                <p>在这个过程中，我遇到了各种各样的问题。有时候是CSS样式不生效，需要反复调试；有时候是JavaScript逻辑出错，需要仔细排查；有时候是浏览器兼容性问题，需要寻找解决方案。这些问题虽然看似繁琐，但正是通过解决这些问题，我的技术能力才得到了真正的提升。我也逐渐明白了一个道理：技术学习的最好方式就是动手实践，只有在实践中才能发现问题、解决问题、积累经验。</p>
+                
+                <p>除了技术层面的收获，我还学到了很多关于网站运营的知识。比如，如何进行SEO优化让网站更容易被搜索引擎收录；如何设计用户友好的界面提升访问体验；如何分析访问数据了解用户需求；如何处理用户反馈不断改进网站。这些知识都是书本上学不到的，需要在实际的运营过程中不断摸索和积累。</p>
+                
+                <p>展望未来，我希望能够继续完善自己的网站，增加更多有价值的内容和功能。我计划学习更多的前端技术，比如React、Vue等现代JavaScript框架，让网站更加动态和交互性强。同时，我也想尝试一些后端技术的学习，比如Node.js、Python Flask等，为网站添加更多实用的功能。</p>
+                
+                <p>最后，我想对所有访问我网站的朋友们说一声感谢。是你们的支持和鼓励，让我有动力继续坚持下去。我会继续努力，为大家带来更好的内容和体验。如果你们有任何建议或想法，欢迎随时与我交流，让我们一起进步、共同成长！</p>
+
+                <div class="test-section">
+                    <h3>⚠️ 重要提示</h3>
+                    <p>本文档为灰度测试专用页面，所有文件和功能都可能在没有任何通知的情况下随时修改或删除。请勿将此页面中的任何内容作为正式参考。如有任何问题或建议，请联系网站管理员。</p>
+                </div>
+
+                <h2>🔧 技术细节记录</h2>
+                <p>以下记录了本次灰度测试的技术实现要点：</p>
+                
+                <pre><code>&lt;!-- 图片放大功能引入方式 -->
+&lt;link rel="stylesheet" href="../media-viewer.css">
+&lt;script src="../media-viewer.js">&lt;/script>
+
+&lt;!-- 可放大的图片使用 class="zoomable" -->
+&lt;img src="xxx.jpg" class="zoomable" alt="描述"></code></pre>
+                
+                <p>这种模块化的引入方式，使得我们可以在任何页面轻松添加图片放大功能，而无需重复编写代码。同时，所有样式和脚本都集中在一个文件中，方便统一管理和维护。</p>
+
+                <h2>📊 测试结果记录</h2>
+                <p>测试日期：2026年5月8日</p>
+                <p>测试人员：ciallo0721-cmd</p>
+                <p>测试环境：Windows 10 / Chrome / Edge / Firefox</p>
+                
+                <ul>
+                    <li>✅ 图片点击放大：正常</li>
+                    <li>✅ ESC关闭弹窗：正常</li>
+                    <li>✅ 点击背景关闭：正常</li>
+                    <li>✅ 动画效果：流畅</li>
+                    <li>✅ 响应式布局：正常</li>
+                </ul>
             </div>
             
             <!-- 分享按钮 -->
             <div style="text-align: center;">
                 <button class="share-btn" id="shareButton">
-                    <i class="fas fa-share-alt"></i> Share This Article
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
                 </button>
             </div>
         </article>
@@ -733,82 +897,87 @@ footer p {
         <div class="share-modal-content">
             <div class="share-modal-header">
                 <h3 class="share-modal-title">
-                    <i class="fas fa-share-alt"></i> Share This Article
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
                 </h3>
                 <button class="share-close-btn" id="closeShareModal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="share-text" id="shareText">
-                Check out this article: https://91vip.xn--32v.ink/blog/grayscale-test/
+                快来看看这篇文章: https://91vip.xn--32v.ink/blog/grayscale-test/
             </div>
             <div class="share-actions">
                 <button class="share-copy-btn" id="copyShareText">
-                    <i class="far fa-copy"></i> Copy Link
+                    <i class="far fa-copy"></i> 复制分享链接
                 </button>
                 <button class="share-close-modal-btn" id="closeShareModalBtn">
-                    Close
+                    关闭
                 </button>
             </div>
         </div>
     </div>
 
+    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
+        <a href="../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
+          <img src="../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
+            style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
+        </a>
+      </div>
+
     <!-- 页脚 -->
     <footer>
         <div class="container footer-content">
-            <div class="footer-logo">Grayscale Test Only</div>
-            <p>⚠️ This is a testing page, content may change at any time</p>
+            <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
+            <p>© 2026 ciallo0721-cmd · 灰度测试专用</p>
+            <p>感谢阅读我的文章！期待与您交流开发心得</p>
         </div>
     </footer>
 
     <script>
+    // 图片点击放大功能
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('灰度测试页面已加载');
+        const modal = document.getElementById('imageZoomModal');
+        const modalImg = document.getElementById('zoomedImage');
+        const closeBtn = document.getElementById('imageZoomClose');
         
-        // 图片点击放大功能
-        function initImageZoom() {
-            const modal = document.getElementById('imageZoomModal');
-            const modalImg = document.getElementById('zoomedImage');
-            const closeBtn = document.getElementById('imageZoomClose');
-            
-            if (!modal || !modalImg) return;
-            
-            document.querySelectorAll('.zoomable').forEach(img => {
-                img.addEventListener('click', function() {
-                    modalImg.src = this.src;
-                    modalImg.alt = this.alt;
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                });
+        if (!modal || !modalImg) return;
+        
+        // 为所有可放大的图片添加点击事件
+        document.querySelectorAll('.zoomable').forEach(img => {
+            img.addEventListener('click', function() {
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
             });
-            
-            function closeModal() {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-            
-            closeBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) closeModal();
-            });
-            
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && modal.classList.contains('active')) {
-                    closeModal();
-                }
-            });
+        });
+        
+        // 关闭弹窗
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
         }
         
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+        
+        // ESC键关闭
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+        
         // 分享功能
-        function initShareFunction() {
-            const shareButton = document.getElementById('shareButton');
-            const shareModal = document.getElementById('shareModal');
-            const copyShareTextBtn = document.getElementById('copyShareText');
-            const closeShareModalBtn = document.getElementById('closeShareModal');
-            const closeShareModalBtn2 = document.getElementById('closeShareModalBtn');
-            
-            if (!shareButton || !shareModal) return;
-            
+        const shareButton = document.getElementById('shareButton');
+        const shareModal = document.getElementById('shareModal');
+        const copyShareTextBtn = document.getElementById('copyShareText');
+        const closeShareModalBtn = document.getElementById('closeShareModal');
+        const closeShareModalBtn2 = document.getElementById('closeShareModalBtn');
+        
+        if (shareButton && shareModal) {
             shareButton.addEventListener('click', function() {
                 shareModal.classList.add('active');
             });
@@ -821,91 +990,53 @@ footer p {
             
             closeShareModalBtn.addEventListener('click', closeShareModal);
             closeShareModalBtn2.addEventListener('click', closeShareModal);
-            
             shareModal.addEventListener('click', function(e) {
                 if (e.target === shareModal) closeShareModal();
             });
             
             copyShareTextBtn.addEventListener('click', function() {
-                navigator.clipboard.writeText('Check out this article: https://91vip.xn--32v.ink/blog/grayscale-test/').then(() => {
-                    copyShareTextBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                const shareText = document.getElementById('shareText').textContent;
+                navigator.clipboard.writeText(shareText).then(() => {
+                    copyShareTextBtn.innerHTML = '<i class="fas fa-check"></i> 已复制到剪贴板';
                     copyShareTextBtn.classList.add('copied');
                     setTimeout(() => {
-                        copyShareTextBtn.innerHTML = '<i class="far fa-copy"></i> Copy Link';
+                        copyShareTextBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
                         copyShareTextBtn.classList.remove('copied');
                     }, 3000);
                 });
             });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && shareModal.classList.contains('active')) {
+                    closeShareModal();
+                }
+            });
         }
-        
-        // 初始化
-        initImageZoom();
-        initShareFunction();
         
         // 初始化视频播放器
         if (window.MediaViewer && window.MediaViewer.initCustomVideoPlayer) {
             window.MediaViewer.initCustomVideoPlayer();
         }
-    });
-    </script>
-    <script src="../../media-viewer.js"></script>
-    <script>
-    // 从 articles-data.js 加载文章数据
-    (function() {
-        // 等待 articles-data.js 加载完成（使用宽松相等匹配）
-        function waitForArticlesData(callback, retries = 50) {
-            if (typeof window.articlesData !== 'undefined') {
-                callback();
-            } else if (retries > 0) {
-                setTimeout(function() { waitForArticlesData(callback, retries - 1); }, 100);
-            } else {
-                console.error('articlesData 加载超时');
-            }
-        }
         
-        waitForArticlesData(function() {
-            // 查找 grayscale-test 文章
-            var article = window.articlesData.articles.find(function(a) { 
-                return a.id == 'grayscale-test'; 
-            });
-            
-            console.log('找到的文章:', article);
-            
-            if (article) {
-                // 更新标题
-                var titleEl = document.getElementById('articleTitle');
-                if (titleEl) titleEl.textContent = article.title || 'Grayscale Test';
-                
-                // 更新简介
-                var introEl = document.getElementById('articleIntro');
-                if (introEl) introEl.textContent = article.excerpt || '';
-                
-                // 更新日期
-                var dateEl = document.getElementById('articleDate');
-                if (dateEl) dateEl.textContent = article.date || '';
-                
-                // 更新阅读时间
-                var readTimeEl = document.getElementById('readTime');
-                if (readTimeEl) readTimeEl.textContent = (article.readTime || 5) + ' min read';
-                
-                // 更新标签
-                var tagsContainer = document.getElementById('articleTags');
-                if (tagsContainer && article.tags && article.tags.length > 0) {
-                    tagsContainer.innerHTML = '';
-                    article.tags.forEach(function(tag) {
-                        var span = document.createElement('span');
-                        span.className = 'article-tag';
-                        span.textContent = tag;
-                        tagsContainer.appendChild(span);
-                    });
-                }
-                
-                console.log('文章数据加载成功');
-            } else {
-                console.warn('Article not found: grayscale-test');
+        // ESC键返回首页
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !modal.classList.contains('active') && !shareModal.classList.contains('active')) {
+                window.location.href = '../../index.html';
             }
         });
+    });
+    </script>
+
+    <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button>
+    <script>
+    (function(){
+        var btn=document.getElementById('totop-btn');
+        if(!btn)return;
+        btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+        window.addEventListener('scroll',function(){btn.style.display=window.scrollY>300?'flex':'none';},{passive:true});
+        document.addEventListener('DOMContentLoaded',function(){btn.style.display=window.scrollY>300?'flex':'none';});
     })();
     </script>
+
 </body>
 </html>
