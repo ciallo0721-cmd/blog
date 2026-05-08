@@ -37,6 +37,20 @@
   </url>
 
   <url>
+    <loc>https://91vip.xn--32v.ink/privacy-policy.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://91vip.xn--32v.ink/user-agreement.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
     <loc>https://91vip.xn--32v.ink/help.html</loc>
     <lastmod>2026-05-06</lastmod>
     <changefreq>yearly</changefreq>
@@ -161,6 +175,13 @@
     <lastmod>2026-05-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://91vip.xn--32v.ink/blog/17/</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.3</priority>
   </url>
 
   <!-- 游戏页面 -->

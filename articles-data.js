@@ -161,6 +161,16 @@ window.articlesData = {
             readTime: 10,
             featured: true
         },
+        {
+            id: "灰度测试",
+            title: "📋 灰度测试文章 - 网站功能测试专用",
+            excerpt: "本文档用于测试网站的各项功能和样式更新。每次有新功能上线前，都会在此页面进行灰度测试。想看更新内容？点击进入查看喵~",
+            date: "2026-05-08",
+            tags: ["灰度测试", "功能测试", "网站维护"],
+            fileName: "灰度测试/",
+            readTime: 5,
+            featured: false
+        },
     ],
     
     getSortedArticles: function() {

@@ -77,7 +77,18 @@
         "usedAt": 1775975544407,
         "industryId": "all"
       }
+    ],
+    "d51304c049544c7f8bb5950026603d4f": [
+      {
+        "expertId": "UiDesigner",
+        "name": "像素君",
+        "profession": "UI设计师",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/01-Design/UiDesigner/UiDesigner.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/01-Design/UiDesigner/UiDesigner_zh.md",
+        "usedAt": 1778212287770,
+        "industryId": "all"
+      }
     ]
   },
-  "lastUpdated": 1775977056327
+  "lastUpdated": 1778212737896
 }
