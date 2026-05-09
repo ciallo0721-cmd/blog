@@ -1393,7 +1393,7 @@
     }
     </script>
 
-    <!-- 悬浮音乐播放器 - 粉紫色样式 -->
+    <!-- 悬浮音乐播放器 -->
     <style>
         .music-float-container {
             position: fixed;
@@ -1403,145 +1403,294 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         .music-float-toggle {
-            width: 50px;
-            height: 50px;
-            border-radius: 25px;
-            background: linear-gradient(135deg, #ff6699, #cc66ff, #6699ff);
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FB7299, #00A1D6);
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: white;
-            box-shadow: 0 4px 15px rgba(255, 102, 153, 0.4);
+            box-shadow: 0 4px 18px rgba(251, 114, 153, 0.4);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
         .music-float-toggle:hover {
             transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(255, 102, 153, 0.5);
+            box-shadow: 0 6px 24px rgba(251, 114, 153, 0.55);
+        }
+        .music-float-toggle .music-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 18px;
+        }
+        .music-float-toggle .music-bars .bar {
+            width: 3px;
+            border-radius: 2px;
+            background: white;
+            animation: barDance 0.8s ease-in-out infinite alternate;
+        }
+        .music-float-toggle .music-bars .bar:nth-child(1) { height: 8px; animation-delay: 0s; }
+        .music-float-toggle .music-bars .bar:nth-child(2) { height: 14px; animation-delay: 0.15s; }
+        .music-float-toggle .music-bars .bar:nth-child(3) { height: 10px; animation-delay: 0.3s; }
+        .music-float-toggle .music-bars .bar:nth-child(4) { height: 16px; animation-delay: 0.1s; }
+        .music-float-toggle .music-bars.paused .bar { animation-play-state: paused; height: 4px; }
+        @keyframes barDance {
+            0% { height: 4px; }
+            100% { height: 18px; }
         }
         .music-float-panel {
             position: absolute;
-            bottom: 60px;
+            bottom: 64px;
             right: 0;
-            width: 380px;
-            background: linear-gradient(145deg, rgba(255, 240, 250, 0.98), rgba(255, 230, 245, 0.98));
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(204, 102, 255, 0.25), 0 0 0 1px rgba(255, 102, 153, 0.2);
+            width: 360px;
+            background: linear-gradient(160deg, rgba(251, 240, 250, 0.97), rgba(230, 240, 255, 0.97));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(251, 114, 153, 0.2), 0 0 0 1px rgba(251, 114, 153, 0.15);
             overflow: hidden;
             display: none;
-            animation: slideUp 0.3s ease;
+            animation: panelSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .music-float-panel.active {
             display: block;
         }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes panelSlideUp {
+            from { opacity: 0; transform: translateY(24px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
-        .music-float-header {
-            background: linear-gradient(135deg, #ff6699, #cc66ff);
-            color: white;
-            padding: 12px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .music-float-title {
-            font-size: 0.95rem;
-            font-weight: 600;
+        .music-panel-cover {
+            position: relative;
+            height: 120px;
+            background: linear-gradient(135deg, #FB7299, #00A1D6, #cc66ff);
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            overflow: hidden;
         }
-        .music-float-title i {
-            animation: musicPulse 1.5s ease-in-out infinite;
+        .music-panel-cover::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+            animation: coverShine 4s ease-in-out infinite;
         }
-        @keyframes musicPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
+        @keyframes coverShine {
+            0%, 100% { transform: translate(-20%, -20%); }
+            50% { transform: translate(20%, 20%); }
         }
-        .music-float-close {
-            background: rgba(255,255,255,0.25);
+        .music-cover-art {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            object-fit: cover;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            border: 3px solid rgba(255,255,255,0.5);
+            transition: transform 0.3s;
+        }
+        .music-cover-art:hover {
+            transform: scale(1.05);
+        }
+        .music-panel-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.2);
             border: none;
             color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
-            font-weight: bold;
-            font-family: 'Courier New', monospace;
-            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            backdrop-filter: blur(4px);
         }
-        .music-float-close:hover {
-            background: rgba(255,255,255,0.4);
+        .music-panel-close:hover {
+            background: rgba(0,0,0,0.4);
             transform: scale(1.1);
         }
-        .music-float-content {
-            padding: 12px;
+        .music-now-playing {
+            padding: 16px 18px 12px;
         }
-        .music-float-content iframe {
-            width: 100%;
-            border-radius: 10px;
-            display: block;
+        .music-now-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(251, 114, 153, 0.7);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .music-now-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .music-now-artist {
+            font-size: 0.82rem;
+            color: #888;
+            margin-top: 2px;
+        }
+        .music-visualizer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 3px;
+            height: 28px;
+            margin: 10px 18px 6px;
+        }
+        .music-visualizer .vis-bar {
+            flex: 1;
+            max-width: 6px;
+            background: linear-gradient(180deg, #FB7299, #00A1D6);
+            border-radius: 3px;
+            transition: height 0.3s ease;
+            min-height: 3px;
+        }
+        .music-separator {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(251,114,153,0.2), transparent);
+            margin: 4px 18px;
         }
         .music-playlist {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(204, 102, 255, 0.15);
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 6px 10px 12px;
         }
-        .music-btn {
-            flex: 1;
-            min-width: calc(50% - 4px);
-            padding: 8px 12px;
-            background: rgba(255, 102, 153, 0.1);
-            border: 1px solid rgba(255, 102, 153, 0.25);
-            border-radius: 8px;
-            font-size: 0.78rem;
-            color: #cc4499;
+        .music-playlist::-webkit-scrollbar { width: 4px; }
+        .music-playlist::-webkit-scrollbar-thumb { background: rgba(251,114,153,0.3); border-radius: 4px; }
+        .music-playlist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 10px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
+            position: relative;
+        }
+        .music-playlist-item:hover {
+            background: rgba(251, 114, 153, 0.08);
+        }
+        .music-playlist-item.active {
+            background: linear-gradient(135deg, rgba(251, 114, 153, 0.12), rgba(0, 161, 214, 0.12));
+            box-shadow: 0 2px 8px rgba(251, 114, 153, 0.1);
+        }
+        .music-playlist-item.active .playlist-item-index {
+            background: linear-gradient(135deg, #FB7299, #00A1D6);
+            color: white;
+        }
+        .playlist-item-index {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #999;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .music-playlist-item.active .playlist-item-index .num-text { display: none; }
+        .music-playlist-item.active .playlist-item-index .playing-icon { display: flex; }
+        .playlist-item-index .playing-icon {
+            display: none;
+            align-items: flex-end;
+            gap: 1.5px;
+            height: 12px;
+        }
+        .playing-icon .bar {
+            width: 2px;
+            border-radius: 1px;
+            background: white;
+            animation: barDance 0.6s ease-in-out infinite alternate;
+        }
+        .playing-icon .bar:nth-child(1) { height: 4px; animation-delay: 0s; }
+        .playing-icon .bar:nth-child(2) { height: 8px; animation-delay: 0.12s; }
+        .playing-icon .bar:nth-child(3) { height: 5px; animation-delay: 0.24s; }
+        .playlist-item-info { flex: 1; min-width: 0; }
+        .playlist-item-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #444;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .music-playlist-item.active .playlist-item-name { color: #FB7299; font-weight: 600; }
+        .playlist-item-artist {
+            font-size: 0.72rem;
+            color: #aaa;
+            margin-top: 1px;
+        }
+        .music-panel-footer {
+            padding: 8px 18px 12px;
             text-align: center;
         }
-        .music-btn:hover {
-            background: rgba(255, 102, 153, 0.2);
-            transform: translateY(-2px);
-        }
-        .music-btn.active {
-            background: linear-gradient(135deg, #ff6699, #cc66ff);
-            color: white;
-            border-color: transparent;
+        .music-panel-hint {
+            font-size: 0.68rem;
+            color: #bbb;
+            letter-spacing: 0.5px;
         }
     </style>
 
     <div class="music-float-container">
         <div class="music-float-panel" id="musicFloatPanel">
-            <div class="music-float-header">
-                <div class="music-float-title"><i class="fas fa-music"></i> 当前播放:</div>
-                <button class="music-float-close" onclick="toggleMusicPanel()">>}</button>
+            <div class="music-panel-cover">
+                <img class="music-cover-art" id="musicCoverArt" src="https://picsum.photos/seed/music1/160/160" alt="封面">
+                <button class="music-panel-close" onclick="toggleMusicPanel()"><i class="fas fa-chevron-down"></i></button>
             </div>
-            <div class="music-float-content">
-                <div id="musicPlayerContainer">
-                    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="https://music.163.com/outchain/player?type=2&id=2752519729&auto=1&height=66"></iframe>
-                </div>
-                <div class="music-playlist">
-                    <button class="music-btn active" onclick="changeMusic(1)">歌曲1</button>
-                    <button class="music-btn" onclick="changeMusic(2)">歌曲2</button>
-                    <button class="music-btn" onclick="changeMusic(3)">歌曲3</button>
-                    <button class="music-btn" onclick="changeMusic(4)">歌曲4</button>
-                </div>
+            <div class="music-now-playing">
+                <div class="music-now-label">正在播放</div>
+                <div class="music-now-title" id="musicNowTitle">加载中...</div>
+                <div class="music-now-artist" id="musicNowArtist"></div>
+            </div>
+            <div class="music-visualizer" id="musicVisualizer">
+                <div class="vis-bar" style="height:6px"></div>
+                <div class="vis-bar" style="height:14px"></div>
+                <div class="vis-bar" style="height:8px"></div>
+                <div class="vis-bar" style="height:18px"></div>
+                <div class="vis-bar" style="height:10px"></div>
+                <div class="vis-bar" style="height:16px"></div>
+                <div class="vis-bar" style="height:12px"></div>
+                <div class="vis-bar" style="height:20px"></div>
+                <div class="vis-bar" style="height:8px"></div>
+                <div class="vis-bar" style="height:14px"></div>
+                <div class="vis-bar" style="height:6px"></div>
+                <div class="vis-bar" style="height:18px"></div>
+            </div>
+            <div class="music-separator"></div>
+            <div class="music-playlist" id="musicPlaylist"></div>
+            <div class="music-panel-footer">
+                <div class="music-panel-hint">由网易云音乐提供 · 点击切换歌曲</div>
             </div>
         </div>
         <button class="music-float-toggle" id="musicFloatToggle" onclick="toggleMusicPanel()" title="音乐播放器">
-            <i class="fas fa-music"></i>
+            <div class="music-bars" id="musicBarsMain">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
         </button>
     </div>
 
@@ -1550,21 +1699,83 @@
             var panel = document.getElementById('musicFloatPanel');
             panel.classList.toggle('active');
         }
-        var musicSources = {
-            1: 'https://music.163.com/outchain/player?type=2&id=2752519729&auto=1&height=66',
-            2: 'https://music.163.com/outchain/player?type=2&id=3341414489&auto=1&height=66',
-            3: 'https://music.163.com/outchain/player?type=2&id=3346055087&auto=1&height=66',
-            4: 'https://music.163.com/outchain/player?type=2&id=2722442265&auto=1&height=66'
-        };
-        function changeMusic(num) {
-            var container = document.getElementById('musicPlayerContainer');
-            container.innerHTML = '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="' + musicSources[num] + '"></iframe>';
-            var btns = document.querySelectorAll('.music-btn');
-            btns.forEach(function(btn, index) {
-                btn.classList.toggle('active', index + 1 === num);
+
+        var musicList = [
+            { id: 1, name: 'Time to Say Goodbye', artist: 'KOKIA', src: 'https://music.163.com/outchain/player?type=2&id=2752519729&auto=1&height=66', cover: 'https://picsum.photos/seed/kokia/160/160' },
+            { id: 2, name: 'Unravel', artist: 'TK from Ling Tosite Sigure', src: 'https://music.163.com/outchain/player?type=2&id=3341414489&auto=1&height=66', cover: 'https://picsum.photos/seed/unravel/160/160' },
+            { id: 3, name: 'Only My Railgun', artist: 'fripSide', src: 'https://music.163.com/outchain/player?type=2&id=3346055087&auto=1&height=66', cover: 'https://picsum.photos/seed/railgun/160/160' },
+            { id: 4, name: 'Gurenge', artist: 'LiSA', src: 'https://music.163.com/outchain/player?type=2&id=2722442265&auto=1&height=66', cover: 'https://picsum.photos/seed/gurenge/160/160' }
+        ];
+
+        var currentTrack = 0;
+
+        function renderPlaylist() {
+            var container = document.getElementById('musicPlaylist');
+            if (!container) return;
+            container.innerHTML = '';
+            musicList.forEach(function(track, index) {
+                var item = document.createElement('div');
+                item.className = 'music-playlist-item' + (index === currentTrack ? ' active' : '');
+                item.onclick = function() { changeMusic(index); };
+                item.innerHTML =
+                    '<div class="playlist-item-index">' +
+                        '<span class="num-text">' + (index + 1) + '</span>' +
+                        '<div class="playing-icon"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>' +
+                    '</div>' +
+                    '<div class="playlist-item-info">' +
+                        '<div class="playlist-item-name">' + track.name + '</div>' +
+                        '<div class="playlist-item-artist">' + track.artist + '</div>' +
+                    '</div>';
+                container.appendChild(item);
             });
         }
+
+        function updateNowPlaying() {
+            var track = musicList[currentTrack];
+            var titleEl = document.getElementById('musicNowTitle');
+            var artistEl = document.getElementById('musicNowArtist');
+            var coverEl = document.getElementById('musicCoverArt');
+            if (titleEl) titleEl.textContent = track.name;
+            if (artistEl) artistEl.textContent = track.artist;
+            if (coverEl) coverEl.src = track.cover;
+            renderPlaylist();
+        }
+
+        function changeMusic(index) {
+            currentTrack = index;
+            var track = musicList[index];
+            var container = document.getElementById('musicPlayerContainer');
+            if (container) {
+                container.innerHTML = '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="' + track.src + '"></iframe>';
+            }
+            updateNowPlaying();
+        }
+
+        function animateVisualizer() {
+            var vis = document.getElementById('musicVisualizer');
+            if (!vis) return;
+            var bars = vis.querySelectorAll('.vis-bar');
+            bars.forEach(function(bar) {
+                var h = Math.random() * 20 + 4;
+                bar.style.height = h + 'px';
+            });
+            setTimeout(animateVisualizer, 180);
+        }
+
+        (function() {
+            updateNowPlaying();
+            animateVisualizer();
+        })();
     </script>
+
+    <!-- 隐藏的iframe播放器容器 -->
+    <div id="musicPlayerContainer" style="position:absolute;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none;">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="https://music.163.com/outchain/player?type=2&id=2752519729&auto=1&height=66"></iframe>
+    </div>
+
+    
+
+    <footer
 
     <footer><div class="container footer-content"><div class="footer-logo">ciallo0721-cmd</div><p>感谢访问我的个人博客！期待与您交流游戏开发心得哦～ (๑˃̵ᴗ˂̵)و</p><p class="copyright">© 2026 ciallo0721-cmd. 保留所有权利喵～</p><p id="dynamicFooterInfo" style="font-size:0.78rem;opacity:0.6;margin-top:8px;">加载动态数据中...</p><div style="margin-top:16px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap"><a href="./status.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.35);color:rgba(255,255,255,0.85);font-size:0.82rem;padding:6px 16px;border-radius:20px;text-decoration:none;transition:all 0.3s;letter-spacing:0.3px;" onmouseover="this.style.background='rgba(34,197,94,0.28)';this.style.color='white'" onmouseout="this.style.background='rgba(34,197,94,0.15)';this.style.color='rgba(255,255,255,0.85)'"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;animation:pulse-green 2.5s infinite"></span> 查看网站状态</a><a href="./aboutme.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(51,102,255,0.15);border:1px solid rgba(51,102,255,0.35);color:rgba(255,255,255,0.85);font-size:0.82rem;padding:6px 16px;border-radius:20px;text-decoration:none;transition:all 0.3s;letter-spacing:0.3px;" onmouseover="this.style.background='rgba(51,102,255,0.28)';this.style.color='white'" onmouseout="this.style.background='rgba(51,102,255,0.15)';this.style.color='rgba(255,255,255,0.85)'">👤 关于作者</a><a href="./privacy-policy.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.85);font-size:0.82rem;padding:6px 16px;border-radius:20px;text-decoration:none;transition:all 0.3s;letter-spacing:0.3px;" onmouseover="this.style.background='rgba(255,255,255,0.2)';this.style.color='white'" onmouseout="this.style.background='rgba(255,255,255,0.1)';this.style.color='rgba(255,255,255,0.85)'">📜 隐私政策</a><a href="./user-agreement.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.85);font-size:0.82rem;padding:6px 16px;border-radius:20px;text-decoration:none;transition:all 0.3s;letter-spacing:0.3px;" onmouseover="this.style.background='rgba(255,255,255,0.2)';this.style.color='white'" onmouseout="this.style.background='rgba(255,255,255,0.1)';this.style.color='rgba(255,255,255,0.85)'">📜 用户协议</a><button id="adminEntryBtn" onclick="openAdminPanel()" style="background:transparent;border:none;color:rgba(255,255,255,0.15);font-size:0.7rem;cursor:pointer;padding:4px 8px;border-radius:4px;transition:all 0.3s;letter-spacing:1px;" onmouseover="this.style.color='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.15)'"> 管理后台</button></div><style>@keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.5)}50%{box-shadow:0 0 0 5px rgba(34,197,94,0)}}</style><div style="margin-top:14px"><button id="translateBtn" onclick="toggleTranslate()" style="background:linear-gradient(135deg,#3366ff,#2575fc);border:none;color:white;font-size:0.85rem;cursor:pointer;padding:8px 20px;border-radius:20px;font-weight:600;box-shadow:0 4px 12px rgba(51,102,255,0.3);transition:all 0.3s;letter-spacing:0.5px;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(51,102,255,0.45)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 12px rgba(51,102,255,0.3)'">Translate to English</button></div></div></footer>
 <!-- 管理后台入口 -->
