@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="/fanv.ico" type="image/x-icon">
     <link rel="stylesheet" href="../../video-player.css">
+    <link rel="stylesheet" href="../../nice-video.css">
     <script src="../../video-player.js"></script>
+    <script src="../../nice-video.js"></script>
     <script src="/articles-data.js"></script>    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
     <script>
@@ -900,25 +902,8 @@ git config --global user.email "你的邮箱@example.com"</code></pre>
                 <p>按下回车，Git 就会自动下载整个仓库到本地。完成后当前文件夹会出现一个以仓库名命名的目录，打开它即可看到所有文件。</p>
 
                 <div class="article-video-container">
-                    <div class="video-player-container" data-src="video/git-clone-demo.mp4">
-                        <video class="video-element" preload="metadata" crossorigin="anonymous"></video>
-                        <div class="video-controls">
-                            <button class="vp-control-btn play-pause-btn"><i class="fas fa-play"></i></button>
-                            <div class="vp-progress-container">
-                                <div class="vp-progress-bar">
-                                    <div class="vp-progress-fill"></div>
-                                    <div class="vp-progress-handle"></div>
-                                </div>
-                            </div>
-                            <span class="vp-time-display">00:00 / 00:00</span>
-                            <div class="vp-volume-container">
-                                <button class="vp-control-btn vp-volume-btn"><i class="fas fa-volume-up"></i></button>
-                                <div class="vp-volume-slider">
-                                    <div class="vp-volume-fill"></div>
-                                </div>
-                            </div>
-                            <button class="vp-control-btn vp-fullscreen-btn"><i class="fas fa-expand"></i></button>
-                        </div>
+                    <div class="nice-video-container" data-src="video/git-clone-demo.mp4">
+                        <video preload="metadata"></video>
                     </div>
                     <div class="image-caption">视频：如何 Clone 仓库（演示基本流程）</div>
                 </div>

@@ -9,6 +9,9 @@
     <link rel="canonical" href="https://91vip.xn--32v.ink/blog/15/">
     <link rel="icon" href="./fanv.ico" type="image/x-icon">
     <link rel="stylesheet" href="../../media-viewer.css">
+    <link rel="stylesheet" href="../../nice-video.css">
+    <script src="../../media-viewer.js"></script>
+    <script src="../../nice-video.js"></script>
 
     <style>
 :root {
@@ -224,10 +227,9 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
             
             <div class="article-content" id="articleContent">
                 <div class="video-container">
-                    <video controls style="width:100%;border-radius:12px;" poster="">
-                        <source src="./bc.mp4" type="video/mp4">
-                        您的浏览器不支持 video 标签。
-                    </video>
+                    <div class="nice-video-container" data-src="./bc.mp4">
+                        <video preload="metadata"></video>
+                    </div>
                 </div>
             </div>
         </article>
