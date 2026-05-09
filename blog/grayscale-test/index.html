@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="../../video-player.css">
     <script src="../../media-viewer.js"></script>
     <script src="../../video-player.js"></script>
+    <!-- 自研视频播放器 -->
+    <link rel="stylesheet" href="../../nice-video.css">
+    <script src="../../nice-video.js"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -803,25 +806,8 @@ footer p {
                 <p>下方展示的是测试用视频文件：</p>
                 
                 <div class="article-video-container">
-                    <div class="video-player-container" data-src="./video.mp4">
-                        <video class="video-element" preload="metadata" crossorigin="anonymous"></video>
-                        <div class="video-controls">
-                            <button class="vp-control-btn play-pause-btn"><i class="fas fa-play"></i></button>
-                            <div class="vp-progress-container">
-                                <div class="vp-progress-bar">
-                                    <div class="vp-progress-fill"></div>
-                                    <div class="vp-progress-handle"></div>
-                                </div>
-                            </div>
-                            <span class="vp-time-display">00:00 / 00:00</span>
-                            <div class="vp-volume-container">
-                                <button class="vp-control-btn vp-volume-btn"><i class="fas fa-volume-up"></i></button>
-                                <div class="vp-volume-slider">
-                                    <div class="vp-volume-fill"></div>
-                                </div>
-                            </div>
-                            <button class="vp-control-btn vp-fullscreen-btn"><i class="fas fa-expand"></i></button>
-                        </div>
+                    <div class="nice-video-container" data-src="./video.mp4">
+                        <video preload="metadata"></video>
                     </div>
                     <div class="image-caption">视频</div>
                 </div>
@@ -1009,9 +995,9 @@ footer p {
             });
         }
         
-        // 初始化视频播放器
-        if (window.MediaViewer && window.MediaViewer.initCustomVideoPlayer) {
-            window.MediaViewer.initCustomVideoPlayer();
+        // 初始化自研视频播放器
+        if (window.NiceVideo) {
+            NiceVideo.initAll();
         }
         
         // ESC键返回首页
