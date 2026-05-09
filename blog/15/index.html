@@ -257,11 +257,8 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 
     <script>
 document.addEventListener('DOMContentLoaded', function() {
-    function getCurrentArticleId() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return parseInt(urlParams.get('id')) || 15;
-    }
-    const currentArticleId = getCurrentArticleId();
+    // 当前文章ID
+    const currentArticleId = 15;
 
     function updateArticleInfo(articleId) {
         if (typeof window.articlesData === 'undefined') { setTimeout(() => updateArticleInfo(articleId), 100); return; }

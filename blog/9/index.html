@@ -885,13 +885,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('文章模板已加载完成');
     
-    function getCurrentArticleId() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const articleId = parseInt(urlParams.get('id')) || "9";
-        return articleId;
-    }
-    
-    const currentArticleId = getCurrentArticleId();
+    // 当前文章ID
+    const currentArticleId = 9;
     
     function updateArticleInfo(articleId) {
         if (typeof window.articlesData === 'undefined') {

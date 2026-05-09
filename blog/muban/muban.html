@@ -817,13 +817,7 @@ saddfghjklmjnhgbfesdfgsf</code></pre>
 
                 <div class="article-video-container">
                     <div class="video-player-container" data-src="video/你的视频文件名.mp4">
-                        <div class="video-poster">
-                            <div class="play-button">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
                         <video class="video-element" preload="metadata" crossorigin="anonymous"></video>
-                        <div class="vp-loading"></div>
                         <div class="video-controls">
                             <button class="vp-control-btn play-pause-btn"><i class="fas fa-play"></i></button>
                             <div class="vp-progress-container">
@@ -961,11 +955,10 @@ saddfghjklmjnhgbfesdfgsf</code></pre>
 document.addEventListener('DOMContentLoaded', function() {
     console.log('文章模板已加载完成');
     
-    // 获取当前文章ID（从URL参数或默认值）
+    // 获取当前文章ID（直接在此处填写当前文章ID，如 16 或 -1）
+    const currentArticleId = 填上数字ID; // ← 替换成真实ID，如 16 或 -1（灰度测试）
     function getCurrentArticleId() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const articleId = parseInt(urlParams.get('id')) || "换成id"; // 请将“换成id”替换为当前文章的实际ID
-        return articleId;
+        return currentArticleId;
     }
     
     const currentArticleId = getCurrentArticleId();

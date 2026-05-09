@@ -993,14 +993,8 @@ private void AirControl()
 document.addEventListener('DOMContentLoaded', function() {
     console.log('文章模板已加载完成');
     
-    // 获取当前文章ID（从URL参数或默认值）
-    function getCurrentArticleId() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const articleId = parseInt(urlParams.get('id')) || "2";
-        return articleId;
-    }
-    
-    const currentArticleId = getCurrentArticleId();
+    // 当前文章ID
+    const currentArticleId = 2;
     
     // 更新文章信息
     function updateArticleInfo(articleId) {

@@ -901,13 +901,7 @@ git config --global user.email "你的邮箱@example.com"</code></pre>
 
                 <div class="article-video-container">
                     <div class="video-player-container" data-src="video/git-clone-demo.mp4">
-                        <div class="video-poster">
-                            <div class="play-button">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
                         <video class="video-element" preload="metadata" crossorigin="anonymous"></video>
-                        <div class="vp-loading"></div>
                         <div class="video-controls">
                             <button class="vp-control-btn play-pause-btn"><i class="fas fa-play"></i></button>
                             <div class="vp-progress-container">
@@ -1062,14 +1056,8 @@ ls</code></pre>
 document.addEventListener('DOMContentLoaded', function() {
     console.log('文章模板已加载完成');
     
-    // 获取当前文章ID（从URL参数或默认值）
-    function getCurrentArticleId() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const articleId = parseInt(urlParams.get('id')) || 16;
-        return articleId;
-    }
-    
-    const currentArticleId = getCurrentArticleId();
+    // 当前文章ID
+    const currentArticleId = 16;
     
     // 更新文章信息
     function updateArticleInfo(articleId) {

@@ -714,14 +714,8 @@ copy /b (你的图片/视频路径) + (你的旮旯给木路径) (输出的位�
         document.addEventListener('DOMContentLoaded', function() {
             console.log('文章模板已加载完成');
             
-            // 获取当前文章ID（从URL参数或默认值）
-            function getCurrentArticleId() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const articleId = parseInt(urlParams.get('id')) || "换成id"; // 默认ID为2
-                return articleId;
-            }
-            
-            const currentArticleId = getCurrentArticleId();
+            // 当前文章ID
+            const currentArticleId = 6;
             
             // 更新文章信息
             function updateArticleInfo(articleId) {

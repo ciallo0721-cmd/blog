@@ -787,7 +787,7 @@
                     <li><strong>删除内容</strong>：觉得哪个模块没用、碍眼、过时，直接说</li>
                     <li><strong>性能/体验</strong>：加载慢、特效太卡、验证流程烦人、音乐播放器不好用</li>
                     <li><strong>Python 编辑器</strong>：想要更多库、更好用的输入、代码模板</li>
-                    <li><strong>其他任何想法</strong>：你觉得“这里可以更好”的地方</li>
+                    <li><strong>其他任何想法</strong>：你觉得"这里可以更好"的地方</li>
                 </ul>
 
                 <h2>提建议的小建议（非强制）</h2>
@@ -940,14 +940,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('文章模板已加载完成');
     
-    // 获取当前文章ID（从URL参数或默认值）
-    function getCurrentArticleId() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const articleId = parseInt(urlParams.get('id')) || "11"; // 请将“换成id”替换为当前文章的实际ID
-        return articleId;
-    }
-    
-    const currentArticleId = getCurrentArticleId();
+    // 当前文章ID
+    const currentArticleId = 11;
     
     // 更新文章信息
     function updateArticleInfo(articleId) {

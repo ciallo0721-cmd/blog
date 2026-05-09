@@ -804,13 +804,7 @@ footer p {
                 
                 <div class="article-video-container">
                     <div class="video-player-container" data-src="./video.mp4">
-                        <div class="video-poster">
-                            <div class="play-button">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
                         <video class="video-element" preload="metadata" crossorigin="anonymous"></video>
-                        <div class="vp-loading"></div>
                         <div class="video-controls">
                             <button class="vp-control-btn play-pause-btn"><i class="fas fa-play"></i></button>
                             <div class="vp-progress-container">
@@ -933,6 +927,9 @@ footer p {
     </footer>
 
     <script>
+    // 当前文章ID（灰度测试专用）
+    const currentArticleId = -1;
+
     // 图片点击放大功能
     document.addEventListener('DOMContentLoaded', function() {
         const modal = document.getElementById('imageZoomModal');

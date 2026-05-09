@@ -1025,8 +1025,50 @@
             }
         })();
     </script>
+<style>
+        /* === index.html 骨架屏 === */
+        @keyframes skeletonShimmer {
+            0% { background-position: -800px 0; }
+            100% { background-position: 800px 0; }
+        }
+        .skeleton-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #ffffff;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            transition: opacity 0.5s ease;
+        }
+        .skeleton-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .skeleton-block {
+            border-radius: 8px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 800px 100%;
+            animation: skeletonShimmer 1.5s infinite linear;
+        }
+    </style>
 </head>
 <body class="auth-passed">
+    <!-- 骨架屏 -->
+    <div id="skeletonOverlay" class="skeleton-overlay">
+        <div class="skeleton-block" style="width:200px;height:28px;margin-bottom:8px;"></div>
+        <div class="skeleton-block" style="width:320px;height:18px;margin-bottom:16px;"></div>
+        <div class="skeleton-block" style="width:280px;height:14px;margin-bottom:10px;"></div>
+        <div class="skeleton-block" style="width:340px;height:14px;margin-bottom:10px;"></div>
+        <div class="skeleton-block" style="width:260px;height:14px;margin-bottom:20px;"></div>
+        <div style="display:flex;gap:12px;">
+            <div class="skeleton-block" style="width:64px;height:12px;border-radius:20px;"></div>
+            <div class="skeleton-block" style="width:80px;height:12px;border-radius:20px;"></div>
+            <div class="skeleton-block" style="width:56px;height:12px;border-radius:20px;"></div>
+        </div>
+    </div>
     <!-- HTTP 检测提示框 -->
     <div class="http-warning-overlay" id="httpWarningOverlay" style="display:none;">
         <div class="http-warning-box">
@@ -2800,5 +2842,15 @@
     }, 300);
 })();
 </script>
+<script>
+    // 移除骨架屏
+    document.addEventListener('DOMContentLoaded', function() {
+        var el = document.getElementById('skeletonOverlay');
+        if (el) {
+            el.classList.add('hidden');
+            setTimeout(function() { el.remove(); }, 600);
+        }
+    });
+    </script>
 </body>
 </html>
