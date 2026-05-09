@@ -1012,7 +1012,7 @@
                 noResults.style.display = 'none';
                 articles.forEach((article, index) => {
                     const articleCard = document.createElement('a');
-                    articleCard.href = article.fileName;
+                    articleCard.href = '../blog/' + article.fileName;
                     articleCard.className = 'article-card fade-in-up';
                     articleCard.style.animationDelay = `${index * 0.1}s`;
                     articleCard.innerHTML = `

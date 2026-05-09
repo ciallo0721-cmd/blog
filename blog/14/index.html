@@ -776,12 +776,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const adj = window.articlesData.getAdjacentArticles(id);
         let html = '';
         if (adj.prev) {
-            html += `<a href="${adj.prev.fileName}" class="nav-btn prev"><i class="fas fa-chevron-left"></i><div><div style="font-size:0.8rem;opacity:0.8;">上一篇</div><div>${adj.prev.title}</div></div></a>`;
+            html += `<a href="/blog/${adj.prev.fileName}" class="nav-btn prev"><i class="fas fa-chevron-left"></i><div><div style="font-size:0.8rem;opacity:0.8;">上一篇</div><div>${adj.prev.title}</div></div></a>`;
         } else {
             html += '<a href="javascript:void(0)" class="nav-btn prev disabled"><i class="fas fa-chevron-left"></i><div><div style="font-size:0.8rem;opacity:0.8;">上一篇</div><div>没有了</div></div></a>';
         }
         if (adj.next) {
-            html += `<a href="${adj.next.fileName}" class="nav-btn next"><div><div style="font-size:0.8rem;opacity:0.8;">下一篇</div><div>${adj.next.title}</div></div><i class="fas fa-chevron-right"></i></a>`;
+            html += `<a href="/blog/${adj.next.fileName}" class="nav-btn next"><div><div style="font-size:0.8rem;opacity:0.8;">下一篇</div><div>${adj.next.title}</div></div><i class="fas fa-chevron-right"></i></a>`;
         } else {
             html += '<a href="javascript:void(0)" class="nav-btn next disabled"><div><div style="font-size:0.8rem;opacity:0.8;">下一篇</div><div>没有了</div></div><i class="fas fa-chevron-right"></i></a>';
         }
@@ -797,7 +797,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         grid.innerHTML = featured.map(a => `
-            <a href="${a.fileName}" class="related-card">
+            <a href="/blog/${a.fileName}" class="related-card">
                 <h4>${a.title}</h4>
                 <p>${a.excerpt || ''}</p>
                 <div class="related-tags">${(a.tags||[]).map(t => `<span class="related-tag">${t}</span>`).join('')}</div>
