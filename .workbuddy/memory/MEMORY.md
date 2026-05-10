@@ -30,6 +30,7 @@
 - 用户是初中生开发者，Ren'Py 视觉小说爱好者
 - 网站风格：蓝色渐变（原紫色已全部替换）、二次元风格文案（"喵～"、"的说～"）
 - 对安全感兴趣，已有 Cloudflare Turnstile 防护意识
+- **每次修改网站后，需同时在 `timeline.xlsx` 中新增一条更新记录**
 
 ## SEO 优化历史
 
@@ -136,24 +137,14 @@
 - 用户点击"不同意"则重定向到百度（代表退出）
 - 同意状态保存到sessionStorage的`google_consent`键
 
-## 文章系统迁移到 xlsx（2026-04-12）
-### 目录结构变更
-- 所有文章 HTML 文件从根目录移动到 `blog/` 子目录
-- 例如：`1.html` → `blog/1.html`
 
-### 数据管理变更
-- 删除 `articles-data.js` 和 `timeline.js`
-- 新增 `articles.xlsx` 和 `timeline.xlsx` 作为数据源
-- 使用 SheetJS (xlsx.js) 库在浏览器端解析 xlsx 文件
-- index.html 和 wz.html 都已更新为从 xlsx 加载数据
+## 文章系统数据格式（2026-05-10 已从 xlsx 迁回 JS）
+### 当前方案：JS 格式
+- 数据源：`timeline.js`（时间线）和 `articles-data.js`（文章列表）
+- 格式：JS 数组 + renderTimeline() / renderArticles() 函数
+- index.html 和 wz.html 均从 JS 文件加载数据
 
-### xlsx 数据格式
-articles.xlsx 字段：
-- ID、标题、摘要、日期、标签(逗号分隔)、文件路径、阅读时间(分钟)、精选
-timeline.xlsx 字段：
-- ID、日期、标题、描述
-
-### 技术实现
-- 引入 SheetJS CDN：`https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js`
-- index.html：新增 `loadArticlesFromXlsx()` 和 `loadTimelineFromXlsx()` 异步加载函数
-- wz.html：同样改用 xlsx 数据加载
+### xlsx 方案（已废弃，2026-04-12 曾迁移，2026-05-10 迁回）
+- 曾用 `articles.xlsx` 和 `timeline.xlsx` 作为数据源
+- 使用 SheetJS (xlsx.js) 库在浏览器端解析
+- 已放弃，改回原生 JS 格式
