@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -291,13 +291,38 @@ nav {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.article-content code {
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-    color: #E8E8E8;
-    font-size: 0.95rem;
-}
+        
+        
+        
+        
 
-.article-content .highlight {
+        .article-content :not(pre) > code {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: transparent;
+            font-size: 0.95rem;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: color 0.2s;
+        }
+        .article-content :not(pre) > code::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #111;
+            border-radius: 4px;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .article-content :not(pre) > code:hover {
+            color: #E8E8E8;
+        }
+        .article-content :not(pre) > code:hover::after {
+            opacity: 0;
+        }
+
+        .article-content .highlight {
     background: rgba(251, 114, 153, 0.1);
     padding: 3px 8px;
     border-radius: 4px;
