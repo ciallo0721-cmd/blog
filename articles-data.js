@@ -2,6 +2,16 @@
 window.articlesData = {
     articles: [
         {
+            id: -1,
+            title: "📋 灰度测试 - 网站功能测试专用",
+            excerpt: "本文档用于测试网站的各项功能和样式更新。每次有新功能上线前，都会在此页面进行灰度测试。想看更新内容？点击进入查看喵~",
+            date: "2026-05-08",
+            tags: ["灰度测试", "功能测试", "网站维护"],
+            fileName: "grayscale-test/",
+            readTime: 5,
+            featured: false
+        },
+        {
             id: 1,
             title: "UTAU教程：从调音到发布完全指南",
             excerpt: "学习如何使用UTAU进行歌声合成，从基础调音到高级技巧，完整指南带你入门。",
@@ -162,14 +172,14 @@ window.articlesData = {
             featured: true
         },
         {
-            id: -1,
-            title: "📋 灰度测试 - 网站功能测试专用",
-            excerpt: "本文档用于测试网站的各项功能和样式更新。每次有新功能上线前，都会在此页面进行灰度测试。想看更新内容？点击进入查看喵~",
-            date: "2026-05-08",
-            tags: ["灰度测试", "功能测试", "网站维护"],
-            fileName: "grayscale-test/",
-            readTime: 5,
-            featured: false
+            id: 17,
+            title: "优化X(twitter)推荐",
+            excerpt: "优化X(twitter)推荐",
+            date: "2026-05-13",
+            tags: ["X(twitter)","推荐算法"],
+            fileName: "17/",
+            readTime: 10,
+            featured: true
         },
     ],
     
