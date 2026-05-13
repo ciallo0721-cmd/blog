@@ -2,6 +2,17 @@
 
 ## 执行历史
 
+### 2026-05-13 19:07
+- **结果**：sitemap.xml 更新并推送成功（commit 5b968f6）
+- **变更内容**：修正所有页面 lastmod 为实际文件修改时间（覆盖远端自动脚本 2026-05-12 统一日期）
+  - 静态页面：index→05-11, wz→04-30, aboutme→04-30, adss→05-08, privacy→04-27, help→05-06, status→05-07
+  - 博客：blog/1~14,16,grayscale-test→05-12；blog/15→05-10
+  - 游戏页面全部→05-06
+  - 无新文章（最高仍 blog/16）
+- **遭遇冲突**：远端有新提交（7fda52a 含 index.html 修改），通过 checkout --ours 解决 sitemap.xml 冲突后推送
+- **博客目录**：blog/1~16 + grayscale-test（与上次一致）
+- **持续问题**：远端 GitHub Actions 自动化脚本会把 sitemap.xml 全部 lastmod 刷为当日日期，每次运行本任务均需重新修正
+
 ### 2026-05-12 19:30
 - **结果**：sitemap.xml 更新并推送成功（commit 6f55379）
 - **变更内容**：修正所有页面 lastmod 为实际文件修改时间（远端自动脚本统一写 2026-05-12 不准确）
