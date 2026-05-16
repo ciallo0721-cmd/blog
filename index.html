@@ -2,34 +2,14 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <!-- IE 浏览器检测：IE 不支持现代 web 标准，跳出并提示 -->
-    <!--[if IE]>
-    <meta http-equiv="refresh" content="0; url=about:blank">
-    <![endif]-->
     <script>
     (function() {
-        // 检测 IE（包括 IE11）
+        // 检测 IE/低版本浏览器并跳转
         var ua = window.navigator.userAgent;
-        var isIE = /MSIE |Trident\//.test(ua);
-        if (isIE) {
-            document.write(
-                '<style>body{margin:0;font-family:sans-serif;background:#f0f4ff;display:flex;align-items:center;justify-content:center;min-height:100vh;}</style>' +
-                '<div style="max-width:500px;margin:auto;text-align:center;padding:40px 24px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(51,102,255,0.15);">' +
-                '<div style="font-size:4rem;margin-bottom:16px;">😢</div>' +
-                '<h1 style="color:#3366ff;font-size:1.6rem;margin-bottom:12px;">您的浏览器太老了喵～</h1>' +
-                '<p style="color:#555;line-height:1.8;margin-bottom:24px;">当前网站不支持 Internet Explorer。<br>请换一个现代浏览器访问吧 (｡･ω･｡)ﾉ</p>' +
-                '<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">' +
-                '<a href="https://www.google.com/chrome/" target="_blank" style="background:#3366ff;color:#fff;padding:10px 22px;border-radius:8px;text-decoration:none;font-weight:600;">Chrome</a>' +
-                '<a href="https://www.microsoft.com/edge" target="_blank" style="background:#0078d4;color:#fff;padding:10px 22px;border-radius:8px;text-decoration:none;font-weight:600;">Edge</a>' +
-                '<a href="https://www.mozilla.org/firefox/" target="_blank" style="background:#ff6611;color:#fff;padding:10px 22px;border-radius:8px;text-decoration:none;font-weight:600;">Firefox</a>' +
-                '</div>' +
-                '</div>'
-            );
-            document.addEventListener('DOMContentLoaded', function() {
-                // 阻止后续内容渲染
-                document.body.innerHTML = document.body.innerHTML;
-            });
-            throw new Error('IE not supported');
+        var isOldBrowser = /MSIE |Trident\/|Edge\/1[0-7]\./.test(ua) || 
+                          /Version\/[1-9]\.[0-9](\s|$)/.test(navigator.appVersion);
+        if (isOldBrowser) {
+            window.location.href = './oops/index.html';
         }
     })();
     </script>
