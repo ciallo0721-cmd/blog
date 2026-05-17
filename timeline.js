@@ -2,6 +2,11 @@
         window.timelineData = [
             {
                 date: "2026年5月17日",
+                title: "更新 sitemap.xml",
+                desc: "扫描 blog/ 目录所有文章（18篇+），检查静态页面和游戏页面，生成新 sitemap.xml，添加 blog/index.html，更新所有 lastmod 为实际修改时间喵～"
+            },
+            {
+                date: "2026年5月17日",
                 title: "简化验证流程",
                 desc: "删除多余的验证环节，只保留 Cloudflare Turnstile 验证，用户可以直接访问主界面喵～"
             },
