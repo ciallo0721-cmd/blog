@@ -309,7 +309,7 @@
             function updateArticleCount(count) { articleCount.textContent = count; }
             function performSearch() {
                 var rawInput = searchInput.value;
-                if (/<script|javascript:|onw+s*=|=|alerts*(|eval|prompt|confirms*(|document.cookie|.innerHTMLs*=|expressions*(|<!*iframe|<!*img+s+onerror|onload|=/i.test(rawInput)) {
+                if (/<script|javascript:|on\w+\s*=|alert\s*\(|eval\s*\(|prompt\s*\(|confirm\s*\(|document\.cookie|\.innerHTML\s*=|expression\s*\(|<\s*iframe|<\s*img\s+onerror|onload\s*=/i.test(rawInput)) {
                     searchInput.value = '';
                     currentSearch = '';
                     filterArticles();
