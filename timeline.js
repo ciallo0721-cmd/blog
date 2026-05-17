@@ -1,6 +1,11 @@
 
         window.timelineData = [
             {
+                date: "2026年5月17日",
+                title: "简化验证流程",
+                desc: "删除多余的验证环节，只保留 Cloudflare Turnstile 验证，用户可以直接访问主界面喵～"
+            },
+            {
                 date: "2026年5月16日",
                 title: "新增低版本浏览器跳转页面",
                 desc: "添加了 oops 页面，当检测到 IE/Edge 1-17/其他低版本浏览器时，自动跳转到提示页面引导用户使用现代浏览器喵～"
