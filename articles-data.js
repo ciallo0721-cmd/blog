@@ -181,6 +181,16 @@ window.articlesData = {
             readTime: 10,
             featured: true
         },
+        {
+            id: 18,
+            title: "泰式柠檬番茄酸辣炸鸡腿",
+            excerpt: "酸辣开胃、香喷喷又下饭——这道泰式炸鸡腿是整个家庭的最爱！泰式辣椒酱配柠檬和番茄，一上桌孩子们就忍不住多盛一碗饭。附完整食材清单和分步做法。（转载自 lifangcook）",
+            date: "2026-05-17",
+            tags: ["美食", "炸鸡", "泰式料理", "家常菜", "菜谱", "转载"],
+            fileName: "18/",
+            readTime: 5,
+            featured: true
+        },
     ],
     
     getSortedArticles: function() {
