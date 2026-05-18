@@ -284,108 +284,6 @@
       letter-spacing: 1px;
     }
 
-    /* ===== Add Entry Panel ===== */
-    .add-entry-card {
-      background: var(--wall-bg);
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 32px 40px;
-      max-width: 900px;
-      width: 95%;
-      margin: 0 auto 32px;
-      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.07);
-    }
-
-    .add-entry-card h2 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #1e293b;
-      margin-bottom: 20px;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      align-items: flex-end;
-      margin-bottom: 14px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      flex: 1;
-      min-width: 120px;
-    }
-
-    .form-group label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-    }
-
-    .form-group input, .form-group textarea {
-      border: 1.5px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 0.9rem;
-      color: #1e293b;
-      background: #fff;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-group input:focus, .form-group textarea:focus {
-      border-color: #64b5f6;
-    }
-
-    .slider-wrap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .slider-wrap input[type=range] {
-      flex: 1;
-      accent-color: #64b5f6;
-      border: none;
-      padding: 0;
-    }
-
-    .slider-val {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #3b82f6;
-      min-width: 28px;
-      text-align: center;
-    }
-
-    .btn-add {
-      background: linear-gradient(135deg, #64b5f6, #3b82f6);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 28px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 4px 12px rgba(59,130,246,0.3);
-      margin-top: 4px;
-    }
-    .btn-add:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(59,130,246,0.4); }
-    .btn-add:active { transform: translateY(0); }
-
-    .notice {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      margin-top: 10px;
-    }
-    .notice a { color: #64b5f6; text-decoration: none; }
-
     /* ===== Back link ===== */
     .back-link {
       display: block;
@@ -400,7 +298,6 @@
 
     @media (max-width: 768px) {
       .mood-dashboard-embed-context { padding: 24px 16px; }
-      .add-entry-card { padding: 24px 16px; }
       :root {
         --cell-h: 8px;
         --scatter-h: 260px;
@@ -458,41 +355,6 @@
   </div>
 </div>
 
-<!-- Add Entry -->
-<div class="add-entry-card">
-  <h2>➕ 添加今日记录</h2>
-  <div class="form-row">
-    <div class="form-group" style="max-width:160px;">
-      <label>日期</label>
-      <input type="date" id="inputDate">
-    </div>
-    <div class="form-group">
-      <label>心情评分 (1-5) <span style="font-size:0.8em;color:#94a3b8;">情绪好坏</span></label>
-      <div class="slider-wrap">
-        <input type="range" id="inputM" min="1" max="5" step="0.1" value="3">
-        <span class="slider-val" id="valM">3.0</span>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>指标B (1-5) <span style="font-size:0.8em;color:#94a3b8;">自定义追踪</span></label>
-      <div class="slider-wrap">
-        <input type="range" id="inputA" min="1" max="5" step="0.1" value="2">
-        <span class="slider-val" id="valA">2.0</span>
-      </div>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group">
-      <label>备注（可选）</label>
-      <input type="text" id="inputNote" placeholder="今天发生了什么..." maxlength="100">
-    </div>
-    <button class="btn-add" onclick="addEntry()">记录</button>
-  </div>
-  <p class="notice">数据保存在浏览器本地（localStorage），清除缓存后数据会丢失。如需长期保存，请手动导出 JSON。
-    <a href="#" onclick="exportData(); return false;">导出数据</a>
-  </p>
-</div>
-
 <script>
 // ===== Data Layer =====
 const STORAGE_KEY = 'mood_tracker_data_v1';
@@ -523,15 +385,6 @@ function loadData() {
 
 function saveData(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
-
-function exportData() {
-  const data = loadData();
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'moods-' + new Date().toISOString().slice(0,10) + '.json';
-  a.click();
 }
 
 // ===== Color Helper =====
@@ -656,47 +509,6 @@ function renderScatter(data) {
   });
 }
 
-// ===== Add Entry =====
-function addEntry() {
-  const date = document.getElementById('inputDate').value;
-  const m = parseFloat(document.getElementById('inputM').value);
-  const a = parseFloat(document.getElementById('inputA').value);
-  const note = document.getElementById('inputNote').value.trim();
-
-  if (!date) { alert('请选择日期！'); return; }
-
-  let data = loadData();
-  // Remove existing entry for same date
-  data = data.filter(d => d.date !== date);
-  const entry = { date, m: Math.round(m * 10) / 10, a: Math.round(a * 10) / 10 };
-  if (note) entry.note = note;
-  data.push(entry);
-  data.sort((a, b) => a.date.localeCompare(b.date));
-  saveData(data);
-
-  // Clear note
-  document.getElementById('inputNote').value = '';
-  renderAll();
-  // Flash feedback
-  const btn = document.querySelector('.btn-add');
-  btn.textContent = '✅ 已记录！';
-  setTimeout(() => { btn.textContent = '记录'; }, 1500);
-}
-
-// ===== Init Sliders =====
-function initSliders() {
-  const today = new Date().toISOString().slice(0, 10);
-  document.getElementById('inputDate').value = today;
-
-  const sM = document.getElementById('inputM');
-  const vM = document.getElementById('valM');
-  const sA = document.getElementById('inputA');
-  const vA = document.getElementById('valA');
-
-  sM.addEventListener('input', () => { vM.textContent = parseFloat(sM.value).toFixed(1); });
-  sA.addEventListener('input', () => { vA.textContent = parseFloat(sA.value).toFixed(1); });
-}
-
 // ===== Render All =====
 function renderAll() {
   const data = loadData();
@@ -706,7 +518,6 @@ function renderAll() {
 }
 
 // ===== Boot =====
-initSliders();
 renderAll();
 </script>
 </body>
