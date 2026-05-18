@@ -44,6 +44,23 @@
       --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
     }
 
+    /* 加载与错误提示样式 */
+    .loading-message, .error-message {
+      text-align: center;
+      padding: 40px;
+      font-size: 1rem;
+      background: var(--wall-bg);
+      border-radius: 16px;
+      width: 95%;
+      max-width: 900px;
+      margin: 20px auto;
+      border: 1px solid #e2e8f0;
+    }
+    .error-message {
+      color: #dc2626;
+      border-left: 4px solid #dc2626;
+    }
+
     .mood-dashboard-embed-context {
       background: var(--wall-bg);
       padding: 45px 40px;
@@ -284,17 +301,21 @@
       letter-spacing: 1px;
     }
 
-    /* ===== Back link ===== */
-    .back-link {
-      display: block;
-      text-align: center;
+    /* ===== Back link and Source link ===== */
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 20px;
       margin-bottom: 20px;
+    }
+    .back-link, .source-link {
       font-size: 0.85rem;
       color: #94a3b8;
       text-decoration: none;
       transition: color 0.2s;
     }
-    .back-link:hover { color: #3b82f6; }
+    .back-link:hover, .source-link:hover { color: #3b82f6; }
 
     @media (max-width: 768px) {
       .mood-dashboard-embed-context { padding: 24px 16px; }
@@ -311,7 +332,10 @@
 </head>
 <body>
 
-<a class="back-link" href="../index.html">← 返回主页</a>
+<div class="footer-links">
+  <a class="back-link" href="../index.html">← 返回主页</a>
+  <a class="source-link" href="https://github.com/LiuyiRigel/Mood-Tracker-Dashboard" target="_blank" rel="noopener noreferrer">📂 源代码</a>
+</div>
 
 <h1 class="page-title">🌈 心情追踪仪表板</h1>
 <p class="page-sub">不是为了激励，只是为了看清自己。</p>
@@ -355,37 +379,12 @@
   </div>
 </div>
 
+<!-- Loading / Error Message Area (Hidden by default) -->
+<div id="messageArea" style="display: none;" class="loading-message"></div>
+
 <script>
 // ===== Data Layer =====
 const STORAGE_KEY = 'mood_tracker_data_v1';
-
-// 内置示例数据（从 moods.json）
-const SAMPLE_DATA = [
-  {"date":"2026-01-01","m":3.5,"a":2.0,"note":"New year, fresh start"},
-  {"date":"2026-01-02","m":3.2,"a":1.8},
-  {"date":"2026-01-03","m":3.8,"a":2.2},
-  {"date":"2026-01-04","m":2.9,"a":3.1,"note":"Stressful day"},
-  {"date":"2026-01-05","m":4.0,"a":1.5,"note":"Great day!"},
-  {"date":"2026-01-06","m":3.6,"a":2.7},
-  {"date":"2026-01-07","m":3.4,"a":2.5},
-  {"date":"2026-01-08","m":2.8,"a":3.5,"note":"Difficult"},
-  {"date":"2026-01-09","m":3.1,"a":2.0},
-  {"date":"2026-01-10","m":3.9,"a":1.8}
-];
-
-function loadData() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch(e) {}
-  // 首次使用，写入示例数据
-  saveData(SAMPLE_DATA);
-  return SAMPLE_DATA.slice();
-}
-
-function saveData(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
 
 // ===== Color Helper =====
 function moodColor(m, a) {
@@ -415,7 +414,7 @@ function getDayOfWeek(dateStr) {
   return dow === 0 ? 7 : dow;
 }
 
-// ===== Render Stats =====
+// ===== Render Helpers =====
 function renderStats(data) {
   const days = data.length;
   const avgM = days ? (data.reduce((s,d)=>s+d.m,0)/days).toFixed(2) : '—';
@@ -431,7 +430,6 @@ function renderStats(data) {
   document.getElementById('statBest').textContent = best;
 }
 
-// ===== Render Heatmap =====
 function renderHeatmap(data) {
   const year = getYear();
   const dataMap = {};
@@ -484,7 +482,6 @@ function renderHeatmap(data) {
   }
 }
 
-// ===== Render Scatter =====
 function renderScatter(data) {
   const canvas = document.getElementById('scatterCanvas');
   canvas.innerHTML = '';
@@ -509,16 +506,56 @@ function renderScatter(data) {
   });
 }
 
-// ===== Render All =====
-function renderAll() {
-  const data = loadData();
+// ===== Render All (after data is loaded) =====
+function renderAllWithData(data) {
   renderStats(data);
   renderHeatmap(data);
   renderScatter(data);
 }
 
-// ===== Boot =====
-renderAll();
+// ===== Load Data from moods.json and render =====
+async function initializeDataAndRender() {
+  const messageArea = document.getElementById('messageArea');
+  const dashboardContainers = document.querySelectorAll('.mood-dashboard-embed-context');
+  
+  // Show loading state
+  messageArea.style.display = 'block';
+  messageArea.innerHTML = '📡 正在加载心情数据...';
+  messageArea.className = 'loading-message';
+  dashboardContainers.forEach(el => el.style.opacity = '0.5');
+
+  try {
+    // 使用 fetch 加载 moods.json 文件
+    const response = await fetch('./moods.json');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const loadedData = await response.json();
+    
+    // 校验数据格式 (简单检查是否为数组)
+    if (!Array.isArray(loadedData)) {
+      throw new Error('数据格式错误：moods.json 应该是一个数组');
+    }
+    
+    // 将数据存入 localStorage 以备后续操作
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(loadedData));
+    
+    // 隐藏加载提示，渲染仪表板
+    messageArea.style.display = 'none';
+    dashboardContainers.forEach(el => el.style.opacity = '1');
+    
+    renderAllWithData(loadedData);
+    
+  } catch (error) {
+    console.error('加载 moods.json 失败:', error);
+    messageArea.innerHTML = `❌ 加载心情数据失败: ${error.message}<br><br>💡 提示: 请确保 moods.json 文件与 index.html 在同一目录下，并且通过 HTTP 服务器访问（如使用 Live Server 或 http-server）。`;
+    messageArea.className = 'error-message';
+    dashboardContainers.forEach(el => el.style.opacity = '0.3');
+  }
+}
+
+// ===== Start =====
+initializeDataAndRender();
 </script>
 </body>
 </html>
