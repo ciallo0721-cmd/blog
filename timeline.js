@@ -1,6 +1,11 @@
 
         window.timelineData = [
             {
+                date: "2026年5月18日",
+                title: "新增心情追踪仪表板",
+                desc: "集成 Mood-Tracker-Dashboard 项目，转为纯静态 HTML+JS 版本，支持全年热力图、散点图、localStorage 本地记录和数据导出喵～"
+            },
+            {
                 date: "2026年5月17日",
                 title: "更新 sitemap.xml",
                 desc: "扫描 blog/ 目录所有文章（18篇+），检查静态页面和游戏页面，生成新 sitemap.xml，添加 blog/index.html，更新所有 lastmod 为实际修改时间喵～"

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>心情追踪 | Mood Tracker Dashboard</title>
+  <link rel="icon" href="../fanv.ico">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #eef2f7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: #334155;
+    }
+
+    h1.page-title {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #1e293b;
+    }
+    .page-sub {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 32px;
+    }
+
+    :root {
+      --wall-bg: #f8fafc;
+      --text-gray: #718096;
+      --empty-cell: #e2e8f0;
+      --cell-w: 14px;
+      --cell-h: 11px;
+      --gap: 3px;
+      --scatter-w: 600px;
+      --scatter-h: 350px;
+      --dot-size: 14px;
+      --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .mood-dashboard-embed-context {
+      background: var(--wall-bg);
+      padding: 45px 40px;
+      border-radius: 16px;
+      margin: 0 auto 32px;
+      width: 95%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.07);
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-gray);
+      margin-bottom: 20px;
+      align-self: flex-start;
+    }
+
+    /* ===== Heatmap ===== */
+    .matrix-wrapper {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      grid-template-rows: 22px 1fr;
+      column-gap: 10px;
+      row-gap: 6px;
+      margin-bottom: 16px;
+      width: 100%;
+      overflow: visible;
+    }
+
+    .month-labels {
+      grid-column: 2;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text-gray);
+      padding-right: 4px;
+    }
+
+    .day-labels {
+      grid-row: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text-gray);
+      height: calc(var(--cell-h) * 7 + var(--gap) * 6);
+      padding-bottom: 2px;
+    }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-rows: repeat(7, var(--cell-h));
+      grid-auto-flow: column;
+      gap: var(--gap);
+      width: 100%;
+      overflow: visible;
+      isolation: isolate;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cell, .dot {
+      transition:
+        transform 0.4s var(--ease-out-back),
+        box-shadow 0.3s ease,
+        filter 0.3s ease;
+      will-change: transform;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cell {
+      width: 100%;
+      max-width: var(--cell-w);
+      height: var(--cell-h);
+      border-radius: 2px;
+      background: var(--empty-cell);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .cell:hover {
+      transform: scale(1.6);
+      z-index: 100;
+      filter: brightness(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      outline: 2px solid transparent;
+    }
+
+    /* ===== Legend ===== */
+    .heatmap-legend {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--text-gray);
+      margin-top: 10px;
+      align-self: flex-end;
+    }
+    .legend-cells {
+      display: flex;
+      gap: 3px;
+    }
+    .legend-cell {
+      width: 12px;
+      height: 10px;
+      border-radius: 2px;
+    }
+
+    /* ===== Divider ===== */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: #e2e8f0;
+      margin: 28px 0;
+    }
+
+    /* ===== Scatter ===== */
+    .scatter-plots {
+      width: 100%;
+      max-width: var(--scatter-w);
+      position: relative;
+      margin-top: 60px;
+    }
+
+    .scatter-canvas {
+      width: 100%;
+      height: var(--scatter-h);
+      border-left: 2px solid #cbd5e1;
+      border-bottom: 2px solid #cbd5e1;
+      position: relative;
+      overflow: visible;
+      background: linear-gradient(to bottom right, #5eead4 0%, #334155 65%, #1e293b 100%);
+      border-radius: 0 0 0 4px;
+    }
+
+    .axis-title {
+      position: absolute;
+      font-size: 11px;
+      color: var(--text-gray);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .title-y { left: -90px; top: 50%; transform: translateY(-50%) rotate(-90deg); width: 120px; text-align: center; }
+    .title-x { bottom: -40px; left: 50%; transform: translateX(-50%); }
+
+    .axis-tick { position: absolute; font-size: 10px; color: #94a3b8; font-family: monospace; }
+    .tick-y1 { bottom: 5%; left: -30px; }
+    .tick-y5 { top: 5%; left: -30px; }
+    .tick-x1 { bottom: -22px; left: 5%; }
+    .tick-x5 { bottom: -22px; right: 5%; }
+
+    .dot {
+      width: var(--dot-size);
+      height: var(--dot-size);
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.8);
+      position: absolute;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .dot:hover {
+      transform: translate(-50%, -50%) scale(1.8);
+      z-index: 500;
+      filter: brightness(1.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    /* ===== Tooltip ===== */
+    [data-tip]::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: 260%;
+      left: 50%;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(8px) scale(0.9);
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 11px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      z-index: 2000;
+      pointer-events: none;
+      box-shadow: 0 15px 30px -5px rgba(0,0,0,0.4);
+      width: max-content;
+      max-width: 220px;
+      transition:
+        opacity 0.25s var(--ease-out-expo),
+        transform 0.3s var(--ease-out-expo),
+        visibility 0.25s;
+    }
+
+    [data-tip]:hover::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    /* ===== Stats bar ===== */
+    .stats-bar {
+      display: flex;
+      gap: 24px;
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ===== Add Entry Panel ===== */
+    .add-entry-card {
+      background: var(--wall-bg);
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 32px 40px;
+      max-width: 900px;
+      width: 95%;
+      margin: 0 auto 32px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.07);
+    }
+
+    .add-entry-card h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      margin-bottom: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .form-group label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .form-group input, .form-group textarea {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      color: #1e293b;
+      background: #fff;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: #64b5f6;
+    }
+
+    .slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .slider-wrap input[type=range] {
+      flex: 1;
+      accent-color: #64b5f6;
+      border: none;
+      padding: 0;
+    }
+
+    .slider-val {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #3b82f6;
+      min-width: 28px;
+      text-align: center;
+    }
+
+    .btn-add {
+      background: linear-gradient(135deg, #64b5f6, #3b82f6);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 28px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+      margin-top: 4px;
+    }
+    .btn-add:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(59,130,246,0.4); }
+    .btn-add:active { transform: translateY(0); }
+
+    .notice {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-top: 10px;
+    }
+    .notice a { color: #64b5f6; text-decoration: none; }
+
+    /* ===== Back link ===== */
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: #3b82f6; }
+
+    @media (max-width: 768px) {
+      .mood-dashboard-embed-context { padding: 24px 16px; }
+      .add-entry-card { padding: 24px 16px; }
+      :root {
+        --cell-h: 8px;
+        --scatter-h: 260px;
+        --dot-size: 11px;
+      }
+      .title-y { left: -70px; font-size: 9px; }
+      .title-x { bottom: -36px; font-size: 9px; }
+      .scatter-plots { margin-top: 50px; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="back-link" href="../index.html">← 返回主页</a>
+
+<h1 class="page-title">🌈 心情追踪仪表板</h1>
+<p class="page-sub">不是为了激励，只是为了看清自己。</p>
+
+<!-- Stats -->
+<div class="mood-dashboard-embed-context" style="padding:28px 40px;">
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-item"><div class="stat-value" id="statDays">—</div><div class="stat-label">记录天数</div></div>
+    <div class="stat-item"><div class="stat-value" id="statAvgM">—</div><div class="stat-label">平均心情</div></div>
+    <div class="stat-item"><div class="stat-value" id="statAvgA">—</div><div class="stat-label">平均指标B</div></div>
+    <div class="stat-item"><div class="stat-value" id="statBest">—</div><div class="stat-label">最佳日期</div></div>
+  </div>
+</div>
+
+<!-- Heatmap -->
+<div class="mood-dashboard-embed-context">
+  <div class="section-title">📅 全年心情热力图</div>
+  <div class="matrix-wrapper">
+    <div class="month-labels" id="monthLabels"></div>
+    <div class="day-labels"><span>一</span><span>三</span><span>五</span><span>日</span></div>
+    <div class="matrix-grid" id="matrixGrid"></div>
+  </div>
+  <div class="heatmap-legend">
+    <span>低</span>
+    <div class="legend-cells" id="legendCells"></div>
+    <span>高</span>
+  </div>
+</div>
+
+<!-- Scatter -->
+<div class="mood-dashboard-embed-context">
+  <div class="section-title">📊 心情 × 指标B 相关性散点图</div>
+  <div class="scatter-plots">
+    <div class="axis-title title-y">Positive Mood</div>
+    <div class="axis-title title-x">Indicator B</div>
+    <div class="axis-tick tick-y1">1.0</div>
+    <div class="axis-tick tick-y5">5.0</div>
+    <div class="axis-tick tick-x1">1.0</div>
+    <div class="axis-tick tick-x5">5.0</div>
+    <div class="scatter-canvas" id="scatterCanvas"></div>
+  </div>
+</div>
+
+<!-- Add Entry -->
+<div class="add-entry-card">
+  <h2>➕ 添加今日记录</h2>
+  <div class="form-row">
+    <div class="form-group" style="max-width:160px;">
+      <label>日期</label>
+      <input type="date" id="inputDate">
+    </div>
+    <div class="form-group">
+      <label>心情评分 (1-5) <span style="font-size:0.8em;color:#94a3b8;">情绪好坏</span></label>
+      <div class="slider-wrap">
+        <input type="range" id="inputM" min="1" max="5" step="0.1" value="3">
+        <span class="slider-val" id="valM">3.0</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>指标B (1-5) <span style="font-size:0.8em;color:#94a3b8;">自定义追踪</span></label>
+      <div class="slider-wrap">
+        <input type="range" id="inputA" min="1" max="5" step="0.1" value="2">
+        <span class="slider-val" id="valA">2.0</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>备注（可选）</label>
+      <input type="text" id="inputNote" placeholder="今天发生了什么..." maxlength="100">
+    </div>
+    <button class="btn-add" onclick="addEntry()">记录</button>
+  </div>
+  <p class="notice">数据保存在浏览器本地（localStorage），清除缓存后数据会丢失。如需长期保存，请手动导出 JSON。
+    <a href="#" onclick="exportData(); return false;">导出数据</a>
+  </p>
+</div>
+
+<script>
+// ===== Data Layer =====
+const STORAGE_KEY = 'mood_tracker_data_v1';
+
+// 内置示例数据（从 moods.json）
+const SAMPLE_DATA = [
+  {"date":"2026-01-01","m":3.5,"a":2.0,"note":"New year, fresh start"},
+  {"date":"2026-01-02","m":3.2,"a":1.8},
+  {"date":"2026-01-03","m":3.8,"a":2.2},
+  {"date":"2026-01-04","m":2.9,"a":3.1,"note":"Stressful day"},
+  {"date":"2026-01-05","m":4.0,"a":1.5,"note":"Great day!"},
+  {"date":"2026-01-06","m":3.6,"a":2.7},
+  {"date":"2026-01-07","m":3.4,"a":2.5},
+  {"date":"2026-01-08","m":2.8,"a":3.5,"note":"Difficult"},
+  {"date":"2026-01-09","m":3.1,"a":2.0},
+  {"date":"2026-01-10","m":3.9,"a":1.8}
+];
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  // 首次使用，写入示例数据
+  saveData(SAMPLE_DATA);
+  return SAMPLE_DATA.slice();
+}
+
+function saveData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function exportData() {
+  const data = loadData();
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'moods-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+}
+
+// ===== Color Helper =====
+function moodColor(m, a) {
+  const hue = (a - 1) * 11.25 + 155;
+  const lit = m * 11 - a * 7 + 30;
+  return `hsl(${hue.toFixed(1)}, 45%, ${lit.toFixed(1)}%)`;
+}
+function moodColorDot(m, a) {
+  const hue = (a - 1) * 11.25 + 155;
+  const lit = m * 11 - a * 7 + 30;
+  return `hsl(${hue.toFixed(1)}, 50%, ${lit.toFixed(1)}%)`;
+}
+
+// ===== Date Helpers =====
+function getYear() {
+  return new Date().getFullYear();
+}
+
+function formatDate(date) {
+  return date.toISOString().slice(0, 10);
+}
+
+function getDayOfWeek(dateStr) {
+  // Returns 1=Mon … 7=Sun (ISO)
+  const d = new Date(dateStr + 'T00:00:00');
+  let dow = d.getDay(); // 0=Sun
+  return dow === 0 ? 7 : dow;
+}
+
+// ===== Render Stats =====
+function renderStats(data) {
+  const days = data.length;
+  const avgM = days ? (data.reduce((s,d)=>s+d.m,0)/days).toFixed(2) : '—';
+  const avgA = days ? (data.reduce((s,d)=>s+d.a,0)/days).toFixed(2) : '—';
+  let best = '—';
+  if (days) {
+    const top = data.slice().sort((a,b) => b.m - a.m)[0];
+    best = top.date.slice(5); // MM-DD
+  }
+  document.getElementById('statDays').textContent = days;
+  document.getElementById('statAvgM').textContent = avgM;
+  document.getElementById('statAvgA').textContent = avgA;
+  document.getElementById('statBest').textContent = best;
+}
+
+// ===== Render Heatmap =====
+function renderHeatmap(data) {
+  const year = getYear();
+  const dataMap = {};
+  data.forEach(d => { dataMap[d.date] = d; });
+
+  // Month labels
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const mlEl = document.getElementById('monthLabels');
+  mlEl.innerHTML = months.map(m => `<span>${m}</span>`).join('');
+
+  const grid = document.getElementById('matrixGrid');
+  grid.innerHTML = '';
+
+  // Jan 1 of year
+  const start = new Date(year, 0, 1);
+  const end = new Date(year, 11, 31);
+  const totalDays = Math.round((end - start) / 86400000) + 1;
+
+  for (let i = 0; i < totalDays; i++) {
+    const d = new Date(start.getTime() + i * 86400000);
+    const dateStr = formatDate(d);
+    const dow = getDayOfWeek(dateStr); // 1=Mon…7=Sun
+    const entry = dataMap[dateStr];
+
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.style.gridRow = dow;
+
+    let tip;
+    if (entry) {
+      const color = moodColor(entry.m, entry.a);
+      cell.style.backgroundColor = color;
+      tip = `${dateStr}\n心情: ${entry.m}  指标B: ${entry.a}`;
+      if (entry.note) tip += `\n备注: ${entry.note}`;
+    } else {
+      tip = `${dateStr}\n无数据`;
+    }
+    cell.setAttribute('data-tip', tip);
+    grid.appendChild(cell);
+  }
+
+  // Legend
+  const legendEl = document.getElementById('legendCells');
+  legendEl.innerHTML = '';
+  for (let v = 1; v <= 5; v++) {
+    const lc = document.createElement('div');
+    lc.className = 'legend-cell';
+    lc.style.backgroundColor = moodColor(v, 3 - v * 0.3 + 1.5);
+    legendEl.appendChild(lc);
+  }
+}
+
+// ===== Render Scatter =====
+function renderScatter(data) {
+  const canvas = document.getElementById('scatterCanvas');
+  canvas.innerHTML = '';
+
+  data.forEach(item => {
+    const m = parseFloat(item.m);
+    const a = parseFloat(item.a);
+    const x = ((a - 1) / 4) * 90 + 5;
+    const yRaw = ((m - 1) / 4) * 90 + 5;
+    const y = 100 - yRaw;
+
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    dot.style.backgroundColor = moodColorDot(m, a);
+    dot.style.left = x + '%';
+    dot.style.top = y + '%';
+
+    let tip = `${item.date}\n心情: ${item.m}  指标B: ${item.a}`;
+    if (item.note) tip += `\n备注: ${item.note}`;
+    dot.setAttribute('data-tip', tip);
+    canvas.appendChild(dot);
+  });
+}
+
+// ===== Add Entry =====
+function addEntry() {
+  const date = document.getElementById('inputDate').value;
+  const m = parseFloat(document.getElementById('inputM').value);
+  const a = parseFloat(document.getElementById('inputA').value);
+  const note = document.getElementById('inputNote').value.trim();
+
+  if (!date) { alert('请选择日期！'); return; }
+
+  let data = loadData();
+  // Remove existing entry for same date
+  data = data.filter(d => d.date !== date);
+  const entry = { date, m: Math.round(m * 10) / 10, a: Math.round(a * 10) / 10 };
+  if (note) entry.note = note;
+  data.push(entry);
+  data.sort((a, b) => a.date.localeCompare(b.date));
+  saveData(data);
+
+  // Clear note
+  document.getElementById('inputNote').value = '';
+  renderAll();
+  // Flash feedback
+  const btn = document.querySelector('.btn-add');
+  btn.textContent = '✅ 已记录！';
+  setTimeout(() => { btn.textContent = '记录'; }, 1500);
+}
+
+// ===== Init Sliders =====
+function initSliders() {
+  const today = new Date().toISOString().slice(0, 10);
+  document.getElementById('inputDate').value = today;
+
+  const sM = document.getElementById('inputM');
+  const vM = document.getElementById('valM');
+  const sA = document.getElementById('inputA');
+  const vA = document.getElementById('valA');
+
+  sM.addEventListener('input', () => { vM.textContent = parseFloat(sM.value).toFixed(1); });
+  sA.addEventListener('input', () => { vA.textContent = parseFloat(sA.value).toFixed(1); });
+}
+
+// ===== Render All =====
+function renderAll() {
+  const data = loadData();
+  renderStats(data);
+  renderHeatmap(data);
+  renderScatter(data);
+}
+
+// ===== Boot =====
+initSliders();
+renderAll();
+</script>
+</body>
+</html>
