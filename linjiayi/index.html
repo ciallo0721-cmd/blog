@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>0+1牛逼</title>
+  <link rel="icon" href="../fanv.ico" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #111;
+      min-height: 100vh;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .pop {
+      position: fixed;
+      font-family: Arial, sans-serif;
+      font-weight: 900;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(0);
+      animation: pop 0.6s ease-out forwards;
+    }
+    @keyframes pop {
+      0%   { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+      60%  { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+<script>
+  const colors = ['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#55efc4','#fd79a8','#a29bfe','#fdcb6e','#00cec9'];
+  document.body.addEventListener('click', e => {
+    const el = document.createElement('div');
+    el.className = 'pop';
+    el.textContent = '0+1牛逼';
+    el.style.left = e.clientX + 'px';
+    el.style.top = e.clientY + 'px';
+    el.style.fontSize = (Math.random() * 60 + 40) + 'px';
+    el.style.color = colors[Math.floor(Math.random() * colors.length)];
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  });
+</script>
+</body>
+</html>
