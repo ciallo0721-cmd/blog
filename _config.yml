@@ -1,0 +1,14 @@
+# Jekyll 配置
+# 排除不需要被 Jekyll 处理的目录和文件
+exclude:
+  - Mood-Tracker-Dashboard/
+  - KEYWORD_STRATEGY.md
+  - marketing-analysis.md
+  - "实用工具/"
+  - local_server.py
+  - admin.py
+  - "*.bat"
+  - "*.py"
+  - node_modules/
+  - vendor/
+  - README.md
