@@ -12,10 +12,10 @@
       min-height: 100vh;
       cursor: pointer;
       overflow: hidden;
+      font-family: 'Microsoft YaHei', Arial, sans-serif;
     }
     .pop {
       position: fixed;
-      font-family: Arial, sans-serif;
       font-weight: 900;
       pointer-events: none;
       transform: translate(-50%, -50%) scale(0);
@@ -26,12 +26,208 @@
       60%  { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
       100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
     }
+    /* 计分系统 */
+    #score-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 15px 25px;
+      border-radius: 15px;
+      text-align: center;
+      z-index: 1000;
+      border: 2px solid #feca57;
+      min-width: 150px;
+    }
+    #score-panel .label {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+    #score-panel .count {
+      font-size: 48px;
+      font-weight: bold;
+      color: #feca57;
+      text-shadow: 0 0 10px #feca57;
+    }
+    /* 成就系统 */
+    #achievement-panel {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+    .achievement {
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0.3;
+      transition: all 0.5s;
+      border: 2px solid #555;
+    }
+    .achievement.unlocked {
+      opacity: 1;
+      border-color: #55efc4;
+      background: rgba(85,239,196,0.2);
+      animation: achievementPop 0.5s ease;
+    }
+    @keyframes achievementPop {
+      0% { transform: scale(0.8); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .achievement .icon {
+      font-size: 24px;
+    }
+    .achievement .text {
+      font-size: 14px;
+    }
+    .achievement .desc {
+      font-size: 11px;
+      color: #aaa;
+    }
+    /* 成就通知 */
+    #achievement-notify {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      padding: 30px 50px;
+      border-radius: 20px;
+      text-align: center;
+      z-index: 2000;
+      opacity: 0;
+      transition: all 0.5s;
+      box-shadow: 0 0 50px rgba(102,126,234,0.5);
+    }
+    #achievement-notify.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    #achievement-notify .title {
+      font-size: 14px;
+      color: #feca57;
+      margin-bottom: 10px;
+    }
+    #achievement-notify .name {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    #achievement-notify .desc {
+      font-size: 14px;
+      color: #ddd;
+    }
   </style>
 </head>
 <body>
+  <!-- 计分面板 -->
+  <div id="score-panel">
+    <div class="label">点击次数</div>
+    <div class="count" id="score-count">0</div>
+  </div>
+
+  <!-- 成就面板 -->
+  <div id="achievement-panel">
+    <div class="achievement" id="ach-10">
+      <span class="icon">🌱</span>
+      <div>
+        <div class="text">初学者</div>
+        <div class="desc">达成 10 下</div>
+      </div>
+    </div>
+    <div class="achievement" id="ach-20">
+      <span class="icon">⭐</span>
+      <div>
+        <div class="text">渐入佳境</div>
+        <div class="desc">达成 20 下</div>
+      </div>
+    </div>
+    <div class="achievement" id="ach-50">
+      <span class="icon">🎯</span>
+      <div>
+        <div class="text">初出茅庐</div>
+        <div class="desc">达成 50 下</div>
+      </div>
+    </div>
+    <div class="achievement" id="ach-100">
+      <span class="icon">🔥</span>
+      <div>
+        <div class="text">小有名气</div>
+        <div class="desc">达成 100 下</div>
+      </div>
+    </div>
+    <div class="achievement" id="ach-200">
+      <span class="icon">💎</span>
+      <div>
+        <div class="text">声名鹊起</div>
+        <div class="desc">达成 200 下</div>
+      </div>
+    </div>
+    <div class="achievement" id="ach-1000">
+      <span class="icon">👑</span>
+      <div>
+        <div class="text">传奇之王</div>
+        <div class="desc">达成 1000 下</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 成就通知 -->
+  <div id="achievement-notify">
+    <div class="title">🏆 成就解锁</div>
+    <div class="name" id="notify-name"></div>
+    <div class="desc" id="notify-desc"></div>
+  </div>
+
+
 <script>
   const colors = ['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#55efc4','#fd79a8','#a29bfe','#fdcb6e','#00cec9'];
+  
+  let score = 0;
+  const scoreCount = document.getElementById('score-count');
+  const achievements = {
+    10: { el: document.getElementById('ach-10'), name: '初学者', desc: '恭喜达成 10 下！' },
+    20: { el: document.getElementById('ach-20'), name: '渐入佳境', desc: '恭喜达成 20 下！' },
+    50: { el: document.getElementById('ach-50'), name: '初出茅庐', desc: '恭喜达成 50 下！' },
+    100: { el: document.getElementById('ach-100'), name: '小有名气', desc: '恭喜达成 100 下！' },
+    200: { el: document.getElementById('ach-200'), name: '声名鹊起', desc: '恭喜达成 200 下！' },
+    1000: { el: document.getElementById('ach-1000'), name: '传奇之王', desc: '恭喜达成 1000 下！你是真的牛皮！' }
+  };
+
+  // 成就通知
+  function showAchievement(name, desc) {
+    const notify = document.getElementById('achievement-notify');
+    document.getElementById('notify-name').textContent = name;
+    document.getElementById('notify-desc').textContent = desc;
+    notify.classList.add('show');
+    setTimeout(() => notify.classList.remove('show'), 2500);
+  }
+
+  // 检查成就
+  function checkAchievement() {
+    if (achievements[score] && !achievements[score].el.classList.contains('unlocked')) {
+      achievements[score].el.classList.add('unlocked');
+      showAchievement(achievements[score].name, achievements[score].desc);
+    }
+  }
+
+  // 点击事件
   document.body.addEventListener('click', e => {
+    // 更新计分
+    score++;
+    scoreCount.textContent = score;
+    checkAchievement();
+
+    // 弹出文字效果
     const el = document.createElement('div');
     el.className = 'pop';
     el.textContent = '0+1牛逼';
@@ -41,7 +237,6 @@
     el.style.color = colors[Math.floor(Math.random() * colors.length)];
     document.body.appendChild(el);
     el.addEventListener('animationend', () => el.remove());
-  });
-</script>
+  });</script>
 </body>
 </html>
