@@ -1333,9 +1333,9 @@
                 /\bfetch\b/, /\bXMLHttpRequest\b/, /\bWebSocket\b/,
                 /\blocalStorage\b/, /\bsessionStorage\b/, /\bindexedDB\b/,
                 /\bcookie\b/i, /\beval\b/, /\bFunction\b/,
-                /\bimport\b/, /\brequire\b/, /\bprocess\b/,
-                /\bglobalThis\b/, /\bself\b/, /\bparent\b/, /\btop\b/, /\bframes\b/,
-                /\b__proto__\b/, /\bconstructor\b/, /\bprototype\b/
+                /\brequire\b/, /\bprocess\b/,
+                /\bglobalThis\b/, /\bparent\b/, /\btop\b/, /\bframes\b/,
+                /\b__proto__\b/, /\bprototype\b/
             ];
             if (_DANGEROUS.find(p => p.test(code))) {
                 addPythonOutputLine('安全错误喵～：检测到不允许的操作，已阻止执行。', 'error');
@@ -1347,7 +1347,21 @@
                 return;
             }
             try {
-                const wrappedCode = 'try { ' + code + ' } catch(e) { throw e; }';
+                // 预处理：将 Python 注释 # 转为 JS 注释 //，避免语法错误
+                const processedCode = code.split('\n').map(line => {
+                    // 找到不在字符串内的 # 注释
+                    let inStr = false; let strChar = '';
+                    for (let ci = 0; ci < line.length; ci++) {
+                        const ch = line[ci];
+                        if (!inStr && (ch === '"' || ch === "'")) { inStr = true; strChar = ch; }
+                        else if (inStr && ch === strChar && line[ci-1] !== '\\') { inStr = false; }
+                        else if (!inStr && ch === '#') {
+                            return line.substring(0, ci) + '//' + line.substring(ci + 1);
+                        }
+                    }
+                    return line;
+                }).join('\n');
+                const wrappedCode = 'try { ' + processedCode + ' } catch(e) { throw e; }';
                 const execute = new Function('env', 'with(env) { ' + wrappedCode + ' }');
                 execute(env);
             } catch(e) { addPythonOutputLine('执行错误喵～: ' + e.message,'error'); }

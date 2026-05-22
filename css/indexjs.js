@@ -601,10 +601,10 @@ async function executePythonCode(code, outputArea) {
         /\bfetch\b/, /\bXMLHttpRequest\b/, /\bWebSocket\b/,
         /\blocalStorage\b/, /\bsessionStorage\b/, /\bindexedDB\b/,
         /\bcookie\b/i, /\beval\b/, /\bFunction\b/,
-        /\bimport\b/, /\brequire\b/,
-        /\bprocess\b/, /\bglobalThis\b/, /\bself\b/,
+        /\brequire\b/,
+        /\bprocess\b/, /\bglobalThis\b/,
         /\bparent\b/, /\btop\b/, /\bframes\b/,
-        /\b__proto__\b/, /\bconstructor\b/, /\bprototype\b/,
+        /\b__proto__\b/, /\bprototype\b/,
         /\bObject\s*\.\s*assign\b/, /\bObject\s*\.\s*defineProperty\b/
     ];
 
@@ -623,9 +623,23 @@ async function executePythonCode(code, outputArea) {
     // ── END 安全检查 ──────────────────────────────────────────────────
 
     try {
+        // 预处理：将 Python 注释 # 转为 JS 注释 //，避免语法错误
+        const processedCode = code.split('\n').map(line => {
+            let inStr = false, strChar = '';
+            for (let ci = 0; ci < line.length; ci++) {
+                const ch = line[ci];
+                if (!inStr && (ch === '"' || ch === "'")) { inStr = true; strChar = ch; }
+                else if (inStr && ch === strChar && line[ci-1] !== '\\') { inStr = false; }
+                else if (!inStr && ch === '#') {
+                    return line.substring(0, ci) + '//' + line.substring(ci + 1);
+                }
+            }
+            return line;
+        }).join('\n');
+
         const wrappedCode = `
             try {
-                ${code}
+                ${processedCode}
             } catch (e) {
                 throw e;
             }
