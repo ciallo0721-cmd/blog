@@ -1,6 +1,11 @@
 
         window.timelineData = [
             {
+                date: "2026年5月22日",
+                title: "上线免费工具集 + SEO长文矩阵",
+                desc: "上线4个免费工具（VTuber名字生成器、Ren'Py模板生成器、VTuber人格测试、二次元色彩分析器）、友链页面、新增3篇SEO教程文章（Ren'Py立绘替换/存档系统/Python OCR），完善工具索引页和导航菜单喵～"
+            },
+            {
                 date: "2026年5月18日",
                 title: "新增心情追踪仪表板",
                 desc: "集成 Mood-Tracker-Dashboard 项目，转为纯静态 HTML+JS 版本，支持全年热力图、散点图、localStorage 本地记录和数据导出喵～"

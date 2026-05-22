@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="12道趣味题目，测测你的VTuber人格是可爱系、帅气系、治愈系还是混沌系？生成精美卡片分享给好友！">
+    <meta name="keywords" content="VTuber,人格测试,虚拟主播,二次元,心理测试">
+    <link rel="canonical" href="https://91vip.xn--32v.ink/tools/vtuber-personality-test/">
+    <link rel="icon" href="../../fanv.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>VTuber 人格测试 | ciallo0721-cmd</title>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "VTuber 人格测试",
+        "description": "12道趣味题目测测你的VTuber人格",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "All",
+        "author": {
+            "@type": "Organization",
+            "name": "ciallo0721-cmd"
+        }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bili-pink: #3366ff;
+            --bili-blue: #2575fc;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-bg: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #6b7b8d;
+            --shadow: 0 4px 24px rgba(0,0,0,0.1);
+            --shadow-hover: 0 8px 32px rgba(0,0,0,0.15);
+            --radius: 16px;
+            --cute: #FF6B9D;
+            --cool: #2575FC;
+            --heal: #4CAF50;
+            --chaos: #FF6F00;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 640px;
+            padding: 16px;
+            flex: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 32px 16px 20px;
+        }
+        .header .logo-icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header .subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+        }
+
+        /* Screens */
+        .screen { display: none; }
+        .screen.active { display: block; animation: fadeInUp 0.5s ease; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Welcome Screen */
+        .welcome-content { text-align: center; }
+        .welcome-content .icon-row {
+            font-size: 36px;
+            margin: 12px 0;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .welcome-content p {
+            color: var(--text-secondary);
+            margin: 12px 0 20px;
+            font-size: 15px;
+        }
+        .counter-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #e8f0fe, #dce8f5);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 13px;
+            color: var(--bili-blue);
+            margin-bottom: 16px;
+        }
+        .counter-badge i { margin-right: 4px; }
+
+        /* Progress Bar */
+        .progress-wrap {
+            background: #e8edf2;
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--bili-pink), var(--bili-blue));
+            border-radius: 10px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .progress-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        /* Question */
+        .question-text {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .question-number {
+            font-size: 12px;
+            color: var(--bili-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        .options-grid {
+            display: grid;
+            gap: 10px;
+        }
+        .option-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border: 2px solid #e8edf2;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #fafbfc;
+        }
+        .option-card:hover {
+            border-color: var(--bili-blue);
+            background: #f0f5ff;
+            transform: translateX(4px);
+        }
+        .option-card:active {
+            transform: scale(0.98);
+        }
+        .option-card.selected {
+            border-color: var(--bili-blue);
+            background: linear-gradient(135deg, #f0f5ff, #e8f0fe);
+            box-shadow: 0 0 0 3px rgba(37,117,252,0.15);
+        }
+        .option-letter {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .option-text { flex: 1; font-size: 15px; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(37,117,252,0.3);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,117,252,0.4); }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-center { display: flex; justify-content: center; margin-top: 20px; }
+
+        /* Result Screen */
+        .result-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .result-type-icon {
+            font-size: 64px;
+            display: block;
+            animation: popIn 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+        }
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .result-name {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 8px 0;
+        }
+        .result-type-tag {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            margin: 4px;
+        }
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .detail-item:last-child { border-bottom: none; }
+        .detail-icon {
+            width: 28px;
+            color: var(--bili-blue);
+            font-size: 16px;
+            text-align: center;
+            flex-shrink: 0;
+            padding-top: 2px;
+        }
+        .detail-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .detail-value {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .detail-value.catchphrase {
+            font-style: italic;
+            color: #555;
+        }
+
+        /* Canvas Container */
+        .canvas-container {
+            text-align: center;
+            margin: 16px 0;
+        }
+        .canvas-container canvas {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Share Buttons */
+        .share-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .share-btn:hover { transform: translateY(-2px); }
+        .share-btn:active { transform: scale(0.97); }
+        .share-save { background: #2575FC; color: #fff; }
+        .share-copy { background: #f0f5ff; color: #2575FC; border: 2px solid #2575FC; }
+        .share-qq { background: #12B7F5; color: #fff; }
+        .share-retry { background: #f5f5f5; color: #666; }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* Score breakdown */
+        .score-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+        }
+        .score-item {
+            text-align: center;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: #f8f9fb;
+            min-width: 50px;
+        }
+        .score-bar {
+            width: 40px;
+            height: 6px;
+            border-radius: 3px;
+            margin: 4px auto 0;
+            overflow: hidden;
+            background: #e8edf2;
+        }
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+
+        /* Footer / CTA */
+        .cta-section {
+            text-align: center;
+            padding: 24px 16px 32px;
+        }
+        .cta-section a {
+            display: inline-block;
+            padding: 12px 32px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            box-shadow: 0 4px 16px rgba(37,117,252,0.3);
+            transition: all 0.2s ease;
+        }
+        .cta-section a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(37,117,252,0.4);
+        }
+        .cta-section .cta-sub {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container { padding: 10px; }
+            .header { padding: 20px 12px 12px; }
+            .header h1 { font-size: 22px; }
+            .card { padding: 16px; }
+            .question-text { font-size: 16px; }
+            .result-name { font-size: 24px; }
+            .share-buttons { gap: 6px; }
+            .share-btn { padding: 8px 14px; font-size: 13px; }
+            .option-card { padding: 12px 14px; }
+            .option-text { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <span class="logo-icon">🎭</span>
+        <h1>VTuber 人格测试</h1>
+        <p class="subtitle">12道题，发现你的虚拟主播灵魂</p>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div class="screen active" id="screen-welcome">
+        <div class="card welcome-content">
+            <div class="icon-row">
+                <span>🐱‍💻</span><span>🎤</span><span>🎮</span><span>✨</span>
+            </div>
+            <p>每个主播都有独特的人格魅力<br>你的<strong>VTuber灵魂</strong>是什么样的？<br>12道趣味题目，生成专属人设卡片！</p>
+            <div class="counter-badge" id="counter-badge">
+                <i class="fa-solid fa-users"></i> 已有 <strong id="counter-num">256</strong> 人完成测试
+            </div>
+            <div class="btn-center">
+                <button class="btn btn-primary" onclick="startTest()">
+                    <i class="fa-solid fa-play"></i> 开始测试
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Screen -->
+    <div class="screen" id="screen-question">
+        <div class="card">
+            <div class="progress-label">
+                题目 <span id="q-current">1</span> / 12
+            </div>
+            <div class="progress-wrap">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="question-number" id="q-number">QUESTION 1</div>
+            <div class="question-text" id="q-text"></div>
+            <div class="options-grid" id="options-grid"></div>
+            <div class="btn-center" id="next-btn-wrap" style="display:none;">
+                <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()">
+                    下一题 <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div class="screen" id="screen-result">
+        <div class="card" id="result-card">
+            <div class="result-header">
+                <span class="result-type-icon" id="result-icon"></span>
+                <div class="result-name" id="result-name"></div>
+                <span class="result-type-tag" id="result-tag"></span>
+            </div>
+            <div class="score-breakdown" id="score-breakdown"></div>
+            <div class="detail-item">
+                <div class="detail-icon"><i class="fa-solid fa-quote-right"></i></div>
+                <div>
+                    <div class="detail-label">口头禅</div>
+                    <div class="detail-value catchphrase" id="result-catchphrase"></div>
+                </div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-icon"><i class="fa-solid fa-palette"></i></div>
+                <div>
+                    <div class="detail-label">立绘风格</div>
+                    <div class="detail-value" id="result-artstyle"></div>
+                </div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-icon"><i class="fa-solid fa-droplet"></i></div>
+                <div>
+                    <div class="detail-label">代表色</div>
+                    <div class="detail-value" id="result-color"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Canvas preview -->
+        <div class="canvas-container" id="canvas-container"></div>
+
+        <!-- Share buttons -->
+        <div class="share-buttons">
+            <button class="share-btn share-save" onclick="saveImage()">
+                <i class="fa-solid fa-download"></i> 保存卡片
+            </button>
+            <button class="share-btn share-copy" onclick="copyResult()">
+                <i class="fa-solid fa-copy"></i> 复制结果
+            </button>
+            <button class="share-btn share-qq" onclick="shareQQ()">
+                <i class="fa-brands fa-qq"></i> QQ空间
+            </button>
+            <button class="share-btn share-retry" onclick="retryTest()">
+                <i class="fa-solid fa-rotate-right"></i> 再测一次
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer CTA -->
+<footer class="cta-section">
+    <a href="https://91vip.xn--32v.ink" target="_blank" rel="noopener">
+        <i class="fa-solid fa-star"></i> 探索更多精彩工具
+    </a>
+    <p class="cta-sub">ciallo0721-cmd 工具出品 | 91vip.xn--32v.ink</p>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+(function() {
+    // ── Consumer questions ──
+    const questions = [
+        { q: '直播时你最可能做什么？', opts: ['突然唱歌', '疯狂杂谈', '安静打游戏', '整活搞笑'] },
+        { q: '你的直播间招牌动作？', opts: ['歪头杀', '拍桌子', '推眼镜', '翻白眼'] },
+        { q: '粉丝叫你起床你会？', opts: ['撒娇再睡5分钟', '暴怒锤桌', '安静起床', '假装没听见继续睡'] },
+        { q: '被超管警告你会？', opts: ['装无辜', '据理力争', '默默改了', '下次还敢'] },
+        { q: '你的直播BGM风格？', opts: ['轻快可爱曲', '燃曲热血', '安静治愈', '混沌随机'] },
+        { q: '礼物感谢方式？', opts: ['超大声谢谢', '酷酷点头', '温柔微笑', '花式整活'] },
+        { q: '凌晨3点还在直播？', opts: ['和观众聊天', '冲击排名', '安静做手工', '开始混乱模式'] },
+        { q: '你的幸运物？', opts: ['星星⭐', '剑🗡️', '书本📖', '问号❓'] },
+        { q: '争议话题你的反应？', opts: ['萌混过关', '硬刚到底', '回避话题', '火上浇油'] },
+        { q: '10万粉纪念做什么？', opts: ['感动直播哭', '装酷说"这才开始"', '写感谢信', '10万粉整活企划'] },
+        { q: '你的口头禅类型？', opts: ['喵/的说~', '废物', '嗯...', '6/哈哈哈'] },
+        { q: '下播后你会？', opts: ['继续看粉丝留言', '复盘直播数据', '安静休息', '群里整活'] }
+    ];
+
+    // ── Result profiles (multiple variants per type for replayability) ──
+    const profiles = {
+        cute: {
+            type: '可爱系',
+            icon: '🌸',
+            color: '#FF6B9D',
+            colorName: '甜蜜粉 #FF6B9D',
+            variants: [
+                {
+                    name: '草莓奶盖',
+                    desc: '甜美系小天使',
+                    catchphrase: '的说~给我点关注的说~',
+                    artstyle: 'Q版圆脸猫耳形象，粉色双马尾，大眼闪烁，蕾丝裙摆'
+                },
+                {
+                    name: '棉花糖糖',
+                    desc: '元气甜心系',
+                    catchphrase: '喵~今天也要元气满满喵！',
+                    artstyle: 'Q版软萌风，蓬松棉花糖发型，腮红扑扑，荷边围裙'
+                },
+                {
+                    name: '樱花兔兔',
+                    desc: '软萌治愈系',
+                    catchphrase: '呜...不要欺负兔兔的说~',
+                    artstyle: 'Q版兔耳少女，樱花装饰，柔和线条，粉白渐变发色'
+                }
+            ]
+        },
+        cool: {
+            type: '帅气系',
+            icon: '⚡',
+            color: '#2575FC',
+            colorName: '深邃蓝 #2575FC',
+            variants: [
+                {
+                    name: '暗夜星辰',
+                    desc: '冷酷帅气系',
+                    catchphrase: '废物，还不快点关注。',
+                    artstyle: '帅气冷艳立绘，银白短发，锐利眼神，黑色皮衣风衣'
+                },
+                {
+                    name: '疾风剑影',
+                    desc: '强势王者系',
+                    catchphrase: '跟上，别拖后腿。',
+                    artstyle: '帅气战斗风立绘，深蓝铠甲，利落短发，剑在手边'
+                },
+                {
+                    name: '极冰之王',
+                    desc: '高冷霸总系',
+                    catchphrase: '你，合格了。',
+                    artstyle: '高级冷艳风，冰蓝色瞳孔，西装革履，单手插兜'
+                }
+            ]
+        },
+        heal: {
+            type: '治愈系',
+            icon: '🍃',
+            color: '#4CAF50',
+            colorName: '治愈绿 #4CAF50',
+            variants: [
+                {
+                    name: '温茶小筑',
+                    desc: '温柔治愈系',
+                    catchphrase: '嗯...慢慢来，不着急呢。',
+                    artstyle: '清新淡雅立绘，柔顺长发，素色长裙，手持书卷品茶'
+                },
+                {
+                    name: '月下清风',
+                    desc: '安静温和系',
+                    catchphrase: '嗯...今天的风很舒服呢。',
+                    artstyle: '清新水墨风，淡绿薄纱，静坐窗前，月光洒落'
+                },
+                {
+                    name: '森林小鹿',
+                    desc: '自然治愈系',
+                    catchphrase: '嗯...欢迎来到我的小小世界。',
+                    artstyle: '森系清新风，鹿角装饰，花草环绕，暖阳透过树叶'
+                }
+            ]
+        },
+        chaos: {
+            type: '混沌系',
+            icon: '🤪',
+            color: '#FF6F00',
+            colorName: '混乱橙 #FF6F00',
+            variants: [
+                {
+                    name: '整活大王',
+                    desc: '混沌乐子人',
+                    catchphrase: '6啊兄弟们！哈哈哈整起来！',
+                    artstyle: '夸张搞怪风，五颜六色头发，表情包脸，弹性夸张动作'
+                },
+                {
+                    name: '混乱星人',
+                    desc: '狂笑混乱系',
+                    catchphrase: '哈哈哈哈哈哈6！这波我直接起飞！',
+                    artstyle: '夸张抽象画风，扭曲表情，霓虹色彩，随性涂鸦线条'
+                },
+                {
+                    name: '整蛊小丑',
+                    desc: '混沌善良系',
+                    catchphrase: '呜呜呜我的6在哪里！哈哈哈找到啦！',
+                    artstyle: '夸张马戏团风，红鼻子，花里胡哨服装，彩色气球环绕'
+                }
+            ]
+        }
+    };
+
+    // ── State ──
+    let currentQuestion = 0;
+    let answers = [];        // 'A' | 'B' | 'C' | 'D'
+    let currentSelection = null;
+    let currentResult = null; // { typeKey, variant, ... }
+
+    // ── Screens ──
+    const screens = {
+        welcome: document.getElementById('screen-welcome'),
+        question: document.getElementById('screen-question'),
+        result: document.getElementById('screen-result')
+    };
+
+    function showScreen(name) {
+        Object.values(screens).forEach(s => s.classList.remove('active'));
+        screens[name].classList.add('active');
+        if (name === 'result') {
+            // Force re-trigger animation
+            const card = document.getElementById('result-card');
+            card.style.animation = 'none';
+            card.offsetHeight;
+            card.style.animation = '';
+        }
+    }
+
+    // ── Counter (localStorage pseudo-count, starts at 256) ──
+    const COUNTER_KEY = 'vtuber_test_count';
+    function getAndIncrementCounter() {
+        let count = parseInt(localStorage.getItem(COUNTER_KEY)) || 256;
+        count++;
+        localStorage.setItem(COUNTER_KEY, count);
+        return count;
+    }
+    function getCounter() {
+        return parseInt(localStorage.getItem(COUNTER_KEY)) || 256;
+    }
+    // Initialize counter display
+    document.getElementById('counter-num').textContent = getCounter();
+
+    // ── Start test ──
+    window.startTest = function() {
+        currentQuestion = 0;
+        answers = [];
+        currentSelection = null;
+        showScreen('question');
+        renderQuestion();
+    };
+
+    // ── Render question ──
+    function renderQuestion() {
+        const q = questions[currentQuestion];
+        document.getElementById('q-current').textContent = currentQuestion + 1;
+        document.getElementById('q-number').textContent = 'QUESTION ' + (currentQuestion + 1);
+        document.getElementById('q-text').textContent = q.q;
+        document.getElementById('progress-fill').style.width =
+            ((currentQuestion) / questions.length * 100) + '%';
+
+        const letters = ['A', 'B', 'C', 'D'];
+        const grid = document.getElementById('options-grid');
+        grid.innerHTML = '';
+        currentSelection = null;
+        document.getElementById('next-btn-wrap').style.display = 'none';
+
+        q.opts.forEach((opt, i) => {
+            const card = document.createElement('div');
+            card.className = 'option-card';
+            card.innerHTML = `
+                <span class="option-letter">${letters[i]}</span>
+                <span class="option-text">${opt}</span>
+            `;
+            card.addEventListener('click', () => selectOption(i, letters[i], card));
+            grid.appendChild(card);
+        });
+    }
+
+    function selectOption(index, letter, cardEl) {
+        document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+        cardEl.classList.add('selected');
+        currentSelection = { index, letter };
+        document.getElementById('next-btn-wrap').style.display = 'flex';
+        const btn = document.getElementById('btn-next');
+        if (currentQuestion === questions.length - 1) {
+            btn.innerHTML = '查看结果 <i class="fa-solid fa-sparkles"></i>';
+        } else {
+            btn.innerHTML = '下一题 <i class="fa-solid fa-arrow-right"></i>';
+        }
+    }
+
+    window.nextQuestion = function() {
+        if (!currentSelection) return;
+        answers.push(currentSelection.letter);
+
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            renderQuestion();
+            // Scroll to top of question card
+            document.getElementById('screen-question').scrollIntoView({ behavior: 'smooth' });
+        } else {
+            // All answered — calculate result
+            showResult();
+            getAndIncrementCounter();
+            document.getElementById('counter-num').textContent = getCounter();
+        }
+    };
+
+    // ── Calculate & show result ──
+    function showResult() {
+        const counts = { A: 0, B: 0, C: 0, D: 0 };
+        answers.forEach(a => counts[a]++);
+
+        // Determine dominant type
+        const typeMap = { A: 'cute', B: 'cool', C: 'heal', D: 'chaos' };
+        let maxCount = -1;
+        let maxKey = 'cute';
+        for (const [letter, key] of Object.entries(typeMap)) {
+            if (counts[letter] > maxCount) {
+                maxCount = counts[letter];
+                maxKey = key;
+            }
+        }
+
+        const profile = profiles[maxKey];
+        const variant = profile.variants[Math.floor(Math.random() * profile.variants.length)];
+
+        currentResult = {
+            typeKey: maxKey,
+            type: profile.type,
+            icon: profile.icon,
+            color: profile.color,
+            colorName: profile.colorName,
+            name: variant.name,
+            desc: variant.desc,
+            catchphrase: variant.catchphrase,
+            artstyle: variant.artstyle
+        };
+
+        // Update DOM
+        document.getElementById('result-icon').textContent = profile.icon;
+        document.getElementById('result-name').textContent = variant.name;
+        document.getElementById('result-name').style.color = profile.color;
+        const tag = document.getElementById('result-tag');
+        tag.textContent = profile.type + ' · ' + variant.desc;
+        tag.style.background = profile.color;
+        document.getElementById('result-catchphrase').textContent = variant.catchphrase;
+        document.getElementById('result-artstyle').textContent = variant.artstyle;
+        document.getElementById('result-color').textContent = profile.colorName;
+        document.getElementById('result-color').style.color = profile.color;
+
+        // Score breakdown
+        const sb = document.getElementById('score-breakdown');
+        const labels = { A: '可爱', B: '帅气', C: '治愈', D: '混沌' };
+        const colors = { A: profiles.cute.color, B: profiles.cool.color, C: profiles.heal.color, D: profiles.chaos.color };
+        sb.innerHTML = '';
+        ['A','B','C','D'].forEach(letter => {
+            const pct = Math.round(counts[letter] / 12 * 100);
+            const div = document.createElement('div');
+            div.className = 'score-item';
+            div.innerHTML = `
+                <div style="color:${colors[letter]};font-weight:700;">${labels[letter]}</div>
+                <div style="font-size:18px;font-weight:700;">${counts[letter]}</div>
+                <div class="score-bar"><div class="score-bar-fill" style="width:${pct}%;background:${colors[letter]};"></div></div>
+            `;
+            sb.appendChild(div);
+        });
+
+        showScreen('result');
+
+        // Generate canvas card
+        setTimeout(generateCanvasCard, 100);
+
+        // Scroll to result
+        document.getElementById('screen-result').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // ── Canvas card generation ──
+    function generateCanvasCard() {
+        const container = document.getElementById('canvas-container');
+        container.innerHTML = '';
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 400;
+        canvas.height = 500;
+        const ctx = canvas.getContext('2d');
+
+        const r = currentResult;
+        const c = hexToRgb(r.color);
+
+        // Background gradient
+        const grad = ctx.createLinearGradient(0, 0, 400, 500);
+        grad.addColorStop(0, lightenColor(r.color, 0.4));
+        grad.addColorStop(0.5, r.color);
+        grad.addColorStop(1, darkenColor(r.color, 0.3));
+        ctx.fillStyle = grad;
+        roundRect(ctx, 0, 0, 400, 500, 16);
+        ctx.fill();
+
+        // White overlay card
+        ctx.fillStyle = 'rgba(255,255,255,0.92)';
+        roundRect(ctx, 20, 20, 360, 460, 12);
+        ctx.fill();
+
+        // Title
+        ctx.fillStyle = '#666';
+        ctx.font = 'bold 14px "PingFang SC","Microsoft YaHei",sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('✦ 你的 VTuber 人格 ✦', 200, 60);
+
+        // Icon
+        ctx.font = '52px sans-serif';
+        ctx.fillText(r.icon, 200, 115);
+
+        // Name
+        ctx.fillStyle = r.color;
+        ctx.font = 'bold 28px "PingFang SC","Microsoft YaHei",sans-serif';
+        ctx.fillText(r.name, 200, 160);
+
+        // Type tag
+        const tagText = r.type + ' · ' + r.desc;
+        const tagW = ctx.measureText(tagText).width + 24;
+        ctx.fillStyle = r.color;
+        roundRect(ctx, 200 - tagW/2, 175, tagW, 26, 13);
+        ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.font = '12px "PingFang SC","Microsoft YaHei",sans-serif';
+        ctx.fillText(tagText, 200, 193);
+
+        // Separator
+        ctx.strokeStyle = r.color + '44';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(60, 215);
+        ctx.lineTo(340, 215);
+        ctx.stroke();
+
+        // Details
+        let y = 245;
+        ctx.textAlign = 'left';
+
+        // Catchphrase
+        ctx.fillStyle = '#888';
+        ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif';
+        ctx.fillText('💬 口头禅', 60, y);
+        y += 18;
+        ctx.fillStyle = '#444';
+        ctx.font = 'italic 15px "PingFang SC","Microsoft YaHei",sans-serif';
+        wrapText(ctx, '『' + r.catchphrase + '』', 60, y, 280, 22);
+        y += 42;
+
+        // Art style
+        ctx.fillStyle = '#888';
+        ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif';
+        ctx.fillText('🎨 立绘风格', 60, y);
+        y += 18;
+        ctx.fillStyle = '#444';
+        ctx.font = '14px "PingFang SC","Microsoft YaHei",sans-serif';
+        wrapText(ctx, r.artstyle, 60, y, 280, 20);
+        y += 55;
+
+        // Color
+        ctx.fillStyle = '#888';
+        ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif';
+        ctx.fillText('🎨 代表色', 60, y);
+        y += 18;
+        ctx.fillStyle = r.color;
+        ctx.font = 'bold 15px "PingFang SC","Microsoft YaHei",sans-serif';
+        ctx.fillText(r.colorName, 60, y);
+        // Color swatch
+        ctx.fillStyle = r.color;
+        roundRect(ctx, 200, y - 14, 20, 20, 4);
+        ctx.fill();
+
+        // Footer
+        ctx.fillStyle = '#aaa';
+        ctx.font = '10px "PingFang SC","Microsoft YaHei",sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('ciallo0721-cmd 工具出品 | 91vip.xn--32v.ink', 200, 465);
+
+        container.appendChild(canvas);
+
+        // Store canvas reference for download
+        window._resultCanvas = canvas;
+    }
+
+    // ── Canvas utility functions ──
+    function roundRect(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+    }
+
+    function wrapText(ctx, text, x, y, maxW, lineH) {
+        // Simple: split by CJK boundaries and measure
+        let line = '';
+        let currentY = y;
+        for (let i = 0; i < text.length; i++) {
+            const testLine = line + text[i];
+            const metrics = ctx.measureText(testLine);
+            if (metrics.width > maxW && line.length > 0) {
+                ctx.fillText(line, x, currentY);
+                line = text[i];
+                currentY += lineH;
+            } else {
+                line = testLine;
+            }
+        }
+        if (line.length > 0) {
+            ctx.fillText(line, x, currentY);
+        }
+    }
+
+    function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : { r: 0, g: 0, b: 0 };
+    }
+
+    function lightenColor(hex, amount) {
+        const c = hexToRgb(hex);
+        const r = Math.min(255, Math.round(c.r + (255 - c.r) * amount));
+        const g = Math.min(255, Math.round(c.g + (255 - c.g) * amount));
+        const b = Math.min(255, Math.round(c.b + (255 - c.b) * amount));
+        return `rgb(${r},${g},${b})`;
+    }
+
+    function darkenColor(hex, amount) {
+        const c = hexToRgb(hex);
+        const r = Math.max(0, Math.round(c.r * (1 - amount)));
+        const g = Math.max(0, Math.round(c.g * (1 - amount)));
+        const b = Math.max(0, Math.round(c.b * (1 - amount)));
+        return `rgb(${r},${g},${b})`;
+    }
+
+    // ── Share functions ──
+    window.saveImage = function() {
+        if (!window._resultCanvas) return;
+        const link = document.createElement('a');
+        link.download = 'vtuber-personality-' + currentResult.name + '.png';
+        link.href = window._resultCanvas.toDataURL('image/png');
+        link.click();
+        showToast('卡片已保存！');
+    };
+
+    window.copyResult = function() {
+        const r = currentResult;
+        const text = `🎭 我的VTuber人格测试结果\n\n` +
+            `✨ 名字：${r.name}\n` +
+            `🏷 类型：${r.type} · ${r.desc}\n` +
+            `💬 口头禅：${r.catchphrase}\n` +
+            `🎨 立绘风格：${r.artstyle}\n` +
+            `🌈 代表色：${r.colorName}\n\n` +
+            `你也来测测👉 https://91vip.xn--32v.ink/tools/vtuber-personality-test/`;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('结果已复制到剪贴板！');
+            }).catch(() => fallbackCopy(text));
+        } else {
+            fallbackCopy(text);
+        }
+    };
+
+    function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+            document.execCommand('copy');
+            showToast('结果已复制到剪贴板！');
+        } catch(e) {
+            showToast('复制失败，请手动复制');
+        }
+        document.body.removeChild(ta);
+    }
+
+    window.shareQQ = function() {
+        const r = currentResult;
+        const url = encodeURIComponent('https://91vip.xn--32v.ink/tools/vtuber-personality-test/');
+        const title = encodeURIComponent(`我的VTuber人格：${r.name}（${r.type}·${r.desc}）`);
+        const summary = encodeURIComponent(`口头禅：${r.catchphrase} | 你也来测测你的VTuber人格吧！`);
+        const shareUrl = `https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${url}&title=${title}&summary=${summary}&site=ciallo0721-cmd`;
+        window.open(shareUrl, '_blank', 'width=600,height=500');
+    };
+
+    window.retryTest = function() {
+        currentQuestion = 0;
+        answers = [];
+        currentSelection = null;
+        currentResult = null;
+        document.getElementById('canvas-container').innerHTML = '';
+        showScreen('welcome');
+        document.getElementById('counter-num').textContent = getCounter();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // ── Toast ──
+    let toastTimer;
+    function showToast(msg) {
+        const el = document.getElementById('toast');
+        el.textContent = msg;
+        el.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('show'), 2000);
+    }
+})();
+</script>
+
+</body>
+</html>

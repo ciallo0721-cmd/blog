@@ -1,4 +1,4 @@
-// articles-data.js 更新后内容
+// articles-data.js — 文章数据源
 window.articlesData = {
     articles: [
         {
@@ -39,7 +39,7 @@ window.articlesData = {
             tags: ["绘画教程", "Q版人物", "2.5头身", "头发绘制", "呆毛技巧", "角色设计"],
             fileName: "3.html@_blog-id=3/",
             readTime: 15,
-            featured: true,
+            featured: true
         },
         {
             id: 4,
@@ -49,78 +49,78 @@ window.articlesData = {
             tags: ["网站公告", "被攻击", "性能优化", "DDoS攻击", "维护", "GitHub Pages", "未来计划"],
             fileName: "4.html@_blog-id=4/",
             readTime: 15,
-            featured: true,
+            featured: true
         },
         {
             id: 5,
             title: "主页大更新",
-            excerpt: "修复了加载时间过长的问题,更新音乐播放器",
+            excerpt: "修复了加载时间过长的问题，更新音乐播放器。",
             date: "2026-01-13",
             tags: ["主页", "更新", "新设计", "用户体验", "功能改进"],
             fileName: "5.html@_blog-id=5/",
             readTime: 7,
-            featured: true,
+            featured: true
         },
         {
             id: 6,
             title: "闲聊",
-            excerpt: "......",
+            excerpt: "一些日常闲聊和碎碎念。",
             date: "2026-01-13",
             tags: ["闲聊"],
             fileName: "6.html@_blog-id=6/",
             readTime: 4,
-            featured: true,
+            featured: true
         },
         {
-              id: 7,
-              title: "新歌姬发布",
-              excerpt: "新歌姬发布：沙雕の贤者V2 正式上线！",
-              date: "2026-01-17",
-              tags: ["UTAU","虚拟歌姬","沙雕の贤者","音源发布"],
-              fileName: "7.html@_blog-id=7/",
-              readTime: 3,
-              featured: true,
-       },
-       {
-        id: 8,
-        title: "网站小更新",
-        excerpt: "网站小更新：增加了一些实用工具和功能。",
-        date: "2026-01-28",
-        tags: ["更新"],
-        fileName: "8.html@_blog-id=8/",
-        readTime: 1,
-        featured: true,
-       },
-       {
-        id: 9,
-        title: "关于GitHub Issue被恶意篡改的说明 - ciallo0721-cmd的文章",
-        excerpt: "一份严肃的记录：我的 Issue 被仓库管理员篡改，真相在此。",
-        date: "2026-03-04",
-        tags: ["声明","GitHub","立场"],
-        fileName: "9.html@_blog-id=9/",
-        readTime: 8,
-        featured: true,
-       },
-       {
-        id: 11,
-        title: "网站建议收集帖 | 欢迎来提想法",
-        excerpt: " 网站内容建议收集帖 · 想让我加什么/删什么？每天都会看",
-        date: "2026-04-11",
-        tags: ["公告","互动","建议收集","GitHub"],
-        fileName: "11.html@_blog-id=11/",
-        readTime: 3,
-        featured: true,
-       },
-       {
-        id: 10,
-        title: "喜报",
-        excerpt: "喜报!网站pv达到了111",
-        date: "2026-04-11",
-        tags: ["喜报","分析"],
-        fileName: "10.html@_blog-id=10/",
-        readTime: 1,
-        featured: true,
-       },
+            id: 7,
+            title: "新歌姬发布",
+            excerpt: "新歌姬发布：沙雕の贤者V2 正式上线！",
+            date: "2026-01-17",
+            tags: ["UTAU", "虚拟歌姬", "沙雕の贤者", "音源发布"],
+            fileName: "7.html@_blog-id=7/",
+            readTime: 3,
+            featured: true
+        },
+        {
+            id: 8,
+            title: "网站小更新",
+            excerpt: "网站小更新：增加了一些实用工具和功能。",
+            date: "2026-01-28",
+            tags: ["更新"],
+            fileName: "8.html@_blog-id=8/",
+            readTime: 1,
+            featured: true
+        },
+        {
+            id: 9,
+            title: "关于GitHub Issue被恶意篡改的说明",
+            excerpt: "一份严肃的记录：我的 Issue 被仓库管理员篡改，真相在此。",
+            date: "2026-03-04",
+            tags: ["声明", "GitHub", "立场"],
+            fileName: "9.html@_blog-id=9/",
+            readTime: 8,
+            featured: true
+        },
+        {
+            id: 10,
+            title: "喜报",
+            excerpt: "喜报！网站PV达到了111。",
+            date: "2026-04-11",
+            tags: ["喜报", "分析"],
+            fileName: "10.html@_blog-id=10/",
+            readTime: 1,
+            featured: true
+        },
+        {
+            id: 11,
+            title: "网站建议收集帖 | 欢迎来提想法",
+            excerpt: "网站内容建议收集帖 · 想让我加什么/删什么？每天都会看。",
+            date: "2026-04-11",
+            tags: ["公告", "互动", "建议收集", "GitHub"],
+            fileName: "11.html@_blog-id=11/",
+            readTime: 3,
+            featured: true
+        },
         {
             id: 12,
             title: "关于本站广告位的说明：为什么会有广告？以及我们不会成为\"邪恶网站\"",
@@ -154,7 +154,7 @@ window.articlesData = {
         {
             id: 15,
             title: "真白花音退网前最后五分钟",
-            excerpt: "真白花音退网前最后五分钟",
+            excerpt: "记录真白花音退网前的最后五分钟，永远的回忆。",
             date: "2026-05-01",
             tags: ["视频"],
             fileName: "15.html@_blog-id=15/",
@@ -163,7 +163,7 @@ window.articlesData = {
         },
         {
             id: 16,
-            title: "从零开始,怎么注册github并克隆仓库",
+            title: "从零开始，怎么注册GitHub并克隆仓库",
             excerpt: "从零开始学习如何注册GitHub账号并克隆仓库到本地，适合完全新手。",
             date: "2026-05-07",
             tags: ["GitHub", "Git", "教程", "入门", "仓库管理"],
@@ -173,10 +173,10 @@ window.articlesData = {
         },
         {
             id: 17,
-            title: "优化X(twitter)推荐",
-            excerpt: "优化X(twitter)推荐",
+            title: "优化X(Twitter)推荐算法",
+            excerpt: "如何优化X(Twitter)的时间线推荐，获取更有价值的内容。",
             date: "2026-05-13",
-            tags: ["X(twitter)","推荐算法"],
+            tags: ["X(Twitter)", "推荐算法"],
             fileName: "17.html@_blog-id=17/",
             readTime: 10,
             featured: true
@@ -191,35 +191,61 @@ window.articlesData = {
             readTime: 5,
             featured: true
         },
+        {
+            id: 20,
+            title: "Ren'Py 人物立绘怎么换？完整替换指南",
+            excerpt: "详细教程：3种方法更换 Ren'Py 视觉小说的人物立绘，包括文件替换、代码修改和动态立绘切换，附常见问题排查。",
+            date: "2026-05-22",
+            tags: ["Ren'Py", "视觉小说", "立绘", "游戏开发", "教程"],
+            fileName: "20.html@_blog-id=20/",
+            readTime: 10,
+            featured: true
+        },
+        {
+            id: 21,
+            title: "Ren'Py 存档系统完全教程：自定义存档位置与多存档槽",
+            excerpt: "深入讲解 Ren'Py 存档系统，涵盖默认存档位置、自定义存档路径、多存档槽管理、存档缩略图、加密防篡改和自动存档配置，附完整代码示例。",
+            date: "2026-05-22",
+            tags: ["Ren'Py", "存档系统", "游戏开发", "教程", "save"],
+            fileName: "21.html@_blog-id=21/",
+            readTime: 12,
+            featured: true
+        },
+        {
+            id: 22,
+            title: "Python 截图识别文字完全教程：从 Tesseract 到深度学习",
+            excerpt: "完整教程：使用 Python 实现截图文字识别，涵盖 Tesseract、PaddleOCR、截图工具选型、图像预处理技巧和性能优化，附实战代码。",
+            date: "2026-05-22",
+            tags: ["Python", "OCR", "Tesseract", "PaddleOCR", "图像识别", "教程"],
+            fileName: "22.html@_blog-id=22/",
+            readTime: 15,
+            featured: true
+        }
     ],
-    
+
     getSortedArticles: function() {
         return [...this.articles].sort((a, b) => new Date(b.date) - new Date(a.date));
     },
-    
+
     getArticleById: function(id) {
-        // 支持数字和字符串id的类型兼容比较
         return this.articles.find(article => String(article.id) === String(id));
     },
-    
+
     getAdjacentArticles: function(id) {
         const sorted = this.getSortedArticles();
         const index = sorted.findIndex(article => String(article.id) === String(id));
-        
         return {
             prev: index < sorted.length - 1 ? sorted[index + 1] : null,
             next: index > 0 ? sorted[index - 1] : null
         };
     },
-    
+
     getFeaturedArticles: function(excludeId = null, limit = 3) {
         let filtered = this.getSortedArticles();
-        
         if (excludeId !== null) {
             const excludeIdStr = String(excludeId);
             filtered = filtered.filter(article => String(article.id) !== excludeIdStr);
         }
-        
         return filtered.slice(0, limit);
     }
 };

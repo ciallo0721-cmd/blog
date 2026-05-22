@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ren'Py 人物立绘怎么换？完整替换指南 - ciallo0721-cmd的文章</title>
+    <meta name="description" content="详细教程：3种方法更换 Ren'Py 视觉小说的人物立绘，包括文件替换、代码修改和动态立绘切换，附常见问题排查。">
+    <link rel="canonical" href="https://91vip.xn--32v.ink/blog/20.html@_blog-id=20/">
+    <link rel="icon" href="../../fanv.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../media-viewer.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+    <style>
+        :root {
+            --bili-pink: #3366ff;
+            --bili-blue: #2575fc;
+            --text-primary: #1D1D1F;
+            --text-secondary: #515154;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        nav { background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
+        .nav-container { display:flex; justify-content:space-between; align-items:center; padding:15px 20px; max-width:900px; margin:0 auto; }
+        .logo { font-size:1.4rem; font-weight:700; color:var(--bili-pink); text-decoration:none; }
+        .back-btn { background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue)); color:white; border:none; padding:8px 20px; border-radius:20px; font-size:0.9rem; cursor:pointer; transition:var(--transition); }
+        .back-btn:hover { transform:translateY(-2px); box-shadow:0 4px 15px rgba(51,102,255,0.4); }
+        .article-container { max-width:800px; margin:30px auto; padding:0 20px; }
+        .article-header { margin-bottom:30px; }
+        .article-header h1 { font-size:1.8rem; line-height:1.4; margin-bottom:12px; }
+        .article-meta { color:var(--text-secondary); font-size:0.9rem; display:flex; gap:15px; flex-wrap:wrap; }
+        .article-meta span { display:flex; align-items:center; gap:5px; }
+        .article-content { background:white; border-radius:16px; padding:40px; box-shadow:var(--shadow); }
+        .article-content h2 { font-size:1.4rem; color:var(--bili-pink); margin:30px 0 15px; padding-bottom:8px; border-bottom:2px solid rgba(51,102,255,0.1); }
+        .article-content h3 { font-size:1.15rem; margin:20px 0 10px; }
+        .article-content p { margin-bottom:15px; color:#333; }
+        .article-content pre { background:#1e1e2e; color:#cdd6f4; padding:20px; border-radius:12px; overflow-x:auto; margin:15px 0; font-size:0.9rem; line-height:1.6; }
+        .article-content code { font-family:'Fira Code',Consolas,monospace; }
+        .article-content ul, .article-content ol { margin:10px 0 15px 25px; }
+        .article-content li { margin-bottom:8px; }
+        .article-content .tip { background:rgba(51,102,255,0.05); border-left:4px solid var(--bili-pink); padding:15px 20px; border-radius:0 12px 12px 0; margin:15px 0; }
+        .article-content .tip strong { color:var(--bili-pink); }
+        .article-content .warning { background:rgba(255,150,0,0.05); border-left:4px solid #ff9600; padding:15px 20px; border-radius:0 12px 12px 0; margin:15px 0; }
+        .article-content .warning strong { color:#ff9600; }
+        .cta-box { background:linear-gradient(135deg,rgba(51,102,255,0.1),rgba(37,117,252,0.1)); border:2px solid rgba(51,102,255,0.2); border-radius:16px; padding:24px; margin:30px 0; text-align:center; }
+        .cta-box a { display:inline-block; background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue)); color:white; text-decoration:none; padding:12px 28px; border-radius:25px; font-weight:600; transition:var(--transition); }
+        .cta-box a:hover { transform:translateY(-2px); box-shadow:0 4px 15px rgba(51,102,255,0.4); }
+        footer { text-align:center; padding:30px; color:var(--text-secondary); font-size:0.85rem; }
+        @media (max-width:600px) { .article-content { padding:20px; } .article-header h1 { font-size:1.4rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="../../" class="logo"><i class="fas fa-code"></i> ciallo0721-cmd</a>
+            <button class="back-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i> 返回</button>
+        </div>
+    </nav>
+    <div class="article-container">
+        <div class="article-header">
+            <h1>Ren'Py 人物立绘怎么换？完整替换指南</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar"></i> 2026-05-22</span>
+                <span><i class="far fa-clock"></i> 10分钟</span>
+                <span><i class="fas fa-tag"></i> Ren'Py</span>
+            </div>
+        </div>
+        <div class="article-content">
+            <p>在 Ren'Py 视觉小说开发中，人物立绘（Character Sprite）是决定游戏视觉表现力的核心要素。无论你是在开发初期替换占位图，还是在后期更新角色形象，掌握立绘更换的方法都是必不可少的技能。本文将详细介绍 3 种更换立绘的方法，并附上常见问题的排查方案。</p>
+
+            <h2>一、为什么要更换立绘？</h2>
+            <p>人物立绘是视觉小说中最重要的视觉元素之一。一个精心设计的立绘能够：</p>
+            <ul>
+                <li><strong>塑造角色性格</strong>：立绘的表情、姿势、服装直接传达角色的个性特征</li>
+                <li><strong>增强沉浸感</strong>：高质量的立绘让玩家更容易代入故事</li>
+                <li><strong>适应剧情发展</strong>：不同场景需要不同的表情和服装变体</li>
+                <li><strong>迭代优化</strong>：开发过程中经常需要替换临时素材或升级美术质量</li>
+            </ul>
+            <p>无论你是刚入门的新手还是经验丰富的开发者，都一定会遇到需要更换立绘的场景。</p>
+
+            <h2>二、立绘文件准备</h2>
+            <h3>1. 支持的图片格式</h3>
+            <p>Ren'Py 支持以下图片格式作为立绘素材：</p>
+            <ul>
+                <li><strong>PNG</strong>（推荐）：支持透明通道，是最常用的立绘格式</li>
+                <li><strong>WebP</strong>：体积更小，支持透明，适合优化包体</li>
+                <li><strong>JPG</strong>：不支持透明，不推荐用于立绘</li>
+            </ul>
+
+            <h3>2. 命名规范</h3>
+            <p>Ren'Py 使用自动图片定义机制，文件名会直接映射为图片标签。推荐命名格式：</p>
+            <pre><code># 文件名格式：角色名_表情.png
+# 例如：
+images/alice happy.png      → show alice happy
+images/alice angry.png      → show alice angry
+images/alice sad.png        → show alice sad
+images/alice normal.png     → show alice normal
+
+# 带服装变体：
+images/alice casual happy.png   → show alice casual happy
+images/alice uniform angry.png  → show alice uniform angry</code></pre>
+
+            <div class="tip">
+                <strong>小技巧：</strong>文件名中的空格会被 Ren'Py 自动识别为标签分隔符。使用小写字母和下划线/空格组合是最规范的命名方式。
+            </div>
+
+            <h3>3. 建议尺寸</h3>
+            <p>立绘的推荐尺寸取决于你的游戏分辨率：</p>
+            <ul>
+                <li><strong>1920×1080 游戏</strong>：立绘高度建议 1600-1800px，宽度 600-900px</li>
+                <li><strong>1280×720 游戏</strong>：立绘高度建议 1000-1200px，宽度 400-600px</li>
+                <li><strong>保持一致</strong>：同一角色的所有表情和服装变体尺寸必须一致</li>
+            </ul>
+
+            <h2>三、方法一：直接替换 images 目录下的文件</h2>
+            <p>这是最简单直接的方法，适合只需要替换图片而无需修改代码的场景。</p>
+
+            <h3>操作步骤</h3>
+            <ol>
+                <li>打开项目的 <code>game/images/</code> 目录</li>
+                <li>找到需要替换的立绘文件（如 <code>alice happy.png</code>）</li>
+                <li>用新图片替换旧文件，<strong>保持文件名不变</strong></li>
+                <li>重启 Ren'Py（或按 Shift+R 重新加载）</li>
+            </ol>
+
+            <pre><code># 项目目录结构示例
+game/
+├── images/
+│   ├── alice happy.png      ← 替换这个文件
+│   ├── alice angry.png
+│   ├── alice sad.png
+│   └── bob normal.png
+├── script.rpy
+└── options.rpy</code></pre>
+
+            <div class="tip">
+                <strong>优点：</strong>操作简单，不需要修改任何代码。适合美术更新、占位图替换等场景。
+            </div>
+
+            <div class="warning">
+                <strong>注意：</strong>新图片的尺寸应与旧图片一致，否则可能导致角色大小突然变化或位置偏移。
+            </div>
+
+            <h2>四、方法二：修改 script.rpy 中的 image 定义</h2>
+            <p>当你需要重新组织图片结构，或者使用不同的文件名映射时，可以通过修改 <code>image</code> 定义来实现。</p>
+
+            <h3>基本 image 定义</h3>
+            <pre><code># 在 script.rpy 或单独的 images.rpy 中定义
+
+# 方式1：直接指定文件路径
+image alice happy = "characters/alice_smile.png"
+image alice angry = "characters/alice_mad.png"
+image alice sad = "characters/alice_cry.png"
+
+# 方式2：使用 condition 条件切换
+image alice = ConditionSwitch(
+    "alice_mood == 'happy'", "characters/alice_smile.png",
+    "alice_mood == 'angry'", "characters/alice_mad.png",
+    "alice_mood == 'sad'", "characters/alice_cry.png",
+    "True", "characters/alice_normal.png"
+)</code></pre>
+
+            <h3>使用 Composite 合成立绘</h3>
+            <pre><code># 将身体和表情分层组合
+image alice happy = Composite(
+    (600, 1800),
+    (0, 0), "characters/alice_base.png",      # 身体
+    (0, 0), "characters/alice_face_happy.png"  # 表情
+)
+
+image alice angry = Composite(
+    (600, 1800),
+    (0, 0), "characters/alice_base.png",
+    (0, 0), "characters/alice_face_angry.png"
+)</code></pre>
+
+            <div class="tip">
+                <strong>推荐：</strong>使用 Composite 分层可以大大减少图片总量。只需要一个身体图层 + 多个表情图层，而不是为每个表情都导出完整的立绘。
+            </div>
+
+            <h2>五、方法三：使用 DynamicImage 动态立绘</h2>
+            <p>当你的角色立绘需要根据游戏状态动态切换时，可以使用 <code>DynamicImage</code> 配合变量实现。</p>
+
+            <pre><code># 定义动态立绘
+image alice = DynamicImage("alice_[alice_outfit]_[alice_mood].png")
+
+# 定义角色
+define a = Character("爱丽丝", image="alice")
+
+# 在脚本中使用
+label start:
+    $ alice_outfit = "casual"
+    $ alice_mood = "happy"
+
+    show alice          # 显示 alice_casual_happy.png
+
+    a "今天天气真好呢！"
+
+    $ alice_mood = "angry"
+    show alice          # 自动切换为 alice_casual_angry.png
+
+    a "你怎么可以这样！"</code></pre>
+
+            <h3>DynamicCharacter 配合使用</h3>
+            <pre><code># 角色名也可动态变化
+define dynamic_name = "???"
+define a = DynamicCharacter("dynamic_name", image="alice")
+
+label mystery:
+    show alice at center
+    $ dynamic_name = "???"
+    a "你猜我是谁？"
+
+    $ dynamic_name = "爱丽丝"
+    $ alice_mood = "happy"
+    show alice
+    a "是我啦！"</code></pre>
+
+            <h2>六、表情切换：show 语句详解</h2>
+            <p>Ren'Py 使用 <code>show</code> 语句来显示和切换立绘表情：</p>
+
+            <pre><code># 显示角色（默认表情）
+show alice
+
+# 显示特定表情
+show alice happy
+show alice angry
+show alice sad
+
+# 带位置显示
+show alice happy at left
+show alice angry at right
+show alice sad at center
+
+# 带过渡效果切换表情
+show alice angry with dissolve
+
+# 隐藏角色
+hide alice with dissolve</code></pre>
+
+            <h3>表情切换动画</h3>
+            <pre><code># 定义过渡效果
+define flash = CropMove(0.2, "cropleft")
+
+# 使用自定义过渡
+show alice angry with flash
+
+# 使用 ATL 动画
+image alice happy:
+    "alice happy"
+    xalign 0.5
+    easein 0.3 yalign 1.0</code></pre>
+
+            <h2>七、常见问题排查</h2>
+
+            <h3>1. 图片不显示</h3>
+            <p>这是最常见的问题，排查步骤如下：</p>
+            <ul>
+                <li>检查文件是否在 <code>game/images/</code> 目录下</li>
+                <li>检查文件名是否与 <code>show</code> 语句匹配（大小写敏感）</li>
+                <li>检查图片格式是否为 PNG 或 WebP</li>
+                <li>按 <code>Shift+I</code> 查看图片加载错误日志</li>
+                <li>确认文件名中没有多余的空格或特殊字符</li>
+            </ul>
+
+            <h3>2. 立绘位置偏移</h3>
+            <pre><code># 方法1：使用 at 关键字调整位置
+show alice at center
+show alice at left
+show alice at right
+
+# 方法2：自定义位置
+transform my_pos:
+    xalign 0.3
+    yalign 1.0
+
+show alice happy at my_pos
+
+# 方法3：使用 xpos/ypos 精确控制
+show alice happy:
+    xpos 200
+    ypos 0</code></pre>
+
+            <h3>3. 立绘切换闪烁</h3>
+            <p>切换表情时出现闪烁通常是因为新旧图片的透明区域不一致：</p>
+            <pre><code># 使用 dissolve 过渡消除闪烁
+show alice happy with dissolve
+
+# 或在 options.rpy 中设置默认过渡
+define config.say_attribute_transition = dissolve</code></pre>
+
+            <h3>4. 多个立绘重叠</h3>
+            <pre><code># 先隐藏旧立绘再显示新的
+hide alice
+show alice happy with dissolve
+
+# 或直接用 show 切换（Ren'Py 会自动替换同名角色）
+show alice happy  # 自动替换之前的 alice 表情</code></pre>
+
+            <div class="warning">
+                <strong>重要：</strong>如果你同时显示了同一角色的多个立绘（比如用不同标签），需要使用 <code>hide</code> 明确指定要隐藏的标签。
+            </div>
+
+            <h2>八、最佳实践总结</h2>
+            <ol>
+                <li><strong>统一命名</strong>：使用一致的命名规范（如 <code>角色名_表情.png</code>）</li>
+                <li><strong>分层管理</strong>：使用 Composite 将身体和表情分开，减少图片总量</li>
+                <li><strong>版本控制</strong>：在替换立绘前备份旧文件</li>
+                <li><strong>尺寸一致</strong>：确保同一角色的所有变体尺寸完全一致</li>
+                <li><strong>及时测试</strong>：每次更换立绘后都要在游戏中实际查看效果</li>
+            </ol>
+
+            <p>掌握了以上 3 种方法和常见问题的解决方案，你就可以在 Ren'Py 中自由地管理和更换人物立绘了。无论是简单的文件替换，还是复杂的动态立绘系统，都能得心应手。</p>
+        </div>
+        <div class="cta-box">
+            <p>想要更多 Ren'Py 开发资源？</p>
+            <a href="https://91vip.xn--32v.ink/tools/renpy-template-generator/">试试 Ren'Py 模板生成器</a>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024-2026 <a href="https://91vip.xn--32v.ink">ciallo0721-cmd</a></p>
+    </footer>
+</body>
+</html>
