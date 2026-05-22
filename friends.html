@@ -471,14 +471,23 @@ function submitApply() {
         return;
     }
 
-    // 构建申请信息，复制到剪贴板
-    const applyText = `友链申请\n站点名称：${name}\n站点地址：${url}\n站点描述：${desc || '无'}\n联系方式：${contact || '无'}\n\n本站信息：\n站名：ciallo0721-cmd's blog\n地址：https://91vip.xn--32v.ink\n描述：Ren'Py视觉小说开发 & 二次元创作博客`;
+    // 构建邮件内容
+    const subject = encodeURIComponent(`友链申请 - ${name}`);
+    const body = encodeURIComponent(
+`站点名称：${name}
+站点地址：${url}
+站点描述：${desc || '无'}
+联系方式：${contact || '无'}
 
-    navigator.clipboard.writeText(applyText).then(() => {
-        showToast('申请信息已复制！请发送到 QQ: 3627742771 或邮箱: ciallo0721cmd@gmail.com');
-    }).catch(() => {
-        showToast('请手动联系 QQ: 3627742771 提交申请');
-    });
+---
+本站信息：
+站名：ciallo0721-cmd's blog
+地址：https://91vip.xn--32v.ink
+描述：Ren'Py视觉小说开发 & 二次元创作博客`
+    );
+
+    window.location.href = `mailto:ciallo0721cmd@gmail.com?subject=${subject}&body=${body}`;
+    showToast('正在打开邮箱客户端，请发送邮件完成申请');
 }
 
 // Toast 提示
