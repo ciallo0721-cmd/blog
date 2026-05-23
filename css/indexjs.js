@@ -313,6 +313,9 @@ let currentPythonInputCallback = null;
 
 // 初始化Python编辑器
 function initPythonEditor() {
+    // 防止重复初始化
+    if (pythonEditor) return;
+    
     // 初始化CodeMirror编辑器
     pythonEditor = CodeMirror.fromTextArea(document.getElementById('pythonCode'), {
         lineNumbers: true,
@@ -647,10 +650,9 @@ async function executePythonCode(code, outputArea) {
         `;
         
         const execute = new Function('env', `
+            const { print, input, int, float, str, len, range, abs, round, min, max, sum, list, dict, format } = env;
             return (async function() {
-                with(env) {
-                    ${wrappedCode}
-                }
+                ${wrappedCode}
             })();
         `);
         
