@@ -1,6 +1,11 @@
 
         window.timelineData = [
             {
+                date: "2026年5月23日",
+                title: "修复Python在线编辑器多个bug",
+                desc: "修复Python编辑器HTML/JS ID不匹配（codeEditor→pythonEditor）；修复dynamic-data.js数字换行SyntaxError；修复#注释被转为//后吃掉try/catch闭合括号导致Missing catch错误；修复Font Awesome preload integrity缺失警告喵～"
+            },
+            {
                 date: "2026年5月22日",
                 title: "上线免费工具集 + SEO长文矩阵",
                 desc: "上线4个免费工具（VTuber名字生成器、Ren'Py模板生成器、VTuber人格测试、二次元色彩分析器）、友链页面、新增3篇SEO教程文章（Ren'Py立绘替换/存档系统/Python OCR），完善工具索引页和导航菜单喵～"
