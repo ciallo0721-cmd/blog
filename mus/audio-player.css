@@ -18,7 +18,7 @@
     background: var(--ap-bg);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.28);
     overflow: hidden;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif;
+    font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif;
 }
 
 /* 整体容器行 */
@@ -166,7 +166,7 @@
 .ap-time {
     color: rgba(255,255,255,0.7);
     font-size: 0.75rem;
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: 'MaokenAssortedSans', 'Monaco', 'Menlo', monospace;
     white-space: nowrap;
     flex-shrink: 0;
 }

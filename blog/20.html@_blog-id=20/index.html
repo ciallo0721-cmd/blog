@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ren'Py 人物立绘怎么换？完整替换指南 - ciallo0721-cmd的文章</title>
-    <meta name="description" content="详细教程：3种方法更换 Ren'Py 视觉小说的人物立绘，包括文件替换、代码修改和动态立绘切换，附常见问题排查。">
-    <link rel="canonical" href="https://91vip.xn--32v.ink/blog/20.html@_blog-id=20/">
+    <title>Ren'Py 存档系统完全教程：自定义存档位置与多存档槽 - ciallo0721-cmd的文章</title>
+    <meta name="description" content="Ren'Py 存档系统完全教程，涵盖默认存档位置、自定义存档目录、多存档槽管理、缩略图定制、自动存档配置和常见问题排查，适合初学者和进阶开发者。">
+    <link rel="canonical" href="https://ciallo0721.bid/blog/20.html@_blog-id=20/">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../media-viewer.css">
     <link rel="icon" href="../../fanv.ico" type="image/x-icon">
@@ -18,6 +18,13 @@
       gtag('config', 'G-TR4FT7JPDZ');
     </script>
 <style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('../../css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 /* 全局样式 */
 :root {
@@ -42,7 +49,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
             line-height: 1.6;
             color: var(--text-primary);
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -289,7 +296,7 @@
         }
 
         .article-content :not(pre) > code {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-family: 'MaokenAssortedSans', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             color: transparent;
             font-size: 0.95rem;
             position: relative;
@@ -806,251 +813,365 @@
             </header>
             
             <div class="article-content" id="articleContent">
-                        <p>在 Ren'Py 视觉小说开发中，人物立绘（Character Sprite）是决定游戏视觉表现力的核心要素。无论你是在开发初期替换占位图，还是在后期更新角色形象，掌握立绘更换的方法都是必不可少的技能。本文将详细介绍 3 种更换立绘的方法，并附上常见问题的排查方案。</p>
+                        <p>存档系统是 Ren'Py 视觉小说引擎中最基础也最重要的功能模块之一。一个设计良好的存档系统不仅能让玩家安心地保存进度，还能通过自定义存档槽、缩略图和自动存档等功能提升用户体验。本文将全面解析 Ren'Py 存档系统的工作原理，从默认行为到高级自定义配置，帮助你打造专业级的存档体验。</p>
 
-            <h2>一、为什么要更换立绘？</h2>
-            <p>人物立绘是视觉小说中最重要的视觉元素之一。一个精心设计的立绘能够：</p>
+            <h2>一、Ren'Py 存档系统概述</h2>
+            <p>Ren'Py 内置了一套完整的存档/读档机制，玩家可以随时保存游戏进度。存档系统默认提供以下功能：</p>
             <ul>
-                <li><strong>塑造角色性格</strong>：立绘的表情、姿势、服装直接传达角色的个性特征</li>
-                <li><strong>增强沉浸感</strong>：高质量的立绘让玩家更容易代入故事</li>
-                <li><strong>适应剧情发展</strong>：不同场景需要不同的表情和服装变体</li>
-                <li><strong>迭代优化</strong>：开发过程中经常需要替换临时素材或升级美术质量</li>
-            </ul>
-            <p>无论你是刚入门的新手还是经验丰富的开发者，都一定会遇到需要更换立绘的场景。</p>
-
-            <h2>二、立绘文件准备</h2>
-            <h3>1. 支持的图片格式</h3>
-            <p>Ren'Py 支持以下图片格式作为立绘素材：</p>
-            <ul>
-                <li><strong>PNG</strong>（推荐）：支持透明通道，是最常用的立绘格式</li>
-                <li><strong>WebP</strong>：体积更小，支持透明，适合优化包体</li>
-                <li><strong>JPG</strong>：不支持透明，不推荐用于立绘</li>
+                <li><strong>多存档槽</strong>：默认支持多个存档页面，每个页面包含 6-12 个存档槽</li>
+                <li><strong>自动存档</strong>：在关键剧情节点自动保存进度</li>
+                <li><strong>快速存档</strong>：一键快速保存（默认快捷键 Q）</li>
+                <li><strong>存档预览</strong>：每个存档槽显示截图缩略图和时间信息</li>
+                <li><strong>持久化数据</strong>：通过 persistent 变量存储跨存档的全局数据</li>
             </ul>
 
-            <h3>2. 命名规范</h3>
-            <p>Ren'Py 使用自动图片定义机制，文件名会直接映射为图片标签。推荐命名格式：</p>
-            <pre><code># 文件名格式：角色名_表情.png
-# 例如：
-images/alice happy.png      → show alice happy
-images/alice angry.png      → show alice angry
-images/alice sad.png        → show alice sad
-images/alice normal.png     → show alice normal
+            <p>Ren'Py 的存档文件本质上是 Python 的 pickle 序列化数据，包含了当前游戏的全部状态：显示的图片、变量值、对话历史、音乐播放位置等。存档文件默认使用 <code>.save</code> 扩展名，文件名格式为 <code>页面号-槽位号-LT1.save</code>。</p>
 
-# 带服装变体：
-images/alice casual happy.png   → show alice casual happy
-images/alice uniform angry.png  → show alice uniform angry</code></pre>
+            <pre><code># 存档文件命名示例
+# 第1页第1槽：1-1-LT1.save
+# 第1页第2槽：1-2-LT1.save
+# 第2页第5槽：2-5-LT1.save
+# 自动存档：auto-1-LT1.save
+# 快速存档：quick-1-LT1.save</code></pre>
 
             <div class="tip">
-                <strong>小技巧：</strong>文件名中的空格会被 Ren'Py 自动识别为标签分隔符。使用小写字母和下划线/空格组合是最规范的命名方式。
+                <strong>知识点：</strong>LT1 是 Ren'Py 用于标识存档格式版本的标记。当存档格式发生变化时，旧版本存档可能无法兼容，Ren'Py 会自动处理格式升级。
             </div>
 
-            <h3>3. 建议尺寸</h3>
-            <p>立绘的推荐尺寸取决于你的游戏分辨率：</p>
-            <ul>
-                <li><strong>1920×1080 游戏</strong>：立绘高度建议 1600-1800px，宽度 600-900px</li>
-                <li><strong>1280×720 游戏</strong>：立绘高度建议 1000-1200px，宽度 400-600px</li>
-                <li><strong>保持一致</strong>：同一角色的所有表情和服装变体尺寸必须一致</li>
-            </ul>
+            <h2>二、默认存档位置与文件结构</h2>
+            <p>Ren'Py 的存档默认存储在系统的用户数据目录中，而非游戏安装目录。这样做的好处是即使更新或重新安装游戏，存档也不会丢失。</p>
 
-            <h2>三、方法一：直接替换 images 目录下的文件</h2>
-            <p>这是最简单直接的方法，适合只需要替换图片而无需修改代码的场景。</p>
+            <h3>各平台默认存档路径</h3>
 
-            <h3>操作步骤</h3>
-            <ol>
-                <li>打开项目的 <code>game/images/</code> 目录</li>
-                <li>找到需要替换的立绘文件（如 <code>alice happy.png</code>）</li>
-                <li>用新图片替换旧文件，<strong>保持文件名不变</strong></li>
-                <li>重启 Ren'Py（或按 Shift+R 重新加载）</li>
-            </ol>
+            <pre><code># Windows
+C:\Users\用户名\AppData\Roaming\RenPy\游戏名\
 
-            <pre><code># 项目目录结构示例
-game/
-├── images/
-│   ├── alice happy.png      ← 替换这个文件
-│   ├── alice angry.png
-│   ├── alice sad.png
-│   └── bob normal.png
-├── script.rpy
-└── options.rpy</code></pre>
+# macOS
+~/Library/RenPy/游戏名/
+
+# Linux
+~/.renpy/游戏名/</code></pre>
+
+            <p>其中"游戏名"由 <code>options.rpy</code> 中的 <code>config.save_directory</code> 变量决定。默认情况下，Ren'Py 使用项目目录名作为存档目录名。</p>
+
+            <pre><code># options.rpy 中的存档目录配置
+define config.save_directory = "MyGame-1.0"</code></pre>
+
+            <p>存档目录内的典型文件结构：</p>
+            <pre><code>RenPy/
+└── MyGame-1.0/
+    ├── 1-1-LT1.save      # 第1页第1槽
+    ├── 1-2-LT1.save      # 第1页第2槽
+    ├── 2-1-LT1.save      # 第2页第1槽
+    ├── auto-1-LT1.save   # 自动存档
+    ├── quick-1-LT1.save  # 快速存档
+    ├── persistent        # 持久化数据文件
+    └── log.txt           # 游戏运行日志</code></pre>
+
+            <div class="warning">
+                <strong>注意：</strong>persistent 文件不是在存档目录下的 .save 文件，而是同级目录下的独立文件。它存储跨存档的全局数据，即使玩家删除所有存档，persistent 数据也不会丢失。
+            </div>
+
+            <h2>三、自定义存档位置</h2>
+            <p>如果你希望将存档放在游戏目录下（方便玩家备份或便携版），可以使用 <code>config.savedir</code> 变量自定义存档位置。</p>
+
+            <h3>将存档存储在游戏目录</h3>
+            <pre><code># options.rpy
+# 将存档目录设置为游戏文件夹下的 saves 子目录
+define config.savedir = config.basedir + "/saves"</code></pre>
+
+            <p>这样设置后，所有存档文件将存储在 <code>game/../saves/</code> 目录下，而不是系统用户目录。</p>
+
+            <h3>使用环境变量控制存档路径</h3>
+            <pre><code># options.rpy
+import os
+
+# 优先使用环境变量，其次使用默认路径
+define config.savedir = os.environ.get("MYGAME_SAVE_DIR", config.renpy_base + "/saves")</code></pre>
+
+            <h3>移动端存档适配</h3>
+            <pre><code># 根据平台自动调整存档路径
+init python:
+    import renpy
+    if renpy.android:
+        # Android 平台使用外部存储
+        config.savedir = "/sdcard/MyGame/saves"
+    elif renpy.ios:
+        # iOS 平台使用 Documents 目录
+        config.savedir = None  # 使用 Ren'Py 默认路径</code></pre>
 
             <div class="tip">
-                <strong>优点：</strong>操作简单，不需要修改任何代码。适合美术更新、占位图替换等场景。
+                <strong>最佳实践：</strong>对于 PC 平台的分发版本，建议使用 <code>config.savedir</code> 将存档放在游戏根目录下，方便玩家进行存档备份和迁移。开发期间则保持默认路径即可。
             </div>
 
             <div class="warning">
-                <strong>注意：</strong>新图片的尺寸应与旧图片一致，否则可能导致角色大小突然变化或位置偏移。
+                <strong>重要提醒：</strong>如果使用 <code>config.savedir</code> 指向游戏目录内，请确保该路径有写入权限。部分系统可能会限制程序在 Program Files 等目录下的写入操作。
             </div>
 
-            <h2>四、方法二：修改 script.rpy 中的 image 定义</h2>
-            <p>当你需要重新组织图片结构，或者使用不同的文件名映射时，可以通过修改 <code>image</code> 定义来实现。</p>
+            <h2>四、多存档槽管理</h2>
+            <p>Ren'Py 提供了丰富的存档槽配置选项，允许你自定义存档页面的槽位数量、布局和命名规则。</p>
 
-            <h3>基本 image 定义</h3>
-            <pre><code># 在 script.rpy 或单独的 images.rpy 中定义
+            <h3>存档槽数量配置</h3>
+            <pre><code># screens.rpy
+screen save():
+    # 每行显示 3 个存档槽
+    use file_slots("save", columns=3)
 
-# 方式1：直接指定文件路径
-image alice happy = "characters/alice_smile.png"
-image alice angry = "characters/alice_mad.png"
-image alice sad = "characters/alice_cry.png"
+screen load():
+    # 每行显示 4 个存档槽
+    use file_slots("load", columns=4)</code></pre>
 
-# 方式2：使用 condition 条件切换
-image alice = ConditionSwitch(
-    "alice_mood == 'happy'", "characters/alice_smile.png",
-    "alice_mood == 'angry'", "characters/alice_mad.png",
-    "alice_mood == 'sad'", "characters/alice_cry.png",
-    "True", "characters/alice_normal.png"
-)</code></pre>
+            <h3>自定义存档槽名称</h3>
+            <pre><code># screens.rpy - 修改 file_slots 屏幕
+default page_name_value = FilePageNameInputValue(pattern=_("第 {} 页"), auto=_("自动存档"), quick=_("快速存档"))
 
-            <h3>使用 Composite 合成立绘</h3>
-            <pre><code># 将身体和表情分层组合
-image alice happy = Composite(
-    (600, 1800),
-    (0, 0), "characters/alice_base.png",      # 身体
-    (0, 0), "characters/alice_face_happy.png"  # 表情
-)
+# 自定义存档槽标题
+textbutton _("存档槽 {}".format(number + 1)):
+    action FileAction(number)</code></pre>
 
-image alice angry = Composite(
-    (600, 1800),
-    (0, 0), "characters/alice_base.png",
-    (0, 0), "characters/alice_face_angry.png"
-)</code></pre>
+            <h3>精细控制存档槽数量</h3>
+            <pre><code># options.rpy
+# 设置每页存档槽数量
+define config.file_slots_per_page = 12  # 默认值，可改为 6、9、18 等
+
+# 设置存档页面数量
+define config.file_pages = 9  # 默认最多 9 页</code></pre>
+
+            <h3>存档页面导航定制</h3>
+            <pre><code># screens.rpy - 自定义页面切换按钮
+hbox:
+    style_prefix "page"
+    for p in range(1, config.file_pages + 1):
+        textbutton str(p):
+            action FilePage(p)
+            # 用按钮替代默认的左右箭头</code></pre>
+
+            <p>你也可以重命名存档页面，让玩家更容易管理不同章节的存档：</p>
+
+            <pre><code># screens.rpy - 为每个存档页面添加自定义名称
+init python:
+    def file_page_name(page):
+        page_names = {
+            1: "第一章",
+            2: "第二章",
+            3: "第三章",
+            4: "分支路线",
+            5: "EXTRA"
+        }
+        return page_names.get(page, "第{}页".format(page))
+
+# 在存档界面中使用
+text file_page_name(page)</code></pre>
 
             <div class="tip">
-                <strong>推荐：</strong>使用 Composite 分层可以大大减少图片总量。只需要一个身体图层 + 多个表情图层，而不是为每个表情都导出完整的立绘。
+                <strong>用户体验建议：</strong>每页 9 个存档槽（3 列 3 行的网格布局）是大多数玩家最熟悉的存档界面布局，既不会显得拥挤也不会浪费空间。
             </div>
 
-            <h2>五、方法三：使用 DynamicImage 动态立绘</h2>
-            <p>当你的角色立绘需要根据游戏状态动态切换时，可以使用 <code>DynamicImage</code> 配合变量实现。</p>
+            <h2>五、存档缩略图自定义</h2>
+            <p>每个存档槽默认会显示保存时的游戏画面缩略图，帮助玩家快速回忆存档内容。你可以通过配置来优化缩略图的尺寸和质量。</p>
 
-            <pre><code># 定义动态立绘
-image alice = DynamicImage("alice_[alice_outfit]_[alice_mood].png")
+            <h3>调整缩略图尺寸</h3>
+            <pre><code># options.rpy
+# 设置存档缩略图尺寸（默认 192x108）
+define config.thumbnail_width = 320
+define config.thumbnail_height = 180
 
-# 定义角色
-define a = Character("爱丽丝", image="alice")
+# 保持 16:9 比例的其他常用尺寸
+# 256x144 - 小巧精致
+# 384x216 - 大图预览</code></pre>
 
-# 在脚本中使用
-label start:
-    $ alice_outfit = "casual"
-    $ alice_mood = "happy"
+            <h3>自定义存档槽的外观</h3>
+            <pre><code># screens.rpy - 自定义 file_slots 屏幕
+screen file_slots(title):
+    use game_menu(title):
+        grid config.file_slots_per_page // 3 3:
+            for i in range(config.file_slots_per_page):
+                button:
+                    action FileAction(i)
+                    # 存档截图
+                    add FileScreenshot(i) xsize 320 ysize 180
+                    # 存档时间
+                    text FileTime(i, format=_("{#file_time}%Y-%m-%d %H:%M"), empty=_("空槽位"))
+                    # 存档名称
+                    text FileSaveName(i)</code></pre>
 
-    show alice          # 显示 alice_casual_happy.png
+            <div class="tip">
+                <strong>性能提示：</strong>缩略图尺寸过大会增加存档文件体积和界面加载时间。192×108 是官方推荐的默认尺寸，在清晰度和性能之间取得了良好平衡。
+            </div>
 
-    a "今天天气真好呢！"
+            <h2>六、存档加密与防篡改</h2>
+            <p>虽然 Ren'Py 的存档文件使用了 pickle 序列化，但默认情况下并不加密。如果你需要防止玩家直接修改存档数据，可以通过 persistent 变量进行校验。</p>
 
-    $ alice_mood = "angry"
-    show alice          # 自动切换为 alice_casual_angry.png
+            <h3>使用 persistent 进行存档校验</h3>
+            <pre><code># 在 script.rpy 中
+init python:
+    # 定义校验用的密钥
+    import hashlib
+    import json
 
-    a "你怎么可以这样！"</code></pre>
+    def get_save_checksum(data_dict):
+        """生成存档数据的校验和"""
+        data_str = json.dumps(data_dict, sort_keys=True)
+        return hashlib.sha256(data_str.encode()).hexdigest()
 
-            <h3>DynamicCharacter 配合使用</h3>
-            <pre><code># 角色名也可动态变化
-define dynamic_name = "???"
-define a = DynamicCharacter("dynamic_name", image="alice")
+    def verify_save_integrity(data_dict, stored_checksum):
+        """验证存档数据完整性"""
+        return get_save_checksum(data_dict) == stored_checksum</code></pre>
 
-label mystery:
-    show alice at center
-    $ dynamic_name = "???"
-    a "你猜我是谁？"
+            <h3>在存档时写入校验信息</h3>
+            <pre><code># 利用 json 回调在存档时添加校验
+init python:
+    def on_save_callback(data):
+        checksum = get_save_checksum(data)
+        if not persistent.save_checksums:
+            persistent.save_checksums = {}
+        persistent.save_checksums[renpy.get_screen().scope.get("page", 1)] = checksum
 
-    $ dynamic_name = "爱丽丝"
-    $ alice_mood = "happy"
-    show alice
-    a "是我啦！"</code></pre>
+    config.after_load_transition = None
 
-            <h2>六、表情切换：show 语句详解</h2>
-            <p>Ren'Py 使用 <code>show</code> 语句来显示和切换立绘表情：</p>
+    def on_load_callback():
+        # 在加载存档后进行校验
+        pass</code></pre>
 
-            <pre><code># 显示角色（默认表情）
-show alice
+            <h3>简单的作弊检测</h3>
+            <pre><code># 使用 persistent 记录关键数值变化
+init python:
+    def track_value_change(variable_name, new_value):
+        """追踪变量变化，检测异常修改"""
+        prev = getattr(persistent, "_track_" + variable_name, None)
+        if prev is not None:
+            # 如果数值变化过大且不自然，标记为可疑
+            if abs(new_value - prev) > 1000:
+                persistent.suspicious_activity = True
+                renpy.notify("检测到异常数据变化")
+        setattr(persistent, "_track_" + variable_name, new_value)
 
-# 显示特定表情
-show alice happy
-show alice angry
-show alice sad
-
-# 带位置显示
-show alice happy at left
-show alice angry at right
-show alice sad at center
-
-# 带过渡效果切换表情
-show alice angry with dissolve
-
-# 隐藏角色
-hide alice with dissolve</code></pre>
-
-            <h3>表情切换动画</h3>
-            <pre><code># 定义过渡效果
-define flash = CropMove(0.2, "cropleft")
-
-# 使用自定义过渡
-show alice angry with flash
-
-# 使用 ATL 动画
-image alice happy:
-    "alice happy"
-    xalign 0.5
-    easein 0.3 yalign 1.0</code></pre>
-
-            <h2>七、常见问题排查</h2>
-
-            <h3>1. 图片不显示</h3>
-            <p>这是最常见的问题，排查步骤如下：</p>
-            <ul>
-                <li>检查文件是否在 <code>game/images/</code> 目录下</li>
-                <li>检查文件名是否与 <code>show</code> 语句匹配（大小写敏感）</li>
-                <li>检查图片格式是否为 PNG 或 WebP</li>
-                <li>按 <code>Shift+I</code> 查看图片加载错误日志</li>
-                <li>确认文件名中没有多余的空格或特殊字符</li>
-            </ul>
-
-            <h3>2. 立绘位置偏移</h3>
-            <pre><code># 方法1：使用 at 关键字调整位置
-show alice at center
-show alice at left
-show alice at right
-
-# 方法2：自定义位置
-transform my_pos:
-    xalign 0.3
-    yalign 1.0
-
-show alice happy at my_pos
-
-# 方法3：使用 xpos/ypos 精确控制
-show alice happy:
-    xpos 200
-    ypos 0</code></pre>
-
-            <h3>3. 立绘切换闪烁</h3>
-            <p>切换表情时出现闪烁通常是因为新旧图片的透明区域不一致：</p>
-            <pre><code># 使用 dissolve 过渡消除闪烁
-show alice happy with dissolve
-
-# 或在 options.rpy 中设置默认过渡
-define config.say_attribute_transition = dissolve</code></pre>
-
-            <h3>4. 多个立绘重叠</h3>
-            <pre><code># 先隐藏旧立绘再显示新的
-hide alice
-show alice happy with dissolve
-
-# 或直接用 show 切换（Ren'Py 会自动替换同名角色）
-show alice happy  # 自动替换之前的 alice 表情</code></pre>
+# 在 script.rpy 中使用
+label spend_money(amount):
+    $ money += amount
+    $ track_value_change("money", money)
+    "获得了 [amount] 金币。"</code></pre>
 
             <div class="warning">
-                <strong>重要：</strong>如果你同时显示了同一角色的多个立绘（比如用不同标签），需要使用 <code>hide</code> 明确指定要隐藏的标签。
+                <strong>重要说明：</strong>以上方法仅提供基础的防篡改能力。Ren'Py 作为单机游戏引擎，存档文件始终在玩家可控范围内，完全的防作弊在技术上不可行。建议将精力放在游戏内容质量上，而非过度投入防篡改机制。
             </div>
 
-            <h2>八、最佳实践总结</h2>
+            <h2>七、自动存档配置</h2>
+            <p>自动存档是保障玩家游戏进度的重要手段，Ren'Py 提供了灵活的自动存档配置选项。</p>
+
+            <h3>基本自动存档设置</h3>
+            <pre><code># options.rpy
+# 启用/禁用自动存档
+define config.has_autosave = True
+
+# 自动存档触发频率（单位：交互次数）
+define config.autosave_frequency = 200
+
+# 自动存档占用的槽位数量（滚动覆盖旧存档）
+define config.autosave_slots = 10
+
+# 在自动存档时是否显示通知
+define config.autosave_on_choice = True
+define config.autosave_on_quit = True</code></pre>
+
+            <h3>手动触发自动存档</h3>
+            <pre><code># 在关键剧情节点强制自动存档
+label important_choice:
+    $ renpy.force_autosave()
+    menu:
+        "选择路线A":
+            jump route_a
+        "选择路线B":
+            jump route_b</code></pre>
+
+            <h3>禁用特定场景的自动存档</h3>
+            <pre><code># 在需要禁用自动存档的场景中
+label minigame_start:
+    $ renpy.block_autosave()
+    # ... 小游戏逻辑 ...
+    $ renpy.unblock_autosave()</code></pre>
+
+            <p>你也可以通过回调函数自定义何时允许自动存档：</p>
+
+            <pre><code># options.rpy
+# 自定义自动存档条件
+init python:
+    def can_autosave():
+        """返回 True 时才允许自动存档"""
+        # 在特殊场景（如战斗、过场动画）中禁止自动存档
+        if hasattr(store, 'in_battle') and store.in_battle:
+            return False
+        return True
+
+    config.autosave_on_choice_callback = can_autosave</code></pre>
+
+            <div class="tip">
+                <strong>推荐设置：</strong>对于大部分视觉小说，<code>config.autosave_frequency = 200</code>（大约每 5-10 分钟自动保存一次）是最合适的频率。太频繁会影响性能，太久则会降低安全边际。
+            </div>
+
+            <h2>八、常见问题排查</h2>
+
+            <h3>1. 存档无法加载</h3>
+            <p>这是最常见的存档问题，可能由以下原因导致：</p>
+            <ul>
+                <li><strong>游戏版本变更</strong>：存档格式通常兼容小版本更新，但大幅改动可能导致不兼容</li>
+                <li><strong>图片资源缺失</strong>：存档引用的图片被删除或路径变更</li>
+                <li><strong>变量定义变更</strong>：存档中引用的变量在新版本中已被删除或重命名</li>
+            </ul>
+            <pre><code># 使用 try-except 安全加载存档
+init python:
+    def safe_load(filename):
+        try:
+            renpy.load(filename)
+        except Exception as e:
+            renpy.notify("存档加载失败：" + str(e))</code></pre>
+
+            <h3>2. 存档列表为空</h3>
+            <p>如果存档界面显示所有槽位都是空的：</p>
+            <ul>
+                <li>检查 <code>config.save_directory</code> 是否设置正确</li>
+                <li>确认存档目录存在且有读写权限</li>
+                <li>在 Ren'Py 启动器中点击"删除持久化数据"然后重新测试</li>
+                <li>检查是否有杀毒软件拦截了存档写入</li>
+            </ul>
+
+            <div class="tip">
+                <strong>调试技巧：</strong>按下 <code>Shift+O</code> 打开 Ren'Py 控制台，输入 <code>config.savedir</code> 可以查看当前存档路径。
+            </div>
+
+            <h3>3. 存档文件过大</h3>
+            <p>单个存档文件超过几十 MB 可能影响加载速度：</p>
+            <pre><code># options.rpy - 压缩存档文件
+define config.save_physical_size = False  # 使用逻辑大小
+define config.use_cpickle = False         # 使用标准 pickle</code></pre>
+
+            <p>主要优化方向是减少存档中引用的数据量，尤其是避免在存档中存储大段文本或大型数据结构。</p>
+
+            <h3>4. 跨平台存档迁移</h3>
+            <p>如果你需要将 Windows 存档迁移到 Android 或 Mac：</p>
             <ol>
-                <li><strong>统一命名</strong>：使用一致的命名规范（如 <code>角色名_表情.png</code>）</li>
-                <li><strong>分层管理</strong>：使用 Composite 将身体和表情分开，减少图片总量</li>
-                <li><strong>版本控制</strong>：在替换立绘前备份旧文件</li>
-                <li><strong>尺寸一致</strong>：确保同一角色的所有变体尺寸完全一致</li>
-                <li><strong>及时测试</strong>：每次更换立绘后都要在游戏中实际查看效果</li>
+                <li>找到源平台存档目录，复制所有 <code>.save</code> 文件和 <code>persistent</code> 文件</li>
+                <li>粘贴到目标平台的对应存档目录</li>
+                <li>确保两个平台的游戏版本号一致</li>
+                <li>启动游戏，存档应该可以正常加载</li>
             </ol>
 
-            <p>掌握了以上 3 种方法和常见问题的解决方案，你就可以在 Ren'Py 中自由地管理和更换人物立绘了。无论是简单的文件替换，还是复杂的动态立绘系统，都能得心应手。</p>
+            <div class="tip">
+                <strong>实用方案：</strong>在游戏内添加"导出存档"和"导入存档"功能，使用 <code>renpy.slot_json("slot_name")</code> 和 <code>renpy.load_json("slot_name", json_data)</code> 可以方便地实现存档的导入导出。
+            </div>
+
+            <h2>九、最佳实践总结</h2>
+            <ol>
+                <li><strong>明确存档目录</strong>：在 <code>options.rpy</code> 中显式设置 <code>config.save_directory</code>，避免使用默认的项目目录名导致存档混乱</li>
+                <li><strong>合理配置自动存档</strong>：在关键选项前使用 <code>renpy.force_autosave()</code>，让玩家可以回溯重要决策</li>
+                <li><strong>保持存档兼容</strong>：大版本更新时保留对旧存档的兼容性，或在更新说明中明确告知</li>
+                <li><strong>优化缩略图</strong>：使用默认 192×108 尺寸，在清晰度和文件大小间保持平衡</li>
+                <li><strong>提示自动存档</strong>：在存档界面用图标或文字区分自动存档和手动存档</li>
+                <li><strong>定期测试</strong>：每次更新关联 RPA 归档或修改图片资源后，务必测试存档的加载功能</li>
+                <li><strong>便携版优先</strong>：对于分发给玩家的版本，使用 <code>config.savedir</code> 将存档放在游戏目录下</li>
+            </ol>
+
+            <p>掌握以上 Ren'Py 存档系统的各项配置后，你就能为玩家提供一个安全可靠、使用便捷的存档体验。对于商业模式需要考虑存档位置和持久化数据的设计，而对于同人创作则更应关注存档界面的美观和易用性。无论哪种场景，一个设计良好的存档系统都是优秀视觉小说的基石。</p>
 
             </div>
             
@@ -1167,7 +1288,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('文章模板已加载完成');
     
     // 获取当前文章ID（直接在此处填写当前文章ID，如 16 或 -1）
-    const currentArticleId = 20; // ← 替换成真实ID，如 16 或 -1（灰度测试）
+    const currentArticleId = 21; // ← 替换成真实ID，如 16 或 -1（灰度测试）
     function getCurrentArticleId() {
         return currentArticleId;
     }

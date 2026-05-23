@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python 截图识别文字完全教程：从 Tesseract 到深度学习 - ciallo0721-cmd的文章</title>
-    <meta name="description" content="Python 截图识别文字完整教程：涵盖 Tesseract OCR、PaddleOCR 深度学习方案，详解截图工具选型、图像预处理技巧与性能优化，附完整代码示例与常见问题排查。">
-    <link rel="canonical" href="https://91vip.xn--32v.ink/blog/22.html@_blog-id=22/">
+    <title>Ren'Py 人物立绘怎么换？完整替换指南 - ciallo0721-cmd的文章</title>
+    <meta name="description" content="详细教程：3种方法更换 Ren'Py 视觉小说的人物立绘，包括文件替换、代码修改和动态立绘切换，附常见问题排查。">
+    <link rel="canonical" href="https://ciallo0721.bid/blog/19.html@_blog-id=19/">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../media-viewer.css">
     <link rel="icon" href="../../fanv.ico" type="image/x-icon">
@@ -18,6 +18,13 @@
       gtag('config', 'G-TR4FT7JPDZ');
     </script>
 <style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('../../css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 /* 全局样式 */
 :root {
@@ -42,7 +49,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
             line-height: 1.6;
             color: var(--text-primary);
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -289,7 +296,7 @@
         }
 
         .article-content :not(pre) > code {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-family: 'MaokenAssortedSans', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             color: transparent;
             font-size: 0.95rem;
             position: relative;
@@ -806,441 +813,251 @@
             </header>
             
             <div class="article-content" id="articleContent">
-                        <p>在日常工作和开发中，我们经常遇到需要从截图中提取文字的场景——网页上的代码片段、PDF 文档的表格数据、游戏界面中的提示信息，甚至是无法复制的对话框。手动打字不仅低效，还容易出错。借助 <strong>Python OCR（光学字符识别）</strong>技术，我们可以用几行代码实现截图自动识别文字，大幅提升工作效率。本文将从入门到实战，详细介绍 Python 截图识别文字的两大主流方案：Tesseract 和 PaddleOCR，并配合图像预处理技巧，帮助你构建自己的截图 OCR 工具。</p>
+                        <p>在 Ren'Py 视觉小说开发中，人物立绘（Character Sprite）是决定游戏视觉表现力的核心要素。无论你是在开发初期替换占位图，还是在后期更新角色形象，掌握立绘更换的方法都是必不可少的技能。本文将详细介绍 3 种更换立绘的方法，并附上常见问题的排查方案。</p>
 
-            <h2>一、Python OCR 技术概述</h2>
-            <p>OCR（Optical Character Recognition，光学字符识别）是指将图像中的文字转换为可编辑的文本数据的技术。在 Python 生态中，有几个主流的 OCR 方案：</p>
+            <h2>一、为什么要更换立绘？</h2>
+            <p>人物立绘是视觉小说中最重要的视觉元素之一。一个精心设计的立绘能够：</p>
             <ul>
-                <li><strong>Tesseract OCR</strong>：Google 维护的开源 OCR 引擎，支持 100+ 种语言，通过 <code>pytesseract</code> 库在 Python 中调用。</li>
-                <li><strong>PaddleOCR</strong>：百度开源的深度学习 OCR 框架，对中文识别效果极佳，内置检测+识别 pipeline。</li>
-                <li><strong>EasyOCR</strong>：基于 PyTorch 的 OCR 库，支持多种语言，GPU 加速下速度快。</li>
-                <li><strong>Azure/Google Cloud OCR</strong>：云服务 API，精度高但需要网络和付费。</li>
+                <li><strong>塑造角色性格</strong>：立绘的表情、姿势、服装直接传达角色的个性特征</li>
+                <li><strong>增强沉浸感</strong>：高质量的立绘让玩家更容易代入故事</li>
+                <li><strong>适应剧情发展</strong>：不同场景需要不同的表情和服装变体</li>
+                <li><strong>迭代优化</strong>：开发过程中经常需要替换临时素材或升级美术质量</li>
+            </ul>
+            <p>无论你是刚入门的新手还是经验丰富的开发者，都一定会遇到需要更换立绘的场景。</p>
+
+            <h2>二、立绘文件准备</h2>
+            <h3>1. 支持的图片格式</h3>
+            <p>Ren'Py 支持以下图片格式作为立绘素材：</p>
+            <ul>
+                <li><strong>PNG</strong>（推荐）：支持透明通道，是最常用的立绘格式</li>
+                <li><strong>WebP</strong>：体积更小，支持透明，适合优化包体</li>
+                <li><strong>JPG</strong>：不支持透明，不推荐用于立绘</li>
             </ul>
 
-            <p>各方案的核心差异如下：</p>
-            <ul>
-                <li><strong>Tesseract</strong>：纯 CPU 计算，对英文和印刷体效果优秀，中文需要额外配置语言包。</li>
-                <li><strong>PaddleOCR</strong>：中文识别精度最高，支持竖排文字和表格识别，GPU 加速后性能出色。</li>
-                <li><strong>EasyOCR</strong>：使用简单，自动下载模型，但速度较慢。</li>
-                <li><strong>云端 OCR</strong>：效果最好但依赖网络，适合对精度有极高要求的场景。</li>
-            </ul>
+            <h3>2. 命名规范</h3>
+            <p>Ren'Py 使用自动图片定义机制，文件名会直接映射为图片标签。推荐命名格式：</p>
+            <pre><code># 文件名格式：角色名_表情.png
+# 例如：
+images/alice happy.png      → show alice happy
+images/alice angry.png      → show alice angry
+images/alice sad.png        → show alice sad
+images/alice normal.png     → show alice normal
+
+# 带服装变体：
+images/alice casual happy.png   → show alice casual happy
+images/alice uniform angry.png  → show alice uniform angry</code></pre>
 
             <div class="tip">
-                <strong>推荐：</strong>如果你的主要场景是英文或印刷体文档，用 Tesseract 就够了；如果是中文截图或复杂场景，PaddleOCR 是更好的选择。
+                <strong>小技巧：</strong>文件名中的空格会被 Ren'Py 自动识别为标签分隔符。使用小写字母和下划线/空格组合是最规范的命名方式。
             </div>
 
-            <h2>二、方案一：Tesseract + pytesseract</h2>
-            <p>Tesseract 是历史最悠久、社区最活跃的开源 OCR 引擎。在 Python 中使用需要两步：安装 Tesseract 本体，然后安装 <code>pytesseract</code> 封装库。</p>
+            <h3>3. 建议尺寸</h3>
+            <p>立绘的推荐尺寸取决于你的游戏分辨率：</p>
+            <ul>
+                <li><strong>1920×1080 游戏</strong>：立绘高度建议 1600-1800px，宽度 600-900px</li>
+                <li><strong>1280×720 游戏</strong>：立绘高度建议 1000-1200px，宽度 400-600px</li>
+                <li><strong>保持一致</strong>：同一角色的所有表情和服装变体尺寸必须一致</li>
+            </ul>
 
-            <h3>Windows 安装</h3>
-            <pre><code># 1. 下载安装 Tesseract OCR
-# 访问 https://github.com/UB-Mannheim/tesseract/wiki
-# 下载 tesseract-ocr-w64-setup 安装包
-# 安装时勾选中文语言包（Chinese Simplified）
+            <h2>三、方法一：直接替换 images 目录下的文件</h2>
+            <p>这是最简单直接的方法，适合只需要替换图片而无需修改代码的场景。</p>
 
-# 2. 安装 Python 依赖
-pip install pytesseract Pillow</code></pre>
+            <h3>操作步骤</h3>
+            <ol>
+                <li>打开项目的 <code>game/images/</code> 目录</li>
+                <li>找到需要替换的立绘文件（如 <code>alice happy.png</code>）</li>
+                <li>用新图片替换旧文件，<strong>保持文件名不变</strong></li>
+                <li>重启 Ren'Py（或按 Shift+R 重新加载）</li>
+            </ol>
 
-            <h3>基础文字识别</h3>
-            <pre><code>import pytesseract
-from PIL import Image
+            <pre><code># 项目目录结构示例
+game/
+├── images/
+│   ├── alice happy.png      ← 替换这个文件
+│   ├── alice angry.png
+│   ├── alice sad.png
+│   └── bob normal.png
+├── script.rpy
+└── options.rpy</code></pre>
 
-# 配置 Tesseract 路径（Windows 需要）
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
-# 打开图片并识别
-image = Image.open('screenshot.png')
-text = pytesseract.image_to_string(image, lang='eng')
-print(text)</code></pre>
-
-            <h3>中文识别配置</h3>
-            <pre><code>import pytesseract
-from PIL import Image
-
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
-# 识别中文（需要安装 chi_sim 语言包）
-image = Image.open('chinese_screenshot.png')
-text = pytesseract.image_to_string(image, lang='chi_sim')
-print(text)
-
-# 同时识别中英文混合
-text = pytesseract.image_to_string(image, lang='chi_sim+eng')
-print(text)</code></pre>
-
-            <h3>获取识别置信度和位置信息</h3>
-            <pre><code># 获取每个识别结果的详细信息
-data = pytesseract.image_to_data(image, lang='eng', output_type=pytesseract.Output.DICT)
-
-for i, text in enumerate(data['text']):
-    if int(data['conf'][i]) > 60:  # 过滤低置信度结果
-        x, y, w, h = data['left'][i], data['top'][i], data['width'][i], data['height'][i]
-        print(f"文字: {text}, 置信度: {data['conf'][i]}, 位置: ({x}, {y}, {w}, {h})")</code></pre>
+            <div class="tip">
+                <strong>优点：</strong>操作简单，不需要修改任何代码。适合美术更新、占位图替换等场景。
+            </div>
 
             <div class="warning">
-                <strong>注意：</strong>Tesseract 对低分辨率图片、手写体、复杂背景的文字识别效果较差。如果识别率不理想，务必先进行图像预处理（见下文第六章）。
+                <strong>注意：</strong>新图片的尺寸应与旧图片一致，否则可能导致角色大小突然变化或位置偏移。
             </div>
 
-            <h2>三、方案二：PaddleOCR（百度开源深度学习OCR）</h2>
-            <p>PaddleOCR 是百度基于 PaddlePaddle 深度学习框架开发的 OCR 工具，在中文场景下的表现远超 Tesseract。它内置了文字检测和识别两个模型，无需手动调参即可获得出色的效果。</p>
+            <h2>四、方法二：修改 script.rpy 中的 image 定义</h2>
+            <p>当你需要重新组织图片结构，或者使用不同的文件名映射时，可以通过修改 <code>image</code> 定义来实现。</p>
 
-            <h3>安装</h3>
-            <pre><code># 安装 PaddleOCR（会自动安装 paddlepaddle）
-pip install paddleocr
-# 如果有 CUDA GPU，安装 GPU 版本加速
-# pip install paddlepaddle-gpu paddleocr</code></pre>
+            <h3>基本 image 定义</h3>
+            <pre><code># 在 script.rpy 或单独的 images.rpy 中定义
 
-            <h3>基础使用</h3>
-            <pre><code>from paddleocr import PaddleOCR
+# 方式1：直接指定文件路径
+image alice happy = "characters/alice_smile.png"
+image alice angry = "characters/alice_mad.png"
+image alice sad = "characters/alice_cry.png"
 
-# 初始化（首次运行会自动下载模型）
-ocr = PaddleOCR(use_angle_cls=True, lang='ch')  # use_angle_cls 启用文字方向分类
+# 方式2：使用 condition 条件切换
+image alice = ConditionSwitch(
+    "alice_mood == 'happy'", "characters/alice_smile.png",
+    "alice_mood == 'angry'", "characters/alice_mad.png",
+    "alice_mood == 'sad'", "characters/alice_cry.png",
+    "True", "characters/alice_normal.png"
+)</code></pre>
 
-# 识别图片
-result = ocr.ocr('screenshot.png', cls=True)
-
-# 打印结果
-for line in result[0]:
-    box = line[0]         # 文字框坐标 [[x1,y1],[x2,y2],[x3,y3],[x4,y4]]
-    text = line[1][0]     # 识别文字
-    confidence = line[1][1] # 置信度
-    print(f"文字: {text}, 置信度: {confidence:.2f}")
-    print(f"位置: {box}")</code></pre>
-
-            <h3>高级配置：调整参数优化识别效果</h3>
-            <pre><code>from paddleocr import PaddleOCR
-
-# 自定义参数
-ocr = PaddleOCR(
-    use_angle_cls=True,      # 文字方向分类
-    lang='ch',                # 语言：ch(中文), en(英文), chinese_cht(繁体)
-    use_gpu=False,            # 是否使用 GPU
-    det_db_thresh=0.3,        # 检测阈值，越低越敏感
-    det_db_box_thresh=0.5,    # 检测框阈值
-    rec_batch_num=6,          # 识别时的批大小
-    max_text_length=25,       # 最大文字长度
-    cls_thresh=0.9,           # 方向分类阈值
-    use_space_char=True       # 是否识别空格
+            <h3>使用 Composite 合成立绘</h3>
+            <pre><code># 将身体和表情分层组合
+image alice happy = Composite(
+    (600, 1800),
+    (0, 0), "characters/alice_base.png",      # 身体
+    (0, 0), "characters/alice_face_happy.png"  # 表情
 )
 
-result = ocr.ocr('screenshot.png', cls=True)
-for line in result[0]:
-    text = line[1][0]
-    confidence = line[1][1]
-    print(f"{text} ({confidence:.2%})")</code></pre>
+image alice angry = Composite(
+    (600, 1800),
+    (0, 0), "characters/alice_base.png",
+    (0, 0), "characters/alice_face_angry.png"
+)</code></pre>
 
             <div class="tip">
-                <strong>小技巧：</strong>处理竖排中文文字时，设置 <code>use_angle_cls=True</code> 可以让 PaddleOCR 自动检测文字方向并旋转矫正，大幅提升竖排文字的识别准确率。
+                <strong>推荐：</strong>使用 Composite 分层可以大大减少图片总量。只需要一个身体图层 + 多个表情图层，而不是为每个表情都导出完整的立绘。
             </div>
 
-            <h2>四、截图工具选型</h2>
-            <p>要实现"截图 → OCR 识别"的完整 pipeline，首先需要能够通过 Python 捕获屏幕截图。以下是三种常用方案：</p>
+            <h2>五、方法三：使用 DynamicImage 动态立绘</h2>
+            <p>当你的角色立绘需要根据游戏状态动态切换时，可以使用 <code>DynamicImage</code> 配合变量实现。</p>
 
-            <h3>方案对比</h3>
+            <pre><code># 定义动态立绘
+image alice = DynamicImage("alice_[alice_outfit]_[alice_mood].png")
+
+# 定义角色
+define a = Character("爱丽丝", image="alice")
+
+# 在脚本中使用
+label start:
+    $ alice_outfit = "casual"
+    $ alice_mood = "happy"
+
+    show alice          # 显示 alice_casual_happy.png
+
+    a "今天天气真好呢！"
+
+    $ alice_mood = "angry"
+    show alice          # 自动切换为 alice_casual_angry.png
+
+    a "你怎么可以这样！"</code></pre>
+
+            <h3>DynamicCharacter 配合使用</h3>
+            <pre><code># 角色名也可动态变化
+define dynamic_name = "???"
+define a = DynamicCharacter("dynamic_name", image="alice")
+
+label mystery:
+    show alice at center
+    $ dynamic_name = "???"
+    a "你猜我是谁？"
+
+    $ dynamic_name = "爱丽丝"
+    $ alice_mood = "happy"
+    show alice
+    a "是我啦！"</code></pre>
+
+            <h2>六、表情切换：show 语句详解</h2>
+            <p>Ren'Py 使用 <code>show</code> 语句来显示和切换立绘表情：</p>
+
+            <pre><code># 显示角色（默认表情）
+show alice
+
+# 显示特定表情
+show alice happy
+show alice angry
+show alice sad
+
+# 带位置显示
+show alice happy at left
+show alice angry at right
+show alice sad at center
+
+# 带过渡效果切换表情
+show alice angry with dissolve
+
+# 隐藏角色
+hide alice with dissolve</code></pre>
+
+            <h3>表情切换动画</h3>
+            <pre><code># 定义过渡效果
+define flash = CropMove(0.2, "cropleft")
+
+# 使用自定义过渡
+show alice angry with flash
+
+# 使用 ATL 动画
+image alice happy:
+    "alice happy"
+    xalign 0.5
+    easein 0.3 yalign 1.0</code></pre>
+
+            <h2>七、常见问题排查</h2>
+
+            <h3>1. 图片不显示</h3>
+            <p>这是最常见的问题，排查步骤如下：</p>
             <ul>
-                <li><strong>Pillow ImageGrab</strong>：无需额外安装（Pillow 自带），适合简单截图场景。</li>
-                <li><strong>pyautogui</strong>：功能全面，支持区域截图、图像定位、鼠标控制，但速度较慢。</li>
-                <li><strong>mss</strong>：高性能截图，支持多显示器，速度最快（比 pyautogui 快 3-5 倍）。</li>
+                <li>检查文件是否在 <code>game/images/</code> 目录下</li>
+                <li>检查文件名是否与 <code>show</code> 语句匹配（大小写敏感）</li>
+                <li>检查图片格式是否为 PNG 或 WebP</li>
+                <li>按 <code>Shift+I</code> 查看图片加载错误日志</li>
+                <li>确认文件名中没有多余的空格或特殊字符</li>
             </ul>
 
-            <h3>全屏截图</h3>
-            <pre><code># 方法1：Pillow ImageGrab
-from PIL import ImageGrab
-screenshot = ImageGrab.grab()
-screenshot.save('fullscreen.png')
+            <h3>2. 立绘位置偏移</h3>
+            <pre><code># 方法1：使用 at 关键字调整位置
+show alice at center
+show alice at left
+show alice at right
 
-# 方法2：mss（最快）
-import mss
-with mss.mss() as sct:
-    sct.shot(output='fullscreen.png')
+# 方法2：自定义位置
+transform my_pos:
+    xalign 0.3
+    yalign 1.0
 
-# 方法3：pyautogui
-import pyautogui
-screenshot = pyautogui.screenshot()
-screenshot.save('fullscreen.png')</code></pre>
+show alice happy at my_pos
 
-            <h3>区域截图</h3>
-            <pre><code># 截取指定区域
-from PIL import ImageGrab
+# 方法3：使用 xpos/ypos 精确控制
+show alice happy:
+    xpos 200
+    ypos 0</code></pre>
 
-# 截取左上角(100,100)到右下角(800,600)的区域
-region = ImageGrab.grab(bbox=(100, 100, 800, 600))
-region.save('region_screenshot.png')
+            <h3>3. 立绘切换闪烁</h3>
+            <p>切换表情时出现闪烁通常是因为新旧图片的透明区域不一致：</p>
+            <pre><code># 使用 dissolve 过渡消除闪烁
+show alice happy with dissolve
 
-# 使用 mss 截取区域
-import mss
-with mss.mss() as sct:
-    monitor = {"top": 100, "left": 100, "width": 700, "height": 500}
-    region = sct.grab(monitor)
-    mss.tools.to_png(region.rgb, region.size, output='region_screenshot.png')</code></pre>
+# 或在 options.rpy 中设置默认过渡
+define config.say_attribute_transition = dissolve</code></pre>
 
-            <div class="tip">
-                <strong>推荐：</strong>如果你的 OCR 工具需要高频截图（如游戏辅助、实时翻译），优先使用 <strong>mss</strong>，它的性能比 Pillow ImageGrab 高出一个数量级。
-            </div>
+            <h3>4. 多个立绘重叠</h3>
+            <pre><code># 先隐藏旧立绘再显示新的
+hide alice
+show alice happy with dissolve
 
-            <h2>五、完整实战：截图 → 预处理 → OCR 识别 → 结果输出</h2>
-            <p>将截图和 OCR 组合起来，构建一个完整的截图文字识别 pipeline：</p>
-
-            <pre><code>import pytesseract
-from PIL import Image, ImageGrab, ImageFilter
-import json
-
-# 配置 Tesseract
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
-def preprocess_image(image):
-    """图像预处理：灰度化 + 放大 + 增强对比度"""
-    # 转换为灰度图
-    gray = image.convert('L')
-    # 放大 2 倍（OCR 对大尺寸图片识别更好）
-    w, h = gray.size
-    gray = gray.resize((w * 2, h * 2), Image.LANCZOS)
-    # 锐化增强文字边缘
-    gray = gray.filter(ImageFilter.SHARPEN)
-    return gray
-
-def screenshot_ocr(lang='chi_sim+eng', region=None):
-    """截图并识别文字"""
-    # 步骤1：截图
-    if region:
-        screenshot = ImageGrab.grab(bbox=region)
-    else:
-        screenshot = ImageGrab.grab()
-    
-    # 步骤2：预处理
-    processed = preprocess_image(screenshot)
-    
-    # 步骤3：OCR 识别
-    text = pytesseract.image_to_string(processed, lang=lang)
-    data = pytesseract.image_to_data(processed, lang=lang, output_type=pytesseract.Output.DICT)
-    
-    # 步骤4：格式化输出
-    results = []
-    for i, word in enumerate(data['text']):
-        if word.strip():
-            results.append({
-                'text': word,
-                'confidence': int(data['conf'][i]),
-                'position': {
-                    'x': data['left'][i],
-                    'y': data['top'][i],
-                    'width': data['width'][i],
-                    'height': data['height'][i]
-                }
-            })
-    
-    return {
-        'full_text': text.strip(),
-        'details': results
-    }
-
-# 使用示例
-result = screenshot_ocr(lang='chi_sim+eng')
-print(result['full_text'])
-print(json.dumps(result['details'], ensure_ascii=False, indent=2))</code></pre>
-
-            <div class="tip">
-                <strong>实用技巧：</strong>将 <code>preprocess_image</code> 中的放大倍数调整为 2-3 倍，是提升 Tesseract 小字体识别率最简单有效的方法。
-            </div>
-
-            <h2>六、图像预处理技巧</h2>
-            <p>图像预处理是提升 OCR 识别率的关键步骤。原始截图通常包含噪声、不均匀光照、低分辨率和复杂背景，直接识别效果往往不理想。以下是最常用的几种预处理方法：</p>
-
-            <h3>1. 灰度化</h3>
-            <pre><code>from PIL import Image
-
-image = Image.open('screenshot.png')
-gray = image.convert('L')  # 转为灰度图
-gray.save('gray.png')</code></pre>
-
-            <h3>2. 二值化（黑白化）</h3>
-            <pre><code>from PIL import Image
-
-gray = Image.open('gray.png').convert('L')
-threshold = 128  # 阈值：0-255
-binary = gray.point(lambda x: 255 if x > threshold else 0, '1')
-binary.save('binary.png')</code></pre>
-
-            <h3>3. 自适应二值化（OpenCV）</h3>
-            <pre><code>import cv2
-import numpy as np
-
-image = cv2.imread('screenshot.png')
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-# 自适应阈值（适合光照不均匀的图片）
-binary = cv2.adaptiveThreshold(
-    gray, 255, 
-    cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-    cv2.THRESH_BINARY, 11, 2
-)
-
-cv2.imwrite('adaptive_binary.png', binary)</code></pre>
-
-            <h3>4. 去噪</h3>
-            <pre><code>import cv2
-
-image = cv2.imread('binary.png')
-
-# 中值滤波（去除椒盐噪声）
-denoised = cv2.medianBlur(image, 3)
-
-# 高斯模糊 + 二值化（去除背景纹理）
-blur = cv2.GaussianBlur(image, (5, 5), 0)
-_, denoised = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-cv2.imwrite('denoised.png', denoised)</code></pre>
-
-            <h3>5. 倾斜校正</h3>
-            <pre><code>import cv2
-import numpy as np
-
-def deskew(image):
-    """自动检测并校正图片倾斜"""
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    
-    # 边缘检测
-    edges = cv2.Canny(gray, 50, 150, apertureSize=3)
-    
-    # 霍夫变换检测直线
-    lines = cv2.HoughLines(edges, 1, np.pi / 180, 200)
-    
-    if lines is None:
-        return image
-    
-    # 计算平均倾斜角
-    angles = []
-    for line in lines:
-        rho, theta = line[0]
-        angle = np.degrees(theta) - 90
-        angles.append(angle)
-    
-    median_angle = np.median(angles)
-    
-    # 旋转校正
-    h, w = image.shape[:2]
-    center = (w // 2, h // 2)
-    matrix = cv2.getRotationMatrix2D(center, median_angle, 1.0)
-    corrected = cv2.warpAffine(image, matrix, (w, h), 
-                               borderMode=cv2.BORDER_CONSTANT,
-                               borderValue=(255, 255, 255))
-    
-    return corrected
-
-image = cv2.imread('skewed_screenshot.png')
-corrected = deskew(image)
-cv2.imwrite('corrected.png', corrected)</code></pre>
+# 或直接用 show 切换（Ren'Py 会自动替换同名角色）
+show alice happy  # 自动替换之前的 alice 表情</code></pre>
 
             <div class="warning">
-                <strong>注意：</strong>预处理方法的选择取决于具体的图片质量。不要盲目对所有图片应用全部预处理——灰度化 + 放大通常足够，二值化可能丢失文字细节，建议根据实际效果逐步调整。
+                <strong>重要：</strong>如果你同时显示了同一角色的多个立绘（比如用不同标签），需要使用 <code>hide</code> 明确指定要隐藏的标签。
             </div>
 
-            <h2>七、性能优化与批量处理</h2>
-            <p>如果需要处理大量截图，以下是几个关键的优化策略：</p>
+            <h2>八、最佳实践总结</h2>
+            <ol>
+                <li><strong>统一命名</strong>：使用一致的命名规范（如 <code>角色名_表情.png</code>）</li>
+                <li><strong>分层管理</strong>：使用 Composite 将身体和表情分开，减少图片总量</li>
+                <li><strong>版本控制</strong>：在替换立绘前备份旧文件</li>
+                <li><strong>尺寸一致</strong>：确保同一角色的所有变体尺寸完全一致</li>
+                <li><strong>及时测试</strong>：每次更换立绘后都要在游戏中实际查看效果</li>
+            </ol>
 
-            <h3>批量处理多张截图</h3>
-            <pre><code>import os
-import pytesseract
-from PIL import Image
-
-def batch_ocr(input_dir, output_file, lang='chi_sim+eng'):
-    """批量处理目录下的所有截图"""
-    results = {}
-    
-    for filename in os.listdir(input_dir):
-        if filename.endswith(('.png', '.jpg', '.jpeg')):
-            filepath = os.path.join(input_dir, filename)
-            image = Image.open(filepath)
-            text = pytesseract.image_to_string(image, lang=lang)
-            results[filename] = text.strip()
-    
-    # 输出到文件
-    with open(output_file, 'w', encoding='utf-8') as f:
-        for name, text in results.items():
-            f.write(f"=== {name} ===\n{text}\n\n")
-    
-    return results
-
-# 使用
-batch_ocr('./screenshots/', './ocr_results.txt')</code></pre>
-
-            <h3>使用 PaddleOCR 批量识别（带 GPU 加速）</h3>
-            <pre><code>from paddleocr import PaddleOCR
-import os
-
-ocr = PaddleOCR(use_angle_cls=True, lang='ch', use_gpu=True)
-
-def batch_paddle_ocr(input_dir):
-    """使用 PaddleOCR 批量识别截图"""
-    results = {}
-    for filename in os.listdir(input_dir):
-        if filename.endswith(('.png', '.jpg', '.jpeg')):
-            filepath = os.path.join(input_dir, filename)
-            result = ocr.ocr(filepath, cls=True)
-            
-            # 提取所有文字
-            texts = []
-            for line in result[0]:
-                texts.append(line[1][0])
-            
-            results[filename] = '\n'.join(texts)
-    return results</code></pre>
-
-            <div class="tip">
-                <strong>优化建议：</strong>批量处理时使用 <code>concurrent.futures.ThreadPoolExecutor</code> 多线程并行处理，可以充分利用多核 CPU，速度提升 3-5 倍。
-            </div>
-
-            <h2>八、常见问题排查</h2>
-
-            <h3>1. Tesseract 找不到或报错</h3>
-            <p>最常见的错误是 <code>TesseractNotFoundError</code>，解决方法：</p>
-            <ul>
-                <li>确认已安装 Tesseract OCR</li>
-                <li>检查 <code>pytesseract.tesseract_cmd</code> 路径是否正确</li>
-                <li>将 Tesseract 安装路径添加到系统环境变量 PATH</li>
-                <li>Linux：<code>sudo apt install tesseract-ocr tesseract-ocr-chi-sim</code></li>
-            </ul>
-
-            <h3>2. 中文识别乱码</h3>
-            <pre><code># 确认已安装中文语言包
-import pytesseract
-print(pytesseract.get_languages())  # 应该包含 'chi_sim'
-
-# 正确指定语言参数
-text = pytesseract.image_to_string(image, lang='chi_sim')  # 不是 'ch' 或 'cn'</code></pre>
-
-            <h3>3. PaddleOCR 首次运行一直在下载模型</h3>
-            <p>PaddleOCR 首次使用时会从网络下载检测和识别模型（约 100MB）。如果下载慢，可以手动下载模型并放到 <code>~/.paddleocr/</code> 目录下。</p>
-
-            <h3>4. 识别准确率低</h3>
-            <ul>
-                <li>检查图片分辨率是否过低（建议 300 DPI 以上）</li>
-                <li>尝试图像预处理（灰度化、二值化、去噪）</li>
-                <li>放大图片 2-3 倍</li>
-                <li>切换 OCR 引擎（中文字幕用 PaddleOCR）</li>
-                <li>确保图片中的文字不是艺术字体</li>
-            </ul>
-
-            <h2>九、方案对比总结</h2>
-            <p>以下是从多个维度对比 Tesseract 和 PaddleOCR：</p>
-            <ul>
-                <li><strong>中文准确率</strong>：PaddleOCR（90%+）远优于 Tesseract（60-75%），尤其是在竖排文字和复杂排版场景下。</li>
-                <li><strong>英文准确率</strong>：Tesseract（95%+）与 PaddleOCR 基本持平，前者社区积累更深厚。</li>
-                <li><strong>安装难度</strong>：PaddleOCR 仅需 pip install，Tesseract 需要安装系统级软件。</li>
-                <li><strong>运行速度（CPU）</strong>：Tesseract 更快，PaddleOCR 深度学习推理较慢。</li>
-                <li><strong>运行速度（GPU）</strong>：PaddleOCR 开启 GPU 加速后远超 Tesseract。</li>
-                <li><strong>特殊场景</strong>：PaddleOCR 支持表格识别、印章识别，Tesseract 不支持这些高级功能。</li>
-            </ul>
-
-            <p><strong>选择建议：</strong></p>
-            <ul>
-                <li><strong>处理英文文档、印刷体</strong> → 用 Tesseract，轻量快速。</li>
-                <li><strong>处理中文截图、UI 界面</strong> → 用 PaddleOCR，精度碾压。</li>
-                <li><strong>需要表格/票据/发票识别</strong> → 用 PaddleOCR 的 PP-Structure。</li>
-                <li><strong>嵌入式或低资源环境</strong> → Tesseract 更友好，内存占用低。</li>
-            </ul>
-
-            <p>掌握了以上两种方案和预处理技巧，你就可以轻松应对绝大多数的截图文字识别需求了。无论是做自动化工具、数据分析还是辅助阅读，Python OCR 都是一个值得掌握的技能。</p>
+            <p>掌握了以上 3 种方法和常见问题的解决方案，你就可以在 Ren'Py 中自由地管理和更换人物立绘了。无论是简单的文件替换，还是复杂的动态立绘系统，都能得心应手。</p>
 
             </div>
             
@@ -1357,7 +1174,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('文章模板已加载完成');
     
     // 获取当前文章ID（直接在此处填写当前文章ID，如 16 或 -1）
-    const currentArticleId = 22; // ← 替换成真实ID，如 16 或 -1（灰度测试）
+    const currentArticleId = 20; // ← 替换成真实ID，如 16 或 -1（灰度测试）
     function getCurrentArticleId() {
         return currentArticleId;
     }

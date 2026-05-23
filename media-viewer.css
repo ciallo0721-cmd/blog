@@ -251,7 +251,7 @@
 .time-display {
     color: white;
     font-size: 0.85rem;
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-family: 'MaokenAssortedSans', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     min-width: 100px;
     text-align: center;
     flex-shrink: 0;

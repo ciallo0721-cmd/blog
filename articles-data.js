@@ -192,32 +192,32 @@ window.articlesData = {
             featured: true
         },
         {
-            id: 20,
+            id: 19,
             title: "Ren'Py 人物立绘怎么换？完整替换指南",
             excerpt: "详细教程：3种方法更换 Ren'Py 视觉小说的人物立绘，包括文件替换、代码修改和动态立绘切换，附常见问题排查。",
             date: "2026-05-22",
             tags: ["Ren'Py", "视觉小说", "立绘", "游戏开发", "教程"],
-            fileName: "20.html@_blog-id=20/",
+            fileName: "19.html@_blog-id=19/",
             readTime: 10,
             featured: true
         },
         {
-            id: 21,
+            id: 20,
             title: "Ren'Py 存档系统完全教程：自定义存档位置与多存档槽",
             excerpt: "深入讲解 Ren'Py 存档系统，涵盖默认存档位置、自定义存档路径、多存档槽管理、存档缩略图、加密防篡改和自动存档配置，附完整代码示例。",
             date: "2026-05-22",
             tags: ["Ren'Py", "存档系统", "游戏开发", "教程", "save"],
-            fileName: "21.html@_blog-id=21/",
+            fileName: "20.html@_blog-id=20/",
             readTime: 12,
             featured: true
         },
         {
-            id: 22,
+            id: 21,
             title: "Python 截图识别文字完全教程：从 Tesseract 到深度学习",
             excerpt: "完整教程：使用 Python 实现截图文字识别，涵盖 Tesseract、PaddleOCR、截图工具选型、图像预处理技巧和性能优化，附实战代码。",
             date: "2026-05-22",
             tags: ["Python", "OCR", "Tesseract", "PaddleOCR", "图像识别", "教程"],
-            fileName: "22.html@_blog-id=22/",
+            fileName: "21.html@_blog-id=21/",
             readTime: 15,
             featured: true
         }

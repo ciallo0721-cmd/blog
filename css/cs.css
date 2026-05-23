@@ -5,6 +5,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('./MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* 全局样式 */
 :root {
     --bili-pink: #FB7299;
@@ -28,7 +35,7 @@ html {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
     line-height: 1.6;
     color: var(--text-primary);
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -1314,7 +1321,7 @@ footer p {
     height: 200px;
     padding: 15px;
     overflow-y: auto;
-    font-family: 'Consolas', 'Monaco', monospace;
+    font-family: 'MaokenAssortedSans', 'Consolas', 'Monaco', monospace;
     font-size: 14px;
     white-space: pre-wrap;
     line-height: 1.5;
