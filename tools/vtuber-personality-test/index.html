@@ -205,6 +205,18 @@
             background: linear-gradient(135deg, #f0f5ff, #e8f0fe);
             box-shadow: 0 0 0 3px rgba(37,117,252,0.15);
         }
+        .question-text.multi::before {
+            content: '* ';
+            color: #ff4757;
+            font-weight: 900;
+        }
+        .multi-hint {
+            text-align: center;
+            font-size: 12px;
+            color: #ff4757;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
         .option-letter {
             width: 32px;
             height: 32px;
@@ -247,6 +259,110 @@
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
+        }
+
+        .mode-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .mode-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 18px;
+            border: 2px solid #e8edf2;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: #fafbfc;
+        }
+        .mode-card:hover {
+            border-color: var(--bili-blue);
+            background: #f0f5ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(37,117,252,0.12);
+        }
+        .mode-card:active { transform: scale(0.98); }
+        .mode-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            color: #fff;
+        }
+        .mode-icon.simple { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        .mode-icon.normal { background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); }
+        .mode-icon.complex { background: linear-gradient(135deg, #f7971e, #ffd200); }
+        .mode-info { flex: 1; text-align: left; }
+        .mode-title { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+        .mode-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+        .mode-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        /* NSFW Toggle */
+        .nsfw-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border: 2px dashed #e0e0e0;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            user-select: none;
+        }
+        .nsfw-toggle:hover { border-color: #ff6b6b; background: #fff5f5; }
+        .nsfw-toggle.active { border-color: #ff4757; background: #fff0f0; border-style: solid; }
+        .nsfw-switch {
+            width: 44px;
+            height: 24px;
+            border-radius: 12px;
+            background: #d0d0d0;
+            position: relative;
+            flex-shrink: 0;
+            transition: background 0.25s ease;
+        }
+        .nsfw-toggle.active .nsfw-switch { background: #ff4757; }
+        .nsfw-knob {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: left 0.25s ease;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+        .nsfw-toggle.active .nsfw-knob { left: 22px; }
+        .nsfw-label { text-align: left; }
+        .nsfw-title {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .nsfw-toggle.active .nsfw-title { color: #ff4757; }
+        .nsfw-desc {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 1px;
         }
 
         .btn-center { display: flex; justify-content: center; margin-top: 20px; }
@@ -458,14 +574,45 @@
             <div class="icon-row">
                 <span>🐱‍💻</span><span>🎤</span><span>🎮</span><span>✨</span>
             </div>
-            <p>每个主播都有独特的人格魅力<br>你的<strong>VTuber灵魂</strong>是什么样的？<br>12道趣味题目，生成专属人设卡片！</p>
+            <p>每个主播都有独特的人格魅力<br>你的<strong>VTuber灵魂</strong>是什么样的？<br>选择难度开始测试吧！</p>
             <div class="counter-badge" id="counter-badge">
                 <i class="fa-solid fa-users"></i> 已有 <strong id="counter-num">256</strong> 人完成测试
             </div>
-            <div class="btn-center">
-                <button class="btn btn-primary" onclick="startTest()">
-                    <i class="fa-solid fa-play"></i> 开始测试
-                </button>
+            <!-- NSFW Toggle -->
+            <div class="nsfw-toggle" onclick="toggleNSFW()">
+                <div class="nsfw-switch">
+                    <div class="nsfw-knob" id="nsfw-knob"></div>
+                </div>
+                <div class="nsfw-label">
+                    <span class="nsfw-title">NSFW 模式</span>
+                    <span class="nsfw-desc">开启后可能会问政治 / 热水器方面的内容</span>
+                </div>
+            </div>
+            <div class="mode-grid">
+                <div class="mode-card" onclick="startTest('simple')">
+                    <div class="mode-icon simple"><i class="fa-solid fa-feather"></i></div>
+                    <div class="mode-info">
+                        <div class="mode-title">简单</div>
+                        <div class="mode-desc">题少，但是可能不准</div>
+                    </div>
+                    <span class="mode-badge">6题</span>
+                </div>
+                <div class="mode-card" onclick="startTest('normal')">
+                    <div class="mode-icon normal"><i class="fa-solid fa-star"></i></div>
+                    <div class="mode-info">
+                        <div class="mode-title">正常（推荐）</div>
+                        <div class="mode-desc">多角度分析</div>
+                    </div>
+                    <span class="mode-badge">推荐</span>
+                </div>
+                <div class="mode-card" onclick="startTest('complex')">
+                    <div class="mode-icon complex"><i class="fa-solid fa-fire"></i></div>
+                    <div class="mode-info">
+                        <div class="mode-title">复杂</div>
+                        <div class="mode-desc">题多（90道）但是准确</div>
+                    </div>
+                    <span class="mode-badge">90题</span>
+                </div>
             </div>
         </div>
     </div>
@@ -474,7 +621,7 @@
     <div class="screen" id="screen-question">
         <div class="card">
             <div class="progress-label">
-                题目 <span id="q-current">1</span> / 12
+                题目 <span id="q-current">1</span> / <span id="q-total">12</span>
             </div>
             <div class="progress-wrap">
                 <div class="progress-fill" id="progress-fill"></div>
@@ -557,8 +704,17 @@
 
 <script>
 (function() {
-    // ── Consumer questions ──
-    const questions = [
+    // ── NSFW state ──
+    let nsfwEnabled = false;
+    window.toggleNSFW = function() {
+        nsfwEnabled = !nsfwEnabled;
+        const el = document.querySelector('.nsfw-toggle');
+        el.classList.toggle('active', nsfwEnabled);
+    };
+
+    // ── Question pools ──
+    // base questions (normal mode uses all 12, simple picks first 6)
+    const baseQuestions = [
         { q: '直播时你最可能做什么？', opts: ['突然唱歌', '疯狂杂谈', '安静打游戏', '整活搞笑'] },
         { q: '你的直播间招牌动作？', opts: ['歪头杀', '拍桌子', '推眼镜', '翻白眼'] },
         { q: '粉丝叫你起床你会？', opts: ['撒娇再睡5分钟', '暴怒锤桌', '安静起床', '假装没听见继续睡'] },
@@ -572,6 +728,145 @@
         { q: '你的口头禅类型？', opts: ['喵/的说~', '废物', '嗯...', '6/哈哈哈'] },
         { q: '下播后你会？', opts: ['继续看粉丝留言', '复盘直播数据', '安静休息', '群里整活'] }
     ];
+
+    // extra questions for complex mode (78 more = 90 total)
+    const extraQuestions = [
+        { q: '粉丝送你奇怪的表情包你会？', opts: ['收藏下来反送', '说"什么鬼"', '微笑收藏', '转发到粉丝群'] },
+        { q: '你理想中的直播时长？', opts: ['1小时就好', '3小时标准', '随缘开播', '播到天亮'] },
+        { q: '联动时你通常的角色？', opts: ['社恐躲在后面', '主导话题', '安静配合', '疯狂搞气氛'] },
+        { q: '收到差评你会？', opts: ['哭给粉丝看', '不在乎', '认真反思', '公开回应'] },
+        { q: '你的直播间标题风格？', opts: ['今天也好可爱', '挑战xxx', '安静陪伴', '来了就别想走'] },
+        { q: '遇到弹幕节奏你会？', opts: ['装没看见', '直接回怼', '叫房管处理', '加入一起玩'] },
+        { q: '你想和什么品牌合作？', opts: ['可爱零食', '电竞外设', '文具手账', '奇葩周边'] },
+        { q: '直播中突然断网你会？', opts: ['发推特哭', '淡定重连', '提前录好的待机画面', '假装是整活'] },
+        { q: '你的粉丝群氛围？', opts: ['相亲相爱', '军训式管理', '佛系潜水', '天天整活'] },
+        { q: '如果可以选一个超能力直播用？', opts: ['变声卡不需要了', '隐身整活', '心灵感应读弹幕', '分身术多线操作'] },
+        { q: '你的表情包产出频率？', opts: ['每天都有新表情', '偶尔出一张', '不太出', '自己就是表情包'] },
+        { q: '粉丝做了你的二创你会？', opts: ['感动到哭转发', '点赞说不错', '默默收藏', '拿来做直播素材'] },
+        { q: '你的直播标题被限流你会？', opts: ['委屈巴巴改标题', '硬气不改', '无所谓', '故意用更离谱的标题'] },
+        { q: '你最喜欢的直播工具？', opts: ['美颜相机', '弹幕姬', 'OBS调戏', '各种奇怪的小程序'] },
+        { q: '你的歌声水平自评？', opts: ['超好听！', '还行吧', '安静听就好', '跑调也是一种风格'] },
+        { q: '粉丝过生日你会？', opts: ['唱生日歌', '发专属祝福', '安静祝福', '搞一个生日企划'] },
+        { q: '遇到网络喷子你会？', opts: ['哭', '骂回去', '无视', '当成素材'] },
+        { q: '你最想尝试的直播内容？', opts: ['ASMR', '游戏速通', '读书/画画', '荒野求生直播'] },
+        { q: '你的直播作息是？', opts: ['严格规律', '随心所欲', '佛系看心情', '昼夜颠倒'] },
+        { q: '粉丝叫你"老婆/老公"你会？', opts: ['害羞接受', '冷脸拒绝', '微笑不回应', '反向调戏'] },
+        { q: '你最在意直播的什么数据？', opts: ['人气峰值', '平均观看时长', '粉丝增长', '弹幕数量'] },
+        { q: '如果中了100万你会？', opts: ['给粉丝抽奖', '升级设备', '存起来', '全部用来整活'] },
+        { q: '你的键盘/鼠标是什么颜色？', opts: ['粉色系', 'RGB炫彩', '白色极简', '乱七八糟贴满贴纸'] },
+        { q: '直播时喝水你会？', opts: ['小口小口优雅喝', '吨吨吨', '端着杯子不喝', '对着镜头干杯'] },
+        { q: '你的3D模型最想要什么特效？', opts: ['闪闪发光', '帅气的火焰', '柔和花瓣', '夸张的烟雾爆炸'] },
+        { q: '遇到其他主播抄袭你会？', opts: ['委屈哭诉', '公开点名', '无所谓', '做更厉害的原创回击'] },
+        { q: '你理想的直播间背景？', opts: ['粉色房间', '赛博朋克风', '自然森林', '宅男房间'] },
+        { q: '直播时忘词了你会？', opts: ['卖萌糊弄', '直接说忘了', '沉默几秒', '装成故意的'] },
+        { q: '你对舰长/会员的态度？', opts: ['超宠溺', '平等对待', '感激但保持距离', '反过来整他们'] },
+        { q: '你的声音频道频率？', opts: ['高音甜妹', '低音御姐/帅哥', '温柔中性', '变声怪'] },
+        { q: '遇到粉丝吵架你会？', opts: ['劝架求和', '审判谁是错的', '装没看见', '拱火看戏'] },
+        { q: '你最想穿越到哪个世界直播？', opts: ['魔法少女世界', '机甲战斗世界', '田园慢生活', '混乱的搞笑世界'] },
+        { q: '你的打call方式？', opts: ['超大声喊名字', '安静鼓掌', '发弹幕支持', '刷礼物'] },
+        { q: '直播时你的坐姿？', opts: ['端正乖巧', '各种奇葩姿势', '优雅靠椅', '葛优瘫'] },
+        { q: '如果只能保留一个直播元素？', opts: ['唱歌', '游戏', '聊天', '整活'] },
+        { q: '你的直播间封面风格？', opts: ['可爱自拍', '帅气立绘', '简约文字', '离谱表情包'] },
+        { q: '你如何看待直播带货？', opts: ['想试试！', '不太适合我', '看情况', '拿来当节目效果'] },
+        { q: '你的英语水平？', opts: ['流利！', '还行吧', '只会hello', '用翻译器凑合'] },
+        { q: '粉丝问你三次元信息你会？', opts: ['模糊回答', '直接说不行', '编一个假的', '说出更离谱的信息'] },
+        { q: '你最讨厌什么直播事故？', opts: ['麦克风爆音', 'OBS崩溃', '说错话', '忘记关摄像头'] },
+        { q: '你的直播结束语风格？', opts: ['明天见的说~', '撤了', '晚安~', '散了散了'] },
+        { q: '如果直播能吃一样东西？', opts: ['蛋糕甜点', '能量饮料', '茶/咖啡', '奇怪的东西整活'] },
+        { q: '你的B站动态风格？', opts: ['自拍+碎碎念', '官宣信息', '安静发直播预告', '抽象整活'] },
+        { q: '你如何看待复读机弹幕？', opts: ['觉得可爱', '有点烦', '没感觉', '加入复读'] },
+        { q: '你最想拥有的虚拟宠物？', opts: ['猫咪', '机械宠物', '小精灵', '抽象生物'] },
+        { q: '直播时你的眼神？', opts: ['盯着镜头卖萌', '看游戏画面', '看弹幕区', '到处飘'] },
+        { q: '你的直播庆祝方式？', opts: ['放礼花特效', '唱歌庆祝', '安静鞠躬', '疯狂整活'] },
+        { q: '遇到鬼畜区做你的视频你会？', opts: ['害羞捂脸', '生气', '无所谓', '转发说太有才了'] },
+        { q: '你的歌单里最多的是？', opts: ['二次元歌曲', '流行音乐', '纯音乐', '土味/抽象歌曲'] },
+        { q: '你想开什么主题的专栏？', opts: ['美妆/穿搭', '游戏攻略', '读书/学习笔记', '沙雕日记'] },
+        { q: '直播时你的弹幕回复率？', opts: ['尽量每条都回', '挑有趣的回', '少回多看', '用弹幕当素材'] },
+        { q: '你的粉丝等级称呼？', opts: ['小可爱们', '各位', '家人们', '兄弟们'] },
+        { q: '遇到同类型主播你会？', opts: ['认识交朋友', '暗中比较', '不在意', '搞联动'] },
+        { q: '你的键盘手感偏好？', opts: ['轻触轴', '青轴咔咔', '静音轴', '什么轴都行'] },
+        { q: '你最想参加的直播活动？', opts: ['B站跨年晚会', '电竞比赛', '线下粉丝会', '奇葩整活大赛'] },
+        { q: '直播时你用什么外设？', opts: ['可爱鼠标垫', '机械键盘', '数位板', '各种奇怪的东西'] },
+        { q: '你对"毕业"这个话题的态度？', opts: ['不要说这个！', '顺其自然', '不考虑', '提前准备好毕业回'] },
+        { q: '你的直播间名言是？', opts: ['关注一下的说~', '加油', '谢谢大家', '114514'] },
+        { q: '如果直播只能穿一套衣服？', opts: ['粉色裙装', '帅气西装', '休闲家居服', '奇葩cos服'] },
+        { q: '你最想和哪个领域联动？', opts: ['VTuber同行', '游戏主播', '音乐人', '随便谁来都行整活'] },
+        { q: '你对AI代播的看法？', opts: ['好奇想试试', '不太喜欢', '无所谓', '拿来当节目效果'] },
+        { q: '你的直播桌面是什么样的？', opts: ['整洁美观', '专业电竞', '简约清爽', '一片混乱'] },
+        { q: '你最怕什么类型的粉丝？', opts: ['过度热情的', '杠精', '不说话的', '到处KY的'] },
+        { q: '你的梦寐以求的直播设备？', opts: ['顶配电脑', '专业麦克风', '3D动捕设备', '一整面LED墙'] },
+        { q: '直播时你的语速？', opts: ['语速飞快', '正常偏慢', '很慢很温柔', '忽快忽慢'] },
+        { q: '你最想解锁的直播成就？', opts: ['百万人气', '连续直播365天', '粉丝数10万', '上首页推荐'] },
+        { q: '你如何看待VTuber圈竞争？', opts: ['和气生财', '要争第一', '做好自己', '竞争？什么竞争？'] },
+        { q: '你的新衣装发布风格？', opts: ['可爱花哨', '帅气炫酷', '简约优雅', '离谱抽象'] },
+        { q: '遇到弹幕带节奏你怎么处理？', opts: ['撒娇求放过', '严肃警告', '不理他', '反向带节奏'] },
+        { q: '你对直播收入的看法？', opts: ['开心就好', '很重要', '够用就行', '拿来投资整活'] },
+        { q: '你最想做什么类型的企划？', opts: ['原创歌曲', '游戏马拉松', '读书会', '24小时直播挑战'] }
+    ];
+
+    // ── Integrity check questions (hidden duplicates with shuffled options) ──
+    // Q1 and Q2 ask the same thing but with different option order.
+    // If answers don't match → user is randomly clicking → result gets penalized.
+    const integrityPair = [
+        {
+            q: '（一致性检查）你的理想直播风格是？',
+            opts: ['可爱治愈系', '帅气专业系', '安静陪伴系', '热闹互动系'],
+            integrityKey: 'style_check'
+        },
+        {
+            q: '（一致性检查）如果让你重新选择直播风格你会选？',
+            opts: ['热闹互动系', '安静陪伴系', '帅气专业系', '可爱治愈系'],
+            integrityKey: 'style_check'
+        }
+    ];
+
+    // NSFW-only questions (political / sensitive)
+    const nsfwQuestions = [
+        { q: '*在直播中如果遇到政治问题（我不说了）你会怎么做？', opts: ['装没看见直接跳过', '用最离谱的方式绕开', '淡定地说"下一个问题"', '对着镜头说"你知道的太多了"'], multi: true },
+        { q: '*遇到弹幕疯狂讨论敏感话题你会？', opts: ['赶紧换个话题', '叫房管全员禁言', '装傻说"什么什么？听不到~"', '加入讨论然后被超管警告'], multi: true },
+        { q: '*你的直播间被夹了你最可能的反应？', opts: ['发动态哭诉', '淡定说"意料之中"', '疯狂重开', '以为是整活'], multi: false },
+        { q: '*粉丝问你立场问题你会？', opts: ['我是主播不是政治家', '用一个梗糊弄过去', '认真说不知道', '沉默是金'], multi: true },
+        { q: '*遇到"热水器"相关弹幕你会？', opts: ['不懂装懂', '说"我的热水器是电热的"', '假装网络卡了', '反问"你家热水器几升的？"'], multi: false },
+        { q: '*如果你的直播间标题被限流了你觉得最可能是因为？', opts: ['用了敏感词', '被举报了', '平台抽风', '说了不该说的话'], multi: true },
+        { q: '*你最不可能在直播间说的话？', opts: ['任何带立场的话', '吐槽平台', '爆粗口', '剧透未播出的番'], multi: true },
+        { q: '*遇到有人在直播间发敏感链接你会？', opts: ['立刻删弹幕', '装没看见', '说"不要乱发东西"', '好奇点进去'], multi: false },
+        { q: '*你觉得VTuber最应该避免什么话题？', opts: ['政治', '宗教', '社会争议', '什么都不用避免'], multi: true },
+        { q: '*如果被问到"你是哪个国家的"你会？', opts: ['我是虚拟的！', '微笑不答', '认真回答', '给出一个离谱的答案'], multi: false },
+        { q: '*直播时看到热搜是敏感新闻你会？', opts: ['完全无视继续播', '小声说一句"那个..."然后跳过', '和弹幕一起讨论然后紧急切话题', '假装没看见但偷偷刷'], multi: true },
+        { q: '*你对"谨言慎行"这四个字的看法？', opts: ['主播必备修养', '太累了随缘吧', '看情况', '我就是来整活的管那么多干嘛'], multi: false }
+    ];
+
+    // Build question list for each mode
+    // integrityPair is inserted at ~1/3 and ~2/3 of the test
+    // displayTotal excludes integrity checks from the visible count
+    function buildQuestions(mode) {
+        let pool = [];
+        if (mode === 'simple') {
+            pool = baseQuestions.slice(0, 6);
+        } else if (mode === 'normal') {
+            pool = baseQuestions.slice();
+        } else {
+            pool = baseQuestions.concat(extraQuestions);
+        }
+
+        // If NSFW enabled, append NSFW questions
+        if (nsfwEnabled) {
+            pool = pool.concat(nsfwQuestions);
+        }
+
+        // displayTotal = number of real questions (before integrity insertion)
+        displayTotal = pool.length;
+
+        // Insert integrity check pair at roughly 1/3 and 2/3
+        const pos1 = Math.floor(pool.length * 0.33);
+        const pos2 = Math.floor(pool.length * 0.66) + 1; // +1 because we already inserted one
+        pool.splice(pos2, 0, integrityPair[1]);
+        pool.splice(pos1, 0, integrityPair[0]);
+        // Mark integrity questions
+        pool.forEach(q => { q._isIntegrity = !!q.integrityKey; });
+
+        return pool;
+    }
 
     // ── Result profiles (multiple variants per type for replayability) ──
     const profiles = {
@@ -670,11 +965,20 @@
                     desc: '狂笑混乱系',
                     catchphrase: '哈哈哈哈哈哈6！这波我直接起飞！',
                     artstyle: '夸张抽象画风，扭曲表情，霓虹色彩，随性涂鸦线条'
-                },
+                }
+            ]
+        },
+        // Special result for random clicking (failed integrity check)
+        troll: {
+            type: '整蛊小丑',
+            icon: '🤡',
+            color: '#FF1744',
+            colorName: '小丑红 #FF1744',
+            variants: [
                 {
                     name: '整蛊小丑',
-                    desc: '混沌善良系',
-                    catchphrase: '呜呜呜我的6在哪里！哈哈哈找到啦！',
+                    desc: '乱选的产物',
+                    catchphrase: '你就不能认真选吗？！',
                     artstyle: '夸张马戏团风，红鼻子，花里胡哨服装，彩色气球环绕'
                 }
             ]
@@ -682,9 +986,13 @@
     };
 
     // ── State ──
+    let currentMode = 'normal';
+    let questions = [];
     let currentQuestion = 0;
-    let answers = [];        // 'A' | 'B' | 'C' | 'D'
-    let currentSelection = null;
+    let answers = [];        // 'A' | 'B' | 'C' | 'D' (single) or array of letters (multi)
+    let currentSelections = []; // for multi-select
+    let isMultiSelect = false;
+    let displayTotal = 12;  // visible question count (excludes integrity checks)
     let currentResult = null; // { typeKey, variant, ... }
 
     // ── Screens ──
@@ -721,10 +1029,14 @@
     document.getElementById('counter-num').textContent = getCounter();
 
     // ── Start test ──
-    window.startTest = function() {
+    window.startTest = function(mode) {
+        currentMode = mode || 'normal';
         currentQuestion = 0;
         answers = [];
-        currentSelection = null;
+        currentSelections = [];
+        currentResult = null;
+        questions = buildQuestions(currentMode);
+        document.getElementById('q-total').textContent = displayTotal;
         showScreen('question');
         renderQuestion();
     };
@@ -732,16 +1044,37 @@
     // ── Render question ──
     function renderQuestion() {
         const q = questions[currentQuestion];
-        document.getElementById('q-current').textContent = currentQuestion + 1;
-        document.getElementById('q-number').textContent = 'QUESTION ' + (currentQuestion + 1);
-        document.getElementById('q-text').textContent = q.q;
+        isMultiSelect = !!q.multi;
+
+        // Calculate display number (skip integrity questions in the count)
+        let displayNum = 0;
+        for (let i = 0; i <= currentQuestion; i++) {
+            if (!questions[i]._isIntegrity) displayNum++;
+        }
+        document.getElementById('q-current').textContent = displayNum;
+        document.getElementById('q-number').textContent = 'QUESTION ' + displayNum;
         document.getElementById('progress-fill').style.width =
-            ((currentQuestion) / questions.length * 100) + '%';
+            ((displayNum - 1) / displayTotal * 100) + '%';
+
+        const qText = document.getElementById('q-text');
+        qText.textContent = q.q;
+        qText.classList.toggle('multi', isMultiSelect);
+
+        // Show/hide multi hint
+        let hint = document.getElementById('multi-hint');
+        if (!hint) {
+            hint = document.createElement('div');
+            hint.id = 'multi-hint';
+            hint.className = 'multi-hint';
+            document.getElementById('q-text').parentNode.insertBefore(hint, document.getElementById('options-grid'));
+        }
+        hint.style.display = isMultiSelect ? 'block' : 'none';
+        hint.textContent = '此题为多选题，请选择所有符合条件的选项';
 
         const letters = ['A', 'B', 'C', 'D'];
         const grid = document.getElementById('options-grid');
         grid.innerHTML = '';
-        currentSelection = null;
+        currentSelections = [];
         document.getElementById('next-btn-wrap').style.display = 'none';
 
         q.opts.forEach((opt, i) => {
@@ -757,10 +1090,27 @@
     }
 
     function selectOption(index, letter, cardEl) {
-        document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-        cardEl.classList.add('selected');
-        currentSelection = { index, letter };
-        document.getElementById('next-btn-wrap').style.display = 'flex';
+        if (isMultiSelect) {
+            // Toggle selection for multi-select
+            const idx = currentSelections.findIndex(s => s.letter === letter);
+            if (idx >= 0) {
+                currentSelections.splice(idx, 1);
+                cardEl.classList.remove('selected');
+            } else {
+                currentSelections.push({ index, letter });
+                cardEl.classList.add('selected');
+            }
+            // Show next button only if at least 1 selected
+            document.getElementById('next-btn-wrap').style.display =
+                currentSelections.length > 0 ? 'flex' : 'none';
+        } else {
+            // Single select
+            document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+            cardEl.classList.add('selected');
+            currentSelections = [{ index, letter }];
+            document.getElementById('next-btn-wrap').style.display = 'flex';
+        }
+        // Update button text
         const btn = document.getElementById('btn-next');
         if (currentQuestion === questions.length - 1) {
             btn.innerHTML = '查看结果 <i class="fa-solid fa-sparkles"></i>';
@@ -770,8 +1120,13 @@
     }
 
     window.nextQuestion = function() {
-        if (!currentSelection) return;
-        answers.push(currentSelection.letter);
+        if (currentSelections.length === 0) return;
+        // Store answers: for multi-select, store all selected letters; for single, store the letter
+        if (isMultiSelect) {
+            answers.push(currentSelections.map(s => s.letter));
+        } else {
+            answers.push(currentSelections[0].letter);
+        }
 
         if (currentQuestion < questions.length - 1) {
             currentQuestion++;
@@ -789,7 +1144,80 @@
     // ── Calculate & show result ──
     function showResult() {
         const counts = { A: 0, B: 0, C: 0, D: 0 };
-        answers.forEach(a => counts[a]++);
+        const totalQ = questions.length;
+
+        // ── Integrity check ──
+        // Find the two integrity questions and compare answers
+        // The options map to the same meanings but with different letter positions:
+        // Q1: A=可爱 B=帅气 C=安静 D=热闹
+        // Q2: D=可爱 C=安静 B=帅气 A=热闹 → remap: Q2.A→D, Q2.B→C, Q2.C→B, Q2.D→A
+        let integrityFailed = false;
+        const integrityAnswers = [];
+        questions.forEach((q, i) => {
+            if (q._isIntegrity) {
+                integrityAnswers.push({ index: i, answer: answers[i], qIndex: integrityAnswers.length });
+            }
+        });
+        if (integrityAnswers.length === 2) {
+            const a1 = integrityAnswers[0].answer; // first integrity question answer
+            const a2 = integrityAnswers[1].answer; // second integrity question answer
+            // Both should be strings (not arrays since they are single-select)
+            const ans1 = Array.isArray(a1) ? a1[0] : a1;
+            const ans2 = Array.isArray(a2) ? a2[0] : a2;
+            // Remap Q2 answer to Q1's letter space
+            const remap = { 'A': 'D', 'B': 'C', 'C': 'B', 'D': 'A' };
+            const ans2remapped = remap[ans2] || ans2;
+            if (ans1 !== ans2remapped) {
+                integrityFailed = true;
+            }
+        }
+
+        // If integrity check failed → force "整蛊小丑" result
+        if (integrityFailed) {
+            const profile = profiles.troll;
+            const variant = profile.variants[0];
+            currentResult = {
+                typeKey: 'troll',
+                type: profile.type,
+                icon: profile.icon,
+                color: profile.color,
+                colorName: profile.colorName,
+                name: variant.name,
+                desc: variant.desc,
+                catchphrase: variant.catchphrase,
+                artstyle: variant.artstyle
+            };
+            // Show result with troll styling
+            document.getElementById('result-icon').textContent = profile.icon;
+            document.getElementById('result-name').textContent = variant.name;
+            document.getElementById('result-name').style.color = profile.color;
+            const tag = document.getElementById('result-tag');
+            tag.textContent = profile.type + ' · ' + variant.desc;
+            tag.style.background = profile.color;
+            document.getElementById('result-catchphrase').textContent = variant.catchphrase;
+            document.getElementById('result-artstyle').textContent = variant.artstyle;
+            document.getElementById('result-color').textContent = profile.colorName;
+            document.getElementById('result-color').style.color = profile.color;
+
+            // Hide score breakdown for troll result, show warning instead
+            const sb = document.getElementById('score-breakdown');
+            sb.innerHTML = '<div style="text-align:center;color:#FF1744;font-weight:700;font-size:15px;width:100%;padding:8px;">检测到乱选行为！结果不可信</div>';
+
+            showScreen('result');
+            setTimeout(generateCanvasCard, 100);
+            document.getElementById('screen-result').scrollIntoView({ behavior: 'smooth' });
+            return;
+        }
+
+        // Normal scoring
+        answers.forEach(a => {
+            if (Array.isArray(a)) {
+                // Multi-select: each selected letter gets a point (but weighted less to not over-influence)
+                a.forEach(letter => { counts[letter] += 0.5; });
+            } else {
+                counts[a]++;
+            }
+        });
 
         // Determine dominant type
         const typeMap = { A: 'cute', B: 'cool', C: 'heal', D: 'chaos' };
@@ -835,12 +1263,13 @@
         const colors = { A: profiles.cute.color, B: profiles.cool.color, C: profiles.heal.color, D: profiles.chaos.color };
         sb.innerHTML = '';
         ['A','B','C','D'].forEach(letter => {
-            const pct = Math.round(counts[letter] / 12 * 100);
+            const pct = Math.round(counts[letter] / totalQ * 100);
+            const displayCount = Number.isInteger(counts[letter]) ? counts[letter] : counts[letter].toFixed(1);
             const div = document.createElement('div');
             div.className = 'score-item';
             div.innerHTML = `
                 <div style="color:${colors[letter]};font-weight:700;">${labels[letter]}</div>
-                <div style="font-size:18px;font-weight:700;">${counts[letter]}</div>
+                <div style="font-size:18px;font-weight:700;">${displayCount}</div>
                 <div class="score-bar"><div class="score-bar-fill" style="width:${pct}%;background:${colors[letter]};"></div></div>
             `;
             sb.appendChild(div);
@@ -1079,9 +1508,11 @@
     };
 
     window.retryTest = function() {
+        currentMode = 'normal';
         currentQuestion = 0;
+        questions = [];
         answers = [];
-        currentSelection = null;
+        currentSelections = [];
         currentResult = null;
         document.getElementById('canvas-container').innerHTML = '';
         showScreen('welcome');
