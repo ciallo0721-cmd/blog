@@ -137,6 +137,13 @@
 
   <!-- 成就面板 -->
   <div id="achievement-panel">
+    <div class="achievement" id="ach-1">
+      <span class="icon">🐣</span>
+      <div>
+        <div class="text">0+1</div>
+        <div class="desc">达成 1 下</div>
+      </div>
+    </div>
     <div class="achievement" id="ach-10">
       <span class="icon">🌱</span>
       <div>
@@ -156,6 +163,13 @@
       <div>
         <div class="text">初出茅庐</div>
         <div class="desc">达成 50 下</div>
+      </div>
+    </div>
+    <div class="achievement" id="ach-67">
+      <span class="icon">💫</span>
+      <div>
+        <div class="text">67676767!!!!</div>
+        <div class="desc">six seven!!!</div>
       </div>
     </div>
     <div class="achievement" id="ach-100">
@@ -179,6 +193,13 @@
         <div class="desc">达成 1000 下</div>
       </div>
     </div>
+    <div class="achievement" id="ach-10000">
+      <span class="icon">🌀</span>
+      <div>
+        <div class="text">牛逼</div>
+        <div class="desc">达成 10000 下</div>
+      </div>
+    </div>
   </div>
 
   <!-- 成就通知 -->
@@ -195,12 +216,15 @@
   let score = 0;
   const scoreCount = document.getElementById('score-count');
   const achievements = {
+    1: { el: document.getElementById('ach-1'), name: '0+1', desc: '0+1！' },
     10: { el: document.getElementById('ach-10'), name: '初学者', desc: '恭喜达成 10 下！' },
     20: { el: document.getElementById('ach-20'), name: '渐入佳境', desc: '恭喜达成 20 下！' },
     50: { el: document.getElementById('ach-50'), name: '初出茅庐', desc: '恭喜达成 50 下！' },
+    67: { el: document.getElementById('ach-67'), name: '67676767!!!!', desc: 'six seven!!!' },
     100: { el: document.getElementById('ach-100'), name: '小有名气', desc: '恭喜达成 100 下！' },
     200: { el: document.getElementById('ach-200'), name: '声名鹊起', desc: '恭喜达成 200 下！' },
-    1000: { el: document.getElementById('ach-1000'), name: '传奇之王', desc: '恭喜达成 1000 下！你是真的牛皮！' }
+    1000: { el: document.getElementById('ach-1000'), name: '传奇之王', desc: '恭喜达成 1000 下！0+1牛逼！' },
+    10000: { el: document.getElementById('ach-10000'), name: '牛逼', desc: '牛逼！' }
   };
 
   // 成就通知
