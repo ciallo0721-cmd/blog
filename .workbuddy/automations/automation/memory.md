@@ -29,3 +29,22 @@
 - 游戏页面：6个（bjqy/fors/LAIDB/zmdspp/91/dkdfj），均与 sitemap 一致
 
 **结论：** sitemap.xml 已是最新，无需更新或提交
+
+## 2026-05-23 12:19
+
+**执行结果：成功，有变化，已提交推送**
+
+**扫描结果：**
+- 博客文章：1~18 + 20~22（共21篇，跳过19无index.html，grayscale-test无index.html已移除）
+- 静态页面：10个（新增 friends.html），所有 lastmod 已修正为实际文件修改时间
+- 游戏页面：6个，URL 格式统一为 `/dir/`（之前误用 `/dir/index.html`）
+
+**主要变更：**
+- 新增 friends.html（priority 0.7）
+- 所有 lastmod 从假日期 2026-05-22 修正为实际文件修改时间
+- 游戏页面 URL 规范化：`/bjqy/index.html` → `/bjqy/`
+- 游戏页面 changefreq 从 monthly 修正为 yearly
+- 静态页面 changefreq 统一为 weekly（之前部分误用 yearly）
+- 移除 grayscale-test（无 index.html）
+
+**commit：** bb5a13f，已推送到 main
