@@ -430,8 +430,8 @@ function initPythonEditor() {
             currentPythonInputCallback(inputValue);
             currentPythonInputCallback = null;
             inputDialogInput.value = '';
-            runBtn.disabled = false;
-            runBtn.innerHTML = '<i class="fas fa-play"></i> 运行代码喵～';
+            runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 运行中喵～...';
+            // 按钮保持 disabled，程序仍在运行，等 finally 块统一恢复
         }
     });
     
@@ -443,10 +443,8 @@ function initPythonEditor() {
         if (currentPythonInputCallback) {
             currentPythonInputCallback("");
             currentPythonInputCallback = null;
-            runBtn.disabled = false;
-            runBtn.innerHTML = '<i class="fas fa-play"></i> 运行代码喵～';
-            isPythonRunning = false;
             addPythonOutputLine('输入已取消，使用空字符串作为默认值喵～。', 'info');
+            // 不在这里设 isPythonRunning = false，让 finally 块统一处理
         }
     });
     
@@ -637,21 +635,26 @@ async function executePythonCode(code, outputArea) {
             return line;
         }).join('\n');
 
+        // 将 Python 的 input( 转为 await input( 以支持异步等待用户输入
+        const asyncCode = processedCode.replace(/\binput\s*\(/g, 'await input(');
+        
         const wrappedCode = `
             try {
-                ${processedCode}
+                ${asyncCode}
             } catch (e) {
                 throw e;
             }
         `;
         
         const execute = new Function('env', `
-            with(env) {
-                ${wrappedCode}
-            }
+            return (async function() {
+                with(env) {
+                    ${wrappedCode}
+                }
+            })();
         `);
         
-        execute(env);
+        await execute(env);
         
     } catch (error) {
         addPythonOutputLine(`执行错误喵～: ${error.message}`, 'error');
