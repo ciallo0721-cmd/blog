@@ -11,8 +11,7 @@ window.dynamicData = {
     },
     // 站点统计
     siteStats: {
-        articles: 0
-0,
+        articles: 0,
         totalWords: 33652,
         daysRunning: 199,
         siteStartDate: "2025-10-20",
@@ -34,8 +33,7 @@ window.getSiteAge = function() {
 
 // 生成"当前有 X 篇文章"的动态显示函数
 window.getArticleCount = function() {
-    return 0
-0;
+    return 0;
 };
 
 // 获取格式化的最后更新时间

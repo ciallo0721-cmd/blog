@@ -67,7 +67,7 @@
     <!-- 预连接减少连接建立时间 -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <!-- 预加载关键字体 -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
     <!-- 异步加载非关键CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
@@ -1010,7 +1010,7 @@
         <div class="animation-divider"><span></span><span></span><span></span><span></span><span></span></div>
 
         <!-- 第四行：在线编辑器 (满宽) -->
-        <section id="code-editor" class="section code-editor-section"><div class="section-title"><h2>在线编辑器喵～</h2></div><div class="code-editor-wrapper"><div class="code-editor-container"><div class="code-header"><div class="code-logo"><i class="fas fa-code"></i><div><h3>在线代码编辑器</h3><div class="code-subtitle">支持真实用户输入 - 在浏览器中编写、运行代码的说～</div></div></div><div class="code-control-panel"><button class="code-btn code-btn-run" id="codeRunBtn"><i class="fas fa-play"></i> 运行代码喵～</button><button class="code-btn code-btn-clear" id="codeClearBtn"><i class="fas fa-broom"></i> 清空输出喵～</button></div></div><div class="code-editor-area"><div class="code-panel-header"><div class="code-panel-title"><i class="fas fa-edit"></i> 代码编辑器喵～</div></div><div class="code-code-area" id="codeCodeArea"><div id="codeEditor" style="height:300px;"></div></div></div><div class="code-editor-area"><div class="code-panel-header"><div class="code-panel-title"><i class="fas fa-terminal"></i> 运行结果喵～</div><div class="code-control-panel"><button class="code-btn code-btn-clear" id="codeClearOutputBtn"><i class="fas fa-trash-alt"></i> 清空喵～</button></div></div><div class="code-output-area" id="codeOutputArea"><div class="code-output-line info">就绪 - 点击"运行代码"开始执行程序的说～</div><div class="code-output-line info">支持 input() 函数，运行时会出现输入对话框喵～</div></div></div><div class="code-library-panel"><div class="code-library-title"><i class="fas fa-box-open"></i> 常用库（点击插入喵～）</div><div class="code-libraries" id="codeLibraries"><div class="code-library-item" data-lib="math">math</div><div class="code-library-item" data-lib="random">random</div><div class="code-library-item" data-lib="datetime">datetime</div><div class="code-library-item" data-lib="json">json</div><div class="code-library-item" data-lib="os">os</div><div class="code-library-item" data-lib="sys">sys</div><div class="code-library-item" data-lib="re">re</div><div class="code-library-item" data-lib="collections">collections</div><div class="code-library-item" data-lib="itertools">itertools</div><div class="code-library-item" data-lib="functools">functools</div></div></div></div></div></div></section>
+        <section id="code-editor" class="section code-editor-section"><div class="section-title"><h2>在线编辑器喵～</h2></div><div class="code-editor-wrapper"><div class="code-editor-container"><div class="code-header"><div class="code-logo"><i class="fas fa-code"></i><div><h3>在线代码编辑器</h3><div class="code-subtitle">支持真实用户输入 - 在浏览器中编写、运行代码的说～</div></div></div><div class="code-control-panel"><button class="code-btn code-btn-run" id="pythonRunBtn"><i class="fas fa-play"></i> 运行代码喵～</button><button class="code-btn code-btn-clear" id="pythonClearBtn"><i class="fas fa-broom"></i> 清空输出喵～</button></div></div><div class="code-editor-area"><div class="code-panel-header"><div class="code-panel-title"><i class="fas fa-edit"></i> 代码编辑器喵～</div></div><div class="code-code-area" id="codeCodeArea"><div id="pythonEditor" style="height:300px;"></div></div></div><div class="code-editor-area"><div class="code-panel-header"><div class="code-panel-title"><i class="fas fa-terminal"></i> 运行结果喵～</div><div class="code-control-panel"><button class="code-btn code-btn-clear" id="pythonClearOutputBtn"><i class="fas fa-trash-alt"></i> 清空喵～</button></div></div><div class="code-output-area" id="pythonOutputArea"><div class="code-output-line info">就绪 - 点击"运行代码"开始执行程序的说～</div><div class="code-output-line info">支持 input() 函数，运行时会出现输入对话框喵～</div></div></div><div class="code-library-panel"><div class="code-library-title"><i class="fas fa-box-open"></i> 常用库（点击插入喵～）</div><div class="code-libraries" id="codeLibraries"><div class="code-library-item" data-lib="math">math</div><div class="code-library-item" data-lib="random">random</div><div class="code-library-item" data-lib="datetime">datetime</div><div class="code-library-item" data-lib="json">json</div><div class="code-library-item" data-lib="os">os</div><div class="code-library-item" data-lib="sys">sys</div><div class="code-library-item" data-lib="re">re</div><div class="code-library-item" data-lib="collections">collections</div><div class="code-library-item" data-lib="itertools">itertools</div><div class="code-library-item" data-lib="functools">functools</div></div></div></div></div></div></section>
 
         <div class="animation-divider"><span></span><span></span><span></span><span></span><span></span></div>
 
@@ -1074,8 +1074,6 @@
     </script>
 
     
-
-    <footer
 
     <footer><div class="container footer-content"><div class="footer-logo">ciallo0721-cmd</div><p>感谢访问我的个人博客！期待与您交流游戏开发心得哦～ (๑˃̵ᴗ˂̵)و</p><p class="copyright">© 2026 ciallo0721-cmd. 保留所有权利喵～</p><p id="dynamicFooterInfo" style="font-size:0.78rem;opacity:0.6;margin-top:8px;">加载动态数据中...</p><div style="margin-top:16px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap"><a href="./status.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.35);color:rgba(255,255,255,0.85);font-size:0.82rem;padding:6px 16px;border-radius:20px;text-decoration:none;transition:all 0.3s;letter-spacing:0.3px;" onmouseover="this.style.background='rgba(34,197,94,0.28)';this.style.color='white'" onmouseout="this.style.background='rgba(34,197,94,0.15)';this.style.color='rgba(255,255,255,0.85)'"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;animation:pulse-green 2.5s infinite"></span> 查看网站状态</a><a href="./aboutme.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(51,102,255,0.15);border:1px solid rgba(51,102,255,0.35);color:rgba(255,255,255,0.85);font-size:0.82rem;padding:6px 16px;border-radius:20px;text-decoration:none;transition:all 0.3s;letter-spacing:0.3px;" onmouseover="this.style.background='rgba(51,102,255,0.28)';this.style.color='white'" onmouseout="this.style.background='rgba(51,102,255,0.15)';this.style.color='rgba(255,255,255,0.85)'">👤 关于作者</a><a href="./tools/" style="display:inline-flex;align-items:center;gap:6px;background:rgba(51,102,255,0.15);border:1px solid rgba(51,102,255,0.35);color:rgba(255,255,255,0.85);font-size:0.82rem;padding:6px 16px;border-radius:20px;text-decoration:none;transition:all 0.3s;letter-spacing:0.3px;" onmouseover="this.style.background='rgba(51,102,255,0.28)';this.style.color='white'" onmouseout="this.style.background='rgba(51,102,255,0.15)';this.style.color='rgba(255,255,255,0.85)'">🔧 免费工具</a><a href="./friends.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.85);font-size:0.82rem;padding:6px 16px;border-radius:20px;text-decoration:none;transition:all 0.3s;letter-spacing:0.3px;" onmouseover="this.style.background='rgba(255,255,255,0.2)';this.style.color='white'" onmouseout="this.style.background='rgba(255,255,255,0.1)';this.style.color='rgba(255,255,255,0.85)'">🔗 友情链接</a><a href="./privacy-policy.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.85);font-size:0.82rem;padding:6px 16px;border-radius:20px;text-decoration:none;transition:all 0.3s;letter-spacing:0.3px;" onmouseover="this.style.background='rgba(255,255,255,0.2)';this.style.color='white'" onmouseout="this.style.background='rgba(255,255,255,0.1)';this.style.color='rgba(255,255,255,0.85)'">📜 隐私政策</a><a href="./user-agreement.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.85);font-size:0.82rem;padding:6px 16px;border-radius:20px;text-decoration:none;transition:all 0.3s;letter-spacing:0.3px;" onmouseover="this.style.background='rgba(255,255,255,0.2)';this.style.color='white'" onmouseout="this.style.background='rgba(255,255,255,0.1)';this.style.color='rgba(255,255,255,0.85)'">📜 用户协议</a><button id="adminEntryBtn" onclick="openAdminPanel()" style="background:transparent;border:none;color:rgba(255,255,255,0.15);font-size:0.7rem;cursor:pointer;padding:4px 8px;border-radius:4px;transition:all 0.3s;letter-spacing:1px;" onmouseover="this.style.color='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.15)'"> 管理后台</button></div><style>@keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.5)}50%{box-shadow:0 0 0 5px rgba(34,197,94,0)}}</style><div style="margin-top:14px"><button id="translateBtn" onclick="toggleTranslate()" style="background:linear-gradient(135deg,#3366ff,#2575fc);border:none;color:white;font-size:0.85rem;cursor:pointer;padding:8px 20px;border-radius:20px;font-weight:600;box-shadow:0 4px 12px rgba(51,102,255,0.3);transition:all 0.3s;letter-spacing:0.5px;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(51,102,255,0.45)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 12px rgba(51,102,255,0.3)'">Translate to English</button></div></div></footer>
 <!-- 管理后台入口 -->
@@ -1302,12 +1300,14 @@
         // Python编辑器
         let pythonEditor; let isPythonRunning = false; let currentPythonInputCallback = null;
         function addPythonOutputLine(text, type = 'output') {
-            let o = document.getElementById('pythonOutputArea'); if (!o) return;
+            console.log('[DEBUG output] type=' + type + ' text=' + text.substring(0,80));
+            let o = document.getElementById('pythonOutputArea'); if (!o) { console.error('[DEBUG output] pythonOutputArea 不存在!'); return; }
             let line = document.createElement('div'); line.className = 'python-output-line ' + type;
             let now = new Date(); let time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ':' + now.getSeconds().toString().padStart(2,'0');
             line.textContent = '[' + time + '] ' + text; o.appendChild(line); o.scrollTop = o.scrollHeight;
         }
         async function executePythonCode(code, outputArea) {
+            console.log('[DEBUG exec] ===== executePythonCode 被调用 =====');
             const env = {
                 print: function(...args) {
                     let end = '\n'; let outArgs = args;
@@ -1318,16 +1318,29 @@
                     addPythonOutputLine(output,'output');
                 },
                 input: async function(prompt = '') {
+                    console.log('[DEBUG input] 被调用, prompt="' + prompt + '"');
                     addPythonOutputLine(prompt,'output');
+                    console.log('[DEBUG input] addPythonOutputLine 完成');
                     return new Promise((resolve) => {
+                        console.log('[DEBUG input] Promise 开始, 查找DOM元素...');
                         let d = document.getElementById('pythonInputDialog');
+                        console.log('[DEBUG input] pythonInputDialog:', d);
                         let p = document.getElementById('pythonInputDialogPrompt');
+                        console.log('[DEBUG input] pythonInputDialogPrompt:', p);
                         let i = document.getElementById('pythonInputDialogInput');
+                        console.log('[DEBUG input] pythonInputDialogInput:', i);
                         let r = document.getElementById('pythonRunBtn');
+                        console.log('[DEBUG input] pythonRunBtn:', r);
+                        if (!d) { console.error('[DEBUG input] pythonInputDialog 不存在!'); resolve(''); return; }
                         p.textContent = prompt || '请输入喵～:';
-                        d.style.display = 'flex'; i.focus();
+                        console.log('[DEBUG input] prompt.textContent 已设置');
+                        d.style.display = 'flex';
+                        console.log('[DEBUG input] d.style.display 设为 flex, computed:', window.getComputedStyle(d).display);
+                        i.focus();
+                        console.log('[DEBUG input] i.focus() 完成');
                         currentPythonInputCallback = resolve;
                         r.disabled = true; r.innerHTML = '<i class="fas fa-pause"></i> 等待输入喵～...';
+                        console.log('[DEBUG input] Promise 设置完成, 等待用户输入...');
                     });
                 },
                 int: x => parseInt(x,10), float: x => parseFloat(x), str: x => String(x),
@@ -1362,22 +1375,24 @@
                 return;
             }
             try {
-                // 预处理：将 Python 注释 # 转为 JS 注释 //，避免语法错误
+                console.log('[DEBUG exec] 开始执行, 原始代码:', code.substring(0,200));
+                // 预处理：删除 Python 注释 #（避免 JS try/catch 被 // 注释吃掉闭合括号）
                 const processedCode = code.split('\n').map(line => {
-                    // 找到不在字符串内的 # 注释
                     let inStr = false; let strChar = '';
                     for (let ci = 0; ci < line.length; ci++) {
                         const ch = line[ci];
                         if (!inStr && (ch === '"' || ch === "'")) { inStr = true; strChar = ch; }
                         else if (inStr && ch === strChar && line[ci-1] !== '\\') { inStr = false; }
                         else if (!inStr && ch === '#') {
-                            return line.substring(0, ci) + '//' + line.substring(ci + 1);
+                            return line.substring(0, ci); // 直接删除 # 及之后内容
                         }
                     }
                     return line;
                 }).join('\n');
+                console.log('[DEBUG exec] 注释处理后:', processedCode.substring(0,200));
                 // 将 Python 的 input( 转为 await input( 以支持异步等待用户输入
                 const asyncCode = processedCode.replace(/\binput\s*\(/g, 'await input(');
+                console.log('[DEBUG exec] input替换后:', asyncCode.substring(0,200));
                 const wrappedCode = 'try { ' + asyncCode + ' } catch(e) { throw e; }';
                 // 使用解构替代 with(env)，避免 with 与 async 的兼容问题
                 const execute = new Function('env', `
@@ -1386,14 +1401,17 @@
                         ${wrappedCode}
                     })();
                 `);
+                console.log('[DEBUG exec] new Function 创建成功, 开始 await execute(env)...');
                 await execute(env);
-            } catch(e) { addPythonOutputLine('执行错误喵～: ' + e.message,'error'); }
+                console.log('[DEBUG exec] execute(env) 完成');
+            } catch(e) { console.error('[DEBUG exec] 捕获错误:', e.message); addPythonOutputLine('执行错误喵～: ' + e.message,'error'); }
         }
 
         function initPythonEditor() {
             // 防止重复初始化
-            if (pythonEditor) return;
-            let ta = document.getElementById('pythonCode'); if (!ta) { let div = document.getElementById('pythonEditor'); if (!div) return; }
+            if (pythonEditor) { console.log('[DEBUG init] 跳过重复初始化'); return; }
+            console.log('[DEBUG init] 开始初始化编辑器...');
+            let ta = document.getElementById('pythonCode'); if (!ta) { let div = document.getElementById('pythonEditor'); if (!div) { console.error('[DEBUG init] pythonEditor div 不存在!'); return; } }
             pythonEditor = CodeMirror(document.getElementById('pythonEditor'), {
                 lineNumbers: true, mode: 'python', theme: 'dracula', indentUnit: 4,
                 smartIndent: true, tabSize: 4, indentWithTabs: false, electricChars: true,
@@ -1412,6 +1430,7 @@
             const inputDialogSubmit = document.getElementById('pythonInputDialogSubmit');
             const inputDialogCancel = document.getElementById('pythonInputDialogCancel');
             if (runBtn) runBtn.addEventListener('click', async function() {
+                console.log('[DEBUG btn] 运行按钮被点击, isPythonRunning=' + isPythonRunning);
                 if (isPythonRunning) { addPythonOutputLine('程序正在运行中，请等待完成喵～...','info'); return; }
                 const code = pythonEditor.getValue();
                 outputArea.innerHTML = '';
@@ -1594,9 +1613,9 @@
             // code subtitle
             { sel: '.code-subtitle', prop: 'text', zh: '支持真实用户输入 - 在浏览器中编写、运行代码的说～', en: 'Supports real user input - Write & run code in your browser~' },
             // run / clear buttons
-            { sel: '#codeRunBtn', prop: 'html', zh: '<i class="fas fa-play"></i> 运行代码喵～', en: '<i class="fas fa-play"></i> Run Code~' },
-            { sel: '#codeClearBtn', prop: 'html', zh: '<i class="fas fa-broom"></i> 清空输出喵～', en: '<i class="fas fa-broom"></i> Clear Output~' },
-            { sel: '#codeClearOutputBtn', prop: 'html', zh: '<i class="fas fa-trash-alt"></i> 清空喵～', en: '<i class="fas fa-trash-alt"></i> Clear~' },
+            { sel: '#pythonRunBtn', prop: 'html', zh: '<i class="fas fa-play"></i> 运行代码喵～', en: '<i class="fas fa-play"></i> Run Code~' },
+            { sel: '#pythonClearBtn', prop: 'html', zh: '<i class="fas fa-broom"></i> 清空输出喵～', en: '<i class="fas fa-broom"></i> Clear Output~' },
+            { sel: '#pythonClearOutputBtn', prop: 'html', zh: '<i class="fas fa-trash-alt"></i> 清空喵～', en: '<i class="fas fa-trash-alt"></i> Clear~' },
             // code panel titles
             { sel: '.code-panel-title:nth-of-type(1)', prop: 'html', zh: '<i class="fas fa-edit"></i> 代码编辑器喵～', en: '<i class="fas fa-edit"></i> Code Editor~' },
             // library title
