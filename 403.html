@@ -501,6 +501,27 @@
         window.onpopstate = function(event) {
             history.go(1);
         };
+
+        // 捕获并显示用户尝试访问的 URL
+        (function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var attemptedUrl = urlParams.get('url');
+            if (attemptedUrl) {
+                console.log('用户尝试访问的 URL:', attemptedUrl);
+                // 在页面上显示
+                var urlDisplay = document.createElement('div');
+                urlDisplay.className = 'tip-box';
+                urlDisplay.style.marginTop = '20px';
+                urlDisplay.innerHTML = '<h4><i class="fas fa-link"></i> 您尝试访问的页面</h4>' +
+                                       '<p style=\"color: #a0c8ff; word-break: break-all;\">' + 
+                                       attemptedUrl + '</p>';
+                // 插入到错误消息区域之后
+                var errorMessage = document.querySelector('.error-message');
+                if (errorMessage && errorMessage.parentNode) {
+                    errorMessage.parentNode.insertBefore(urlDisplay, errorMessage.nextSibling);
+                }
+            }
+        })();
     </script>
 </body>
 </html>

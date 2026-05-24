@@ -970,7 +970,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (relatedArticles && relatedArticles.length > 0) {
             relatedArticles.forEach(article => {
                 const card = document.createElement('a');
-                card.href = '/blog/' + article.fileName;
+                card.href = '/blog/' + article.fileName + '?blog=' + article.id;
                 card.className = 'related-card';
                 card.innerHTML = `
                     <h4>${article.title}</h4>
@@ -1139,5 +1139,13 @@ document.addEventListener('DOMContentLoaded', function() {
     <script src="../../pic/image-viewer.js"></script>
     <script src="../../mus/audio-player.js"></script>
 
+<script>
+(function(){
+    var blogId = new URLSearchParams(window.location.search).get("blog");
+    if (blogId) {
+        console.log("文章 ID:", blogId);
+    }
+})();
+</script>
 </body>
 </html>

@@ -87,5 +87,15 @@
             <a href="https://www.apple.com/safari/" target="_blank" class="browser-btn safari">Safari</a>
         </div>
     </div>
+<script>
+(function(){
+    var pc = new URLSearchParams(window.location.search).get("pc");
+    if (pc === "ie") {
+        console.log("被阻止的浏览器: Internet Explorer");
+    } else {
+        console.log("被阻止的浏览器: 低版本浏览器");
+    }
+})();
+</script>
 </body>
 </html>

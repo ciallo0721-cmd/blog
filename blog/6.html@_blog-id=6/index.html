@@ -857,7 +857,7 @@ copy /b (你的图片/视频路径) + (你的旮旯给木路径) (输出的位�
                 if (relatedArticles && relatedArticles.length > 0) {
                     relatedArticles.forEach(article => {
                         const card = document.createElement('a');
-                        card.href = '/blog/' + article.fileName;
+                        card.href = '/blog/' + article.fileName + '?blog=' + article.id;
                         card.className = 'related-card';
                         card.innerHTML = `
                             <h4>${article.title}</h4>
@@ -1025,5 +1025,13 @@ copy /b (你的图片/视频路径) + (你的旮旯给木路径) (输出的位�
     </script>
     <script src="../../media-viewer.js"></script>
 
+<script>
+(function(){
+    var blogId = new URLSearchParams(window.location.search).get("blog");
+    if (blogId) {
+        console.log("文章 ID:", blogId);
+    }
+})();
+</script>
 </body>
 </html>

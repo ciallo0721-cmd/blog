@@ -9,7 +9,7 @@
         var isOldBrowser = /MSIE |Trident\/|Edge\/1[0-7]\./.test(ua) || 
                           /Version\/[1-9]\.[0-9](\s|$)/.test(navigator.appVersion);
         if (isOldBrowser) {
-            window.location.href = './oops@_id[ie]/index.html';
+            window.location.href = './oops@_id[ie]/index.html?pc=ie';
         }
     })();
     </script>
@@ -873,7 +873,7 @@
                     <h2 style="color: #3366ff; font-size: 1.8rem; margin-bottom: 20px;">技术文章</h2>
                     <ul style="list-style: none; padding: 0;">
                         <li style="padding: 15px; background: #f0f4ff; border-radius: 10px; margin-bottom: 10px;">
-                            <a href="./blog/1.html@_blog-id=1/" style="color: #3366ff; text-decoration: none; font-weight: 600;">UTAU教程：从调音到发布完全指南</a>
+                            <a href="./blog/1.html@_blog-id=1/?blog=1" style="color: #3366ff; text-decoration: none; font-weight: 600;">UTAU教程：从调音到发布完全指南</a>
                             <p style="margin: 5px 0 0; color: #666;">学习如何使用UTAU进行歌声合成，从基础调音到高级技巧</p>
                         </li>
                     </ul>
@@ -1141,7 +1141,7 @@
             articles.forEach((article, index) => {
                 const card = document.createElement('a');
                 const safeFileName = (article.fileName || '').replace(/[^a-zA-Z0-9.\-_/]/g, '').replace(/\.html$/, '');
-                card.href = 'blog/' + safeFileName;
+                card.href = 'blog/' + safeFileName + '?blog=' + article.id;
                 card.className = 'article-card fade-in-up';
                 card.style.animationDelay = `${index * 0.1}s`;
 

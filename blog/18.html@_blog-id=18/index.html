@@ -983,7 +983,7 @@ document.addEventListener('DOMContentLoaded', function() {
         grid.innerHTML = '';
         related.forEach(article => {
             const card = document.createElement('a');
-            card.href = '/blog/' + article.fileName;
+            card.href = '/blog/' + article.fileName + '?blog=' + article.id;
             card.className = 'related-card';
             card.innerHTML = `<h4>${article.title}</h4><p>${article.excerpt}</p><div class="related-tags">${article.tags.slice(0, 3).map(t => `<span class="related-tag">${t}</span>`).join('')}</div>`;
             grid.appendChild(card);
@@ -1040,5 +1040,13 @@ document.addEventListener('DOMContentLoaded', function() {
     initPage();
 });
     </script>
+<script>
+(function(){
+    var blogId = new URLSearchParams(window.location.search).get("blog");
+    if (blogId) {
+        console.log("文章 ID:", blogId);
+    }
+})();
+</script>
 </body>
 </html>

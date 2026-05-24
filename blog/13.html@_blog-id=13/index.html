@@ -927,5 +927,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <script src="../media-viewer.js"></script>
 
+<script>
+(function(){
+    var blogId = new URLSearchParams(window.location.search).get("blog");
+    if (blogId) {
+        console.log("文章 ID:", blogId);
+    }
+})();
+</script>
 </body>
 </html>

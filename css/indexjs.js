@@ -40,7 +40,7 @@ function initArticles() {
         const articleCard = document.createElement('a');
         // 安全：href 仅允许相对路径（不含 javascript:）
         const safeFileName = (article.fileName || '').replace(/[^a-zA-Z0-9.\-_/]/g, '');
-        articleCard.href = 'blog/' + safeFileName;
+        articleCard.href = 'blog/' + safeFileName + '?blog=' + article.id;
         articleCard.className = 'article-card fade-in-up';
         articleCard.style.animationDelay = `${index * 0.1}s`;
 

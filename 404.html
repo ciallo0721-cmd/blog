@@ -488,6 +488,30 @@
             };
             setInterval(animateRobot, 3000);
         });
+
+        // 捕获并显示用户尝试访问的 URL
+        (function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var attemptedUrl = urlParams.get('url');
+            if (attemptedUrl) {
+                console.log('用户尝试访问的 URL:', attemptedUrl);
+                // 在页面上显示
+                var urlDisplay = document.createElement('div');
+                urlDisplay.className = 'tip-box';
+                urlDisplay.style.marginTop = '20px';
+                urlDisplay.innerHTML = '<h4><i class="fas fa-link"></i> 您尝试访问的页面</h4>' +
+                                       '<p style=\"color: #a0c8ff; word-break: break-all;\">' + 
+                                       attemptedUrl + '</p>';
+                // 尝试插入到错误消息区域之后，如果不存在则插入到容器末尾
+                var errorMessage = document.querySelector('.error-message');
+                var container = document.querySelector('.container');
+                if (errorMessage && errorMessage.parentNode) {
+                    errorMessage.parentNode.insertBefore(urlDisplay, errorMessage.nextSibling);
+                } else if (container) {
+                    container.appendChild(urlDisplay);
+                }
+            }
+        })();
     </script>
 </body>
 </html>
