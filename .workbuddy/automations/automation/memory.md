@@ -48,3 +48,22 @@
 - 移除 grayscale-test（无 index.html）
 
 **commit：** bb5a13f，已推送到 main
+
+## 2026-05-24 12:00
+
+**执行结果：成功，有变化，已提交推送**
+
+**扫描结果：**
+- 博客文章：1~21 共21篇 + grayscale-test（共22条），均有 index.html
+- 静态页面：10个（index/wz/aboutme/adss/privacy/privacy-policy/user-agreement/help/status/friends）
+- 游戏页面：6个（bjqy/fors/LAIDB/zmdspp/91/dkdfj）
+
+**主要变更：**
+- 新增 3 个静态页面：privacy-policy.html（0.5）、user-agreement.html（0.5）、friends.html（0.7）
+- 游戏页面 lastmod 修正：fors/LAIDB/zmdspp/91/dkdfj 从 2026-05-23 → 2026-05-06（实际文件修改时间）
+- 游戏页面 URL 规范化：`/dir/index.html` → `/dir/`（zmdspp 保留 indexzm.html）
+- 游戏页面 changefreq：monthly → yearly
+- adss.html priority：0.6 → 0.5
+- 博客文章按数字顺序排列
+
+**commit：** a1e9d15，已推送到 main
