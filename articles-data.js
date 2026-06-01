@@ -220,6 +220,66 @@ window.articlesData = {
             fileName: "21.html@_blog-id=21/",
             readTime: 15,
             featured: true
+        },
+        {
+            id: 100,
+            title: "GitHub Pages 高级SEO优化秘籍",
+            excerpt: "深入讲解结构化数据标记、sitemap优化策略、Core Web Vitals提升技巧，让你的GitHub Pages站点搜索引擎排名飙升。",
+            date: "2026-06-01",
+            tags: ["SEO", "GitHub Pages", "搜索引擎优化", "技术教程"],
+            fileName: "paid/100/",
+            readTime: 12,
+            featured: false,
+            isPaid: true,
+            price: 0.80
+        },
+        {
+            id: 101,
+            title: "Cloudflare Workers 免费搭建API代理",
+            excerpt: "利用Cloudflare Workers免费额度（每日10万请求）搭建自己的API代理服务，绕过CORS限制，保护源站安全。",
+            date: "2026-06-01",
+            tags: ["Cloudflare", "Workers", "API代理", "免费", "技术教程"],
+            fileName: "paid/101/",
+            readTime: 10,
+            featured: false,
+            isPaid: true,
+            price: 0.65
+        },
+        {
+            id: 102,
+            title: "Ren'Py 高级技巧：存档加密与反作弊",
+            excerpt: "深入分析Ren'Py存档结构，手把手教你实现存档加密、checksum校验和防篡改机制，保护你的游戏数据安全。",
+            date: "2026-06-01",
+            tags: ["Ren'Py", "存档加密", "反作弊", "视觉小说", "游戏开发"],
+            fileName: "paid/102/",
+            readTime: 9,
+            featured: false,
+            isPaid: true,
+            price: 0.50
+        },
+        {
+            id: 103,
+            title: "Python 自动化脚本：批量处理文件",
+            excerpt: "Python自动化实战：批量重命名、文件分类整理、图片压缩、文本替换——让你告别重复劳动，效率翻倍。",
+            date: "2026-06-01",
+            tags: ["Python", "自动化", "批量处理", "脚本", "效率工具"],
+            fileName: "paid/103/",
+            readTime: 8,
+            featured: false,
+            isPaid: true,
+            price: 0.30
+        },
+        {
+            id: 104,
+            title: "个人网站赚钱指南：广告+付费墙",
+            excerpt: "从零开始将个人网站变成收入来源：Google AdSense配置、付费内容定价策略、用户转化技巧，副业赚钱实操指南。",
+            date: "2026-06-01",
+            tags: ["赚钱", "个人网站", "广告", "付费墙", "副业"],
+            fileName: "paid/104/",
+            readTime: 7,
+            featured: false,
+            isPaid: true,
+            price: 0.15
         }
     ],
 

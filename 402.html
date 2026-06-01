@@ -6,7 +6,7 @@
     <title>需要付费 - 402 | ciallo0721-cmd</title>
     <meta name="description" content="此页面需要付费后才能访问。返回 ciallo0721-cmd 的首页浏览更多免费内容">
     <link rel="icon" href="./fanv.ico" type="image/x-icon">
-    <link rel="icon" href="./fanv.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
 @font-face {
     font-family: 'MaokenAssortedSans';
@@ -259,6 +259,60 @@
             color: #a0c8ff;
             line-height: 1.6;
         }
+
+        /* 付费文章信息卡片 */
+        .article-info-card {
+            background: rgba(106, 17, 203, 0.15);
+            border: 1px solid rgba(106, 17, 203, 0.4);
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin: 20px 0;
+            text-align: left;
+            animation: fadeIn 1s ease;
+        }
+
+        .article-info-card .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .article-info-card .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .article-info-card .info-label {
+            color: #a0c8ff;
+            min-width: 80px;
+        }
+
+        .article-info-card .info-value {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .article-info-card .info-value.price {
+            color: #ffc168;
+            font-size: 1.3rem;
+        }
+
+        .contact-info {
+            color: #a0c8ff;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .contact-info a {
+            color: #2575fc;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
         
         .footer-note {
             margin-top: 50px;
@@ -315,7 +369,19 @@
         <div class="error-icon">
             <i class="fas fa-robot"></i>
         </div>
-        
+
+        <!-- 付费文章信息卡片（有参数时显示） -->
+        <div class="article-info-card" id="articleInfoCard" style="display: none;">
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-file-alt"></i></span>
+                <span class="info-value" id="articleName">付费文章</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-coins"></i></span>
+                <span class="info-value price" id="articlePrice">¥0.00</span>
+            </div>
+        </div>
+
         <div class="error-code">402</div>
         
         <h1 class="error-title">这个页面需要付费喵～</h1>
@@ -332,9 +398,9 @@
             </div>
         </div>
         
-        <div class="error-message">
+        <div class="error-message" id="errorMessage">
             <h3><i class="fas fa-exclamation-triangle"></i> 可能的原因：</h3>
-            <ul>
+            <ul id="errorReasons">
                 <li>该页面是需要付费订阅才能访问的专属内容</li>
                 <li>你的会员资格已过期或尚未激活</li>
                 <li>账户余额不足以支付此次访问费用</li>
@@ -362,23 +428,103 @@
         </div>
         
         <div class="footer-note">
-            <p>© 2026 ciallo0721-cmd. 如果问题持续存在，请通过B站或抖音联系腐竹获取帮助喵～</p>
+            <p>© 2026 ciallo0721-cmd. <span id="footerIP"></span></p>
             <p>最后更新：2026-02-28</p>
         </div>
     </div>
 
     <script>
+        /**
+         * 从URL参数中读取付费文章信息
+         * 参数：article（文章标题）、price（价格）、ip（访客IP）
+         */
+        function getURLParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                article: params.get('article') || null,
+                price: params.get('price') || null,
+                ip: params.get('ip') || null
+            };
+        }
+
+        /**
+         * 对IP进行脱敏处理
+         * 示例：192.168.1.100 → 192.168.1.***
+         */
+        function maskIP(ip) {
+            if (!ip) return '';
+            const parts = ip.split('.');
+            if (parts.length === 4) {
+                return parts[0] + '.' + parts[1] + '.' + parts[2] + '.***';
+            }
+            return ip;
+        }
+
+        /**
+         * 初始化页面：根据URL参数动态渲染内容
+         */
+        function initPage() {
+            const { article, price, ip } = getURLParams();
+
+            if (article || price || ip) {
+                // 有参数 → 显示付费文章相关信息
+
+                // 显示文章信息卡片
+                const card = document.getElementById('articleInfoCard');
+                if (card) card.style.display = 'block';
+
+                // 设置文章名称
+                const articleNameEl = document.getElementById('articleName');
+                if (articleNameEl && article) {
+                    articleNameEl.textContent = '付费文章：《' + article + '》';
+                }
+
+                // 设置价格
+                const articlePriceEl = document.getElementById('articlePrice');
+                if (articlePriceEl && price) {
+                    articlePriceEl.textContent = '¥' + price;
+                }
+
+                // 修改 error-message 显示IP访问拒绝信息
+                const errorReasons = document.getElementById('errorReasons');
+                if (errorReasons) {
+                    const maskedIP = maskIP(ip);
+                    errorReasons.innerHTML = '';
+                    const li1 = document.createElement('li');
+                    li1.textContent = '你的IP (' + maskedIP + ') 未被授权访问此内容';
+                    const li2 = document.createElement('li');
+                    li2.textContent = '如需访问，请联系站长将你的IP加入白名单';
+                    errorReasons.appendChild(li1);
+                    errorReasons.appendChild(li2);
+                }
+
+                // 在 footer 显示脱敏IP
+                const footerIP = document.getElementById('footerIP');
+                if (footerIP && ip) {
+                    footerIP.textContent = '你的IP: ' + maskIP(ip);
+                }
+            } else {
+                // 无参数 → 显示默认402通用信息（保留现有内容不变）
+                const footerIP = document.getElementById('footerIP');
+                if (footerIP) {
+                    footerIP.textContent = '如果问题持续存在，请通过B站或抖音联系腐竹获取帮助喵～';
+                }
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            initPage();
+
             const homeBtn = document.getElementById('homeBtn');
             const helpBtn = document.getElementById('helpBtn');
-            
+
             homeBtn.addEventListener('click', function(e) {
                 const originalText = homeBtn.innerHTML;
                 homeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 正在返回...';
                 setTimeout(() => {
                 }, 100);
             });
-            
+
             helpBtn.addEventListener('click', function() {
                 const helpDialog = document.createElement('div');
                 helpDialog.style.cssText = `
@@ -394,7 +540,7 @@
                     z-index: 10000;
                     animation: fadeIn 0.3s ease;
                 `;
-                
+
                 helpDialog.innerHTML = `
                     <div style="
                         background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
@@ -409,33 +555,11 @@
                             <i class="fas fa-life-ring"></i> 需要帮助吗？
                         </h3>
                         <p style="color: #cccccc; margin-bottom: 20px; line-height: 1.6;">
-                            如果您反复遇到页面缺失问题，或需要其他帮助，可以通过以下方式联系我们：
+                            如需访问付费内容，请联系站长将你的IP加入白名单：
                         </p>
-                        <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
-                            <a href="https://space.bilibili.com/478967440" target="_blank" style="
-                                background: rgba(0, 170, 255, 0.2);
-                                color: #00aaff;
-                                padding: 10px 20px;
-                                border-radius: 20px;
-                                text-decoration: none;
-                                display: flex;
-                                align-items: center;
-                                gap: 8px;
-                            ">
-                                <i class="fab fa-bilibili"></i> Bilibili
-                            </a>
-                            <a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k" target="_blank" style="
-                                background: rgba(255, 0, 80, 0.2);
-                                color: #ff0050;
-                                padding: 10px 20px;
-                                border-radius: 20px;
-                                text-decoration: none;
-                                display: flex;
-                                align-items: center;
-                                gap: 8px;
-                            ">
-                                <i class="fab fa-tiktok"></i> 抖音
-                            </a>
+                        <div class="contact-info" style="margin-bottom: 20px;">
+                            <p><i class="fab fa-qq" style="color: #12B7F5;"></i> <strong>QQ：</strong>3627742771</p>
+                            <p><i class="fas fa-envelope" style="color: #EA4335;"></i> <strong>邮箱：</strong><a href="mailto:ciallo0721cmd@gmail.com">ciallo0721cmd@gmail.com</a></p>
                         </div>
                         <button id="closeHelp" style="
                             background: transparent;
@@ -451,23 +575,23 @@
                         </button>
                     </div>
                 `;
-                
+
                 document.body.appendChild(helpDialog);
-                
+
                 document.getElementById('closeHelp').addEventListener('click', function() {
                     document.body.removeChild(helpDialog);
                 });
-                
+
                 helpDialog.addEventListener('click', function(e) {
                     if (e.target === helpDialog) {
                         document.body.removeChild(helpDialog);
                     }
                 });
             });
-            
+
             const robot = document.querySelector('.robot');
             let animationCount = 0;
-            
+
             const animateRobot = () => {
                 animationCount++;
                 if (animationCount % 3 === 0) {

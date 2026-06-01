@@ -335,6 +335,9 @@
             font-weight: 500;
             border: 1px solid rgba(251, 114, 153, 0.2);
         }
+        .paid-badge { display: inline-block; background: linear-gradient(135deg, #ff6b9d, #ff9050); color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; margin-left: 6px; vertical-align: middle; }
+        .article-card.paid { border-color: rgba(255,107,157,0.3); }
+        .article-card.paid::before { background: linear-gradient(135deg, #ff6b9d, #ff9050); }
 
         .article-footer {
             display: flex;
@@ -1021,20 +1024,23 @@
                     const articleCard = document.createElement('a');
                     articleCard.href = 'blog/' + (article.fileName || '').replace(/\.html$/, '') + '?blog=' + article.id;
                     articleCard.className = 'article-card fade-in-up';
+                    if (article.isPaid) articleCard.classList.add('paid');
                     articleCard.style.animationDelay = `${index * 0.1}s`;
+                    const paidBadge = article.isPaid ? `<span class="paid-badge">💰 ¥${(article.price || 0).toFixed(2)}</span>` : '';
+                    const readMoreText = article.isPaid ? '付费阅读' : '阅读全文';
                     articleCard.innerHTML = `
                         <div class="article-content">
                             <div class="article-meta">
                                 <span class="article-number">文章 #${String(article.id).padStart(3, '0')}</span>
                                 <span class="article-date">${article.date}</span>
                             </div>
-                            <h3>${escapeHtml(article.title)}</h3>
+                            <h3>${escapeHtml(article.title)}${paidBadge}</h3>
                             <p class="article-excerpt">${escapeHtml(article.excerpt)}</p>
                             <div class="article-tags">
                                 ${article.tags.map(tag => `<span class="article-tag">${escapeHtml(tag)}</span>`).join('')}
                             </div>
                             <div class="article-footer">
-                                <span class="read-more">阅读全文 <i class="fas fa-arrow-right"></i></span>
+                                <span class="read-more">${readMoreText} <i class="fas fa-arrow-right"></i></span>
                                 <span class="read-time"><i class="far fa-clock"></i> 约${article.readTime}分钟</span>
                             </div>
                         </div>

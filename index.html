@@ -240,6 +240,9 @@
         .article-card:hover .read-more i { transform: translateX(5px); }
         .article-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
         .article-tag { background: rgba(51,102,255,0.1); color: var(--bili-pink); padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500; border: 1px solid rgba(51,102,255,0.2); }
+        .paid-badge { display: inline-block; background: linear-gradient(135deg, #ff6b9d, #ff9050); color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; margin-left: 6px; vertical-align: middle; }
+        .article-card.paid { border-color: rgba(255,107,157,0.3); }
+        .article-card.paid::before { background: linear-gradient(135deg, #ff6b9d, #ff9050); }
 
         .contact-content { text-align: center; background: rgba(255,255,255,0.95); padding: 50px; border-radius: 20px; box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.3); position: relative; overflow: hidden; }
 
@@ -1151,6 +1154,7 @@
                 const safeFileName = (article.fileName || '').replace(/[^a-zA-Z0-9.\-_/]/g, '').replace(/\.html$/, '');
                 card.href = 'blog/' + safeFileName + '?blog=' + article.id;
                 card.className = 'article-card fade-in-up';
+                if (article.isPaid) card.classList.add('paid');
                 card.style.animationDelay = `${index * 0.1}s`;
 
                 const content = document.createElement('div');
@@ -1169,6 +1173,12 @@
 
                 const h3 = document.createElement('h3');
                 h3.textContent = article.title || '';
+                if (article.isPaid) {
+                    const badge = document.createElement('span');
+                    badge.className = 'paid-badge';
+                    badge.textContent = '💰 ¥' + (article.price || 0).toFixed(2);
+                    h3.appendChild(badge);
+                }
 
                 const excerptP = document.createElement('p');
                 excerptP.className = 'article-excerpt';
@@ -1176,7 +1186,7 @@
 
                 const readMore = document.createElement('span');
                 readMore.className = 'read-more';
-                readMore.textContent = '阅读全文喵～ ';
+                readMore.textContent = article.isPaid ? '付费阅读 ' : '阅读全文喵～ ';
                 const arrowIcon = document.createElement('i');
                 arrowIcon.className = 'fas fa-arrow-right';
                 readMore.appendChild(arrowIcon);
