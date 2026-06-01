@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>禁止访问 - 403 | ciallo0721-cmd</title>
-    <meta name="description" content="你没有权限访问此页面。返回 ciallo0721-cmd 的首页浏览更多内容">
+    <title>我是一个茶壶 - 418 | ciallo0721-cmd</title>
+    <meta name="description" content="服务器拒绝煮咖啡，因为它是一个茶壶！愚人节彩蛋 - 返回 ciallo0721-cmd 的首页">
     <link rel="icon" href="./fanv.ico" type="image/x-icon">
     <link rel="icon" href="./fanv.ico" type="image/x-icon">
     <style>
@@ -316,13 +316,13 @@
             <i class="fas fa-robot"></i>
         </div>
         
-        <div class="error-code">403</div>
+        <div class="error-code">418</div>
         
-        <h1 class="error-title">禁止入内喵～</h1>
+        <h1 class="error-title">我是一个茶壶喵～</h1>
         
         <p class="error-subtitle">
-            服务器理解你的请求，但拒绝执行<br>
-            你可能没有足够的权限访问这个页面
+            🫖 服务器拒绝煮咖啡，因为它是一个茶壶！<br>
+            这是 HTTP 协议中著名的愚人节彩蛋 (RFC 2324)
         </p>
         
         <div class="robot-animation">
@@ -333,20 +333,20 @@
         </div>
         
         <div class="error-message">
-            <h3><i class="fas fa-exclamation-triangle"></i> 可能的原因：</h3>
+            <h3><i class="fas fa-exclamation-triangle"></i> 为什么是茶壶？</h3>
             <ul>
-                <li>你的账户没有访问该资源的权限</li>
-                <li>该目录或文件被服务器配置禁止访问</li>
-                <li>IP地址或地区被限制访问</li>
-                <li>网站管理员设置了访问控制规则</li>
+                <li>1998年愚人节，IETF 发布了 RFC 2324 超文本咖啡壶控制协议</li>
+                <li>该协议规定茶壶只能泡茶，不能煮咖啡（这是原则问题！）</li>
+                <li>你的请求试图让茶壶煮咖啡，茶壶表示强烈抗议</li>
+                <li>这是一个流传至今的技术圈经典笑话，不是真的错误</li>
             </ul>
         </div>
         
         <div class="tip-box">
-            <h4><i class="fas fa-lightbulb"></i> 您可以尝试：</h4>
-            <p>• 检查是否使用正确的账户登录</p>
-            <p>• 联系网站管理员申请访问权限</p>
-            <p>• 返回<a href="/" style="color: #2575fc; text-decoration: none;">首页</a>浏览其他可访问的内容</p>
+            <h4><i class="fas fa-lightbulb"></i> 茶壶的建议：</h4>
+            <p>• 🍵 来杯茶吧，比咖啡更健康哦～</p>
+            <p>• 返回<a href="/" style="color: #2575fc; text-decoration: none;">首页</a>，那里没有茶壶的固执限制</p>
+            <p>• 如果你坚持要咖啡，请找一个咖啡壶服务器</p>
         </div>
         
         <div class="action-buttons">
@@ -409,7 +409,7 @@
                             <i class="fas fa-life-ring"></i> 需要帮助吗？
                         </h3>
                         <p style="color: #cccccc; margin-bottom: 20px; line-height: 1.6;">
-                            如果您反复遇到页面缺失问题，或需要其他帮助，可以通过以下方式联系我们：
+                            如果你真的遇到了这个彩蛋页面，或者需要其他帮助，可以通过以下方式联系我们：
                         </p>
                         <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
                             <a href="https://space.bilibili.com/478967440" target="_blank" style="
@@ -481,6 +481,27 @@
             };
             setInterval(animateRobot, 3000);
         });
+
+        (function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var attemptedUrl = urlParams.get('url');
+            if (attemptedUrl) {
+                console.log('用户尝试访问的 URL:', attemptedUrl);
+                var urlDisplay = document.createElement('div');
+                urlDisplay.className = 'tip-box';
+                urlDisplay.style.marginTop = '20px';
+                urlDisplay.innerHTML = '<h4><i class="fas fa-link"></i> 您尝试访问的页面</h4>' +
+                                       '<p style="color: #a0c8ff; word-break: break-all;">' + 
+                                       attemptedUrl + '</p>';
+                var errorMessage = document.querySelector('.error-message');
+                var container = document.querySelector('.container');
+                if (errorMessage && errorMessage.parentNode) {
+                    errorMessage.parentNode.insertBefore(urlDisplay, errorMessage.nextSibling);
+                } else if (container) {
+                    container.appendChild(urlDisplay);
+                }
+            }
+        })();
     </script>
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>验证失败 - 访问被拦截 | ciallo0721-cmd</title>
-    <meta name="description" content="访问验证失败，请按照指示完成验证后重试。ciallo0721-cmd 网站安全验证页面">
+    <title>无法接受的内容 - 406 | ciallo0721-cmd</title>
+    <meta name="description" content="服务器无法生成你请求的响应格式。返回 ciallo0721-cmd 的首页浏览更多内容">
     <link rel="icon" href="./fanv.ico" type="image/x-icon">
     <link rel="icon" href="./fanv.ico" type="image/x-icon">
     <style>
@@ -316,13 +316,13 @@
             <i class="fas fa-robot"></i>
         </div>
         
-        <div class="error-code">验证失败</div>
+        <div class="error-code">406</div>
         
-        <h1 class="error-title">访问验证失败喵～</h1>
+        <h1 class="error-title">内容格式不匹配喵～</h1>
         
         <p class="error-subtitle">
-            检测到非人类访问行为或验证过程异常<br>
-            为了保护网站安全，我们暂时拒绝了您的访问请求 (；ω；)
+            服务器无法以你请求的格式生成响应<br>
+            可能是Accept请求头指定的格式不被支持
         </p>
         
         <div class="robot-animation">
@@ -335,65 +335,48 @@
         <div class="error-message">
             <h3><i class="fas fa-exclamation-triangle"></i> 可能的原因：</h3>
             <ul>
-                <li>验证服务返回失败（可能因网络或环境异常）</li>
-                <li>检测到机器人或自动化程序的访问模式</li>
-                <li>浏览器插件或脚本干扰了验证过程</li>
-                <li>网络连接不稳定导致验证中断</li>
-                <li>IP地址被识别为高风险</li>
+                <li>请求头Accept指定的内容类型不被服务器支持</li>
+                <li>你要求的数据格式（如XML）而服务器只提供JSON</li>
+                <li>浏览器与服务器之间的内容协商失败</li>
+                <li>API版本不匹配导致响应格式变化</li>
             </ul>
         </div>
         
         <div class="tip-box">
-            <h4><i class="fas fa-lightbulb"></i> 人类访问提示：</h4>
-            <p>Cloudflare Turnstile 会自动分析访问行为。如果您是真实用户，请尝试以下方法后重新访问。</p>
+            <h4><i class="fas fa-lightbulb"></i> 您可以尝试：</h4>
+            <p>• 检查API请求头中的Accept字段是否正确</p>
+            <p>• 使用浏览器默认的请求头重新访问</p>
+            <p>• 返回<a href="/" style="color: #2575fc; text-decoration: none;">首页</a>浏览标准格式的内容</p>
         </div>
         
         <div class="action-buttons">
-            <a href="index.html" class="btn btn-primary" id="retryBtn">
-                <i class="fas fa-redo"></i>
-                重新验证并返回首页
+            <a href="./index.html" class="btn btn-primary" id="homeBtn">
+                <i class="fas fa-home"></i>
+                返回首页
             </a>
             
             <button class="btn btn-secondary" id="helpBtn">
                 <i class="fas fa-question-circle"></i>
-                获取帮助
+                联系支持
             </button>
-        </div>
-
-        <div class="tip-box">
-            <h4><i class="fas fa-lightbulb"></i> 提示：</h4>
-            <p>如果您反复遇到验证问题，请尝试以下方法：</p>
-            <p>1. 在验证界面中按 Ctrl+F5 或 Cmd+Shift+R 强制刷新后重试</p>
-            <p>2. 禁用浏览器中的广告拦截或自动化脚本插件</p>
-            <p>3. 尝试使用不同的浏览器（Chrome、Firefox、Edge等）</p>
-            <p>4. 检查网络环境（VPN或代理可能增加风险）</p>
-            <p>5. 等待几分钟后再试</p>
         </div>
         
         <div class="footer-note">
             <p>© 2026 ciallo0721-cmd. 如果问题持续存在，请通过B站或抖音联系腐竹获取帮助喵～</p>
-            <p>安全验证系统：Cloudflare Turnstile | 最后更新：2026-03-15</p>
+            <p>最后更新：2026-02-28</p>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const retryBtn = document.getElementById('retryBtn');
+            const homeBtn = document.getElementById('homeBtn');
             const helpBtn = document.getElementById('helpBtn');
             
-            retryBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // 清除sessionStorage中的验证状态
-                sessionStorage.removeItem('auth_passed');
-                
-                const originalText = retryBtn.innerHTML;
-                retryBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 准备重新验证...';
-                retryBtn.style.opacity = '0.7';
-                
+            homeBtn.addEventListener('click', function(e) {
+                const originalText = homeBtn.innerHTML;
+                homeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 正在返回...';
                 setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 800);
+                }, 100);
             });
             
             helpBtn.addEventListener('click', function() {
@@ -426,18 +409,9 @@
                             <i class="fas fa-life-ring"></i> 需要帮助吗？
                         </h3>
                         <p style="color: #cccccc; margin-bottom: 20px; line-height: 1.6;">
-                            如果您反复遇到验证问题，请尝试以下方法：
+                            如果您反复遇到页面缺失问题，或需要其他帮助，可以通过以下方式联系我们：
                         </p>
-                        <ul style="color: #cccccc; margin-bottom: 25px; padding-left: 20px; line-height: 1.6;">
-                            <li style="margin-bottom: 10px;">禁用浏览器中的广告拦截或自动化脚本插件</li>
-                            <li style="margin-bottom: 10px;">尝试使用不同的浏览器（Chrome、Firefox、Edge等）</li>
-                            <li style="margin-bottom: 10px;">检查网络环境（VPN或代理可能增加风险）</li>
-                            <li>等待几分钟后再试</li>
-                        </ul>
-                        <p style="color: #888; font-size: 0.9rem; margin-bottom: 25px;">
-                            如果问题仍然存在，可以通过以下方式联系腐竹：
-                        </p>
-                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
                             <a href="https://space.bilibili.com/478967440" target="_blank" style="
                                 background: rgba(0, 170, 255, 0.2);
                                 color: #00aaff;
@@ -469,11 +443,11 @@
                             border: 1px solid #ff6b9d;
                             padding: 10px 25px;
                             border-radius: 20px;
-                            margin-top: 25px;
+                            margin-top: 10px;
                             cursor: pointer;
                             width: 100%;
                         ">
-                            <i class="fas fa-times"></i> 关闭帮助
+                            <i class="fas fa-times"></i> 关闭
                         </button>
                     </div>
                 `;
@@ -496,33 +470,17 @@
             
             const animateRobot = () => {
                 animationCount++;
-                
                 if (animationCount % 3 === 0) {
                     const eyes = document.querySelectorAll('.robot-eye');
                     const colors = ['#ff6b9d', '#6a11cb', '#2575fc', '#4ecdc4'];
                     const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                    
                     eyes.forEach(eye => {
                         eye.style.backgroundColor = randomColor;
                     });
                 }
             };
-            
             setInterval(animateRobot, 3000);
         });
-        
-        history.pushState(null, null, location.href);
-        window.onpopstate = function(event) {
-            history.go(1);
-        };
-    </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        
-        gtag('config', 'G-TR4FT7JPDZ');
     </script>
 </body>
 </html>

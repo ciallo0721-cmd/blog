@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>禁止访问 - 403 | ciallo0721-cmd</title>
-    <meta name="description" content="你没有权限访问此页面。返回 ciallo0721-cmd 的首页浏览更多内容">
+    <title>请求实体过大 - 413 | ciallo0721-cmd</title>
+    <meta name="description" content="请求体大小超过了服务器允许的上限。请减小请求大小后重试，或返回 ciallo0721-cmd 的首页">
     <link rel="icon" href="./fanv.ico" type="image/x-icon">
     <link rel="icon" href="./fanv.ico" type="image/x-icon">
     <style>
@@ -15,6 +15,7 @@
     font-style: normal;
 }
 
+        /* 样式保持不变，完全复用你原来的设计 */
         * {
             margin: 0;
             padding: 0;
@@ -316,13 +317,13 @@
             <i class="fas fa-robot"></i>
         </div>
         
-        <div class="error-code">403</div>
+        <div class="error-code">413</div>
         
-        <h1 class="error-title">禁止入内喵～</h1>
+        <h1 class="error-title">请求体太大啦喵！</h1>
         
         <p class="error-subtitle">
-            服务器理解你的请求，但拒绝执行<br>
-            你可能没有足够的权限访问这个页面
+            您发送的请求内容超过了服务器允许的大小上限<br>
+            请压缩或拆分数据后重新提交
         </p>
         
         <div class="robot-animation">
@@ -335,18 +336,18 @@
         <div class="error-message">
             <h3><i class="fas fa-exclamation-triangle"></i> 可能的原因：</h3>
             <ul>
-                <li>你的账户没有访问该资源的权限</li>
-                <li>该目录或文件被服务器配置禁止访问</li>
-                <li>IP地址或地区被限制访问</li>
-                <li>网站管理员设置了访问控制规则</li>
+                <li>上传的文件超过了服务器允许的最大上传大小</li>
+                <li>表单提交的数据量过大</li>
+                <li>API 请求的 JSON/XML 内容体过于庞大</li>
+                <li>服务器配置了严格的请求体大小限制</li>
             </ul>
         </div>
         
         <div class="tip-box">
             <h4><i class="fas fa-lightbulb"></i> 您可以尝试：</h4>
-            <p>• 检查是否使用正确的账户登录</p>
-            <p>• 联系网站管理员申请访问权限</p>
-            <p>• 返回<a href="/" style="color: #2575fc; text-decoration: none;">首页</a>浏览其他可访问的内容</p>
+            <p>• 压缩文件后再上传（如 ZIP 格式）</p>
+            <p>• 将大文件拆分成多个小文件分批上传</p>
+            <p>• 返回<a href="/" style="color: #2575fc; text-decoration: none;">首页</a>浏览其他内容</p>
         </div>
         
         <div class="action-buttons">
@@ -409,7 +410,7 @@
                             <i class="fas fa-life-ring"></i> 需要帮助吗？
                         </h3>
                         <p style="color: #cccccc; margin-bottom: 20px; line-height: 1.6;">
-                            如果您反复遇到页面缺失问题，或需要其他帮助，可以通过以下方式联系我们：
+                            如果您反复遇到请求体过大的问题，或需要其他帮助，可以通过以下方式联系我们：
                         </p>
                         <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
                             <a href="https://space.bilibili.com/478967440" target="_blank" style="
@@ -481,6 +482,27 @@
             };
             setInterval(animateRobot, 3000);
         });
+
+        (function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var attemptedUrl = urlParams.get('url');
+            if (attemptedUrl) {
+                console.log('用户尝试访问的 URL:', attemptedUrl);
+                var urlDisplay = document.createElement('div');
+                urlDisplay.className = 'tip-box';
+                urlDisplay.style.marginTop = '20px';
+                urlDisplay.innerHTML = '<h4><i class="fas fa-link"></i> 您尝试访问的页面</h4>' +
+                                       '<p style="color: #a0c8ff; word-break: break-all;">' + 
+                                       attemptedUrl + '</p>';
+                var errorMessage = document.querySelector('.error-message');
+                var container = document.querySelector('.container');
+                if (errorMessage && errorMessage.parentNode) {
+                    errorMessage.parentNode.insertBefore(urlDisplay, errorMessage.nextSibling);
+                } else if (container) {
+                    container.appendChild(urlDisplay);
+                }
+            }
+        })();
     </script>
 </body>
 </html>

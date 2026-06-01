@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>禁止访问 - 403 | ciallo0721-cmd</title>
-    <meta name="description" content="你没有权限访问此页面。返回 ciallo0721-cmd 的首页浏览更多内容">
+    <title>需要代理认证 - 407 | ciallo0721-cmd</title>
+    <meta name="description" content="访问此页面需要先通过代理服务器认证。返回 ciallo0721-cmd 的首页浏览更多内容">
     <link rel="icon" href="./fanv.ico" type="image/x-icon">
     <link rel="icon" href="./fanv.ico" type="image/x-icon">
     <style>
@@ -316,13 +316,13 @@
             <i class="fas fa-robot"></i>
         </div>
         
-        <div class="error-code">403</div>
+        <div class="error-code">407</div>
         
-        <h1 class="error-title">禁止入内喵～</h1>
+        <h1 class="error-title">代理需要认证喵～</h1>
         
         <p class="error-subtitle">
-            服务器理解你的请求，但拒绝执行<br>
-            你可能没有足够的权限访问这个页面
+            你需要先通过代理服务器的身份认证<br>
+            请配置代理认证凭据后重试
         </p>
         
         <div class="robot-animation">
@@ -335,18 +335,18 @@
         <div class="error-message">
             <h3><i class="fas fa-exclamation-triangle"></i> 可能的原因：</h3>
             <ul>
-                <li>你的账户没有访问该资源的权限</li>
-                <li>该目录或文件被服务器配置禁止访问</li>
-                <li>IP地址或地区被限制访问</li>
-                <li>网站管理员设置了访问控制规则</li>
+                <li>代理服务器要求提供用户名和密码</li>
+                <li>代理认证凭据已过期或无效</li>
+                <li>网络环境中使用了需要认证的企业代理</li>
+                <li>系统或浏览器的代理设置不正确</li>
             </ul>
         </div>
         
         <div class="tip-box">
             <h4><i class="fas fa-lightbulb"></i> 您可以尝试：</h4>
-            <p>• 检查是否使用正确的账户登录</p>
-            <p>• 联系网站管理员申请访问权限</p>
-            <p>• 返回<a href="/" style="color: #2575fc; text-decoration: none;">首页</a>浏览其他可访问的内容</p>
+            <p>• 检查并更新代理服务器的认证信息</p>
+            <p>• 联系网络管理员获取正确的代理凭据</p>
+            <p>• 返回<a href="/" style="color: #2575fc; text-decoration: none;">首页</a>，或尝试切换网络环境</p>
         </div>
         
         <div class="action-buttons">

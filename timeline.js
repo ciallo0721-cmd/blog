@@ -1,6 +1,11 @@
 
         window.timelineData = [
             {
+                date: "2026年6月1日",
+                title: "新增全套 HTTP 错误页面",
+                desc: "基于 404 模板风格批量创建 24 个 HTTP 错误页面（400-418, 500-505），统一渐变背景/机器人动画/喵语风格，重写 403 去掉旧验证逻辑，418 为 RFC 2324 茶壶愚人节彩蛋喵～"
+            },
+            {
                 date: "2026年5月23日",
                 title: "修复Python在线编辑器多个bug",
                 desc: "修复Python编辑器HTML/JS ID不匹配（codeEditor→pythonEditor）；修复dynamic-data.js数字换行SyntaxError；修复#注释被转为//后吃掉try/catch闭合括号导致Missing catch错误；修复Font Awesome preload integrity缺失警告喵～"
