@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>ARG - 第九频道 The Ninth Channel (扩展版)</title>
+<style>
+/* ============================
+   CSS 变量 & 全局 (保持原风格)
+   ============================ */
+:root {
+  --win98-grey: #c0c0c0;
+  --win98-dark: #808080;
+  --win98-darker: #404040;
+  --win98-light: #ffffff;
+  --arg-green: #00cc00;
+  --arg-darkgreen: #003300;
+  --arg-red: #cc0000;
+  --arg-bg: #0a0a0a;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  width:100vw; height:100vh; overflow:hidden;
+  font-family: "Courier New", "NSimSun", "SimSun", monospace;
+  background:#1a1a1a;
+}
+
+#desktop {
+  width:100vw; height:calc(100vh - 32px);
+  background:#008080;
+  background-image:
+    repeating-linear-gradient(0deg,   rgba(0,0,0,0.05) 0px, transparent 1px, transparent 3px),
+    repeating-linear-gradient(90deg,  rgba(0,0,0,0.05) 0px, transparent 1px, transparent 3px);
+  position:relative; overflow:hidden;
+  cursor:default;
+}
+
+.desk-icon {
+  position:absolute; width:72px;
+  display:flex; flex-direction:column; align-items:center;
+  padding:4px 2px; cursor:pointer; border:1px solid transparent;
+  border-radius:0; transition: background 0.1s;
+}
+.desk-icon:hover {
+  background:rgba(0,0,128,0.25);
+  border:1px dotted rgba(255,255,255,0.6);
+}
+.desk-icon:active { background:rgba(0,0,128,0.45); }
+.desk-icon .ico { font-size:30px; margin-bottom:3px; pointer-events:none; }
+.desk-icon .lbl {
+  color:#fff; font-size:11px; text-align:center;
+  text-shadow:1px 1px 1px rgba(0,0,0,0.9);
+  line-height:1.3; word-break:break-all; pointer-events:none;
+}
+
+#taskbar {
+  position:fixed; bottom:0; left:0; right:0; height:32px;
+  background:linear-gradient(180deg, #245edb 0%, #3f8cf3 4%, #245edb 6%, #245edb 92%, #1941a5 100%);
+  border-top:2px solid #5a9cf3; border-bottom:1px solid #0a1e5a;
+  display:flex; align-items:center; z-index:99999;
+}
+#start-btn {
+  height:28px; margin:2px 3px; padding:0 10px 0 6px;
+  background:linear-gradient(180deg, #3c8f3c 0%, #2d7b2d 50%, #1e5f1e 100%);
+  border-top:2px solid #5cb85c; border-left:2px solid #5cb85c;
+  border-right:2px solid #1a4a1a; border-bottom:2px solid #1a4a1a;
+  color:#fff; font-weight:bold; font-size:11px; cursor:pointer;
+  display:flex; align-items:center; gap:5px;
+  font-family:"Courier New", monospace; line-height:1;
+}
+#start-btn:active { border-style:inset; }
+#start-btn .start-ico { font-size:15px; }
+#taskbar-slots {
+  flex:1; display:flex; align-items:center; gap:2px; padding:0 4px;
+  overflow:hidden;
+}
+.tbar-item {
+  height:26px; max-width:160px; flex-shrink:1; min-width:40px;
+  padding:0 10px; background:linear-gradient(180deg, #3b5ce8 0%, #2b4cd4 100%);
+  border-top:1px solid rgba(255,255,255,0.3); border-left:1px solid rgba(255,255,255,0.3);
+  border-right:1px solid rgba(0,0,0,0.3); border-bottom:1px solid rgba(0,0,0,0.3);
+  color:#fff; font-size:11px; cursor:pointer;
+  display:flex; align-items:center; white-space:nowrap; overflow:hidden;
+  text-overflow:ellipsis; font-family:"Courier New", monospace;
+}
+.tbar-item.active { background:linear-gradient(180deg, #1c4ab8 0%, #1a3f9e 100%); border-style:inset; }
+#clock {
+  margin-left:auto; color:#fff; font-size:11px;
+  padding:0 12px; height:100%; display:flex; align-items:center;
+  border-left:1px solid rgba(255,255,255,0.2);
+  text-shadow:1px 1px 1px rgba(0,0,0,0.5);
+  font-family:"Courier New", monospace;
+}
+
+.win {
+  position:absolute; display:flex; flex-direction:column;
+  background:var(--win98-grey); min-width:180px; min-height:100px;
+  border-top:2px solid var(--win98-light);
+  border-left:2px solid var(--win98-light);
+  border-right:2px solid var(--win98-darker);
+  border-bottom:2px solid var(--win98-darker);
+  box-shadow:1px 1px 0 #000;
+}
+.win-titlebar {
+  height:22px; flex-shrink:0;
+  background:linear-gradient(90deg, #000080, #1084d0);
+  color:#fff; font-size:11px; font-weight:bold;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1px 3px; cursor:grab; user-select:none;
+}
+.win-titlebar.inactive { background:linear-gradient(90deg, #808080, #b0b0b0); }
+.win-titlebar .win-title { display:flex; align-items:center; gap:4px; overflow:hidden; }
+.win-btns { display:flex; gap:2px; flex-shrink:0; }
+.win-btn {
+  width:16px; height:14px;
+  background:var(--win98-grey);
+  border-top:2px solid var(--win98-light); border-left:2px solid var(--win98-light);
+  border-right:2px solid var(--win98-darker); border-bottom:2px solid var(--win98-darker);
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; cursor:pointer; padding:0; line-height:1;
+}
+.win-btn:active { border-style:inset; }
+.win-body { flex:1; margin:3px; display:flex; flex-direction:column; overflow:hidden; }
+
+.browser-toolbar {
+  display:flex; align-items:center; gap:4px;
+  padding:3px; background:var(--win98-grey);
+  border-bottom:1px solid var(--win98-dark); flex-shrink:0;
+}
+.browser-toolbar button {
+  font-family:"Courier New", monospace; font-size:11px;
+  padding:1px 7px; cursor:pointer;
+  background:var(--win98-grey);
+  border-top:2px solid var(--win98-light); border-left:2px solid var(--win98-light);
+  border-right:2px solid var(--win98-darker); border-bottom:2px solid var(--win98-darker);
+}
+.browser-toolbar button:active { border-style:inset; }
+.browser-toolbar button:disabled { color:#808080; }
+.addr-bar {
+  flex:1; display:flex; align-items:center;
+  border:2px inset var(--win98-grey); background:#fff;
+  padding:1px 4px; height:20px; font-size:12px;
+  font-family:"Courier New", monospace; color:#000; overflow:hidden;
+}
+.addr-bar .addr-tag { color:#0000aa; margin-right:3px; font-size:11px; }
+.browser-content {
+  flex:1; background:var(--arg-bg); overflow-y:auto; overflow-x:hidden;
+  padding:14px; color:var(--arg-green); font-family:"Courier New", monospace;
+  font-size:13.5px; line-height:1.7; position:relative;
+}
+.browser-statusbar {
+  height:20px; background:var(--win98-grey);
+  border-top:1px solid var(--win98-dark); flex-shrink:0;
+  display:flex; align-items:center; padding:0 5px;
+  font-size:11px; color:#000; font-family:"Courier New", monospace;
+}
+
+.term-screen {
+  background:#000; color:var(--arg-green);
+  font-family:"Courier New", monospace; font-size:13.5px;
+  padding:8px; flex:1; overflow-y:auto; white-space:pre-wrap; word-break:break-all;
+  line-height:1.5;
+}
+.term-input-line {
+  display:flex; align-items:center;
+  background:#000; color:var(--arg-green);
+  font-family:"Courier New", monospace; font-size:13.5px;
+  padding:0 8px 8px;
+}
+.term-input-line .prompt { color:var(--arg-green); margin-right:4px; white-space:nowrap; }
+.term-input-line input {
+  flex:1; background:transparent; border:none; outline:none;
+  color:var(--arg-green); font-family:"Courier New", monospace; font-size:13.5px;
+  caret-color:var(--arg-green);
+}
+
+.typing { border-right:2px solid var(--arg-green); animation:caret-blink 0.7s step-end infinite; }
+@keyframes caret-blink { 0%,100%{border-color:var(--arg-green)} 50%{border-color:transparent} }
+
+@keyframes flicker {
+  0%,18%,21%,23%,25%,53%,57%,100% { opacity:1; }
+  19%,22%,24%,55%,56% { opacity:0.08; }
+}
+.flicker { animation:flicker 2.5s infinite; }
+
+@keyframes glitch-h {
+  0%   { transform:translate(0,0); }
+  20%  { transform:translate(-3px, 1px); }
+  40%  { transform:translate(2px,-2px); }
+  60%  { transform:translate(-1px, 2px); }
+  80%  { transform:translate(3px,-1px); }
+  100% { transform:translate(0,0); }
+}
+.glitch-h { animation:glitch-h 0.3s steps(2) infinite; }
+
+.red-flash-layer {
+  position:fixed; top:0; left:0; right:0; bottom:0;
+  background:rgba(120,0,0,0.18); pointer-events:none; z-index:99990;
+  animation:flicker 0.6s infinite;
+}
+
+.forum-post {
+  border:1px solid #005500; margin:10px 0; padding:10px;
+  background:rgba(0,20,0,0.7);
+}
+.forum-author { color:#00aaff; font-size:12px; margin-bottom:5px; }
+.forum-title { color:#ffff40; font-size:15px; font-weight:bold; margin:6px 0; }
+.forum-body { color:#00dd00; font-size:13px; line-height:1.7; }
+.forum-meta { color:#008800; font-size:11px; margin-top:6px; }
+
+.reply-section {
+  border:1px solid #004400; margin-top:12px; padding:8px;
+  background:rgba(0,15,0,0.6);
+}
+.reply-section textarea {
+  width:100%; height:56px; background:#000; color:var(--arg-green);
+  border:1px solid #005500; font-family:"Courier New",monospace;
+  font-size:12.5px; padding:4px; resize:none;
+}
+.reply-section button {
+  margin-top:5px; padding:4px 14px; background:#002200;
+  color:var(--arg-green); border:1px solid #008800; cursor:pointer;
+  font-family:"Courier New",monospace; font-size:12px;
+}
+.reply-section button:hover { background:#004400; }
+
+.ascii-art {
+  color:#00aa00; font-size:10.5px; line-height:1.05;
+  white-space:pre; font-family:"Courier New",monospace;
+  text-align:center; margin:14px 0; letter-spacing:0;
+}
+
+.wb-header {
+  color:#00cc00; font-size:17px; font-weight:bold;
+  text-align:center; margin-bottom:10px;
+  text-shadow:0 0 6px rgba(0,204,0,0.4);
+}
+.wb-search {
+  display:flex; gap:4px; margin:8px 0;
+}
+.wb-search input {
+  flex:1; background:#000; color:var(--arg-green); border:1px solid #005500;
+  font-family:"Courier New",monospace; font-size:13px; padding:4px 6px;
+}
+.wb-timeline {
+  display:flex; gap:6px; padding:8px; overflow-x:auto;
+  border:1px solid #004400; background:rgba(0,15,0,0.5); margin:8px 0;
+}
+.wb-snapshot {
+  min-width:76px; padding:7px; border:1px solid #005500;
+  background:rgba(0,30,0,0.7); color:var(--arg-green);
+  text-align:center; cursor:pointer; font-size:12px; flex-shrink:0;
+}
+.wb-snapshot:hover { background:rgba(0,60,0,0.8); }
+
+.arg-btn {
+  display:inline-block; padding:9px 22px; margin:6px 0;
+  background:rgba(0,20,0,0.8); color:var(--arg-green);
+  border:2px solid #008800; cursor:pointer;
+  font-family:"Courier New",monospace; font-size:13.5px;
+  text-align:center; transition:background 0.15s;
+}
+.arg-btn:hover { background:rgba(0,50,0,0.9); }
+.arg-btn:active { border-style:inset; }
+
+.warn-page { text-align:center; padding:20px 10px; }
+.warn-icon { font-size:46px; margin-bottom:10px; }
+.warn-line { color:#ffaa00; font-size:15px; margin:7px 0; line-height:1.7; }
+.warn-notice { color:#ff4444; font-size:12.5px; margin:7px 0; }
+
+.final-page {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  height:100%; min-height:300px;
+}
+.final-line {
+  color:#ff0000; font-size:19px; text-align:center;
+  animation:final-fade 2.5s ease-in-out infinite;
+}
+@keyframes final-fade { 0%,100%{opacity:0} 50%{opacity:1} }
+.final-sub { color:#ff4444; font-size:13px; margin-top:14px; animation:final-fade 3s ease-in-out infinite; }
+
+.status-glitch {
+  color:#ff0000 !important; font-weight:bold; font-size:11px !important;
+  animation:flicker 0.7s infinite;
+}
+
+@keyframes bg-distort {
+  0%   { filter:none; }
+  25%  { filter:hue-rotate(130deg) brightness(0.6) saturate(1.5); }
+  50%  { filter:invert(0.15) hue-rotate(70deg) contrast(1.4); }
+  75%  { filter:sepia(0.3) hue-rotate(200deg) brightness(0.5); }
+  100% { filter:none; }
+}
+.desk-distort { animation:bg-distort 0.6s infinite; }
+
+.float-eye {
+  position:fixed; color:#cc0000; font-family:"Courier New",monospace;
+  pointer-events:none; z-index:99991; opacity:0.85;
+  animation:float-up linear forwards;
+}
+@keyframes float-up {
+  0%   { transform:translateY(0) rotate(0deg); opacity:0; }
+  8%   { opacity:0.85; }
+  85%  { opacity:0.85; }
+  100% { transform:translateY(-105vh) rotate(400deg); opacity:0; }
+}
+
+.browser-content::-webkit-scrollbar { width:8px; }
+.browser-content::-webkit-scrollbar-track { background:#001100; }
+.browser-content::-webkit-scrollbar-thumb { background:#005500; border-radius:0; }
+
+.mc-content { padding:14px; color:#000; font-size:13px; background:var(--win98-grey); flex:1; overflow:auto; }
+.mc-icon {
+  display:inline-flex; flex-direction:column; align-items:center;
+  width:68px; margin:6px; cursor:pointer; text-align:center; font-size:11px;
+  padding:3px; border:1px solid transparent;
+}
+.mc-icon:hover { background:rgba(0,0,128,0.15); border:1px dotted rgba(0,0,128,0.4); }
+
+.bg-black { background:#000 !important; }
+.hidden { display:none !important; }
+</style>
+</head>
+<body>
+
+<div id="desktop">
+  <div class="desk-icon" style="left:22px; top:24px;" data-win="browser"   onclick="deskIconClick('browser')">
+    <div class="ico">🌐</div>
+    <div class="lbl">网络浏览器</div>
+  </div>
+  <div class="desk-icon" style="left:22px; top:115px;" data-win="terminal"  onclick="deskIconClick('terminal')">
+    <div class="ico" id="ico-terminal">🖥️</div>
+    <div class="lbl">终端</div>
+  </div>
+  <div class="desk-icon" style="left:22px; top:206px;" data-win="mycomputer" onclick="deskIconClick('mycomputer')">
+    <div class="ico" id="ico-mycomp">💻</div>
+    <div class="lbl" id="lbl-mycomp">我的电脑</div>
+  </div>
+  <div class="desk-icon" style="left:22px; top:297px;" data-win="recycle"   onclick="deskIconClick('recycle')">
+    <div class="ico">🗑️</div>
+    <div class="lbl">回收站</div>
+  </div>
+
+  <div class="win hidden" id="win-browser" style="left:60px; top:35px; width:730px; height:510px;">
+    <div class="win-titlebar" id="tb-browser">
+      <div class="win-title">🌐 网络浏览器</div>
+      <div class="win-btns">
+        <button class="win-btn" onclick="winMin('browser')">_</button>
+        <button class="win-btn" onclick="winClose('browser')">✕</button>
+      </div>
+    </div>
+    <div class="win-body">
+      <div class="browser-toolbar">
+        <button onclick="browserBack()">← 后退</button>
+        <button onclick="browserRefresh()">↻ 刷新</button>
+        <div class="addr-bar">
+          <span class="addr-tag">地址：</span><span id="browser-url">about:blank</span>
+        </div>
+      </div>
+      <div class="browser-content" id="browser-content"></div>
+      <div class="browser-statusbar"><span id="browser-status">就绪</span></div>
+    </div>
+  </div>
+
+  <div class="win hidden" id="win-terminal" style="left:180px; top:70px; width:590px; height:390px;">
+    <div class="win-titlebar" id="tb-terminal">
+      <div class="win-title">🖥️ 命令提示符 — C:\9CC&gt;</div>
+      <div class="win-btns">
+        <button class="win-btn" onclick="winMin('terminal')">_</button>
+        <button class="win-btn" onclick="winClose('terminal')">✕</button>
+      </div>
+    </div>
+    <div class="win-body" style="background:#000;">
+      <div class="term-screen" id="term-output"></div>
+      <div class="term-input-line">
+        <span class="prompt" id="term-prompt">C:\9CC&gt;</span>
+        <input type="text" id="term-input" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+
+  <div class="win hidden" id="win-mycomputer" style="left:120px; top:55px; width:490px; height:370px;">
+    <div class="win-titlebar" id="tb-mycomputer">
+      <div class="win-title">💻 我的电脑</div>
+      <div class="win-btns">
+        <button class="win-btn" onclick="winMin('mycomputer')">_</button>
+        <button class="win-btn" onclick="winClose('mycomputer')">✕</button>
+      </div>
+    </div>
+    <div class="win-body">
+      <div class="mc-content" id="mc-content">
+        <p><b>我的电脑</b></p><hr style="margin:6px 0;">
+        <div style="display:flex; flex-wrap:wrap;">
+          <div class="mc-icon"><div style="font-size:26px;">🗂️</div><div>本地磁盘 (C:)</div></div>
+          <div class="mc-icon"><div style="font-size:26px;">🗂️</div><div>本地磁盘 (D:)</div></div>
+          <div class="mc-icon"><div style="font-size:26px;">💿</div><div>CD 驱动器 (E:)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="win hidden" id="win-recycle" style="left:260px; top:95px; width:380px; height:290px;">
+    <div class="win-titlebar" id="tb-recycle">
+      <div class="win-title">🗑️ 回收站</div>
+      <div class="win-btns">
+        <button class="win-btn" onclick="winMin('recycle')">_</button>
+        <button class="win-btn" onclick="winClose('recycle')">✕</button>
+      </div>
+    </div>
+    <div class="win-body">
+      <div class="mc-content" style="color:#555;">回收站是空的。</div>
+    </div>
+  </div>
+</div>
+
+<div id="red-flash" class="red-flash-layer hidden"></div>
+
+<div id="taskbar">
+  <button id="start-btn" onclick="toggleStart()">
+    <span class="start-ico">🪟</span>开始
+  </button>
+  <div id="taskbar-slots"></div>
+  <div id="clock">--:--</div>
+</div>
+
+<div id="start-menu" class="hidden"
+  style="position:fixed; bottom:32px; left:0; width:180px;
+         background:var(--win98-grey); border:2px solid;
+         border-color:var(--win98-light) var(--win98-darker) var(--win98-darker) var(--win98-light);
+         z-index:100000; padding:2px 0; box-shadow:2px 2px 4px rgba(0,0,0,0.4);">
+  <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="deskIconClick('browser');closeStart()">🌐 网络浏览器</div>
+  <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="deskIconClick('terminal');closeStart()">🖥️ 终端</div>
+  <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="deskIconClick('mycomputer');closeStart()">💻 我的电脑</div>
+  <hr style="margin:2px 4px; border-color:var(--win98-dark);">
+  <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="alert('第九频道 v0.9.5 扩展版\n\n新增: 隐藏帖子, signal命令, 录音彩蛋, 结局后彩蛋\n\n© 2009 echo labs');closeStart()">ℹ️ 关于</div>
+</div>
+
+<script>
+// =============================================================
+// 全局状态
+// =============================================================
+const state = {
+  playerName: '',
+  phase: 'desktop',
+  browserHist: [],
+  browserUrl: 'about:blank',
+  termClose: 0,
+  audioCtx: null,
+  ending: false,
+  statusIv: null,
+  endingIvs: [],
+  oscillator: null,
+};
+
+function $(id) { return document.getElementById(id); }
+function randInt(a,b) { return Math.floor(Math.random()*(b-a+1))+a; }
+function randChar() {
+  const s='!@#$%^&*()_+-=[]{}|;:<>?/~`abcdefghijklmnopqrstuvwxyz0123456789';
+  return s[randInt(0,s.length-1)];
+}
+function garbage(n) { let s=''; for(let i=0;i<n;i++) s+=randChar(); return s; }
+
+// 时钟
+function updateClock() {
+  const d=new Date(), h=String(d.getHours()).padStart(2,'0'), m=String(d.getMinutes()).padStart(2,'0');
+  $('clock').textContent = h+':'+m;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// 开始菜单
+function toggleStart() { $('start-menu').classList.toggle('hidden'); }
+function closeStart() { $('start-menu').classList.add('hidden'); }
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#start-btn') && !e.target.closest('#start-menu')) closeStart();
+});
+
+// 窗口管理
+const WIN_ORDER = ['browser','terminal','mycomputer','recycle'];
+let zSeed = 100;
+
+function deskIconClick(type) {
+  closeStart();
+  openWin(type);
+}
+
+function openWin(type) {
+  const w = $('win-'+type);
+  if (!w) return;
+  w.classList.remove('hidden');
+  bringFront(w);
+  updTbar();
+  if (type==='browser' && state.phase==='desktop') {
+    state.phase = 'warning';
+    browserGo('index', renderWarning);
+  }
+  if (type==='terminal') focusTerm();
+}
+
+function winClose(type) {
+  const w = $('win-'+type);
+  if (w) w.classList.add('hidden');
+  updTbar();
+  if (type==='terminal' && state.phase==='terminal-ending') {
+    state.termClose++;
+    if (state.termClose >= 3) {
+      state.termClose = 0;
+      clearEnding();
+      openWin('browser');
+      state.phase = 'final';
+      browserGo('9cc://awakening', renderFinal);
+    } else {
+      const left = 3 - state.termClose;
+      appendTerm('\n[系统] 传输中断中……还需关闭终端 ' + left + ' 次。\n');
+    }
+  }
+}
+
+function winMin(type) {
+  const w = $('win-'+type);
+  if (w) w.classList.add('hidden');
+  updTbar();
+}
+
+function bringFront(w) {
+  document.querySelectorAll('.win').forEach(x=>{
+    x.classList.remove('active');
+    x.querySelector('.win-titlebar').classList.add('inactive');
+  });
+  w.classList.add('active');
+  w.querySelector('.win-titlebar').classList.remove('inactive');
+  zSeed++;
+  w.style.zIndex = zSeed;
+}
+
+function updTbar() {
+  const slot = $('taskbar-slots');
+  slot.innerHTML = '';
+  WIN_ORDER.forEach(t=>{
+    const w = $('win-'+t);
+    if (w && !w.classList.contains('hidden')) {
+      const btn = document.createElement('button');
+      btn.className = 'tbar-item' + (w.classList.contains('active')?' active':'');
+      const labels = {browser:'网络浏览器',terminal:'命令提示符',mycomputer:'我的电脑',recycle:'回收站'};
+      btn.textContent = labels[t];
+      btn.onclick = ()=> { bringFront(w); if(w.classList.contains('hidden')) { w.classList.remove('hidden'); updTbar(); } };
+      slot.appendChild(btn);
+    }
+  });
+}
+
+// 窗口拖动
+(function initDrag(){
+  let g=null, ox=0, oy=0;
+  document.addEventListener('mousedown', (e)=>{
+    const tb = e.target.closest('.win-titlebar');
+    if (!tb) return;
+    g = tb.closest('.win');
+    const r = g.getBoundingClientRect();
+    ox = e.clientX - r.left;
+    oy = e.clientY - r.top;
+    g.style.opacity = '0.85';
+    bringFront(g);
+  });
+  document.addEventListener('mousemove', (e)=>{
+    if (!g) return;
+    let nx = e.clientX - ox, ny = e.clientY - oy;
+    nx = Math.max(0, Math.min(window.innerWidth-120, nx));
+    ny = Math.max(0, Math.min(window.innerHeight-70, ny));
+    g.style.left = nx+'px';
+    g.style.top  = ny+'px';
+  });
+  document.addEventListener('mouseup', ()=>{ if(g){ g.style.opacity=''; g=null; } });
+})();
+
+// 浏览器核心 (无 .html 后缀)
+function browserGo(url, renderFn) {
+  state.browserHist.push(state.browserUrl);
+  state.browserUrl = url;
+  $('browser-url').textContent = url;
+  const c = $('browser-content');
+  c.innerHTML = '';
+  c.classList.remove('bg-black');
+  renderFn();
+  c.scrollTop = 0;
+}
+
+function browserSet(url, renderFn) {
+  state.browserUrl = url;
+  $('browser-url').textContent = url;
+  const c = $('browser-content');
+  c.innerHTML = '';
+  c.classList.remove('bg-black');
+  renderFn();
+  c.scrollTop = 0;
+}
+
+function browserBack() {
+  if (state.browserHist.length===0) return;
+  const prev = state.browserHist.pop();
+  state.browserUrl = prev;
+  $('browser-url').textContent = prev;
+  $('browser-content').innerHTML = '';
+  $('browser-content').classList.remove('bg-black');
+  if (prev==='index') renderWarning();
+  else if (prev==='www.9cc.ch') renderForum();
+  else if (prev==='webtime.com') renderWayback();
+  else if (prev==='codehub.com/echo/9cc') renderSnapshot();
+  else if (prev==='9cc://awakening') renderFinal();
+  else if (prev==='9cc://aftermath') renderAftermath();
+}
+
+function browserRefresh() {
+  const url = state.browserUrl;
+  $('browser-content').innerHTML = '';
+  if (url==='index') renderWarning();
+  else if (url==='www.9cc.ch') renderForum();
+  else if (url==='webtime.com') renderWayback();
+  else if (url==='codehub.com/echo/9cc') renderSnapshot();
+  else if (url==='9cc://awakening') renderFinal();
+  else if (url==='9cc://aftermath') renderAftermath();
+}
+
+// 打字机效果
+function typewrite(el, text, speed, cb) {
+  speed = speed || 38;
+  el.textContent = '';
+  el.classList.add('typing');
+  let i=0;
+  const iv = setInterval(()=>{
+    if (i < text.length) {
+      el.textContent += text[i];
+      i++;
+      const bc = $('browser-content');
+      if (bc) bc.scrollTop = bc.scrollHeight;
+    } else {
+      clearInterval(iv);
+      el.classList.remove('typing');
+      if (cb) cb();
+    }
+  }, speed);
+  return ()=>clearInterval(iv);
+}
+
+// 渲染: 警告页
+function renderWarning() {
+  const c = $('browser-content');
+  c.innerHTML = `
+    <div class="warn-page">
+      <div class="warn-icon" style="color:#ffaa00;">⚠</div>
+      <div class="warn-line" style="font-size:21px; color:#ffaa00; font-weight:bold;">
+        ⚠ 警告：这是一个 ARG
+      </div>
+      <div class="warn-line" style="color:#ffcc00;">
+        所有人物、事件、网址均为虚构，与现实无关。
+      </div>
+      <hr style="border-color:#005500; margin:16px 40px;">
+      <div class="warn-notice">
+        本体验包含邪教、超自然、血腥等令人不适的虚构内容，请谨慎进入。
+      </div>
+      <div class="warn-notice" style="margin-top:10px;">
+        以下出现的所有网站、组织、人物纯属虚构。
+      </div>
+      <button class="arg-btn" id="btn-enter" style="margin-top:22px;">
+        输入你的名称并进入
+      </button>
+    </div>
+  `;
+  $('btn-enter').onclick = ()=> renderNameInput();
+}
+
+function renderNameInput() {
+  const c = $('browser-content');
+  c.innerHTML = `
+    <div style="text-align:center; padding:36px 10px;">
+      <div style="color:var(--arg-green); font-size:16px; margin-bottom:14px;">
+        请输入你在论坛中使用的名称（将作为你的用户名）：
+      </div>
+      <input type="text" id="name-input"
+        style="background:#000; color:var(--arg-green); border:1px solid #008800;
+               padding:7px 10px; font-size:15px; font-family:'Courier New',monospace;
+               width:240px; text-align:center; letter-spacing:1px;"
+        maxlength="18" placeholder="你的名字" autocomplete="off"
+      >
+      <br>
+      <div id="name-err" style="color:#ff4444; font-size:12px; margin-top:6px; min-height:16px;"></div>
+      <button class="arg-btn" id="btn-confirm-name" style="margin-top:14px;">
+        确认并进入论坛 ›
+      </button>
+    </div>
+  `;
+  const inp = $('name-input');
+  inp.focus();
+  inp.addEventListener('keydown', (e)=>{
+    if (e.key==='Enter') $('btn-confirm-name').click();
+  });
+  $('btn-confirm-name').onclick = ()=>{
+    const nm = inp.value.trim();
+    if (!nm) { $('name-err').textContent='⚠ 请输入一个名称。'; inp.style.borderColor='#ff0000'; return; }
+    state.playerName = nm;
+    const bw = $('win-browser');
+    if (bw.classList.contains('hidden')) bw.classList.remove('hidden');
+    bringFront(bw);
+    updTbar();
+    browserGo('www.9cc.ch', renderForum);
+  };
+}
+
+// 论坛 (扩展: 隐藏帖子)
+function renderForum() {
+  const c = $('browser-content');
+  c.innerHTML = `
+    <div style="color:#008800; font-size:11.5px; margin-bottom:6px;">
+      [9cc.ch 论坛] — 连接已建立 — 2009 年风格 — 页面加载完成
+    </div>
+    <div style="color:#004400; font-size:11px; margin-bottom:8px;">
+      &gt; 当前版面：「综合讨论」| 今日：3 篇 | 会员：1,205
+    </div>
+    <hr style="border-color:#004400;">
+    <br>
+
+    <div class="forum-post">
+      <div class="forum-author">
+        <span style="color:#00aaff;">作者：</span>runningfox123 &nbsp;|&nbsp;
+        <span style="color:#666666;">发布于 2009-04-12 23:41:08</span> &nbsp;|&nbsp;
+        <span style="color:#ffaa00;">🔥 0 回复</span> &nbsp;|&nbsp;
+        <span style="color:#888;">浏览 14</span>
+      </div>
+      <div class="forum-title">求助：2009 年的仓库打不开</div>
+      <div class="forum-body">
+        <br>
+        各位，我昨天在 Codehub 上闲逛时发现了一个 2009 年的仓库，<br>
+        名字好像叫 "9cc" 还是什么。<br>
+        <br>
+        但点进去的时候页面一片空白，仓库似乎被锁定了。<br>
+        <br>
+        有人知道怎么看到里面的内容吗？<br>
+        <br>
+        <span style="color:#006600;">—— runningfox123，2009-04-12 23:41</span>
+      </div>
+      <div class="forum-meta">
+        IP: 192.168.x.x | User-Agent: Mozilla/4.0 | 编辑
+      </div>
+    </div>
+
+    <!-- 隐藏帖子 (点击"综合讨论"文字触发) -->
+    <div id="hidden-post-area"></div>
+    <div style="color:#004400; font-size:10px; text-align:center; margin-top:8px;">
+      <span id="secret-trigger" style="cursor:pointer; text-decoration:underline;">综合讨论</span> — 最新主题
+    </div>
+
+    <hr style="border-color:#003300; margin:14px 0;">
+
+    <div id="reply-section">
+      <div class="reply-section">
+        <div style="color:#00aa00; font-size:12px; margin-bottom:5px;">
+          回复此帖（你将作为 <span style="color:#00ff88;">"${state.playerName}"</span> 回复）：
+        </div>
+        <textarea id="reply-ta" readonly>@runningfox123，你可以试试用网页时光机打开它。</textarea>
+        <br>
+        <button class="arg-btn" id="btn-reply" style="font-size:12px; padding:5px 14px;">
+          回复
+        </button>
+      </div>
+    </div>
+
+    <div id="reply-done" class="hidden" style="margin-top:12px;">
+      <div style="border:1px solid #004400; padding:8px; background:rgba(0,15,0,0.6);">
+        <div style="color:#00aaff; font-size:12px;">
+          ${state.playerName}
+          <span style="color:#555555; font-size:11px;">刚刚</span>
+        </div>
+        <div style="color:#00cc00; margin-top:5px; font-size:13px;" id="reply-display"></div>
+      </div>
+      <br>
+      <button class="arg-btn" id="btn-wayback" style="font-size:13px;">
+        ▶ 打开网页时光机
+      </button>
+    </div>
+  `;
+
+  // 隐藏帖子
+  $('secret-trigger').onclick = () => {
+    const area = $('#hidden-post-area');
+    if (area.innerHTML !== '') return;
+    area.innerHTML = `
+      <div class="forum-post" style="border-color:#880000;">
+        <div class="forum-author"><span style="color:#ff6666;">警告：管理员锁定的主题</span></div>
+        <div class="forum-title">██ 内部记录 ██</div>
+        <div class="forum-body">
+          频率 9.9 Hz 会导致不可逆的认知损伤。<br>
+          受试者 #9 在实验后第三天失踪。<br>
+          所有物理记录应于 2009-04-15 前销毁。<br>
+          <span style="color:#ff0000;">切勿尝试逆向 /the_truth.txt</span>
+        </div>
+        <div class="forum-meta">最后编辑: ████ 2009-04-14</div>
+      </div>
+    `;
+  };
+
+  $('btn-reply').onclick = ()=>{
+    const display = $('reply-display');
+    const text = '@runningfox123，你可以试试用网页时光机打开它。';
+    typewrite(display, text, 42, ()=>{
+      $('reply-section').classList.add('hidden');
+      $('reply-done').classList.remove('hidden');
+    });
+  };
+  $('btn-wayback').onclick = ()=>{
+    browserGo('webtime.com', renderWayback);
+  };
+}
+
+// 网页时光机
+function renderWayback() {
+  const c = $('browser-content');
+  c.innerHTML = `
+    <div class="wb-header">◆◆◆ 网页时光机 ◆◆◆<br><span style="font-size:12px; color:#008800;">Wayback Machine — 回溯网页快照</span></div>
+    <div style="color:#00aa00; font-size:12px; text-align:center; margin-bottom:10px;">
+      输入一个网址，查看它在过去某个时间的快照存档。
+    </div>
+    <div class="wb-search">
+      <input type="text" id="wb-input" value="http://codehub.com/echo/9cc" readonly
+        style="background:#001100; color:var(--arg-green);">
+      <button class="arg-btn" onclick="doWaybackSearch()" style="font-size:12px; padding:5px 12px;">🔍 搜索快照</button>
+    </div>
+    <div id="wb-results"></div>
+    <div style="color:#004400; font-size:11px; margin-top:12px;">
+      * 网页时光机由 Internet Archive 提供技术支持（虚构）<br>
+      * 部分快照可能不完整或包含被移除的内容
+    </div>
+  `;
+}
+
+function doWaybackSearch() {
+  const r = $('wb-results');
+  r.innerHTML = `
+    <div style="color:#00cc00; margin:6px 0; font-size:12.5px;">
+      &gt; 正在查询 http://codehub.com/echo/9cc 的存档记录……<br>
+      &gt; 正在连接归档服务器……<br>
+      &gt; 查询完成。
+    </div>
+    <div style="color:var(--arg-green); font-size:14px; margin:8px 0;">
+      ✔ 找到 <span style="color:#ffff00; font-weight:bold;">1</span> 个快照
+    </div>
+    <hr style="border-color:#004400;">
+    <div style="color:#00aa00; font-size:12px; margin:6px 0;">按年份查看：</div>
+    <div class="wb-timeline" id="wb-tl">
+      <div style="color:#00aa00; font-size:13px; font-weight:bold; padding:4px 8px;">2009 ▼</div>
+      <div class="wb-snapshot" onclick="openSnapshot()">
+        <div style="font-size:15px; font-weight:bold;">4月</div>
+        <div style="font-size:11px; color:#00aa00;">14 日</div>
+        <div style="font-size:10px; color:#004400; margin-top:3px;">03:27 UTC+8</div>
+        <div style="font-size:9px; color:#008800;">[查看快照]</div>
+      </div>
+    </div>
+    <div style="color:#555; font-size:11px; margin-top:8px;">
+      &gt; 提示：点击快照查看该时间点的页面存档内容。
+    </div>
+  `;
+}
+
+function openSnapshot() {
+  browserGo('codehub.com/echo/9cc', renderSnapshot);
+}
+
+// 快照页面 (扩展: 添加可点击的录音片段)
+function renderSnapshot() {
+  const c = $('browser-content');
+  const star = [
+    '           ✦     ',
+    '          ╱│╲    ',
+    '         ╱ │ ╲   ',
+    '        ╱  │  ╲  ',
+    '       ╱   │   ╲ ',
+    '      ╱    │    ╲',
+    '     ╱   ✦ │   ✦ ╲',
+    '    ✦───────+───────✦',
+    '     ╲   ✦ │   ✦ ╱',
+    '      ╲    │    ╱',
+    '       ╲   │   ╱ ',
+    '        ╲  │  ╱  ',
+    '         ╲ │ ╱   ',
+    '          ╲│╱    ',
+    '           ✦     ',
+  ].join('\n');
+
+  c.innerHTML = `
+    <div style="color:#008800; font-size:11px; margin-bottom:6px;">
+      [存档快照] 抓取时间：2009-04-14 03:27:11 UTC+8 &nbsp;|&nbsp; 原始网址：http://codehub.com/echo/9cc
+    </div>
+    <div style="color:#004400; font-size:11px; margin-bottom:8px;">
+      ⚠ 此页面为自动存档快照，可能与原始页面有差异。
+    </div>
+    <hr style="border-color:#005500;">
+    <br>
+    <div style="color:var(--arg-green); font-size:22px; font-weight:bold; text-align:center; text-shadow:0 0 8px rgba(0,204,0,0.5);">
+      ███ 第九频道（The Ninth Channel）███
+    </div>
+    <div style="color:#00aa00; font-size:13.5px; text-align:center; margin:5px 0 18px;">
+      —— 听觉认知实验记录 ——
+    </div>
+    <div style="color:#00cc00; font-size:13.5px; line-height:2; text-align:justify;">
+      &nbsp;&nbsp;我们通过特定频率（<span style="color:#ffff00; font-weight:bold;">9.9 Hz</span>）成功打开了受试者的"内在视觉"。<br>
+      <br>
+      &nbsp;&nbsp;但受试者开始报告看见"不存在的人"，并出现<span style="color:#ff4444; font-weight:bold; animation:flicker 3s infinite;">集体自残行为</span>。<br>
+      <br>
+      &nbsp;&nbsp;<span style="color:#ff4444; text-decoration:line-through;">████</span> 博士决定终止实验。<br>
+      &nbsp;&nbsp;第 9 号样本被销毁。<br>
+      &nbsp;&nbsp;所有记录被封存。<br>
+      <br>
+      &nbsp;&nbsp;<span style="color:#ffaa00; font-weight:bold;">记住：不要去看深网里的那个信号。</span><br>
+    </div>
+    <br>
+    <hr style="border-color:#005500;">
+    <br>
+    <div class="ascii-art" style="color:#00aa00; font-size:11px;" id="ascii-star">
+${star}</div>
+    <div class="ascii-art" style="color:#007700; font-size:16px; letter-spacing:12px; margin-top:-4px;">
+      ~~~ 9 ~~~ 9 ~~~ 9 ~~~
+    </div>
+    <br>
+    <hr style="border-color:#004400;">
+    <div id="truth-hint"
+      style="color:#333; font-size:11px; text-align:center; cursor:pointer; padding:6px;
+             transition:color 0.5s;"
+      onmouseover="this.style.color='#00aa00'"
+      onmouseout="this.style.color='#333'"
+      title="真相在 9cc 的根目录 /the_truth.txt，密码是受试者的编号。编号藏在……你的名字里。">
+      真相在 9cc 的根目录 /the_truth.txt，密码是受试者的编号。编号藏在……你的名字里。<br>
+      <span style="font-size:10px; color:#222;">（鼠标移到此处可看清文字）</span>
+    </div>
+
+    <!-- 扩展：旧录音片段 -->
+    <div id="audio-easter" style="margin:12px 0; text-align:center;">
+      <div class="arg-btn" id="play-reverse" style="display:inline-block; padding:5px 12px; font-size:12px;">📼 播放旧录音片段 (倒放)</div>
+    </div>
+
+    <br>
+    <div style="color:#006600; font-size:11.5px;">
+      <span style="color:#555555;">&gt;&gt;&gt; </span>页面可能包含被移除的内容。存档由网页时光机自动生成。<br>
+      <span style="color:#555555;">&gt;&gt;&gt; </span>原始仓库已被 <span style="color:#ff4444;">████</span> 于 2009-04-15 封禁。
+    </div>
+  `;
+
+  startStatusGlitch();
+  setTimeout(()=>{
+    if (state.browserUrl !== 'codehub.com/echo/9cc') return;
+    const hint = document.createElement('div');
+    hint.style.cssText='color:#ffaa00; margin-top:14px; border:1px solid #664400; padding:8px; background:rgba(30,20,0,0.8); font-size:12px;';
+    hint.innerHTML='💡 <span style="color:#ffcc00;">提示：你可能需要打开桌面上的"终端"来继续探索……<br>密码藏在你的名字里——试着计算一下字符数。</span>';
+    c.appendChild(hint);
+  }, 3500);
+
+  // 录音彩蛋
+  const playBtn = $('#play-reverse');
+  if (playBtn) {
+    playBtn.onclick = () => {
+      playReverseAudio();
+    };
+  }
+}
+
+function playReverseAudio() {
+  // 模拟倒放音效 (Web Audio 锯齿波倒置效果)
+  try {
+    if (!state.audioCtx) state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    if (state.audioCtx.state === 'suspended') state.audioCtx.resume();
+    const now = state.audioCtx.currentTime;
+    const osc = state.audioCtx.createOscillator();
+    const gain = state.audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.value = 880;
+    gain.gain.value = 0.05;
+    osc.connect(gain);
+    gain.connect(state.audioCtx.destination);
+    osc.start();
+    // 频率从高到低扫频 (模拟倒放)
+    osc.frequency.exponentialRampToValue(220, now + 2.5);
+    gain.gain.exponentialRampToValue(0.0001, now + 2.8);
+    setTimeout(() => { try { osc.stop(); } catch(e){} }, 3000);
+    appendTerm('\n[系统] 录音片段已播放: "他们来了..."\n');
+  } catch(e) {}
+}
+
+// 状态栏闪烁
+const GLITCH_MSGS = [
+  '他们在看你','不要再深入了','第九频道在召唤',
+  '你已经被标记','不要打开它','◯◯◯◯◯◯◯',
+  '9.9 Hz','他们在阴影中','真相已被封存',
+  'echo 正在广播','受试者 9 号','不要回应',
+  '████ 博士在看着','信号未终止','9cc 在召唤你',
+  '终端已锁定','不要阅读 /the_truth.txt','频率正在升高',
+];
+
+function startStatusGlitch() {
+  stopStatusGlitch();
+  const el = $('browser-status');
+  let gi=0;
+  state.statusIv = setInterval(()=>{
+    gi = (gi+1) % GLITCH_MSGS.length;
+    el.textContent = GLITCH_MSGS[gi];
+    el.className = 'status-glitch';
+    if (Math.random()>0.45) {
+      el.textContent += ' ' + garbage(randInt(3,8));
+    }
+  }, 2200);
+}
+
+function stopStatusGlitch() {
+  if (state.statusIv) clearInterval(state.statusIv);
+  state.statusIv = null;
+  const el = $('browser-status');
+  if (el) { el.className=''; el.textContent='就绪'; }
+}
+
+// 终端
+function initTerm() {
+  const inp = $('term-input');
+  inp.addEventListener('keydown', (e)=>{
+    if (e.key==='Enter') {
+      const cmd = inp.value.trim();
+      inp.value = '';
+      handleCmd(cmd);
+    }
+  });
+}
+initTerm();
+
+function focusTerm() {
+  setTimeout(()=> { const el = $('term-input'); if(el) el.focus(); }, 120);
+}
+
+function appendTerm(text) {
+  const o = $('term-output');
+  o.textContent += text;
+  o.scrollTop = o.scrollHeight;
+}
+
+function handleCmd(cmd) {
+  if (!cmd) { appendTerm('\n'); return; }
+  appendTerm('C:\\9CC> ' + cmd + '\n');
+  const expectedPwd = state.playerName.length + '_9';
+  const altPwd = '9TH_SAMPLE_9';
+  if (cmd === expectedPwd || cmd === altPwd) {
+    triggerEnding();
+    return;
+  }
+  const lc = cmd.toLowerCase();
+  if (lc==='help') {
+    appendTerm('  help      — 显示此帮助信息\n');
+    appendTerm('  dir       — 列出当前目录内容\n');
+    appendTerm('  type      — 查看文件（需要密码）\n');
+    appendTerm('  cls       — 清屏\n');
+    appendTerm('  exit      — 退出终端（无效）\n');
+    appendTerm('  frequency — 播放实验频率（9.9 Hz）\n');
+    appendTerm('  signal    — 播放摩斯电码 "9CC" (新)\n\n');
+  }
+  else if (lc==='dir') {
+    appendTerm('  目录 C:\\9CC\\ 的内容：\n\n');
+    appendTerm('  [DIR]          samples\\\n');
+    appendTerm('  [DIR]          records\\\n');
+    appendTerm('  [FILE]         the_truth.txt         [已加密 ✓]\n');
+    appendTerm('  [FILE]         experiment.log\n');
+    appendTerm('  [FILE]         frequency.dat\n');
+    appendTerm('  [FILE]         9cc_signal.wav\n');
+    appendTerm('\n');
+    appendTerm('   3 个文件         18,432 字节\n');
+    appendTerm('   2 个目录    5,242,880,000 字节可用\n\n');
+  }
+  else if (lc==='type') {
+    appendTerm('  type 命令需要指定文件名。\n');
+    appendTerm('  用法：type &lt;filename&gt;\n');
+    appendTerm('  提示：the_truth.txt 已加密，需要密码。\n');
+    appendTerm('  密码格式：&lt;你名字的字符数&gt;_9\n\n');
+    if (state.playerName) {
+      appendTerm('  （你的名字是 "' + state.playerName + '"，共 ' + state.playerName.length + ' 个字符……）\n\n');
+    }
+  }
+  else if (lc.startsWith('type ')) {
+    const fname = cmd.slice(5).trim();
+    if (fname==='the_truth.txt' || fname==='the_truth' || fname==='truth') {
+      appendTerm('  [the_truth.txt] 文件已加密。\n');
+      appendTerm('  请输入密码来解密。\n');
+      appendTerm('  &gt; ');
+      appendTerm('\n  （提示：直接在提示符后输入密码并回车。）\n\n');
+    } else {
+      appendTerm('  type: ' + fname + ': 没有此文件\n\n');
+    }
+  }
+  else if (lc==='cls') {
+    $('term-output').textContent = '';
+  }
+  else if (lc==='exit') {
+    appendTerm('  会话无法终止。\n');
+    appendTerm('  第九频道仍在监听……\n\n');
+  }
+  else if (lc==='frequency' || lc==='freq') {
+    appendTerm('  正在播放实验频率：9.9 Hz……\n');
+    appendTerm('  ████████████████████ 100%\n\n');
+    playBeep();
+  }
+  else if (lc==='signal') {
+    appendTerm('  播放摩斯电码: -.... ..--- -.-. -.-.  (9CC)\n');
+    playMorse();
+  }
+  else {
+    appendTerm('  "' + cmd + '" 不是内部或外部命令，也不是可运行的程序。\n');
+    appendTerm('  输入 "help" 查看可用命令。\n\n');
+  }
+}
+
+function playMorse() {
+  try {
+    if (!state.audioCtx) state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    if (state.audioCtx.state === 'suspended') state.audioCtx.resume();
+    const pattern = [0.2, 0.2, 0.2, 0.6, 0.2, 0.2, 0.2]; // 简化的 9 C C
+    let time = state.audioCtx.currentTime;
+    const osc = state.audioCtx.createOscillator();
+    const gain = state.audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 880;
+    gain.gain.value = 0;
+    osc.connect(gain);
+    gain.connect(state.audioCtx.destination);
+    osc.start();
+    for (let i=0; i<pattern.length; i++) {
+      const dur = pattern[i];
+      gain.gain.setValueAtTime(0.08, time);
+      gain.gain.setValueAtTime(0.08, time + dur - 0.02);
+      gain.gain.setValueAtTime(0, time + dur);
+      time += dur + 0.05;
+    }
+    setTimeout(() => { try { osc.stop(); } catch(e){} }, time * 1000 + 500);
+  } catch(e) {}
+}
+
+function playBeep() {
+  try {
+    if (!state.audioCtx) state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    if (state.audioCtx.state==='suspended') state.audioCtx.resume();
+    const osc = state.audioCtx.createOscillator();
+    const gain = state.audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 9.9;
+    gain.gain.value = 0.08;
+    osc.connect(gain);
+    gain.connect(state.audioCtx.destination);
+    osc.start();
+    setTimeout(()=>{ try{osc.stop();}catch(e){} }, 3000);
+  } catch(e) {}
+}
+
+// 终局
+function triggerEnding() {
+  if (state.ending) return;
+  state.ending = true;
+  state.phase = 'terminal-ending';
+  const o = $('term-output');
+  o.textContent = '';
+  const lines = [
+    '正在验证密码……',
+    '',
+    '✔ 密码正确。',
+    '✔ 正在解密 the_truth.txt……',
+    '',
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    '',
+    '第九频道并未消失。',
+    '它仍在招募。',
+    '',
+    '你已被选为下一个接收者。',
+    '',
+    '关闭此终端三次可中断传输。',
+    '',
+    '正在建立永久连接……',
+    '信号频率：9.9 Hz',
+    '',
+    '受试者 #' + (state.playerName.length) + ' 已确认。',
+    '',
+    '████████████████████████████████',
+    '',
+    '勿忘频率。',
+    '勿忘第九频道。',
+    '',
+    '他们正在来的路上。',
+    '',
+  ];
+  let li = 0;
+  function printLine() {
+    if (li < lines.length) {
+      appendTerm(lines[li] + '\n');
+      li++;
+      setTimeout(printLine, 250 + Math.random()*350);
+    } else {
+      startEndingEffects();
+    }
+  }
+  printLine();
+}
+
+function startEndingEffects() {
+  const desk = $('desktop');
+  desk.classList.add('desk-distort');
+  $('red-flash').classList.remove('hidden');
+  $('ico-mycomp').textContent = '⛧';
+  $('lbl-mycomp').textContent = '第九频道';
+  const floatMsgs = ['👁️','◎','⛧','9','加入我们','9CC','███','受试者'];
+  function spawnEye() {
+    if (!state.ending) return;
+    const el = document.createElement('div');
+    el.className = 'float-eye';
+    el.textContent = floatMsgs[randInt(0, floatMsgs.length-1)];
+    el.style.left = randInt(2,96)+'%';
+    el.style.fontSize = (13+randInt(0,18))+'px';
+    const dur = 3.5 + Math.random()*4;
+    el.style.animationDuration = dur+'s';
+    desk.appendChild(el);
+    setTimeout(()=>el.remove(), dur*1000+200);
+  }
+  for (let i=0;i<6;i++) setTimeout(spawnEye, i*400);
+  const iv1 = setInterval(spawnEye, 1100);
+  state.endingIvs.push(iv1);
+  startBeep();
+  if (!$('win-browser').classList.contains('hidden')) {
+    const bc = $('browser-content');
+    const intruder = document.createElement('div');
+    intruder.style.cssText='color:#ff0000; font-size:13px; margin-top:12px; font-weight:bold;';
+    intruder.textContent='[警告] 检测到未授权访问。第九频道正在定位你的位置……';
+    bc.appendChild(intruder);
+  }
+}
+
+function startBeep() {
+  try {
+    if (!state.audioCtx) state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    if (state.audioCtx.state==='suspended') state.audioCtx.resume();
+    const osc = state.audioCtx.createOscillator();
+    const gain = state.audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 440;
+    gain.gain.value = 0.06;
+    osc.connect(gain);
+    gain.connect(state.audioCtx.destination);
+    osc.start();
+    state.oscillator = osc;
+    const iv2 = setInterval(()=>{
+      if (!state.ending) { clearInterval(iv2); return; }
+      osc.frequency.value = 440 + Math.sin(Date.now()/1000)*25;
+      gain.gain.value = 0.04 + Math.sin(Date.now()/800)*0.025;
+    }, 100);
+    state.endingIvs.push(iv2);
+  } catch(e) {}
+}
+
+function clearEnding() {
+  state.ending = false;
+  state.endingIvs.forEach(iv=>clearInterval(iv));
+  state.endingIvs = [];
+  if (state.oscillator) { try{state.oscillator.stop();}catch(e){} state.oscillator=null; }
+  $('red-flash').classList.add('hidden');
+  $('desktop').classList.remove('desk-distort');
+  $('ico-mycomp').textContent = '💻';
+  $('lbl-mycomp').textContent = '我的电脑';
+  document.querySelectorAll('.float-eye').forEach(el=>el.remove());
+  stopStatusGlitch();
+}
+
+// 结局页面 (原有)
+function renderFinal() {
+  const c = $('browser-content');
+  c.classList.add('bg-black');
+  c.innerHTML = '';
+  const wrap = document.createElement('div');
+  wrap.className = 'final-page';
+  const line1 = document.createElement('div');
+  line1.className = 'final-line';
+  line1.style.opacity = '0';
+  line1.textContent = 'ARG 结束。但第九频道的信号永不终止。';
+  wrap.appendChild(line1);
+  const line2 = document.createElement('div');
+  line2.className = 'final-sub';
+  line2.style.opacity = '0';
+  line2.textContent = '感谢游玩，' + (state.playerName||'访客') + '。';
+  wrap.appendChild(line2);
+  const btn = document.createElement('button');
+  btn.className = 'arg-btn';
+  btn.textContent = '▶ 重新开始';
+  btn.style.marginTop = '30px';
+  btn.style.opacity = '0';
+  btn.onclick = resetAll;
+  wrap.appendChild(btn);
+  const btnAfter = document.createElement('button');
+  btnAfter.className = 'arg-btn';
+  btnAfter.textContent = '📡 信号余波 (彩蛋)';
+  btnAfter.style.marginTop = '15px';
+  btnAfter.style.opacity = '0';
+  btnAfter.onclick = () => { browserGo('9cc://aftermath', renderAftermath); };
+  wrap.appendChild(btnAfter);
+  c.appendChild(wrap);
+  setTimeout(()=>{ line1.style.transition='opacity 2.5s'; line1.style.opacity='1'; }, 600);
+  setTimeout(()=>{ line2.style.transition='opacity 3s'; line2.style.opacity='1'; }, 2800);
+  setTimeout(()=>{ btn.style.transition='opacity 2s'; btn.style.opacity='1'; btnAfter.style.transition='opacity 2s'; btnAfter.style.opacity='1'; }, 5500);
+}
+
+// 新增彩蛋页: 信号余波
+function renderAftermath() {
+  const c = $('browser-content');
+  c.classList.remove('bg-black');
+  c.innerHTML = `
+    <div style="color:#aa0000; text-align:center; padding:20px;">
+      <div style="font-size:20px; font-weight:bold;">⚠ 信号余波 ⚠</div>
+      <hr style="border-color:#aa0000; margin:10px 0;">
+      <div style="color:#ff6666; margin:12px 0;">"他们在收听。你的名字已经被记录在第九频道的名单上。"</div>
+      <div style="color:#cc8888; font-size:12px;">&gt; 实验并未真正结束。每隔 9 天，你会再次收到来自 <span style="color:#ff0000;">9.9 Hz</span> 的回响。&lt;</div>
+      <div class="arg-btn" onclick="resetAll()" style="margin-top:25px;">返回开始</div>
+    </div>
+  `;
+}
+
+// 重置
+function resetAll() {
+  clearEnding();
+  stopStatusGlitch();
+  state.playerName = '';
+  state.phase = 'desktop';
+  state.browserHist = [];
+  state.browserUrl = 'about:blank';
+  state.termClose = 0;
+  $('term-output').textContent = '';
+  $('term-input').value = '';
+  $('browser-url').textContent = 'about:blank';
+  $('browser-content').innerHTML = '';
+  $('browser-content').classList.remove('bg-black');
+  $('browser-status').textContent = '就绪';
+  $('browser-status').className = '';
+  ['browser','terminal','mycomputer','recycle'].forEach(t=>{
+    $('win-'+t).classList.add('hidden');
+  });
+  updTbar();
+}
+
+// 初始化
+document.addEventListener('DOMContentLoaded', ()=>{
+  updTbar();
+});
+</script>
+</body>
+</html>
