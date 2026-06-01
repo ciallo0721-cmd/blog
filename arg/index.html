@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>ARG - 第九频道 The Ninth Channel (扩展版)</title>
+<title>Desktop</title>
 <style>
 /* ============================
    CSS 变量 & 全局 (保持原风格)
@@ -333,14 +333,6 @@ body {
     <div class="ico" id="ico-terminal">🖥️</div>
     <div class="lbl">终端</div>
   </div>
-  <div class="desk-icon" style="left:22px; top:206px;" data-win="mycomputer" onclick="deskIconClick('mycomputer')">
-    <div class="ico" id="ico-mycomp">💻</div>
-    <div class="lbl" id="lbl-mycomp">我的电脑</div>
-  </div>
-  <div class="desk-icon" style="left:22px; top:297px;" data-win="recycle"   onclick="deskIconClick('recycle')">
-    <div class="ico">🗑️</div>
-    <div class="lbl">回收站</div>
-  </div>
 
   <div class="win hidden" id="win-browser" style="left:60px; top:35px; width:730px; height:510px;">
     <div class="win-titlebar" id="tb-browser">
@@ -380,39 +372,7 @@ body {
     </div>
   </div>
 
-  <div class="win hidden" id="win-mycomputer" style="left:120px; top:55px; width:490px; height:370px;">
-    <div class="win-titlebar" id="tb-mycomputer">
-      <div class="win-title">💻 我的电脑</div>
-      <div class="win-btns">
-        <button class="win-btn" onclick="winMin('mycomputer')">_</button>
-        <button class="win-btn" onclick="winClose('mycomputer')">✕</button>
-      </div>
-    </div>
-    <div class="win-body">
-      <div class="mc-content" id="mc-content">
-        <p><b>我的电脑</b></p><hr style="margin:6px 0;">
-        <div style="display:flex; flex-wrap:wrap;">
-          <div class="mc-icon"><div style="font-size:26px;">🗂️</div><div>本地磁盘 (C:)</div></div>
-          <div class="mc-icon"><div style="font-size:26px;">🗂️</div><div>本地磁盘 (D:)</div></div>
-          <div class="mc-icon"><div style="font-size:26px;">💿</div><div>CD 驱动器 (E:)</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="win hidden" id="win-recycle" style="left:260px; top:95px; width:380px; height:290px;">
-    <div class="win-titlebar" id="tb-recycle">
-      <div class="win-title">🗑️ 回收站</div>
-      <div class="win-btns">
-        <button class="win-btn" onclick="winMin('recycle')">_</button>
-        <button class="win-btn" onclick="winClose('recycle')">✕</button>
-      </div>
-    </div>
-    <div class="win-body">
-      <div class="mc-content" style="color:#555;">回收站是空的。</div>
-    </div>
-  </div>
-</div>
 
 <div id="red-flash" class="red-flash-layer hidden"></div>
 
@@ -431,9 +391,9 @@ body {
          z-index:100000; padding:2px 0; box-shadow:2px 2px 4px rgba(0,0,0,0.4);">
   <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="deskIconClick('browser');closeStart()">🌐 网络浏览器</div>
   <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="deskIconClick('terminal');closeStart()">🖥️ 终端</div>
-  <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="deskIconClick('mycomputer');closeStart()">💻 我的电脑</div>
+  <!-- <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="deskIconClick('mycomputer');closeStart()">💻 我的电脑</div> -->
   <hr style="margin:2px 4px; border-color:var(--win98-dark);">
-  <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="alert('第九频道 v0.9.5 扩展版\n\n新增: 隐藏帖子, signal命令, 录音彩蛋, 结局后彩蛋\n\n© 2009 echo labs');closeStart()">ℹ️ 关于</div>
+  <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="alert('第九频道 v0.9.5\n\n作者:ciallo0721-cmd\n\n提示:备用密码9TH_SAMPLE_9');closeStart()">ℹ️ 关于</div>
 </div>
 
 <script>
@@ -542,7 +502,7 @@ function updTbar() {
     if (w && !w.classList.contains('hidden')) {
       const btn = document.createElement('button');
       btn.className = 'tbar-item' + (w.classList.contains('active')?' active':'');
-      const labels = {browser:'网络浏览器',terminal:'命令提示符',mycomputer:'我的电脑',recycle:'回收站'};
+      const labels = {browser:'网络浏览器',terminal:'命令提示符'};
       btn.textContent = labels[t];
       btn.onclick = ()=> { bringFront(w); if(w.classList.contains('hidden')) { w.classList.remove('hidden'); updTbar(); } };
       slot.appendChild(btn);
@@ -1054,8 +1014,8 @@ function handleCmd(cmd) {
     appendTerm('  type      — 查看文件（需要密码）\n');
     appendTerm('  cls       — 清屏\n');
     appendTerm('  exit      — 退出终端（无效）\n');
-    appendTerm('  frequency — 播放实验频率（9.9 Hz）\n');
-    appendTerm('  signal    — 播放摩斯电码 "9CC" (新)\n\n');
+    appendTerm('  frequency — 9@@@@.9@@@@@9..@99999\n');
+    appendTerm('  signal    — ???????????????\n\n');
   }
   else if (lc==='dir') {
     appendTerm('  目录 C:\\9CC\\ 的内容：\n\n');
@@ -1097,12 +1057,12 @@ function handleCmd(cmd) {
     appendTerm('  第九频道仍在监听……\n\n');
   }
   else if (lc==='frequency' || lc==='freq') {
-    appendTerm('  正在播放实验频率：9.9 Hz……\n');
+    appendTerm('  ........\n');
     appendTerm('  ████████████████████ 100%\n\n');
     playBeep();
   }
   else if (lc==='signal') {
-    appendTerm('  播放摩斯电码: -.... ..--- -.-. -.-.  (9CC)\n');
+    appendTerm('  -.... ..--- -.-. -.-.\n');
     playMorse();
   }
   else {
@@ -1261,8 +1221,8 @@ function clearEnding() {
   if (state.oscillator) { try{state.oscillator.stop();}catch(e){} state.oscillator=null; }
   $('red-flash').classList.add('hidden');
   $('desktop').classList.remove('desk-distort');
-  $('ico-mycomp').textContent = '💻';
-  $('lbl-mycomp').textContent = '我的电脑';
+  // $('ico-mycomp').textContent = '💻';
+  // $('lbl-mycomp').textContent = '我的电脑';
   document.querySelectorAll('.float-eye').forEach(el=>el.remove());
   stopStatusGlitch();
 }
