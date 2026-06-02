@@ -1,0 +1,47 @@
+name: 哀悼日灰度启用
+
+on:
+  schedule:
+    # 9月18日 00:00 UTC（北京时间 09月18日 08:00）
+    - cron: '0 0 18 9 *'
+    # 12月13日 00:00 UTC（北京时间 12月13日 08:00）
+    - cron: '0 0 13 12 *'
+  workflow_dispatch:  # 允许手动触发，方便测试
+
+jobs:
+  add-grayscale:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 注入灰度样式到 index.html
+        run: |
+          # 检查是否已经注入过，避免重复
+          if grep -q '<!-- MEMORIAL-DAY-GRAYSCALE -->' index.html; then
+            echo "灰度样式已存在，跳过注入"
+            exit 0
+          fi
+
+          # 在 </body> 前插入灰度脚本
+          sed -i 's|</body>|<!-- MEMORIAL-DAY-GRAYSCALE -->\n<script>document.documentElement.style.filter="grayscale(1)";<\/script>\n<!-- /MEMORIAL-DAY-GRAYSCALE -->\n</body>|' index.html
+
+          echo "灰度样式注入完成"
+
+      - name: 提交并推送
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          # 如果没有变更则跳过
+          if git diff --cached --quiet; then
+            echo "无变更，跳过提交"
+          else
+            git commit -m "🕯️ 哀悼日：启用全站灰度模式"
+            git push
+          fi
