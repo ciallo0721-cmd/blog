@@ -1,0 +1,163 @@
+/**
+ * ============================================================
+ *  status-data.js — 网站状态历史记录
+ * ============================================================
+ *
+ * 【自动工作流 GitHub Actions】
+ *   `.github/workflows/status-update.yml` 会在每次 push main 时自动追加一条
+ *   green 状态记录（从 commit message 提取标题）。
+ *   如需指定 yellow/red 状态，请到 GitHub Actions → status-update → Run workflow
+ *   手动触发，填入状态、标题和描述。
+ *
+ * 【手动维护】
+ *   也可以直接编辑此文件，在 statusHistory 数组最前面新增记录。
+ *
+ * 【状态颜色说明】
+ *   red    🔴 严重问题 — 无法正常访问、界面错位、白屏、500等
+ *   yellow 🟡 小问题   — 错别字、引用文件错误、样式小瑕疵等
+ *   green  🟢 一切正常 — 更新顺利，无任何问题
+ *   gray   ⚪ 无记录   — 没有该日期的状态数据
+ *
+ * 【记录格式】
+ *   {
+ *     date: "2026年6月2日",
+ *     status: "green" | "yellow" | "red",
+ *     title: "简短描述",
+ *     desc: "详细说明（可选）"
+ *   }
+ *
+ * ============================================================
+ */
+
+window.statusHistory = [
+    {
+        date: "2026年6月2日",
+        status: "green",
+        title: "状态页面改版：新增历史回放 + 灰色状态",
+        desc: "改造 status.html，新增历史回放时间线，新增灰色「无记录」状态，建立更新→记录工作流，一切正常喵～"
+    },
+    {
+        date: "2026年6月1日",
+        status: "green",
+        title: "新增全套 HTTP 错误页面",
+        desc: "批量创建 24 个 HTTP 错误页面，统一风格，一切正常喵～"
+    },
+    {
+        date: "2026年5月23日",
+        status: "yellow",
+        title: "修复Python在线编辑器多个bug",
+        desc: "修复ID不匹配、SyntaxError等问题。期间发现 dynamic-data.js 数字换行导致 SyntaxError，属于小问题已修复喵～"
+    },
+    {
+        date: "2026年5月22日",
+        status: "green",
+        title: "上线免费工具集 + SEO长文矩阵",
+        desc: "上线4个免费工具、友链页面、3篇SEO文章，一切正常喵～"
+    },
+    {
+        date: "2026年5月18日",
+        status: "green",
+        title: "新增心情追踪仪表板",
+        desc: "集成 Mood-Tracker-Dashboard，一切正常喵～"
+    },
+    {
+        date: "2026年5月17日",
+        status: "green",
+        title: "更新 sitemap + 简化验证流程",
+        desc: "更新 sitemap，删除多余验证环节，一切正常喵～"
+    },
+    {
+        date: "2026年5月16日",
+        status: "green",
+        title: "新增低版本浏览器跳转页面",
+        desc: "添加 oops 页面，一切正常喵～"
+    },
+    {
+        date: "2026年5月10日",
+        status: "yellow",
+        title: "修复返回顶部按钮 + 升级音乐播放器UI",
+        desc: "修复按钮箭头不居中bug（小问题），升级播放器UI，整体正常喵～"
+    },
+    {
+        date: "2026年5月7日",
+        status: "green",
+        title: "新增视频播放器（自研）",
+        desc: "自研视频播放器组件上线，一切正常喵～"
+    },
+    {
+        date: "2026年4月5日",
+        status: "red",
+        title: "安全加固 · 移除SEO · 新增状态页面",
+        desc: "全面安全审计期间发现硬编码密码、CSP过松等严重安全问题，修复后恢复正常喵～"
+    },
+    {
+        date: "2026年4月3日",
+        status: "green",
+        title: "换了个域名",
+        desc: "域名更换顺利，一切正常喵～"
+    },
+    {
+        date: "2026年4月2日",
+        status: "green",
+        title: "整理网站上的游戏",
+        desc: "游戏整理分类完成，一切正常喵～"
+    },
+    {
+        date: "2026年4月1日",
+        status: "green",
+        title: "更新网站图标",
+        desc: "更新 favicon 和社交图标，一切正常喵～"
+    },
+    {
+        date: "2026年3月31日",
+        status: "yellow",
+        title: "添加后台 · 修复已知问题 · 修复SEO爬虫误判",
+        desc: "上线后台管理系统，修复多个Bug。SEO爬虫检测逻辑有小问题，已修复喵～"
+    },
+];
+
+// 渲染状态历史记录
+function renderStatusHistory() {
+    var container = document.getElementById('statusHistoryList');
+    if (!container || !window.statusHistory) return;
+
+    var statusLabels = {
+        green:  { text: '正常',   dotClass: 'sh-dot-ok',    tagClass: 'sh-tag-ok' },
+        yellow: { text: '小问题', dotClass: 'sh-dot-warn',  tagClass: 'sh-tag-warn' },
+        red:    { text: '严重',   dotClass: 'sh-dot-error', tagClass: 'sh-tag-error' },
+        gray:   { text: '无记录', dotClass: 'sh-dot-gray',  tagClass: 'sh-tag-gray' },
+    };
+
+    var html = '';
+    window.statusHistory.forEach(function(item, i) {
+        var s = item.status || 'gray';
+        var label = statusLabels[s] || statusLabels.gray;
+        var safeDate  = escapeHtml(item.date  || '');
+        var safeTitle = escapeHtml(item.title || '');
+        var safeDesc  = item.desc ? escapeHtml(item.desc) : '';
+
+        html += '<div class="sh-item" style="animation-delay:' + (i * 0.06) + 's">';
+        html += '  <div class="sh-dot ' + label.dotClass + '"></div>';
+        html += '  <div class="sh-line"></div>';
+        html += '  <div class="sh-card">';
+        html += '    <div class="sh-card-head">';
+        html += '      <span class="sh-date">' + safeDate + '</span>';
+        html += '      <span class="sh-tag ' + label.tagClass + '">' + label.text + '</span>';
+        html += '    </div>';
+        html += '    <div class="sh-card-title">' + safeTitle + '</div>';
+        if (safeDesc) {
+            html += '    <div class="sh-card-desc">' + safeDesc + '</div>';
+        }
+        html += '  </div>';
+        html += '</div>';
+    });
+    container.innerHTML = html;
+}
+
+function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = String(str);
+    return d.innerHTML;
+}
+
+document.addEventListener('DOMContentLoaded', renderStatusHistory);

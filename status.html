@@ -29,6 +29,9 @@
             --red: #ef4444;
             --red-bg: #fef2f2;
             --red-border: #fca5a5;
+            --gray: #9ca3af;
+            --gray-bg: #f9fafb;
+            --gray-border: #d1d5db;
             --text: #1D1D1F;
             --text2: #515154;
             --bg: #f5f5f7;
@@ -134,6 +137,14 @@
         .status-error::before { background: var(--red); }
         .status-error .gs-icon { color: var(--red); }
 
+        /* 灰色 - 无记录 */
+        .status-gray {
+            background: var(--gray-bg);
+            border-color: var(--gray-border);
+        }
+        .status-gray::before { background: var(--gray); }
+        .status-gray .gs-icon { color: var(--gray); }
+
         .gs-icon {
             font-size: 2.8rem;
             flex-shrink: 0;
@@ -220,6 +231,7 @@
         .dot-ok    { background: var(--green);  color: var(--green); }
         .dot-warn  { background: var(--yellow); color: var(--yellow); }
         .dot-error { background: var(--red);    color: var(--red); }
+        .dot-gray  { background: var(--gray);   color: var(--gray); }
 
         .page-info { flex: 1; min-width: 0; }
         .page-name {
@@ -254,6 +266,7 @@
         .tag-ok    { background: #dcfce7; color: #16a34a; }
         .tag-warn  { background: #fef9c3; color: #b45309; }
         .tag-error { background: #fee2e2; color: #b91c1c; }
+        .tag-gray  { background: #f3f4f6; color: #6b7280; }
 
         /* ===== 说明框 ===== */
         .info-box {
@@ -301,11 +314,99 @@
             text-decoration: none;
         }
 
+        /* ===== 历史回放 ===== */
+        .sh-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .sh-item {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            animation: shFadeIn 0.5s ease both;
+            position: relative;
+        }
+        @keyframes shFadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .sh-dot {
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 22px;
+            z-index: 2;
+            position: relative;
+            box-shadow: 0 0 0 3px var(--bg);
+        }
+        .sh-dot-ok    { background: var(--green);  }
+        .sh-dot-warn  { background: var(--yellow); }
+        .sh-dot-error { background: var(--red);    }
+        .sh-dot-gray  { background: var(--gray);   }
+        .sh-line {
+            width: 2px;
+            background: #e5e7eb;
+            margin: 0 6px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .sh-item:last-child .sh-line { display: none; }
+        .sh-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin: 8px 0 8px 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            flex: 1;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .sh-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transform: translateX(2px);
+        }
+        .sh-card-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+        .sh-date {
+            font-size: 0.82rem;
+            color: var(--text2);
+            font-weight: 500;
+        }
+        .sh-tag {
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .sh-tag-ok    { background: #dcfce7; color: #16a34a; }
+        .sh-tag-warn  { background: #fef9c3; color: #b45309; }
+        .sh-tag-error { background: #fee2e2; color: #b91c1c; }
+        .sh-tag-gray  { background: #f3f4f6; color: #6b7280; }
+        .sh-card-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+        .sh-card-desc {
+            font-size: 0.82rem;
+            color: var(--text2);
+            line-height: 1.5;
+        }
+
         /* ===== 响应式 ===== */
         @media (max-width: 600px) {
             .global-status { flex-wrap: wrap; padding: 22px 20px; gap: 16px; }
             .gs-badge { margin-left: 0; align-items: flex-start; }
             .container { padding: 24px 16px 40px; }
+            .sh-card { padding: 12px 14px; margin-left: 6px; }
         }
 
         /* ===== 脉冲动画（绿点） ===== */
@@ -323,6 +424,8 @@
       gtag('js', new Date());
       gtag('config', 'G-TR4FT7JPDZ');
     </script>
+    <!-- 状态历史数据 -->
+    <script src="status-data.js"></script>
 </head>
 <body>
 
@@ -350,7 +453,7 @@
         
         图标和文字会自动同步，无需手动修改其他内容。
     -->
-    <div class="global-status status-ok" id="globalStatusBox">
+    <div class="global-status status-ok" id="globalStatusBox">   <!--改这里-->
         <div class="gs-icon">
             <i class="fas fa-circle-check" id="globalStatusIcon"></i>
         </div>
@@ -366,12 +469,26 @@
 
     <!-- 图例 -->
     <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> 正常运行</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> 轻微故障 / 部分不可用</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> 严重故障 / 完全不可用</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> 一切正常</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> 小问题（错别字/引用错误等）</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> 严重问题（无法访问/界面错位等）</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--gray)"></div> 无记录</div>
     </div>
 
 
+
+    <!-- ===== 历史回放 ===== -->
+    <div class="section-head">
+        <i class="fas fa-history"></i>
+        <h3>历史回放</h3>
+        <div class="section-line"></div>
+    </div>
+    <p style="font-size:0.85rem;color:var(--text2);margin-bottom:20px;">
+        每次网站更新都会在此记录状态喵～红色=严重问题，黄色=小问题，绿色=一切正常。
+    </p>
+    <div class="sh-container" id="statusHistoryList">
+        <!-- JS 动态渲染 -->
+    </div>
 
     <!-- 底部 -->
     <div class="footer-bar">
@@ -402,6 +519,8 @@
             statusType = 'warn';
         } else if (statusBox.classList.contains('status-error')) {
             statusType = 'error';
+        } else if (statusBox.classList.contains('status-gray')) {
+            statusType = 'gray';
         } else if (statusBox.classList.contains('status-ok')) {
             statusType = 'ok';
         }
@@ -420,13 +539,18 @@
             },
             warn: {
                 iconClass: 'fas fa-exclamation-triangle',
-                title: '部分系统出现故障喵～',
-                desc: '部分页面或功能可能暂时无法使用，正在紧急修复中，请稍后再试。'
+                title: '部分系统出现小问题喵～',
+                desc: '发现一些小问题（错别字、引用错误等），不影响正常访问，正在修复中喵～'
             },
             error: {
                 iconClass: 'fas fa-circle-exclamation',
-                title: '系统严重故障喵！',
-                desc: '当前服务无法正常访问，我们正在全力抢修，非常抱歉给您带来不便。'
+                title: '系统出现严重问题喵！',
+                desc: '当前存在严重问题（无法正常访问、界面错位等），正在全力抢修，非常抱歉！'
+            },
+            gray: {
+                iconClass: 'fas fa-minus-circle',
+                title: '暂无状态记录喵～',
+                desc: '还没有最近的更新状态记录，等下次更新网站后就会出现在这里啦 (。-ω-)zzz'
             }
         };
 

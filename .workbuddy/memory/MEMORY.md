@@ -126,9 +126,11 @@
    - 删除 `setTheme()` 中关于"刷新index.html生效"的假设提示
 
 ## 网站状态页面（2026-04-05）
-- 新建 `status.html`：三色（绿/黄/红）全局状态框 + 各页面状态卡片列表，纯静态手动维护
+- 新建 `status.html`：全局状态框 + 历史回放时间线（从 status-data.js 加载），支持四色状态（绿/黄/红/灰）
+- `status-data.js`：状态历史数据源，包含 date/status/title/desc，status 支持 green/yellow/red/gray
 - 包含主页面、文章（1-10）、游戏（bjqy/fors/LAIDB/melon/zmdspp）、错误页四个分区
 - `index.html` footer 添加「查看网站状态」链接（绿色脉冲圆点图标）
+- **工作流**：`.github/workflows/status-update.yml` 在每次 push main 时自动追加 green 状态记录；手动触发可指定 yellow/red 状态
 
 ## Google数据收集同意提示（2026-04-08）
 - 在验证流程前新增步骤0：Google数据收集同意提示窗口
