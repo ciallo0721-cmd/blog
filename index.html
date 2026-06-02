@@ -994,7 +994,7 @@
             <div class="iframe-item fade-in-up"><div class="iframe-header"><i class="fas fa-desktop"></i><h3>病娇契约(demo)</h3><span class="age-rating age-14">R14+</span></div><div class="iframe-content"><a href="./bjqy" target="_blank" class="game-jump-btn"><i class="fas fa-external-link-alt"></i> 在新标签页打开</a></div><p class="iframe-description"></p>一款视觉小说</div>
             <div class="iframe-item fade-in-up"><div class="iframe-header"><i class="fas fa-book-open"></i><h3>兄弟你不要看91了!!!!</h3><span class="age-rating age-12">R16+</span></div><div class="iframe-content"><a href="./91/" target="_blank" class="game-jump-btn"><i class="fas fa-external-link-alt"></i> 在新标签页打开：来东北指定没有你好果子吃</a></div><p class="iframe-description">一款讽刺向视觉小说</p></div>
             <div class="iframe-item fade-in-up"><div class="iframe-header"><i class="fas fa-book-open"></i><h3>迪克打飞机</h3><span class="age-rating age-12">R12+</span></div><div class="iframe-content"><a href="./dkdfj/" target="_blank" class="game-jump-btn"><i class="fas fa-external-link-alt"></i> 在新标签页打开：迪克打飞机</a></div><p class="iframe-description">第一个unity项目</p></div>
-            <div class="iframe-item fade-in-up"><div class="iframe-header"><i class="fas fa-book-open"></i><h3>CS2(ai辅助)</h3><span class="age-rating age-all">全年龄</span></div><div class="iframe-content"><a href="./cs2/" target="_blank" class="game-jump-btn"><i class="fas fa-external-link-alt"></i> 在新标签页打开：CS2</a></div><p class="iframe-description">第一个unity项目</p></div>                        
+            <div class="iframe-item fade-in-up"><div class="iframe-header"><i class="fas fa-book-open"></i><h3>CS2(ai辅助)</h3><span class="age-rating age-all">全年龄</span></div><div class="iframe-content"><a href="./cs2/" target="_blank" class="game-jump-btn"><i class="fas fa-external-link-alt"></i> 在新标签页打开：CS2</a></div><p class="iframe-description">纯手写的3dcsgo</p></div>                        
         </div></div></div></section>
 
         <div class="animation-divider"><span></span><span></span><span></span><span></span><span></span></div>
@@ -1119,7 +1119,7 @@
     gtag('config', 'G-TR4FT7JPDZ');
     </script>
 
-    <script>
+        <script>
         // ===== Cloudflare Turnstile 验证回调 =====
         function onTurnstileVerifySuccess(token) {
             // Cloudflare验证通过后，直接初始化页面
@@ -1151,8 +1151,8 @@
             }
             articles.forEach((article, index) => {
                 const card = document.createElement('a');
-                const safeFileName = (article.fileName || '').replace(/[^a-zA-Z0-9.\-_/]/g, '').replace(/\.html$/, '');
-                card.href = 'blog/' + safeFileName + '?blog=' + article.id;
+                // 直接用 id 生成链接：blog/19_blog-id19
+                card.href = 'blog/' + article.id + '_blog-id' + article.id;
                 card.className = 'article-card fade-in-up';
                 if (article.isPaid) card.classList.add('paid');
                 card.style.animationDelay = `${index * 0.1}s`;
@@ -1500,7 +1500,7 @@
             });
         }
 
-        // 主题切换
+        // 主题切换（已注释）
         // document.addEventListener('DOMContentLoaded', function() {
         //     const themeSwitch = document.getElementById('themeSwitch');
         //     if (themeSwitch) {
@@ -1579,89 +1579,56 @@
 
         // ===== 后台入口 =====
         function openAdminPanel() {
-                sessionStorage.setItem('verify_passed', 'true');
-                sessionStorage.setItem('auth_passed', 'true');
-                window.location.href = 'https://baike.baidu.com/item/非法侵入计算机信息系统罪/10458746';
-            }
+            sessionStorage.setItem('verify_passed', 'true');
+            sessionStorage.setItem('auth_passed', 'true');
+            window.location.href = 'https://baike.baidu.com/item/非法侵入计算机信息系统罪/10458746';
+        }
 
         // ===== 中英翻译切换 =====
         let _isEnglish = false;
 
-        // 翻译词典：[中文原文, 英文译文]
-        // 格式：{ selector: 'CSS选择器 or null(textNode)', zh: '中文', en: '英文' }
-        // 对于纯文本节点用 data-i18n 标记，对于 attribute 需特殊处理
         const _i18nMap = [
-            // <title>
             { sel: 'title', prop: 'text', zh: "ciallo0721-cmd | Ren'Py视觉小说开发者 | 二次元创作博客", en: "ciallo0721-cmd | Ren'Py Visual Novel Developer | Creative Blog" },
-            // header tagline
             { sel: '.tagline', prop: 'text', zh: "Ren'Py视觉小说创作者 | 文化爱好者喵～", en: "Ren'Py Visual Novel Creator | Culture Enthusiast~" },
-            // nav logo
             { sel: 'a.logo', prop: 'html', zh: '<i class="fas fa-gamepad"></i> 关于我的说～', en: '<i class="fas fa-gamepad"></i> About Me~' },
-            // theme switcher span
             { sel: '#themeSwitch span', prop: 'text', zh: '暗色模式', en: 'Dark Mode', altZh: '亮色模式', altEn: 'Light Mode' },
-            // intro
             { sel: '.intro p', prop: 'text', zh: '这里是 ciallo0721-cmd 的个人创作空间喵～ 用 Ren\'Py 引擎把故事变成游戏、把创意变成作品的说~ 热爱二次元文化，致力于通过视觉小说讲述动人的故事的说~ (๑>ᴗ<๑)', en: "Welcome to ciallo0721-cmd's creative space~ Turning stories into games with Ren'Py! Passionate about anime culture, creating compelling stories through visual novels~ (๑>ᴗ<๑)" },
-            // about section title
             { sel: '#about .section-title h2', prop: 'text', zh: '关于我的说～', en: 'About Me~' },
-            // about text paragraphs (3 paragraphs)
             { sel: '#about .about-text p:nth-child(1)', prop: 'text', zh: "Ciallo～(∠・ω＜ )⌒★ 你好呀！人家是一名热爱二次元文化的Ren'Py视觉小说开发者ciallo0721-cmd哦～专注于创作富有情感深度和故事性的游戏作品呢！我的创作理念是将二次元美学与深刻的故事叙述相结合，通过视觉小说这一媒介，为玩家带来独特的沉浸式体验的说～ (๑´ㅂ`๑)", en: "Ciallo～(∠・ω＜ )⌒★ Hello there! I'm ciallo0721-cmd, a Ren'Py visual novel developer who loves anime culture~ Focused on creating games with emotional depth and compelling narratives! My philosophy is to blend anime aesthetics with deep storytelling, bringing players a unique immersive experience~ (๑´ㅂ`๑)" },
             { sel: '#about .about-text p:nth-child(2)', prop: 'text', zh: '目前人家已经开发了多款不同类型的Ren\'Py游戏，涵盖从温馨日常到心理惊悚的各种题材呢～每一款作品都是我用心创作的成果，希望能与大家分享哦！(๑•̀ㅂ•́)و✧', en: "I've developed several Ren'Py games spanning genres from warm slice-of-life to psychological thriller~ Each work is crafted with heart, and I hope to share them with everyone! (๑•̀ㅂ•́)و✧" },
             { sel: '#about .about-text p:nth-child(3)', prop: 'text', zh: '除了游戏开发，人家也喜欢研究动画制作和角色设计呢～时常在社交媒体上分享我的创作心得和开发过程的说～ (✪ω✪)', en: 'Besides game development, I also enjoy studying animation and character design~ I regularly share my creative insights and development process on social media~ (✪ω✪)' },
-            // skill tags
             { sel: '.skill-tag:nth-child(1)', prop: 'text', zh: "Ren'Py 引擎", en: "Ren'Py Engine" },
             { sel: '.skill-tag:nth-child(2)', prop: 'text', zh: '角色设计', en: 'Character Design' },
             { sel: '.skill-tag:nth-child(3)', prop: 'text', zh: '故事叙述', en: 'Storytelling' },
             { sel: '.skill-tag:nth-child(4)', prop: 'text', zh: '角色设计', en: 'Character Design' },
-            // games/iframes section title
             { sel: '#iframes .section-title h2', prop: 'text', zh: '游戏预览喵～', en: 'Game Preview~' },
-            // iframe items descriptions
             { sel: '#iframes .iframe-item:nth-child(1) p.iframe-description', prop: 'text', zh: '外部游戏链接，加载可能较慢喵～ (づ｡◕‿‿◕｡)づ', en: 'External game link, loading may be slow~ (づ｡◕‿‿◕｡)づ' },
             { sel: '#iframes .iframe-item:nth-child(2) p.iframe-description', prop: 'text', zh: '一款关于文学的温馨视觉小说喵～ (◕‿◕✿)', en: 'A warm visual novel about literature~ (◕‿◕✿)' },
             { sel: '#iframes .iframe-item:nth-child(3) p.iframe-description', prop: 'text', zh: '一款视觉小说', en: 'A visual novel' },
-            // articles section title
             { sel: '#articles .section-title h2', prop: 'text', zh: '技术文章喵～', en: 'Tech Articles~' },
-            // view all articles button
             { sel: '#articles .game-jump-btn', prop: 'html', zh: '<i class="fas fa-book-open"></i> 查看全部文章的说～', en: '<i class="fas fa-book-open"></i> View All Articles~' },
-            // ai section title
             { sel: '#ai-section .section-title h2', prop: 'text', zh: '病娇签约(demo)', en: 'Yandere Contract (Demo)' },
-            // ai section button
             { sel: '#ai-section .game-jump-btn', prop: 'html', zh: '<i class="fas fa-external-link-alt"></i> 点击这里', en: '<i class="fas fa-external-link-alt"></i> Click Here' },
-            // code editor section title
             { sel: '#code-editor .section-title h2', prop: 'text', zh: '在线代码编辑器喵～', en: 'Online Code Editor~' },
-            // code editor h3
             { sel: '.code-logo h3', prop: 'text', zh: '在线代码编辑器', en: 'Online Code Editor' },
-            // code subtitle
             { sel: '.code-subtitle', prop: 'text', zh: '支持真实用户输入 - 在浏览器中编写、运行代码的说～', en: 'Supports real user input - Write & run code in your browser~' },
-            // run / clear buttons
             { sel: '#pythonRunBtn', prop: 'html', zh: '<i class="fas fa-play"></i> 运行代码喵～', en: '<i class="fas fa-play"></i> Run Code~' },
             { sel: '#pythonClearBtn', prop: 'html', zh: '<i class="fas fa-broom"></i> 清空输出喵～', en: '<i class="fas fa-broom"></i> Clear Output~' },
             { sel: '#pythonClearOutputBtn', prop: 'html', zh: '<i class="fas fa-trash-alt"></i> 清空喵～', en: '<i class="fas fa-trash-alt"></i> Clear~' },
-            // code panel titles
             { sel: '.code-panel-title:nth-of-type(1)', prop: 'html', zh: '<i class="fas fa-edit"></i> 代码编辑器喵～', en: '<i class="fas fa-edit"></i> Code Editor~' },
-            // library title
             { sel: '.code-library-title', prop: 'html', zh: '<i class="fas fa-box-open"></i> 常用库（点击插入喵～）', en: '<i class="fas fa-box-open"></i> Common Libraries (click to insert~)' },
-            // bilibili section title
             { sel: '#bilibili-space .section-title h2', prop: 'text', zh: '我的Bilibili空间喵～', en: 'My Bilibili Space~' },
-            // bilibili open button
             { sel: '#bilibili-space .game-jump-btn', prop: 'html', zh: '<i class="fab fa-bilibili"></i> 直接打开B站空间', en: '<i class="fab fa-bilibili"></i> Open Bilibili Space' },
-            // douyin section title
             { sel: '#douyin-space .section-title h2', prop: 'text', zh: '我的抖音空间喵～', en: 'My Douyin Space~' },
-            // douyin open button
             { sel: '#douyin-space .game-jump-btn', prop: 'html', zh: '<i class="fab fa-tiktok"></i> 直接打开', en: '<i class="fab fa-tiktok"></i> Open Now' },
-            // contact section title
             { sel: '#contact .section-title h2', prop: 'text', zh: '联系我的说～', en: 'Contact Me~' },
-            // contact paragraph
             { sel: '#contact .contact-content > p:nth-child(1)', prop: 'text', zh: '如果对我的作品感兴趣，想要了解更多信息，或者有合作意向的话，欢迎通过以下方式联系人家哦～ (｡･ω･｡)ﾉ♡', en: "If you're interested in my work, want to learn more, or have collaboration ideas, feel free to contact me~ (｡･ω･｡)ﾉ♡" },
             { sel: '#contact .contact-content > p:nth-child(3)', prop: 'text', zh: '扫描上方二维码添加我的微信吧～ ٩(◕‿◕｡)۶', en: 'Scan the QR code above to add my WeChat~ ٩(◕‿◕｡)۶' },
-            // changelog section title
             { sel: '#changelog .section-title h2', prop: 'text', zh: '更新记录喵～', en: 'Changelog~' },
-            // footer
             { sel: '.footer-logo', prop: 'text', zh: 'ciallo0721-cmd', en: 'ciallo0721-cmd' },
             { sel: 'footer p:not(.copyright)', prop: 'text', zh: '感谢访问我的个人博客！期待与您交流游戏开发心得哦～ (๑˃̵ᴗ˂̵)و', en: 'Thanks for visiting my personal blog! Looking forward to discussing game development with you~ (๑˃̵ᴗ˂̵)و' },
             { sel: '.copyright', prop: 'text', zh: '© 2026 ciallo0721-cmd. 保留所有权利喵～', en: '© 2026 ciallo0721-cmd. All rights reserved~' },
-            // translate button itself
             { sel: '#translateBtn', prop: 'text', zh: '🌐 Translate to English', en: '🌐 切换回中文' },
-            // nav links (desktop)
             { sel: '.nav-links li:nth-child(1) a', prop: 'html', zh: '<i class="fas fa-newspaper"></i> 文章喵～', en: '<i class="fas fa-newspaper"></i> Articles~' },
             { sel: '.nav-links li:nth-child(2) a', prop: 'html', zh: '<i class="fas fa-history"></i> 更新记录喵～', en: '<i class="fas fa-history"></i> Changelog~' },
             { sel: '.nav-links li:nth-child(3) a', prop: 'html', zh: '<i class="fas fa-gamepad"></i> 游戏预览喵～', en: '<i class="fas fa-gamepad"></i> Game Preview~' },
@@ -1669,7 +1636,6 @@
             { sel: '.nav-links li:nth-child(6) a', prop: 'html', zh: '<i class="fab fa-python"></i> Python编辑器', en: '<i class="fab fa-python"></i> Python Editor' },
             { sel: '.nav-links li:nth-child(7) a', prop: 'html', zh: '<i class="fas fa-music"></i> 音乐推荐喵～', en: '<i class="fas fa-music"></i> Music~' },
             { sel: '.nav-links li:nth-child(8) a', prop: 'html', zh: '<i class="fas fa-heart"></i> 赞助支持的说～', en: '<i class="fas fa-heart"></i> Support Me~' },
-            // mobile menu links
             { sel: '.mobile-menu-links li:nth-child(1) a', prop: 'html', zh: '<i class="fas fa-newspaper"></i> 文章喵～', en: '<i class="fas fa-newspaper"></i> Articles~' },
             { sel: '.mobile-menu-links li:nth-child(2) a', prop: 'html', zh: '<i class="fas fa-history"></i> 更新记录喵～', en: '<i class="fas fa-history"></i> Changelog~' },
             { sel: '.mobile-menu-links li:nth-child(3) a', prop: 'html', zh: '<i class="fas fa-gamepad"></i> 游戏预览喵～', en: '<i class="fas fa-gamepad"></i> Game Preview~' },
@@ -1677,13 +1643,10 @@
             { sel: '.mobile-menu-links li:nth-child(6) a', prop: 'html', zh: '<i class="fab fa-python"></i> Python编辑器', en: '<i class="fab fa-python"></i> Python Editor' },
             { sel: '.mobile-menu-links li:nth-child(7) a', prop: 'html', zh: '<i class="fas fa-music"></i> 音乐推荐喵～', en: '<i class="fas fa-music"></i> Music~' },
             { sel: '.mobile-menu-links li:nth-child(8) a', prop: 'html', zh: '<i class="fas fa-heart"></i> 赞助支持的说～', en: '<i class="fas fa-heart"></i> Support Me~' },
-            // iframe open buttons
             { sel: '#iframes .iframe-item:nth-child(1) .game-jump-btn', prop: 'html', zh: '<i class="fas fa-external-link-alt"></i> 在新标签页打开：合成大西瓜', en: '<i class="fas fa-external-link-alt"></i> Open in new tab: Watermelon Merge' },
             { sel: '#iframes .iframe-item:nth-child(2) .game-jump-btn', prop: 'html', zh: '<i class="fas fa-external-link-alt"></i> 在新标签页打开：周末的诗篇', en: '<i class="fas fa-external-link-alt"></i> Open in new tab: Weekend Poems' },
             { sel: '#iframes .iframe-item:nth-child(3) .game-jump-btn', prop: 'html', zh: '<i class="fas fa-external-link-alt"></i> 在新标签页打开：来东北指定没有你好果子吃', en: "<i class='fas fa-external-link-alt'></i> Open in new tab: Come to Northeast (You'll Regret It)" },
-            // bilibili subtitle p
             { sel: '#bilibili-space .section-title p', prop: 'text', zh: '点击下方iframe直接访问我的B站主页 (๑>ᴗ<๑)', en: 'Click the iframe below to visit my Bilibili homepage (๑>ᴗ<๑)' },
-            // douyin subtitle p
             { sel: '#bilibili-space:nth-of-type(2) .section-title p', prop: 'text', zh: '点击下方按钮直接访问我的抖音主页 (๑>ᴗ<๑)', en: 'Click the button below to visit my Douyin homepage (๑>ᴗ<๑)' },
         ];
 
@@ -1696,7 +1659,6 @@
                     if (item.prop === 'text') {
                         const cur = el.textContent.trim();
                         if (_isEnglish) {
-                            // zh → en  (handle altZh for theme button)
                             if (item.altZh && cur === item.altZh) { el.textContent = item.altEn; }
                             else if (cur === item.zh || cur.includes(item.zh.substring(0,10))) { el.textContent = item.en; }
                             else { el.textContent = item.en; }
@@ -1710,17 +1672,14 @@
                     }
                 });
             });
-            // Also translate article "read more" spans
             document.querySelectorAll('.read-more').forEach(function(el) {
                 const icon = el.querySelector('i');
                 el.textContent = _isEnglish ? 'Read More~ ' : '阅读全文喵～ ';
                 if (icon) el.appendChild(icon);
             });
-            // Translate article number prefix
             document.querySelectorAll('.article-number').forEach(function(el) {
                 el.textContent = el.textContent.replace(/^(文章|Article)\s+/, (_isEnglish ? 'Article ' : '文章 '));
             });
-            // Translate timeline dates containing 年/月/日
             if (_isEnglish) {
                 document.querySelectorAll('.timeline-date').forEach(function(el) {
                     el.setAttribute('data-zh-date', el.innerHTML);
@@ -1735,7 +1694,6 @@
                     if (orig) el.innerHTML = orig;
                 });
             }
-            // html lang attr
             document.documentElement.lang = _isEnglish ? 'en' : 'zh-CN';
         }
     </script>

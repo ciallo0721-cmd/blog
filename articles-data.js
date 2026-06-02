@@ -7,7 +7,6 @@ window.articlesData = {
             excerpt: "本文档用于测试网站的各项功能和样式更新。每次有新功能上线前，都会在此页面进行灰度测试。想看更新内容？点击进入查看喵~",
             date: "2026-05-08",
             tags: ["灰度测试", "功能测试", "网站维护"],
-            fileName: "grayscale-test/",
             readTime: 5,
             featured: false
         },
@@ -17,7 +16,6 @@ window.articlesData = {
             excerpt: "学习如何使用UTAU进行歌声合成，从基础调音到高级技巧，完整指南带你入门。",
             date: "2025-12-28",
             tags: ["UTAU", "虚拟歌姬", "调音", "歌声合成", "教程", "音乐制作"],
-            fileName: "1.html@_blog-id=1/",
             readTime: 15,
             featured: true
         },
@@ -27,7 +25,6 @@ window.articlesData = {
             excerpt: "从零开始构建一个完整的2D角色移动系统，包含平滑移动、跳跃、冲刺和动画控制。",
             date: "2025-12-29",
             tags: ["Unity", "2D游戏开发", "角色移动", "C#编程", "游戏物理"],
-            fileName: "2.html@_blog-id=2/",
             readTime: 20,
             featured: true
         },
@@ -37,7 +34,6 @@ window.articlesData = {
             excerpt: "本教程将详细讲解如何绘制可爱的2.5头身小人，涵盖比例结构、面部表情、头发与呆毛绘制技巧，适合初学者和有一定基础的画手。",
             date: "2025-12-30",
             tags: ["绘画教程", "Q版人物", "2.5头身", "头发绘制", "呆毛技巧", "角色设计"],
-            fileName: "3.html@_blog-id=3/",
             readTime: 15,
             featured: true
         },
@@ -47,7 +43,6 @@ window.articlesData = {
             excerpt: "网站被攻击、性能问题大揭秘！详细解释网站主页暂时变成公告页面的原因，以及维护到1月18日的恢复计划。",
             date: "2026-01-10",
             tags: ["网站公告", "被攻击", "性能优化", "DDoS攻击", "维护", "GitHub Pages", "未来计划"],
-            fileName: "4.html@_blog-id=4/",
             readTime: 15,
             featured: true
         },
@@ -57,7 +52,6 @@ window.articlesData = {
             excerpt: "修复了加载时间过长的问题，更新音乐播放器。",
             date: "2026-01-13",
             tags: ["主页", "更新", "新设计", "用户体验", "功能改进"],
-            fileName: "5.html@_blog-id=5/",
             readTime: 7,
             featured: true
         },
@@ -67,7 +61,6 @@ window.articlesData = {
             excerpt: "一些日常闲聊和碎碎念。",
             date: "2026-01-13",
             tags: ["闲聊"],
-            fileName: "6.html@_blog-id=6/",
             readTime: 4,
             featured: true
         },
@@ -77,7 +70,6 @@ window.articlesData = {
             excerpt: "新歌姬发布：沙雕の贤者V2 正式上线！",
             date: "2026-01-17",
             tags: ["UTAU", "虚拟歌姬", "沙雕の贤者", "音源发布"],
-            fileName: "7.html@_blog-id=7/",
             readTime: 3,
             featured: true
         },
@@ -87,7 +79,6 @@ window.articlesData = {
             excerpt: "网站小更新：增加了一些实用工具和功能。",
             date: "2026-01-28",
             tags: ["更新"],
-            fileName: "8.html@_blog-id=8/",
             readTime: 1,
             featured: true
         },
@@ -97,7 +88,6 @@ window.articlesData = {
             excerpt: "一份严肃的记录：我的 Issue 被仓库管理员篡改，真相在此。",
             date: "2026-03-04",
             tags: ["声明", "GitHub", "立场"],
-            fileName: "9.html@_blog-id=9/",
             readTime: 8,
             featured: true
         },
@@ -107,7 +97,6 @@ window.articlesData = {
             excerpt: "喜报！网站PV达到了111。",
             date: "2026-04-11",
             tags: ["喜报", "分析"],
-            fileName: "10.html@_blog-id=10/",
             readTime: 1,
             featured: true
         },
@@ -117,7 +106,6 @@ window.articlesData = {
             excerpt: "网站内容建议收集帖 · 想让我加什么/删什么？每天都会看。",
             date: "2026-04-11",
             tags: ["公告", "互动", "建议收集", "GitHub"],
-            fileName: "11.html@_blog-id=11/",
             readTime: 3,
             featured: true
         },
@@ -127,7 +115,6 @@ window.articlesData = {
             excerpt: "针对近期访客对广告位设置的疑问，本文将详细解释放置广告的原因、广告的具体形式，以及本站绝不会成为弹窗满天飞的\"邪恶网站\"的承诺。",
             date: "2026-04-23",
             tags: ["网站公告", "广告说明", "用户体验", "承诺", "FAQ"],
-            fileName: "12.html@_blog-id=12/",
             readTime: 5,
             featured: true
         },
@@ -137,7 +124,6 @@ window.articlesData = {
             excerpt: "2026年4月17日，B站第一日V真白花音宣布将于5月1日毕业。作为从2023年开始关注她的老粉，写下这篇告别文章。",
             date: "2026-04-29",
             tags: ["VTuber", "真白花音", "毕业", "告别", "V圈"],
-            fileName: "13.html@_blog-id=13/",
             readTime: 6,
             featured: true
         },
@@ -147,7 +133,6 @@ window.articlesData = {
             excerpt: "2026年5月1日，真白花音正式毕业了。再见，我的第一个V，再见，白菜。",
             date: "2026-05-01",
             tags: ["VTuber", "真白花音", "毕业", "告别"],
-            fileName: "14.html@_blog-id=14/",
             readTime: 2,
             featured: true
         },
@@ -157,7 +142,6 @@ window.articlesData = {
             excerpt: "记录真白花音退网前的最后五分钟，永远的回忆。",
             date: "2026-05-01",
             tags: ["视频"],
-            fileName: "15.html@_blog-id=15/",
             readTime: 1,
             featured: false
         },
@@ -167,7 +151,6 @@ window.articlesData = {
             excerpt: "从零开始学习如何注册GitHub账号并克隆仓库到本地，适合完全新手。",
             date: "2026-05-07",
             tags: ["GitHub", "Git", "教程", "入门", "仓库管理"],
-            fileName: "16.html@_blog-id=16/",
             readTime: 10,
             featured: true
         },
@@ -177,7 +160,6 @@ window.articlesData = {
             excerpt: "如何优化X(Twitter)的时间线推荐，获取更有价值的内容。",
             date: "2026-05-13",
             tags: ["X(Twitter)", "推荐算法"],
-            fileName: "17.html@_blog-id=17/",
             readTime: 10,
             featured: true
         },
@@ -187,7 +169,6 @@ window.articlesData = {
             excerpt: "酸辣开胃、香喷喷又下饭——这道泰式炸鸡腿是整个家庭的最爱！泰式辣椒酱配柠檬和番茄，一上桌孩子们就忍不住多盛一碗饭。附完整食材清单和分步做法。（转载自 lifangcook）",
             date: "2026-05-17",
             tags: ["美食", "炸鸡", "泰式料理", "家常菜", "菜谱", "转载"],
-            fileName: "18.html@_blog-id=18/",
             readTime: 5,
             featured: true
         },
@@ -197,7 +178,6 @@ window.articlesData = {
             excerpt: "详细教程：3种方法更换 Ren'Py 视觉小说的人物立绘，包括文件替换、代码修改和动态立绘切换，附常见问题排查。",
             date: "2026-05-22",
             tags: ["Ren'Py", "视觉小说", "立绘", "游戏开发", "教程"],
-            fileName: "19.html@_blog-id=19/",
             readTime: 10,
             featured: true
         },
@@ -207,7 +187,6 @@ window.articlesData = {
             excerpt: "深入讲解 Ren'Py 存档系统，涵盖默认存档位置、自定义存档路径、多存档槽管理、存档缩略图、加密防篡改和自动存档配置，附完整代码示例。",
             date: "2026-05-22",
             tags: ["Ren'Py", "存档系统", "游戏开发", "教程", "save"],
-            fileName: "20.html@_blog-id=20/",
             readTime: 12,
             featured: true
         },
@@ -217,7 +196,6 @@ window.articlesData = {
             excerpt: "完整教程：使用 Python 实现截图文字识别，涵盖 Tesseract、PaddleOCR、截图工具选型、图像预处理技巧和性能优化，附实战代码。",
             date: "2026-05-22",
             tags: ["Python", "OCR", "Tesseract", "PaddleOCR", "图像识别", "教程"],
-            fileName: "21.html@_blog-id=21/",
             readTime: 15,
             featured: true
         }
