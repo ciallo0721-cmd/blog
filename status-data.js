@@ -31,6 +31,12 @@
 
 window.statusHistory = [
     {
+        date: "2026年6月3日",
+        status: "green",
+        title: "Add reference VTuber UI and refactor quiz logic",
+        desc: ""
+    },
+    {
         date: "2026年6月2日",
         status: "green",
         title: "状态页面改版：新增历史回放 + 灰色状态",
