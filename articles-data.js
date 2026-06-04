@@ -198,6 +198,15 @@ window.articlesData = {
             tags: ["Python", "OCR", "Tesseract", "PaddleOCR", "图像识别", "教程"],
             readTime: 15,
             featured: true
+        },
+        {
+            id: 22,
+            title: "雌小鬼：从贬义词到萌属性的进化史",
+            excerpt: "深度解析ACG萌属性「雌小鬼（メスガキ）」——从日语贬称到二次元文化标签的完整进化史，包含典型形象、与傲娇/小恶魔的区别、让你明白担当解析，以及典型角色一览。",
+            date: "2026-06-04",
+            tags: ["ACG", "萌属性", "二次元", "雌小鬼", "文化解析"],
+            readTime: 10,
+            featured: true
         }
     ],
 

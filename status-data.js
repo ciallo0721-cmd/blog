@@ -30,6 +30,12 @@
  */
 
 window.statusHistory = [
+        {
+        date: "2026年6月4日",
+        status: "red",
+        title: "Api Key泄露 · 紧急修复",
+        desc: "在mooore.html和ai.html(一个在1月份上线的ai对话页面,2026/3/28日删除ai.html,忘记删除mooore.html中的相关代码)中不小心硬编码了DeepSeek API Key，导致泄露。已紧急修复，重新生成并更新了API Key，一切正常喵～"
+    },
     {
         date: "2026年6月3日",
         status: "green",
@@ -39,14 +45,14 @@ window.statusHistory = [
     {
         date: "2026年6月2日",
         status: "green",
-        title: "状态页面改版：新增历史回放 + 灰色状态",
-        desc: "改造 status.html，新增历史回放时间线，新增灰色「无记录」状态，建立更新→记录工作流，一切正常喵～"
+        title: "2026年6月2日",
+        desc: "一切正常喵～"
     },
     {
         date: "2026年6月1日",
         status: "green",
-        title: "新增全套 HTTP 错误页面",
-        desc: "批量创建 24 个 HTTP 错误页面，统一风格，一切正常喵～"
+        title: "2026年6月1日",
+        desc: "一切正常喵～"
     },
     {
         date: "2026年5月23日",
@@ -57,26 +63,20 @@ window.statusHistory = [
     {
         date: "2026年5月22日",
         status: "green",
-        title: "上线免费工具集 + SEO长文矩阵",
-        desc: "上线4个免费工具、友链页面、3篇SEO文章，一切正常喵～"
+        title: "2026年5月22日",
+        desc: "一切正常喵～"
     },
     {
         date: "2026年5月18日",
         status: "green",
-        title: "新增心情追踪仪表板",
-        desc: "集成 Mood-Tracker-Dashboard，一切正常喵～"
-    },
-    {
-        date: "2026年5月17日",
-        status: "green",
-        title: "更新 sitemap + 简化验证流程",
-        desc: "更新 sitemap，删除多余验证环节，一切正常喵～"
+        title: "2026年5月18日",
+        desc: "一切正常喵～"
     },
     {
         date: "2026年5月16日",
         status: "green",
-        title: "新增低版本浏览器跳转页面",
-        desc: "添加 oops 页面，一切正常喵～"
+        title: "2026年5月16日",
+        desc: "一切正常喵～"
     },
     {
         date: "2026年5月10日",
@@ -87,8 +87,8 @@ window.statusHistory = [
     {
         date: "2026年5月7日",
         status: "green",
-        title: "新增视频播放器（自研）",
-        desc: "自研视频播放器组件上线，一切正常喵～"
+        title: "2026年5月7日",
+        desc: "一切正常喵～"
     },
     {
         date: "2026年4月5日",
@@ -99,20 +99,20 @@ window.statusHistory = [
     {
         date: "2026年4月3日",
         status: "green",
-        title: "换了个域名",
-        desc: "域名更换顺利，一切正常喵～"
+        title: "2026年4月3日",
+        desc: "一切正常喵～"
     },
     {
         date: "2026年4月2日",
         status: "green",
-        title: "整理网站上的游戏",
-        desc: "游戏整理分类完成，一切正常喵～"
+        title: "2026年4月2日",
+        desc: "一切正常喵～"
     },
     {
         date: "2026年4月1日",
         status: "green",
-        title: "更新网站图标",
-        desc: "更新 favicon 和社交图标，一切正常喵～"
+        title: "2026年4月1日",
+        desc: "一切正常喵～"
     },
     {
         date: "2026年3月31日",
