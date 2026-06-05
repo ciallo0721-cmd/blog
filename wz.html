@@ -754,6 +754,40 @@
             }
         }
 
+        /* 板块筛选 */
+        .category-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .category-btn {
+            background: rgba(0, 161, 214, 0.1);
+            color: var(--bili-blue);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid rgba(0, 161, 214, 0.25);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .category-btn:hover, .category-btn.active {
+            background: var(--bili-blue);
+            color: white;
+            transform: translateY(-2px);
+            border-color: var(--bili-blue);
+        }
+        .article-category-badge {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            padding: 2px 9px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -824,6 +858,15 @@
                 <button id="searchButton" class="search-button">
                     <i class="fas fa-search"></i> 搜索
                 </button>
+            </div>
+            <div class="category-nav" id="categoryNav">
+                <button class="category-btn active" data-category="全部">全部</button>
+                <button class="category-btn" data-category="科技">科技</button>
+                <button class="category-btn" data-category="教程">教程</button>
+                <button class="category-btn" data-category="ACG">ACG</button>
+                <button class="category-btn" data-category="闲聊">闲聊</button>
+                <button class="category-btn" data-category="生活">生活</button>
+                <button class="category-btn" data-category="公告">公告</button>
             </div>
             <div class="filter-tags" id="filterTags">
                 <!-- 标签将通过JavaScript动态生成 -->
@@ -958,12 +1001,22 @@
             
             let allTags = [];
             let activeFilters = new Set();
+            let activeCategory = '全部';
             let currentSearch = '';     // 只存储通过安全检测的有效搜索词
             
             // 初始化页面
             function initPage() {
                 extractAllTags();
                 generateFilterTags();
+                // 绑定板块按钮
+                document.querySelectorAll('.category-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        activeCategory = this.dataset.category;
+                        filterArticles();
+                    });
+                });
                 displayArticles(allArticles);
                 updateArticleCount(allArticles.length);
             }
@@ -1022,7 +1075,7 @@
                 noResults.style.display = 'none';
                 articles.forEach((article, index) => {
                     const articleCard = document.createElement('a');
-                    articleCard.href = 'blog/' + (article.fileName || '').replace(/\.html$/, '') + '?blog=' + article.id;
+                    articleCard.href = article.id === -1 ? 'blog/grayscale-test/' : 'blog/' + article.id + '/';
                     articleCard.className = 'article-card fade-in-up';
                     if (article.isPaid) articleCard.classList.add('paid');
                     articleCard.style.animationDelay = `${index * 0.1}s`;
@@ -1032,6 +1085,7 @@
                         <div class="article-content">
                             <div class="article-meta">
                                 <span class="article-number">文章 #${String(article.id).padStart(3, '0')}</span>
+                                <span class="article-category-badge">${escapeHtml(article.category || '')}</span>
                                 <span class="article-date">${article.date}</span>
                             </div>
                             <h3>${escapeHtml(article.title)}${paidBadge}</h3>
@@ -1064,19 +1118,30 @@
             
             function filterArticles() {
                 let filtered = allArticles;
-                if (activeFilters.size > 0) {
-                    filtered = filtered.filter(article => article.tags.some(tag => activeFilters.has(tag)));
+                // category 过滤
+                if (activeCategory !== '全部') {
+                    filtered = filtered.filter(a => a.category === activeCategory);
                 }
-                if (currentSearch.trim() !== '') {
-                    const term = currentSearch.toLowerCase().trim();
-                    filtered = filtered.filter(article => 
-                        article.title.toLowerCase().includes(term) ||
-                        article.excerpt.toLowerCase().includes(term) ||
-                        article.tags.some(tag => tag.toLowerCase().includes(term))
+                // 标签过滤
+                if (activeFilters.size > 0) {
+                    filtered = filtered.filter(article =>
+                        Array.from(activeFilters).some(f => article.tags && article.tags.includes(f))
+                    );
+                }
+                // 搜索过滤
+                if (currentSearch) {
+                    const s = currentSearch.toLowerCase();
+                    filtered = filtered.filter(article =>
+                        article.title.toLowerCase().includes(s) ||
+                        article.excerpt.toLowerCase().includes(s) ||
+                        (article.tags && article.tags.some(t => t.toLowerCase().includes(s)))
                     );
                 }
                 displayArticles(filtered);
                 updateArticleCount(filtered.length);
+                // 动态更新标题
+                const h2 = document.querySelector('.articles-header h2');
+                if (h2) h2.textContent = activeCategory !== '全部' ? `「${activeCategory}」文章` : '所有文章';
             }
             
             function updateArticleCount(count) {

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python 截图识别文字完全教程：从 Tesseract 到深度学习 - ciallo0721-cmd的文章</title>
-    <meta name="description" content="Python 截图识别文字完整教程：涵盖 Tesseract OCR、PaddleOCR 深度学习方案，详解截图工具选型、图像预处理技巧与性能优化，附完整代码示例与常见问题排查。">
-    <link rel="canonical" href="https://ciallo0721.bid/blog/21.html@_blog-id=21/">
+    <title>Ren'Py 存档系统完全教程：自定义存档位置与多存档槽 - ciallo0721-cmd的文章</title>
+    <meta name="description" content="Ren'Py 存档系统完全教程，涵盖默认存档位置、自定义存档目录、多存档槽管理、缩略图定制、自动存档配置和常见问题排查，适合初学者和进阶开发者。">
+    <link rel="canonical" href="https://91vip.xn--32v.ink/blog/20/">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../media-viewer.css">
     <link rel="icon" href="../../fanv.ico" type="image/x-icon">
@@ -813,441 +813,365 @@
             </header>
             
             <div class="article-content" id="articleContent">
-                        <p>在日常工作和开发中，我们经常遇到需要从截图中提取文字的场景——网页上的代码片段、PDF 文档的表格数据、游戏界面中的提示信息，甚至是无法复制的对话框。手动打字不仅低效，还容易出错。借助 <strong>Python OCR（光学字符识别）</strong>技术，我们可以用几行代码实现截图自动识别文字，大幅提升工作效率。本文将从入门到实战，详细介绍 Python 截图识别文字的两大主流方案：Tesseract 和 PaddleOCR，并配合图像预处理技巧，帮助你构建自己的截图 OCR 工具。</p>
+                        <p>存档系统是 Ren'Py 视觉小说引擎中最基础也最重要的功能模块之一。一个设计良好的存档系统不仅能让玩家安心地保存进度，还能通过自定义存档槽、缩略图和自动存档等功能提升用户体验。本文将全面解析 Ren'Py 存档系统的工作原理，从默认行为到高级自定义配置，帮助你打造专业级的存档体验。</p>
 
-            <h2>一、Python OCR 技术概述</h2>
-            <p>OCR（Optical Character Recognition，光学字符识别）是指将图像中的文字转换为可编辑的文本数据的技术。在 Python 生态中，有几个主流的 OCR 方案：</p>
+            <h2>一、Ren'Py 存档系统概述</h2>
+            <p>Ren'Py 内置了一套完整的存档/读档机制，玩家可以随时保存游戏进度。存档系统默认提供以下功能：</p>
             <ul>
-                <li><strong>Tesseract OCR</strong>：Google 维护的开源 OCR 引擎，支持 100+ 种语言，通过 <code>pytesseract</code> 库在 Python 中调用。</li>
-                <li><strong>PaddleOCR</strong>：百度开源的深度学习 OCR 框架，对中文识别效果极佳，内置检测+识别 pipeline。</li>
-                <li><strong>EasyOCR</strong>：基于 PyTorch 的 OCR 库，支持多种语言，GPU 加速下速度快。</li>
-                <li><strong>Azure/Google Cloud OCR</strong>：云服务 API，精度高但需要网络和付费。</li>
+                <li><strong>多存档槽</strong>：默认支持多个存档页面，每个页面包含 6-12 个存档槽</li>
+                <li><strong>自动存档</strong>：在关键剧情节点自动保存进度</li>
+                <li><strong>快速存档</strong>：一键快速保存（默认快捷键 Q）</li>
+                <li><strong>存档预览</strong>：每个存档槽显示截图缩略图和时间信息</li>
+                <li><strong>持久化数据</strong>：通过 persistent 变量存储跨存档的全局数据</li>
             </ul>
 
-            <p>各方案的核心差异如下：</p>
-            <ul>
-                <li><strong>Tesseract</strong>：纯 CPU 计算，对英文和印刷体效果优秀，中文需要额外配置语言包。</li>
-                <li><strong>PaddleOCR</strong>：中文识别精度最高，支持竖排文字和表格识别，GPU 加速后性能出色。</li>
-                <li><strong>EasyOCR</strong>：使用简单，自动下载模型，但速度较慢。</li>
-                <li><strong>云端 OCR</strong>：效果最好但依赖网络，适合对精度有极高要求的场景。</li>
-            </ul>
+            <p>Ren'Py 的存档文件本质上是 Python 的 pickle 序列化数据，包含了当前游戏的全部状态：显示的图片、变量值、对话历史、音乐播放位置等。存档文件默认使用 <code>.save</code> 扩展名，文件名格式为 <code>页面号-槽位号-LT1.save</code>。</p>
+
+            <pre><code># 存档文件命名示例
+# 第1页第1槽：1-1-LT1.save
+# 第1页第2槽：1-2-LT1.save
+# 第2页第5槽：2-5-LT1.save
+# 自动存档：auto-1-LT1.save
+# 快速存档：quick-1-LT1.save</code></pre>
 
             <div class="tip">
-                <strong>推荐：</strong>如果你的主要场景是英文或印刷体文档，用 Tesseract 就够了；如果是中文截图或复杂场景，PaddleOCR 是更好的选择。
+                <strong>知识点：</strong>LT1 是 Ren'Py 用于标识存档格式版本的标记。当存档格式发生变化时，旧版本存档可能无法兼容，Ren'Py 会自动处理格式升级。
             </div>
 
-            <h2>二、方案一：Tesseract + pytesseract</h2>
-            <p>Tesseract 是历史最悠久、社区最活跃的开源 OCR 引擎。在 Python 中使用需要两步：安装 Tesseract 本体，然后安装 <code>pytesseract</code> 封装库。</p>
+            <h2>二、默认存档位置与文件结构</h2>
+            <p>Ren'Py 的存档默认存储在系统的用户数据目录中，而非游戏安装目录。这样做的好处是即使更新或重新安装游戏，存档也不会丢失。</p>
 
-            <h3>Windows 安装</h3>
-            <pre><code># 1. 下载安装 Tesseract OCR
-# 访问 https://github.com/UB-Mannheim/tesseract/wiki
-# 下载 tesseract-ocr-w64-setup 安装包
-# 安装时勾选中文语言包（Chinese Simplified）
+            <h3>各平台默认存档路径</h3>
 
-# 2. 安装 Python 依赖
-pip install pytesseract Pillow</code></pre>
+            <pre><code># Windows
+C:\Users\用户名\AppData\Roaming\RenPy\游戏名\
 
-            <h3>基础文字识别</h3>
-            <pre><code>import pytesseract
-from PIL import Image
+# macOS
+~/Library/RenPy/游戏名/
 
-# 配置 Tesseract 路径（Windows 需要）
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# Linux
+~/.renpy/游戏名/</code></pre>
 
-# 打开图片并识别
-image = Image.open('screenshot.png')
-text = pytesseract.image_to_string(image, lang='eng')
-print(text)</code></pre>
+            <p>其中"游戏名"由 <code>options.rpy</code> 中的 <code>config.save_directory</code> 变量决定。默认情况下，Ren'Py 使用项目目录名作为存档目录名。</p>
 
-            <h3>中文识别配置</h3>
-            <pre><code>import pytesseract
-from PIL import Image
+            <pre><code># options.rpy 中的存档目录配置
+define config.save_directory = "MyGame-1.0"</code></pre>
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
-# 识别中文（需要安装 chi_sim 语言包）
-image = Image.open('chinese_screenshot.png')
-text = pytesseract.image_to_string(image, lang='chi_sim')
-print(text)
-
-# 同时识别中英文混合
-text = pytesseract.image_to_string(image, lang='chi_sim+eng')
-print(text)</code></pre>
-
-            <h3>获取识别置信度和位置信息</h3>
-            <pre><code># 获取每个识别结果的详细信息
-data = pytesseract.image_to_data(image, lang='eng', output_type=pytesseract.Output.DICT)
-
-for i, text in enumerate(data['text']):
-    if int(data['conf'][i]) > 60:  # 过滤低置信度结果
-        x, y, w, h = data['left'][i], data['top'][i], data['width'][i], data['height'][i]
-        print(f"文字: {text}, 置信度: {data['conf'][i]}, 位置: ({x}, {y}, {w}, {h})")</code></pre>
+            <p>存档目录内的典型文件结构：</p>
+            <pre><code>RenPy/
+└── MyGame-1.0/
+    ├── 1-1-LT1.save      # 第1页第1槽
+    ├── 1-2-LT1.save      # 第1页第2槽
+    ├── 2-1-LT1.save      # 第2页第1槽
+    ├── auto-1-LT1.save   # 自动存档
+    ├── quick-1-LT1.save  # 快速存档
+    ├── persistent        # 持久化数据文件
+    └── log.txt           # 游戏运行日志</code></pre>
 
             <div class="warning">
-                <strong>注意：</strong>Tesseract 对低分辨率图片、手写体、复杂背景的文字识别效果较差。如果识别率不理想，务必先进行图像预处理（见下文第六章）。
+                <strong>注意：</strong>persistent 文件不是在存档目录下的 .save 文件，而是同级目录下的独立文件。它存储跨存档的全局数据，即使玩家删除所有存档，persistent 数据也不会丢失。
             </div>
 
-            <h2>三、方案二：PaddleOCR（百度开源深度学习OCR）</h2>
-            <p>PaddleOCR 是百度基于 PaddlePaddle 深度学习框架开发的 OCR 工具，在中文场景下的表现远超 Tesseract。它内置了文字检测和识别两个模型，无需手动调参即可获得出色的效果。</p>
+            <h2>三、自定义存档位置</h2>
+            <p>如果你希望将存档放在游戏目录下（方便玩家备份或便携版），可以使用 <code>config.savedir</code> 变量自定义存档位置。</p>
 
-            <h3>安装</h3>
-            <pre><code># 安装 PaddleOCR（会自动安装 paddlepaddle）
-pip install paddleocr
-# 如果有 CUDA GPU，安装 GPU 版本加速
-# pip install paddlepaddle-gpu paddleocr</code></pre>
+            <h3>将存档存储在游戏目录</h3>
+            <pre><code># options.rpy
+# 将存档目录设置为游戏文件夹下的 saves 子目录
+define config.savedir = config.basedir + "/saves"</code></pre>
 
-            <h3>基础使用</h3>
-            <pre><code>from paddleocr import PaddleOCR
+            <p>这样设置后，所有存档文件将存储在 <code>game/../saves/</code> 目录下，而不是系统用户目录。</p>
 
-# 初始化（首次运行会自动下载模型）
-ocr = PaddleOCR(use_angle_cls=True, lang='ch')  # use_angle_cls 启用文字方向分类
-
-# 识别图片
-result = ocr.ocr('screenshot.png', cls=True)
-
-# 打印结果
-for line in result[0]:
-    box = line[0]         # 文字框坐标 [[x1,y1],[x2,y2],[x3,y3],[x4,y4]]
-    text = line[1][0]     # 识别文字
-    confidence = line[1][1] # 置信度
-    print(f"文字: {text}, 置信度: {confidence:.2f}")
-    print(f"位置: {box}")</code></pre>
-
-            <h3>高级配置：调整参数优化识别效果</h3>
-            <pre><code>from paddleocr import PaddleOCR
-
-# 自定义参数
-ocr = PaddleOCR(
-    use_angle_cls=True,      # 文字方向分类
-    lang='ch',                # 语言：ch(中文), en(英文), chinese_cht(繁体)
-    use_gpu=False,            # 是否使用 GPU
-    det_db_thresh=0.3,        # 检测阈值，越低越敏感
-    det_db_box_thresh=0.5,    # 检测框阈值
-    rec_batch_num=6,          # 识别时的批大小
-    max_text_length=25,       # 最大文字长度
-    cls_thresh=0.9,           # 方向分类阈值
-    use_space_char=True       # 是否识别空格
-)
-
-result = ocr.ocr('screenshot.png', cls=True)
-for line in result[0]:
-    text = line[1][0]
-    confidence = line[1][1]
-    print(f"{text} ({confidence:.2%})")</code></pre>
-
-            <div class="tip">
-                <strong>小技巧：</strong>处理竖排中文文字时，设置 <code>use_angle_cls=True</code> 可以让 PaddleOCR 自动检测文字方向并旋转矫正，大幅提升竖排文字的识别准确率。
-            </div>
-
-            <h2>四、截图工具选型</h2>
-            <p>要实现"截图 → OCR 识别"的完整 pipeline，首先需要能够通过 Python 捕获屏幕截图。以下是三种常用方案：</p>
-
-            <h3>方案对比</h3>
-            <ul>
-                <li><strong>Pillow ImageGrab</strong>：无需额外安装（Pillow 自带），适合简单截图场景。</li>
-                <li><strong>pyautogui</strong>：功能全面，支持区域截图、图像定位、鼠标控制，但速度较慢。</li>
-                <li><strong>mss</strong>：高性能截图，支持多显示器，速度最快（比 pyautogui 快 3-5 倍）。</li>
-            </ul>
-
-            <h3>全屏截图</h3>
-            <pre><code># 方法1：Pillow ImageGrab
-from PIL import ImageGrab
-screenshot = ImageGrab.grab()
-screenshot.save('fullscreen.png')
-
-# 方法2：mss（最快）
-import mss
-with mss.mss() as sct:
-    sct.shot(output='fullscreen.png')
-
-# 方法3：pyautogui
-import pyautogui
-screenshot = pyautogui.screenshot()
-screenshot.save('fullscreen.png')</code></pre>
-
-            <h3>区域截图</h3>
-            <pre><code># 截取指定区域
-from PIL import ImageGrab
-
-# 截取左上角(100,100)到右下角(800,600)的区域
-region = ImageGrab.grab(bbox=(100, 100, 800, 600))
-region.save('region_screenshot.png')
-
-# 使用 mss 截取区域
-import mss
-with mss.mss() as sct:
-    monitor = {"top": 100, "left": 100, "width": 700, "height": 500}
-    region = sct.grab(monitor)
-    mss.tools.to_png(region.rgb, region.size, output='region_screenshot.png')</code></pre>
-
-            <div class="tip">
-                <strong>推荐：</strong>如果你的 OCR 工具需要高频截图（如游戏辅助、实时翻译），优先使用 <strong>mss</strong>，它的性能比 Pillow ImageGrab 高出一个数量级。
-            </div>
-
-            <h2>五、完整实战：截图 → 预处理 → OCR 识别 → 结果输出</h2>
-            <p>将截图和 OCR 组合起来，构建一个完整的截图文字识别 pipeline：</p>
-
-            <pre><code>import pytesseract
-from PIL import Image, ImageGrab, ImageFilter
-import json
-
-# 配置 Tesseract
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
-def preprocess_image(image):
-    """图像预处理：灰度化 + 放大 + 增强对比度"""
-    # 转换为灰度图
-    gray = image.convert('L')
-    # 放大 2 倍（OCR 对大尺寸图片识别更好）
-    w, h = gray.size
-    gray = gray.resize((w * 2, h * 2), Image.LANCZOS)
-    # 锐化增强文字边缘
-    gray = gray.filter(ImageFilter.SHARPEN)
-    return gray
-
-def screenshot_ocr(lang='chi_sim+eng', region=None):
-    """截图并识别文字"""
-    # 步骤1：截图
-    if region:
-        screenshot = ImageGrab.grab(bbox=region)
-    else:
-        screenshot = ImageGrab.grab()
-    
-    # 步骤2：预处理
-    processed = preprocess_image(screenshot)
-    
-    # 步骤3：OCR 识别
-    text = pytesseract.image_to_string(processed, lang=lang)
-    data = pytesseract.image_to_data(processed, lang=lang, output_type=pytesseract.Output.DICT)
-    
-    # 步骤4：格式化输出
-    results = []
-    for i, word in enumerate(data['text']):
-        if word.strip():
-            results.append({
-                'text': word,
-                'confidence': int(data['conf'][i]),
-                'position': {
-                    'x': data['left'][i],
-                    'y': data['top'][i],
-                    'width': data['width'][i],
-                    'height': data['height'][i]
-                }
-            })
-    
-    return {
-        'full_text': text.strip(),
-        'details': results
-    }
-
-# 使用示例
-result = screenshot_ocr(lang='chi_sim+eng')
-print(result['full_text'])
-print(json.dumps(result['details'], ensure_ascii=False, indent=2))</code></pre>
-
-            <div class="tip">
-                <strong>实用技巧：</strong>将 <code>preprocess_image</code> 中的放大倍数调整为 2-3 倍，是提升 Tesseract 小字体识别率最简单有效的方法。
-            </div>
-
-            <h2>六、图像预处理技巧</h2>
-            <p>图像预处理是提升 OCR 识别率的关键步骤。原始截图通常包含噪声、不均匀光照、低分辨率和复杂背景，直接识别效果往往不理想。以下是最常用的几种预处理方法：</p>
-
-            <h3>1. 灰度化</h3>
-            <pre><code>from PIL import Image
-
-image = Image.open('screenshot.png')
-gray = image.convert('L')  # 转为灰度图
-gray.save('gray.png')</code></pre>
-
-            <h3>2. 二值化（黑白化）</h3>
-            <pre><code>from PIL import Image
-
-gray = Image.open('gray.png').convert('L')
-threshold = 128  # 阈值：0-255
-binary = gray.point(lambda x: 255 if x > threshold else 0, '1')
-binary.save('binary.png')</code></pre>
-
-            <h3>3. 自适应二值化（OpenCV）</h3>
-            <pre><code>import cv2
-import numpy as np
-
-image = cv2.imread('screenshot.png')
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-# 自适应阈值（适合光照不均匀的图片）
-binary = cv2.adaptiveThreshold(
-    gray, 255, 
-    cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-    cv2.THRESH_BINARY, 11, 2
-)
-
-cv2.imwrite('adaptive_binary.png', binary)</code></pre>
-
-            <h3>4. 去噪</h3>
-            <pre><code>import cv2
-
-image = cv2.imread('binary.png')
-
-# 中值滤波（去除椒盐噪声）
-denoised = cv2.medianBlur(image, 3)
-
-# 高斯模糊 + 二值化（去除背景纹理）
-blur = cv2.GaussianBlur(image, (5, 5), 0)
-_, denoised = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-cv2.imwrite('denoised.png', denoised)</code></pre>
-
-            <h3>5. 倾斜校正</h3>
-            <pre><code>import cv2
-import numpy as np
-
-def deskew(image):
-    """自动检测并校正图片倾斜"""
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    
-    # 边缘检测
-    edges = cv2.Canny(gray, 50, 150, apertureSize=3)
-    
-    # 霍夫变换检测直线
-    lines = cv2.HoughLines(edges, 1, np.pi / 180, 200)
-    
-    if lines is None:
-        return image
-    
-    # 计算平均倾斜角
-    angles = []
-    for line in lines:
-        rho, theta = line[0]
-        angle = np.degrees(theta) - 90
-        angles.append(angle)
-    
-    median_angle = np.median(angles)
-    
-    # 旋转校正
-    h, w = image.shape[:2]
-    center = (w // 2, h // 2)
-    matrix = cv2.getRotationMatrix2D(center, median_angle, 1.0)
-    corrected = cv2.warpAffine(image, matrix, (w, h), 
-                               borderMode=cv2.BORDER_CONSTANT,
-                               borderValue=(255, 255, 255))
-    
-    return corrected
-
-image = cv2.imread('skewed_screenshot.png')
-corrected = deskew(image)
-cv2.imwrite('corrected.png', corrected)</code></pre>
-
-            <div class="warning">
-                <strong>注意：</strong>预处理方法的选择取决于具体的图片质量。不要盲目对所有图片应用全部预处理——灰度化 + 放大通常足够，二值化可能丢失文字细节，建议根据实际效果逐步调整。
-            </div>
-
-            <h2>七、性能优化与批量处理</h2>
-            <p>如果需要处理大量截图，以下是几个关键的优化策略：</p>
-
-            <h3>批量处理多张截图</h3>
-            <pre><code>import os
-import pytesseract
-from PIL import Image
-
-def batch_ocr(input_dir, output_file, lang='chi_sim+eng'):
-    """批量处理目录下的所有截图"""
-    results = {}
-    
-    for filename in os.listdir(input_dir):
-        if filename.endswith(('.png', '.jpg', '.jpeg')):
-            filepath = os.path.join(input_dir, filename)
-            image = Image.open(filepath)
-            text = pytesseract.image_to_string(image, lang=lang)
-            results[filename] = text.strip()
-    
-    # 输出到文件
-    with open(output_file, 'w', encoding='utf-8') as f:
-        for name, text in results.items():
-            f.write(f"=== {name} ===\n{text}\n\n")
-    
-    return results
-
-# 使用
-batch_ocr('./screenshots/', './ocr_results.txt')</code></pre>
-
-            <h3>使用 PaddleOCR 批量识别（带 GPU 加速）</h3>
-            <pre><code>from paddleocr import PaddleOCR
+            <h3>使用环境变量控制存档路径</h3>
+            <pre><code># options.rpy
 import os
 
-ocr = PaddleOCR(use_angle_cls=True, lang='ch', use_gpu=True)
+# 优先使用环境变量，其次使用默认路径
+define config.savedir = os.environ.get("MYGAME_SAVE_DIR", config.renpy_base + "/saves")</code></pre>
 
-def batch_paddle_ocr(input_dir):
-    """使用 PaddleOCR 批量识别截图"""
-    results = {}
-    for filename in os.listdir(input_dir):
-        if filename.endswith(('.png', '.jpg', '.jpeg')):
-            filepath = os.path.join(input_dir, filename)
-            result = ocr.ocr(filepath, cls=True)
-            
-            # 提取所有文字
-            texts = []
-            for line in result[0]:
-                texts.append(line[1][0])
-            
-            results[filename] = '\n'.join(texts)
-    return results</code></pre>
+            <h3>移动端存档适配</h3>
+            <pre><code># 根据平台自动调整存档路径
+init python:
+    import renpy
+    if renpy.android:
+        # Android 平台使用外部存储
+        config.savedir = "/sdcard/MyGame/saves"
+    elif renpy.ios:
+        # iOS 平台使用 Documents 目录
+        config.savedir = None  # 使用 Ren'Py 默认路径</code></pre>
 
             <div class="tip">
-                <strong>优化建议：</strong>批量处理时使用 <code>concurrent.futures.ThreadPoolExecutor</code> 多线程并行处理，可以充分利用多核 CPU，速度提升 3-5 倍。
+                <strong>最佳实践：</strong>对于 PC 平台的分发版本，建议使用 <code>config.savedir</code> 将存档放在游戏根目录下，方便玩家进行存档备份和迁移。开发期间则保持默认路径即可。
+            </div>
+
+            <div class="warning">
+                <strong>重要提醒：</strong>如果使用 <code>config.savedir</code> 指向游戏目录内，请确保该路径有写入权限。部分系统可能会限制程序在 Program Files 等目录下的写入操作。
+            </div>
+
+            <h2>四、多存档槽管理</h2>
+            <p>Ren'Py 提供了丰富的存档槽配置选项，允许你自定义存档页面的槽位数量、布局和命名规则。</p>
+
+            <h3>存档槽数量配置</h3>
+            <pre><code># screens.rpy
+screen save():
+    # 每行显示 3 个存档槽
+    use file_slots("save", columns=3)
+
+screen load():
+    # 每行显示 4 个存档槽
+    use file_slots("load", columns=4)</code></pre>
+
+            <h3>自定义存档槽名称</h3>
+            <pre><code># screens.rpy - 修改 file_slots 屏幕
+default page_name_value = FilePageNameInputValue(pattern=_("第 {} 页"), auto=_("自动存档"), quick=_("快速存档"))
+
+# 自定义存档槽标题
+textbutton _("存档槽 {}".format(number + 1)):
+    action FileAction(number)</code></pre>
+
+            <h3>精细控制存档槽数量</h3>
+            <pre><code># options.rpy
+# 设置每页存档槽数量
+define config.file_slots_per_page = 12  # 默认值，可改为 6、9、18 等
+
+# 设置存档页面数量
+define config.file_pages = 9  # 默认最多 9 页</code></pre>
+
+            <h3>存档页面导航定制</h3>
+            <pre><code># screens.rpy - 自定义页面切换按钮
+hbox:
+    style_prefix "page"
+    for p in range(1, config.file_pages + 1):
+        textbutton str(p):
+            action FilePage(p)
+            # 用按钮替代默认的左右箭头</code></pre>
+
+            <p>你也可以重命名存档页面，让玩家更容易管理不同章节的存档：</p>
+
+            <pre><code># screens.rpy - 为每个存档页面添加自定义名称
+init python:
+    def file_page_name(page):
+        page_names = {
+            1: "第一章",
+            2: "第二章",
+            3: "第三章",
+            4: "分支路线",
+            5: "EXTRA"
+        }
+        return page_names.get(page, "第{}页".format(page))
+
+# 在存档界面中使用
+text file_page_name(page)</code></pre>
+
+            <div class="tip">
+                <strong>用户体验建议：</strong>每页 9 个存档槽（3 列 3 行的网格布局）是大多数玩家最熟悉的存档界面布局，既不会显得拥挤也不会浪费空间。
+            </div>
+
+            <h2>五、存档缩略图自定义</h2>
+            <p>每个存档槽默认会显示保存时的游戏画面缩略图，帮助玩家快速回忆存档内容。你可以通过配置来优化缩略图的尺寸和质量。</p>
+
+            <h3>调整缩略图尺寸</h3>
+            <pre><code># options.rpy
+# 设置存档缩略图尺寸（默认 192x108）
+define config.thumbnail_width = 320
+define config.thumbnail_height = 180
+
+# 保持 16:9 比例的其他常用尺寸
+# 256x144 - 小巧精致
+# 384x216 - 大图预览</code></pre>
+
+            <h3>自定义存档槽的外观</h3>
+            <pre><code># screens.rpy - 自定义 file_slots 屏幕
+screen file_slots(title):
+    use game_menu(title):
+        grid config.file_slots_per_page // 3 3:
+            for i in range(config.file_slots_per_page):
+                button:
+                    action FileAction(i)
+                    # 存档截图
+                    add FileScreenshot(i) xsize 320 ysize 180
+                    # 存档时间
+                    text FileTime(i, format=_("{#file_time}%Y-%m-%d %H:%M"), empty=_("空槽位"))
+                    # 存档名称
+                    text FileSaveName(i)</code></pre>
+
+            <div class="tip">
+                <strong>性能提示：</strong>缩略图尺寸过大会增加存档文件体积和界面加载时间。192×108 是官方推荐的默认尺寸，在清晰度和性能之间取得了良好平衡。
+            </div>
+
+            <h2>六、存档加密与防篡改</h2>
+            <p>虽然 Ren'Py 的存档文件使用了 pickle 序列化，但默认情况下并不加密。如果你需要防止玩家直接修改存档数据，可以通过 persistent 变量进行校验。</p>
+
+            <h3>使用 persistent 进行存档校验</h3>
+            <pre><code># 在 script.rpy 中
+init python:
+    # 定义校验用的密钥
+    import hashlib
+    import json
+
+    def get_save_checksum(data_dict):
+        """生成存档数据的校验和"""
+        data_str = json.dumps(data_dict, sort_keys=True)
+        return hashlib.sha256(data_str.encode()).hexdigest()
+
+    def verify_save_integrity(data_dict, stored_checksum):
+        """验证存档数据完整性"""
+        return get_save_checksum(data_dict) == stored_checksum</code></pre>
+
+            <h3>在存档时写入校验信息</h3>
+            <pre><code># 利用 json 回调在存档时添加校验
+init python:
+    def on_save_callback(data):
+        checksum = get_save_checksum(data)
+        if not persistent.save_checksums:
+            persistent.save_checksums = {}
+        persistent.save_checksums[renpy.get_screen().scope.get("page", 1)] = checksum
+
+    config.after_load_transition = None
+
+    def on_load_callback():
+        # 在加载存档后进行校验
+        pass</code></pre>
+
+            <h3>简单的作弊检测</h3>
+            <pre><code># 使用 persistent 记录关键数值变化
+init python:
+    def track_value_change(variable_name, new_value):
+        """追踪变量变化，检测异常修改"""
+        prev = getattr(persistent, "_track_" + variable_name, None)
+        if prev is not None:
+            # 如果数值变化过大且不自然，标记为可疑
+            if abs(new_value - prev) > 1000:
+                persistent.suspicious_activity = True
+                renpy.notify("检测到异常数据变化")
+        setattr(persistent, "_track_" + variable_name, new_value)
+
+# 在 script.rpy 中使用
+label spend_money(amount):
+    $ money += amount
+    $ track_value_change("money", money)
+    "获得了 [amount] 金币。"</code></pre>
+
+            <div class="warning">
+                <strong>重要说明：</strong>以上方法仅提供基础的防篡改能力。Ren'Py 作为单机游戏引擎，存档文件始终在玩家可控范围内，完全的防作弊在技术上不可行。建议将精力放在游戏内容质量上，而非过度投入防篡改机制。
+            </div>
+
+            <h2>七、自动存档配置</h2>
+            <p>自动存档是保障玩家游戏进度的重要手段，Ren'Py 提供了灵活的自动存档配置选项。</p>
+
+            <h3>基本自动存档设置</h3>
+            <pre><code># options.rpy
+# 启用/禁用自动存档
+define config.has_autosave = True
+
+# 自动存档触发频率（单位：交互次数）
+define config.autosave_frequency = 200
+
+# 自动存档占用的槽位数量（滚动覆盖旧存档）
+define config.autosave_slots = 10
+
+# 在自动存档时是否显示通知
+define config.autosave_on_choice = True
+define config.autosave_on_quit = True</code></pre>
+
+            <h3>手动触发自动存档</h3>
+            <pre><code># 在关键剧情节点强制自动存档
+label important_choice:
+    $ renpy.force_autosave()
+    menu:
+        "选择路线A":
+            jump route_a
+        "选择路线B":
+            jump route_b</code></pre>
+
+            <h3>禁用特定场景的自动存档</h3>
+            <pre><code># 在需要禁用自动存档的场景中
+label minigame_start:
+    $ renpy.block_autosave()
+    # ... 小游戏逻辑 ...
+    $ renpy.unblock_autosave()</code></pre>
+
+            <p>你也可以通过回调函数自定义何时允许自动存档：</p>
+
+            <pre><code># options.rpy
+# 自定义自动存档条件
+init python:
+    def can_autosave():
+        """返回 True 时才允许自动存档"""
+        # 在特殊场景（如战斗、过场动画）中禁止自动存档
+        if hasattr(store, 'in_battle') and store.in_battle:
+            return False
+        return True
+
+    config.autosave_on_choice_callback = can_autosave</code></pre>
+
+            <div class="tip">
+                <strong>推荐设置：</strong>对于大部分视觉小说，<code>config.autosave_frequency = 200</code>（大约每 5-10 分钟自动保存一次）是最合适的频率。太频繁会影响性能，太久则会降低安全边际。
             </div>
 
             <h2>八、常见问题排查</h2>
 
-            <h3>1. Tesseract 找不到或报错</h3>
-            <p>最常见的错误是 <code>TesseractNotFoundError</code>，解决方法：</p>
+            <h3>1. 存档无法加载</h3>
+            <p>这是最常见的存档问题，可能由以下原因导致：</p>
             <ul>
-                <li>确认已安装 Tesseract OCR</li>
-                <li>检查 <code>pytesseract.tesseract_cmd</code> 路径是否正确</li>
-                <li>将 Tesseract 安装路径添加到系统环境变量 PATH</li>
-                <li>Linux：<code>sudo apt install tesseract-ocr tesseract-ocr-chi-sim</code></li>
+                <li><strong>游戏版本变更</strong>：存档格式通常兼容小版本更新，但大幅改动可能导致不兼容</li>
+                <li><strong>图片资源缺失</strong>：存档引用的图片被删除或路径变更</li>
+                <li><strong>变量定义变更</strong>：存档中引用的变量在新版本中已被删除或重命名</li>
+            </ul>
+            <pre><code># 使用 try-except 安全加载存档
+init python:
+    def safe_load(filename):
+        try:
+            renpy.load(filename)
+        except Exception as e:
+            renpy.notify("存档加载失败：" + str(e))</code></pre>
+
+            <h3>2. 存档列表为空</h3>
+            <p>如果存档界面显示所有槽位都是空的：</p>
+            <ul>
+                <li>检查 <code>config.save_directory</code> 是否设置正确</li>
+                <li>确认存档目录存在且有读写权限</li>
+                <li>在 Ren'Py 启动器中点击"删除持久化数据"然后重新测试</li>
+                <li>检查是否有杀毒软件拦截了存档写入</li>
             </ul>
 
-            <h3>2. 中文识别乱码</h3>
-            <pre><code># 确认已安装中文语言包
-import pytesseract
-print(pytesseract.get_languages())  # 应该包含 'chi_sim'
+            <div class="tip">
+                <strong>调试技巧：</strong>按下 <code>Shift+O</code> 打开 Ren'Py 控制台，输入 <code>config.savedir</code> 可以查看当前存档路径。
+            </div>
 
-# 正确指定语言参数
-text = pytesseract.image_to_string(image, lang='chi_sim')  # 不是 'ch' 或 'cn'</code></pre>
+            <h3>3. 存档文件过大</h3>
+            <p>单个存档文件超过几十 MB 可能影响加载速度：</p>
+            <pre><code># options.rpy - 压缩存档文件
+define config.save_physical_size = False  # 使用逻辑大小
+define config.use_cpickle = False         # 使用标准 pickle</code></pre>
 
-            <h3>3. PaddleOCR 首次运行一直在下载模型</h3>
-            <p>PaddleOCR 首次使用时会从网络下载检测和识别模型（约 100MB）。如果下载慢，可以手动下载模型并放到 <code>~/.paddleocr/</code> 目录下。</p>
+            <p>主要优化方向是减少存档中引用的数据量，尤其是避免在存档中存储大段文本或大型数据结构。</p>
 
-            <h3>4. 识别准确率低</h3>
-            <ul>
-                <li>检查图片分辨率是否过低（建议 300 DPI 以上）</li>
-                <li>尝试图像预处理（灰度化、二值化、去噪）</li>
-                <li>放大图片 2-3 倍</li>
-                <li>切换 OCR 引擎（中文字幕用 PaddleOCR）</li>
-                <li>确保图片中的文字不是艺术字体</li>
-            </ul>
+            <h3>4. 跨平台存档迁移</h3>
+            <p>如果你需要将 Windows 存档迁移到 Android 或 Mac：</p>
+            <ol>
+                <li>找到源平台存档目录，复制所有 <code>.save</code> 文件和 <code>persistent</code> 文件</li>
+                <li>粘贴到目标平台的对应存档目录</li>
+                <li>确保两个平台的游戏版本号一致</li>
+                <li>启动游戏，存档应该可以正常加载</li>
+            </ol>
 
-            <h2>九、方案对比总结</h2>
-            <p>以下是从多个维度对比 Tesseract 和 PaddleOCR：</p>
-            <ul>
-                <li><strong>中文准确率</strong>：PaddleOCR（90%+）远优于 Tesseract（60-75%），尤其是在竖排文字和复杂排版场景下。</li>
-                <li><strong>英文准确率</strong>：Tesseract（95%+）与 PaddleOCR 基本持平，前者社区积累更深厚。</li>
-                <li><strong>安装难度</strong>：PaddleOCR 仅需 pip install，Tesseract 需要安装系统级软件。</li>
-                <li><strong>运行速度（CPU）</strong>：Tesseract 更快，PaddleOCR 深度学习推理较慢。</li>
-                <li><strong>运行速度（GPU）</strong>：PaddleOCR 开启 GPU 加速后远超 Tesseract。</li>
-                <li><strong>特殊场景</strong>：PaddleOCR 支持表格识别、印章识别，Tesseract 不支持这些高级功能。</li>
-            </ul>
+            <div class="tip">
+                <strong>实用方案：</strong>在游戏内添加"导出存档"和"导入存档"功能，使用 <code>renpy.slot_json("slot_name")</code> 和 <code>renpy.load_json("slot_name", json_data)</code> 可以方便地实现存档的导入导出。
+            </div>
 
-            <p><strong>选择建议：</strong></p>
-            <ul>
-                <li><strong>处理英文文档、印刷体</strong> → 用 Tesseract，轻量快速。</li>
-                <li><strong>处理中文截图、UI 界面</strong> → 用 PaddleOCR，精度碾压。</li>
-                <li><strong>需要表格/票据/发票识别</strong> → 用 PaddleOCR 的 PP-Structure。</li>
-                <li><strong>嵌入式或低资源环境</strong> → Tesseract 更友好，内存占用低。</li>
-            </ul>
+            <h2>九、最佳实践总结</h2>
+            <ol>
+                <li><strong>明确存档目录</strong>：在 <code>options.rpy</code> 中显式设置 <code>config.save_directory</code>，避免使用默认的项目目录名导致存档混乱</li>
+                <li><strong>合理配置自动存档</strong>：在关键选项前使用 <code>renpy.force_autosave()</code>，让玩家可以回溯重要决策</li>
+                <li><strong>保持存档兼容</strong>：大版本更新时保留对旧存档的兼容性，或在更新说明中明确告知</li>
+                <li><strong>优化缩略图</strong>：使用默认 192×108 尺寸，在清晰度和文件大小间保持平衡</li>
+                <li><strong>提示自动存档</strong>：在存档界面用图标或文字区分自动存档和手动存档</li>
+                <li><strong>定期测试</strong>：每次更新关联 RPA 归档或修改图片资源后，务必测试存档的加载功能</li>
+                <li><strong>便携版优先</strong>：对于分发给玩家的版本，使用 <code>config.savedir</code> 将存档放在游戏目录下</li>
+            </ol>
 
-            <p>掌握了以上两种方案和预处理技巧，你就可以轻松应对绝大多数的截图文字识别需求了。无论是做自动化工具、数据分析还是辅助阅读，Python OCR 都是一个值得掌握的技能。</p>
+            <p>掌握以上 Ren'Py 存档系统的各项配置后，你就能为玩家提供一个安全可靠、使用便捷的存档体验。对于商业模式需要考虑存档位置和持久化数据的设计，而对于同人创作则更应关注存档界面的美观和易用性。无论哪种场景，一个设计良好的存档系统都是优秀视觉小说的基石。</p>
 
             </div>
             
@@ -1364,7 +1288,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('文章模板已加载完成');
     
     // 获取当前文章ID（直接在此处填写当前文章ID，如 16 或 -1）
-    const currentArticleId = 22; // ← 替换成真实ID，如 16 或 -1（灰度测试）
+    const currentArticleId = 21; // ← 替换成真实ID，如 16 或 -1（灰度测试）
     function getCurrentArticleId() {
         return currentArticleId;
     }

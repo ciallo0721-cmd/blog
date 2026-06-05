@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>从零开始,怎么注册github并克隆仓库 - ciallo0721-cmd的文章</title>
-    <meta name="description" content="从零开始,怎么注册github并克隆仓库 - ciallo0721-cmd的文章">
+    <title>Ren'Py 人物立绘怎么换？完整替换指南 - ciallo0721-cmd的文章</title>
+    <meta name="description" content="详细教程：3种方法更换 Ren'Py 视觉小说的人物立绘，包括文件替换、代码修改和动态立绘切换，附常见问题排查。">
+    <link rel="canonical" href="https://91vip.xn--32v.ink/blog/19/">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="/fanv.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../../pic/image-viewer.css">
-    <link rel="stylesheet" href="../../vid/video-player.css">
-    <script src="../../pic/image-viewer.js"></script>
-    <script src="../../vid/video-player.js"></script>
-    <script src="/articles-data.js"></script>    <!-- Google tag (gtag.js) -->
+    <link rel="stylesheet" href="../../media-viewer.css">
+    <link rel="icon" href="../../fanv.ico" type="image/x-icon">
+    <script src="../../articles-data.js"></script>    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -296,6 +294,7 @@
             overflow-x: auto;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .article-content :not(pre) > code {
             font-family: 'MaokenAssortedSans', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             color: transparent;
@@ -344,13 +343,6 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             display: block;
             margin: 0 auto;
-            cursor: zoom-in;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .article-img:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
         .article-content .image-caption {
@@ -360,71 +352,6 @@
             margin-top: 15px;
             margin-bottom: 25px;
             font-style: italic;
-        }
-
-        /* 图片放大弹窗 */
-        .image-zoom-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.92);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            cursor: zoom-out;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .image-zoom-modal.active {
-            display: flex;
-        }
-
-        .image-zoom-modal img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            animation: zoomIn 0.3s ease;
-        }
-
-        .image-zoom-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 2.5rem;
-            cursor: pointer;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-
-        .image-zoom-close:hover {
-            opacity: 1;
-        }
-
-        @keyframes zoomIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        /* 视频容器 */
-        .article-video-container {
-            margin: 40px 0;
-            text-align: center;
-        }
-
-        /* 视频播放器容器样式 */
-        .article-video-container {
-            margin: 40px 0;
-            text-align: center;
-        }
-
-        .article-video-container .video-player-container {
-            display: inline-block;
-            max-width: 100%;
         }
 
         .article-navigation {
@@ -677,6 +604,7 @@
             background: linear-gradient(135deg, var(--bili-pink), #ff2e63);
         }
 
+
 /* === share.css === */
         /* 分享按钮样式 */
         .share-btn {
@@ -832,7 +760,17 @@
                 transform: translateY(0);
             }
         }
+
+        .article-content .tip { background:rgba(51,102,255,0.05); border-left:4px solid var(--bili-pink); padding:15px 20px; border-radius:0 12px 12px 0; margin:15px 0; }
+        .article-content .tip strong { color:var(--bili-pink); }
+        .article-content .warning { background:rgba(255,150,0,0.05); border-left:4px solid #ff9600; padding:15px 20px; border-radius:0 12px 12px 0; margin:15px 0; }
+        .article-content .warning strong { color:#ff9600; }
+        .cta-box { background:linear-gradient(135deg,rgba(51,102,255,0.1),rgba(37,117,252,0.1)); border:2px solid rgba(51,102,255,0.2); border-radius:16px; padding:24px; margin:30px 0; text-align:center; }
+        .cta-box a { display:inline-block; background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue)); color:white; text-decoration:none; padding:12px 28px; border-radius:25px; font-weight:600; transition:var(--transition); }
+        .cta-box a:hover { transform:translateY(-2px); box-shadow:0 4px 15px rgba(51,102,255,0.4); }
 </style>
+<link rel="stylesheet" href="../../video-player.css">
+<script src="../../video-player.js"></script>
 </head>
 <!-- 在html中，我们保留静态的文章内容，然后修改JavaScript,不需要补充content字段 -->
 <body>
@@ -852,14 +790,14 @@
     <main class="container article-detail-container">
         <article class="article-detail">
             <header class="article-header">
-                <div class="article-number" id="articleNumber">#016</div>
-                <h1 class="article-title" id="articleTitle">从零开始,怎么注册github并克隆仓库</h1>
+                <div class="article-number" id="articleNumber">文章 #000</div>
+                <h1 class="article-title" id="articleTitle">文章标题</h1>
                 
-                <p class="article-intro" id="articleIntro">从零开始,注册github并克隆仓库</p>
+                <p class="article-intro" id="articleIntro">文章简介：这是一个文章简介的占位文本，实际使用时将通过JavaScript动态替换。</p>
                 
                 <div class="article-meta">
                     <div class="article-date">
-                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2026-5-7</span>
+                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2025-12-30</span>
                     </div>
                     <div class="article-date">
                         <i class="far fa-clock"></i> 阅读时间: <span id="readTime">约10分钟</span>
@@ -868,109 +806,259 @@
                 
                 <div class="article-tags" id="articleTags">
                     <!-- 标签将通过JavaScript动态生成 -->
-                    <span class="article-tag">Github</span>
-                    <span class="article-tag">Git</span>
-                    <span class="article-tag">教程</span>
-                    <span class="article-tag">入门</span>
-                    <span class="article-tag">仓库管理</span>
+                    <span class="article-tag">示例标签1</span>
+                    <span class="article-tag">示例标签2</span>
+                    <span class="article-tag">示例标签3</span>
                 </div>
             </header>
             
             <div class="article-content" id="articleContent">
-                <!-- 以下是完整文章内容，包含文字、图片与视频 -->
+                        <p>在 Ren'Py 视觉小说开发中，人物立绘（Character Sprite）是决定游戏视觉表现力的核心要素。无论你是在开发初期替换占位图，还是在后期更新角色形象，掌握立绘更换的方法都是必不可少的技能。本文将详细介绍 3 种更换立绘的方法，并附上常见问题的排查方案。</p>
 
-                <h2>📌 前言：为什么需要 GitHub？</h2>
-                <p>GitHub 是全球最大的代码托管平台，无论你是开发者、设计师还是学生，都可以利用它来管理项目、备份代码、协作开发。<span class="highlight">"克隆仓库"</span> 就是从 GitHub 下载别人的项目到自己的电脑上，是学习和复用开源项目的基础技能。本教程将带着你一步一步完成所有操作，并配有真实截图和演示视频。</p>
+            <h2>一、为什么要更换立绘？</h2>
+            <p>人物立绘是视觉小说中最重要的视觉元素之一。一个精心设计的立绘能够：</p>
+            <ul>
+                <li><strong>塑造角色性格</strong>：立绘的表情、姿势、服装直接传达角色的个性特征</li>
+                <li><strong>增强沉浸感</strong>：高质量的立绘让玩家更容易代入故事</li>
+                <li><strong>适应剧情发展</strong>：不同场景需要不同的表情和服装变体</li>
+                <li><strong>迭代优化</strong>：开发过程中经常需要替换临时素材或升级美术质量</li>
+            </ul>
+            <p>无论你是刚入门的新手还是经验丰富的开发者，都一定会遇到需要更换立绘的场景。</p>
 
-                <div class="article-image-container">
-                    <img src="images/github-home.png" alt="GitHub 首页示意图" class="article-img zoomable">
-                    <div class="image-caption">GitHub 官网首页 — 全球开发者的游乐场</div>
-                </div>
+            <h2>二、立绘文件准备</h2>
+            <h3>1. 支持的图片格式</h3>
+            <p>Ren'Py 支持以下图片格式作为立绘素材：</p>
+            <ul>
+                <li><strong>PNG</strong>（推荐）：支持透明通道，是最常用的立绘格式</li>
+                <li><strong>WebP</strong>：体积更小，支持透明，适合优化包体</li>
+                <li><strong>JPG</strong>：不支持透明，不推荐用于立绘</li>
+            </ul>
 
-                <h2>🚀 第一步：注册 GitHub 账号</h2>
-                <p>打开 GitHub 官网 (<a href="https://github.com" target="_blank" rel="noopener noreferrer">https://github.com</a>)，点击右上角绿色的 <strong>"Sign up"</strong> 按钮。</p>
-                <ul>
-                    <li>输入你的电子邮箱（建议常用邮箱）</li>
-                    <li>设置密码（要求足够复杂，至少8位）</li>
-                    <li>选择一个用户名，它将成为你个人主页的一部分</li>
-                    <li>通过邮箱验证码完成验证</li>
-                    <li>如有需要可跳过个性化设置</li>
-                </ul>
-                <p>注册成功后会自动跳转到 GitHub 仪表盘。此时你就拥有了一个属于自己的 GitHub 账户！</p>
+            <h3>2. 命名规范</h3>
+            <p>Ren'Py 使用自动图片定义机制，文件名会直接映射为图片标签。推荐命名格式：</p>
+            <pre><code># 文件名格式：角色名_表情.png
+# 例如：
+images/alice happy.png      → show alice happy
+images/alice angry.png      → show alice angry
+images/alice sad.png        → show alice sad
+images/alice normal.png     → show alice normal
 
-                <div class="article-image-container">
-                    <img src="images/github-signup.png" alt="注册界面示例" class="article-img zoomable">
-                    <div class="image-caption">GitHub 注册界面（示意）</div>
-                </div>
+# 带服装变体：
+images/alice casual happy.png   → show alice casual happy
+images/alice uniform angry.png  → show alice uniform angry</code></pre>
 
-                <h2>⚙️ 第二步：安装 Git 工具</h2>
-                <p>克隆仓库需要在你的电脑上安装 Git。访问 <a href="https://git-scm.com/" target="_blank">git-scm.com</a>，下载对应操作系统（Windows / macOS / Linux）的安装包。安装时使用默认选项即可，安装完成后打开终端 (Terminal / CMD) 输入 <code>git --version</code>，如果显示版本号说明安装成功。</p>
+            <div class="tip">
+                <strong>小技巧：</strong>文件名中的空格会被 Ren'Py 自动识别为标签分隔符。使用小写字母和下划线/空格组合是最规范的命名方式。
+            </div>
 
-                <pre><code>$ git --version
-git version 2.42.0</code></pre>
+            <h3>3. 建议尺寸</h3>
+            <p>立绘的推荐尺寸取决于你的游戏分辨率：</p>
+            <ul>
+                <li><strong>1920×1080 游戏</strong>：立绘高度建议 1600-1800px，宽度 600-900px</li>
+                <li><strong>1280×720 游戏</strong>：立绘高度建议 1000-1200px，宽度 400-600px</li>
+                <li><strong>保持一致</strong>：同一角色的所有表情和服装变体尺寸必须一致</li>
+            </ul>
 
-                <h2>🔑 第三步：配置 Git 用户信息（可选但推荐）</h2>
-                <p>为了让提交记录更清晰，建议设置全局用户名和邮箱：</p>
-                <pre><code>git config --global user.name "你的用户名"
-git config --global user.email "你的邮箱@example.com"</code></pre>
-                <p>这样以后你克隆的仓库如果做修改，就能准确记录作者信息。</p>
+            <h2>三、方法一：直接替换 images 目录下的文件</h2>
+            <p>这是最简单直接的方法，适合只需要替换图片而无需修改代码的场景。</p>
 
-                <h2>📥 第四步：克隆第一个仓库</h2>
-                <p>先随意找一个公开仓库，比如 GitHub 官方示例。进入仓库页面后，点击绿色的 <strong>"<> Code"</strong> 按钮，选择 HTTPS 标签页，复制仓库地址（类似 <code>https://github.com/用户名/仓库名.git</code>）。</p>
+            <h3>操作步骤</h3>
+            <ol>
+                <li>打开项目的 <code>game/images/</code> 目录</li>
+                <li>找到需要替换的立绘文件（如 <code>alice happy.png</code>）</li>
+                <li>用新图片替换旧文件，<strong>保持文件名不变</strong></li>
+                <li>重启 Ren'Py（或按 Shift+R 重新加载）</li>
+            </ol>
 
-                <div class="article-image-container">
-                    <img src="images/github-code-btn.png" alt="Code按钮截图" class="article-img zoomable">
-                </div>
+            <pre><code># 项目目录结构示例
+game/
+├── images/
+│   ├── alice happy.png      ← 替换这个文件
+│   ├── alice angry.png
+│   ├── alice sad.png
+│   └── bob normal.png
+├── script.rpy
+└── options.rpy</code></pre>
 
-                <p>打开电脑终端，进入你想要存放代码的目录（比如桌面或项目文件夹），然后输入：</p>
-                <pre><code>git clone https://github.com/用户名/仓库名.git</code></pre>
-                <p>按下回车，Git 就会自动下载整个仓库到本地。完成后当前文件夹会出现一个以仓库名命名的目录，打开它即可看到所有文件。</p>
+            <div class="tip">
+                <strong>优点：</strong>操作简单，不需要修改任何代码。适合美术更新、占位图替换等场景。
+            </div>
 
-                <div class="article-video-container">
-                    <div class="video-player-container" data-src="video/git-clone-demo.mp4">
-                        <div class="video-poster">
-                            <div class="play-button"><i class="fas fa-play"></i></div>
-                        </div>
-                        <video preload="metadata"></video>
-                        <div class="video-controls">
-                            <button class="vp-control-btn vp-play-pause"><i class="fas fa-play"></i></button>
-                            <div class="vp-progress-container">
-                                <div class="vp-progress-bar">
-                                    <div class="vp-progress-fill"></div>
-                                    <div class="vp-progress-handle"></div>
-                                </div>
-                            </div>
-                            <span class="vp-time-display">00:00 / 00:00</span>
-                            <div class="vp-volume-container">
-                                <button class="vp-control-btn vp-volume-btn"><i class="fas fa-volume-up"></i></button>
-                                <div class="vp-volume-slider"><div class="vp-volume-fill"></div></div>
-                            </div>
-                            <button class="vp-control-btn vp-fullscreen-btn"><i class="fas fa-expand"></i></button>
-                        </div>
-                        <div class="vp-loading"></div>
-                    </div>
-                    <div class="image-caption">视频：如何 Clone 仓库（演示基本流程）</div>
-                </div>
+            <div class="warning">
+                <strong>注意：</strong>新图片的尺寸应与旧图片一致，否则可能导致角色大小突然变化或位置偏移。
+            </div>
 
-                <h2>🧩 第五步：验证克隆成功 & 常见问题</h2>
-                <p>克隆完成后，进入仓库目录并查看文件列表：</p>
-                <pre><code>cd 仓库名
-ls</code></pre>
-                <p>如果能看到 README.md 或源码文件，说明克隆成功！常见错误：</p>
-                <ul>
-                    <li><strong>Permission denied</strong> → 如果是私人仓库需要配置 SSH 密钥或使用 HTTPS 并输入账号密码。</li>
-                    <li><strong>找不到 git 命令</strong> → 请检查 Git 是否安装并重启终端。</li>
-                    <li><strong>网络超时</strong> → 可以尝试使用国内镜像或科学上网。</li>
-                </ul>
+            <h2>四、方法二：修改 script.rpy 中的 image 定义</h2>
+            <p>当你需要重新组织图片结构，或者使用不同的文件名映射时，可以通过修改 <code>image</code> 定义来实现。</p>
 
-                <blockquote>
-                    💡 小贴士：GitHub 上每个仓库都有不同的分支，默认克隆的是主分支（main/master）。如果需要其他分支，可以克隆后执行 <code>git checkout 分支名</code> 切换。
-                </blockquote>
+            <h3>基本 image 定义</h3>
+            <pre><code># 在 script.rpy 或单独的 images.rpy 中定义
 
-                <h2>📝 结语</h2>
-                <p>现在你已经学会了注册 GitHub、安装 Git 并克隆远程仓库。这是参与开源项目、学习优秀代码的第一步。后续还可以学习 <code>git pull</code> 更新代码、<code>git push</code> 提交自己的修改。继续加油吧，未来的全栈工程师！</p>
+# 方式1：直接指定文件路径
+image alice happy = "characters/alice_smile.png"
+image alice angry = "characters/alice_mad.png"
+image alice sad = "characters/alice_cry.png"
 
-                <p>如果你有任何问题，欢迎在评论区留言或通过我的博客首页联系我。分享本文给更多需要的朋友～</p>
+# 方式2：使用 condition 条件切换
+image alice = ConditionSwitch(
+    "alice_mood == 'happy'", "characters/alice_smile.png",
+    "alice_mood == 'angry'", "characters/alice_mad.png",
+    "alice_mood == 'sad'", "characters/alice_cry.png",
+    "True", "characters/alice_normal.png"
+)</code></pre>
+
+            <h3>使用 Composite 合成立绘</h3>
+            <pre><code># 将身体和表情分层组合
+image alice happy = Composite(
+    (600, 1800),
+    (0, 0), "characters/alice_base.png",      # 身体
+    (0, 0), "characters/alice_face_happy.png"  # 表情
+)
+
+image alice angry = Composite(
+    (600, 1800),
+    (0, 0), "characters/alice_base.png",
+    (0, 0), "characters/alice_face_angry.png"
+)</code></pre>
+
+            <div class="tip">
+                <strong>推荐：</strong>使用 Composite 分层可以大大减少图片总量。只需要一个身体图层 + 多个表情图层，而不是为每个表情都导出完整的立绘。
+            </div>
+
+            <h2>五、方法三：使用 DynamicImage 动态立绘</h2>
+            <p>当你的角色立绘需要根据游戏状态动态切换时，可以使用 <code>DynamicImage</code> 配合变量实现。</p>
+
+            <pre><code># 定义动态立绘
+image alice = DynamicImage("alice_[alice_outfit]_[alice_mood].png")
+
+# 定义角色
+define a = Character("爱丽丝", image="alice")
+
+# 在脚本中使用
+label start:
+    $ alice_outfit = "casual"
+    $ alice_mood = "happy"
+
+    show alice          # 显示 alice_casual_happy.png
+
+    a "今天天气真好呢！"
+
+    $ alice_mood = "angry"
+    show alice          # 自动切换为 alice_casual_angry.png
+
+    a "你怎么可以这样！"</code></pre>
+
+            <h3>DynamicCharacter 配合使用</h3>
+            <pre><code># 角色名也可动态变化
+define dynamic_name = "???"
+define a = DynamicCharacter("dynamic_name", image="alice")
+
+label mystery:
+    show alice at center
+    $ dynamic_name = "???"
+    a "你猜我是谁？"
+
+    $ dynamic_name = "爱丽丝"
+    $ alice_mood = "happy"
+    show alice
+    a "是我啦！"</code></pre>
+
+            <h2>六、表情切换：show 语句详解</h2>
+            <p>Ren'Py 使用 <code>show</code> 语句来显示和切换立绘表情：</p>
+
+            <pre><code># 显示角色（默认表情）
+show alice
+
+# 显示特定表情
+show alice happy
+show alice angry
+show alice sad
+
+# 带位置显示
+show alice happy at left
+show alice angry at right
+show alice sad at center
+
+# 带过渡效果切换表情
+show alice angry with dissolve
+
+# 隐藏角色
+hide alice with dissolve</code></pre>
+
+            <h3>表情切换动画</h3>
+            <pre><code># 定义过渡效果
+define flash = CropMove(0.2, "cropleft")
+
+# 使用自定义过渡
+show alice angry with flash
+
+# 使用 ATL 动画
+image alice happy:
+    "alice happy"
+    xalign 0.5
+    easein 0.3 yalign 1.0</code></pre>
+
+            <h2>七、常见问题排查</h2>
+
+            <h3>1. 图片不显示</h3>
+            <p>这是最常见的问题，排查步骤如下：</p>
+            <ul>
+                <li>检查文件是否在 <code>game/images/</code> 目录下</li>
+                <li>检查文件名是否与 <code>show</code> 语句匹配（大小写敏感）</li>
+                <li>检查图片格式是否为 PNG 或 WebP</li>
+                <li>按 <code>Shift+I</code> 查看图片加载错误日志</li>
+                <li>确认文件名中没有多余的空格或特殊字符</li>
+            </ul>
+
+            <h3>2. 立绘位置偏移</h3>
+            <pre><code># 方法1：使用 at 关键字调整位置
+show alice at center
+show alice at left
+show alice at right
+
+# 方法2：自定义位置
+transform my_pos:
+    xalign 0.3
+    yalign 1.0
+
+show alice happy at my_pos
+
+# 方法3：使用 xpos/ypos 精确控制
+show alice happy:
+    xpos 200
+    ypos 0</code></pre>
+
+            <h3>3. 立绘切换闪烁</h3>
+            <p>切换表情时出现闪烁通常是因为新旧图片的透明区域不一致：</p>
+            <pre><code># 使用 dissolve 过渡消除闪烁
+show alice happy with dissolve
+
+# 或在 options.rpy 中设置默认过渡
+define config.say_attribute_transition = dissolve</code></pre>
+
+            <h3>4. 多个立绘重叠</h3>
+            <pre><code># 先隐藏旧立绘再显示新的
+hide alice
+show alice happy with dissolve
+
+# 或直接用 show 切换（Ren'Py 会自动替换同名角色）
+show alice happy  # 自动替换之前的 alice 表情</code></pre>
+
+            <div class="warning">
+                <strong>重要：</strong>如果你同时显示了同一角色的多个立绘（比如用不同标签），需要使用 <code>hide</code> 明确指定要隐藏的标签。
+            </div>
+
+            <h2>八、最佳实践总结</h2>
+            <ol>
+                <li><strong>统一命名</strong>：使用一致的命名规范（如 <code>角色名_表情.png</code>）</li>
+                <li><strong>分层管理</strong>：使用 Composite 将身体和表情分开，减少图片总量</li>
+                <li><strong>版本控制</strong>：在替换立绘前备份旧文件</li>
+                <li><strong>尺寸一致</strong>：确保同一角色的所有变体尺寸完全一致</li>
+                <li><strong>及时测试</strong>：每次更换立绘后都要在游戏中实际查看效果</li>
+            </ol>
+
+            <p>掌握了以上 3 种方法和常见问题的解决方案，你就可以在 Ren'Py 中自由地管理和更换人物立绘了。无论是简单的文件替换，还是复杂的动态立绘系统，都能得心应手。</p>
+
             </div>
             
             <!-- 分享按钮 -->
@@ -1085,8 +1173,12 @@ ls</code></pre>
 document.addEventListener('DOMContentLoaded', function() {
     console.log('文章模板已加载完成');
     
-    // 当前文章ID
-    const currentArticleId = 16;
+    // 获取当前文章ID（直接在此处填写当前文章ID，如 16 或 -1）
+    const currentArticleId = 20; // ← 替换成真实ID，如 16 或 -1（灰度测试）
+    function getCurrentArticleId() {
+        return currentArticleId;
+    }
+    
     
     // 更新文章信息
     function updateArticleInfo(articleId) {
@@ -1263,57 +1355,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 自定义视频播放器 - 使用独立组件
-    function initCustomVideoPlayer() {
-        console.log('[DEBUG] initCustomVideoPlayer called');
-        console.log('[DEBUG] VideoPlayer exists:', typeof VideoPlayer !== 'undefined');
-        
-        // 直接查找所有可能的元素
-        const allDivs = document.querySelectorAll('div');
-        console.log('[DEBUG] Total divs in document:', allDivs.length);
-        
-        const vc = document.querySelector('.video-player-container');
-        console.log('[DEBUG] Found .video-player-container:', !!vc);
-        if (vc) {
-            console.log('[DEBUG] vc innerHTML preview:', vc.innerHTML.substring(0, 100));
-        }
-        
-        const articleContent = document.getElementById('articleContent');
-        console.log('[DEBUG] articleContent exists:', !!articleContent);
-        if (articleContent) {
-            console.log('[DEBUG] articleContent children count:', articleContent.children.length);
-            console.log('[DEBUG] articleContent innerHTML length:', articleContent.innerHTML.length);
-            console.log('[DEBUG] Has video-player-container in innerHTML:', articleContent.innerHTML.includes('video-player-container'));
-            console.log('[DEBUG] Has video-player-container in outerHTML:', articleContent.outerHTML.includes('video-player-container'));
-            console.log('[DEBUG] articleContent innerHTML preview:', articleContent.innerHTML.substring(0, 300));
-        }
-
-        document.querySelectorAll('.video-player-container').forEach(container => {
-            // 跳过已初始化的
-            if (container.dataset.initialized) {
-                console.log('[DEBUG] Skipping already initialized container');
-                return;
-            }
-            container.dataset.initialized = 'true';
-
-            const src = container.dataset.src || '';
-            const video = container.querySelector('video');
-            console.log('[DEBUG] video src:', src, 'video element:', !!video);
-            if (video && src) {
-                video.src = src;
-                video.load();
-                console.log('[DEBUG] video.src set to:', video.src);
-            }
-
-            if (typeof VideoPlayer !== 'undefined') {
-                console.log('[DEBUG] Calling VideoPlayer.init');
-                VideoPlayer.init(container);
-            } else {
-                console.error('[DEBUG] VideoPlayer not found!');
-            }
-        });
-    }
-    
     // 添加代码复制功能
     function addCodeCopyFunction() {
         document.querySelectorAll('pre code').forEach((codeBlock) => {
@@ -1479,8 +1520,10 @@ document.addEventListener('DOMContentLoaded', function() {
         initShareFunction();
         initImageZoom();
         
-        // 等待DOM更新后再初始化视频播放器
-        setTimeout(initCustomVideoPlayer, 50);
+        // 初始化自定义视频播放器（如果页面中有）
+        if (window.MediaViewer && window.MediaViewer.initCustomVideoPlayer) {
+            window.MediaViewer.initCustomVideoPlayer();
+        }
     }
     
     // 初始化页面
@@ -1515,11 +1558,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 </script>
-
+    
+    <!-- 媒体查看器 JS -->
+    <script src="../../media-viewer.js"></script>
+    
     <!-- 实际使用时, 请确保脚本路径正确并已加载所需的库。 -->
     <!-- ./css/wz/{文章id}/wzjsid{换成id}.js  -->
 
-    <!-- <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button> -->
+
+
+    <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;justify-content:center;align-items:center;" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button>
     <script>
     (function(){
         var btn=document.getElementById('totop-btn');

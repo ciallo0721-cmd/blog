@@ -1,13 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <link rel="canonical" href="https://91vip.xn--32v.ink/blog/16/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>优化X(twitter)推荐 - ciallo0721-cmd的文章</title>
-    <meta name="description" content="优化X(twitter)推荐 - ciallo0721-cmd的文章">
+    <title>从零开始,怎么注册github并克隆仓库 - ciallo0721-cmd的文章</title>
+    <meta name="description" content="从零开始,怎么注册github并克隆仓库 - ciallo0721-cmd的文章">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- 有敏感内容,不要索引 -->
-    <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="/fanv.ico" type="image/x-icon">
     <link rel="stylesheet" href="../../pic/image-viewer.css">
     <link rel="stylesheet" href="../../vid/video-player.css">
@@ -854,14 +853,14 @@
     <main class="container article-detail-container">
         <article class="article-detail">
             <header class="article-header">
-                <div class="article-number" id="articleNumber">#017</div>
-                <h1 class="article-title" id="articleTitle">优化X(twitter)推荐</h1>
+                <div class="article-number" id="articleNumber">#016</div>
+                <h1 class="article-title" id="articleTitle">从零开始,怎么注册github并克隆仓库</h1>
                 
-                <p class="article-intro" id="articleIntro">优化X(twitter)推荐</p>
+                <p class="article-intro" id="articleIntro">从零开始,注册github并克隆仓库</p>
                 
                 <div class="article-meta">
                     <div class="article-date">
-                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2026-5-13</span>
+                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2026-5-7</span>
                     </div>
                     <div class="article-date">
                         <i class="far fa-clock"></i> 阅读时间: <span id="readTime">约10分钟</span>
@@ -870,25 +869,66 @@
                 
                 <div class="article-tags" id="articleTags">
                     <!-- 标签将通过JavaScript动态生成 -->
-                    <span class="article-tag">X(twitter)</span>
-                    <span class="article-tag">推荐算法</span>
+                    <span class="article-tag">Github</span>
+                    <span class="article-tag">Git</span>
+                    <span class="article-tag">教程</span>
+                    <span class="article-tag">入门</span>
+                    <span class="article-tag">仓库管理</span>
                 </div>
             </header>
             
             <div class="article-content" id="articleContent">
+                <!-- 以下是完整文章内容，包含文字、图片与视频 -->
 
-                <h2>前言:</h2>
-                <p>在这个快速发展的数字时代，X(twitter) 已成为人们获取信息和娱乐的重要平台。然而，林子大了什么鸟都有。偶尔也会碰到些对中国的偏见言论（其实说得直白些就是反动内容的帖子）,本文将探讨如何优化 X推荐,使其不会推荐这些言论。</p>
+                <h2>📌 前言：为什么需要 GitHub？</h2>
+                <p>GitHub 是全球最大的代码托管平台，无论你是开发者、设计师还是学生，都可以利用它来管理项目、备份代码、协作开发。<span class="highlight">"克隆仓库"</span> 就是从 GitHub 下载别人的项目到自己的电脑上，是学习和复用开源项目的基础技能。本教程将带着你一步一步完成所有操作，并配有真实截图和演示视频。</p>
 
-                <h2>1.banned word </h2>
-                <p>我们可以通过设置一系列敏感词汇（banned words）来优化推荐系统。这些词汇通常与不当内容相关联</p>
-                <h2>具体操作</h2>
-                <p>打开X(twitter),点击左上角的头像，选择“设置和隐私”</p>
-                <p>然后,在菜单中选择“隐私和安全”</p>
-                <p>接下来,在“隐私和安全”设置中找到“隐藏和屏蔽”选项</p>
+                <div class="article-image-container">
+                    <img src="images/github-home.png" alt="GitHub 首页示意图" class="article-img zoomable">
+                    <div class="image-caption">GitHub 官网首页 — 全球开发者的游乐场</div>
+                </div>
+
+                <h2>🚀 第一步：注册 GitHub 账号</h2>
+                <p>打开 GitHub 官网 (<a href="https://github.com" target="_blank" rel="noopener noreferrer">https://github.com</a>)，点击右上角绿色的 <strong>"Sign up"</strong> 按钮。</p>
+                <ul>
+                    <li>输入你的电子邮箱（建议常用邮箱）</li>
+                    <li>设置密码（要求足够复杂，至少8位）</li>
+                    <li>选择一个用户名，它将成为你个人主页的一部分</li>
+                    <li>通过邮箱验证码完成验证</li>
+                    <li>如有需要可跳过个性化设置</li>
+                </ul>
+                <p>注册成功后会自动跳转到 GitHub 仪表盘。此时你就拥有了一个属于自己的 GitHub 账户！</p>
+
+                <div class="article-image-container">
+                    <img src="images/github-signup.png" alt="注册界面示例" class="article-img zoomable">
+                    <div class="image-caption">GitHub 注册界面（示意）</div>
+                </div>
+
+                <h2>⚙️ 第二步：安装 Git 工具</h2>
+                <p>克隆仓库需要在你的电脑上安装 Git。访问 <a href="https://git-scm.com/" target="_blank">git-scm.com</a>，下载对应操作系统（Windows / macOS / Linux）的安装包。安装时使用默认选项即可，安装完成后打开终端 (Terminal / CMD) 输入 <code>git --version</code>，如果显示版本号说明安装成功。</p>
+
+                <pre><code>$ git --version
+git version 2.42.0</code></pre>
+
+                <h2>🔑 第三步：配置 Git 用户信息（可选但推荐）</h2>
+                <p>为了让提交记录更清晰，建议设置全局用户名和邮箱：</p>
+                <pre><code>git config --global user.name "你的用户名"
+git config --global user.email "你的邮箱@example.com"</code></pre>
+                <p>这样以后你克隆的仓库如果做修改，就能准确记录作者信息。</p>
+
+                <h2>📥 第四步：克隆第一个仓库</h2>
+                <p>先随意找一个公开仓库，比如 GitHub 官方示例。进入仓库页面后，点击绿色的 <strong>"<> Code"</strong> 按钮，选择 HTTPS 标签页，复制仓库地址（类似 <code>https://github.com/用户名/仓库名.git</code>）。</p>
+
+                <div class="article-image-container">
+                    <img src="images/github-code-btn.png" alt="Code按钮截图" class="article-img zoomable">
+                </div>
+
+                <p>打开电脑终端，进入你想要存放代码的目录（比如桌面或项目文件夹），然后输入：</p>
+                <pre><code>git clone https://github.com/用户名/仓库名.git</code></pre>
+                <p>按下回车，Git 就会自动下载整个仓库到本地。完成后当前文件夹会出现一个以仓库名命名的目录，打开它即可看到所有文件。</p>
 
                 <div class="article-video-container">
-                    <div class="video-player-container" data-src="1.mp4">
+                    <div class="video-player-container" data-src="video/git-clone-demo.mp4">
                         <div class="video-poster">
                             <div class="play-button"><i class="fas fa-play"></i></div>
                         </div>
@@ -910,19 +950,28 @@
                         </div>
                         <div class="vp-loading"></div>
                     </div>
-                    <div class="image-caption">视频：如何屏蔽</div>
+                    <div class="image-caption">视频：如何 Clone 仓库（演示基本流程）</div>
                 </div>
 
+                <h2>🧩 第五步：验证克隆成功 & 常见问题</h2>
+                <p>克隆完成后，进入仓库目录并查看文件列表：</p>
+                <pre><code>cd 仓库名
+ls</code></pre>
+                <p>如果能看到 README.md 或源码文件，说明克隆成功！常见错误：</p>
+                <ul>
+                    <li><strong>Permission denied</strong> → 如果是私人仓库需要配置 SSH 密钥或使用 HTTPS 并输入账号密码。</li>
+                    <li><strong>找不到 git 命令</strong> → 请检查 Git 是否安装并重启终端。</li>
+                    <li><strong>网络超时</strong> → 可以尝试使用国内镜像或科学上网。</li>
+                </ul>
 
-                <h2>常见的屏蔽词</h2>
-                <p>这里我放不出来...但是,在GitHub上有一个专门收集这类言论的词库</p>
-                <p>https://github.com/konsheng/Sensitive-lexicon/blob/main/Vocabulary/反动词库.txt</p>
-                <p>https://github.com/fwwdn/sensitive-stop-words/blob/master/政治类.txt</p>
-                <p>如果觉得直接打开github.com麻烦，可以使用以下链接快速访问相关内容：</p>
-                <p>https://raw.githubusercontent.com/konsheng/Sensitive-lexicon/blob/main/Vocabulary/反动词库.txt</p>
+                <blockquote>
+                    💡 小贴士：GitHub 上每个仓库都有不同的分支，默认克隆的是主分支（main/master）。如果需要其他分支，可以克隆后执行 <code>git checkout 分支名</code> 切换。
+                </blockquote>
 
-                <h2>结语</h2>
-                <p>通过这些方法，能够有效优化 X的推荐系统，让我们远离不良信息的干扰。</p>
+                <h2>📝 结语</h2>
+                <p>现在你已经学会了注册 GitHub、安装 Git 并克隆远程仓库。这是参与开源项目、学习优秀代码的第一步。后续还可以学习 <code>git pull</code> 更新代码、<code>git push</code> 提交自己的修改。继续加油吧，未来的全栈工程师！</p>
+
+                <p>如果你有任何问题，欢迎在评论区留言或通过我的博客首页联系我。分享本文给更多需要的朋友～</p>
             </div>
             
             <!-- 分享按钮 -->
@@ -1038,7 +1087,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('文章模板已加载完成');
     
     // 当前文章ID
-    const currentArticleId = 17;
+    const currentArticleId = 16;
     
     // 更新文章信息
     function updateArticleInfo(articleId) {
