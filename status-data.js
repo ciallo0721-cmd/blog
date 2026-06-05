@@ -30,6 +30,12 @@
  */
 
 window.statusHistory = [
+    {
+        date: "2026年6月5日",
+        status: "green",
+        title: "?喵",
+        desc: ""
+    },
         {
         date: "2026年6月4日",
         status: "red",
