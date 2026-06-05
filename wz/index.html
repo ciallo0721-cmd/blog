@@ -335,6 +335,9 @@
             font-weight: 500;
             border: 1px solid rgba(251, 114, 153, 0.2);
         }
+        .paid-badge { display: inline-block; background: linear-gradient(135deg, #ff6b9d, #ff9050); color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; margin-left: 6px; vertical-align: middle; }
+        .article-card.paid { border-color: rgba(255,107,157,0.3); }
+        .article-card.paid::before { background: linear-gradient(135deg, #ff6b9d, #ff9050); }
 
         .article-footer {
             display: flex;
@@ -751,6 +754,40 @@
             }
         }
 
+        /* 板块筛选 */
+        .category-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .category-btn {
+            background: rgba(0, 161, 214, 0.1);
+            color: var(--bili-blue);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid rgba(0, 161, 214, 0.25);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .category-btn:hover, .category-btn.active {
+            background: var(--bili-blue);
+            color: white;
+            transform: translateY(-2px);
+            border-color: var(--bili-blue);
+        }
+        .article-category-badge {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            padding: 2px 9px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -792,12 +829,12 @@
     <!-- 导航栏 -->
     <nav>
         <div class="container nav-container">
-            <a href="index.html" class="logo">
+            <a href="../index.html" class="logo">
                 <i class="fas fa-gamepad"></i> ciallo0721-cmd
             </a>
             <ul class="nav-links">
-                <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
-                <li><a href="wz.html" class="active"><i class="fas fa-newspaper"></i> 技术文章</a></li>
+                <li><a href="../index.html"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="../wz.html" class="active"><i class="fas fa-newspaper"></i> 技术文章</a></li>
                 <li><a href="https://space.bilibili.com/478967440" target="_blank"><i class="fab fa-bilibili"></i> B站</a></li>
                 <li><a href="#donation"><i class="fas fa-heart"></i> 赞助支持</a></li>
             </ul>
@@ -821,6 +858,15 @@
                 <button id="searchButton" class="search-button">
                     <i class="fas fa-search"></i> 搜索
                 </button>
+            </div>
+            <div class="category-nav" id="categoryNav">
+                <button class="category-btn active" data-category="全部">全部</button>
+                <button class="category-btn" data-category="科技">科技</button>
+                <button class="category-btn" data-category="教程">教程</button>
+                <button class="category-btn" data-category="ACG">ACG</button>
+                <button class="category-btn" data-category="闲聊">闲聊</button>
+                <button class="category-btn" data-category="生活">生活</button>
+                <button class="category-btn" data-category="公告">公告</button>
             </div>
             <div class="filter-tags" id="filterTags">
                 <!-- 标签将通过JavaScript动态生成 -->
@@ -878,7 +924,7 @@
                 </div>
             </div>
             <div class="warning-gif">
-                <img src="./css/1.gif" alt="安全警告动画" onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23FB7299%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-size%3D%2220%22%3E⚠️%20GIF%3C%2Ftext%3E%3C%2Fsvg%3E';">
+                <img src="../css/1.gif" alt="安全警告动画" onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23FB7299%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-size%3D%2220%22%3E⚠️%20GIF%3C%2Ftext%3E%3C%2Fsvg%3E';">
             </div>
             <div class="modal-footer">
                 <button class="close-modal-btn" id="closeModalBtn"><i class="fas fa-check-circle"></i> 继续浏览</button>
@@ -892,11 +938,11 @@
             <div class="footer-logo">ciallo0721-cmd</div>
             <p>感谢访问我的技术博客！这里记录了我在编程和游戏开发中的学习与思考</p>
             <div class="footer-links">
-                <a href="privacy-policy.html"><i class="fas fa-shield-alt"></i> 隐私政策</a>
-                <a href="user-agreement.html"><i class="fas fa-file-contract"></i> 用户协议</a>
+                <a href="../privacy-policy.html"><i class="fas fa-shield-alt"></i> 隐私政策</a>
+                <a href="../user-agreement.html"><i class="fas fa-file-contract"></i> 用户协议</a>
             </div>
             <div class="back-home">
-                <a href="index.html">
+                <a href="../index.html">
                     <i class="fas fa-arrow-left"></i>
                     <span>返回首页</span>
                 </a>
@@ -955,12 +1001,22 @@
             
             let allTags = [];
             let activeFilters = new Set();
+            let activeCategory = '全部';
             let currentSearch = '';     // 只存储通过安全检测的有效搜索词
             
             // 初始化页面
             function initPage() {
                 extractAllTags();
                 generateFilterTags();
+                // 绑定板块按钮
+                document.querySelectorAll('.category-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        activeCategory = this.dataset.category;
+                        filterArticles();
+                    });
+                });
                 displayArticles(allArticles);
                 updateArticleCount(allArticles.length);
             }
@@ -1019,22 +1075,26 @@
                 noResults.style.display = 'none';
                 articles.forEach((article, index) => {
                     const articleCard = document.createElement('a');
-                    articleCard.href = '../blog/' + article.fileName;
+                    articleCard.href = article.id === -1 ? '../blog/grayscale-test/' : '../blog/' + article.id + '/?blog_id=' + article.id;
                     articleCard.className = 'article-card fade-in-up';
+                    if (article.isPaid) articleCard.classList.add('paid');
                     articleCard.style.animationDelay = `${index * 0.1}s`;
+                    const paidBadge = article.isPaid ? `<span class="paid-badge">💰 ¥${(article.price || 0).toFixed(2)}</span>` : '';
+                    const readMoreText = article.isPaid ? '付费阅读' : '阅读全文';
                     articleCard.innerHTML = `
                         <div class="article-content">
                             <div class="article-meta">
                                 <span class="article-number">文章 #${String(article.id).padStart(3, '0')}</span>
+                                <span class="article-category-badge">${escapeHtml(article.category || '')}</span>
                                 <span class="article-date">${article.date}</span>
                             </div>
-                            <h3>${escapeHtml(article.title)}</h3>
+                            <h3>${escapeHtml(article.title)}${paidBadge}</h3>
                             <p class="article-excerpt">${escapeHtml(article.excerpt)}</p>
                             <div class="article-tags">
                                 ${article.tags.map(tag => `<span class="article-tag">${escapeHtml(tag)}</span>`).join('')}
                             </div>
                             <div class="article-footer">
-                                <span class="read-more">阅读全文 <i class="fas fa-arrow-right"></i></span>
+                                <span class="read-more">${readMoreText} <i class="fas fa-arrow-right"></i></span>
                                 <span class="read-time"><i class="far fa-clock"></i> 约${article.readTime}分钟</span>
                             </div>
                         </div>
@@ -1058,19 +1118,30 @@
             
             function filterArticles() {
                 let filtered = allArticles;
-                if (activeFilters.size > 0) {
-                    filtered = filtered.filter(article => article.tags.some(tag => activeFilters.has(tag)));
+                // category 过滤
+                if (activeCategory !== '全部') {
+                    filtered = filtered.filter(a => a.category === activeCategory);
                 }
-                if (currentSearch.trim() !== '') {
-                    const term = currentSearch.toLowerCase().trim();
-                    filtered = filtered.filter(article => 
-                        article.title.toLowerCase().includes(term) ||
-                        article.excerpt.toLowerCase().includes(term) ||
-                        article.tags.some(tag => tag.toLowerCase().includes(term))
+                // 标签过滤
+                if (activeFilters.size > 0) {
+                    filtered = filtered.filter(article =>
+                        Array.from(activeFilters).some(f => article.tags && article.tags.includes(f))
+                    );
+                }
+                // 搜索过滤
+                if (currentSearch) {
+                    const s = currentSearch.toLowerCase();
+                    filtered = filtered.filter(article =>
+                        article.title.toLowerCase().includes(s) ||
+                        article.excerpt.toLowerCase().includes(s) ||
+                        (article.tags && article.tags.some(t => t.toLowerCase().includes(s)))
                     );
                 }
                 displayArticles(filtered);
                 updateArticleCount(filtered.length);
+                // 动态更新标题
+                const h2 = document.querySelector('.articles-header h2');
+                if (h2) h2.textContent = activeCategory !== '全部' ? `「${activeCategory}」文章` : '所有文章';
             }
             
             function updateArticleCount(count) {
@@ -1152,7 +1223,7 @@
         });
 
         // ================================================================
-        // ===== 骨架屏懒渲染（wz.html 文章列表）===========================
+        // ===== 骨架屏懒渲染（wz/ 文章列表）===============================
         // ================================================================
         (function() {
             // CSS

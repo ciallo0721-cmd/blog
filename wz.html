@@ -1075,7 +1075,7 @@
                 noResults.style.display = 'none';
                 articles.forEach((article, index) => {
                     const articleCard = document.createElement('a');
-                    articleCard.href = article.id === -1 ? 'blog/grayscale-test/' : 'blog/' + article.id + '/';
+                    articleCard.href = article.id === -1 ? 'blog/grayscale-test/' : 'blog/' + article.id + '/?blog_id=' + article.id;
                     articleCard.className = 'article-card fade-in-up';
                     if (article.isPaid) articleCard.classList.add('paid');
                     articleCard.style.animationDelay = `${index * 0.1}s`;
