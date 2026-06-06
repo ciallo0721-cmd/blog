@@ -57,8 +57,8 @@ jobs:
             DESC="${{ inputs.desc }}"
           else
             STATUS="green"
-            # 从最新 commit 消息提取标题（截取前50字）
-            TITLE="${{ steps.commit.outputs.msg }}"
+            
+            TITLE="一切正常喵～"
             DESC=""
           fi
 
