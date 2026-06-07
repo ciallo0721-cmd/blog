@@ -15,6 +15,8 @@
     <script src="../../nice-video.js"></script>
     <link rel="stylesheet" href="../../mus/audio-player.css">
     <script src="../../mus/audio-player.js"></script>
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -355,6 +357,70 @@ kbd {
 .article-audio-container { text-align: center; margin: 30px 0; }
 .article-audio-container .audio-player-container { max-width: 500px; margin: 0 auto; }
 
+/* ── PDF 阅读器 ── */
+.pdf-reader-wrap {
+    background: white; border-radius: 16px; box-shadow: var(--shadow);
+    border: 1px solid rgba(0,0,0,0.06); margin: 22px 0; overflow: hidden;
+}
+.pdf-reader-toolbar {
+    background: linear-gradient(135deg, rgba(251,114,153,0.08), rgba(0,161,214,0.08));
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    padding: 12px 18px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+}
+.pdf-reader-toolbar .pdf-upload-label {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color: white; padding: 8px 18px; border-radius: 20px; cursor: pointer;
+    font-size: 0.9rem; font-weight: 600; transition: var(--transition);
+    box-shadow: 0 3px 10px rgba(251,114,153,0.25); white-space: nowrap;
+}
+.pdf-reader-toolbar .pdf-upload-label:hover { transform: translateY(-1px); box-shadow: 0 5px 15px rgba(251,114,153,0.35); }
+.pdf-reader-toolbar input[type="file"] { display: none; }
+.pdf-url-row { display: flex; flex: 1; gap: 8px; min-width: 0; }
+.pdf-url-input {
+    flex: 1; border: 1px solid rgba(0,0,0,0.15); border-radius: 20px;
+    padding: 8px 16px; font-size: 0.88rem; outline: none; transition: border-color 0.2s;
+    min-width: 0; font-family: inherit;
+}
+.pdf-url-input:focus { border-color: var(--bili-blue); }
+.pdf-url-btn {
+    background: rgba(0,161,214,0.1); border: 1px solid rgba(0,161,214,0.3);
+    color: var(--bili-blue); border-radius: 20px; padding: 8px 16px;
+    font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: var(--transition); white-space: nowrap;
+}
+.pdf-url-btn:hover { background: var(--bili-blue); color: white; }
+.pdf-page-ctrl {
+    display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-secondary); margin-left: auto;
+}
+.pdf-page-btn {
+    width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.15);
+    background: white; cursor: pointer; font-size: 1rem; display: flex; align-items: center;
+    justify-content: center; transition: var(--transition); color: var(--text-primary);
+}
+.pdf-page-btn:hover { background: var(--bili-pink); color: white; border-color: var(--bili-pink); }
+.pdf-page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.pdf-zoom-btn {
+    background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 14px; padding: 5px 10px; cursor: pointer; font-size: 0.85rem;
+    transition: var(--transition); color: var(--text-primary);
+}
+.pdf-zoom-btn:hover { background: rgba(251,114,153,0.15); }
+.pdf-canvas-area {
+    background: #f0f0f0; min-height: 400px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 20px; position: relative; overflow: auto;
+}
+.pdf-canvas-area canvas { box-shadow: 0 4px 20px rgba(0,0,0,0.15); border-radius: 4px; display: block; }
+.pdf-placeholder {
+    text-align: center; color: #999; font-size: 1rem; user-select: none;
+}
+.pdf-placeholder i { font-size: 3rem; margin-bottom: 14px; display: block; opacity: 0.4; }
+.pdf-status-bar {
+    background: rgba(0,0,0,0.03); border-top: 1px solid rgba(0,0,0,0.06);
+    padding: 8px 18px; font-size: 0.82rem; color: var(--text-secondary);
+    display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.pdf-err { color: #c9190b; font-size: 0.88rem; }
+
 /* ── 分割线 ── */
 .divider-text {
     display: flex; align-items: center; gap: 14px;
@@ -508,6 +574,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
                     <li><a href="#sec-chart">图表</a></li>
                     <li><a href="#sec-code">代码块</a></li>
                     <li><a href="#sec-media">图片 / 音频 / 视频</a></li>
+                    <li><a href="#sec-pdf">PDF 阅读器</a></li>
                     <li><a href="#sec-layout">排版杂项</a></li>
                     <li><a href="#sec-grayscale">哀悼日灰度说明</a></li>
                 </ol>
@@ -878,6 +945,58 @@ jobs:
                 </div>
 
                 <hr>
+
+                <!-- ━━━━━━━━━━━━━━━━━━━━ 10. PDF 阅读器 ━━━━━━━━━━━━━━━━━━━━ -->
+                <h2 id="sec-pdf">📄 PDF 阅读器</h2>
+                <p>基于 <a href="https://mozilla.github.io/pdf.js/" class="link-default link-ext" target="_blank" rel="noopener">PDF.js</a> 实现的内嵌 PDF 阅读器，支持本地上传或输入 URL 加载 PDF，可翻页、缩放、滚动查看。</p>
+
+                <div class="pdf-reader-wrap">
+                    <!-- 工具栏 -->
+                    <div class="pdf-reader-toolbar">
+                        <label class="pdf-upload-label" for="pdfFileInput">
+                            <i class="fas fa-folder-open"></i> 打开 PDF
+                        </label>
+                        <input type="file" id="pdfFileInput" accept=".pdf,application/pdf">
+
+                        <div class="pdf-url-row">
+                            <input type="text" class="pdf-url-input" id="pdfUrlInput" placeholder="粘贴 PDF URL（支持 CORS）">
+                            <button class="pdf-url-btn" id="pdfUrlLoadBtn"><i class="fas fa-download"></i> 加载</button>
+                        </div>
+
+                        <div class="pdf-page-ctrl">
+                            <button class="pdf-page-btn" id="pdfPrevBtn" title="上一页" disabled><i class="fas fa-chevron-left"></i></button>
+                            <span id="pdfPageInfo" style="white-space:nowrap">— / —</span>
+                            <button class="pdf-page-btn" id="pdfNextBtn" title="下一页" disabled><i class="fas fa-chevron-right"></i></button>
+                        </div>
+
+                        <button class="pdf-zoom-btn" id="pdfZoomOut" title="缩小"><i class="fas fa-search-minus"></i></button>
+                        <span id="pdfZoomLabel" style="font-size:0.85rem;color:var(--text-secondary);white-space:nowrap">100%</span>
+                        <button class="pdf-zoom-btn" id="pdfZoomIn" title="放大"><i class="fas fa-search-plus"></i></button>
+                    </div>
+
+                    <!-- 画布区 -->
+                    <div class="pdf-canvas-area" id="pdfCanvasArea">
+                        <div class="pdf-placeholder" id="pdfPlaceholder">
+                            <i class="fas fa-file-pdf"></i>
+                            <p>点击「打开 PDF」上传本地文件<br>或在上方输入框粘贴 PDF 链接加载</p>
+                        </div>
+                        <canvas id="pdfCanvas" style="display:none;"></canvas>
+                    </div>
+
+                    <!-- 状态栏 -->
+                    <div class="pdf-status-bar">
+                        <span id="pdfFileName">未选择文件</span>
+                        <span id="pdfErrMsg" class="pdf-err"></span>
+                    </div>
+                </div>
+
+                <div class="callout callout-info" style="margin-top:14px;">
+                    <span class="callout-icon">ℹ️</span>
+                    <div class="callout-body">
+                        <p class="callout-title">使用说明</p>
+                        <p class="callout-text">在文章中嵌入 PDF 时，将 <code data-plain="hover">.pdf-reader-wrap</code> 代码块复制到文章 HTML 里，并引入 PDF.js 脚本（已在 muban 中引入）。URL 加载需要目标服务器允许跨域（CORS），本地文件直接上传即可，无需跨域。</p>
+                    </div>
+                </div>
 
                 <!-- ━━━━━━━━━━━━━━━━━━━━ 10. 排版杂项 ━━━━━━━━━━━━━━━━━━━━ -->
                 <h2 id="sec-layout">✍️ 排版杂项</h2>
@@ -1250,6 +1369,111 @@ jobs:
 
     // 窗口 resize 重绘图表
     window.addEventListener('resize', function() { drawLineChart(); drawBarChart(); });
+    </script>
+
+    <!-- ─── PDF 阅读器 JS ─── -->
+    <script>
+    (function() {
+        // 等 PDF.js 加载完毕
+        if (!window.pdfjsLib) return;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        var pdfDoc = null, curPage = 1, totalPages = 0, scale = 1.0;
+        var canvas = document.getElementById('pdfCanvas');
+        var ctx = canvas ? canvas.getContext('2d') : null;
+
+        function el(id) { return document.getElementById(id); }
+
+        function setErr(msg) { el('pdfErrMsg').textContent = msg || ''; }
+
+        function updateUI() {
+            el('pdfPageInfo').textContent = totalPages ? curPage + ' / ' + totalPages : '— / —';
+            el('pdfPrevBtn').disabled = curPage <= 1;
+            el('pdfNextBtn').disabled = curPage >= totalPages;
+            el('pdfZoomLabel').textContent = Math.round(scale * 100) + '%';
+        }
+
+        function renderPage(num) {
+            if (!pdfDoc || !canvas || !ctx) return;
+            pdfDoc.getPage(num).then(function(page) {
+                var viewport = page.getViewport({ scale: scale });
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                var renderCtx = { canvasContext: ctx, viewport: viewport };
+                page.render(renderCtx).promise.then(function() {
+                    curPage = num;
+                    updateUI();
+                    setErr('');
+                });
+            }).catch(function(e) { setErr('渲染失败：' + e.message); });
+        }
+
+        function loadPDF(src) {
+            setErr('');
+            el('pdfPlaceholder').style.display = 'none';
+            canvas.style.display = 'none';
+            var loadingTask = pdfjsLib.getDocument(src);
+            loadingTask.promise.then(function(doc) {
+                pdfDoc = doc;
+                totalPages = doc.numPages;
+                curPage = 1;
+                canvas.style.display = 'block';
+                renderPage(1);
+            }).catch(function(e) {
+                setErr('加载失败：' + e.message);
+                el('pdfPlaceholder').style.display = '';
+            });
+        }
+
+        // 本地文件上传
+        el('pdfFileInput').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (!file) return;
+            el('pdfFileName').textContent = file.name + '（' + (file.size / 1024).toFixed(1) + ' KB）';
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                var typedArray = new Uint8Array(ev.target.result);
+                loadPDF({ data: typedArray });
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        // URL 加载
+        el('pdfUrlLoadBtn').addEventListener('click', function() {
+            var url = el('pdfUrlInput').value.trim();
+            if (!url) return;
+            el('pdfFileName').textContent = url;
+            loadPDF(url);
+        });
+        el('pdfUrlInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') el('pdfUrlLoadBtn').click();
+        });
+
+        // 翻页
+        el('pdfPrevBtn').addEventListener('click', function() { if (curPage > 1) renderPage(curPage - 1); });
+        el('pdfNextBtn').addEventListener('click', function() { if (curPage < totalPages) renderPage(curPage + 1); });
+
+        // 缩放
+        el('pdfZoomIn').addEventListener('click', function() {
+            if (scale >= 3.0) return;
+            scale = Math.round((scale + 0.25) * 100) / 100;
+            renderPage(curPage);
+        });
+        el('pdfZoomOut').addEventListener('click', function() {
+            if (scale <= 0.5) return;
+            scale = Math.round((scale - 0.25) * 100) / 100;
+            renderPage(curPage);
+        });
+
+        // 键盘左右翻页（仅 PDF 区域聚焦时）
+        el('pdfCanvasArea').setAttribute('tabindex', '0');
+        el('pdfCanvasArea').addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); if (curPage > 1) renderPage(curPage - 1); }
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); if (curPage < totalPages) renderPage(curPage + 1); }
+        });
+
+        updateUI();
+    })();
     </script>
 </body>
 </html>

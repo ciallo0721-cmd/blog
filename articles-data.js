@@ -254,6 +254,17 @@ window.articlesData = {
             readTime: 10,
             featured: true
         }
+        {
+            id: pdf-1,
+            category: "生活",
+            fileName: "pdf-1/",
+            title: "《发呆改变世界》沃玛",
+            excerpt: "《发呆改变世界》沃玛.pdf---一个测试文章",
+            date: "2026-06-07",
+            tags: ["沃玛","发呆","短篇","隐藏文章（仅限直链访问）"],
+            readTime: 10,
+            featured: true
+        }
     ],
 
     getSortedArticles: function() {
