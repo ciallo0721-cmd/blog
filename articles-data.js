@@ -264,7 +264,7 @@ window.articlesData = {
             tags: ["沃玛","发呆","短篇","隐藏文章（仅限直链访问）"],
             readTime: 10,
             featured: true
-        }
+        },
     ],
 
     getSortedArticles: function() {
