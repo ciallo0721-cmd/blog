@@ -253,9 +253,9 @@ window.articlesData = {
             tags: ["ACG", "萌属性", "二次元", "雌小鬼", "文化解析"],
             readTime: 10,
             featured: true
-        }
+        },
         {
-            id: pdf-1,
+            id: "pdf-1",
             category: "生活",
             fileName: "pdf-1/",
             title: "《发呆改变世界》沃玛",
