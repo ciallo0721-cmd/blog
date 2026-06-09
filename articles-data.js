@@ -2,17 +2,6 @@
 window.articlesData = {
     articles: [
         {
-            id: -1,
-            category: "灰度",
-            fileName: "grayscale-test/",
-            title: "📋 灰度测试 - 网站功能测试专用",
-            excerpt: "本文档用于测试网站的各项功能和样式更新。每次有新功能上线前，都会在此页面进行灰度测试。想看更新内容？点击进入查看喵~",
-            date: "2026-05-08",
-            tags: ["灰度测试", "功能测试", "网站维护"],
-            readTime: 5,
-            featured: false
-        },
-        {
             id: 1,
             category: "教程",
             fileName: "1/",
@@ -263,6 +252,17 @@ window.articlesData = {
             date: "2026-06-07",
             tags: ["沃玛","发呆","短篇","隐藏文章（仅限直链访问）"],
             readTime: 10,
+            featured: true
+        },
+        {
+            id: 23,
+            category: "心理学",
+            fileName: "23/",
+            title: "占卜的原理：心理学拆解“为什么总觉得很准”",
+            excerpt: "超6800字深度心理学文章：从巴纳姆效应、冷读术、确认偏误、自我实现预言到安慰剂效应，用科学实验与认知科学彻底解释占卜为何让人觉得“神准”。批判性思维必读。",
+            date: "2026-06-09",
+            tags: ["心理学", "巴纳姆效应", "冷读术", "认知偏误", "科学思维", "占卜揭秘"],
+            readTime: 35,
             featured: true
         }
     ],
