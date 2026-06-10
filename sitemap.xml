@@ -226,14 +226,6 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- 百科 -->
-  <url>
-    <loc>https://91vip.xn--32v.ink/wiki/</loc>
-    <lastmod>2026-06-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
   <!-- 游戏页面 -->
   <url>
     <loc>https://91vip.xn--32v.ink/bjqy/index.html</loc>
