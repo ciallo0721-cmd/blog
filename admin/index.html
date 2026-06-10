@@ -6,7 +6,7 @@
     <title>管理后台 - ciallo0721-cmd</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="../fanv.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
 @font-face {
     font-family: 'MaokenAssortedSans';
@@ -502,20 +502,105 @@
         })();
     </script>
 
+
+    <style>
+    /* SVG 图标样式 */
+    .svg-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.125em;
+    }
+    .svg-icon svg {
+        width: 100%;
+        height: 100%;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+    /* 导航图标 */
+    .nav-item .svg-icon {
+        width: 18px;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+    /* 统计图标 */
+    .stat-icon .svg-icon {
+        width: 1.2em;
+        height: 1.2em;
+    }
+    /* 按钮图标 */
+    .btn .svg-icon {
+        width: 1em;
+        height: 1em;
+    }
+    /* 标题图标 */
+    .page-title .svg-icon,
+    .card-title .svg-icon {
+        width: 1em;
+        height: 1em;
+    }
+    /* Toast 图标 */
+    .toast .svg-icon {
+        width: 1em;
+        height: 1em;
+        flex-shrink: 0;
+    }
+    /* 加载动画 */
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    .fa-spin {
+        animation: spin 1s linear infinite;
+    }
+    </style>
+
+
+    <script>
+    function loadSVGIcon(iconName, callback) {
+        const url = '../css/svg/' + iconName + '.svg';
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.overrideMimeType('image/svg+xml');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                callback(xhr.responseText);
+            }
+        };
+        xhr.send();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.svg-icon').forEach(function(iconSpan) {
+            const iconName = iconSpan.dataset.icon;
+            if (iconName) {
+                loadSVGIcon(iconName, function(svgContent) {
+                    iconSpan.innerHTML = svgContent;
+                });
+            }
+        });
+    });
+    </script>
+
 </head>
 <body>
 
 <!-- 登录界面 -->
 <div id="loginOverlay">
     <div class="login-card">
-        <div class="logo-icon"><i class="fas fa-terminal"></i></div>
+        <div class="logo-icon"><span class="svg-icon" data-icon="terminal"></span></div>
         <h1>管理后台</h1>
         <p>ciallo0721-cmd Admin Panel v2.0</p>
         <input type="password" id="loginPwd" placeholder="输入管理员密码..." onkeydown="if(event.key==='Enter')doLogin()">
-        <button onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> 登录</button>
+        <button onclick="doLogin()"><span class="svg-icon" data-icon="sign-in"></span> 登录</button>
         <div class="login-error" id="loginErr"></div>
         <div class="login-hint">
-            <i class="fas fa-info-circle"></i>
+            <span class="svg-icon" data-icon="info-circle"></span>
             请先启动 admin.py 后端：<code style="background:var(--bg);padding:2px 6px;border-radius:4px;font-size:0.75rem">python admin.py</code>
         </div>
         <div style="margin-top:12px">
@@ -529,14 +614,14 @@
     <!-- 顶栏 -->
     <div class="admin-topbar">
         <div class="topbar-left">
-            <span class="brand"><i class="fas fa-terminal"></i> Admin</span>
+            <span class="brand"><span class="svg-icon" data-icon="terminal"></span> Admin</span>
             <span class="version">v2.0</span>
             <span id="topConn" class="conn-status offline" style="font-size:0.72rem"><span class="conn-dot"></span> 后端离线</span>
         </div>
         <div class="topbar-right">
             <span class="topbar-clock" id="clock">--:--:--</span>
-            <button class="topbar-btn" onclick="openSite()"><i class="fas fa-external-link-alt"></i> 主站</button>
-            <button class="topbar-btn danger" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> 退出</button>
+            <button class="topbar-btn" onclick="openSite()"><span class="svg-icon" data-icon="external-link"></span> 主站</button>
+            <button class="topbar-btn danger" onclick="doLogout()"><span class="svg-icon" data-icon="sign-out"></span> 退出</button>
         </div>
     </div>
 
@@ -545,20 +630,21 @@
         <div class="sidebar">
             <div class="nav-section">
                 <div class="nav-section-title">概览</div>
-                <div class="nav-item active" onclick="switchPage('dashboard')"><i class="fas fa-tachometer-alt"></i><span>仪表盘</span></div>
+                <div class="nav-item active" onclick="switchPage('dashboard')"><span class="svg-icon" data-icon="dashboard"></span><span>仪表盘</span></div>
             </div>
             <div class="nav-section">
                 <div class="nav-section-title">内容管理</div>
-                <div class="nav-item" onclick="switchPage('articles')"><i class="fas fa-newspaper"></i><span>文章管理</span><span id="badgeArticles" class="nav-badge">0</span></div>
-                <div class="nav-item" onclick="switchPage('new-article')"><i class="fas fa-plus-circle"></i><span>新增文章</span></div>
-                <div class="nav-item" onclick="switchPage('timeline')"><i class="fas fa-stream"></i><span>时间线</span></div>
-                <div class="nav-item" onclick="switchPage('schedule')"><i class="fas fa-clock"></i><span>定时发布</span><span id="badgeSchedule" class="nav-badge" style="display:none">0</span></div>
+                <div class="nav-item" onclick="switchPage('articles')"><span class="svg-icon" data-icon="newspaper"></span><span>文章管理</span><span id="badgeArticles" class="nav-badge">0</span></div>
+                <div class="nav-item" onclick="switchPage('new-article')"><span class="svg-icon" data-icon="add"></span><span>新增文章</span></div>
+                <div class="nav-item" onclick="switchPage('timeline')"><span class="svg-icon" data-icon="stream"></span><span>时间线</span></div>
+                <div class="nav-item" onclick="switchPage('wiki')"><span class="svg-icon" data-icon="book"></span><span>百科管理</span></div>
+                <div class="nav-item" onclick="switchPage('schedule')"><span class="svg-icon" data-icon="clock"></span><span>定时发布</span><span id="badgeSchedule" class="nav-badge" style="display:none">0</span></div>
             </div>
             <div class="nav-section">
                 <div class="nav-section-title">系统</div>
-                <div class="nav-item" onclick="switchPage('git')"><i class="fab fa-git-alt"></i><span>Git 管理</span></div>
-                <div class="nav-item" onclick="switchPage('actions')"><i class="fas fa-cog"></i><span>Actions</span></div>
-                <div class="nav-item" onclick="switchPage('api')"><i class="fas fa-plug"></i><span>API 状态</span></div>
+                <div class="nav-item" onclick="switchPage('git')"><span class="svg-icon" data-icon="git-alt"></span><span>Git 管理</span></div>
+                <div class="nav-item" onclick="switchPage('actions')"><span class="svg-icon" data-icon="settings"></span><span>Actions</span></div>
+                <div class="nav-item" onclick="switchPage('api')"><span class="svg-icon" data-icon="plug"></span><span>API 状态</span></div>
             </div>
         </div>
 
@@ -568,13 +654,13 @@
             <!-- ========== 仪表盘 ========== -->
             <div class="page active" id="page-dashboard">
                 <div class="page-header">
-                    <div class="page-title"><i class="fas fa-tachometer-alt"></i> 仪表盘</div>
-                    <button class="btn btn-sm" onclick="loadDashboard()"><i class="fas fa-sync"></i> 刷新</button>
+                    <div class="page-title"><span class="svg-icon" data-icon="dashboard"></span> 仪表盘</div>
+                    <button class="btn btn-sm" onclick="loadDashboard()"><span class="svg-icon" data-icon="refresh"></span> 刷新</button>
                 </div>
                 <div class="stats-grid" id="statsGrid">
-                    <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-newspaper"></i></div><div><div class="stat-val" id="st-articles">-</div><div class="stat-label">文章总数</div></div></div>
-                    <div class="stat-card"><div class="stat-icon green"><i class="fas fa-clock"></i></div><div><div class="stat-val" id="st-schedule">-</div><div class="stat-label">定时队列</div></div></div>
-                    <div class="stat-card"><div class="stat-icon yellow"><i class="fab fa-git-alt"></i></div><div><div class="stat-val" id="st-commits">-</div><div class="stat-label">Git 提交</div></div></div>
+                    <div class="stat-card"><div class="stat-icon blue"><span class="svg-icon" data-icon="newspaper"></span></div><div><div class="stat-val" id="st-articles">-</div><div class="stat-label">文章总数</div></div></div>
+                    <div class="stat-card"><div class="stat-icon green"><span class="svg-icon" data-icon="clock"></span></div><div><div class="stat-val" id="st-schedule">-</div><div class="stat-label">定时队列</div></div></div>
+                    <div class="stat-card"><div class="stat-icon yellow"><span class="svg-icon" data-icon="git-alt"></span></div><div><div class="stat-val" id="st-commits">-</div><div class="stat-label">Git 提交</div></div></div>
                     <div class="stat-card"><div class="stat-icon red"><i class="fas fa-file-code"></i></div><div><div class="stat-val" id="st-changed">-</div><div class="stat-label">未提交变更</div></div></div>
                 </div>
                 <div class="card">
@@ -590,10 +676,10 @@
             <!-- ========== 文章管理 ========== -->
             <div class="page" id="page-articles">
                 <div class="page-header">
-                    <div class="page-title"><i class="fas fa-newspaper"></i> 文章管理</div>
+                    <div class="page-title"><span class="svg-icon" data-icon="newspaper"></span> 文章管理</div>
                     <div style="display:flex;gap:8px">
-                        <button class="btn" onclick="loadArticles()"><i class="fas fa-sync"></i> 刷新</button>
-                        <button class="btn btn-primary" onclick="switchPage('new-article')"><i class="fas fa-plus"></i> 新增</button>
+                        <button class="btn" onclick="loadArticles()"><span class="svg-icon" data-icon="refresh"></span> 刷新</button>
+                        <button class="btn btn-primary" onclick="switchPage('new-article')"><span class="svg-icon" data-icon="add"></span> 新增</button>
                     </div>
                 </div>
                 <div class="card" style="padding:0;overflow:hidden">
@@ -609,7 +695,7 @@
             <!-- ========== 新增文章 ========== -->
             <div class="page" id="page-new-article">
                 <div class="page-header">
-                    <div class="page-title"><i class="fas fa-plus-circle"></i> 新增文章</div>
+                    <div class="page-title"><span class="svg-icon" data-icon="add"></span> 新增文章</div>
                 </div>
                 <div class="card">
                     <div class="form-row">
@@ -643,11 +729,11 @@
                             <button onclick="insertTag('h2')" title="标题2"><b>H2</b></button>
                             <button onclick="insertTag('h3')" title="标题3"><b>H3</b></button>
                             <button onclick="insertTag('p')" title="段落">P</button>
-                            <button onclick="insertTag('blockquote')" title="引用"><i class="fas fa-quote-left"></i></button>
+                            <button onclick="insertTag('blockquote')" title="引用"><span class="svg-icon" data-icon="quote-left"></span></button>
                             <button onclick="insertTag('b')" title="加粗"><b>B</b></button>
-                            <button onclick="insertTag('a')" title="链接"><i class="fas fa-link"></i></button>
-                            <button onclick="insertTag('img')" title="图片"><i class="fas fa-image"></i></button>
-                            <button onclick="insertTag('ul')" title="列表"><i class="fas fa-list"></i></button>
+                            <button onclick="insertTag('a')" title="链接"><span class="svg-icon" data-icon="link"></span></button>
+                            <button onclick="insertTag('img')" title="图片"><span class="svg-icon" data-icon="image"></span></button>
+                            <button onclick="insertTag('ul')" title="列表"><span class="svg-icon" data-icon="data"></span></button>
                             <button onclick="insertTag('code')" title="代码">Code</button>
                         </div>
                         <div class="editor-area">
@@ -655,9 +741,9 @@
                         </div>
                     </div>
                     <div style="display:flex;gap:10px;margin-top:16px">
-                        <button class="btn btn-primary" onclick="createArticle()"><i class="fas fa-paper-plane"></i> 发布文章</button>
-                        <button class="btn btn-success" onclick="scheduleArticle()"><i class="fas fa-clock"></i> 定时发布</button>
-                        <button class="btn" onclick="previewArticle()"><i class="fas fa-eye"></i> 预览</button>
+                        <button class="btn btn-primary" onclick="createArticle()"><span class="svg-icon" data-icon="paper-plane"></span> 发布文章</button>
+                        <button class="btn btn-success" onclick="scheduleArticle()"><span class="svg-icon" data-icon="clock"></span> 定时发布</button>
+                        <button class="btn" onclick="previewArticle()"><span class="svg-icon" data-icon="eye"></span> 预览</button>
                     </div>
                 </div>
             </div>
@@ -665,10 +751,10 @@
             <!-- ========== 时间线管理 ========== -->
             <div class="page" id="page-timeline">
                 <div class="page-header">
-                    <div class="page-title"><i class="fas fa-stream"></i> 时间线管理</div>
+                    <div class="page-title"><span class="svg-icon" data-icon="stream"></span> 时间线管理</div>
                     <div style="display:flex;gap:8px">
-                        <button class="btn" onclick="loadTimeline()"><i class="fas fa-sync"></i> 刷新</button>
-                        <button class="btn btn-primary" onclick="showAddTimeline()"><i class="fas fa-plus"></i> 添加</button>
+                        <button class="btn" onclick="loadTimeline()"><span class="svg-icon" data-icon="refresh"></span> 刷新</button>
+                        <button class="btn btn-primary" onclick="showAddTimeline()"><span class="svg-icon" data-icon="add"></span> 添加</button>
                     </div>
                 </div>
                 <div class="card">
@@ -678,13 +764,70 @@
                 </div>
             </div>
 
+            <!-- ========== 百科管理 ========== -->
+            <div class="page" id="page-wiki">
+                <div class="page-header">
+                    <div class="page-title"><span class="svg-icon" data-icon="book"></span> 百科管理</div>
+                    <div style="display:flex;gap:8px">
+                        <button class="btn" onclick="loadWikiStats()"><span class="svg-icon" data-icon="refresh"></span> 刷新</button>
+                    </div>
+                </div>
+                <div class="card" style="background:var(--info-bg);border-color:rgba(59,130,246,0.3)">
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem">
+                        <i class="fas fa-info-circle" style="color:var(--info);font-size:1.1rem"></i>
+                        <span>百科词条编辑器可直接在 <code>wiki-data.js</code> 中编辑。内容审核组请运行 <code>wiki-audit-tool.py</code> 生成审核报告。</span>
+                    </div>
+                </div>
+                <div class="stats-grid" id="wikiStatsGrid">
+                    <div class="stat-card"><div class="stat-icon blue"><span class="svg-icon" data-icon="book"></span></div><div><div class="stat-val" id="wiki-total">-</div><div class="stat-label">词条总数</div></div></div>
+                    <div class="stat-card"><div class="stat-icon green"><i class="fas fa-tags"></i></div><div><div class="stat-val" id="wiki-categories">-</div><div class="stat-label">分类数</div></div></div>
+                    <div class="stat-card"><div class="stat-icon yellow"><i class="fas fa-key"></i></div><div><div class="stat-val" id="wiki-keywords">-</div><div class="stat-label">可匹配关键词</div></div></div>
+                    <div class="stat-card"><div class="stat-icon red"><i class="fas fa-file-alt"></i></div><div><div class="stat-val" id="wiki-linked-articles">-</div><div class="stat-label">已注入文章数</div></div></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><span class="svg-icon" data-icon="data"></span> 词条列表</div>
+                        <div class="card-actions">
+                            <a href="../wiki/" target="_blank" class="btn btn-sm"><span class="svg-icon" data-icon="external-link"></span> 预览百科</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive" style="max-height:500px;overflow-y:auto">
+                        <table class="data-table" id="wikiTermTable">
+                            <thead>
+                                <tr>
+                                    <th>词条名</th>
+                                    <th>分类</th>
+                                    <th>别名</th>
+                                    <th>相关词条</th>
+                                    <th>更新日期</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="wikiTermBody">
+                                <tr><td colspan="6"><div class="loading"><i class="fas fa-spinner fa-spin"></i>加载中...</div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-tools"></i> 审核与维护</div>
+                    </div>
+                    <div style="padding:15px 0;line-height:2">
+                        <p><i class="fas fa-search" style="color:var(--info)"></i> <strong>内容审核组</strong> — 运行 <code>python wiki-audit-tool.py</code> 扫描文章，生成审核报告</p>
+                        <p><i class="fas fa-pen" style="color:var(--success)"></i> <strong>百科编写组</strong> — 编辑 <code>wiki-data.js</code> 新增/修改词条内容</p>
+                        <p><i class="fas fa-bug" style="color:var(--danger)"></i> <strong>测试修复组</strong> — 验证链接跳转、渲染效果、百科页面功能</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- ========== 定时发布 ========== -->
             <div class="page" id="page-schedule">
                 <div class="page-header">
-                    <div class="page-title"><i class="fas fa-clock"></i> 定时发布队列</div>
+                    <div class="page-title"><span class="svg-icon" data-icon="clock"></span> 定时发布队列</div>
                     <div style="display:flex;gap:8px">
-                        <button class="btn" onclick="loadSchedule()"><i class="fas fa-sync"></i> 刷新</button>
-                        <button class="btn btn-primary" onclick="switchPage('new-article')"><i class="fas fa-plus"></i> 新增文章</button>
+                        <button class="btn" onclick="loadSchedule()"><span class="svg-icon" data-icon="refresh"></span> 刷新</button>
+                        <button class="btn btn-primary" onclick="switchPage('new-article')"><span class="svg-icon" data-icon="add"></span> 新增文章</button>
                     </div>
                 </div>
                 <div class="card" style="background:var(--info-bg);border-color:rgba(59,130,246,0.3)">
@@ -706,19 +849,19 @@
             <!-- ========== Git 管理 ========== -->
             <div class="page" id="page-git">
                 <div class="page-header">
-                    <div class="page-title"><i class="fab fa-git-alt"></i> Git 管理</div>
-                    <button class="btn" onclick="loadGitStatus()"><i class="fas fa-sync"></i> 刷新</button>
+                    <div class="page-title"><span class="svg-icon" data-icon="git-alt"></span> Git 管理</div>
+                    <button class="btn" onclick="loadGitStatus()"><span class="svg-icon" data-icon="refresh"></span> 刷新</button>
                 </div>
                 <div class="card">
-                    <div class="card-header"><div class="card-title"><i class="fas fa-info-circle"></i> 仓库状态</div></div>
+                    <div class="card-header"><div class="card-title"><span class="svg-icon" data-icon="info-circle"></span> 仓库状态</div></div>
                     <div id="gitInfo" style="font-size:0.88rem;line-height:2;color:var(--text-sec)"></div>
                 </div>
                 <div class="card">
-                    <div class="card-header"><div class="card-title"><i class="fas fa-code"></i> 变更文件</div></div>
+                    <div class="card-header"><div class="card-title"><span class="svg-icon" data-icon="code"></span> 变更文件</div></div>
                     <div id="gitChangedFiles" style="font-size:0.85rem"></div>
                 </div>
                 <div class="card">
-                    <div class="card-header"><div class="card-title"><i class="fas fa-paper-plane"></i> 提交并推送</div></div>
+                    <div class="card-header"><div class="card-title"><span class="svg-icon" data-icon="paper-plane"></span> 提交并推送</div></div>
                     <div class="form-group">
                         <label class="form-label">提交信息</label>
                         <input class="form-input" id="gitCommitMsg" placeholder="描述本次提交的内容...">
@@ -732,18 +875,18 @@
             <!-- ========== GitHub Actions ========== -->
             <div class="page" id="page-actions">
                 <div class="page-header">
-                    <div class="page-title"><i class="fas fa-cog"></i> GitHub Actions</div>
+                    <div class="page-title"><span class="svg-icon" data-icon="settings"></span> GitHub Actions</div>
                 </div>
                 <div class="card">
                     <div class="card-header"><div class="card-title"><i class="fas fa-play-circle"></i> 触发工作流</div></div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap">
-                        <button class="btn btn-primary" onclick="triggerAction('dynamic-update.yml')"><i class="fas fa-sync"></i> 伪动态数据更新</button>
-                        <button class="btn btn-success" onclick="triggerAction('scheduled-publish.yml')"><i class="fas fa-clock"></i> 检查定时发布</button>
+                        <button class="btn btn-primary" onclick="triggerAction('dynamic-update.yml')"><span class="svg-icon" data-icon="refresh"></span> 伪动态数据更新</button>
+                        <button class="btn btn-success" onclick="triggerAction('scheduled-publish.yml')"><span class="svg-icon" data-icon="clock"></span> 检查定时发布</button>
                     </div>
                     <div class="form-hint" style="margin-top:12px">需要在 admin.py 启动时设置 GITHUB_TOKEN 环境变量才能触发远程 Actions</div>
                 </div>
                 <div class="card">
-                    <div class="card-header"><div class="card-title"><i class="fas fa-list"></i> 工作流列表</div></div>
+                    <div class="card-header"><div class="card-title"><span class="svg-icon" data-icon="data"></span> 工作流列表</div></div>
                     <div style="font-size:0.85rem;color:var(--text-sec);line-height:2">
                         <div><span class="tag tag-blue">dynamic-update.yml</span> 伪动态数据更新 — 每6小时 + push 时触发</div>
                         <div><span class="tag tag-green">scheduled-publish.yml</span> 定时发布文章 — 每30分钟检查</div>
@@ -755,15 +898,15 @@
             <!-- ========== API 状态 ========== -->
             <div class="page" id="page-api">
                 <div class="page-header">
-                    <div class="page-title"><i class="fas fa-plug"></i> API 状态</div>
-                    <button class="btn" onclick="loadApiStatus()"><i class="fas fa-sync"></i> 检测</button>
+                    <div class="page-title"><span class="svg-icon" data-icon="plug"></span> API 状态</div>
+                    <button class="btn" onclick="loadApiStatus()"><span class="svg-icon" data-icon="refresh"></span> 检测</button>
                 </div>
                 <div class="card">
                     <div class="card-header"><div class="card-title"><i class="fas fa-server"></i> 后端连接</div></div>
                     <div id="apiConnInfo" style="font-size:0.85rem;line-height:2;color:var(--text-sec)"></div>
                 </div>
                 <div class="card">
-                    <div class="card-header"><div class="card-title"><i class="fas fa-list"></i> API 端点列表</div></div>
+                    <div class="card-header"><div class="card-title"><span class="svg-icon" data-icon="data"></span> API 端点列表</div></div>
                     <table class="data-table">
                         <thead><tr><th>方法</th><th>端点</th><th>说明</th><th>认证</th></tr></thead>
                         <tbody>
@@ -910,6 +1053,7 @@ function switchPage(name) {
         'articles': loadArticles,
         'timeline': loadTimeline,
         'schedule': loadSchedule,
+        'wiki': loadWikiStats,
         'git': loadGitStatus,
         'api': loadApiStatus,
         'new-article': initNewArticle,
@@ -973,7 +1117,7 @@ async function loadArticles() {
     document.getElementById('badgeArticles').textContent = arts.length;
     
     if (arts.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fas fa-inbox"></i>暂无文章</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><span class="svg-icon" data-icon="inbox"></span>暂无文章</td></tr>';
         return;
     }
     
@@ -984,8 +1128,8 @@ async function loadArticles() {
         <td>${(a.tags || []).slice(0, 3).map(t => `<span class="tag tag-gray">${escHtml(t)}</span>`).join(' ')}</td>
         <td style="text-align:center">${a.readTime}分</td>
         <td>
-            <button class="btn btn-sm" onclick="viewArticle(${a.id})" title="查看"><i class="fas fa-eye"></i></button>
-            <button class="btn btn-sm" onclick="deleteArticle(${a.id})" title="删除" style="color:var(--danger)"><i class="fas fa-trash"></i></button>
+            <button class="btn btn-sm" onclick="viewArticle(${a.id})" title="查看"><span class="svg-icon" data-icon="eye"></span></button>
+            <button class="btn btn-sm" onclick="deleteArticle(${a.id})" title="删除" style="color:var(--danger)"><span class="svg-icon" data-icon="delete"></span></button>
         </td>
     </tr>`).join('');
 }
@@ -1111,7 +1255,7 @@ async function loadTimeline() {
     
     const items = res.data.timeline || [];
     if (items.length === 0) {
-        el.innerHTML = '<div class="empty-state"><i class="fas fa-stream"></i>暂无时间线条目</div>';
+        el.innerHTML = '<div class="empty-state"><span class="svg-icon" data-icon="stream"></span>暂无时间线条目</div>';
         return;
     }
     
@@ -1122,7 +1266,7 @@ async function loadTimeline() {
             <div class="tl-desc">${escHtml(item.desc || '')}</div>
         </div>
         <div class="tl-actions">
-            <button class="btn btn-sm btn-ghost" onclick="deleteTimeline(${i})" title="删除" style="color:var(--danger)"><i class="fas fa-trash"></i></button>
+            <button class="btn btn-sm btn-ghost" onclick="deleteTimeline(${i})" title="删除" style="color:var(--danger)"><span class="svg-icon" data-icon="delete"></span></button>
         </div>
     </div>`).join('');
 }
@@ -1137,7 +1281,7 @@ function showAddTimeline() {
             <div class="form-group"><label class="form-label">描述</label><textarea class="form-textarea" id="tlDesc" rows="3" placeholder="更新描述..." style="min-height:60px"></textarea></div>
             <div class="modal-footer">
                 <button class="btn" onclick="closeModal()">取消</button>
-                <button class="btn btn-primary" onclick="addTimelineItem()"><i class="fas fa-plus"></i> 添加</button>
+                <button class="btn btn-primary" onclick="addTimelineItem()"><span class="svg-icon" data-icon="add"></span> 添加</button>
             </div>
         </div>
     </div>`;
@@ -1186,7 +1330,7 @@ async function loadSchedule() {
     }
     
     if (queue.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><i class="fas fa-clock"></i>队列为空</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><span class="svg-icon" data-icon="clock"></span>队列为空</td></tr>';
         return;
     }
     
@@ -1199,7 +1343,7 @@ async function loadSchedule() {
             <td><b>${escHtml(item.title)}</b></td>
             <td style="font-size:0.82rem;color:var(--text-sec)">${item.publishAt}</td>
             <td>${isDue ? '<span class="tag tag-yellow">待发布</span>' : '<span class="tag tag-gray">等待中</span>'}</td>
-            <td><button class="btn btn-sm" style="color:var(--danger)" onclick="removeSchedule('${item.id}','${escAttr(item.title)}')"><i class="fas fa-trash"></i></button></td>
+            <td><button class="btn btn-sm" style="color:var(--danger)" onclick="removeSchedule('${item.id}','${escAttr(item.title)}')"><span class="svg-icon" data-icon="delete"></span></button></td>
         </tr>`;
     }).join('');
 }
@@ -1208,6 +1352,81 @@ async function removeSchedule(id, title) {
     if (!confirm(`从定时队列移除「${title}」？`)) return;
     // 需要通过后端 API 实现，这里提示用户手动操作
     toast('请通过后端 API 移除定时任务', 'warn');
+}
+
+// ==============================
+//  百科管理
+// ==============================
+function loadWikiStats() {
+    const totalEl = document.getElementById('wiki-total');
+    const catEl = document.getElementById('wiki-categories');
+    const kwEl = document.getElementById('wiki-keywords');
+    const linkedEl = document.getElementById('wiki-linked-articles');
+    const tbody = document.getElementById('wikiTermBody');
+
+    // 检查 wikiData 是否可用
+    if (typeof window.wikiData === 'undefined' || !window.wikiData.terms) {
+        // 尝试加载 wiki-data.js
+        const script = document.createElement('script');
+        script.src = '../wiki-data.js';
+        script.onload = function() {
+            renderWikiStats();
+        };
+        script.onerror = function() {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--danger)">加载 wiki-data.js 失败，请确认文件存在</td></tr>';
+        };
+        document.head.appendChild(script);
+        return;
+    }
+    renderWikiStats();
+}
+
+function renderWikiStats() {
+    const totalEl = document.getElementById('wiki-total');
+    const catEl = document.getElementById('wiki-categories');
+    const kwEl = document.getElementById('wiki-keywords');
+    const linkedEl = document.getElementById('wiki-linked-articles');
+    const tbody = document.getElementById('wikiTermBody');
+
+    const terms = window.wikiData.getAllTerms();
+    const categories = window.wikiData.getCategories();
+    const keywords = window.wikiData.getAllKeywords();
+
+    totalEl.textContent = terms.length;
+    catEl.textContent = Object.keys(categories).length;
+    kwEl.textContent = keywords.length;
+
+    // 统计已注入百科脚本的文章数
+    linkedEl.textContent = '(检测中)';
+
+    // 渲染词条表格
+    tbody.innerHTML = '';
+    terms.forEach(function(term) {
+        const tr = document.createElement('tr');
+        const aliases = (term.aliases || []).filter(function(a) { return a !== term.name; });
+        const related = (term.relatedTerms || []).map(function(id) {
+            const t = window.wikiData.getTermById(id);
+            return t ? t.name : id;
+        });
+
+        tr.innerHTML =
+            '<td><strong>' + escapeHtml(term.name) + '</strong></td>' +
+            '<td><span class="tag" style="background:linear-gradient(135deg,#FB7299,#00A1D6);color:white">' + escapeHtml(term.category) + '</span></td>' +
+            '<td>' + (aliases.length ? escapeHtml(aliases.join(', ')) : '<span class="text-muted">-</span>') + '</td>' +
+            '<td>' + (related.length ? escapeHtml(related.join(', ')) : '<span class="text-muted">-</span>') + '</td>' +
+            '<td>' + escapeHtml(term.updatedAt || '-') + '</td>' +
+            '<td><a href="../wiki/#/' + encodeURIComponent(term.id) + '" target="_blank" class="btn btn-sm"><span class="svg-icon" data-icon="eye"></span> 查看</a></td>';
+        tbody.appendChild(tr);
+    });
+
+    if (terms.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><span class="svg-icon" data-icon="book"></span>暂无词条</div></td></tr>';
+    }
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 // ==============================
@@ -1229,7 +1448,7 @@ async function loadGitStatus() {
     if (g.changedList && g.changedList.length > 0) {
         cf.innerHTML = g.changedList.map(f => `<div style="padding:4px 8px;font-family:'MaokenAssortedSans', monospace;font-size:0.8rem;background:var(--bg);border-radius:4px;margin-bottom:4px">${escHtml(f)}</div>`).join('');
     } else {
-        cf.innerHTML = '<span style="color:var(--success)"><i class="fas fa-check-circle"></i> 工作目录干净</span>';
+        cf.innerHTML = '<span style="color:var(--success)"><span class="svg-icon" data-icon="check-circle"></span> 工作目录干净</span>';
     }
 }
 
@@ -1268,7 +1487,7 @@ async function loadApiStatus() {
     if (res.ok) {
         const d = res.data;
         el.innerHTML = `
-            <span style="color:var(--success)"><i class="fas fa-check-circle"></i> 后端已连接</span><br>
+            <span style="color:var(--success)"><span class="svg-icon" data-icon="check-circle"></span> 后端已连接</span><br>
             <b>版本:</b> ${d.version}<br>
             <b>时间:</b> ${d.time}<br>
             <b>Python:</b> ${d.python}<br>
@@ -1276,7 +1495,7 @@ async function loadApiStatus() {
             <b>API 地址:</b> <code>${API_BASE}</code>
         `;
     } else {
-        el.innerHTML = `<span style="color:var(--danger)"><i class="fas fa-times-circle"></i> 无法连接后端</span><br>
+        el.innerHTML = `<span style="color:var(--danger)"><span class="svg-icon" data-icon="times-circle"></span> 无法连接后端</span><br>
             <div class="form-hint">请确保 admin.py 正在运行：\`python admin.py\`</div>`;
     }
 }

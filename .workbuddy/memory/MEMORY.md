@@ -150,3 +150,19 @@
 - 曾用 `articles.xlsx` 和 `timeline.xlsx` 作为数据源
 - 使用 SheetJS (xlsx.js) 库在浏览器端解析
 - 已放弃，改回原生 JS 格式
+
+## 百科系统 `/wiki/`（2026-06-10）
+- **核心文件**：
+  - `wiki-data.js`：百科词条数据源，含 16 个初始词条（技术/文化/人物/工具/概念/作品/作品分类）
+  - `css/wiki-linker.js`：文章自动链接脚本，扫描 .article-content 自动将匹配词条包装为 📖 下划线链接
+  - `wiki/index.html`：百科首页页面，支持 hash 路由（#/termId）、搜索、分类筛选、相关词条
+  - `wiki-audit-tool.py`：词条审核工具，运行 `python wiki-audit-tool.py` 生成审核报告
+  - `wiki-audit-report.md`：初次审核报告（2026-06-10）
+- **文章注入**：所有 25 篇 blog 文章已自动注入 wiki-data.js + wiki-linker.js
+- **管理后台**：admin/index.html 新增「百科管理」页面，可查看词条列表和统计
+- **首页**：新增「百科知识库」导航按钮
+- **sitemap.xml**：已添加 `/wiki/` URL
+- **多人协作**：
+  - 内容审核组 → 运行 wiki-audit-tool.py 扫描文章，输出报告
+  - 百科编写组 → 编辑 wiki-data.js 新增/修改词条
+  - 测试修复组 → 验证链接跳转、渲染效果

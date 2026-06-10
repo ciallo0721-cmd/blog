@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>百科 - 91vip.森.ink</title>
+<link rel="icon" href="../fanv.ico">
+<style>
+/* ===== 完全抄 index.php 的全局变量 ===== */
+:root {
+    --bili-pink: #3366ff;
+    --bili-blue: #2575fc;
+    --bili-deepblue: #3366ff;
+    --text-primary: #1D1D1F;
+    --text-secondary: #515154;
+    --bg-light: #F5F5F7;
+    --transition: all 0.3s ease;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* ===== 顶部导航（完全抄 index.php nav） ===== */
+.top-nav {
+    background: rgba(255,255,255,0.98);
+    position: sticky; top: 0; z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
+.logo {
+    font-size: 1.6rem; font-weight: 700;
+    color: var(--bili-pink); text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+    transition: var(--transition);
+}
+.logo:hover { transform: translateY(-2px); color: var(--bili-blue); }
+.nav-links { display: flex; list-style: none; gap: 35px; align-items: center; }
+.nav-links a {
+    text-decoration: none; color: var(--text-primary); font-weight: 500;
+    transition: var(--transition);
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 16px; border-radius: 25px; position: relative; overflow: hidden;
+}
+.nav-links a:hover {
+    color: white; transform: translateY(-2px);
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+}
+.nav-links a.active {
+    color: white;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+}
+
+/* ===== 主内容区 ===== */
+.wiki-main { padding: 60px 0; }
+.section-title { text-align: center; margin-bottom: 50px; }
+.section-title h2 {
+    font-size: 2.4rem; color: var(--text-primary);
+    position: relative; display: inline-block; font-weight: 700;
+}
+.section-title h2::after {
+    content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);
+    width: 80px; height: 4px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    border-radius: 4px;
+}
+
+/* ===== 搜索框 ===== */
+.search-wrap { max-width: 600px; margin: 0 auto 40px; position: relative; }
+.search-input {
+    width: 100%; padding: 16px 55px 16px 24px;
+    font-size: 1.05em; border: none;
+    border-radius: 50px; background: rgba(255,255,255,0.95);
+    color: var(--text-primary); outline: none;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+.search-input:focus { box-shadow: 0 6px 25px rgba(51,102,255,0.2); }
+.search-btn {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    width: 44px; height: 44px; border: none; border-radius: 50%;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color: white; font-size: 1.1em; cursor: pointer;
+    transition: var(--transition);
+}
+.search-btn:hover { transform: translateY(-50%) scale(1.08); box-shadow: 0 4px 12px rgba(51,102,255,0.4); }
+
+/* ===== Tab 切换 ===== */
+.wiki-tabs { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; }
+.wiki-tab {
+    padding: 10px 28px; border-radius: 25px; font-weight: 700; font-size: 1em;
+    border: none; background: rgba(255,255,255,0.9); color: var(--text-secondary);
+    cursor: pointer; transition: var(--transition);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.wiki-tab:hover { color: var(--bili-pink); transform: translateY(-2px); }
+.wiki-tab.active {
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color: white; box-shadow: 0 4px 14px rgba(51,102,255,0.3);
+}
+
+/* ===== 分类标签 ===== */
+.cat-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; justify-content: center; }
+.cat-tag {
+    padding: 7px 18px; border-radius: 50px; font-size: 0.88em; font-weight: 600;
+    border: 1.5px solid rgba(51,102,255,0.2); background: transparent;
+    color: var(--text-secondary); cursor: pointer; transition: var(--transition);
+}
+.cat-tag:hover { border-color: var(--bili-pink); color: var(--bili-pink); }
+.cat-tag.active { background: rgba(51,102,255,0.08); color: var(--bili-pink); border-color: var(--bili-pink); }
+
+/* ===== 词条卡片（抄 index.php .game-card 风格） ===== */
+.terms-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px; margin-bottom: 40px;
+}
+.term-card {
+    background: rgba(255,255,255,0.95); border-radius: 20px;
+    overflow: hidden; box-shadow: var(--shadow);
+    transition: var(--transition); cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.3); position: relative;
+}
+.term-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    transform: scaleX(0); transition: var(--transition);
+}
+.term-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
+.term-card:hover::before { transform: scaleX(1); }
+.term-card-body { padding: 25px; }
+.term-card-title {
+    font-size: 1.3rem; font-weight: 700; color: var(--text-primary);
+    margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+}
+.term-card-cat {
+    display: inline-block; padding: 4px 14px; border-radius: 15px;
+    font-size: 0.82em; font-weight: 600;
+    background: rgba(51,102,255,0.08); color: var(--bili-pink);
+}
+
+/* ===== 角色卡片（抄 .game-card 风格） ===== */
+.chars-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px; margin-bottom: 40px;
+}
+.char-card {
+    background: rgba(255,255,255,0.95); border-radius: 20px;
+    overflow: hidden; box-shadow: var(--shadow);
+    transition: var(--transition); cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.3); position: relative;
+}
+.char-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    transform: scaleX(0); transition: var(--transition); z-index: 2;
+}
+.char-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
+.char-card:hover::before { transform: scaleX(1); }
+.char-card-avatar {
+    height: 200px;
+    background: linear-gradient(135deg, #e8f0fe, #d0e2fd);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+}
+.char-card-avatar img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+.char-card:hover .char-card-avatar img { transform: scale(1.05); }
+.char-card-body { padding: 20px 22px; }
+.char-card-name { font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+.char-card-cat { font-size: 0.82em; color: var(--text-secondary); }
+
+/* ===== 词条详情页 ===== */
+.detail-page {
+    background: rgba(255,255,255,0.95); border-radius: 20px;
+    padding: 35px; box-shadow: var(--shadow);
+    border: 1px solid rgba(255,255,255,0.3); position: relative; overflow: hidden;
+}
+.detail-page::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+}
+.back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 18px; border-radius: 25px; font-weight: 600;
+    background: rgba(255,255,255,0.9); border: 1.5px solid rgba(51,102,255,0.2);
+    color: var(--text-secondary); cursor: pointer; transition: var(--transition);
+    margin-bottom: 20px; font-size: 0.92em;
+}
+.back-btn:hover { border-color: var(--bili-pink); color: var(--bili-pink); transform: translateY(-2px); }
+.breadcrumb { font-size: 0.88em; color: var(--text-secondary); margin-bottom: 14px; }
+.breadcrumb a { color: var(--bili-pink); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.detail-page h1 {
+    font-size: 1.9em; color: var(--text-primary);
+    border-bottom: 2px dashed rgba(51,102,255,0.2);
+    padding-bottom: 12px; margin-bottom: 22px; font-weight: 700;
+}
+.detail-page h2 {
+    font-size: 1.3em; color: var(--bili-pink);
+    margin: 24px 0 12px; padding-left: 14px;
+    border-left: 4px solid var(--bili-pink);
+}
+.detail-page h3 { font-size: 1.1em; color: var(--bili-blue); margin: 18px 0 8px; }
+.detail-page p { margin-bottom: 14px; line-height: 1.9; color: #444; }
+.detail-page ul, .detail-page ol { margin: 0 0 14px 24px; }
+.detail-page li { margin-bottom: 6px; line-height: 1.8; }
+.detail-page code {
+    background: rgba(51,102,255,0.08); padding: 2px 8px;
+    border-radius: 6px; font-size: 0.9em; color: var(--bili-pink);
+}
+
+/* ===== 角色详情 ===== */
+.char-detail-header {
+    display: flex; gap: 35px; margin-bottom: 30px; align-items: flex-start;
+}
+.char-avatar {
+    width: 200px; height: 200px; border-radius: 50%;
+    object-fit: cover; border: 4px solid rgba(51,102,255,0.3);
+    box-shadow: 0 4px 18px rgba(51,102,255,0.2); flex-shrink: 0;
+}
+.char-attrs { flex: 1; }
+.char-attrs table { width: 100%; border-collapse: collapse; }
+.char-attrs th, .char-attrs td {
+    padding: 10px 14px; border-bottom: 1px solid rgba(0,0,0,0.06);
+    text-align: left;
+}
+.char-attrs th { width: 100px; color: var(--text-secondary); font-weight: 600; font-size: 0.92em; }
+
+/* ===== 相关卡片 ===== */
+.related-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px; margin: 16px 0;
+}
+.related-card {
+    padding: 14px 18px; border-radius: 14px;
+    background: rgba(255,255,255,0.9);
+    border: 1.5px solid rgba(51,102,255,0.15);
+    cursor: pointer; transition: var(--transition);
+    font-weight: 600; color: var(--text-primary);
+}
+.related-card:hover {
+    background: rgba(51,102,255,0.06); border-color: var(--bili-pink);
+    color: var(--bili-pink); transform: translateY(-3px);
+}
+
+/* ===== 外部链接 ===== */
+.ext-link-list { list-style: none; margin: 0; padding: 0; }
+.ext-link-list li { margin-bottom: 10px; }
+.ext-link-list a {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px; border-radius: 12px;
+    background: rgba(51,102,255,0.06); color: var(--bili-pink);
+    font-weight: 600; text-decoration: none; transition: var(--transition);
+}
+.ext-link-list a:hover { background: rgba(51,102,255,0.12); transform: translateY(-2px); }
+
+/* ===== 页脚（抄 index.php footer） ===== */
+.wiki-footer {
+    background: linear-gradient(135deg, var(--text-primary), #2D2D2F);
+    color: white; text-align: center; padding: 50px 0 30px;
+    position: relative; overflow: hidden; margin-top: 60px;
+}
+.wiki-footer::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+}
+.wiki-footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
+.wiki-footer a { color: var(--bili-pink); text-decoration: none; }
+.wiki-footer a:hover { text-decoration: underline; }
+
+/* ===== 空状态 ===== */
+.empty-state { text-align: center; padding: 80px 20px; color: var(--text-secondary); }
+.empty-state .emoji { font-size: 3.5em; margin-bottom: 16px; }
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+    .terms-grid, .chars-grid, .related-grid { grid-template-columns: 1fr; }
+    .char-detail-header { flex-direction: column; align-items: center; text-align: center; }
+    .detail-page { padding: 22px; }
+    .nav-links { display: none; }
+    .section-title h2 { font-size: 1.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部导航（完全抄 index.php nav） -->
+<nav class="top-nav">
+    <div class="nav-container container">
+        <a href="../index.html" class="logo">📖 百科</a>
+        <ul class="nav-links">
+            <li><a href="../index.html"><i class="fas fa-home"></i> 主页</a></li>
+            <li><a href="#/" class="active"><i class="fas fa-book"></i> 百科</a></li>
+            <li><a href="#/characters"><i class="fas fa-users"></i> 角色</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- 主内容 -->
+<main class="wiki-main">
+<div class="container" id="app">
+    <div class="empty-state"><div class="emoji">⏳</div>加载中…</div>
+</div>
+</main>
+
+<!-- 页脚（抄 index.php footer） -->
+<footer class="wiki-footer">
+    <p>91vip.森.ink · 百科 · 内容仅供参考喵～</p>
+    <p style="margin-top:8px;font-size:0.92em;"><a href="../index.html">返回主站</a></p>
+</footer>
+
+<!-- 加载数据 -->
+<script src="../wiki-data.js"></script>
+<script>
+const App = {
+    view: 'home',
+    id: null,
+    search: '',
+    cat: '全部',
+
+    go: function(view, id) {
+        if (view === 'home') location.hash = '#/';
+        else if (view === 'term') location.hash = '#/' + encodeURIComponent(id);
+        else if (view === 'character') location.hash = '#/character/' + encodeURIComponent(id);
+        else if (view === 'characters') location.hash = '#/characters';
+    },
+
+    init: function() {
+        if (!window.wikiData) {
+            document.getElementById('app').innerHTML = '<div class="empty-state"><div class="emoji">⚠️</div>wiki-data.js 加载失败</div>';
+            return;
+        }
+        window.addEventListener('hashchange', function() { App.route(); });
+        this.route();
+    },
+
+    route: function() {
+        var h = location.hash || '#/';
+        var m = h.match(/^#\/(character|term)\/([^\/]+)/);
+        if (m) {
+            this.view = m[1];
+            this.id = decodeURIComponent(m[2]);
+        } else if (h.indexOf('#/characters') === 0) {
+            this.view = 'characters';
+        } else {
+            this.view = 'home';
+        }
+        this.render();
+    },
+
+    render: function() {
+        var el = document.getElementById('app');
+        el.innerHTML = '';
+        if (this.view === 'home') this.home(el);
+        else if (this.view === 'term') this.termPage(el);
+        else if (this.view === 'character') this.charPage(el);
+        else if (this.view === 'characters') this.charsPage(el);
+    },
+
+    /* ===== 首页 ===== */
+    home: function(el) {
+        el.innerHTML = ''
+            + '<div class="section-title"><h2>📖 百科</h2></div>'
+            + '<p style="text-align:center;color:var(--text-secondary);margin-bottom:30px;font-size:1.05em;">'
+            + '收录 ciallo0721-cmd 世界的一切知识 —— 技术、文化、人物、工具，应有尽有喵～'
+            + '</p>'
+            + '<div class="search-wrap">'
+            + '<input class="search-input" id="search-inp" placeholder="搜索词条或角色…" oninput="App.doSearch(this.value)">'
+            + '<button class="search-btn" onclick="App.doSearch(document.getElementById(\'search-inp\').value)">🔍</button>'
+            + '</div>'
+            + '<div class="wiki-tabs">'
+            + '<div class="wiki-tab active" onclick="App.switchTab(\'terms\', this)">📚 词条百科</div>'
+            + '<div class="wiki-tab" onclick="App.switchTab(\'chars\', this)">🎭 角色图鉴</div>'
+            + '</div>'
+            + '<div id="terms-panel">'
+            + '<div class="cat-tags" id="cat-tags"></div>'
+            + '<div class="terms-grid" id="terms-grid"></div>'
+            + '</div>'
+            + '<div id="chars-panel" style="display:none;">'
+            + '<div class="cat-tags" id="char-cat-tags"></div>'
+            + '<div class="chars-grid" id="chars-grid"></div>'
+            + '</div>';
+        this.renderCatTags();
+        this.renderTerms();
+        this.renderCharCatTags();
+        this.renderChars();
+    },
+
+    switchTab: function(tab, dom) {
+        var tabs = document.querySelectorAll('.wiki-tab');
+        for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+        dom.classList.add('active');
+        document.getElementById('terms-panel').style.display = tab === 'terms' ? '' : 'none';
+        document.getElementById('chars-panel').style.display = tab === 'chars' ? '' : 'none';
+    },
+
+    /* ===== 分类标签 ===== */
+    renderCatTags: function() {
+        var cats = {};
+        var terms = wd().getAllTerms();
+        for (var i = 0; i < terms.length; i++) {
+            var t = terms[i];
+            cats[t.category] = (cats[t.category] || 0) + 1;
+        }
+        var h = '<div class="cat-tag active" onclick="App.pickCat(\'全部\', this)">全部</div>';
+        var keys = Object.keys(cats).sort();
+        for (var j = 0; j < keys.length; j++) {
+            var c = keys[j];
+            h += '<div class="cat-tag" onclick="App.pickCat(\'' + esc(c) + '\', this)">' + htm(c) + ' (' + cats[c] + ')</div>';
+        }
+        document.getElementById('cat-tags').innerHTML = h;
+    },
+
+    pickCat: function(c, dom) {
+        this.cat = c;
+        var tags = document.querySelectorAll('#cat-tags .cat-tag');
+        for (var i = 0; i < tags.length; i++) tags[i].classList.remove('active');
+        dom.classList.add('active');
+        this.renderTerms();
+    },
+
+    /* ===== 词条卡片 ===== */
+    renderTerms: function() {
+        var grid = document.getElementById('terms-grid');
+        if (!grid) return;
+        var terms = wd().getAllTerms();
+        if (this.cat !== '全部') {
+            var filtered = [];
+            for (var i = 0; i < terms.length; i++) {
+                if (terms[i].category === this.cat) filtered.push(terms[i]);
+            }
+            terms = filtered;
+        }
+        if (this.search) {
+            var q = this.search.toLowerCase();
+            var searched = [];
+            for (var j = 0; j < terms.length; j++) {
+                var t = terms[j];
+                if (t.name.toLowerCase().indexOf(q) !== -1 || (t.category || '').toLowerCase().indexOf(q) !== -1) {
+                    searched.push(t);
+                }
+            }
+            terms = searched;
+        }
+        if (terms.length === 0) {
+            grid.innerHTML = '<div class="empty-state"><div class="emoji">🔍</div>没有找到相关词条</div>';
+            return;
+        }
+        var html = '';
+        for (var k = 0; k < terms.length; k++) {
+            var t = terms[k];
+            html += '<div class="term-card" onclick="App.go(\'term\', \'' + esc(t.id) + '\')">'
+                + '<div class="term-card-body">'
+                + '<div class="term-card-title">📖 ' + htm(t.name) + '</div>'
+                + '<span class="term-card-cat">' + htm(t.category || '') + '</span>'
+                + '</div></div>';
+        }
+        grid.innerHTML = html;
+    },
+
+    /* ===== 角色分类标签 ===== */
+    renderCharCatTags: function() {
+        var el = document.getElementById('char-cat-tags');
+        if (!el) return;
+        var cats = {};
+        var chars = wd().getAllCharacters ? wd().getAllCharacters() : [];
+        for (var i = 0; i < chars.length; i++) {
+            var c = chars[i];
+            cats[c.category] = (cats[c.category] || 0) + 1;
+        }
+        var h = '<div class="cat-tag active" onclick="App.pickCharCat(\'全部\', this)">全部</div>';
+        var keys = Object.keys(cats).sort();
+        for (var j = 0; j < keys.length; j++) {
+            var cat = keys[j];
+            h += '<div class="cat-tag" onclick="App.pickCharCat(\'' + esc(cat) + '\', this)">' + htm(cat) + ' (' + cats[cat] + ')</div>';
+        }
+        el.innerHTML = h;
+    },
+
+    pickCharCat: function(c, dom) {
+        this.cat = c;
+        var tags = document.querySelectorAll('#char-cat-tags .cat-tag');
+        for (var i = 0; i < tags.length; i++) tags[i].classList.remove('active');
+        dom.classList.add('active');
+        this.renderChars();
+    },
+
+    /* ===== 角色卡片 ===== */
+    renderChars: function() {
+        var grid = document.getElementById('chars-grid');
+        if (!grid) return;
+        var chars = wd().getAllCharacters ? wd().getAllCharacters() : [];
+        if (this.cat !== '全部') {
+            var filtered = [];
+            for (var i = 0; i < chars.length; i++) {
+                if (chars[i].category === this.cat) filtered.push(chars[i]);
+            }
+            chars = filtered;
+        }
+        if (this.search) {
+            var q = this.search.toLowerCase();
+            var searched = [];
+            for (var j = 0; j < chars.length; j++) {
+                var c = chars[j];
+                if (c.name.toLowerCase().indexOf(q) !== -1 || (c.category || '').toLowerCase().indexOf(q) !== -1) {
+                    searched.push(c);
+                }
+            }
+            chars = searched;
+        }
+        if (chars.length === 0) {
+            grid.innerHTML = '<div class="empty-state"><div class="emoji">🎭</div>没有找到相关角色</div>';
+            return;
+        }
+        var html = '';
+        for (var k = 0; k < chars.length; k++) {
+            var c = chars[k];
+            var av = '';
+            if (c.avatar) {
+                av = '<img src="' + atr(c.avatar) + '" alt="' + atr(c.name) + '">';
+            } else {
+                av = '<div style="font-size:4rem;color:var(--bili-pink);opacity:0.5;">🎭</div>';
+            }
+            html += '<div class="char-card" onclick="App.go(\'character\', \'' + esc(c.id) + '\')">'
+                + '<div class="char-card-avatar">' + av + '</div>'
+                + '<div class="char-card-body">'
+                + '<div class="char-card-name">' + htm(c.name) + '</div>'
+                + '<div class="char-card-cat">' + htm(c.category || '') + '</div>'
+                + '</div></div>';
+        }
+        grid.innerHTML = html;
+    },
+
+    /* ===== 搜索 ===== */
+    doSearch: function(v) {
+        this.search = v.trim();
+        this.renderTerms();
+        this.renderChars();
+    },
+
+    /* ===== 词条详情 ===== */
+    termPage: function(el) {
+        var t = wd().getTermById(this.id);
+        if (!t) { el.innerHTML = '<div class="empty-state"><div class="emoji">❓</div>未找到该词条</div>'; return; }
+        var html = '<div class="detail-page">';
+        html += '<div class="breadcrumb"><a href="#/" onclick="App.go(\'home\');return false;">首页</a> › ' + htm(t.name) + '</div>';
+        html += '<button class="back-btn" onclick="App.go(\'home\')">← 返回列表</button>';
+        html += '<h1>📖 ' + htm(t.name) + '</h1>';
+        if (t.aliases && t.aliases.length) {
+            html += '<p style="color:var(--text-secondary);margin-bottom:18px;"><strong>别名：</strong>';
+            for (var i = 0; i < t.aliases.length; i++) {
+                html += '<code>' + htm(t.aliases[i]) + '</code> ';
+            }
+            html += '</p>';
+        }
+        if (t.image) {
+            html += '<div style="text-align:center;margin-bottom:20px;"><img src="' + atr(t.image) + '" alt="' + atr(t.name) + '" style="max-width:100%;max-height:300px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,0.1);"></div>';
+        }
+        html += '<div>' + (t.content || '') + '</div>';
+        if (t.externalLinks && t.externalLinks.length) {
+            html += '<h2>外部链接</h2><ul class="ext-link-list">';
+            for (var j = 0; j < t.externalLinks.length; j++) {
+                var l = t.externalLinks[j];
+                html += '<li><a href="' + atr(l.url) + '" target="_blank">🔗 ' + htm(l.title) + '</a></li>';
+            }
+            html += '</ul>';
+        }
+        html += '</div>';
+        el.innerHTML = html;
+    },
+
+    /* ===== 角色列表页 ===== */
+    charsPage: function(el) {
+        this.cat = '全部';
+        el.innerHTML = ''
+            + '<div class="section-title"><h2>🎭 角色图鉴</h2></div>'
+            + '<div class="cat-tags" id="char-cats-2"></div>'
+            + '<div class="chars-grid" id="chars-grid-2"></div>';
+        var cats = {};
+        var chars = wd().getAllCharacters ? wd().getAllCharacters() : [];
+        for (var i = 0; i < chars.length; i++) {
+            var c = chars[i];
+            cats[c.category] = (cats[c.category] || 0) + 1;
+        }
+        var h = '<div class="cat-tag active" onclick="App.renderChars2(\'全部\', this)">全部</div>';
+        var keys = Object.keys(cats).sort();
+        for (var j = 0; j < keys.length; j++) {
+            var cat = keys[j];
+            h += '<div class="cat-tag" onclick="App.renderChars2(\'' + esc(cat) + '\', this)">' + htm(cat) + ' (' + cats[cat] + ')</div>';
+        }
+        document.getElementById('char-cats-2').innerHTML = h;
+        this.renderChars2('全部', null);
+    },
+
+    renderChars2: function(cat, dom) {
+        if (dom) {
+            var tags = document.querySelectorAll('#char-cats-2 .cat-tag');
+            for (var i = 0; i < tags.length; i++) tags[i].classList.remove('active');
+            dom.classList.add('active');
+        }
+        var grid = document.getElementById('chars-grid-2');
+        var chars = wd().getAllCharacters ? wd().getAllCharacters() : [];
+        if (cat !== '全部') {
+            var filtered = [];
+            for (var j = 0; j < chars.length; j++) {
+                if (chars[j].category === cat) filtered.push(chars[j]);
+            }
+            chars = filtered;
+        }
+        var html = '';
+        for (var k = 0; k < chars.length; k++) {
+            var c = chars[k];
+            var av = '';
+            if (c.avatar) {
+                av = '<img src="' + atr(c.avatar) + '" alt="' + atr(c.name) + '">';
+            } else {
+                av = '<div style="font-size:4rem;color:var(--bili-pink);opacity:0.5;">🎭</div>';
+            }
+            html += '<div class="char-card" onclick="App.go(\'character\', \'' + esc(c.id) + '\')">'
+                + '<div class="char-card-avatar">' + av + '</div>'
+                + '<div class="char-card-body"><div class="char-card-name">' + htm(c.name) + '</div>'
+                + '<div class="char-card-cat">' + htm(c.category || '') + '</div></div></div>';
+        }
+        grid.innerHTML = html;
+    },
+
+    /* ===== 角色详情 ===== */
+    charPage: function(el) {
+        var c = wd().getCharacterById ? wd().getCharacterById(this.id) : null;
+        if (!c) { el.innerHTML = '<div class="empty-state"><div class="emoji">❓</div>未找到该角色</div>'; return; }
+        var attrs = '';
+        if (c.attributes) {
+            attrs = '<div class="char-attrs"><table>';
+            for (var key in c.attributes) {
+                if (c.attributes.hasOwnProperty(key)) {
+                    attrs += '<tr><th>' + htm(key) + '</th><td>' + htm(c.attributes[key]) + '</td></tr>';
+                }
+            }
+            attrs += '</table></div>';
+        }
+        var av = '';
+        if (c.avatar) {
+            av = '<img src="' + atr(c.avatar) + '" alt="' + atr(c.name) + '" class="char-avatar">';
+        } else {
+            av = '<div class="char-avatar" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e8f0fe,#d0e2fd);font-size:4rem;">🎭</div>';
+        }
+        var rel = '';
+        if (c.relatedTerms && c.relatedTerms.length) {
+            rel += '<h2>相关词条</h2><div class="related-grid">';
+            for (var i = 0; i < c.relatedTerms.length; i++) {
+                var tid = c.relatedTerms[i];
+                var t = wd().getTermById(tid);
+                if (t) {
+                    rel += '<div class="related-card" onclick="App.go(\'term\', \'' + esc(tid) + '\')">📖 ' + htm(t.name) + '<br><small>' + htm(t.category || '') + '</small></div>';
+                }
+            }
+            rel += '</div>';
+        }
+        if (c.relatedCharacters && c.relatedCharacters.length) {
+            rel += '<h2 style="margin-top:20px;">相关角色</h2><div class="related-grid">';
+            for (var j = 0; j < c.relatedCharacters.length; j++) {
+                var cid = c.relatedCharacters[j];
+                var cc = wd().getCharacterById(cid);
+                if (cc) {
+                    rel += '<div class="related-card" onclick="App.go(\'character\', \'' + esc(cid) + '\')">🎭 ' + htm(cc.name) + '<br><small>' + htm(cc.category || '') + '</small></div>';
+                }
+            }
+            rel += '</div>';
+        }
+        var html = '<div class="detail-page">';
+        html += '<div class="breadcrumb"><a href="#/" onclick="App.go(\'home\');return false;">首页</a> › '
+            + '<a href="#/characters" onclick="App.go(\'characters\');return false;">角色图鉴</a> › '
+            + htm(c.name) + '</div>';
+        html += '<button class="back-btn" onclick="App.go(\'characters\')">← 返回角色列表</button>';
+        html += '<div class="char-detail-header">' + av
+            + '<div><h1 style="font-size:1.9em;color:var(--text-primary);margin-bottom:12px;">🎭 ' + htm(c.name) + '</h1>'
+            + attrs + '</div></div>';
+        html += '<div>' + (c.description || '') + '</div>';
+        html += rel;
+        if (c.externalLinks && c.externalLinks.length) {
+            html += '<h2>外部链接</h2><ul class="ext-link-list">';
+            for (var l = 0; l < c.externalLinks.length; l++) {
+                var link = c.externalLinks[l];
+                html += '<li><a href="' + atr(link.url) + '" target="_blank">🔗 ' + htm(link.title) + '</a></li>';
+            }
+            html += '</ul>';
+        }
+        html += '</div>';
+        el.innerHTML = html;
+    }
+};
+
+/* 工具函数 */
+function wd() { return window.wikiData; }
+function htm(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function atr(s) { return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function esc(s) { return s.replace(/'/g, "\\'"); }
+
+document.addEventListener('DOMContentLoaded', function() { App.init(); });
+</script>
+
+</body>
+</html>
