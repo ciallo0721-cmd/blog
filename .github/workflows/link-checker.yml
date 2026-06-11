@@ -33,12 +33,12 @@ jobs:
             --exclude "localhost"
             --exclude "127.0.0.1"
             --exclude "file://"
-            --output ./lychee-report.md
             --format markdown
             "./**/*.html"
             "./**/*.md"
+          output: ./lychee-report.md
           fail: false
-          job_summary: true
+          jobSummary: true
 
       - name: 上传检查报告
         if: always()
