@@ -1,0 +1,69 @@
+name: 全站死链检查器
+
+on:
+  schedule:
+    # 每周一 08:00 北京时间（UTC 00:00）
+    - cron: '0 0 * * 1'
+  workflow_dispatch:  # 允许手动触发
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    name: 检查全站死链
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 设置 Lychee 链接检查器
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >
+            --base-url https://91vip.xn--32v.ink
+            --max-concurrency 64
+            --rate-limit 10
+            --timeout 30
+            --retry-wait-time 5
+            --max-retries 3
+            --accept 200..=299,403,405
+            --exclude "localhost"
+            --exclude "127.0.0.1"
+            --exclude "file://"
+            --output ./lychee-report.md
+            --format markdown
+            "./**/*.html"
+            "./**/*.md"
+          fail: false
+          job_summary: true
+
+      - name: 上传检查报告
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-check-report
+          path: lychee-report.md
+          retention-days: 30
+
+      - name: 发现死链时创建 Issue
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let report = '';
+            try {
+              report = fs.readFileSync('lychee-report.md', 'utf8');
+            } catch(e) {
+              report = '无法读取报告文件';
+            }
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🔗 全站死链检测报告 - ' + new Date().toISOString().split('T')[0],
+              body: '## 死链检测报告\n\n自动检测发现以下死链，请人工确认并修复：\n\n' + report + '\n\n---\n*此 Issue 由 GitHub Actions 自动创建*',
+              labels: ['bug', 'dead-link']
+            });
