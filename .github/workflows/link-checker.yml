@@ -25,7 +25,6 @@ jobs:
           args: >
             --base-url https://91vip.xn--32v.ink
             --max-concurrency 64
-            --rate-limit 10
             --timeout 30
             --retry-wait-time 5
             --max-retries 3
