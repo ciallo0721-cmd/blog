@@ -47,22 +47,22 @@ jobs:
           path: lychee-report.md
           retention-days: 30
 
-      - name: 发现死链时创建 Issue
-        if: failure()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            let report = '';
-            try {
-              report = fs.readFileSync('lychee-report.md', 'utf8');
-            } catch(e) {
-              report = '无法读取报告文件';
-            }
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: '🔗 全站死链检测报告 - ' + new Date().toISOString().split('T')[0],
-              body: '## 死链检测报告\n\n自动检测发现以下死链，请人工确认并修复：\n\n' + report + '\n\n---\n*此 Issue 由 GitHub Actions 自动创建*',
-              labels: ['bug', 'dead-link']
-            });
+      - name: 检查报告并创建 Issue（有死链时）
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "检查报告内容..."
+          cat lychee-report.md
+
+          # 检查报告中是否有死链（lychee markdown 用 ✗ 标记错误链接）
+          if grep -qE '✗|<span.*color:red|\[Error\]|Errors:' lychee-report.md 2>/dev/null; then
+            echo "::notice::发现死链，创建 Issue..."
+            gh issue create \
+              --title "🔗 全站死链检测报告 - $(date +%Y-%m-%d)" \
+              --body-file lychee-report.md \
+              --label "bug" \
+              --label "dead-link"
+          else
+            echo "::notice::未发现死链，无需创建 Issue"
+          fi
