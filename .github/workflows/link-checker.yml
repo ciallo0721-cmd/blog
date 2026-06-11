@@ -58,15 +58,18 @@ jobs:
 
           # 用 Python 解析报告，检测 [404] / ✗ / ❌ 等错误标记
           HAS_ERRORS=$(python3 -c "
-          import sys, re
+          import sys
           try:
               with open('lychee-report.md', 'r', encoding='utf-8') as f:
                   content = f.read()
-              # 匹配 [404] [500] 等状态码，以及 ✗ ❌ × 标记
-              if re.search(r'$$\s*\d{3}\s*$$', content) or re.search(r'[✗❌×]', content):
-                  print('true')
-              else:
-                  print('false')
+              # 简单字符串匹配（比正则更可靠）
+              has_errors = ('[404]' in content or
+                            '[500]' in content or
+                            '[502]' in content or
+                            '✗' in content or
+                            '❌' in content or
+                            '×' in content)
+              print('true' if has_errors else 'false')
           except Exception as e:
               print('false', file=sys.stderr)
               print('false')
