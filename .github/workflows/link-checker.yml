@@ -52,39 +52,37 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "=== 报告内容预览 ==="
+          echo "=== 报告内容预览（前 50 行）==="
           head -50 lychee-report.md
           echo "=== 结束预览 ==="
 
-          # 用 Python 解析 lychee markdown 报告，检测 ✗ 错误标记
-          python3 -c "
-          import sys
-          import re
-
+          # 用 Python 解析报告，检测 [404] / ✗ / ❌ 等错误标记
+          HAS_ERRORS=$(python3 -c "
+          import sys, re
           try:
               with open('lychee-report.md', 'r', encoding='utf-8') as f:
                   content = f.read()
-              # lychee markdown 用 ✗ 标记错误链接，也检查 [404] 等状态码
-              has_errors = bool(re.search(r'[✗❌×]', content)) or bool(re.search(r'$$\d{3}$$', content))
-              if has_errors:
-                  print('HAS_ERRORS=true')
+              # 匹配 [404] [500] 等状态码，以及 ✗ ❌ × 标记
+              if re.search(r'$$\s*\d{3}\s*$$', content) or re.search(r'[✗❌×]', content):
+                  print('true')
               else:
-                  print('HAS_ERRORS=false')
+                  print('false')
           except Exception as e:
-              print(f'读取报告失败: {e}', file=sys.stderr)
-              print('HAS_ERRORS=false')
-          " >> $GITHUB_ENV
+              print('false', file=sys.stderr)
+              print('false')
+          ")
 
-          # 如果检测到错误，创建 Issue
+          echo "检测结果：HAS_ERRORS=$HAS_ERRORS"
+
           if [ "$HAS_ERRORS" = "true" ]; then
             echo "::notice::发现死链，创建 Issue..."
+
             # 截取报告前 60000 字符（GitHub Issue body 上限 65536）
             python3 -c "
           import sys
           try:
               with open('lychee-report.md', 'r', encoding='utf-8') as f:
                   content = f.read()
-              # 截断到 60000 字符，避免超出 Issue body 限制
               if len(content) > 60000:
                   content = content[:60000] + '\n\n> ... 报告过长已截断，请下载完整报告查看'
               print(content)
