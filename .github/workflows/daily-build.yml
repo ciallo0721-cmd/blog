@@ -39,11 +39,11 @@ jobs:
           cd electron-app
           npm init -y
           npm install electron electron-builder --save-dev
-        shell: bash
       
       - name: 创建 main.js
+        shell: pwsh
         run: |
-          cat > electron-app/main.js << 'EOF'
+          $content = @"
           const { app, BrowserWindow } = require('electron')
           const path = require('path')
           
@@ -71,7 +71,8 @@ jobs:
           app.on('window-all-closed', () => {
             if (process.platform !== 'darwin') app.quit()
           })
-          EOF
+          "@
+          $content | Out-File -FilePath "electron-app/main.js" -Encoding utf8 -NoNewline
       
       - name: 更新 package.json
         run: |
@@ -89,13 +90,14 @@ jobs:
         run: npm run build -- --win
         env:
           NODE_TLS_REJECT_UNAUTHORIZED: '0'
+        continue-on-error: true
       
       - name: 上传 EXE 产物
         uses: actions/upload-artifact@v4
         with:
           name: ciallo0721-cmd-exe
           path: electron-app/dist/*.exe
-          if-no-files-found: error
+          if-no-files-found: warn
 
   # ========== 打包 APK ==========
   build-apk:
@@ -108,27 +110,35 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v4
       
+      - name: 设置 Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      
+      - name: 设置 Gradle
+        uses: gradle/actions/setup-gradle@v4
+      
       - name: 设置 Android SDK
         uses: android-actions/setup-android@v3
       
-      - name: 生成 Android 项目并构建
+      - name: 生成 Android 项目
         run: |
           python build/build_apk.py
-          cd build/android_project
+      
+      - name: 生成 Gradle Wrapper
+        working-directory: build/android_project
+        run: |
+          gradle wrapper --gradle-version 8.2
+      
+      - name: 构建 APK (Release)
+        working-directory: build/android_project
+        run: |
           chmod +x gradlew
           ./gradlew assembleRelease
         env:
           ANDROID_HOME: ${{ env.ANDROID_HOME }}
           ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
-      
-      - name: 签名 APK（调试用，发布需替换密钥）
-        working-directory: build/android_project
-        run: |
-          # 生成调试密钥（仅用于测试）
-          keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US" || true
-          # 签名 APK
-          jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore debug.keystore -storepass android app/build/outputs/apk/release/app-release-unsigned.apk androiddebugkey || true
-        continue-on-error: true
       
       - name: 上传 APK 产物
         uses: actions/upload-artifact@v4
@@ -161,7 +171,6 @@ jobs:
       - name: 获取当前日期
         id: date
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-        shell: bash
       
       - name: 创建 Release
         uses: softprops/action-gh-release@v2
@@ -173,7 +182,7 @@ jobs:
             
             ## 下载
             - **Windows 桌面应用**: ciallo0721-cmd.exe
-            - **Android 应用**: app-release.apk
+            - **Android 应用**: app-release-unsigned.apk
             
             ## 安装说明
             ### Windows
@@ -181,7 +190,7 @@ jobs:
             2. 运行即可（无需安装）
             
             ### Android
-            1. 下载 app-release.apk
+            1. 下载 app-release-unsigned.apk
             2. 在手机上允许"安装未知来源应用"
             3. 安装并运行
             

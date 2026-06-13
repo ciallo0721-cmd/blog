@@ -202,7 +202,7 @@ include ":app"
     log(f"  ✓ settings.gradle")
 
 def create_gradle_wrapper():
-    """创建 Gradle Wrapper"""
+    """创建 Gradle Wrapper 配置文件（不含 jar，需运行 gradle wrapper 生成）"""
     wrapper_dir = ANDROID_PROJECT / "gradle" / "wrapper"
     wrapper_dir.mkdir(parents=True, exist_ok=True)
     
@@ -215,21 +215,7 @@ zipStorePath=wrapper/dists
 '''
     (wrapper_dir / "gradle-wrapper.properties").write_text(props, encoding="utf-8")
     
-    # gradlew (Unix)
-    gradlew = '''#!/bin/sh
-exec "$(dirname "$0")/gradle/wrapper/gradle-wrapper.jar" "$@"
-'''
-    gradlew_path = ANDROID_PROJECT / "gradlew"
-    gradlew_path.write_text(gradlew, encoding="utf-8")
-    gradlew_path.chmod(0o755)
-    
-    # gradlew.bat (Windows)
-    gradlew_bat = '''@echo off
-java -jar "%~dp0gradle\\wrapper\\gradle-wrapper.jar" %*
-'''
-    (ANDROID_PROJECT / "gradlew.bat").write_text(gradlew_bat, encoding="utf-8")
-    
-    log(f"  ✓ Gradle Wrapper")
+    log(f"  ✓ Gradle Wrapper 配置文件（运行 gradle wrapper 生成完整 wrapper）")
 
 def create_readme():
     """创建 README.md"""
@@ -317,7 +303,7 @@ def main():
     log("下一步：")
     log("  1. 使用 Android Studio 打开该项目")
     log("  2. 点击 Build -> Build APK")
-    log("  3. 或使用命令行: cd android_project && gradlew.bat assembleRelease")
+    log("  3. 或命令行: cd android_project && gradle wrapper --gradle-version 8.2 && ./gradlew assembleRelease")
     log("=" * 60)
 
 if __name__ == "__main__":
