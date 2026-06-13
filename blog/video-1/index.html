@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加密流媒体播放器 · video-1 测试文章 - ciallo0721-cmd</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="../../fanv.ico" type="image/x-icon">
+    <!-- hls.js -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@0.14.17/dist/hls.min.js"></script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+<style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('../../css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --bili-pink: #FB7299;
+    --bili-blue: #00A1D6;
+    --text-primary: #1D1D1F;
+    --text-secondary: #515154;
+    --bg-light: #F5F5F7;
+    --transition: all 0.3s ease;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* ── 导航 ── */
+nav {
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(20px);
+    position: sticky; top: 0; z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.nav-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 20px;
+}
+.nav-logo {
+    font-size: 1.25rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    text-decoration: none;
+}
+.nav-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--text-secondary); text-decoration: none;
+    font-size: 0.9rem; transition: var(--transition);
+}
+.nav-back:hover { color: var(--bili-pink); }
+
+/* ── 文章头 ── */
+.article-header {
+    background: linear-gradient(135deg, rgba(251,114,153,0.12), rgba(0,161,214,0.12));
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    padding: 36px 0 28px;
+}
+.article-header h1 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700;
+    color: var(--text-primary); margin-bottom: 12px; line-height: 1.35;
+}
+.article-meta {
+    display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+    font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 14px;
+}
+.article-meta i { color: var(--bili-pink); }
+.tag-pill {
+    display: inline-block; padding: 3px 12px; border-radius: 20px;
+    background: linear-gradient(135deg, rgba(251,114,153,0.15), rgba(0,161,214,0.15));
+    color: var(--bili-blue); font-size: 0.8rem; font-weight: 600; margin-right: 6px;
+    border: 1px solid rgba(0,161,214,0.2);
+}
+.test-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(255,160,0,0.12); color: #d97706;
+    border: 1px solid rgba(217,119,6,0.25);
+    border-radius: 20px; padding: 3px 12px; font-size: 0.8rem; font-weight: 600;
+}
+
+/* ── 正文区 ── */
+.article-body { padding: 30px 0 60px; }
+
+/* ── 视频播放器 ── */
+.video-player-wrap {
+    background: white; border-radius: 16px; box-shadow: var(--shadow);
+    border: 1px solid rgba(0,0,0,0.06); overflow: hidden;
+    margin: 0 0 24px;
+}
+.video-toolbar {
+    background: linear-gradient(135deg, rgba(251,114,153,0.08), rgba(0,161,214,0.08));
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+}
+
+.video-url-row { display: flex; flex: 1; gap: 8px; min-width: 0; }
+.video-url-input {
+    flex: 1; border: 1px solid rgba(0,0,0,0.15); border-radius: 20px;
+    padding: 7px 14px; font-size: 0.85rem; outline: none; transition: border-color 0.2s;
+    min-width: 0; font-family: inherit;
+}
+.video-url-input:focus { border-color: var(--bili-blue); }
+.video-url-btn {
+    background: rgba(0,161,214,0.1); border: 1px solid rgba(0,161,214,0.3);
+    color: var(--bili-blue); border-radius: 20px; padding: 7px 14px;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); white-space: nowrap;
+}
+.video-url-btn:hover { background: var(--bili-blue); color: white; }
+
+/* ── 播放器主体 ── */
+.video-view-area {
+    background: #111;
+    width: 100%;
+    position: relative;
+}
+.video-view-area video {
+    display: block;
+    width: 100%;
+    max-height: 70vh;
+    background: #000;
+}
+.video-placeholder {
+    text-align: center; color: #888; font-size: 1rem;
+    user-select: none; padding: 100px 20px; width: 100%;
+}
+.video-placeholder i { font-size: 3.5rem; margin-bottom: 16px; display: block; opacity: 0.5; }
+.video-loading {
+    text-align: center; color: #4FC3F7; font-size: 0.95rem;
+    display: none;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.75); border-radius: 12px; padding: 16px 24px; z-index: 5;
+}
+.video-loading i { animation: spin 1s linear infinite; display: inline-block; margin-right: 8px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.video-status-bar {
+    background: rgba(0,0,0,0.03); border-top: 1px solid rgba(0,0,0,0.06);
+    padding: 7px 16px; font-size: 0.8rem; color: var(--text-secondary);
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 12px; flex-wrap: wrap;
+}
+.video-err { color: #c9190b; }
+.video-info { color: var(--bili-blue); }
+.video-meta-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(0,161,214,0.08); color: var(--bili-blue);
+    border-radius: 10px; padding: 2px 8px; font-size: 0.78rem;
+}
+
+/* ── 加密流媒体信息卡 ── */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+}
+.info-card {
+    background: white; border-radius: 14px; box-shadow: var(--shadow);
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 20px;
+}
+.info-card h3 {
+    font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--bili-blue);
+    display: flex; align-items: center; gap: 8px;
+}
+.info-card h3 i { color: var(--bili-pink); }
+.info-card ul { list-style: none; padding: 0; }
+.info-card ul li {
+    padding: 5px 0; font-size: 0.9rem; color: var(--text-secondary);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.info-card ul li:last-child { border-bottom: none; }
+.info-card ul li code {
+    background: rgba(0,161,214,0.08); padding: 1px 6px;
+    border-radius: 4px; font-size: 0.82rem; color: var(--bili-blue);
+}
+code.block {
+    display: block; background: #f8f9fa; padding: 10px 14px;
+    border-radius: 8px; font-size: 0.78rem; color: var(--text-secondary);
+    margin: 8px 0; word-break: break-all; border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* ── 底部 ── */
+footer {
+    background: rgba(255,255,255,0.9);
+    border-top: 1px solid rgba(0,0,0,0.07);
+    padding: 24px 0; text-align: center;
+    font-size: 0.85rem; color: var(--text-secondary);
+}
+footer a { color: var(--bili-blue); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+@media (max-width: 640px) {
+    .video-url-row { flex-basis: 100%; }
+    .article-header h1 { font-size: 1.4rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav>
+    <div class="nav-inner container">
+        <a href="../../index.html" class="nav-logo">ciallo0721-cmd</a>
+        <a href="../../wz.html" class="nav-back"><i class="fas fa-arrow-left"></i> 文章列表</a>
+    </div>
+</nav>
+
+<!-- 文章头 -->
+<div class="article-header">
+    <div class="container">
+        <h1><i class="fas fa-video" style="color:var(--bili-pink);margin-right:8px;"></i>加密流媒体播放器 · video-1 测试</h1>
+        <div class="article-meta">
+            <span><i class="fas fa-calendar-alt"></i> 2026-06-13</span>
+            <span><i class="fas fa-user"></i> ciallo0721-cmd</span>
+            <span><i class="fas fa-shield-alt"></i> HLS 加密流媒体 (AES-128)</span>
+        </div>
+        <div>
+            <span class="tag-pill">流媒体</span>
+            <span class="tag-pill">HLS</span>
+            <span class="tag-pill">m3u8</span>
+            <span class="tag-pill">加密视频</span>
+            <span class="test-badge"><i class="fas fa-flask"></i> 测试文章（仅限直链访问）</span>
+        </div>
+    </div>
+</div>
+
+<!-- 文章正文 -->
+<div class="article-body">
+    <div class="container">
+
+        <!-- 视频播放器 -->
+        <div class="video-player-wrap">
+            <!-- 工具栏 -->
+            <div class="video-toolbar">
+                <div class="video-url-row">
+                    <input type="text" class="video-url-input" id="hlsUrlInput"
+                           placeholder="粘贴 .m3u8 流媒体 URL 加载...">
+                    <button class="video-url-btn" id="loadUrlBtn"><i class="fas fa-play"></i> 加载</button>
+                </div>
+            </div>
+
+            <!-- 播放区域 -->
+            <div class="video-view-area" id="videoViewArea">
+                <div class="video-placeholder" id="videoPlaceholder">
+                    <i class="fas fa-film"></i>
+                    <p>正在自动加载本地 ./1.m3u8 流媒体...</p>
+                    <p style="font-size:0.85rem;color:#666;margin-top:8px;">
+                        支持 HLS (AES-128) · .ts / .m3u8
+                    </p>
+                </div>
+                <div class="video-loading" id="videoLoading">
+                    <i class="fas fa-circle-notch"></i> 加载流媒体中...
+                </div>
+                <video id="hlsVideo"
+                       controls
+                       preload="auto"
+                       playsinline
+                       style="display:none;"
+                       crossorigin="anonymous">
+                </video>
+            </div>
+
+            <!-- 状态栏 -->
+            <div class="video-status-bar">
+                <span id="streamInfo">未加载流</span>
+                <span id="streamErr" class="video-err"></span>
+            </div>
+        </div>
+
+        <!-- 加密流媒体信息 -->
+        <div class="info-grid">
+            <div class="info-card">
+                <h3><i class="fas fa-lock"></i> 加密方式</h3>
+                <ul>
+                    <li><strong>AES-128</strong> — 央视标准加密</li>
+                    <li>每个 .ts 分片独立加密</li>
+                    <li>密钥通过 <code>#EXT-X-KEY</code> 标签分发</li>
+                    <li>支持 <code>METHOD=AES-128</code> / <code>SAMPLE-AES</code></li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3><i class="fas fa-th-list"></i> 分片结构</h3>
+                <ul>
+                    <li>主播放列表：<code>index.m3u8</code></li>
+                    <li>视频分片：<code>segment_001.ts</code></li>
+                    <li>典型分片时长：2~10 秒</li>
+                    <li>多码率自适应：<code>RESOLUTION=1920x1080</code></li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3><i class="fas fa-bolt"></i> 技术要点</h3>
+                <ul>
+                    <li>基于 hls.js 在浏览器解码</li>
+                    <li>支持 <code>CORS</code> 跨域加载</li>
+                    <li>需要服务端设置 <code>Access-Control-Allow-Origin</code></li>
+                    <li>部分加密流需额外密钥请求处理</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3><i class="fas fa-code"></i> 本地 1.m3u8</h3>
+                <code class="block">./1.m3u8</code>
+                <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:4px;">
+                    将 mp4 用批处理脚本转换后，把生成的 .m3u8 和 .ts 放到本目录
+                </p>
+            </div>
+        </div>
+
+        <div class="article-content" style="padding:10px 0 20px;">
+            <h3>📺 关于 HLS 加密流媒体</h3>
+            <p>
+                HLS (HTTP Live Streaming) 是 Apple 提出的流媒体协议，
+                被广泛应用于直播和点播场景。<strong>央视网、各大视频平台</strong>均使用 HLS + AES-128 加密方案。
+            </p>
+            <p style="margin-top:8px;">
+                加密流程：视频 → 分割为 .ts 分片 → AES-128 加密每个分片 →
+                生成 .m3u8 播放列表（含密钥信息）→ 客户端请求密钥并动态解密播放。
+            </p>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:12px;">
+                💡 <strong>提示</strong>：使用配套的 mp4_to_hls.bat 把视频转成 .ts/.m3u8 放到本目录，
+                浏览器会自动加载 ./1.m3u8 喵～
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+    <div class="container">
+        <p>&copy; 2026 ciallo0721-cmd &nbsp;&middot;&nbsp;
+           <a href="../../index.html">主页</a> &nbsp;&middot;&nbsp;
+           <a href="../../wz.html">文章</a>
+        </p>
+    </div>
+</footer>
+
+<script>
+(function () {
+    'use strict';
+
+    var video     = document.getElementById('hlsVideo');
+    var urlInput  = document.getElementById('hlsUrlInput');
+    var loadBtn   = document.getElementById('loadUrlBtn');
+    var errEl     = document.getElementById('streamErr');
+    var infoEl    = document.getElementById('streamInfo');
+    var loadingEl = document.getElementById('videoLoading');
+    var placeEl   = document.getElementById('videoPlaceholder');
+    var hlsInstance = null;
+
+    function $(id) { return document.getElementById(id); }
+    function setErr(msg) { errEl.textContent = msg || ''; }
+    function setInfo(msg) { infoEl.textContent = msg || ''; }
+
+    function loadStream(url) {
+        setErr('');
+        loadingEl.style.display = 'block';
+        placeEl.style.display = 'none';
+        video.style.display = 'none';
+
+        // 销毁之前的 hls 实例
+        if (hlsInstance) {
+            hlsInstance.destroy();
+            hlsInstance = null;
+        }
+
+        // 检查是否是 m3u8
+        var isM3u8 = url.toLowerCase().includes('.m3u8');
+
+        if (isM3u8 && Hls.isSupported()) {
+            // HLS 流 — 使用 hls.js
+            hlsInstance = new Hls({
+                enableWorker: true,
+                lowLatencyMode: false,
+                fragLoadingTimeOut: 30000,
+                manifestLoadingTimeOut: 30000
+            });
+            hlsInstance.loadSource(url);
+            hlsInstance.attachMedia(video);
+
+            hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.style.display = 'block';
+                loadingEl.style.display = 'none';
+                video.play().catch(function(){});
+                var levels = hlsInstance.levels;
+                if (levels && levels.length > 0) {
+                    var l = levels[hlsInstance.currentLevel > -1 ? hlsInstance.currentLevel : 0];
+                    setInfo('HLS | ' + (l.width||'?')+'x'+(l.height||'?')+' | ' + levels.length + ' 码率');
+                } else {
+                    setInfo('HLS 流媒体');
+                }
+            });
+
+            hlsInstance.on(Hls.Events.ERROR, function(event, data) {
+                if (data.fatal) {
+                    setErr('播放错误: ' + (data.type || '') + ' - ' + (data.details || ''));
+                    loadingEl.style.display = 'none';
+                    video.style.display = 'block';
+                }
+            });
+
+            setInfo('正在加载 HLS 流...');
+        } else if (isM3u8 && !Hls.isSupported()) {
+            // 不支持 hls.js 但浏览器原生可能支持
+            if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                video.style.display = 'block';
+                loadingEl.style.display = 'none';
+                video.play().catch(function(){});
+                setInfo('原生 HLS (Safari)');
+            } else {
+                setErr('当前浏览器不支持 HLS 播放');
+                loadingEl.style.display = 'none';
+                placeEl.style.display = 'block';
+            }
+        } else {
+            // 普通 MP4 等直接播放
+            video.src = url;
+            video.style.display = 'block';
+            loadingEl.style.display = 'none';
+            video.play().catch(function(){});
+            setInfo('直接播放 (非 HLS)');
+        }
+    }
+
+    // 加载按钮
+    loadBtn.addEventListener('click', function() {
+        var url = urlInput.value.trim();
+        if (!url) return;
+        loadStream(url);
+    });
+    urlInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') loadBtn.click();
+    });
+
+
+    video.addEventListener('error', function() {
+        var err = video.error;
+        if (err) {
+            setErr('媒体错误: ' + (err.message || 'Code ' + err.code));
+        }
+    });
+
+    // 拖拽支持
+    video.addEventListener('loadedmetadata', function() {
+        loadingEl.style.display = 'none';
+        video.style.display = 'block';
+    });
+
+    // 自动加载本地 ./1.m3u8
+    urlInput.value = './1.m3u8';
+
+    // 检测 file:// 协议
+    if (window.location.protocol === 'file:') {
+        placeEl.innerHTML = ''
+            + '<i class="fas fa-exclamation-triangle" style="color:#f59e0b;"></i>'
+            + '<p style="color:#f59e0b;font-weight:600;">file:// 协议下无法加载本地流文件</p>'
+            + '<p style="font-size:0.85rem;color:#999;margin-top:8px;">'
+            + '请运行 serve.bat 启动本地服务器：</p>'
+            + '<code style="display:block;background:#222;color:#4ade80;padding:10px 16px;'
+            + 'border-radius:8px;margin:12px auto;max-width:500px;font-size:0.82rem;">'
+            + 'cd blog\\video-1 &amp;&amp; serve.bat</code>'
+            + '<p style="font-size:0.85rem;color:#999;">'
+            + '然后访问 <a href="http://localhost:8000/blog/video-1/index.html" '
+            + 'style="color:#60a5fa;">http://localhost:8000/blog/video-1/index.html</a></p>';
+        loadingEl.style.display = 'none';
+    } else {
+        loadStream('./1.m3u8');
+    }
+})();
+</script>
+</body>
+</html>

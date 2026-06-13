@@ -151,7 +151,13 @@
 - 使用 SheetJS (xlsx.js) 库在浏览器端解析
 - 已放弃，改回原生 JS 格式
 
-## 百科系统 `/wiki/`（2026-06-10）
+## Wiki 系统改造（2026-06-13）
+- **新架构**：每个词条一个独立文件夹 `wiki/{term-id}/index.html`（类似 blog 系统）
+- **页面生成**：用 Node.js 脚本从 `wiki-data.js` 自动生成，已清理生成脚本
+- **词条数**：13 个词条 + 2 个角色，共 15 个独立页面
+- **新增词条**：dashichang（大市唱）、vtuber（VTuber）、tongshiting（同视听收录）、zhihurili（2026直播日历）、taffywiki（永雏塔菲百科）
+- **Wiki 首页**：MediaWiki 风格界面 + Citizen 皮肤 CSS，支持分类筛选/搜索/词条-角色切换
+- **引用页面**：来源于 acetaffy.org 的三篇 MediaWiki 页面已添加为词条内容参考
 - **核心文件**：
   - `wiki-data.js`：百科词条数据源，含 16 个初始词条（技术/文化/人物/工具/概念/作品/作品分类）
   - `css/wiki-linker.js`：文章自动链接脚本，扫描 .article-content 自动将匹配词条包装为 📖 下划线链接

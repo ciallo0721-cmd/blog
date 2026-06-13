@@ -175,9 +175,21 @@
     // ====== 核心逻辑 ======
 
     function initWikiLinker() {
-        // 检查 wikiData 是否存在
-        if (!window.wikiData || !window.wikiData.getAllKeywords) {
-            log('wikiData 未加载，跳过百科链接注入');
+        // 检查 wikiData 是否已就绪
+        if (!window.wikiData || !window.wikiData.isReady || !window.wikiData.isReady()) {
+            log('wikiData 尚未就绪，等待加载...');
+            // 监听就绪事件
+            var waitHandler = function() {
+                document.removeEventListener('wikidata:ready', waitHandler);
+                initWikiLinker();
+            };
+            document.addEventListener('wikidata:ready', waitHandler);
+            // 也试试 ready callback
+            if (window.wikiDataReady) {
+                window.wikiDataReady(function() {
+                    initWikiLinker();
+                });
+            }
             return;
         }
 

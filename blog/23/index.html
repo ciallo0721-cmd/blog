@@ -506,6 +506,69 @@
             margin-top: 100px;
         }
 
+        /* 推荐文章区域 */
+        .related-articles {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .related-title {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .related-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .related-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--bili-blue);
+        }
+
+        .related-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .related-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .related-tag {
+            background: rgba(251, 114, 153, 0.1);
+            color: var(--bili-pink);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
         .share-btn-fixed {
             background: linear-gradient(135deg,
                                         var(--bili-pink),
@@ -1045,6 +1108,14 @@
                 </div>
             </div>
         </article>
+
+        <!-- 推荐文章 -->
+        <div class="related-articles" id="relatedArticles">
+            <h3 class="related-title">📚 推荐文章</h3>
+            <div class="related-grid" id="relatedGrid">
+                <!-- 将通过JavaScript动态生成 -->
+            </div>
+        </div>
     </main>
 
     <footer>
@@ -1257,6 +1328,32 @@
                 }
             }
         })();
+
+        // 推荐文章
+        function initRelatedArticles(articleId) {
+            var grid = document.getElementById('relatedGrid');
+            if (!grid) return;
+            var data = window.articlesData;
+            if (!data || !data.getFeaturedArticles) return;
+            var related = data.getFeaturedArticles(articleId, 3);
+            grid.innerHTML = '';
+            if (related && related.length > 0) {
+                related.forEach(function(article) {
+                    var card = document.createElement('a');
+                    card.href = '/blog/' + article.fileName + '?blog=' + article.id;
+                    card.className = 'related-card';
+                    var tagsHtml = '';
+                    var tags = article.tags || [];
+                    for (var i = 0; i < Math.min(tags.length, 3); i++) {
+                        tagsHtml += '<span class="related-tag">' + tags[i] + '</span>';
+                    }
+                    card.innerHTML = '<h4>' + article.title + '</h4><p>' + article.excerpt + '</p><div class="related-tags">' + tagsHtml + '</div>';
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        initRelatedArticles(23);
     </script>
 </body>
 </html>
