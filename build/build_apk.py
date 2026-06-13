@@ -137,7 +137,7 @@ def create_strings():
 def create_build_gradle():
     """创建 app/build.gradle"""
     gradle = '''plugins {
-    id "com.android.application" version "8.2.0"
+    id "com.android.application"
 }
 
 android {
@@ -168,6 +168,30 @@ dependencies {
     gradle_path.parent.mkdir(parents=True, exist_ok=True)
     gradle_path.write_text(gradle, encoding="utf-8")
     log(f"  ✓ app/build.gradle")
+
+def create_gradle_properties():
+    """创建 gradle.properties（AndroidX 等配置）"""
+    props = '''# AndroidX
+android.useAndroidX=true
+android.enableJetifier=true
+
+# Gradle
+org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+org.gradle.parallel=true
+'''
+    props_path = ANDROID_PROJECT / "gradle.properties"
+    props_path.write_text(props, encoding="utf-8")
+    log(f"  ✓ gradle.properties")
+
+def create_app_gradle_properties():
+    """创建 app/gradle.properties"""
+    props = '''# AndroidX
+android.useAndroidX=true
+'''
+    props_path = ANDROID_PROJECT / "app" / "gradle.properties"
+    props_path.parent.mkdir(parents=True, exist_ok=True)
+    props_path.write_text(props, encoding="utf-8")
+    log(f"  ✓ app/gradle.properties")
 
 def create_project_build_gradle():
     """创建项目根目录的 build.gradle"""
@@ -290,6 +314,8 @@ def main():
     # 生成各文件
     create_settings_gradle()
     create_project_build_gradle()
+    create_gradle_properties()
+    create_app_gradle_properties()
     create_build_gradle()
     create_android_manifest()
     create_main_activity()
