@@ -25,9 +25,7 @@ def create_android_manifest():
     
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         
         <activity
@@ -133,6 +131,48 @@ def create_strings():
     strings_path.parent.mkdir(parents=True, exist_ok=True)
     strings_path.write_text(strings, encoding="utf-8")
     log(f"  ✓ strings.xml")
+
+def create_styles():
+    """创建 styles.xml"""
+    styles = '''<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimary">#667eea</item>
+        <item name="android:colorPrimaryDark">#764ba2</item>
+        <item name="android:colorAccent">#667eea</item>
+    </style>
+</resources>
+'''
+    styles_path = ANDROID_PROJECT / "app" / "src" / "main" / "res" / "values" / "styles.xml"
+    styles_path.parent.mkdir(parents=True, exist_ok=True)
+    styles_path.write_text(styles, encoding="utf-8")
+    log(f"  ✓ styles.xml")
+
+def create_ic_launcher():
+    """创建占位启动图标（纯色 PNG，用 base64 嵌入）"""
+    # 最小可用图标：1x1 像素 PNG（系统会缩放）
+    # 实际发布时需要替换成正式图标
+    ic_launcher_dir = ANDROID_PROJECT / "app" / "src" / "main" / "res" / "mipmap-anydpi-v26"
+    ic_launcher_dir.mkdir(parents=True, exist_ok=True)
+    
+    # 创建简单的 ic_launcher.xml（矢量图标占位）
+    ic_xml = '''<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:pathData="M0,0h108v108H0"
+        android:fil="#667eea"/>
+    <path
+        android:pathData="M54,24a30,30 0 1,1 0,60a30,30 0 1,1 0,-60"
+        android:fil="#ffffff"/>
+</vector>
+'''
+    (ic_launcher_dir / "ic_launcher.xml").write_text(ic_xml, encoding="utf-8")
+    (ic_launcher_dir / "ic_launcher_round.xml").write_text(ic_xml, encoding="utf-8")
+    log(f"  ✓ ic_launcher.xml (占位图标）")
 
 def create_build_gradle():
     """创建 app/build.gradle"""
@@ -321,6 +361,8 @@ def main():
     create_main_activity()
     create_layout()
     create_strings()
+    create_styles()
+    create_ic_launcher()
     create_gradle_wrapper()
     create_readme()
     
