@@ -137,7 +137,7 @@ def create_strings():
 def create_build_gradle():
     """创建 app/build.gradle"""
     gradle = '''plugins {
-    id "com.android.application"
+    id "com.android.application" version "8.2.0"
 }
 
 android {
@@ -177,12 +177,15 @@ def create_project_build_gradle():
     path.write_text(content, encoding="utf-8")
 
 def create_settings_gradle():
-    """创建 settings.gradle"""
+    """创建 settings.gradle（含 Android Gradle Plugin 版本）"""
     content = '''pluginManagement {
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
+    }
+    plugins {
+        id "com.android.application" version "8.2.0"
     }
 }
 

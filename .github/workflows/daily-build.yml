@@ -77,13 +77,13 @@ jobs:
       - name: 更新 package.json
         run: |
           cd electron-app
-          npm set-script start "electron ."
-          npm set-script build "electron-builder"
-          npm pkg set main "main.js"
-          npm pkg set build.appId "com.ciallo0721cmd.website"
-          npm pkg set build.productName "ciallo0721-cmd"
-          npm pkg set build.directories.output "dist"
-          npm pkg set build.win.target "nsis"
+          npm pkg set scripts.start="electron ."
+          npm pkg set scripts.build="electron-builder"
+          npm pkg set main="main.js"
+          npm pkg set build.appId="com.ciallo0721cmd.website"
+          npm pkg set build.productName="ciallo0721-cmd"
+          npm pkg set build.directories.output="dist"
+          npm pkg set build.win.target="nsis"
       
       - name: 打包 EXE
         working-directory: electron-app
@@ -118,6 +118,8 @@ jobs:
       
       - name: 设置 Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.2'
       
       - name: 设置 Android SDK
         uses: android-actions/setup-android@v3
@@ -126,16 +128,9 @@ jobs:
         run: |
           python build/build_apk.py
       
-      - name: 生成 Gradle Wrapper
-        working-directory: build/android_project
-        run: |
-          gradle wrapper --gradle-version 8.2
-      
       - name: 构建 APK (Release)
         working-directory: build/android_project
-        run: |
-          chmod +x gradlew
-          ./gradlew assembleRelease
+        run: gradle assembleRelease
         env:
           ANDROID_HOME: ${{ env.ANDROID_HOME }}
           ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
