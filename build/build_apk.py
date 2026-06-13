@@ -164,10 +164,10 @@ def create_ic_launcher():
     android:viewportHeight="108">
     <path
         android:pathData="M0,0h108v108H0"
-        android:fil="#667eea"/>
+        android:fillColor="#667eea"/>
     <path
         android:pathData="M54,24a30,30 0 1,1 0,60a30,30 0 1,1 0,-60"
-        android:fil="#ffffff"/>
+        android:fillColor="#ffffff"/>
 </vector>
 '''
     (ic_launcher_dir / "ic_launcher.xml").write_text(ic_xml, encoding="utf-8")
