@@ -1,0 +1,32 @@
+{
+  "name": "ciallo0721-cmd-website",
+  "version": "1.0.0",
+  "description": "ciallo0721-cmd 个人网站桌面应用",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "^36.4.0",
+    "electron-builder": "^26.2.2"
+  },
+  "build": {
+    "appId": "com.ciallo0721cmd.website",
+    "productName": "ciallo0721-cmd",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "../../fanv.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
