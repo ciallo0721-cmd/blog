@@ -93,7 +93,14 @@
             // 播放/暂停
             function togglePlay() {
                 if (video.paused) {
-                    video.play();
+                    var p = video.play();
+                    if (p !== undefined) {
+                        p.catch(function(err) {
+                            // AbortError 由用户主动暂停引起，静默忽略
+                            if (err.name === 'AbortError') return;
+                            console.error('[MediaViewer] 播放失败:', err);
+                        });
+                    }
                     player.classList.add('playing');
                     if (playPauseBtn) playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
                 } else {
@@ -215,6 +222,80 @@
                 if (playPauseBtn) playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
                 if (poster) poster.style.display = 'flex';
             });
+
+            // 网络状态监听、断网提示与自动恢复
+            (function() {
+                var retryCount = 0;
+                var maxRetries = 3;
+                var baseDelay = 1000;
+                var maxDelay = 30000;
+                var retryTimer = null;
+                var isDisconnected = false;
+
+                var netOverlay = player.querySelector('.mv-network-disconnected');
+                if (!netOverlay) {
+                    netOverlay = document.createElement('div');
+                    netOverlay.className = 'mv-network-disconnected';
+                    netOverlay.innerHTML = '<i class="fas fa-wifi-slash"></i> 网络已断开，请检查连接';
+                    player.appendChild(netOverlay);
+                }
+
+                function showDisconnected() {
+                    isDisconnected = true;
+                    netOverlay.style.display = 'flex';
+                    video.pause();
+                }
+
+                function hideDisconnected() {
+                    isDisconnected = false;
+                    netOverlay.style.display = 'none';
+                    retryCount = 0;
+                }
+
+                window.addEventListener('online', function() {
+                    if (isDisconnected) {
+                        console.log('[MediaViewer] 网络已恢复，重新加载视频');
+                        hideDisconnected();
+                        video.load();
+                        video.play().catch(function(){});
+                    }
+                });
+
+                window.addEventListener('offline', function() {
+                    if (!navigator.onLine) {
+                        showDisconnected();
+                    }
+                });
+
+                video.addEventListener('error', function() {
+                    if (!navigator.onLine) {
+                        showDisconnected();
+                        return;
+                    }
+                    var mediaError = video.error;
+                    var isNetworkError = mediaError && (
+                        mediaError.code === MediaError.MEDIA_ERR_NETWORK ||
+                        (mediaError.message && mediaError.message.indexOf('Network') >= 0) ||
+                        (mediaError.message && mediaError.message.indexOf('ERR_INTERNET_DISCONNECTED') >= 0)
+                    );
+                    if (isNetworkError) {
+                        if (retryCount < maxRetries) {
+                            var delay = Math.min(baseDelay * Math.pow(2, retryCount), maxDelay);
+                            retryCount++;
+                            console.log('[MediaViewer] 网络错误，第 ' + retryCount + '/' + maxRetries + ' 次重试，等待 ' + delay + 'ms');
+                            clearTimeout(retryTimer);
+                            retryTimer = setTimeout(function() { video.load(); }, delay);
+                        } else {
+                            console.error('[MediaViewer] 重试次数已达上限');
+                            retryCount = 0;
+                            var evt = new CustomEvent('playererror', {
+                                detail: { type: 'network', message: '视频加载失败，请稍后重试' }
+                            });
+                            player.dispatchEvent(evt);
+                        }
+                    }
+                });
+            })();
             
             // 初始化音量
             video.volume = 0.7;

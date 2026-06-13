@@ -155,6 +155,30 @@ footer {
 }
 footer a { color: var(--bili-blue); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
+
+/* HLS 网络断开覆盖层 */
+.hls-network-disconnected {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    font-size: 1rem;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+.hls-network-disconnected i {
+    font-size: 2.5rem;
+    color: #f59e0b;
+    margin-bottom: 4px;
+}
 </style>
 </head>
 <body>
@@ -309,13 +333,93 @@ footer a:hover { text-decoration: underline; }
             hls.loadSource(src);
             hls.attachMedia(video);
 
+            // 网络状态与重试
+            var hlsRetryCount = 0;
+            var hlsMaxRetries = 3;
+            var hlsBaseDelay = 1000;
+            var hlsMaxDelay = 30000;
+            var hlsRetryTimer = null;
+            var hlsDisconnected = false;
+
+            // 创建断网提示覆盖层
+            var hlsNetOverlay = container.querySelector('.hls-network-disconnected');
+            if (!hlsNetOverlay) {
+                hlsNetOverlay = document.createElement('div');
+                hlsNetOverlay.className = 'hls-network-disconnected';
+                hlsNetOverlay.innerHTML = '<i class="fas fa-wifi-slash"></i> 网络已断开，请检查连接';
+                container.style.position = 'relative';
+                container.appendChild(hlsNetOverlay);
+            }
+
+            function hlsShowDisconnected() {
+                hlsDisconnected = true;
+                hlsNetOverlay.style.display = 'flex';
+                video.pause();
+            }
+
+            function hlsHideDisconnected() {
+                hlsDisconnected = false;
+                hlsNetOverlay.style.display = 'none';
+                hlsRetryCount = 0;
+            }
+
+            window.addEventListener('online', function() {
+                if (hlsDisconnected) {
+                    console.log('[HLS] 网络已恢复，重新加载 m3u8');
+                    hlsHideDisconnected();
+                    hls.loadSource(src);
+                    hls.startLoad();
+                    video.play().catch(function(){});
+                }
+            });
+
+            window.addEventListener('offline', function() {
+                if (!navigator.onLine) {
+                    hlsShowDisconnected();
+                }
+            });
+
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play().catch(function(){});
+                video.play().catch(function(err) {
+                    // AbortError 由用户主动暂停引起，静默忽略
+                    if (err.name === 'AbortError') return;
+                    console.error('[HLS] play failed:', err);
+                });
             });
 
             hls.on(Hls.Events.ERROR, function(event, data) {
                 if (data.fatal) {
-                    console.error('[video-1] HLS error:', data.type, data.details);
+                    if (!navigator.onLine) {
+                        hlsShowDisconnected();
+                        return;
+                    }
+
+                    var isNetworkError = data.type === Hls.ErrorTypes.NETWORK_ERROR;
+                    var detailStr = data.details || '';
+
+                    if (isNetworkError || detailStr.indexOf('ERR_INTERNET_DISCONNECTED') >= 0) {
+                        if (hlsRetryCount < hlsMaxRetries) {
+                            var delay = Math.min(
+                                hlsBaseDelay * Math.pow(2, hlsRetryCount),
+                                hlsMaxDelay
+                            );
+                            hlsRetryCount++;
+                            console.log('[HLS] 网络错误，第 ' + hlsRetryCount + '/' + hlsMaxRetries + ' 次重试，等待 ' + delay + 'ms');
+                            clearTimeout(hlsRetryTimer);
+                            hlsRetryTimer = setTimeout(function() {
+                                hls.startLoad();
+                            }, delay);
+                        } else {
+                            console.error('[HLS] 重试次数已达上限');
+                            hlsRetryCount = 0;
+                            var evt = new CustomEvent('playererror', {
+                                detail: { type: 'network', message: '视频加载失败，请稍后重试' }
+                            });
+                            container.dispatchEvent(evt);
+                        }
+                    } else {
+                        console.error('[HLS] fatal error:', data.type, data.details);
+                    }
                 }
             });
         } else if (src.toLowerCase().includes('.m3u8') && video.canPlayType('application/vnd.apple.mpegurl')) {

@@ -64,7 +64,14 @@
         function togglePlay(e) {
             if (e) e.stopPropagation();
             if (video.paused) {
-                video.play();
+                var p = video.play();
+                if (p !== undefined) {
+                    p.catch(function(err) {
+                        // AbortError 由用户主动暂停引起，静默忽略
+                        if (err.name === 'AbortError') return;
+                        console.error('[VID-PLAY] Play failed:', err);
+                    });
+                }
                 container.classList.add('playing');
                 if (playPauseBtn) playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
                 if (playBtn) playBtn.style.display = 'none';
@@ -190,6 +197,80 @@
                 }
             } catch(e) {}
         }
+
+        // ==== 网络状态监听、断网提示与自动恢复 ====
+        (function() {
+            var retryCount = 0;
+            var maxRetries = 3;
+            var baseDelay = 1000;
+            var maxDelay = 30000;
+            var retryTimer = null;
+            var isDisconnected = false;
+
+            var netOverlay = container.querySelector('.vp-network-disconnected');
+            if (!netOverlay) {
+                netOverlay = document.createElement('div');
+                netOverlay.className = 'vp-network-disconnected';
+                netOverlay.innerHTML = '<i class="fas fa-wifi-slash"></i> 网络已断开，请检查连接';
+                container.appendChild(netOverlay);
+            }
+
+            function showDisconnected() {
+                isDisconnected = true;
+                netOverlay.style.display = 'flex';
+                video.pause();
+            }
+
+            function hideDisconnected() {
+                isDisconnected = false;
+                netOverlay.style.display = 'none';
+                retryCount = 0;
+            }
+
+            window.addEventListener('online', function() {
+                if (isDisconnected) {
+                    console.log('[VID-NET] 网络已恢复，重新加载视频');
+                    hideDisconnected();
+                    video.load();
+                    video.play().catch(function(){});
+                }
+            });
+
+            window.addEventListener('offline', function() {
+                if (!navigator.onLine) {
+                    showDisconnected();
+                }
+            });
+
+            video.addEventListener('error', function() {
+                if (!navigator.onLine) {
+                    showDisconnected();
+                    return;
+                }
+                var mediaError = video.error;
+                var isNetworkError = mediaError && (
+                    mediaError.code === MediaError.MEDIA_ERR_NETWORK ||
+                    (mediaError.message && mediaError.message.indexOf('Network') >= 0) ||
+                    (mediaError.message && mediaError.message.indexOf('ERR_INTERNET_DISCONNECTED') >= 0)
+                );
+                if (isNetworkError) {
+                    if (retryCount < maxRetries) {
+                        var delay = Math.min(baseDelay * Math.pow(2, retryCount), maxDelay);
+                        retryCount++;
+                        console.log('[VID-NET] 网络错误，第 ' + retryCount + '/' + maxRetries + ' 次重试，等待 ' + delay + 'ms');
+                        clearTimeout(retryTimer);
+                        retryTimer = setTimeout(function() { video.load(); }, delay);
+                    } else {
+                        console.error('[VID-NET] 重试次数已达上限');
+                        retryCount = 0;
+                        var evt = new CustomEvent('playererror', {
+                            detail: { type: 'network', message: '视频加载失败，请稍后重试' }
+                        });
+                        container.dispatchEvent(evt);
+                    }
+                }
+            });
+        })();
     }
 
     function initAll() {

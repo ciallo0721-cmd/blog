@@ -337,3 +337,28 @@
         display: none;
     }
 }
+
+/* 断网提示覆盖层 */
+.mv-network-disconnected {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    font-size: 1rem;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.mv-network-disconnected i {
+    font-size: 2.5rem;
+    color: #f59e0b;
+    margin-bottom: 4px;
+}

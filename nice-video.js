@@ -90,6 +90,8 @@
                         container.classList.add('controls-visible');
                         updatePlayPauseBtn();
                     }).catch(err => {
+                        // AbortError 由用户主动暂停引起，静默忽略
+                        if (err.name === 'AbortError') return;
                         console.error('[NiceVideo] 播放失败:', err);
                     });
                 }
@@ -352,6 +354,88 @@
         video.addEventListener('dblclick', function(e) {
             e.preventDefault();
             toggleFullscreen(e);
+        });
+
+        // ===== 网络状态监听、断网提示与自动恢复 =====
+        var _retryCount = 0;
+        var _maxRetries = 3;
+        var _baseDelay = 1000;
+        var _maxDelay = 30000;
+        var _retryTimer = null;
+        var _isDisconnected = false;
+
+        // 创建断网提示覆盖层
+        var _netOverlay = container.querySelector('.nv-network-disconnected');
+        if (!_netOverlay) {
+            _netOverlay = document.createElement('div');
+            _netOverlay.className = 'nv-network-disconnected';
+            _netOverlay.innerHTML = '<i class="fas fa-wifi-slash"></i> 网络已断开，请检查连接';
+            container.appendChild(_netOverlay);
+        }
+
+        function _showDisconnected() {
+            _isDisconnected = true;
+            _netOverlay.style.display = 'flex';
+            video.pause();
+        }
+
+        function _hideDisconnected() {
+            _isDisconnected = false;
+            _netOverlay.style.display = 'none';
+            _retryCount = 0;
+        }
+
+        // 断网恢复监听
+        window.addEventListener('online', function _onOnline() {
+            if (_isDisconnected) {
+                console.log('[NiceVideo] 网络已恢复，重新加载视频');
+                _hideDisconnected();
+                video.load();
+                video.play().catch(function() {});
+            }
+        });
+
+        window.addEventListener('offline', function _onOffline() {
+            if (!navigator.onLine) {
+                _showDisconnected();
+            }
+        });
+
+        // 视频网络错误重试（指数退避）
+        video.addEventListener('error', function _onVideoError() {
+            if (!navigator.onLine) {
+                _showDisconnected();
+                return;
+            }
+
+            var mediaError = video.error;
+            var isNetworkError = mediaError && (
+                mediaError.code === MediaError.MEDIA_ERR_NETWORK ||
+                (mediaError.message && mediaError.message.indexOf('Network') >= 0) ||
+                (mediaError.message && mediaError.message.indexOf('ERR_INTERNET_DISCONNECTED') >= 0)
+            );
+
+            if (isNetworkError) {
+                if (_retryCount < _maxRetries) {
+                    var delay = Math.min(
+                        _baseDelay * Math.pow(2, _retryCount),
+                        _maxDelay
+                    );
+                    _retryCount++;
+                    console.log('[NiceVideo] 网络错误，第 ' + _retryCount + '/' + _maxRetries + ' 次重试，等待 ' + delay + 'ms');
+                    clearTimeout(_retryTimer);
+                    _retryTimer = setTimeout(function() {
+                        video.load();
+                    }, delay);
+                } else {
+                    console.error('[NiceVideo] 重试次数已达上限');
+                    _retryCount = 0;
+                    var evt = new CustomEvent('playererror', {
+                        detail: { type: 'network', message: '视频加载失败，请稍后重试' }
+                    });
+                    container.dispatchEvent(evt);
+                }
+            }
         });
 
         // 初始化
