@@ -1,0 +1,232 @@
+name: 节日公告自动更新
+
+on:
+  schedule:
+    # 每天北京时间 00:00 运行（UTC 16:00）
+    - cron: '0 16 * * *'
+  workflow_dispatch:  # 允许手动触发
+
+permissions:
+  contents: write
+
+jobs:
+  update-announcement:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 更新节日公告
+        run: |
+          python3 << 'PYEOF'
+import re
+from datetime import datetime, timezone, timedelta, date
+
+# ========== 配置 ==========
+
+# 春节日期查找表（正月初一，2027-2035）
+CNY_DATES = {
+    2027: (2, 6),
+    2028: (1, 26),
+    2029: (2, 13),
+    2030: (2, 3),
+    2031: (1, 23),
+    2032: (2, 12),
+    2033: (1, 31),
+    2034: (2, 19),
+    2035: (2, 8),
+}
+
+# 春节公告显示范围：除夕（-1天）到初六（+6天）
+CNY_RANGE_DAYS = 8  # 覆盖除夕到初六
+
+# 节日文案定义：(month, day) -> (标题, 公告HTML内容)
+HOLIDAYS = {
+    (1, 1): ("元旦",
+        '<p>🎉 元旦快乐喵！新的一年的说～愿所有美好如约而至，万事胜意！</p>'
+    ),
+    (5, 1): ("劳动节",
+        '<p>💪 劳动节快乐喵！勤劳的小伙伴们辛苦了，好好休息犒劳自己一下吧～</p>'
+    ),
+    (6, 7): ("高考",
+        '<p>📚 高考加油喵！愿所有考生笔下生花，金榜题名，前程似锦的说～放下包袱，正常发挥就好！</p>'
+    ),
+    (6, 18): ("618购物节",
+        '<p>🛒 618来啦的说～理性消费快乐买买买，看好自己的钱包喵！</p>'
+    ),
+    (6, 19): ("特别的日子",
+        '<p>✨ 今天是个特别的日子喵～愿每一天都充满温暖与惊喜的说～</p>'
+    ),
+    (6, 26): ("国际禁毒日",
+        '<p>🚫 珍爱生命，远离毒品。健康生活，从我做起的说喵～</p>'
+    ),
+    (7, 1): ("七一建党节",
+        '<p>🇨🇳 七一建党节，不忘初心，砥砺前行的说喵～</p>'
+    ),
+    (8, 1): ("八一建军节",
+        '<p>🇨🇳 八一建军节，致敬最可爱的人！感谢守护家国的每一位军人喵～</p>'
+    ),
+    (8, 15): ("日本投降纪念日",
+        '<p>🕊️ 铭记历史，珍爱和平。吾辈当自强的说喵～</p>'
+    ),
+    (8, 19): ("特别的日子",
+        '<p>✨ 今天是个特别的日子喵～愿幸福快乐一直陪伴你的说～</p>'
+    ),
+    (8, 27): ("特别的日子",
+        '<p>✨ 今天是个特别的日子喵～希望你的每一天都闪闪发光！</p>'
+    ),
+    (9, 3): ("抗战胜利纪念日",
+        '<p>🕊️ 纪念抗日战争胜利，珍惜来之不易的和平。铭记历史，吾辈自强的说喵～</p>'
+    ),
+    (9, 10): ("教师节",
+        '<p>📚 教师节快乐喵！感谢每一位辛勤付出的老师，您辛苦了的说～</p>'
+    ),
+    (9, 18): ("九一八纪念日",
+        '<p>🕯️ 勿忘国耻，吾辈自强。铭记历史，珍爱和平的说喵～</p>'
+    ),
+    (9, 25): ("特别的日子",
+        '<p>✨ 今天是个特别的日子喵～愿你每天都有好心情的说～</p>'
+    ),
+    (10, 1): ("国庆节",
+        '<p>🇨🇳 国庆快乐喵！祝祖国繁荣昌盛，大家假期愉快的说～</p>'
+    ),
+    (10, 18): ("特别的日子",
+        '<p>✨ 今天是个特别的日子喵～愿你每一刻都充满欢笑的说～</p>'
+    ),
+    (10, 23): ("建站纪念日",
+        '<p>🎂 建站纪念日快乐喵！感谢一路相伴，未来继续一起走下去的说～</p>'
+    ),
+    (10, 31): ("万圣节",
+        '<p>🎃 不给糖就捣蛋！万圣节快乐喵～今晚会做美梦的说～</p>'
+    ),
+    (12, 4): ("国家宪法日",
+        '<p>📜 国家宪法日，弘扬法治精神，共建法治社会的说喵～</p>'
+    ),
+    (12, 13): ("国家公祭日",
+        '<p>🕯️ 铭记历史，祭奠同胞。勿忘国耻，吾辈自强的说喵～</p>'
+    ),
+    (12, 24): ("平安夜",
+        '<p>🎄 平安夜快乐喵～愿平安喜乐伴你左右的说～</p>'
+    ),
+    (12, 25): ("圣诞节",
+        '<p>🎄 圣诞节快乐喵～愿你收到的都是好消息的说～</p>'
+    ),
+}
+
+# 默认公告（无节日时显示）
+DEFAULT_CONTENT = (
+    '<p>网站正在持续更新中，如果发现问题或有建议，欢迎在 '
+    '<a href="./adss.html" style="color:#3366ff;text-decoration:none;font-weight:600;">联系页面</a> '
+    '告诉我的说～</p>'
+)
+
+
+# ========== 逻辑 ==========
+
+def get_today_cst():
+    """获取北京时间今天的日期"""
+    return datetime.now(timezone(timedelta(hours=8))).date()
+
+
+def is_cny_period(today):
+    """判断是否在春节期间"""
+    year = today.year
+    if year in CNY_DATES:
+        cny_month, cny_day = CNY_DATES[year]
+        cny_start = date(year, cny_month, cny_day) - timedelta(days=1)  # 除夕
+        cny_end = cny_start + timedelta(days=CNY_RANGE_DAYS - 1)        # 初六
+        if cny_start <= today <= cny_end:
+            return True, cny_start
+    return False, None
+
+
+def get_cny_content(cny_start):
+    """生成春节公告内容"""
+    year = cny_start.year + 1  # 春节所在的农历年
+    zodiac_map = {2027: "🐑", 2028: "🐒", 2029: "🐔", 2030: "🐶",
+                  2031: "🐷", 2032: "🐭", 2033: "🐮", 2034: "🐯", 2035: "🐰"}
+    zodiac = zodiac_map.get(year, "🎉")
+    return (
+        f'<p>{zodiac} 春节快乐喵！除夕到初六，吃好喝好玩好，新的一年万事如意的说～</p>'
+    )
+
+
+def get_holiday_for_today(today):
+    """返回今天的节日内容，如果没有则返回 None"""
+    # 先检查春节
+    is_cny, cny_start = is_cny_period(today)
+    if is_cny:
+        return get_cny_content(cny_start)
+
+    # 检查固定节日
+    key = (today.month, today.day)
+    if key in HOLIDAYS:
+        return HOLIDAYS[key][1]
+
+    return None
+
+
+def update_announcement(filepath, new_content):
+    """替换 index.html 中 <!--ANN:START--> 和 <!--ANN:END--> 之间的内容"""
+    with open(filepath, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    pattern = r'<!--ANN:START-->.*?<!--ANN:END-->'
+    replacement = f'<!--ANN:START-->\n            {new_content}\n            <!--ANN:END-->'
+
+    new_content_full, count = re.subn(pattern, replacement, content, flags=re.DOTALL)
+
+    if count == 0:
+        print("❌ 未找到 ANN 标记，无法更新公告！")
+        return False
+
+    if new_content_full == content:
+        print("📋 公告内容无变化，跳过更新")
+        return False
+
+    with open(filepath, 'w', encoding='utf-8') as f:
+        f.write(new_content_full)
+
+    print(f"✅ 公告已更新（共替换 {count} 处）")
+    return True
+
+
+# ========== 主流程 ==========
+
+today = get_today_cst()
+print(f"📅 当前北京时间：{today}")
+
+holiday_content = get_holiday_for_today(today)
+
+if holiday_content:
+    print(f"🎊 检测到节日，更新公告")
+    changed = update_announcement("index.html", holiday_content)
+else:
+    print(f"📋 今日无特殊节日，使用默认公告")
+    changed = update_announcement("index.html", DEFAULT_CONTENT)
+
+if not changed:
+    print("✅ 无需更新，正常退出")
+    exit(0)
+
+print("✅ 公告更新完成")
+PYEOF
+
+      - name: 提交并推送变更
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "📢 auto: 更新节日公告 $(date +'%Y-%m-%d')"
+            git push
+            echo "✅ 公告已提交并推送"
+          else
+            echo "📋 公告无变化，跳过提交"
+          fi
