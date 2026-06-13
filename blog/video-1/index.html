@@ -7,6 +7,8 @@
     <meta name="robots" content="noindex, nofollow">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="../../fanv.ico" type="image/x-icon">
+    <!-- nice-video 自研播放器 -->
+    <link rel="stylesheet" href="../../nice-video.css">
     <!-- hls.js -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@0.14.17/dist/hls.min.js"></script>
     <!-- Google Analytics -->
@@ -105,70 +107,10 @@ nav {
 /* ── 正文区 ── */
 .article-body { padding: 30px 0 60px; }
 
-/* ── 视频播放器 ── */
+/* ── 播放器外框 ── */
 .video-player-wrap {
-    background: white; border-radius: 16px; box-shadow: var(--shadow);
-    border: 1px solid rgba(0,0,0,0.06); overflow: hidden;
+    background: transparent;
     margin: 0 0 24px;
-}
-.video-toolbar {
-    background: linear-gradient(135deg, rgba(251,114,153,0.08), rgba(0,161,214,0.08));
-    border-bottom: 1px solid rgba(0,0,0,0.07);
-    padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
-}
-
-.video-url-row { display: flex; flex: 1; gap: 8px; min-width: 0; }
-.video-url-input {
-    flex: 1; border: 1px solid rgba(0,0,0,0.15); border-radius: 20px;
-    padding: 7px 14px; font-size: 0.85rem; outline: none; transition: border-color 0.2s;
-    min-width: 0; font-family: inherit;
-}
-.video-url-input:focus { border-color: var(--bili-blue); }
-.video-url-btn {
-    background: rgba(0,161,214,0.1); border: 1px solid rgba(0,161,214,0.3);
-    color: var(--bili-blue); border-radius: 20px; padding: 7px 14px;
-    font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); white-space: nowrap;
-}
-.video-url-btn:hover { background: var(--bili-blue); color: white; }
-
-/* ── 播放器主体 ── */
-.video-view-area {
-    background: #111;
-    width: 100%;
-    position: relative;
-}
-.video-view-area video {
-    display: block;
-    width: 100%;
-    max-height: 70vh;
-    background: #000;
-}
-.video-placeholder {
-    text-align: center; color: #888; font-size: 1rem;
-    user-select: none; padding: 100px 20px; width: 100%;
-}
-.video-placeholder i { font-size: 3.5rem; margin-bottom: 16px; display: block; opacity: 0.5; }
-.video-loading {
-    text-align: center; color: #4FC3F7; font-size: 0.95rem;
-    display: none;
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: rgba(0,0,0,0.75); border-radius: 12px; padding: 16px 24px; z-index: 5;
-}
-.video-loading i { animation: spin 1s linear infinite; display: inline-block; margin-right: 8px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.video-status-bar {
-    background: rgba(0,0,0,0.03); border-top: 1px solid rgba(0,0,0,0.06);
-    padding: 7px 16px; font-size: 0.8rem; color: var(--text-secondary);
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 12px; flex-wrap: wrap;
-}
-.video-err { color: #c9190b; }
-.video-info { color: var(--bili-blue); }
-.video-meta-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    background: rgba(0,161,214,0.08); color: var(--bili-blue);
-    border-radius: 10px; padding: 2px 8px; font-size: 0.78rem;
 }
 
 /* ── 加密流媒体信息卡 ── */
@@ -213,11 +155,6 @@ footer {
 }
 footer a { color: var(--bili-blue); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
-
-@media (max-width: 640px) {
-    .video-url-row { flex-basis: 100%; }
-    .article-header h1 { font-size: 1.4rem; }
-}
 </style>
 </head>
 <body>
@@ -253,42 +190,10 @@ footer a:hover { text-decoration: underline; }
 <div class="article-body">
     <div class="container">
 
-        <!-- 视频播放器 -->
+        <!-- nice-video 自研播放器 -->
         <div class="video-player-wrap">
-            <!-- 工具栏 -->
-            <div class="video-toolbar">
-                <div class="video-url-row">
-                    <input type="text" class="video-url-input" id="hlsUrlInput"
-                           placeholder="粘贴 .m3u8 流媒体 URL 加载...">
-                    <button class="video-url-btn" id="loadUrlBtn"><i class="fas fa-play"></i> 加载</button>
-                </div>
-            </div>
-
-            <!-- 播放区域 -->
-            <div class="video-view-area" id="videoViewArea">
-                <div class="video-placeholder" id="videoPlaceholder">
-                    <i class="fas fa-film"></i>
-                    <p>正在自动加载本地 ./1.m3u8 流媒体...</p>
-                    <p style="font-size:0.85rem;color:#666;margin-top:8px;">
-                        支持 HLS (AES-128) · .ts / .m3u8
-                    </p>
-                </div>
-                <div class="video-loading" id="videoLoading">
-                    <i class="fas fa-circle-notch"></i> 加载流媒体中...
-                </div>
-                <video id="hlsVideo"
-                       controls
-                       preload="auto"
-                       playsinline
-                       style="display:none;"
-                       crossorigin="anonymous">
-                </video>
-            </div>
-
-            <!-- 状态栏 -->
-            <div class="video-status-bar">
-                <span id="streamInfo">未加载流</span>
-                <span id="streamErr" class="video-err"></span>
+            <div class="nice-video-container" id="nvContainer" data-src="./1.m3u8">
+                <video preload="metadata" playsinline></video>
             </div>
         </div>
 
@@ -313,12 +218,12 @@ footer a:hover { text-decoration: underline; }
                 </ul>
             </div>
             <div class="info-card">
-                <h3><i class="fas fa-bolt"></i> 技术要点</h3>
+                <h3><i class="fas fa-code"></i> 播放器</h3>
                 <ul>
-                    <li>基于 hls.js 在浏览器解码</li>
-                    <li>支持 <code>CORS</code> 跨域加载</li>
-                    <li>需要服务端设置 <code>Access-Control-Allow-Origin</code></li>
-                    <li>部分加密流需额外密钥请求处理</li>
+                    <li>自研 nice-video.js 播放器</li>
+                    <li>hls.js 解码 HLS 流</li>
+                    <li>支持 <code>.m3u8</code> / <code>.ts</code> 加密流</li>
+                    <li>粉色渐变 UI · 全屏 · 进度条 · 音量</li>
                 </ul>
             </div>
             <div class="info-card">
@@ -359,137 +264,74 @@ footer a:hover { text-decoration: underline; }
     </div>
 </footer>
 
+<script src="../../nice-video.js"></script>
 <script>
 (function () {
     'use strict';
 
-    var video     = document.getElementById('hlsVideo');
-    var urlInput  = document.getElementById('hlsUrlInput');
-    var loadBtn   = document.getElementById('loadUrlBtn');
-    var errEl     = document.getElementById('streamErr');
-    var infoEl    = document.getElementById('streamInfo');
-    var loadingEl = document.getElementById('videoLoading');
-    var placeEl   = document.getElementById('videoPlaceholder');
-    var hlsInstance = null;
+    // ── 检测 file:// ──
+    if (window.location.protocol === 'file:') {
+        var nv = document.getElementById('nvContainer');
+        nv.innerHTML = ''
+            + '<div style="text-align:center;padding:100px 20px;color:#888;">'
+            + '<i class="fas fa-exclamation-triangle" style="font-size:3.5rem;color:#f59e0b;display:block;margin-bottom:16px;"></i>'
+            + '<p style="color:#f59e0b;font-weight:600;">file:// 协议下无法加载本地流文件</p>'
+            + '<p style="font-size:0.85rem;color:#999;margin-top:8px;">'
+            + '请运行本地服务器：</p>'
+            + '<code style="display:block;background:#222;color:#4ade80;padding:10px 16px;'
+            + 'border-radius:8px;margin:12px auto;max-width:500px;font-size:0.82rem;">'
+            + 'cd /d "G:\\EmoScan Pro\\ciallo0721-cmd.github.io" ^&amp;^&amp; python -m http.server 8000</code>'
+            + '<p style="font-size:0.85rem;color:#999;">'
+            + '然后访问 <a href="http://localhost:8000/blog/video-1/index.html" '
+            + 'style="color:#60a5fa;">http://localhost:8000/blog/video-1/index.html</a></p>'
+            + '</div>';
+        return;
+    }
 
-    function $(id) { return document.getElementById(id); }
-    function setErr(msg) { errEl.textContent = msg || ''; }
-    function setInfo(msg) { infoEl.textContent = msg || ''; }
+    // ── 加载完后处理 HLS ──
+    function initVideoPlayer() {
+        var container = document.getElementById('nvContainer');
+        if (!container) return;
 
-    function loadStream(url) {
-        setErr('');
-        loadingEl.style.display = 'block';
-        placeEl.style.display = 'none';
-        video.style.display = 'none';
+        var video = container.querySelector('video');
+        var src = container.dataset.src || '';
 
-        // 销毁之前的 hls 实例
-        if (hlsInstance) {
-            hlsInstance.destroy();
-            hlsInstance = null;
-        }
+        if (!src || !video) return;
 
-        // 检查是否是 m3u8
-        var isM3u8 = url.toLowerCase().includes('.m3u8');
-
-        if (isM3u8 && Hls.isSupported()) {
-            // HLS 流 — 使用 hls.js
-            hlsInstance = new Hls({
+        // 检测 m3u8
+        if (src.toLowerCase().includes('.m3u8') && typeof Hls !== 'undefined' && Hls.isSupported()) {
+            var hls = new Hls({
                 enableWorker: true,
                 lowLatencyMode: false,
                 fragLoadingTimeOut: 30000,
                 manifestLoadingTimeOut: 30000
             });
-            hlsInstance.loadSource(url);
-            hlsInstance.attachMedia(video);
+            hls.loadSource(src);
+            hls.attachMedia(video);
 
-            hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.style.display = 'block';
-                loadingEl.style.display = 'none';
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
                 video.play().catch(function(){});
-                var levels = hlsInstance.levels;
-                if (levels && levels.length > 0) {
-                    var l = levels[hlsInstance.currentLevel > -1 ? hlsInstance.currentLevel : 0];
-                    setInfo('HLS | ' + (l.width||'?')+'x'+(l.height||'?')+' | ' + levels.length + ' 码率');
-                } else {
-                    setInfo('HLS 流媒体');
-                }
             });
 
-            hlsInstance.on(Hls.Events.ERROR, function(event, data) {
+            hls.on(Hls.Events.ERROR, function(event, data) {
                 if (data.fatal) {
-                    setErr('播放错误: ' + (data.type || '') + ' - ' + (data.details || ''));
-                    loadingEl.style.display = 'none';
-                    video.style.display = 'block';
+                    console.error('[video-1] HLS error:', data.type, data.details);
                 }
             });
-
-            setInfo('正在加载 HLS 流...');
-        } else if (isM3u8 && !Hls.isSupported()) {
-            // 不支持 hls.js 但浏览器原生可能支持
-            if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = url;
-                video.style.display = 'block';
-                loadingEl.style.display = 'none';
-                video.play().catch(function(){});
-                setInfo('原生 HLS (Safari)');
-            } else {
-                setErr('当前浏览器不支持 HLS 播放');
-                loadingEl.style.display = 'none';
-                placeEl.style.display = 'block';
-            }
-        } else {
-            // 普通 MP4 等直接播放
-            video.src = url;
-            video.style.display = 'block';
-            loadingEl.style.display = 'none';
-            video.play().catch(function(){});
-            setInfo('直接播放 (非 HLS)');
+        } else if (src.toLowerCase().includes('.m3u8') && video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Safari 原生
+            video.src = src;
         }
     }
 
-    // 加载按钮
-    loadBtn.addEventListener('click', function() {
-        var url = urlInput.value.trim();
-        if (!url) return;
-        loadStream(url);
-    });
-    urlInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') loadBtn.click();
-    });
-
-
-    video.addEventListener('error', function() {
-        var err = video.error;
-        if (err) {
-            setErr('媒体错误: ' + (err.message || 'Code ' + err.code));
-        }
-    });
-
-    // 拖拽支持
-    video.addEventListener('loadedmetadata', function() {
-        loadingEl.style.display = 'none';
-        video.style.display = 'block';
-    });
-
-    // 自动加载本地 ./1.m3u8
-    urlInput.value = './1.m3u8';
-
-    // 检测 file:// 协议
-    if (window.location.protocol === 'file:') {
-        placeEl.innerHTML = ''
-            + '<i class="fas fa-exclamation-triangle" style="color:#f59e0b;"></i>'
-            + '<p style="color:#f59e0b;font-weight:600;">file:// 协议下无法加载本地流文件</p>'
-            + '<p style="font-size:0.85rem;color:#999;margin-top:8px;">'
-            + '请运行 serve.bat 启动本地服务器：</p>'
-            + '<code style="display:block;background:#222;color:#4ade80;padding:10px 16px;'
-            + 'border-radius:8px;margin:12px auto;max-width:500px;font-size:0.82rem;">'
-            + 'cd blog\\video-1 &amp;&amp; serve.bat</code>'
-            + '<p style="font-size:0.85rem;color:#999;">'
-            + '然后访问 <a href="http://localhost:8000/blog/video-1/index.html" '
-            + 'style="color:#60a5fa;">http://localhost:8000/blog/video-1/index.html</a></p>';
-        loadingEl.style.display = 'none';
+    // 等 nice-video.js 初始化完后处理
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        // 给 nice-video 一点时间
+        setTimeout(initVideoPlayer, 100);
     } else {
-        loadStream('./1.m3u8');
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initVideoPlayer, 100);
+        });
     }
 })();
 </script>
