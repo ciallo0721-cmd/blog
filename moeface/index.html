@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>MoeFace Web - 动漫人脸识别 (动态特征库)</title>
+    <title>MoeFace Web - 动漫人脸识别</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -430,7 +430,7 @@
     <div class="container">
         <header>
             <h1>MoeFace</h1>
-            <p class="subtitle">动漫角色识别 · 浏览器端AI · 动态特征库</p>
+            <p class="subtitle">动漫角色识别 · 浏览器端AI · 特征库</p>
         </header>
 
         <div class="card">
@@ -440,11 +440,11 @@
                 <p>2. 因动漫脸与真实人脸差异较大，请尽量上传<strong>清晰、正面、光线均匀</strong>的动漫人物特写，避免侧脸、遮挡或模糊。</p>
                 <p>3. 识别阈值建议 <strong>0.35~0.55</strong>，若识别不到可适当降低阈值（最低0.25）。</p>
                 <p>4. 如果仍未识别，可尝试裁剪图片使人脸占比更大，或使用<strong>全身图转为半身</strong>后再试。</p>
-                <p>5. 由于特征库保存在GitHub仓库中,有一些地区/网络环境可能影响加载速度。</p>
+                <p>5. 特征库从 GitHub 仓库单文件加载，部分网络环境可能影响加载速度。</p>
             </div>
             <div class="notice">
                 <strong>✨ 新特性</strong>
-                <p>• 特征库自动从 GitHub 仓库加载所有 JSON 文件，无需手动更新。</p>
+                <p>• 特征库从 GitHub 仓库自动加载合并文件，无需手动更新。</p>
                 <p>• 所有操作均在本地进行，不会上传任何图片数据。</p>
             </div>
             <div class="status-bar">
@@ -503,7 +503,7 @@
         </div>
 
         <footer>
-            <p>基于 face-api.js + TensorFlow.js | 特征库: <span id="charCount">-</span> 个动漫角色 (动态加载)</p>
+            <p>基于 face-api.js + TensorFlow.js | 特征库: <span id="charCount">-</span> 个动漫角色</p>
             <p style="margin-top: 8px;">
                 <a href="#" target="_blank">MoeFace · 专注动漫识别</a>
             </p>
@@ -514,6 +514,7 @@
         // ========== 配置 ==========
         const CONFIG = {
             MODEL_URL: 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/model/',
+            FEATURE_DB_URL: 'https://raw.githubusercontent.com/ciallo0721-cmd/moeface/main/features/%E5%85%A8%E9%83%A8%E7%89%B9%E5%BE%81%E5%BA%93.moe',
             DETECTOR_OPTIONS: {
                 inputSize: 512,
                 scoreThreshold: 0.12
@@ -628,79 +629,32 @@
             return Math.min(0.98, Math.max(0, sim));
         }
 
-        // ========== 动态特征库加载 (GitHub API) ==========
-        // 获取指定 GitHub 仓库目录下的所有 .json 文件下载地址
-        async function getJsonFileUrls(owner, repo, path) {
-            const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-            try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error(`GitHub API 响应 ${response.status}: ${response.statusText}`);
-                }
-                const files = await response.json();
-                // 确保返回的是数组（目录内容）
-                if (!Array.isArray(files)) {
-                    throw new Error('API 返回的不是目录内容，请检查路径是否正确');
-                }
-                // 筛选出 .json 文件，提取 download_url
-                const jsonFiles = files.filter(file => file.type === 'file' && file.name.endsWith('.json'));
-                const urls = jsonFiles.map(file => file.download_url).filter(url => url);
-                return urls;
-            } catch (err) {
-                log(`获取文件列表失败: ${err.message}`, 'error');
-                return [];
-            }
-        }
-
-        // 动态加载所有 JSON 特征库并合并
+        // ========== 特征库加载 (单文件 .moe) ==========
         async function loadDatabase() {
-            log('正在通过 GitHub API 动态获取特征库文件列表...');
-            updateStatus('statusDB', '获取文件列表...', '');
-            
-            const owner = 'ciallo0721-cmd';
-            const repo = 'MoeFace';
-            const path = 'features';
-            
+            log('正在从 GitHub 加载合并特征库...');
+            updateStatus('statusDB', '加载特征库...', '');
+
             try {
-                // 1. 获取所有 JSON 文件的下载链接
-                const jsonUrls = await getJsonFileUrls(owner, repo, path);
-                if (jsonUrls.length === 0) {
-                    throw new Error('在 features 目录下未找到任何 .json 文件');
+                const response = await fetch(CONFIG.FEATURE_DB_URL);
+                if (!response.ok) {
+                    throw new Error(`特征库下载失败: HTTP ${response.status} ${response.statusText}`);
                 }
-                log(`发现 ${jsonUrls.length} 个特征库文件，开始加载...`, 'info');
-                setProgress(`发现 ${jsonUrls.length} 个特征文件，加载中...`, 20);
-                
-                // 2. 并发加载所有 JSON 文件
-                const fetchPromises = jsonUrls.map(async (url, idx) => {
-                    try {
-                        const resp = await fetch(url);
-                        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-                        const data = await resp.json();
-                        log(`✓ 加载成功: ${url.split('/').pop()} (${Object.keys(data).length} 个角色)`, 'success');
-                        // 更新进度（粗略）
-                        setProgress(`加载特征库 ${idx+1}/${jsonUrls.length}`, 20 + Math.floor((idx+1)/jsonUrls.length * 60));
-                        return data;
-                    } catch (err) {
-                        log(`加载文件失败 ${url}: ${err.message}`, 'error');
-                        return null;
-                    }
-                });
-                
-                const allData = await Promise.all(fetchPromises);
-                const validData = allData.filter(d => d !== null);
-                if (validData.length === 0) {
-                    throw new Error('所有特征库文件加载失败');
+                setProgress('下载特征库数据...', 30);
+
+                const text = await response.text();
+                setProgress('解析特征库...', 60);
+
+                // .moe 文件本质是 JSON 格式
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (parseErr) {
+                    throw new Error(`特征库解析失败: ${parseErr.message}`);
                 }
-                
-                // 3. 合并所有 JSON 对象
-                database = {};
-                for (const data of validData) {
-                    // 假设每个 JSON 文件是一个对象 { "角色名": [特征向量], ... }
-                    Object.assign(database, data);
-                }
-                
+
+                database = data;
                 const charCount = Object.keys(database).length;
-                log(`动态加载完成！共合并 ${charCount} 个动漫角色`, 'success');
+                log(`特征库加载完成！共 ${charCount} 个动漫角色`, 'success');
                 updateStatus('statusDB', `特征库: ${charCount} 角色`, 'ready');
                 els.charCount.textContent = charCount;
                 setProgress(`就绪，共 ${charCount} 个角色`, 90);
