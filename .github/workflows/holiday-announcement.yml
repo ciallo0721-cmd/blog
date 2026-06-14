@@ -107,8 +107,14 @@ HOLIDAYS = {
     (1, 1): ("元旦",
         '<p>🎉 元旦快乐喵！新的一年的说～愿所有美好如约而至，万事胜意！</p>'
     ),
+    (3, 8): ("妇女节",
+        '<p>🌸 妇女节快乐喵～致敬每一位闪耀的她，愿你们被世界温柔以待的说！</p>'
+    ),
     (5, 1): ("劳动节",
         '<p>💪 劳动节快乐喵！勤劳的小伙伴们辛苦了，好好休息犒劳自己一下吧～</p>'
+    ),
+    (5, 4): ("青年节",
+        '<p>🔥 青年节快乐喵～青春正当时，不负韶华，勇敢追梦的说！</p>'
     ),
     (5, 24): ("站长生日",
         '<p>🎂 站长生日喵！感谢大家的支持与陪伴，新的一岁继续加油的说～</p>'
@@ -204,6 +210,20 @@ def get_cny_content(cny_start):
     )
 
 
+def nth_weekday_of_month(year, month, weekday, n):
+    """计算某月第 n 个星期几的日期
+    weekday: 0=周一, 1=周二, ..., 6=周日
+    n: 第几个（1=第一个）
+    """
+    first_day = date(year, month, 1)
+    # 第一天是星期几（0=周一, 6=周日）
+    first_weekday = first_day.weekday()
+    # 到目标星期几需要的偏移
+    diff = (weekday - first_weekday) % 7
+    target_day = 1 + diff + (n - 1) * 7
+    return date(year, month, target_day)
+
+
 def get_holiday_for_today(today):
     """返回今天的节日内容，如果没有则返回 None"""
     # 先检查春节（农历，范围覆盖）
@@ -236,6 +256,16 @@ def get_holiday_for_today(today):
         zq = ZHONGQIU_DATES[year]
         if (today.month, today.day) == zq:
             return '<p>🌙 中秋节快乐喵～月圆人团圆，吃月饼赏明月，幸福美满的说！</p>'
+
+    # 检查母亲节（5月第2个星期日）
+    mothers_day = nth_weekday_of_month(year, 5, 6, 2)  # 6=周日
+    if today == mothers_day:
+        return '<p>💐 母亲节快乐喵～感谢妈妈的无私付出，记得抱抱麻麻说声我爱你的说！</p>'
+
+    # 检查父亲节（6月第3个星期日）
+    fathers_day = nth_weekday_of_month(year, 6, 6, 3)  # 6=周日
+    if today == fathers_day:
+        return '<p>👔 父亲节快乐喵～感谢爸爸的默默守护，爸爸辛苦了的说！</p>'
 
     # 检查固定节日
     key = (today.month, today.day)
