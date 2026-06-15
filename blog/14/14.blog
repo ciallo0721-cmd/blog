@@ -1,0 +1,255 @@
+[Title] 再见，白菜
+[Date] 2026-05-01
+[Author] ciallo0721-cmd
+[Tag] 文章
+
+[正文开始]
+
+[HTML]
+<nav>
+        <div class="container nav-container">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-gamepad"></i> 开发者ciallo0721-cmd的空间
+            </a>
+            <a href="../../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </div>
+    </nav>
+
+    <main class="container article-detail-container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="article-number" id="articleNumber">文章 #014</div>
+                <h1 class="article-title" id="articleTitle">再见，白菜</h1>
+                <p class="article-intro" id="articleIntro">2026年5月1日，真白花音正式毕业了。再见，我的第一个V，再见，白菜。</p>
+                <div class="article-meta">
+                    <div class="article-date"><i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2026-05-01</span></div>
+                    <div class="article-date"><i class="far fa-clock"></i> 阅读时间: <span id="readTime">约2分钟</span></div>
+                </div>
+                <div class="article-tags" id="articleTags">
+                    <span class="article-tag">VTuber</span>
+                    <span class="article-tag">真白花音</span>
+                    <span class="article-tag">毕业</span>
+                    <span class="article-tag">告别</span>
+                </div>
+            </header>
+            
+
+                <p>2026年5月1日。</p>
+                <p>这一天终于来了。</p>
+                <p>真白花音，正式毕业了。</p>
+                <p>从2023年关注到现在，看了无数个直播，听了无数次那声"白菜们~"。</p>
+                <p>今天，只剩下一句：</p>
+                <blockquote>
+                    <p>再见，白菜。</p>
+                </blockquote>
+                <p>感谢你陪伴的这段时光。</p>
+                <p style="text-align: right; margin-top: 40px; color: #999;">—— ciallo0721-cmd<br>2026年5月1日<br>PS:写于2026/4/30 20:00 由Github定时发布</p>
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="share-btn" id="shareButton">
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                </button>
+            </div>
+        </article>
+        
+        <div class="article-navigation" id="articleNavigation">
+            <a href="javascript:void(0)" class="nav-btn prev disabled">
+                <i class="fas fa-chevron-left"></i>
+                <div><div style="font-size: 0.8rem; opacity: 0.8;">上一篇</div><div>加载中...</div></div>
+            </a>
+            <a href="javascript:void(0)" class="nav-btn next disabled">
+                <div><div style="font-size: 0.8rem; opacity: 0.8;">下一篇</div><div>加载中...</div></div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+        <div class="related-articles">
+            <h3 class="related-title">推荐文章</h3>
+            <div class="related-grid" id="relatedGrid">
+                <div style="text-align: center; grid-column: 1/-1;">加载中...</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 广告位区域 -->
+    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
+        <a href="../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
+          <img src="../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
+            style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
+        </a>
+    </div>
+    <div style="text-align: center; font-size: 0.75rem; color: #888; margin-top: -20px; margin-bottom: 20px;">
+        📢 本站仅此一个广告位，无弹窗、无悬浮、无追踪，感谢理解与支持
+    </div>
+
+    <div class="share-modal" id="shareModal">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3 class="share-modal-title"><i class="fas fa-share-alt"></i> 分享这篇文章</h3>
+                <button class="share-close-btn" id="closeShareModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="share-text" id="shareText">快来看看这篇文章</div>
+            <div class="share-actions">
+                <button class="share-copy-btn" id="copyShareText"><i class="far fa-copy"></i> 复制分享链接</button>
+                <button class="share-close-modal-btn" id="closeShareModalBtn">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
+            <p>感谢阅读我的文章！期待与您交流开发心得</p>
+            <p style="font-size: 0.85rem; opacity: 0.7;">© 2026 ciallo0721-cmd | 独立开发 · 分享创造价值</p>
+        </div>
+    </footer>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const currentArticleId = 14;
+    
+    function waitForData(callback, retries = 30) {
+        if (typeof window.articlesData !== 'undefined' && window.articlesData.articles) {
+            callback();
+        } else if (retries > 0) {
+            setTimeout(() => waitForData(callback, retries - 1), 100);
+        } else {
+            window.articlesData = {
+                articles: [
+                    { id: 14, title: "再见，白菜", excerpt: "2026年5月1日，真白花音正式毕业了。再见，我的第一个V，再见，白菜。", date: "2026-05-01", tags: ["VTuber","真白花音","毕业","告别"], fileName: "14/", readTime: 2 },
+                    { id: 13, title: "再见了，我的白菜——写给真白花音的告别", fileName: "13/", date: "2026-04-29", tags: ["VTuber","毕业","告别"] },
+                    { id: 12, title: "关于本站广告位的说明", fileName: "12/", date: "2026-04-23", tags: ["公告"] },
+                    { id: 11, title: "网站建议收集帖", fileName: "11/", date: "2026-04-11", tags: ["公告"] },
+                    { id: 10, title: "喜报", fileName: "10/", date: "2026-04-11", tags: ["喜报"] }
+                ],
+                getArticleById: function(id) { return this.articles.find(a => a.id === id); },
+                getSortedArticles: function() { return [...this.articles].sort((a,b) => new Date(b.date) - new Date(a.date)); },
+                getAdjacentArticles: function(id) {
+                    const sorted = this.getSortedArticles();
+                    const index = sorted.findIndex(a => a.id === id);
+                    return { prev: index < sorted.length-1 ? sorted[index+1] : null, next: index > 0 ? sorted[index-1] : null };
+                },
+                getFeaturedArticles: function(excludeId, limit=3) {
+                    return this.getSortedArticles().filter(a => a.id !== excludeId).slice(0, limit);
+                }
+            };
+            callback();
+        }
+    }
+    
+    function updateMetaInfo(articleId) {
+        const article = window.articlesData.getArticleById(articleId);
+        if (article) {
+            document.getElementById('articleNumber').textContent = `文章 #${String(article.id).padStart(3, '0')}`;
+            document.getElementById('articleTitle').textContent = article.title;
+            document.getElementById('articleIntro').textContent = article.excerpt;
+            document.getElementById('articleDate').textContent = article.date;
+            document.getElementById('readTime').textContent = `约${article.readTime}分钟`;
+            const tagsContainer = document.getElementById('articleTags');
+            if (tagsContainer && article.tags) {
+                tagsContainer.innerHTML = '';
+                article.tags.forEach(tag => {
+                    const span = document.createElement('span');
+                    span.className = 'article-tag';
+                    span.textContent = tag;
+                    tagsContainer.appendChild(span);
+                });
+            }
+        }
+    }
+    
+    function initNavigation(id) {
+        const nav = document.getElementById('articleNavigation');
+        if (!nav) return;
+        const adj = window.articlesData.getAdjacentArticles(id);
+        let html = '';
+        if (adj.prev) {
+            html += `<a href="/blog/${adj.prev.fileName}" class="nav-btn prev"><i class="fas fa-chevron-left"></i><div><div style="font-size:0.8rem;opacity:0.8;">上一篇</div><div>${adj.prev.title}</div></div></a>`;
+        } else {
+            html += '<a href="javascript:void(0)" class="nav-btn prev disabled"><i class="fas fa-chevron-left"></i><div><div style="font-size:0.8rem;opacity:0.8;">上一篇</div><div>没有了</div></div></a>';
+        }
+        if (adj.next) {
+            html += `<a href="/blog/${adj.next.fileName}" class="nav-btn next"><div><div style="font-size:0.8rem;opacity:0.8;">下一篇</div><div>${adj.next.title}</div></div><i class="fas fa-chevron-right"></i></a>`;
+        } else {
+            html += '<a href="javascript:void(0)" class="nav-btn next disabled"><div><div style="font-size:0.8rem;opacity:0.8;">下一篇</div><div>没有了</div></div><i class="fas fa-chevron-right"></i></a>';
+        }
+        nav.innerHTML = html;
+    }
+    
+    function initRelated(id) {
+        const grid = document.getElementById('relatedGrid');
+        if (!grid) return;
+        const featured = window.articlesData.getFeaturedArticles(id, 3);
+        if (featured.length === 0) {
+            grid.innerHTML = '<div style="text-align:center;grid-column:1/-1;color:#999;">暂无推荐文章</div>';
+            return;
+        }
+        grid.innerHTML = featured.map(a => `
+            <a href="/blog/${a.fileName}" class="related-card">
+                <h4>${a.title}</h4>
+                <p>${a.excerpt || ''}</p>
+                <div class="related-tags">${(a.tags||[]).map(t => `<span class="related-tag">${t}</span>`).join('')}</div>
+            </a>
+        `).join('');
+    }
+    
+    function initShare() {
+        const shareBtn = document.getElementById('shareButton');
+        const shareModal = document.getElementById('shareModal');
+        const closeBtn = document.getElementById('closeShareModal');
+        const closeBtn2 = document.getElementById('closeShareModalBtn');
+        const copyBtn = document.getElementById('copyShareText');
+        const shareText = document.getElementById('shareText');
+        
+        const article = window.articlesData.getArticleById(currentArticleId);
+        const shareUrl = window.location.href;
+        const shareMsg = article ? `${article.title}\n${shareUrl}` : shareUrl;
+        if (shareText) shareText.textContent = shareMsg;
+        
+        if (shareBtn) shareBtn.addEventListener('click', () => shareModal.classList.add('active'));
+        if (closeBtn) closeBtn.addEventListener('click', () => shareModal.classList.remove('active'));
+        if (closeBtn2) closeBtn2.addEventListener('click', () => shareModal.classList.remove('active'));
+        if (shareModal) shareModal.addEventListener('click', e => { if(e.target === shareModal) shareModal.classList.remove('active'); });
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(shareMsg).then(() => {
+                    copyBtn.textContent = '已复制!';
+                    copyBtn.classList.add('copied');
+                    setTimeout(() => { copyBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接'; copyBtn.classList.remove('copied'); }, 2000);
+                });
+            });
+        }
+    }
+    
+    waitForData(() => {
+        updateMetaInfo(currentArticleId);
+        initNavigation(currentArticleId);
+        initRelated(currentArticleId);
+        initShare();
+    });
+});
+</script>
+
+    <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;justify-content:center;align-items:center;" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button>
+    <script>
+    (function(){
+        var btn=document.getElementById('totop-btn');
+        if(!btn)return;
+        btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+        window.addEventListener('scroll',function(){btn.style.display=window.scrollY>300?'flex':'none';},{passive:true});
+        document.addEventListener('DOMContentLoaded',function(){btn.style.display=window.scrollY>300?'flex':'none';});
+    })();
+    </script>
+
+<script>
+(function(){
+    var blogId = new URLSearchParams(window.location.search).get("blog");
+    if (blogId) {
+        console.log("文章 ID:", blogId);
+    }
+})();
+</script>
+[/html]

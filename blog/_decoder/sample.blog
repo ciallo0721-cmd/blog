@@ -1,0 +1,93 @@
+[Title] BlockScript 语法演示
+[Date] 2026-06-15
+[Author] ciallo0721-cmd
+[Tag] 教程, BlockScript, 博客
+
+[正文开始]
+
+[H1] 欢迎使用 BlockScript
+[Tag] 教程, BlockScript, 博客
+
+[H2] 什么是 BlockScript？
+[Tag] 教程, BlockScript, 博客
+
+这是一个专门为管哥博客设计的**简易文章格式**，比 Markdown 更直观，用 [关键字] 来标记内容。
+
+[H2] 基础写法
+
+普通文字直接写，就是一个段落。空行用来分割不同段落。
+
+**两个星号是加粗**，*一个星号是斜体*，`反引号是代码`。
+
+[H2] 标题
+
+[H1] 这是一级标题
+[H2] 这是二级标题
+[H3] 这是三级标题
+
+[H2] 列表
+
+[ul]
+- 苹果
+- 香蕉
+- 橙子
+[/ul]
+
+[ol]
+1. 第一步
+2. 第二步
+3. 第三步
+[/ol]
+
+[H2] 引用
+
+[quote]
+这是一段引用内容。
+可以有多行。
+[/quote]
+
+[H2] 代码块
+
+[Code lang=python]
+def hello():
+    print("Hello, BlockScript!")
+    return True
+[/Code]
+
+[H2] 提示框
+
+[Alert type=info]
+这是普通提示信息。
+[/Alert]
+
+[Alert type=warning]
+这是警告提示！
+[/Alert]
+
+[Alert type=danger]
+这是危险警告！！
+[/Alert]
+
+[Alert type=success]
+这是成功提示。
+[/Alert]
+
+[H2] 按钮链接
+
+[Btn href=https://github.com color=primary]前往 GitHub[/Btn]
+[Btn href=/ color=secondary]返回主页[/Btn]
+
+[H2] 表格
+
+[Table]
+列1|列2|列3
+苹果|红色|水果
+香蕉|黄色|水果
+黄瓜|绿色|蔬菜
+[/Table]
+
+[H2] 分割线
+
+[HR]
+
+以上是 BlockScript 的全部常用语法。非常简单对吧喵～

@@ -30,7 +30,16 @@
 - 用户是初中生开发者，Ren'Py 视觉小说爱好者
 - 网站风格：蓝色渐变（原紫色已全部替换）、二次元风格文案（"喵～"、"的说～"）
 - 对安全感兴趣，已有 Cloudflare Turnstile 防护意识
-- **每次修改网站后，需同时在 `timeline.xlsx` 中新增一条更新记录**
+- **每次修改网站后，需同时在 `timeline.js` 中新增一条更新记录**
+- **文章作者名统一写 `ciallo0721-cmd`，不要写「管哥」或其他名字**
+
+## BlockScript 博客架构（2026-06-15）
+- **解码器**：`blog/_decoder/index.html`（通用，所有文章共用，复制到每篇文章目录）
+- **文章文件**：`blog/{id}/{id}.blog`（BlockScript 格式，纯文本）
+- **语法**：`[Title]` `[Date]` `[Author]` `[Tag]` 头部 + `[H1]` `[H2]` `[Code]` `[Alert]` 等区块标签
+- **颜色**：与现有文章（blog/1/22）一致，亮色系 `--bili-pink: #FB7299` `--bili-blue: #00A1D6`
+- **参考文件**：`BLOGSYNTAX.txt`（语法速查）、`HOW_TO_WRITE_BLOG.txt`（写文章指南）
+- **新建文章步骤**：① `blog/{id}/` 新建文件夹 → ② 复制 `blog/_decoder/index.html` 为 `index.html` → ③ 写 `{id}.blog` 文件
 
 ## SEO 优化历史
 

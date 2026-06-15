@@ -1,0 +1,491 @@
+[Title] 关于GitHub Issue被恶意篡改的说明
+[Date] 2026-03-04
+[Author] ciallo0721-cmd
+[Tag] 文章
+
+[正文开始]
+
+[HTML]
+<!-- 导航栏 -->
+    <nav>
+        <div class="container nav-container">
+            <a href="/index.html" class="logo">
+                <i class="fas fa-gamepad"></i> 开发者ciallo0721-cmd的空间
+            </a>
+            <a href="/index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 首页
+            </a>
+        </div>
+    </nav>
+
+    <!-- 文章内容 -->
+    <main class="container article-detail-container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="article-number" id="articleNumber">文章 #09</div>
+                <h1 class="article-title" id="articleTitle">关于 GitHub Issue 被恶意篡改的说明</h1>
+                
+                <p class="article-intro" id="articleIntro">一份严肃的记录：我的 Issue 被仓库管理员篡改，真相在此。</p>
+                
+                <div class="article-meta">
+                    <div class="article-date">
+                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2026-03-04</span>
+                    </div>
+                    <div class="article-date">
+                        <i class="far fa-clock"></i> 阅读时间: <span id="readTime">约8分钟</span>
+                    </div>
+                </div>
+                
+                <div class="article-tags" id="articleTags">
+                    <span class="article-tag">声明</span>
+                    <span class="article-tag">GitHub</span>
+                    <span class="article-tag">立场</span>
+                </div>
+            </header>
+            
+            <!-- 文章正文 -->
+            <div class="article-content" id="articleContent">
+                <h2>致每一位可能看到这篇文章的人，尤其是从那个 Issue 过来的访客</h2>
+                <p>如果你是因为在 GitHub 上看到一个名为 <code>china-dictatorship</code>的仓库(作者:cirosantilli)，点进了其中编号为 #1663 的 Issue，并被里面的一堆反华网址所困惑，那么请你花几分钟读完这篇文章。事情不是你看到的那样。</p>
+                
+                <h2>事件真相</h2>
+                <p>2026年2月底，我在浏览 GitHub 时发现了上述仓库。该仓库名称及内容带有明显的针对中国的仇恨和歧视色彩。出于一个中国公民的朴素情感，我在该仓库的 Issues 区发布了一条批评内容（原话:我直接我拿那个灭火器，我********里面,司马反动派）。随后，该仓库的管理员（也就是那个作者）利用管理员权限，将我发布的 Issue 正文恶意篡改，塞入了一大堆反华网站链接，企图造成“这些链接是我发的”的假象。然而，他忽略了一点：GitHub 的每一次修改都会留下历史记录。同时，我在评论区留下的“孙笑川干的”等玩梗评论，他无法篡改。</p>
+                
+                <h2>我的立场</h2>
+                <p><strong>我，ciallo0721-cmd，坚决反对任何抹黑中国、分裂国家的言论和行为。我热爱我的祖国，拥护中国共产党的领导，坚持一个中国原则。台湾自古以来就是中国的神圣领土，不容置疑。</strong> 这也是我最初站出来批评那个仓库的原因。我的发声，是出于一个中国人的本能和责任感。</p>
+                
+                <h2>律师的意见</h2>
+                <p>事件发生后，我曾一度陷入恐惧：害怕被误解、害怕网警上门、害怕留案底。我咨询了一位律师（免费咨询，也就是“0元取”），并将所有证据（修改历史截图、举报记录等）发给了他。律师看过之后明确告诉我：“没啥事，不用报警。你没有任何违法行为，那些链接是他改的，与你无关。” 律师的专业判断让我逐渐冷静下来。虽然咨询是免费的，但他的结论基于法律事实，是可信的。</p>
+                
+                <h2>给从那个 Issue 过来的人</h2>
+                <p style="background-color: #f8f9fa; border-left: 4px solid #dc3545; padding: 15px; margin: 20px 0;">
+                    <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i> 
+                    <strong>如果你是因为那个被篡改的 Issue 而来到这里的，请你务必点击该 Issue 右上角的 “...”，选择 “View edits” 或查看修改历史。</strong> 你会清楚地看到：原始内容是我的批评，后来被管理员改成了网址。那些网址与我无关。我从未发布过任何反华、违法或不良信息。我的评论区依然保留着原话，可以作为旁证。
+                </p>
+                
+                <h2>我的诉求与现状</h2>
+                <p>我已经通过 GitHub 官方举报渠道和国家网信办举报中心（12377.cn）对该仓库进行了正式举报。目前，举报已受理，等待处理结果。我保留了一切证据，包括修改历史截图、举报记录以及与律师的沟通记录。法律上，我是完全清白的。</p>
+                
+                <h2>最后想说的话</h2>
+                <p>网络不是法外之地，每个人都要为自己的言行负责。我为我最初的冲动言辞（骂人）道歉，但我的初衷是维护国家尊严。对于那些躲在屏幕后恶意篡改他人内容、企图嫁祸于人的人，我想说：你改得了文字，改不了历史；你骗得过一时，骗不过一世。真相或许会迟到，但永远不会缺席。</p>
+                <p>如果哪一天我没消息了，要么是被传去局子里了（当然这几乎不可能），要么是懒。但无论如何，这篇文章会一直在这里，作为最真实的记录。</p>
+                <blockquote>
+                    <strong>“清者自清，浊者自浊。” 感谢每一位愿意了解真相的人。</strong>
+                </blockquote>
+                <p style="text-align: right;">—— ciallo0721-cmd 2026.03.04 于家中</p>
+                
+
+            </div>
+            
+            <!-- 分享按钮 -->
+            <div style="text-align: center;">
+                <!-- <button class="share-btn" id="shareButton">
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                </button> -->
+            </div>
+        </article>
+        
+        <!-- 文章导航（只有一篇，禁用前后） -->
+        <!-- <div class="article-navigation" id="articleNavigation">
+            <a href="javascript:void(0)" class="nav-btn prev disabled">
+                <i class="fas fa-chevron-left"></i>
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                    <div>已是第一篇</div>
+                </div>
+            </a>
+            <a href="javascript:void(0)" class="nav-btn next disabled">
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                    <div>已是最后一篇</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div> -->
+        
+        <!-- 推荐文章（可留空或放几篇导向其他文章的链接） -->
+        <div class="related-articles" id="relatedArticles">
+            </div>
+        </div>
+    </main>
+
+    <!-- 分享弹窗（保留原有结构，需要对应的JS才能工作） -->
+    <!-- <div class="share-modal" id="shareModal">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3 class="share-modal-title">
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                </h3>
+                <button class="share-close-btn" id="closeShareModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="share-text" id="shareText">
+                快来看看这篇文章: https://ciallo0721-cmd.github.io/gg.html
+            </div>
+            <div class="share-actions">
+                <button class="share-copy-btn" id="copyShareText">
+                    <i class="far fa-copy"></i> 复制分享链接
+                </button>
+                <button class="share-close-modal-btn" id="closeShareModalBtn">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div> -->
+    <!-- 广告位占位 -->
+    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
+      <a href="../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
+        <img src="../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
+          style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
+      </a>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
+            <!-- <p>感谢阅读我的文章！期待与您交流开发心得</p> -->
+        </div>
+    </footer>
+
+    <script>
+
+// 文章特定的初始化
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('文章模板已加载完成');
+    
+    // 当前文章ID
+    const currentArticleId = 9;
+    
+    function updateArticleInfo(articleId) {
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        
+        const articleData = window.articlesData.getArticleById(articleId);
+        
+        if (articleData) {
+            document.getElementById('articleNumber').textContent = `文章 #${String(articleData.id).padStart(3, '0')}`;
+            document.getElementById('articleTitle').textContent = articleData.title;
+            document.getElementById('articleIntro').textContent = articleData.excerpt;
+            document.getElementById('articleDate').textContent = articleData.date;
+            document.getElementById('readTime').textContent = `约${articleData.readTime}分钟`;
+            
+            const tagsContainer = document.getElementById('articleTags');
+            tagsContainer.innerHTML = '';
+            if (articleData.tags && articleData.tags.length > 0) {
+                articleData.tags.forEach(tag => {
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'article-tag';
+                    tagElement.textContent = tag;
+                    tagsContainer.appendChild(tagElement);
+                });
+            }
+        } else {
+            console.warn(`未找到ID为${articleId}的文章数据`);
+        }
+    }
+    
+    function initArticleNavigation(articleId) {
+        const navigation = document.getElementById('articleNavigation');
+        if (!navigation) return;
+        
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        
+        const adjacent = window.articlesData.getAdjacentArticles(articleId);
+        let navigationHTML = '';
+        
+        if (adjacent.prev) {
+            navigationHTML += `
+                <a href="/blog/${adjacent.prev.fileName}" class="nav-btn prev">
+                    <i class="fas fa-chevron-left"></i>
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                        <div>${adjacent.prev.title}</div>
+                    </div>
+                </a>
+            `;
+        } else {
+            navigationHTML += `
+                <a href="javascript:void(0)" class="nav-btn prev disabled">
+                    <i class="fas fa-chevron-left"></i>
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                        <div>已是第一篇</div>
+                    </div>
+                </a>
+            `;
+        }
+        
+        if (adjacent.next) {
+            navigationHTML += `
+                <a href="/blog/${adjacent.next.fileName}" class="nav-btn next">
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                        <div>${adjacent.next.title}</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            `;
+        } else {
+            navigationHTML += `
+                <a href="javascript:void(0)" class="nav-btn next disabled">
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                        <div>已是最后一篇</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            `;
+        }
+        
+        navigation.innerHTML = navigationHTML;
+    }
+    
+    function initRelatedArticles(articleId) {
+        const grid = document.getElementById('relatedGrid');
+        if (!grid) return;
+        
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        
+        const relatedArticles = window.articlesData.getFeaturedArticles(articleId, 3);
+        grid.innerHTML = '';
+        
+        if (relatedArticles && relatedArticles.length > 0) {
+            relatedArticles.forEach(article => {
+                const card = document.createElement('a');
+                card.href = '/blog/' + article.fileName + '?blog=' + article.id;
+                card.className = 'related-card';
+                card.innerHTML = `
+                    <h4>${article.title}</h4>
+                    <p>${article.excerpt}</p>
+                    <div class="related-tags">
+                        ${article.tags.slice(0, 3).map(tag => `<span class="related-tag">${tag}</span>`).join('')}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        } else {
+            grid.innerHTML = `
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例1</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">示例标签</span>
+                    </div>
+                </a>
+            `;
+        }
+    }
+    
+    function addCodeCopyFunction() {
+        document.querySelectorAll('pre code').forEach((codeBlock) => {
+            const pre = codeBlock.parentElement;
+            if (pre.querySelector('.copy-button')) return;
+            
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+            copyButton.style.cssText = `
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: rgba(251, 114, 153, 0.2);
+                border: 1px solid rgba(251, 114, 153, 0.4);
+                color: white;
+                padding: 5px 12px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 0.8rem;
+                transition: all 0.3s ease;
+            `;
+            
+            pre.style.position = 'relative';
+            pre.appendChild(copyButton);
+            
+            copyButton.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                    copyButton.style.background = 'rgba(0, 161, 214, 0.5)';
+                    setTimeout(() => {
+                        copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+                        copyButton.style.background = 'rgba(251, 114, 153, 0.2)';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('复制失败:', err);
+                });
+            });
+        });
+    }
+    
+    function addReadingProgressBar() {
+        if (document.getElementById('reading-progress-bar')) return;
+        
+        const progressBar = document.createElement('div');
+        progressBar.id = 'reading-progress-bar';
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s ease;
+        `;
+        document.body.appendChild(progressBar);
+        
+        window.addEventListener('scroll', function() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (documentHeight > 0) {
+                const scrollPercent = (scrollTop / documentHeight) * 100;
+                progressBar.style.width = scrollPercent + '%';
+            }
+        });
+    }
+    
+    function initShareFunction() {
+        const shareButton = document.getElementById('shareButton');
+        const shareModal = document.getElementById('shareModal');
+        const shareText = document.getElementById('shareText');
+        const copyShareTextBtn = document.getElementById('copyShareText');
+        const closeShareModalBtn = document.getElementById('closeShareModal');
+        const closeShareModalBtn2 = document.getElementById('closeShareModalBtn');
+        
+        if (!shareButton || !shareModal || !shareText) {
+            console.error('分享功能元素未找到');
+            return;
+        }
+        
+        let articleTitle = document.getElementById('articleTitle').textContent;
+        if (!articleTitle || articleTitle === '文章标题') {
+            articleTitle = '这篇文章';
+        }
+        
+        const shareUrl = `https://ciallo0721-cmd.github.io/${currentArticleId}.html`;
+        const shareMessage = `快来看看这篇文章《${articleTitle}》: ${shareUrl}`;
+        shareText.textContent = shareMessage;
+        
+        shareButton.addEventListener('click', function() {
+            shareModal.classList.add('active');
+        });
+        
+        function closeShareModal() {
+            shareModal.classList.remove('active');
+            copyShareTextBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
+            copyShareTextBtn.classList.remove('copied');
+        }
+        
+        closeShareModalBtn.addEventListener('click', closeShareModal);
+        closeShareModalBtn2.addEventListener('click', closeShareModal);
+        
+        shareModal.addEventListener('click', function(e) {
+            if (e.target === shareModal) {
+                closeShareModal();
+            }
+        });
+        
+        copyShareTextBtn.addEventListener('click', function() {
+            navigator.clipboard.writeText(shareMessage).then(() => {
+                copyShareTextBtn.innerHTML = '<i class="fas fa-check"></i> 已复制到剪贴板';
+                copyShareTextBtn.classList.add('copied');
+                
+                setTimeout(() => {
+                    copyShareTextBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
+                    copyShareTextBtn.classList.remove('copied');
+                }, 3000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                alert('复制失败，请手动复制链接');
+            });
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && shareModal.classList.contains('active')) {
+                closeShareModal();
+            }
+        });
+    }
+    
+    function initPage() {
+        if (typeof window.articlesData === 'undefined') {
+            setTimeout(initPage, 100);
+            return;
+        }
+        
+        updateArticleInfo(currentArticleId);
+        initArticleNavigation(currentArticleId);
+        initRelatedArticles(currentArticleId);
+        addCodeCopyFunction();
+        addReadingProgressBar();
+        initShareFunction();
+    }
+    
+    initPage();
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            window.location.href = '/index.html';
+        } else if (e.key === 'h' && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            window.location.href = '/index.html';
+        }
+    });
+    
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                addCodeCopyFunction();
+            }
+        });
+    });
+    
+    const articleContent = document.getElementById('articleContent');
+    if (articleContent) {
+        observer.observe(articleContent, { childList: true, subtree: true });
+    }
+});
+
+</script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        
+        gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+
+    <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;justify-content:center;align-items:center;" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button>
+    <script>
+    (function(){
+        var btn=document.getElementById('totop-btn');
+        if(!btn)return;
+        btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+        window.addEventListener('scroll',function(){btn.style.display=window.scrollY>300?'flex':'none';},{passive:true});
+        document.addEventListener('DOMContentLoaded',function(){btn.style.display=window.scrollY>300?'flex':'none';});
+    })();
+    </script>
+    <script src="../../media-viewer.js"></script>
+
+<script>
+(function(){
+    var blogId = new URLSearchParams(window.location.search).get("blog");
+    if (blogId) {
+        console.log("文章 ID:", blogId);
+    }
+})();
+</script>
+[/html]

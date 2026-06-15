@@ -1,0 +1,275 @@
+[Title] 漫画阅读器 - manga-1 测试文章 - ciallo0721-cmd
+[Date] 2026-06-13
+[Author] ciallo0721-cmd
+[Tag] 文章
+
+[正文开始]
+
+[HTML]
+<div class="container">
+
+        <!-- 漫画阅读器 -->
+        <div class="manga-reader-wrap">
+            <!-- 工具栏 -->
+            <div class="manga-toolbar">
+                <label class="manga-upload-label">
+                    <i class="fas fa-folder-open"></i> 打开本地 EPUB
+                    <input type="file" id="epubFileInput" accept=".epub,application/epub+zip">
+                </label>
+
+                <div class="manga-url-row">
+                    <input type="text" class="manga-url-input" id="epubUrlInput" placeholder="粘贴 EPUB URL 加载（需 CORS）">
+                    <button class="manga-url-btn" id="epubUrlBtn"><i class="fas fa-download"></i> 加载</button>
+                </div>
+
+                <div class="manga-page-ctrl">
+                    <button class="manga-page-btn" id="epubPrev" disabled title="上一页"><i class="fas fa-chevron-left"></i></button>
+                    <span id="epubPageInfo" style="white-space:nowrap;min-width:70px;text-align:center;">— / —</span>
+                    <button class="manga-page-btn" id="epubNext" disabled title="下一页"><i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <button class="manga-mode-btn" id="epubSingleMode" title="单页模式">📄 单页</button>
+                <button class="manga-mode-btn" id="epubSpreadMode" title="双页模式">📑 双页</button>
+            </div>
+
+            <!-- 阅读区域 -->
+            <div class="manga-view-area" id="mangaViewArea" tabindex="0">
+                <div class="manga-placeholder" id="mangaPlaceholder">
+                    <i class="fas fa-book-open"></i>
+                    <p>点击「打开本地 EPUB」上传漫画文件</p>
+                    <p style="font-size:0.85rem;color:#777;margin-top:8px;">支持 EPUB 格式 · 漫画/小说均可用</p>
+                </div>
+                <div class="manga-loading" id="mangaLoading"><i class="fas fa-circle-notch"></i> 加载中...</div>
+                <div id="epubViewContainer" style="display:none;width:100%;height:600px;"></div>
+            </div>
+
+            <!-- 状态栏 -->
+            <div class="manga-status-bar">
+                <span id="epubFileName">未加载文件</span>
+                <span id="epubErr" class="manga-err"></span>
+            </div>
+        </div>
+
+        <div class="article-content" style="padding: 20px 0;">
+            <h3>📚 关于这个阅读器</h3>
+            <p>这是一个基于 epub.js 的漫画/小说阅读器，支持 EPUB 格式文件。</p>
+            <ul>
+                <li><strong>单页模式</strong>：一次显示一页，适合小说和漫画</li>
+                <li><strong>双页模式</strong>：同时显示两页，模拟实体书效果</li>
+                <li><strong>键盘操作</strong>：← → 方向键翻页</li>
+                <li><strong>点击翻页</strong>：点击阅读区域左/右半部分翻页</li>
+                <li><strong>上传本地文件</strong>：或输入 EPUB 文件 URL 加载</li>
+            </ul>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:12px;">
+                💡 提示：如果想测试，可以找一个免费的 EPUB 公版书 URL 粘贴到输入框喵～
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+    <div class="container">
+        <p>© 2026 ciallo0721-cmd &nbsp;·&nbsp;
+           <a href="../../index.html">主页</a> &nbsp;·&nbsp;
+           <a href="../../wz.html">文章</a>
+        </p>
+    </div>
+</footer>
+
+<script>
+(function () {
+    'use strict';
+
+    // 检查 epub.js 是否加载
+    if (typeof ePub === 'undefined') {
+        document.getElementById('epubErr').textContent = 'epub.js 未加载，请刷新重试';
+        return;
+    }
+
+    var book = null;
+    var rendition = null;
+    var currentLocation = null;
+    var isDoublePage = false;
+
+    function $(id) { return document.getElementById(id); }
+    function setErr(msg) { $('epubErr').textContent = msg || ''; }
+
+    function updateUI() {
+        if (!book) {
+            $('epubPageInfo').textContent = '— / —';
+            $('epubPrev').disabled = true;
+            $('epubNext').disabled = true;
+            return;
+        }
+        var loc = currentLocation;
+        if (loc && loc.start) {
+            var current = loc.start.displayed ? loc.start.displayed.page : 0;
+            var total = loc.start.displayed ? loc.start.displayed.total : 0;
+            // CFI-based: use displayed page info
+            var cfi = loc.start.cfi;
+            $('epubPageInfo').textContent = book ? (current + 1) + ' / ' + total : '— / —';
+            $('epubPrev').disabled = !rendition || !rendition.prev;
+            $('epubNext').disabled = !rendition || !rendition.next;
+        } else {
+            $('epubPageInfo').textContent = '— / —';
+        }
+    }
+
+    function openBook(url, name) {
+        setErr('');
+        $('mangaPlaceholder').style.display = 'none';
+        $('epubViewContainer').style.display = 'block';
+        $('mangaLoading').style.display = 'block';
+
+        if (name) $('epubFileName').textContent = name;
+
+        // 销毁之前的渲染
+        if (rendition) {
+            rendition.destroy();
+            rendition = null;
+        }
+        if (book) {
+            book.destroy();
+            book = null;
+        }
+        $('epubViewContainer').innerHTML = '';
+
+        try {
+            book = ePub(url);
+            
+            rendition = book.renderTo('epubViewContainer', {
+                width: '100%',
+                height: 600,
+                spread: isDoublePage ? 'always' : 'none',
+                manager: 'default',
+                flow: 'paginated'
+            });
+
+            var displayed = rendition.display();
+
+            displayed.then(function() {
+                $('mangaLoading').style.display = 'none';
+                currentLocation = rendition.location;
+                updateUI();
+                setErr('');
+            }).catch(function(e) {
+                $('mangaLoading').style.display = 'none';
+                setErr('渲染失败：' + (e && e.message || e));
+            });
+
+            // 监听位置变化
+            rendition.on('relocated', function(location) {
+                currentLocation = location;
+                updateUI();
+            });
+
+            // 点击翻页：左半部分上一页，右半部分下一页
+            var viewArea = $('mangaViewArea');
+            viewArea.addEventListener('click', function(e) {
+                if (!rendition) return;
+                var rect = viewArea.getBoundingClientRect();
+                var x = e.clientX - rect.left;
+                var mid = rect.width / 2;
+                if (x < mid) {
+                    rendition.prev();
+                } else {
+                    rendition.next();
+                }
+            });
+
+        } catch (e) {
+            $('mangaLoading').style.display = 'none';
+            setErr('加载失败：' + (e && e.message || e));
+        }
+    }
+
+    // 上传本地文件
+    $('epubFileInput').addEventListener('change', function(e) {
+        var file = e.target.files[0];
+        if (!file) return;
+        // 用 URL.createObjectURL 或 FileReader
+        var url = URL.createObjectURL(file);
+        openBook(url, file.name);
+    });
+
+    // URL 加载
+    $('epubUrlBtn').addEventListener('click', function() {
+        var url = $('epubUrlInput').value.trim();
+        if (!url) return;
+        openBook(url, url);
+    });
+    $('epubUrlInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') $('epubUrlBtn').click();
+    });
+
+    // 翻页
+    $('epubPrev').addEventListener('click', function() {
+        if (rendition) rendition.prev();
+    });
+    $('epubNext').addEventListener('click', function() {
+        if (rendition) rendition.next();
+    });
+
+    // 键盘翻页
+    $('mangaViewArea').addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (rendition) rendition.prev();
+        }
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (rendition) rendition.next();
+        }
+    });
+
+    // 单页/双页切换
+    $('epubSingleMode').addEventListener('click', function() {
+        isDoublePage = false;
+        $('epubSingleMode').classList.add('active');
+        $('epubSpreadMode').classList.remove('active');
+        if (book && rendition) {
+            rendition.destroy();
+            rendition = null;
+            $('epubViewContainer').innerHTML = '';
+            rendition = book.renderTo('epubViewContainer', {
+                width: '100%',
+                height: 600,
+                spread: 'none',
+                flow: 'paginated'
+            });
+            rendition.display();
+            rendition.on('relocated', function(location) {
+                currentLocation = location;
+                updateUI();
+            });
+        }
+    });
+
+    $('epubSpreadMode').addEventListener('click', function() {
+        isDoublePage = true;
+        $('epubSpreadMode').classList.add('active');
+        $('epubSingleMode').classList.remove('active');
+        if (book && rendition) {
+            rendition.destroy();
+            rendition = null;
+            $('epubViewContainer').innerHTML = '';
+            rendition = book.renderTo('epubViewContainer', {
+                width: '100%',
+                height: 600,
+                spread: 'always',
+                flow: 'paginated'
+            });
+            rendition.display();
+            rendition.on('relocated', function(location) {
+                currentLocation = location;
+                updateUI();
+            });
+        }
+    });
+
+    updateUI();
+})();
+</script>
+[/html]

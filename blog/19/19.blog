@@ -1,0 +1,821 @@
+[Title] Ren'Py 人物立绘怎么换？完整替换指南
+[Date] 2025-12-30
+[Author] ciallo0721-cmd
+[Tag] 文章
+
+[正文开始]
+
+[HTML]
+<!-- 导航栏 -->
+    <nav>
+        <div class="container nav-container">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-gamepad"></i> 开发者ciallo0721-cmd的空间
+            </a>
+            <a href="../../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </div>
+    </nav>
+
+    <!-- 文章内容 -->
+    <main class="container article-detail-container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="article-number" id="articleNumber">文章 #000</div>
+                <h1 class="article-title" id="articleTitle">文章标题</h1>
+                
+                <p class="article-intro" id="articleIntro">文章简介：这是一个文章简介的占位文本，实际使用时将通过JavaScript动态替换。</p>
+                
+                <div class="article-meta">
+                    <div class="article-date">
+                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2025-12-30</span>
+                    </div>
+                    <div class="article-date">
+                        <i class="far fa-clock"></i> 阅读时间: <span id="readTime">约10分钟</span>
+                    </div>
+                </div>
+                
+                <div class="article-tags" id="articleTags">
+                    <!-- 标签将通过JavaScript动态生成 -->
+                    <span class="article-tag">示例标签1</span>
+                    <span class="article-tag">示例标签2</span>
+                    <span class="article-tag">示例标签3</span>
+                </div>
+            </header>
+            
+            <div class="article-content" id="articleContent">
+                        <p>在 Ren'Py 视觉小说开发中，人物立绘（Character Sprite）是决定游戏视觉表现力的核心要素。无论你是在开发初期替换占位图，还是在后期更新角色形象，掌握立绘更换的方法都是必不可少的技能。本文将详细介绍 3 种更换立绘的方法，并附上常见问题的排查方案。</p>
+
+            <h2>一、为什么要更换立绘？</h2>
+            <p>人物立绘是视觉小说中最重要的视觉元素之一。一个精心设计的立绘能够：</p>
+            <ul>
+                <li><strong>塑造角色性格</strong>：立绘的表情、姿势、服装直接传达角色的个性特征</li>
+                <li><strong>增强沉浸感</strong>：高质量的立绘让玩家更容易代入故事</li>
+                <li><strong>适应剧情发展</strong>：不同场景需要不同的表情和服装变体</li>
+                <li><strong>迭代优化</strong>：开发过程中经常需要替换临时素材或升级美术质量</li>
+            </ul>
+            <p>无论你是刚入门的新手还是经验丰富的开发者，都一定会遇到需要更换立绘的场景。</p>
+
+            <h2>二、立绘文件准备</h2>
+            <h3>1. 支持的图片格式</h3>
+            <p>Ren'Py 支持以下图片格式作为立绘素材：</p>
+            <ul>
+                <li><strong>PNG</strong>（推荐）：支持透明通道，是最常用的立绘格式</li>
+                <li><strong>WebP</strong>：体积更小，支持透明，适合优化包体</li>
+                <li><strong>JPG</strong>：不支持透明，不推荐用于立绘</li>
+            </ul>
+
+            <h3>2. 命名规范</h3>
+            <p>Ren'Py 使用自动图片定义机制，文件名会直接映射为图片标签。推荐命名格式：</p>
+            <pre><code># 文件名格式：角色名_表情.png
+# 例如：
+images/alice happy.png      → show alice happy
+images/alice angry.png      → show alice angry
+images/alice sad.png        → show alice sad
+images/alice normal.png     → show alice normal
+
+# 带服装变体：
+images/alice casual happy.png   → show alice casual happy
+images/alice uniform angry.png  → show alice uniform angry</code></pre>
+
+            <div class="tip">
+                <strong>小技巧：</strong>文件名中的空格会被 Ren'Py 自动识别为标签分隔符。使用小写字母和下划线/空格组合是最规范的命名方式。
+            </div>
+
+            <h3>3. 建议尺寸</h3>
+            <p>立绘的推荐尺寸取决于你的游戏分辨率：</p>
+            <ul>
+                <li><strong>1920×1080 游戏</strong>：立绘高度建议 1600-1800px，宽度 600-900px</li>
+                <li><strong>1280×720 游戏</strong>：立绘高度建议 1000-1200px，宽度 400-600px</li>
+                <li><strong>保持一致</strong>：同一角色的所有表情和服装变体尺寸必须一致</li>
+            </ul>
+
+            <h2>三、方法一：直接替换 images 目录下的文件</h2>
+            <p>这是最简单直接的方法，适合只需要替换图片而无需修改代码的场景。</p>
+
+            <h3>操作步骤</h3>
+            <ol>
+                <li>打开项目的 <code>game/images/</code> 目录</li>
+                <li>找到需要替换的立绘文件（如 <code>alice happy.png</code>）</li>
+                <li>用新图片替换旧文件，<strong>保持文件名不变</strong></li>
+                <li>重启 Ren'Py（或按 Shift+R 重新加载）</li>
+            </ol>
+
+            <pre><code># 项目目录结构示例
+game/
+├── images/
+│   ├── alice happy.png      ← 替换这个文件
+│   ├── alice angry.png
+│   ├── alice sad.png
+│   └── bob normal.png
+├── script.rpy
+└── options.rpy</code></pre>
+
+            <div class="tip">
+                <strong>优点：</strong>操作简单，不需要修改任何代码。适合美术更新、占位图替换等场景。
+            </div>
+
+            <div class="warning">
+                <strong>注意：</strong>新图片的尺寸应与旧图片一致，否则可能导致角色大小突然变化或位置偏移。
+            </div>
+
+            <h2>四、方法二：修改 script.rpy 中的 image 定义</h2>
+            <p>当你需要重新组织图片结构，或者使用不同的文件名映射时，可以通过修改 <code>image</code> 定义来实现。</p>
+
+            <h3>基本 image 定义</h3>
+            <pre><code># 在 script.rpy 或单独的 images.rpy 中定义
+
+# 方式1：直接指定文件路径
+image alice happy = "characters/alice_smile.png"
+image alice angry = "characters/alice_mad.png"
+image alice sad = "characters/alice_cry.png"
+
+# 方式2：使用 condition 条件切换
+image alice = ConditionSwitch(
+    "alice_mood == 'happy'", "characters/alice_smile.png",
+    "alice_mood == 'angry'", "characters/alice_mad.png",
+    "alice_mood == 'sad'", "characters/alice_cry.png",
+    "True", "characters/alice_normal.png"
+)</code></pre>
+
+            <h3>使用 Composite 合成立绘</h3>
+            <pre><code># 将身体和表情分层组合
+image alice happy = Composite(
+    (600, 1800),
+    (0, 0), "characters/alice_base.png",      # 身体
+    (0, 0), "characters/alice_face_happy.png"  # 表情
+)
+
+image alice angry = Composite(
+    (600, 1800),
+    (0, 0), "characters/alice_base.png",
+    (0, 0), "characters/alice_face_angry.png"
+)</code></pre>
+
+            <div class="tip">
+                <strong>推荐：</strong>使用 Composite 分层可以大大减少图片总量。只需要一个身体图层 + 多个表情图层，而不是为每个表情都导出完整的立绘。
+            </div>
+
+            <h2>五、方法三：使用 DynamicImage 动态立绘</h2>
+            <p>当你的角色立绘需要根据游戏状态动态切换时，可以使用 <code>DynamicImage</code> 配合变量实现。</p>
+
+            <pre><code># 定义动态立绘
+image alice = DynamicImage("alice_[alice_outfit]_[alice_mood].png")
+
+# 定义角色
+define a = Character("爱丽丝", image="alice")
+
+# 在脚本中使用
+label start:
+    $ alice_outfit = "casual"
+    $ alice_mood = "happy"
+
+    show alice          # 显示 alice_casual_happy.png
+
+    a "今天天气真好呢！"
+
+    $ alice_mood = "angry"
+    show alice          # 自动切换为 alice_casual_angry.png
+
+    a "你怎么可以这样！"</code></pre>
+
+            <h3>DynamicCharacter 配合使用</h3>
+            <pre><code># 角色名也可动态变化
+define dynamic_name = "???"
+define a = DynamicCharacter("dynamic_name", image="alice")
+
+label mystery:
+    show alice at center
+    $ dynamic_name = "???"
+    a "你猜我是谁？"
+
+    $ dynamic_name = "爱丽丝"
+    $ alice_mood = "happy"
+    show alice
+    a "是我啦！"</code></pre>
+
+            <h2>六、表情切换：show 语句详解</h2>
+            <p>Ren'Py 使用 <code>show</code> 语句来显示和切换立绘表情：</p>
+
+            <pre><code># 显示角色（默认表情）
+show alice
+
+# 显示特定表情
+show alice happy
+show alice angry
+show alice sad
+
+# 带位置显示
+show alice happy at left
+show alice angry at right
+show alice sad at center
+
+# 带过渡效果切换表情
+show alice angry with dissolve
+
+# 隐藏角色
+hide alice with dissolve</code></pre>
+
+            <h3>表情切换动画</h3>
+            <pre><code># 定义过渡效果
+define flash = CropMove(0.2, "cropleft")
+
+# 使用自定义过渡
+show alice angry with flash
+
+# 使用 ATL 动画
+image alice happy:
+    "alice happy"
+    xalign 0.5
+    easein 0.3 yalign 1.0</code></pre>
+
+            <h2>七、常见问题排查</h2>
+
+            <h3>1. 图片不显示</h3>
+            <p>这是最常见的问题，排查步骤如下：</p>
+            <ul>
+                <li>检查文件是否在 <code>game/images/</code> 目录下</li>
+                <li>检查文件名是否与 <code>show</code> 语句匹配（大小写敏感）</li>
+                <li>检查图片格式是否为 PNG 或 WebP</li>
+                <li>按 <code>Shift+I</code> 查看图片加载错误日志</li>
+                <li>确认文件名中没有多余的空格或特殊字符</li>
+            </ul>
+
+            <h3>2. 立绘位置偏移</h3>
+            <pre><code># 方法1：使用 at 关键字调整位置
+show alice at center
+show alice at left
+show alice at right
+
+# 方法2：自定义位置
+transform my_pos:
+    xalign 0.3
+    yalign 1.0
+
+show alice happy at my_pos
+
+# 方法3：使用 xpos/ypos 精确控制
+show alice happy:
+    xpos 200
+    ypos 0</code></pre>
+
+            <h3>3. 立绘切换闪烁</h3>
+            <p>切换表情时出现闪烁通常是因为新旧图片的透明区域不一致：</p>
+            <pre><code># 使用 dissolve 过渡消除闪烁
+show alice happy with dissolve
+
+# 或在 options.rpy 中设置默认过渡
+define config.say_attribute_transition = dissolve</code></pre>
+
+            <h3>4. 多个立绘重叠</h3>
+            <pre><code># 先隐藏旧立绘再显示新的
+hide alice
+show alice happy with dissolve
+
+# 或直接用 show 切换（Ren'Py 会自动替换同名角色）
+show alice happy  # 自动替换之前的 alice 表情</code></pre>
+
+            <div class="warning">
+                <strong>重要：</strong>如果你同时显示了同一角色的多个立绘（比如用不同标签），需要使用 <code>hide</code> 明确指定要隐藏的标签。
+            </div>
+
+            <h2>八、最佳实践总结</h2>
+            <ol>
+                <li><strong>统一命名</strong>：使用一致的命名规范（如 <code>角色名_表情.png</code>）</li>
+                <li><strong>分层管理</strong>：使用 Composite 将身体和表情分开，减少图片总量</li>
+                <li><strong>版本控制</strong>：在替换立绘前备份旧文件</li>
+                <li><strong>尺寸一致</strong>：确保同一角色的所有变体尺寸完全一致</li>
+                <li><strong>及时测试</strong>：每次更换立绘后都要在游戏中实际查看效果</li>
+            </ol>
+
+            <p>掌握了以上 3 种方法和常见问题的解决方案，你就可以在 Ren'Py 中自由地管理和更换人物立绘了。无论是简单的文件替换，还是复杂的动态立绘系统，都能得心应手。</p>
+
+            </div>
+            
+            <!-- 分享按钮 -->
+            <div style="text-align: center;">
+                <button class="share-btn" id="shareButton">
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                </button>
+            </div>
+        </article>
+        
+        <!-- 文章导航 -->
+        <div class="article-navigation" id="articleNavigation">
+            <!-- 将通过JavaScript动态生成 -->
+            <a href="javascript:void(0)" class="nav-btn prev disabled">
+                <i class="fas fa-chevron-left"></i>
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                    <div>已是第一篇</div>
+                </div>
+            </a>
+            <a href="javascript:void(0)" class="nav-btn next disabled">
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                    <div>已是最后一篇</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+        <!-- 推荐文章 -->
+        <div class="related-articles" id="relatedArticles">
+            <h3 class="related-title">推荐文章</h3>
+            <div class="related-grid" id="relatedGrid">
+                <!-- 将通过JavaScript动态生成 -->
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例1</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">111</span>
+                        <span class="related-tag">111</span>
+                    </div>
+                </a>
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例2</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">教程</span>
+                        <span class="related-tag">C#</span>
+                    </div>
+                </a>
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例3</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">游戏开发</span>
+                        <span class="related-tag">动画</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 图片放大弹窗 -->
+    <div class="image-zoom-modal" id="imageZoomModal">
+        <span class="image-zoom-close" id="imageZoomClose">&times;</span>
+        <img src="" alt="放大图片" id="zoomedImage">
+    </div>
+
+    <!-- 分享弹窗 -->
+    <div class="share-modal" id="shareModal">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3 class="share-modal-title">
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                </h3>
+                <button class="share-close-btn" id="closeShareModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="share-text" id="shareText">
+                快来看看这篇文章: https://ciallo0721-cmd.github.io/{编号}.html
+            </div>
+            <div class="share-actions">
+                <button class="share-copy-btn" id="copyShareText">
+                    <i class="far fa-copy"></i> 复制分享链接
+                </button>
+                <button class="share-close-modal-btn" id="closeShareModalBtn">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
+        <a href="../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
+          <img src="../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
+            style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
+        </a>
+      </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
+            <p>感谢阅读我的文章！期待与您交流开发心得</p>
+        </div>
+    </footer>
+
+    <script>
+
+// 文章特定的初始化
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('文章模板已加载完成');
+    
+    // 获取当前文章ID（直接在此处填写当前文章ID，如 16 或 -1）
+    const currentArticleId = 19; // ← 替换成真实ID，如 16 或 -1（灰度测试）
+    function getCurrentArticleId() {
+        return currentArticleId;
+    }
+    
+    
+    // 更新文章信息
+    function updateArticleInfo(articleId) {
+        // 确保articlesData已加载
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        
+        const articleData = window.articlesData.getArticleById(articleId);
+        
+        if (articleData) {
+            document.getElementById('articleNumber').textContent = `文章 #${String(articleData.id).padStart(3, '0')}`;
+            document.getElementById('articleTitle').textContent = articleData.title;
+            document.getElementById('articleIntro').textContent = articleData.excerpt;
+            document.getElementById('articleDate').textContent = articleData.date;
+            document.getElementById('readTime').textContent = `约${articleData.readTime}分钟`;
+            
+            // 更新标签
+            const tagsContainer = document.getElementById('articleTags');
+            tagsContainer.innerHTML = '';
+            if (articleData.tags && articleData.tags.length > 0) {
+                articleData.tags.forEach(tag => {
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'article-tag';
+                    tagElement.textContent = tag;
+                    tagsContainer.appendChild(tagElement);
+                });
+            }
+        } else {
+            console.warn(`未找到ID为${articleId}的文章数据`);
+        }
+    }
+    
+    // 生成文章导航（上一篇/下一篇）
+    function initArticleNavigation(articleId) {
+        const navigation = document.getElementById('articleNavigation');
+        if (!navigation) return;
+        
+        // 确保articlesData已加载
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        
+        const adjacent = window.articlesData.getAdjacentArticles(articleId);
+        let navigationHTML = '';
+        
+        // 上一篇按钮
+        if (adjacent.prev) {
+            navigationHTML += `
+                <a href="${adjacent.prev.fileName}" class="nav-btn prev">
+                    <i class="fas fa-chevron-left"></i>
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                        <div>${adjacent.prev.title}</div>
+                    </div>
+                </a>
+            `;
+        } else {
+            navigationHTML += `
+                <a href="javascript:void(0)" class="nav-btn prev disabled">
+                    <i class="fas fa-chevron-left"></i>
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                        <div>已是第一篇</div>
+                    </div>
+                </a>
+            `;
+        }
+        
+        // 下一篇按钮
+        if (adjacent.next) {
+            navigationHTML += `
+                <a href="${adjacent.next.fileName}" class="nav-btn next">
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                        <div>${adjacent.next.title}</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            `;
+        } else {
+            navigationHTML += `
+                <a href="javascript:void(0)" class="nav-btn next disabled">
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                        <div>已是最后一篇</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            `;
+        }
+        
+        navigation.innerHTML = navigationHTML;
+    }
+    
+    // 生成推荐文章
+    function initRelatedArticles(articleId) {
+        const grid = document.getElementById('relatedGrid');
+        if (!grid) return;
+        
+        // 确保articlesData已加载
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        
+        const relatedArticles = window.articlesData.getFeaturedArticles(articleId, 3);
+        grid.innerHTML = '';
+        
+        if (relatedArticles && relatedArticles.length > 0) {
+            relatedArticles.forEach(article => {
+                const card = document.createElement('a');
+                card.href = '/blog/' + article.fileName + '?blog=' + article.id;
+                card.className = 'related-card';
+                card.innerHTML = `
+                    <h4>${article.title}</h4>
+                    <p>${article.excerpt}</p>
+                    <div class="related-tags">
+                        ${article.tags.slice(0, 3).map(tag => `<span class="related-tag">${tag}</span>`).join('')}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        } else {
+            // 如果没有推荐文章，显示默认内容
+            grid.innerHTML = `
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例1</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">示例标签</span>
+                    </div>
+                </a>
+            `;
+        }
+    }
+    
+    // 图片点击放大功能
+    function initImageZoom() {
+        const modal = document.getElementById('imageZoomModal');
+        const modalImg = document.getElementById('zoomedImage');
+        const closeBtn = document.getElementById('imageZoomClose');
+        
+        if (!modal || !modalImg) return;
+        
+        // 为所有可放大的图片添加点击事件
+        document.querySelectorAll('.zoomable').forEach(img => {
+            img.addEventListener('click', function() {
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // 关闭弹窗
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+        
+        // ESC键关闭
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
+    
+    // 添加代码复制功能
+    function addCodeCopyFunction() {
+        document.querySelectorAll('pre code').forEach((codeBlock) => {
+            const pre = codeBlock.parentElement;
+            
+            // 避免重复添加复制按钮
+            if (pre.querySelector('.copy-button')) return;
+            
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+            copyButton.style.cssText = `
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: rgba(251, 114, 153, 0.2);
+                border: 1px solid rgba(251, 114, 153, 0.4);
+                color: white;
+                padding: 5px 12px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 0.8rem;
+                transition: all 0.3s ease;
+            `;
+            
+            pre.style.position = 'relative';
+            pre.appendChild(copyButton);
+            
+            copyButton.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                    copyButton.style.background = 'rgba(0, 161, 214, 0.5)';
+                    setTimeout(() => {
+                        copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+                        copyButton.style.background = 'rgba(251, 114, 153, 0.2)';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('复制失败:', err);
+                });
+            });
+        });
+    }
+    
+    // 添加阅读进度指示器
+    function addReadingProgressBar() {
+        // 避免重复添加进度条
+        if (document.getElementById('reading-progress-bar')) return;
+        
+        const progressBar = document.createElement('div');
+        progressBar.id = 'reading-progress-bar';
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s ease;
+        `;
+        document.body.appendChild(progressBar);
+        
+        // 更新阅读进度
+        window.addEventListener('scroll', function() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (documentHeight > 0) {
+                const scrollPercent = (scrollTop / documentHeight) * 100;
+                progressBar.style.width = scrollPercent + '%';
+            }
+        });
+    }
+    
+    // 初始化分享功能
+    function initShareFunction() {
+        const shareButton = document.getElementById('shareButton');
+        const shareModal = document.getElementById('shareModal');
+        const shareText = document.getElementById('shareText');
+        const copyShareTextBtn = document.getElementById('copyShareText');
+        const closeShareModalBtn = document.getElementById('closeShareModal');
+        const closeShareModalBtn2 = document.getElementById('closeShareModalBtn');
+        
+        if (!shareButton || !shareModal || !shareText) {
+            console.error('分享功能元素未找到');
+            return;
+        }
+        
+        // 获取文章标题
+        let articleTitle = document.getElementById('articleTitle').textContent;
+        if (!articleTitle || articleTitle === '文章标题') {
+            articleTitle = '这篇文章';
+        }
+        
+        // 更新分享文本
+        const shareUrl = `https://ciallo0721-cmd.github.io/${currentArticleId}.html`;
+        const shareMessage = `快来看看这篇文章《${articleTitle}》: ${shareUrl}`;
+        shareText.textContent = shareMessage;
+        
+        // 打开分享弹窗
+        shareButton.addEventListener('click', function() {
+            shareModal.classList.add('active');
+        });
+        
+        // 关闭分享弹窗
+        function closeShareModal() {
+            shareModal.classList.remove('active');
+            // 重置复制按钮状态
+            copyShareTextBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
+            copyShareTextBtn.classList.remove('copied');
+        }
+        
+        closeShareModalBtn.addEventListener('click', closeShareModal);
+        closeShareModalBtn2.addEventListener('click', closeShareModal);
+        
+        // 点击弹窗外部关闭
+        shareModal.addEventListener('click', function(e) {
+            if (e.target === shareModal) {
+                closeShareModal();
+            }
+        });
+        
+        // 复制分享链接
+        copyShareTextBtn.addEventListener('click', function() {
+            navigator.clipboard.writeText(shareMessage).then(() => {
+                copyShareTextBtn.innerHTML = '<i class="fas fa-check"></i> 已复制到剪贴板';
+                copyShareTextBtn.classList.add('copied');
+                
+                // 3秒后恢复按钮状态
+                setTimeout(() => {
+                    copyShareTextBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
+                    copyShareTextBtn.classList.remove('copied');
+                }, 3000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                alert('复制失败，请手动复制链接');
+            });
+        });
+        
+        // ESC键关闭弹窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && shareModal.classList.contains('active')) {
+                closeShareModal();
+            }
+        });
+    }
+    
+    // 初始化页面
+    function initPage() {
+        // 等待articlesData加载完成
+        if (typeof window.articlesData === 'undefined') {
+            // 如果articlesData未定义，尝试等待
+            setTimeout(initPage, 100);
+            return;
+        }
+        
+        updateArticleInfo(currentArticleId);
+        initArticleNavigation(currentArticleId);
+        initRelatedArticles(currentArticleId);
+        addCodeCopyFunction();
+        addReadingProgressBar();
+        initShareFunction();
+        initImageZoom();
+        
+        // 初始化自定义视频播放器（如果页面中有）
+        if (window.MediaViewer && window.MediaViewer.initCustomVideoPlayer) {
+            window.MediaViewer.initCustomVideoPlayer();
+        }
+    }
+    
+    // 初始化页面
+    initPage();
+    
+    // 键盘快捷键支持
+    document.addEventListener('keydown', function(e) {
+        // ESC键返回首页
+        if (e.key === 'Escape') {
+            window.location.href = '../../index.html';
+        } else if (e.key === 'h' && (e.ctrlKey || e.metaKey)) {
+            // Ctrl/Cmd+H 返回首页
+            e.preventDefault();
+            window.location.href = '../../index.html';
+        }
+    });
+    
+    // 监听文章内容更新，重新添加代码复制按钮
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                addCodeCopyFunction();
+            }
+        });
+    });
+    
+    // 开始观察articleContent的变化
+    const articleContent = document.getElementById('articleContent');
+    if (articleContent) {
+        observer.observe(articleContent, { childList: true, subtree: true });
+    }
+});
+
+</script>
+    
+    <!-- 媒体查看器 JS -->
+    <script src="../../media-viewer.js"></script>
+    
+    <!-- 实际使用时, 请确保脚本路径正确并已加载所需的库。 -->
+    <!-- ./css/wz/{文章id}/wzjsid{换成id}.js  -->
+
+
+
+    <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;justify-content:center;align-items:center;" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button>
+    <script>
+    (function(){
+        var btn=document.getElementById('totop-btn');
+        if(!btn)return;
+        btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+        window.addEventListener('scroll',function(){btn.style.display=window.scrollY>300?'flex':'none';},{passive:true});
+        document.addEventListener('DOMContentLoaded',function(){btn.style.display=window.scrollY>300?'flex':'none';});
+    })();
+    </script>
+
+<script>
+(function(){
+    var blogId = new URLSearchParams(window.location.search).get("blog");
+    if (blogId) {
+        console.log("文章 ID:", blogId);
+    }
+})();
+</script>
+[/html]

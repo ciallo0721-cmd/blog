@@ -1,0 +1,24 @@
+[Title] 加载中...
+[Date] 2026-06-15
+[Author] ciallo0721-cmd
+[Tag] 文章
+
+[正文开始]
+
+[HTML]
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">ciallo0721-cmd</a>
+    <a href="/wz.html" class="back-btn">← 文章列表</a>
+  </div>
+</nav>
+
+<div id="app">
+  <div class="loading-wrap">
+    <div class="spinner"></div>
+    <p>正在加载文章...</p>
+  </div>
+</div>
+
+<script src="./decoder.js"></script>
+[/html]

@@ -1,0 +1,661 @@
+[Title] 优化X(twitter)推荐
+[Date] 2026-05-13
+[Author] ciallo0721-cmd
+[Tag] 文章
+
+[正文开始]
+
+[HTML]
+<!-- 导航栏 -->
+    <nav>
+        <div class="container nav-container">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-gamepad"></i> 开发者ciallo0721-cmd的空间
+            </a>
+            <a href="../../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </div>
+    </nav>
+
+    <!-- 文章内容 -->
+    <main class="container article-detail-container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="article-number" id="articleNumber">#017</div>
+                <h1 class="article-title" id="articleTitle">优化X(twitter)推荐</h1>
+                
+                <p class="article-intro" id="articleIntro">优化X(twitter)推荐</p>
+                
+                <div class="article-meta">
+                    <div class="article-date">
+                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2026-5-13</span>
+                    </div>
+                    <div class="article-date">
+                        <i class="far fa-clock"></i> 阅读时间: <span id="readTime">约10分钟</span>
+                    </div>
+                </div>
+                
+                <div class="article-tags" id="articleTags">
+                    <!-- 标签将通过JavaScript动态生成 -->
+                    <span class="article-tag">X(twitter)</span>
+                    <span class="article-tag">推荐算法</span>
+                </div>
+            </header>
+            
+            <div class="article-content" id="articleContent">
+
+                <h2>前言:</h2>
+                <p>在这个快速发展的数字时代，X(twitter) 已成为人们获取信息和娱乐的重要平台。然而，林子大了什么鸟都有。偶尔也会碰到些对中国的偏见言论（其实说得直白些就是反动内容的帖子）,本文将探讨如何优化 X推荐,使其不会推荐这些言论。</p>
+
+                <h2>1.banned word </h2>
+                <p>我们可以通过设置一系列敏感词汇（banned words）来优化推荐系统。这些词汇通常与不当内容相关联</p>
+                <h2>具体操作</h2>
+                <p>打开X(twitter),点击左上角的头像，选择“设置和隐私”</p>
+                <p>然后,在菜单中选择“隐私和安全”</p>
+                <p>接下来,在“隐私和安全”设置中找到“隐藏和屏蔽”选项</p>
+
+                <div class="article-video-container">
+                    <div class="video-player-container" data-src="1.mp4">
+                        <div class="video-poster">
+                            <div class="play-button"><i class="fas fa-play"></i></div>
+                        </div>
+                        <video preload="metadata"></video>
+                        <div class="video-controls">
+                            <button class="vp-control-btn vp-play-pause"><i class="fas fa-play"></i></button>
+                            <div class="vp-progress-container">
+                                <div class="vp-progress-bar">
+                                    <div class="vp-progress-fill"></div>
+                                    <div class="vp-progress-handle"></div>
+                                </div>
+                            </div>
+                            <span class="vp-time-display">00:00 / 00:00</span>
+                            <div class="vp-volume-container">
+                                <button class="vp-control-btn vp-volume-btn"><i class="fas fa-volume-up"></i></button>
+                                <div class="vp-volume-slider"><div class="vp-volume-fill"></div></div>
+                            </div>
+                            <button class="vp-control-btn vp-fullscreen-btn"><i class="fas fa-expand"></i></button>
+                        </div>
+                        <div class="vp-loading"></div>
+                    </div>
+                    <div class="image-caption">视频：如何屏蔽</div>
+                </div>
+
+
+                <h2>常见的屏蔽词</h2>
+                <p>这里我放不出来...但是,在GitHub上有一个专门收集这类言论的词库</p>
+                <p>https://github.com/konsheng/Sensitive-lexicon/blob/main/Vocabulary/反动词库.txt</p>
+                <p>https://github.com/fwwdn/sensitive-stop-words/blob/master/政治类.txt</p>
+                <p>如果觉得直接打开github.com麻烦，可以使用以下链接快速访问相关内容：</p>
+                <p>https://raw.githubusercontent.com/konsheng/Sensitive-lexicon/blob/main/Vocabulary/反动词库.txt</p>
+
+                <h2>结语</h2>
+                <p>通过这些方法，能够有效优化 X的推荐系统，让我们远离不良信息的干扰。</p>
+            </div>
+            
+            <!-- 分享按钮 -->
+            <div style="text-align: center;">
+                <button class="share-btn" id="shareButton">
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                </button>
+            </div>
+        </article>
+        
+        <!-- 文章导航 -->
+        <div class="article-navigation" id="articleNavigation">
+            <!-- 将通过JavaScript动态生成 -->
+            <a href="javascript:void(0)" class="nav-btn prev disabled">
+                <i class="fas fa-chevron-left"></i>
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                    <div>已是第一篇</div>
+                </div>
+            </a>
+            <a href="javascript:void(0)" class="nav-btn next disabled">
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                    <div>已是最后一篇</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+        <!-- 推荐文章 -->
+        <div class="related-articles" id="relatedArticles">
+            <h3 class="related-title">推荐文章</h3>
+            <div class="related-grid" id="relatedGrid">
+                <!-- 将通过JavaScript动态生成 -->
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例1</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">111</span>
+                        <span class="related-tag">111</span>
+                    </div>
+                </a>
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例2</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">教程</span>
+                        <span class="related-tag">C#</span>
+                    </div>
+                </a>
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例3</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">游戏开发</span>
+                        <span class="related-tag">动画</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 图片放大弹窗 -->
+    <div class="image-zoom-modal" id="imageZoomModal">
+        <span class="image-zoom-close" id="imageZoomClose">&times;</span>
+        <img src="" alt="放大图片" id="zoomedImage">
+    </div>
+
+    <!-- 分享弹窗 -->
+    <div class="share-modal" id="shareModal">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3 class="share-modal-title">
+                    <i class="fas fa-share-alt"></i> 分享这篇文章
+                </h3>
+                <button class="share-close-btn" id="closeShareModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="share-text" id="shareText">
+                快来看看这篇文章: https://ciallo0721-cmd.github.io/{编号}.html
+            </div>
+            <div class="share-actions">
+                <button class="share-copy-btn" id="copyShareText">
+                    <i class="far fa-copy"></i> 复制分享链接
+                </button>
+                <button class="share-close-modal-btn" id="closeShareModalBtn">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
+        <a href="../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
+          <img src="../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
+            style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
+        </a>
+      </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
+            <p>感谢阅读我的文章！期待与您交流开发心得</p>
+        </div>
+    </footer>
+
+    <script>
+
+// 文章特定的初始化
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('文章模板已加载完成');
+    
+    // 当前文章ID
+    const currentArticleId = 17;
+    
+    // 更新文章信息
+    function updateArticleInfo(articleId) {
+        // 确保articlesData已加载
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        
+        const articleData = window.articlesData.getArticleById(articleId);
+        
+        if (articleData) {
+            document.getElementById('articleNumber').textContent = `文章 #${String(articleData.id).padStart(3, '0')}`;
+            document.getElementById('articleTitle').textContent = articleData.title;
+            document.getElementById('articleIntro').textContent = articleData.excerpt;
+            document.getElementById('articleDate').textContent = articleData.date;
+            document.getElementById('readTime').textContent = `约${articleData.readTime}分钟`;
+            
+            // 更新标签
+            const tagsContainer = document.getElementById('articleTags');
+            tagsContainer.innerHTML = '';
+            if (articleData.tags && articleData.tags.length > 0) {
+                articleData.tags.forEach(tag => {
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'article-tag';
+                    tagElement.textContent = tag;
+                    tagsContainer.appendChild(tagElement);
+                });
+            }
+        } else {
+            console.warn(`未找到ID为${articleId}的文章数据`);
+        }
+    }
+    
+    // 生成文章导航（上一篇/下一篇）
+    function initArticleNavigation(articleId) {
+        const navigation = document.getElementById('articleNavigation');
+        if (!navigation) return;
+        
+        // 确保articlesData已加载
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        
+        const adjacent = window.articlesData.getAdjacentArticles(articleId);
+        let navigationHTML = '';
+        
+        // 上一篇按钮
+        if (adjacent.prev) {
+            navigationHTML += `
+                <a href="${adjacent.prev.fileName}" class="nav-btn prev">
+                    <i class="fas fa-chevron-left"></i>
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                        <div>${adjacent.prev.title}</div>
+                    </div>
+                </a>
+            `;
+        } else {
+            navigationHTML += `
+                <a href="javascript:void(0)" class="nav-btn prev disabled">
+                    <i class="fas fa-chevron-left"></i>
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                        <div>已是第一篇</div>
+                    </div>
+                </a>
+            `;
+        }
+        
+        // 下一篇按钮
+        if (adjacent.next) {
+            navigationHTML += `
+                <a href="${adjacent.next.fileName}" class="nav-btn next">
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                        <div>${adjacent.next.title}</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            `;
+        } else {
+            navigationHTML += `
+                <a href="javascript:void(0)" class="nav-btn next disabled">
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                        <div>已是最后一篇</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            `;
+        }
+        
+        navigation.innerHTML = navigationHTML;
+    }
+    
+    // 生成推荐文章
+    function initRelatedArticles(articleId) {
+        const grid = document.getElementById('relatedGrid');
+        if (!grid) return;
+        
+        // 确保articlesData已加载
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        
+        const relatedArticles = window.articlesData.getFeaturedArticles(articleId, 3);
+        grid.innerHTML = '';
+        
+        if (relatedArticles && relatedArticles.length > 0) {
+            relatedArticles.forEach(article => {
+                const card = document.createElement('a');
+                card.href = '/blog/' + article.fileName + '?blog=' + article.id;
+                card.className = 'related-card';
+                card.innerHTML = `
+                    <h4>${article.title}</h4>
+                    <p>${article.excerpt}</p>
+                    <div class="related-tags">
+                        ${article.tags.slice(0, 3).map(tag => `<span class="related-tag">${tag}</span>`).join('')}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        } else {
+            // 如果没有推荐文章，显示默认内容
+            grid.innerHTML = `
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例1</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">示例标签</span>
+                    </div>
+                </a>
+            `;
+        }
+    }
+    
+    // 图片点击放大功能
+    function initImageZoom() {
+        const modal = document.getElementById('imageZoomModal');
+        const modalImg = document.getElementById('zoomedImage');
+        const closeBtn = document.getElementById('imageZoomClose');
+        
+        if (!modal || !modalImg) return;
+        
+        // 为所有可放大的图片添加点击事件
+        document.querySelectorAll('.zoomable').forEach(img => {
+            img.addEventListener('click', function() {
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // 关闭弹窗
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+        
+        // ESC键关闭
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
+    
+    // 自定义视频播放器 - 使用独立组件
+    function initCustomVideoPlayer() {
+        console.log('[DEBUG] initCustomVideoPlayer called');
+        console.log('[DEBUG] VideoPlayer exists:', typeof VideoPlayer !== 'undefined');
+        
+        // 直接查找所有可能的元素
+        const allDivs = document.querySelectorAll('div');
+        console.log('[DEBUG] Total divs in document:', allDivs.length);
+        
+        const vc = document.querySelector('.video-player-container');
+        console.log('[DEBUG] Found .video-player-container:', !!vc);
+        if (vc) {
+            console.log('[DEBUG] vc innerHTML preview:', vc.innerHTML.substring(0, 100));
+        }
+        
+        const articleContent = document.getElementById('articleContent');
+        console.log('[DEBUG] articleContent exists:', !!articleContent);
+        if (articleContent) {
+            console.log('[DEBUG] articleContent children count:', articleContent.children.length);
+            console.log('[DEBUG] articleContent innerHTML length:', articleContent.innerHTML.length);
+            console.log('[DEBUG] Has video-player-container in innerHTML:', articleContent.innerHTML.includes('video-player-container'));
+            console.log('[DEBUG] Has video-player-container in outerHTML:', articleContent.outerHTML.includes('video-player-container'));
+            console.log('[DEBUG] articleContent innerHTML preview:', articleContent.innerHTML.substring(0, 300));
+        }
+
+        document.querySelectorAll('.video-player-container').forEach(container => {
+            // 跳过已初始化的
+            if (container.dataset.initialized) {
+                console.log('[DEBUG] Skipping already initialized container');
+                return;
+            }
+            container.dataset.initialized = 'true';
+
+            const src = container.dataset.src || '';
+            const video = container.querySelector('video');
+            console.log('[DEBUG] video src:', src, 'video element:', !!video);
+            if (video && src) {
+                video.src = src;
+                video.load();
+                console.log('[DEBUG] video.src set to:', video.src);
+            }
+
+            if (typeof VideoPlayer !== 'undefined') {
+                console.log('[DEBUG] Calling VideoPlayer.init');
+                VideoPlayer.init(container);
+            } else {
+                console.error('[DEBUG] VideoPlayer not found!');
+            }
+        });
+    }
+    
+    // 添加代码复制功能
+    function addCodeCopyFunction() {
+        document.querySelectorAll('pre code').forEach((codeBlock) => {
+            const pre = codeBlock.parentElement;
+            
+            // 避免重复添加复制按钮
+            if (pre.querySelector('.copy-button')) return;
+            
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+            copyButton.style.cssText = `
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: rgba(251, 114, 153, 0.2);
+                border: 1px solid rgba(251, 114, 153, 0.4);
+                color: white;
+                padding: 5px 12px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 0.8rem;
+                transition: all 0.3s ease;
+            `;
+            
+            pre.style.position = 'relative';
+            pre.appendChild(copyButton);
+            
+            copyButton.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                    copyButton.style.background = 'rgba(0, 161, 214, 0.5)';
+                    setTimeout(() => {
+                        copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+                        copyButton.style.background = 'rgba(251, 114, 153, 0.2)';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('复制失败:', err);
+                });
+            });
+        });
+    }
+    
+    // 添加阅读进度指示器
+    function addReadingProgressBar() {
+        // 避免重复添加进度条
+        if (document.getElementById('reading-progress-bar')) return;
+        
+        const progressBar = document.createElement('div');
+        progressBar.id = 'reading-progress-bar';
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s ease;
+        `;
+        document.body.appendChild(progressBar);
+        
+        // 更新阅读进度
+        window.addEventListener('scroll', function() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (documentHeight > 0) {
+                const scrollPercent = (scrollTop / documentHeight) * 100;
+                progressBar.style.width = scrollPercent + '%';
+            }
+        });
+    }
+    
+    // 初始化分享功能
+    function initShareFunction() {
+        const shareButton = document.getElementById('shareButton');
+        const shareModal = document.getElementById('shareModal');
+        const shareText = document.getElementById('shareText');
+        const copyShareTextBtn = document.getElementById('copyShareText');
+        const closeShareModalBtn = document.getElementById('closeShareModal');
+        const closeShareModalBtn2 = document.getElementById('closeShareModalBtn');
+        
+        if (!shareButton || !shareModal || !shareText) {
+            console.error('分享功能元素未找到');
+            return;
+        }
+        
+        // 获取文章标题
+        let articleTitle = document.getElementById('articleTitle').textContent;
+        if (!articleTitle || articleTitle === '文章标题') {
+            articleTitle = '这篇文章';
+        }
+        
+        // 更新分享文本
+        const shareUrl = `https://ciallo0721-cmd.github.io/${currentArticleId}.html`;
+        const shareMessage = `快来看看这篇文章《${articleTitle}》: ${shareUrl}`;
+        shareText.textContent = shareMessage;
+        
+        // 打开分享弹窗
+        shareButton.addEventListener('click', function() {
+            shareModal.classList.add('active');
+        });
+        
+        // 关闭分享弹窗
+        function closeShareModal() {
+            shareModal.classList.remove('active');
+            // 重置复制按钮状态
+            copyShareTextBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
+            copyShareTextBtn.classList.remove('copied');
+        }
+        
+        closeShareModalBtn.addEventListener('click', closeShareModal);
+        closeShareModalBtn2.addEventListener('click', closeShareModal);
+        
+        // 点击弹窗外部关闭
+        shareModal.addEventListener('click', function(e) {
+            if (e.target === shareModal) {
+                closeShareModal();
+            }
+        });
+        
+        // 复制分享链接
+        copyShareTextBtn.addEventListener('click', function() {
+            navigator.clipboard.writeText(shareMessage).then(() => {
+                copyShareTextBtn.innerHTML = '<i class="fas fa-check"></i> 已复制到剪贴板';
+                copyShareTextBtn.classList.add('copied');
+                
+                // 3秒后恢复按钮状态
+                setTimeout(() => {
+                    copyShareTextBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
+                    copyShareTextBtn.classList.remove('copied');
+                }, 3000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                alert('复制失败，请手动复制链接');
+            });
+        });
+        
+        // ESC键关闭弹窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && shareModal.classList.contains('active')) {
+                closeShareModal();
+            }
+        });
+    }
+    
+    // 初始化页面
+    function initPage() {
+        // 等待articlesData加载完成
+        if (typeof window.articlesData === 'undefined') {
+            // 如果articlesData未定义，尝试等待
+            setTimeout(initPage, 100);
+            return;
+        }
+        
+        updateArticleInfo(currentArticleId);
+        initArticleNavigation(currentArticleId);
+        initRelatedArticles(currentArticleId);
+        addCodeCopyFunction();
+        addReadingProgressBar();
+        initShareFunction();
+        initImageZoom();
+        
+        // 等待DOM更新后再初始化视频播放器
+        setTimeout(initCustomVideoPlayer, 50);
+    }
+    
+    // 初始化页面
+    initPage();
+    
+    // 键盘快捷键支持
+    document.addEventListener('keydown', function(e) {
+        // ESC键返回首页
+        if (e.key === 'Escape') {
+            window.location.href = '../../index.html';
+        } else if (e.key === 'h' && (e.ctrlKey || e.metaKey)) {
+            // Ctrl/Cmd+H 返回首页
+            e.preventDefault();
+            window.location.href = '../../index.html';
+        }
+    });
+    
+    // 监听文章内容更新，重新添加代码复制按钮
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                addCodeCopyFunction();
+            }
+        });
+    });
+    
+    // 开始观察articleContent的变化
+    const articleContent = document.getElementById('articleContent');
+    if (articleContent) {
+        observer.observe(articleContent, { childList: true, subtree: true });
+    }
+});
+
+</script>
+
+    <!-- 实际使用时, 请确保脚本路径正确并已加载所需的库。 -->
+    <!-- ./css/wz/{文章id}/wzjsid{换成id}.js  -->
+
+    <!-- <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button> -->
+    <script>
+    (function(){
+        var btn=document.getElementById('totop-btn');
+        if(!btn)return;
+        btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+        window.addEventListener('scroll',function(){btn.style.display=window.scrollY>300?'flex':'none';},{passive:true});
+        document.addEventListener('DOMContentLoaded',function(){btn.style.display=window.scrollY>300?'flex':'none';});
+    })();
+    </script>
+
+<script>
+(function(){
+    var blogId = new URLSearchParams(window.location.search).get("blog");
+    if (blogId) {
+        console.log("文章 ID:", blogId);
+    }
+})();
+</script>
+[/html]

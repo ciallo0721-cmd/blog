@@ -1,0 +1,293 @@
+[Title] 加载中...
+[Date] 2026-06-15
+[Author] ciallo0721-cmd
+[Tag] 文章
+
+[正文开始]
+
+[HTML]
+<div id="loader"><div class="sp +=nner"></div><p>正在加载 NextScript 文章...</p></div>
+<div id="app" style="display:none;">
+  <div id="header"></div>
+  <div id="hero"></div>
+  <div id="content" class="article-body"></div>
+  <div id="footer" class="article-footer"></div>
+</div>
+<div id="error" style="display:none;"></div>
+
+<script>
+// ============================================================
+// NextScript v1 解码器
+// 把 YAML .blog 文件解析为 HTML 并渲染
+// 这才是 Markdown 3.0！
+// ============================================================
+
+const NS = (() => {
+  // 工具
+  const e = (s) => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  
+  const parseInline = (text) => {
+    if (!text) return '';
+    return text
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/__(.+?)__/g, '<u>$1</u>')
+      .replace(/~~(.+?)~~/g, '<del>$1</del>')
+      .replace(/`(.+?)`/g, '<code>$1</code>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color:var(--primary)">$1</a>')
+      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%;border-radius:8px;margin:16px 0">');
+  };
+
+  // 渲染单个区块
+  const renderBlock = (block) => {
+    if (!block || !block.type) return '';
+    const t = block.type;
+    const text = parseInline(block.text || '');
+    
+    // 文本类
+    if (t === 'h1' || t === 'h2' || t === 'h3' || t === 'h4' || t === 'h5' || t === 'h6') {
+      const id = block.id ? ` id="${block.id}"` : '';
+      return `<${t}${id}>${text}</${t}>`;
+    }
+    if (t === 'p') {
+      const cls = block.class ? ` class="${block.class}"` : '';
+      return `<p${cls}>${text}</p>`;
+    }
+    if (t === 'quote') {
+      const src = block.source ? `<br><em>— ${e(block.source)}</em>` : '';
+      return `<blockquote>${text}${src}</blockquote>`;
+    }
+    if (t === 'inline-code') return `<code>${e(block.text || '')}</code>`;
+    if (t === 'link') {
+      return `<a href="${block.href || '#'}" style="color:var(--primary)">${e(block.text || '')}</a>`;
+    }
+    if (t === 'img' || t === 'image') {
+      return `<img src="${block.src || ''}" alt="${block.alt || ''}" />`;
+    }
+    if (t === 'hr') return '<hr>';
+    
+    // 代码类
+    if (t === 'code') {
+      const lang = block.lang || '';
+      const title = block.title || '';
+      const header = title ? `<div class="code-header"><span>${e(title)}</span><span>${lang}</span></div>` : '';
+      const codeText = (block.text || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return `<div class="code-block">${header}<pre><code class="lang-${lang}">${codeText}</code></pre></div>`;
+    }
+    
+    // 列表类
+    if (t === 'ul' && block.items) {
+      const lis = block.items.map(it => `<li>${parseInline(it)}</li>`).join('');
+      return `<ul>${lis}</ul>`;
+    }
+    if (t === 'ol' && block.items) {
+      const lis = block.items.map(it => `<li>${parseInline(it)}</li>`).join('');
+      return `<ol>${lis}</ol>`;
+    }
+    if (t === 'dl' && block.items) {
+      const dts = block.items.map(it => `<dt>${e(it.term || '')}</dt><dd>${parseInline(it.desc || '')}</dd>`).join('');
+      return `<dl>${dts}</dl>`;
+    }
+    
+    // 组件类
+    if (t === 'alert') {
+      const at = (block['alert-type'] || 'tip').toLowerCase();
+      const title = block.title || '';
+      const titleHtml = title ? `<div class="alert-title">${e(title)}</div>` : '';
+      return `<div class="alert ${at}">${titleHtml}<div>${parseInline(block.text || '')}</div></div>`;
+    }
+    if (t === 'button' || t === 'btn') {
+      const bt = (block['button-type'] || 'primary').toLowerCase();
+      const href = block.href || block.to || '#';
+      const cls = `btn ${bt}`;
+      const content = parseInline(block.text || '');
+      if (href && href !== '#') {
+        return `<a href="${href}" class="${cls}">${content}</a>`;
+      }
+      return `<button class="${cls}">${content}</button>`;
+    }
+    if (t === 'badge') {
+      const bt = (block['badge-type'] || 'info').toLowerCase();
+      return `<span class="badge ${bt}">${parseInline(block.text || '')}</span>`;
+    }
+    if (t === 'card') {
+      const hover = block.hover ? ' hover' : '';
+      const inner = (block.blocks || []).map(renderBlock).join('');
+      return `<div class="card${hover}">${inner}</div>`;
+    }
+    if (t === 'collapse') {
+      const title = block.title || '展开';
+      const inner = (block.blocks || []).map(renderBlock).join('');
+      return `<details><summary>${e(title)}</summary><div>${inner}</div></details>`;
+    }
+    if (t === 'progress') {
+      const val = parseFloat(block.value) || 0;
+      const max = parseFloat(block.max) || 100;
+      const pct = Math.round(val / max * 100);
+      return `<div class="progress-bar"><div class="fill" style="width:${pct}%"></div></div>`;
+    }
+    
+    // 布局类
+    if (t === 'grid') {
+      const cols = parseInt(block.cols) || 2;
+      const gap = parseInt(block.gap) || 20;
+      const cells = (block.cells || []).map(cellBlocks =>
+        `<div>${(cellBlocks || []).map(renderBlock).join('')}</div>`
+      ).join('');
+      return `<div class="grid cols-${Math.min(cols,3)}" style="gap:${gap}px">${cells}</div>`;
+    }
+    if (t === 'flex') {
+      const dir = block.direction || 'row';
+      const gap = parseInt(block.gap) || 12;
+      const wrap = block.wrap ? 'flex-wrap:wrap;' : '';
+      const items = (block.items || []).map(renderBlock).join('');
+      return `<div style="display:flex;flex-direction:${dir};gap:${gap}px;${wrap}">${items}</div>`;
+    }
+    if (t === 'center') {
+      const inner = (block.blocks || []).map(renderBlock).join('');
+      return `<div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px">${inner}</div>`;
+    }
+    
+    // 数据类
+    if (t === 'stat') {
+      const val = block.value || '0';
+      const label = block.label || '';
+      const prefix = block.prefix || '';
+      const suffix = block.suffix || '';
+      return `<div class="stat-item"><div class="stat-value">${prefix}${val}${suffix}</div><div class="stat-label">${label}</div></div>`;
+    }
+    
+    // 时间线
+    if (t === 'timeline') {
+      const items = (block.items || []).map(it =>
+        `<div class="timeline-item"><strong>${e(it.date || '')}</strong> ${parseInline(it.text || '')}</div>`
+      ).join('');
+      return `<div class="timeline">${items}</div>`;
+    }
+    
+    // 手风琴
+    if (t === 'accordion') {
+      const panes = (block.panes || []).map(p => {
+        const title = p.title || '项';
+        const text = parseInline(p.text || '');
+        return `<div class="accordion-pane"><div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">${e(title)} <span>▼</span></div><div class="accordion-body">${text}</div></div>`;
+      }).join('');
+      return `<div class="accordion">${panes}</div>`;
+    }
+    
+    // 分节
+    if (t === 'section') {
+      const id = block.id ? ` id="${block.id}"` : '';
+      const inner = (block.blocks || []).map(renderBlock).join('');
+      return `<section${id}>${inner}</section>`;
+    }
+    
+    // 默认
+    return `<div class="ns-${t}">${parseInline(block.text || '')}</div>`;
+  };
+
+  // 主解析和渲染
+  const loadAndRender = async (articleId) => {
+    const url = `./${articleId}.blog`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const yamlText = await resp.text();
+    
+    // 用 js-yaml 解析
+    const data = jsyaml.load(yamlText);
+    if (!data || !data.meta || !data.body) throw new Error('无效的 NextScript 文件格式');
+    
+    const { meta, body } = data;
+    
+    // 设置标题
+    if (meta.title) {
+      document.title = meta.title;
+      // 渲染 header
+      const headerEl = document.getElementById('header');
+      if (headerEl) {
+        headerEl.innerHTML = `
+          <div class="article-header">
+            <h1>${e(meta.title)}</h1>
+            <div class="article-meta">
+              ${meta.author ? `<span>✍️ ${e(meta.author)}</span>` : ''}
+              ${meta.date ? `<span>📅 ${e(meta.date)}</span>` : ''}
+            </div>
+            ${meta.tags ? `<div class="article-tags">${meta.tags.map(t => `<span class="tag">${e(t)}</span>`).join('')}</div>` : ''}
+          </div>`;
+      }
+    }
+    
+    // 主题
+    if (meta.theme === 'light') {
+      document.documentElement.style.setProperty('--bg','#ffffff');
+      document.documentElement.style.setProperty('--bg2','#f6f8fa');
+      document.documentElement.style.setProperty('--bg3','#eaeef2');
+      document.documentElement.style.setProperty('--text','#1f2328');
+      document.documentElement.style.setProperty('--text2','#656d76');
+      document.documentElement.style.setProperty('--border','#d0d7de');
+    }
+    
+    // 分离 hero / content / footer
+    let heroHtml = '';
+    let contentHtml = '';
+    let footerHtml = '';
+    let inHero = false;
+    
+    for (const block of body) {
+      if (block.type === 'section' && block.id === 'hero') {
+        heroHtml = renderBlock(block);
+      } else if (block.type === 'section' && block.id === 'footer') {
+        footerHtml = renderBlock(block);
+      } else {
+        contentHtml += renderBlock(block);
+      }
+    }
+    
+    // 写入 DOM
+    if (heroHtml) document.getElementById('hero').innerHTML = heroHtml;
+    else document.getElementById('hero').style.display = 'none';
+    
+    document.getElementById('content').innerHTML =
+      `<a href="/wz.html" class="back-link">← 返回文章列表</a>` + contentHtml;
+    
+    if (footerHtml) document.getElementById('footer').innerHTML = footerHtml;
+    else document.getElementById('footer').style.display = 'none';
+    
+    return data;
+  };
+
+  return { loadAndRender, renderBlock };
+})();
+
+// 主程序
+(async () => {
+  const loader = document.getElementById('loader');
+  const app = document.getElementById('app');
+  const errorBox = document.getElementById('error');
+  
+  const getArticleId = () => {
+    const path = window.location.pathname;
+    const match = path.match(/\/blog\/(\d+)/);
+    return match ? match[1] : null;
+  };
+  
+  const articleId = getArticleId();
+  if (!articleId) {
+    loader.style.display = 'none';
+    errorBox.style.display = 'block';
+    errorBox.innerHTML = `<div id="error-box"><h2>😿 无法识别文章 ID</h2><p>请将文章放在 blog/{id}/ 文件夹下，并放置 {id}.blog 文件。</p><p style="margin-top:16px"><a href="/" style="color:var(--primary)">← 返回首页</a></p></div>`;
+    return;
+  }
+  
+  try {
+    await NS.loadAndRender(articleId);
+    loader.style.display = 'none';
+    app.style.display = 'block';
+  } catch (e) {
+    loader.style.display = 'none';
+    errorBox.style.display = 'block';
+    errorBox.innerHTML = `<div id="error-box"><h2>😿 加载失败</h2><p>${e.message}</p><p style="margin-top:16px"><a href="/" style="color:var(--primary)">← 返回首页</a></p></div>`;
+  }
+})();
+</script>
+[/html]

@@ -1,0 +1,92 @@
+[Title] 文章标题
+[Date] 2026-04-15
+[Author] ciallo0721-cmd
+[Tag] 标签1, 标签2, 标签3
+
+[正文开始]
+
+[H1] 这是一级标题
+[H2] 这是二级标题
+[H3] 这是三级标题
+
+普通段落直接写，空行分割段落。
+
+**加粗文字** 用两个星号
+*斜体文字* 用一个星号
+`代码` 用反引号
+
+[HR]
+
+[H2] 列表演示
+
+[ul]
+- 无序列表项 1
+- 无序列表项 2
+- 无序列表项 3
+[/ul]
+
+[ol]
+1. 有序列表项 1
+2. 有序列表项 2
+3. 有序列表项 3
+[/ol]
+
+[H2] 引用演示
+
+[quote]
+这是一段引用内容。
+可以是多行。
+[/quote]
+
+[H2] 代码块演示
+
+[Code lang=python]
+# Python 代码示例
+def hello(name):
+    print(f"Hello, {name}!")
+    return True
+[/Code]
+
+[H2] 提示框演示
+
+[Alert type=info]
+💡 这是普通信息提示框
+[/Alert]
+
+[Alert type=success]
+✅ 这是成功提示框
+[/Alert]
+
+[Alert type=warning]
+⚠️ 这是警告提示框
+[/Alert]
+
+[Alert type=danger]
+🚨 这是危险提示框
+[/Alert]
+
+[H2] 按钮演示
+
+[Btn href=https://github.com color=primary]主要按钮[/Btn]
+[Btn href=/ color=secondary]次要按钮[/Btn]
+
+[H2] 表格演示
+
+[Table]
+姓名|年龄|城市
+张三|18|北京
+李四|20|上海
+王五|19|广州
+[/Table]
+
+[H2] 链接演示
+
+普通链接：[管哥的博客](https://91vip.xn--32v.ink)
+
+图片：直接用 HTML <img> 标签插入（高级用法用 [HTML] 区块）
+
+[HTML]
+<img src="./preview.png" alt="示例图片" style="max-width:100%;border-radius:8px;">
+[/HTML]
+
+全文完毕！
