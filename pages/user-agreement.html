@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户协议 | ciallo0721-cmd</title>
+    <meta name="description" content="ciallo0721-cmd 网站用户协议，使用条款和条件，欢迎阅读了解">
+    <link rel="icon" href="./fanv.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            line-height: 1.8;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .last-updated {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        h2 {
+            color: #00d2ff;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 210, 255, 0.3);
+        }
+
+        h3 {
+            color: #3a7bd5;
+            margin: 20px 0 10px 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: rgba(0, 210, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #00d2ff;
+            margin: 20px 0;
+        }
+
+        .warning {
+            background: rgba(255, 193, 7, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 210, 255, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+    <!-- IP 地理检测（美国用户拒绝访问） -->
+    <script src="./geo-check.js"></script>
+    <!-- HTTP 检测与提示 -->
+    <script>
+        (function() {
+            function checkHTTP() {
+                if (window.location.protocol === 'http:') {
+                    var urlSpan = document.getElementById('currentHttpUrl');
+                    if (urlSpan) urlSpan.textContent = window.location.href;
+                    var overlay = document.getElementById('httpWarningOverlay');
+                    if (overlay) overlay.style.display = 'flex';
+                }
+            }
+            function switchToHTTPS() {
+                var url = window.location.href;
+                url = url.replace(/^http:/i, 'https:');
+                window.location.href = url;
+            }
+            function continueHTTP() {
+                var overlay = document.getElementById('httpWarningOverlay');
+                if (overlay) overlay.style.display = 'none';
+            }
+            window.switchToHTTPS = switchToHTTPS;
+            window.continueHTTP = continueHTTP;
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkHTTP);
+            } else {
+                checkHTTP();
+            }
+        })();
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <h1>📜 用户协议</h1>
+        <p class="last-updated">最后更新：2026年4月30日</p>
+
+        <h2>1. 协议接受</h2>
+        <p>欢迎访问ciallo0721-cmd的小站（以下简称"本网站"）。在访问或使用本网站之前，请仔细阅读本用户协议（以下简称"协议"）。</p>
+        <p><strong>重要提示</strong>：访问或使用本网站即表示您同意受本协议约束。如果您不同意本协议的任何条款，请立即停止使用本网站。</p>
+
+        <h2>2. 服务说明</h2>
+        <p>本网站是一个个人博客和作品展示平台，提供以下内容：</p>
+        <ul>
+            <li>个人文章和技术博客</li>
+            <li>独立游戏展示（Ren'Py视觉小说等）</li>
+            <li>音乐播放器（网易云音乐链接）</li>
+            <li>Python在线编辑器（沙箱环境）</li>
+            <li>其他个人项目和工具</li>
+        </ul>
+        <p>本网站仅供参考和娱乐目的，不保证内容的准确性、完整性或时效性。</p>
+
+        <h2>3. 用户行为规范</h2>
+        
+        <h3>3.1 禁止行为</h3>
+        <p>使用本网站时，您同意不会：</p>
+        <ol>
+            <li>违反任何适用的法律法规或监管机构的规定</li>
+            <li>侵犯任何第三方的知识产权、隐私权或其他合法权益</li>
+            <li>尝试绕过本网站的安全机制或访问限制（如验证流程）</li>
+            <li>使用自动化工具（如爬虫、机器人）大量访问本网站</li>
+            <li>对本网站进行DDoS攻击、注入恶意代码或其他破坏行为</li>
+            <li>利用本网站传播病毒、木马、恶意软件等有害程序</li>
+            <li>通过本网站发布或传播非法、诽谤、侮辱、色情、暴力等内容</li>
+            <li>干扰本网站的正常运行或与其他用户的使用体验</li>
+        </ol>
+
+        <h3>3.2 Python编辑器使用规范</h3>
+        <div class="warning">
+            <p><strong>重要警告</strong>：本网站提供的Python在线编辑器是沙箱环境，仅供学习和测试使用。</p>
+        </div>
+        <p>使用Python编辑器时，您同意：</p>
+        <ul>
+            <li>不执行任何可能损害系统的代码</li>
+            <li>不尝试突破沙箱限制访问宿主机资源</li>
+            <li>不运行恶意代码或病毒程序</li>
+            <li>不承担因执行代码导致的任何损失或损害</li>
+        </ul>
+        <p>对于违反上述规范导致的任何后果，本网站概不负责。</p>
+
+        <h2>4. 知识产权</h2>
+        
+        <h3>4.1 本网站内容</h3>
+        <p>本网站上的原创内容（包括但不限于文章、代码、设计、图像等）的知识产权归本网站运营者所有，受《中华人民共和国著作权法》和其他适用法律保护。</p>
+        <p>未经书面授权，不得转载、复制、修改、传播或用于商业用途。</p>
+
+        <h3>4.2 第三方内容</h3>
+        <p>本网站可能包含归第三方所有的内容（如引用的图像、音乐、游戏素材等）。这些内容的使用已尽量获得授权或符合合理使用原则。</p>
+        <p>如果您是第三方内容的合法权利所有者，并认为本网站的使用侵犯了您的权利，请按照《隐私政策》中的DMCA投诉流程联系我们。</p>
+
+        <h3>4.3 用户生成内容</h3>
+        <p>如果您通过本网站提交内容（如评论、反馈等），您授予本网站在全球范围内、免版税的、非独占的使用权，以展示、分发和修改该内容（仅为适应网站展示需要）。</p>
+        <p>您声明并保证您提交的内容不侵犯任何第三方的权利。</p>
+
+        <h2>5. 免责声明</h2>
+        
+        <div class="highlight">
+            <p><strong>重要</strong>：本网站按"原样"提供，不作任何明示或暗示的担保。</p>
+        </div>
+
+        <p>在法律允许的最大范围内，本网站运营者声明：</p>
+        <ul>
+            <li>不保证本网站内容准确、完整、及时或无误</li>
+            <li>不保证本网站的服务不中断或没有错误</li>
+            <li>不保证本网站不受病毒或其他有害因素影响</li>
+            <li>不承担因使用本网站导致的任何直接、间接、附带、特殊或惩罚性损害</li>
+        </ul>
+
+        <p>对于因以下原因导致的任何损失，本网站不承担责任：</p>
+        <ol>
+            <li>网络连接中断或设备故障</li>
+            <li>第三方服务中断（如Google Analytics、网易云音乐等）</li>
+            <li>用户自身操作失误或设备故障</li>
+            <li>不可抗力事件（如自然灾害、政府行为等）</li>
+        </ol>
+
+        <h2>6. 隐私保护</h2>
+        <p>我们重视您的隐私保护。有关我们如何收集、使用和保护您的个人信息，请参阅我们的《隐私政策》。</p>
+        <p>使用本网站即表示您同意我们按照《隐私政策》处理您的个人信息。</p>
+
+        <h2>7. 协议修改</h2>
+        <p>我们保留随时修改本协议的权利。修改后的协议将在本页面上发布，并注明"最后更新"日期。</p>
+        <p>如果您在协议修改后继续使用本网站，即表示您接受修改后的协议。</p>
+        <p>建议您定期查看本协议，以了解任何变更。</p>
+
+        <h2>8. 终止访问</h2>
+        <p>我们保留在下列情况下终止或限制您访问本网站的权利，无需事先通知：</p>
+        <ul>
+            <li>您违反本协议的任何条款</li>
+            <li>我们需要进行维护或升级</li>
+            <li>因法律或政策要求</li>
+            <li>其他合理原因</li>
+        </ul>
+
+        <h2>9. 适用法律和争议解决</h2>
+        <p>本协议的订立、执行和解释及争议的解决均适用<strong>中华人民共和国法律</strong>。</p>
+        <p>对于因本协议引起的或与之有关的任何争议，双方应友好协商解决；协商不成的，任何一方均可向本网站运营者所在地人民法院提起诉讼。</p>
+
+        <h2>10. 联系我们</h2>
+        <div class="highlight">
+            <p>如果您对本协议有任何疑问或建议，请通过以下方式联系我们：</p>
+            <ul>
+                <li><strong>邮箱</strong>：nb666mc26@outlook.com</li>
+                <li><strong>QQ</strong>：3627742771</li>
+                <li><strong>网站</strong>：91vip.xn--32v.ink</li>
+            </ul>
+        </div>
+
+        <h2>11. 其他</h2>
+        <p>如果本协议的任何条款被认定为无效或不可执行，其余条款仍然有效。</p>
+        <p>本协议构成您与本网站运营者之间关于使用本网站的完整协议，取代之前的所有口头或书面协议。</p>
+        <p>本网站运营者未行使或执行本协议的任何权利，不构成对该权利的放弃。</p>
+
+        <a href="./index.html" class="back-link">← 返回首页</a>
+    </div>
+</body>
+</html>

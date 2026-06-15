@@ -5,10 +5,20 @@ Sitemap: https://91vip.xn--32v.ink/sitemap.xml
 # 允许所有搜索引擎爬虫访问
 User-agent: *
 Allow: /
-Disallow: /admin.html
-Disallow: /adm1n.html
-Disallow: /status.html
-Disallow: /71be36dc0c0ba97e70bcf7c00f614e0a.txt
+
+# 禁止爬虫访问敏感目录
+Disallow: /admin/
+Disallow: /functions/
+Disallow: /images/
+Disallow: /备用站点beiyong.xn--32v.ink/
+Disallow: /blog/grayscale-test/
+
+# 允许爬虫访问新结构
+Allow: /blog/
+Allow: /app/
+Allow: /exp/
+Allow: /wiki/
+Allow: /pages/
 
 # 特别配置主流搜索引擎
 User-agent: Googlebot
@@ -17,7 +27,6 @@ Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
-Allow: /static-index.html
 Crawl-delay: 1
 
 User-agent: Baiduspider
@@ -39,16 +48,3 @@ Crawl-delay: 2
 User-agent: ToutiaoSpider
 Allow: /
 Crawl-delay: 2
-
-# 禁止爬虫访问敏感目录
-User-agent: *
-Disallow: /admin.html
-Disallow: /adm1n.html
-Disallow: /status.html
-Disallow: /71be36dc0c0ba97e70bcf7c00f614e0a.txt
-Disallow: /functions/
-Disallow: /images/
-Disallow: /备用站点beiyong.xn--32v.ink/
-Disallow: /公告(如果需要,换成index)/
-Disallow: /wenzhangyong/
-Disallow: /blog/grayscale-test/

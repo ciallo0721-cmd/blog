@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隐私政策 - ciallo0721-cmd</title>
+    <link rel="icon" href="./fanv.ico" type="image/x-icon">
+    <meta name="description" content="ciallo0721-cmd 个人网站的隐私政策，说明我们如何收集、使用和保护您的数据。">
+    <style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+        :root {
+            --primary: #3366ff;
+            --secondary: #2575fc;
+            --text-primary: #1D1D1F;
+            --text-secondary: #515154;
+            --bg-light: #F5F5F7;
+            --card-bg: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.8;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--secondary);
+            transform: translateX(-5px);
+        }
+
+        .lang-switch-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.6);
+            padding: 6px 12px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            font-size: 14px;
+        }
+
+        .lang-label {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .ai-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .lang-select {
+            padding: 6px 12px;
+            border-radius: 24px;
+            border: 1px solid rgba(51,102,255,0.3);
+            background: white;
+            font-family: inherit;
+            font-size: 14px;
+            color: var(--text-primary);
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .lang-select:hover {
+            border-color: var(--primary);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .update-date {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--bg-light);
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        h3 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 25px;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(51, 102, 255, 0.1), rgba(37, 117, 252, 0.1));
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+            color: var(--text-primary);
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 165, 107, 0.1));
+            border-left: 4px solid #ff6b6b;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        .warning-box p {
+            margin-bottom: 0;
+            color: var(--text-primary);
+        }
+
+        .contact-box {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+
+        .contact-box h3 {
+            margin-top: 0;
+        }
+
+        .contact-box a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .contact-box a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .content-card {
+                padding: 25px 20px;
+            }
+
+            .header-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .lang-switch-wrapper {
+                justify-content: center;
+            }
+        }
+    </style>
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+    <!-- IP 地理检测（美国用户拒绝访问） -->
+    <script src="./geo-check.js"></script>
+    <!-- HTTP 检测与提示 -->
+    <script>
+        (function() {
+            function checkHTTP() {
+                if (window.location.protocol === 'http:') {
+                    var urlSpan = document.getElementById('currentHttpUrl');
+                    if (urlSpan) urlSpan.textContent = window.location.href;
+                    var overlay = document.getElementById('httpWarningOverlay');
+                    if (overlay) overlay.style.display = 'flex';
+                }
+            }
+            function switchToHTTPS() {
+                var url = window.location.href;
+                url = url.replace(/^http:/i, 'https:');
+                window.location.href = url;
+            }
+            function continueHTTP() {
+                var overlay = document.getElementById('httpWarningOverlay');
+                if (overlay) overlay.style.display = 'none';
+            }
+            window.switchToHTTPS = switchToHTTPS;
+            window.continueHTTP = continueHTTP;
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkHTTP);
+            } else {
+                checkHTTP();
+            }
+        })();
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <a href="index.html" class="back-link" id="backLink">
+                    <span>←</span> <span id="backText">返回首页</span>
+                </a>
+                <div class="lang-switch-wrapper">
+                    <span class="lang-label">🌐 语言</span>
+                    <select id="languageSwitcher" class="lang-select">
+                        <option value="zh-CN">中文 (简体)</option>
+                        <option value="zh-TW">中文 (繁體)</option>
+                        <option value="en">English</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
+                        <option value="fr">Français</option>
+                        <option value="ru">Русский</option>
+                    </select>
+                    <span class="ai-badge" title="多语言内容由AI辅助翻译，如有偏差敬请谅解"> 多语言内容由AI辅助翻译<br>如有偏差敬请谅解</span>
+                </div>
+            </div>
+            <h1 id="pageTitle">隐私政策</h1>
+            <p class="update-date" id="updateDateText">最后更新日期：2026年4月11日</p>
+        </header>
+
+        <main>
+            <div class="content-card" id="mainContent">
+                <!-- 动态内容将由js根据所选语言填充 -->
+            </div>
+        </main>
+
+        <footer>
+            <p id="footerText">© 2025-2026 ciallo0721-cmd | 用代码书写故事，以游戏传递情感</p>
+        </footer>
+    </div>
+
+    <script>
+        // ----------------------------------------------
+        // 多语言内容库 (基于原中文隐私政策 AI 翻译)
+        // 结构完全一致，保留了所有 class、链接、格式。
+        // ----------------------------------------------
+        const translations = {
+            // 简体中文 (原始版本)
+            "zh-CN": {
+                back: "返回首页",
+                title: "隐私政策",
+                updatePrefix: "最后更新日期：2026年4月11日",
+                footer: "© 2025-2026 ciallo0721-cmd | 用代码书写故事，以游戏传递情感",
+                content: `
+                    <h2>前言</h2>
+                    <p>ciallo0721-cmd（以下简称“本站”）非常重视您的隐私和个人信息保护。本隐私政策旨在向您说明我们如何收集、使用、存储和保护您的信息，以及您享有的相关权利。</p>
+                    <div class="warning-box">
+                        <p><strong>⚠️ 特别提示：</strong>本站为个人创作网站，部分内容可能包含不适合未成年人的元素（如心理惊悚题材的视觉小说）。请监护人注意引导。</p>
+                    </div>
+                    <h2>我们收集的信息</h2>
+                    <h3>1. 验证流程中收集的信息</h3>
+                    <p>为防止恶意访问并保障网站安全，在访问特定页面时，我们可能会收集以下信息：</p>
+                    <ul>
+                        <li><strong>IP地址</strong>：用于判断用户地理位置及进行基础安全检测。</li>
+                        <li><strong>浏览器 User-Agent</strong>：用于识别浏览器类型及版本。</li>
+                        <li><strong>浏览器语言和时区设置</strong>：辅助判断用户所在地区。</li>
+                        <li><strong>屏幕分辨率及时区</strong>：用于分析用户设备环境。</li>
+                    </ul>
+                    <h3>2. Google 分析服务</h3>
+                    <p>我们使用 Google Analytics（分析）来了解网站访问情况。Google 可能会收集以下信息：</p>
+                    <ul>
+                        <li>访问的页面及停留时长。</li>
+                        <li>设备与浏览器信息。</li>
+                        <li>基于 IP 地址的地理位置信息。</li>
+                        <li>来源网站或渠道。</li>
+                    </ul>
+                    <p>您可以在首次访问时选择“不同意”来拒绝 Google 的数据收集行为。</p>
+                    <h3>3. 本地存储数据</h3>
+                    <p>我们使用浏览器的 sessionStorage 存储验证状态。该数据仅在当前浏览器会话期间有效，关闭浏览器后即自动清除。</p>
+                    <h2>我们如何使用您的信息</h2>
+                    <p>我们收集的信息仅用于以下目的：</p>
+                    <ol>
+                        <li><strong>安全验证</strong>：识别并防范自动化攻击及恶意访问。</li>
+                        <li><strong>服务改进</strong>：了解用户行为模式，优化网站体验。</li>
+                        <li><strong>统计分析</strong>：生成访问统计数据，用于内容规划与调整。</li>
+                        <li><strong>内容适配</strong>：根据用户环境提供适宜的访问策略。</li>
+                    </ol>
+                    <div class="highlight-box">
+                        <p><strong>我们的承诺：</strong>我们不会将您的个人信息出售、出租或以其他方式提供给第三方用于营销目的。</p>
+                    </div>
+                    <h2>数据存储与安全</h2>
+                    <ul>
+                        <li><strong>存储位置</strong>：所有数据均存储于您的本地浏览器中，本站不设服务器端数据库。</li>
+                        <li><strong>存储期限</strong>：验证状态数据仅在浏览器会话期间保留，会话结束后自动清除。</li>
+                        <li><strong>传输安全</strong>：本站通过 HTTPS 加密协议传输数据，保障传输过程中的信息安全。</li>
+                        <li><strong>访问限制</strong>：我们无法访问您浏览器中存储的验证状态数据。</li>
+                    </ul>
+                    <h2>地域服务说明</h2>
+                    <p>我们目前主要面向中国大陆及港澳台地区用户提供服务。此安排并非基于歧视，而是基于以下实际考量：</p>
+                    <ul>
+                        <li>网站部署于 GitHub Pages，部分地区可能访问不稳定。</li>
+                        <li>内容风格主要面向华语用户群体。</li>
+                        <li>作者目前仅具备中文内容的创作和维护能力。</li>
+                    </ul>
+                    <h2>您的权利</h2>
+                    <p>作为个人信息主体，您享有以下权利：</p>
+                    <ul>
+                        <li><strong>知情权</strong>：了解我们收集哪些数据及具体用途。</li>
+                        <li><strong>拒绝权</strong>：您可以拒绝 Google 的数据收集（首次访问时选择“不同意”）。</li>
+                        <li><strong>清除权</strong>：关闭浏览器即可清除验证状态，网站无法继续追踪您。</li>
+                        <li><strong>Cookie 控制</strong>：您可在浏览器设置中管理 Cookie 及存储权限。</li>
+                    </ul>
+                    <h2>第三方服务</h2>
+                    <p>本网站可能使用以下第三方服务：</p>
+                    <ul>
+                        <li><strong>Cloudflare</strong>：网站 CDN 及基础安全防护。</li>
+                        <li><strong>Google Analytics</strong>：网站访问数据分析。</li>
+                        <li><strong>Font Awesome</strong>：图标字体库。</li>
+                        <li><strong>CodeMirror</strong>：在线代码编辑器组件。</li>
+                    </ul>
+                    <p>这些第三方服务各自拥有独立的隐私政策，建议您查阅其相关条款。</p>
+                    <h2>内容说明</h2>
+                    <p>本站部分作品包含以下类型的内容，可能不适用于所有用户：</p>
+                    <ul>
+                        <li>心理惊悚、悬疑题材。</li>
+                        <li>复杂的情感关系描写。</li>
+                        <li>成人向内容（已进行年龄提示）。</li>
+                    </ul>
+                    <p>我们会在相关作品页面添加明确的内容提示，请您根据自身情况审慎选择是否继续浏览。</p>
+                    <h2>政策更新</h2>
+                    <p>我们可能不时更新本隐私政策。更新时，我们将在本页面发布新版本，并更新“最后更新日期”。</p>
+                    <p>若涉及重大变更，我们将通过网站公告的方式予以通知。</p>
+                    <h2>联系我们</h2>
+                    <div class="contact-box">
+                        <h3>关于隐私问题</h3>
+                        <p>如您对本隐私政策有任何疑问，或希望了解我们收集了哪些与您相关的数据，请通过以下方式联系我们：</p>
+                        <p>📧 GitHub Issues：<a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues/new" target="_blank">提交 Issue</a></p>
+                        <p style="margin-top: 10px; font-size: 14px; color: var(--text-secondary);">
+                            温馨提示：由于本站为个人网站，我们可能无法提供完整的法律响应，但会认真对待您的每一份反馈。
+                        </p>
+                    </div>
+                `
+            },
+            // 繁体中文
+            "zh-TW": {
+                back: "返回首頁",
+                title: "隱私政策",
+                updatePrefix: "最後更新日期：2026年4月11日",
+                footer: "© 2025-2026 ciallo0721-cmd | 用程式碼書寫故事，以遊戲傳遞情感",
+                content: `
+                    <h2>前言</h2>
+                    <p>ciallo0721-cmd（以下簡稱「本站」）非常重視您的隱私和個人資訊保護。本隱私政策旨在向您說明我們如何收集、使用、儲存和保護您的資訊，以及您享有的相關權利。</p>
+                    <div class="warning-box">
+                        <p><strong>⚠️ 特別提示：</strong>本站為個人創作網站，部分內容可能包含不適合未成年人的元素（如心理驚悚題材的視覺小說）。請監護人注意引導。</p>
+                    </div>
+                    <h2>我們收集的資訊</h2>
+                    <h3>1. 驗證流程中收集的資訊</h3>
+                    <p>為防止惡意訪問並保障網站安全，在訪問特定頁面時，我們可能會收集以下資訊：</p>
+                    <ul>
+                        <li><strong>IP地址</strong>：用於判斷用戶地理位置及進行基礎安全檢測。</li>
+                        <li><strong>瀏覽器 User-Agent</strong>：用於識別瀏覽器類型及版本。</li>
+                        <li><strong>瀏覽器語言和時區設置</strong>：輔助判斷用戶所在地區。</li>
+                        <li><strong>屏幕分辨率及時區</strong>：用於分析用戶設備環境。</li>
+                    </ul>
+                    <h3>2. Google 分析服務</h3>
+                    <p>我們使用 Google Analytics（分析）來了解網站訪問情況。Google 可能會收集以下資訊：</p>
+                    <ul>
+                        <li>訪問的頁面及停留時長。</li>
+                        <li>設備與瀏覽器資訊。</li>
+                        <li>基於 IP 地址的地理位置資訊。</li>
+                        <li>來源網站或渠道。</li>
+                    </ul>
+                    <p>您可以在首次訪問時選擇「不同意」來拒絕 Google 的數據收集行為。</p>
+                    <h3>3. 本地存儲數據</h3>
+                    <p>我們使用瀏覽器的 sessionStorage 存儲驗證狀態。該數據僅在當前瀏覽器會話期間有效，關閉瀏覽器後即自動清除。</p>
+                    <h2>我們如何使用您的資訊</h2>
+                    <p>我們收集的資訊僅用於以下目的：</p>
+                    <ol>
+                        <li><strong>安全驗證</strong>：識別並防範自動化攻擊及惡意訪問。</li>
+                        <li><strong>服務改進</strong>：了解用戶行為模式，優化網站體驗。</li>
+                        <li><strong>統計分析</strong>：生成訪問統計數據，用於內容規劃與調整。</li>
+                        <li><strong>內容適配</strong>：根據用戶環境提供適宜的訪問策略。</li>
+                    </ol>
+                    <div class="highlight-box">
+                        <p><strong>我們的承諾：</strong>我們不會將您的個人資訊出售、出租或以其他方式提供給第三方用於營銷目的。</p>
+                    </div>
+                    <h2>數據存儲與安全</h2>
+                    <ul>
+                        <li><strong>存儲位置</strong>：所有數據均存儲於您的本地瀏覽器中，本站不設服務器端數據庫。</li>
+                        <li><strong>存儲期限</strong>：驗證狀態數據僅在瀏覽器會話期間保留，會話結束後自動清除。</li>
+                        <li><strong>傳輸安全</strong>：本站通過 HTTPS 加密協議傳輸數據，保障傳輸過程中的信息安全。</li>
+                        <li><strong>訪問限制</strong>：我們無法訪問您瀏覽器中存儲的驗證狀態數據。</li>
+                    </ul>
+                    <h2>地域服務說明</h2>
+                    <p>我們目前主要面向中國大陸及港澳台地區用戶提供服務。此安排並非基於歧視，而是基於以下實際考量：</p>
+                    <ul>
+                        <li>網站部署於 GitHub Pages，部分地區可能訪問不穩定。</li>
+                        <li>內容風格主要面向華語用戶群體。</li>
+                        <li>作者目前僅具備中文內容的創作和維護能力。</li>
+                    </ul>
+                    <h2>您的權利</h2>
+                    <p>作為個人信息主體，您享有以下權利：</p>
+                    <ul>
+                        <li><strong>知情權</strong>：了解我們收集哪些數據及具體用途。</li>
+                        <li><strong>拒絕權</strong>：您可以拒絕 Google 的數據收集（首次訪問時選擇「不同意」）。</li>
+                        <li><strong>清除權</strong>：關閉瀏覽器即可清除驗證狀態，網站無法繼續追蹤您。</li>
+                        <li><strong>Cookie 控制</strong>：您可在瀏覽器設置中管理 Cookie 及存儲權限。</li>
+                    </ul>
+                    <h2>第三方服務</h2>
+                    <p>本網站可能使用以下第三方服務：</p>
+                    <ul>
+                        <li><strong>Cloudflare</strong>：網站 CDN 及基礎安全防護。</li>
+                        <li><strong>Google Analytics</strong>：網站訪問數據分析。</li>
+                        <li><strong>Font Awesome</strong>：圖標字體庫。</li>
+                        <li><strong>CodeMirror</strong>：在線代碼編輯器組件。</li>
+                    </ul>
+                    <p>這些第三方服務各自擁有獨立的隱私政策，建議您查閱其相關條款。</p>
+                    <h2>內容說明</h2>
+                    <p>本站部分作品包含以下類型的內容，可能不適用於所有用戶：</p>
+                    <ul>
+                        <li>心理驚悚、懸疑題材。</li>
+                        <li>複雜的情感關係描寫。</li>
+                        <li>成人向內容（已進行年齡提示）。</li>
+                    </ul>
+                    <p>我們會在相關作品頁面添加明確的內容提示，請您根據自身情況審慎選擇是否繼續瀏覽。</p>
+                    <h2>政策更新</h2>
+                    <p>我們可能不時更新本隱私政策。更新時，我們將在本頁面發布新版本，並更新「最後更新日期」。</p>
+                    <p>若涉及重大變更，我們將通過網站公告的方式予以通知。</p>
+                    <h2>聯繫我們</h2>
+                    <div class="contact-box">
+                        <h3>關於隱私問題</h3>
+                        <p>如您對本隱私政策有任何疑問，或希望了解我們收集了哪些與您相關的數據，請通過以下方式聯繫我們：</p>
+                        <p>📧 GitHub Issues：<a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues/new" target="_blank">提交 Issue</a></p>
+                        <p style="margin-top: 10px; font-size: 14px; color: var(--text-secondary);">
+                            溫馨提示：由於本站為個人網站，我們可能無法提供完整的法律響應，但會認真對待您的每一份反饋。
+                        </p>
+                    </div>
+                `
+            },
+            // 英文 (English)
+            "en": {
+                back: "Back to Home",
+                title: "Privacy Policy",
+                updatePrefix: "Last Updated: April 11, 2026",
+                footer: "© 2025-2026 ciallo0721-cmd | Writing stories with code, conveying emotions through games",
+                content: `
+                    <h2>Introduction</h2>
+                    <p>ciallo0721-cmd (hereinafter referred to as "this site") attaches great importance to your privacy and personal information protection. This Privacy Policy explains how we collect, use, store, and protect your information, as well as the rights you enjoy.</p>
+                    <div class="warning-box">
+                        <p><strong>⚠️ Special Notice:</strong> This site is a personal creative website. Some content may contain elements not suitable for minors (e.g., psychological thriller visual novels). Guardians are advised to guide.</p>
+                    </div>
+                    <h2>Information We Collect</h2>
+                    <h3>1. Information Collected During Verification</h3>
+                    <p>To prevent malicious access and ensure website security, we may collect the following information when you access specific pages:</p>
+                    <ul>
+                        <li><strong>IP address</strong>: Used to determine user location and perform basic security checks.</li>
+                        <li><strong>Browser User-Agent</strong>: Used to identify browser type and version.</li>
+                        <li><strong>Browser language and time zone settings</strong>: To assist in determining the user's region.</li>
+                        <li><strong>Screen resolution and time zone</strong>: To analyze user device environment.</li>
+                    </ul>
+                    <h3>2. Google Analytics Service</h3>
+                    <p>We use Google Analytics to understand website traffic. Google may collect the following information:</p>
+                    <ul>
+                        <li>Pages visited and dwell time.</li>
+                        <li>Device and browser information.</li>
+                        <li>Geolocation information based on IP address.</li>
+                        <li>Referral sources or channels.</li>
+                    </ul>
+                    <p>You can choose "Disagree" on your first visit to opt out of Google's data collection.</p>
+                    <h3>3. Local Storage Data</h3>
+                    <p>We use browser sessionStorage to store verification status. This data is only valid during the current browser session and is automatically cleared when the browser is closed.</p>
+                    <h2>How We Use Your Information</h2>
+                    <p>The information we collect is used only for the following purposes:</p>
+                    <ol>
+                        <li><strong>Security Verification</strong>: Identify and prevent automated attacks and malicious access.</li>
+                        <li><strong>Service Improvement</strong>: Understand user behavior patterns to optimize site experience.</li>
+                        <li><strong>Statistical Analysis</strong>: Generate access statistics for content planning and adjustments.</li>
+                        <li><strong>Content Adaptation</strong>: Provide appropriate access strategies based on user environment.</li>
+                    </ol>
+                    <div class="highlight-box">
+                        <p><strong>Our Commitment:</strong> We will not sell, rent, or otherwise provide your personal information to third parties for marketing purposes.</p>
+                    </div>
+                    <h2>Data Storage and Security</h2>
+                    <ul>
+                        <li><strong>Storage Location</strong>: All data is stored locally in your browser. This site does not have a server-side database.</li>
+                        <li><strong>Retention Period</strong>: Verification status data is retained only during the browser session and cleared automatically afterwards.</li>
+                        <li><strong>Transmission Security</strong>: This site uses HTTPS encryption to protect data during transmission.</li>
+                        <li><strong>Access Restriction</strong>: We cannot access the verification status data stored in your browser.</li>
+                    </ul>
+                    <h2>Regional Service Statement</h2>
+                    <p>We currently provide services primarily to users in Mainland China, Hong Kong, Macau, and Taiwan. This arrangement is not discriminatory but based on practical considerations:</p>
+                    <ul>
+                        <li>The site is hosted on GitHub Pages, which may be unstable in some regions.</li>
+                        <li>Content style is mainly aimed at Chinese-speaking users.</li>
+                        <li>The author currently only has the ability to create and maintain Chinese content.</li>
+                    </ul>
+                    <h2>Your Rights</h2>
+                    <p>As a data subject, you have the following rights:</p>
+                    <ul>
+                        <li><strong>Right to Know</strong>: Understand what data we collect and its specific uses.</li>
+                        <li><strong>Right to Refuse</strong>: You can refuse Google's data collection (choose "Disagree" on first visit).</li>
+                        <li><strong>Right to Erasure</strong>: Close your browser to clear verification status; the site cannot continue to track you.</li>
+                        <li><strong>Cookie Control</strong>: You can manage cookies and storage permissions in your browser settings.</li>
+                    </ul>
+                    <h2>Third-Party Services</h2>
+                    <p>This site may use the following third-party services:</p>
+                    <ul>
+                        <li><strong>Cloudflare</strong>: CDN and basic security protection.</li>
+                        <li><strong>Google Analytics</strong>: Website traffic data analysis.</li>
+                        <li><strong>Font Awesome</strong>: Icon font library.</li>
+                        <li><strong>CodeMirror</strong>: Online code editor component.</li>
+                    </ul>
+                    <p>These third-party services each have their own privacy policies; we recommend you review their terms.</p>
+                    <h2>Content Disclaimer</h2>
+                    <p>Some works on this site contain the following types of content, which may not be suitable for all users:</p>
+                    <ul>
+                        <li>Psychological thriller, suspense themes.</li>
+                        <li>Complex emotional relationship depictions.</li>
+                        <li>Adult-oriented content (age warnings provided).</li>
+                    </ul>
+                    <p>We will add clear content warnings on relevant work pages. Please make your own judgement before continuing to browse.</p>
+                    <h2>Policy Updates</h2>
+                    <p>We may update this Privacy Policy from time to time. When updated, we will post a new version on this page and update the "Last Updated" date.</p>
+                    <p>In case of material changes, we will notify you via website announcement.</p>
+                    <h2>Contact Us</h2>
+                    <div class="contact-box">
+                        <h3>Privacy Questions</h3>
+                        <p>If you have any questions about this Privacy Policy or wish to know what data we have collected about you, please contact us via:</p>
+                        <p>📧 GitHub Issues: <a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues/new" target="_blank">Submit an Issue</a></p>
+                        <p style="margin-top: 10px; font-size: 14px; color: var(--text-secondary);">
+                            Note: As this is a personal website, we may not be able to provide a full legal response, but we will take every feedback seriously.
+                        </p>
+                    </div>
+                `
+            },
+            // 日语 (日本語)
+            "ja": {
+                back: "ホームに戻る",
+                title: "プライバシーポリシー",
+                updatePrefix: "最終更新日: 2026年4月11日",
+                footer: "© 2025-2026 ciallo0721-cmd | コードで物語を紡ぎ、ゲームで感情を伝える",
+                content: `
+                    <h2>はじめに</h2>
+                    <p>ciallo0721-cmd（以下「当サイト」といいます）は、お客様のプライバシーと個人情報保護を非常に重視しています。このプライバシーポリシーは、当サイトがどのように情報を収集、使用、保存、保護するか、およびお客様の権利について説明するものです。</p>
+                    <div class="warning-box">
+                        <p><strong>⚠️ 特別注意：</strong>当サイトは個人制作のウェブサイトです。一部のコンテンツには未成年者に適さない要素（心理スリラーのビジュアルノベルなど）が含まれる場合があります。保護者の方はご注意ください。</p>
+                    </div>
+                    <h2>収集する情報</h2>
+                    <h3>1. 検証プロセスで収集される情報</h3>
+                    <p>不正アクセスを防止しサイトの安全性を確保するため、特定ページへのアクセス時に以下の情報を収集する場合があります：</p>
+                    <ul>
+                        <li><strong>IPアドレス</strong>：ユーザーの地理的位置を判断し、基本的なセキュリティチェックを実施。</li>
+                        <li><strong>ブラウザのUser-Agent</strong>：ブラウザの種類とバージョンを識別。</li>
+                        <li><strong>ブラウザの言語とタイムゾーン設定</strong>：ユーザーの地域を補助判断。</li>
+                        <li><strong>画面解像度とタイムゾーン</strong>：ユーザーのデバイス環境を分析。</li>
+                    </ul>
+                    <h3>2. Google アナリティクスサービス</h3>
+                    <p>当サイトはGoogle Analyticsを使用してサイトの訪問状況を把握しています。Googleは以下の情報を収集する場合があります：</p>
+                    <ul>
+                        <li>訪問したページと滞在時間。</li>
+                        <li>デバイスとブラウザの情報。</li>
+                        <li>IPアドレスに基づく地理的位置情報。</li>
+                        <li>参照元サイトやチャネル。</li>
+                    </ul>
+                    <p>初回アクセス時に「同意しない」を選択することで、Googleのデータ収集を拒否できます。</p>
+                    <h3>3. ローカルストレージデータ</h3>
+                    <p>ブラウザのsessionStorageを使用して検証状態を保存します。このデータは現在のブラウザセッション中のみ有効で、ブラウザを閉じると自動的に消去されます。</p>
+                    <h2>情報の使用方法</h2>
+                    <p>収集した情報は以下の目的のみに使用します：</p>
+                    <ol>
+                        <li><strong>セキュリティ検証</strong>：自動化攻撃や悪意のあるアクセスを識別し防止。</li>
+                        <li><strong>サービス改善</strong>：ユーザーの行動パターンを理解し、サイト体験を最適化。</li>
+                        <li><strong>統計分析</strong>：アクセス統計データを生成し、コンテンツ計画と調整に活用。</li>
+                        <li><strong>コンテンツ適応</strong>：ユーザー環境に応じて適切なアクセス戦略を提供。</li>
+                    </ol>
+                    <div class="highlight-box">
+                        <p><strong>当サイトの約束：</strong>お客様の個人情報をマーケティング目的で第三者に販売、貸与、またはその他の方法で提供することはありません。</p>
+                    </div>
+                    <h2>データの保存とセキュリティ</h2>
+                    <ul>
+                        <li><strong>保存場所</strong>：すべてのデータはお客様のローカルブラウザに保存され、当サイトにサーバーサイドのデータベースはありません。</li>
+                        <li><strong>保存期間</strong>：検証状態データはブラウザセッション中のみ保持され、セッション終了後に自動消去。</li>
+                        <li><strong>転送セキュリティ</strong>：HTTPS暗号化プロトコルを使用してデータを転送し、転送中の情報セキュリティを確保。</li>
+                        <li><strong>アクセス制限</strong>：お客様のブラウザに保存された検証状態データにはアクセスできません。</li>
+                    </ul>
+                    <h2>地域サービスに関する説明</h2>
+                    <p>当サイトは主に中国本土、香港、マカオ、台湾地域のユーザーを対象としています。この取り決めは差別に基づくものではなく、以下の実際的な考慮に基づいています：</p>
+                    <ul>
+                        <li>GitHub Pagesにデプロイされており、地域によってアクセスが不安定な場合がある。</li>
+                        <li>コンテンツスタイルは主に中国語話者ユーザー向け。</li>
+                        <li>作者は現在、中国語コンテンツの作成と維持のみ対応可能。</li>
+                    </ul>
+                    <h2>お客様の権利</h2>
+                    <p>個人情報の主体として、お客様には以下の権利があります：</p>
+                    <ul>
+                        <li><strong>知る権利</strong>：当サイトが収集するデータとその具体的な用途を理解する。</li>
+                        <li><strong>拒否する権利</strong>：Googleのデータ収集を拒否できます（初回アクセス時に「同意しない」を選択）。</li>
+                        <li><strong>消去する権利</strong>：ブラウザを閉じると検証状態が消去され、サイトはお客様を追跡できなくなります。</li>
+                        <li><strong>Cookie管理</strong>：ブラウザ設定でCookieおよびストレージ権限を管理できます。</li>
+                    </ul>
+                    <h2>サードパーティサービス</h2>
+                    <p>当サイトでは以下のサードパーティサービスを使用する場合があります：</p>
+                    <ul>
+                        <li><strong>Cloudflare</strong>：CDNおよび基本セキュリティ保護。</li>
+                        <li><strong>Google Analytics</strong>：サイトアクセスデータ分析。</li>
+                        <li><strong>Font Awesome</strong>：アイコンフォントライブラリ。</li>
+                        <li><strong>CodeMirror</strong>：オンラインコードエディタコンポーネント。</li>
+                    </ul>
+                    <p>これらのサードパーティサービスはそれぞれ独立したプライバシーポリシーを持っています。関連する条項を確認することをお勧めします。</p>
+                    <h2>コンテンツに関する説明</h2>
+                    <p>当サイトの一部の作品には以下のタイプのコンテンツが含まれており、すべてのユーザーに適しているとは限りません：</p>
+                    <ul>
+                        <li>心理スリラー、サスペンス題材。</li>
+                        <li>複雑な感情関係の描写。</li>
+                        <li>成人向けコンテンツ（年齢警告済み）。</li>
+                    </ul>
+                    <p>関連作品ページには明確なコンテンツ警告を追加します。お客様ご自身の判断で閲覧を続けるかどうかを慎重に選択してください。</p>
+                    <h2>ポリシーの更新</h2>
+                    <p>当サイトはこのプライバシーポリシーを随時更新することがあります。更新時にはこのページに新しいバージョンを掲載し、「最終更新日」を更新します。</p>
+                    <p>重要な変更がある場合は、サイトのお知らせで通知します。</p>
+                    <h2>お問い合わせ</h2>
+                    <div class="contact-box">
+                        <h3>プライバシーに関する質問</h3>
+                        <p>このプライバシーポリシーに関するご質問、または当サイトが収集したお客様に関するデータについて知りたい場合は、以下の方法でお問い合わせください：</p>
+                        <p>📧 GitHub Issues：<a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues/new" target="_blank">Issueを送信</a></p>
+                        <p style="margin-top: 10px; font-size: 14px; color: var(--text-secondary);">
+                            注記：当サイトは個人サイトのため、完全な法的対応はできない可能性がありますが、すべてのフィードバックを真摯に受け止めます。
+                        </p>
+                    </div>
+                `
+            },
+            // 韩语 (한국어) 简化但保持完整
+            "ko": {
+                back: "홈으로 돌아가기",
+                title: "개인정보처리방침",
+                updatePrefix: "마지막 업데이트: 2026년 4월 11일",
+                footer: "© 2025-2026 ciallo0721-cmd | 코드로 이야기를 쓰고, 게임으로 감성을 전하다",
+                content: `<h2>서문</h2><p>ciallo0721-cmd(이하 "당사 사이트")는 귀하의 프라이버시와 개인정보 보호를 매우 중요하게 생각합니다. 본 개인정보처리방침은 당사 사이트가 귀하의 정보를 수집, 사용, 저장 및 보호하는 방법과 귀하의 권리를 설명하기 위한 것입니다.</p><div class="warning-box"><p><strong>⚠️ 특별 안내:</strong> 당사 사이트는 개인 창작 웹사이트로, 일부 콘텐츠에는 미성년자에게 부적합한 요소(심리 스릴러 비주얼 노블 등)가 포함될 수 있습니다. 보호자의 지도가 필요합니다.</p></div><h2>수집하는 정보</h2><h3>1. 검증 과정에서 수집되는 정보</h3><p>악의적인 접근을 방지하고 웹사이트 보안을 보장하기 위해 특정 페이지 접근 시 다음 정보를 수집할 수 있습니다:</p><ul><li><strong>IP 주소</strong>: 사용자 지리적 위치 파악 및 기본 보안 검사 수행.</li><li><strong>브라우저 User-Agent</strong>: 브라우저 유형 및 버전 식별.</li><li><strong>브라우저 언어 및 시간대 설정</strong>: 사용자 지역 판단 지원.</li><li><strong>화면 해상도 및 시간대</strong>: 사용자 장치 환경 분석.</li></ul><h3>2. Google 애널리틱스 서비스</h3><p>Google 애널리틱스를 사용하여 웹사이트 방문 현황을 파악합니다. Google은 다음 정보를 수집할 수 있습니다:</p><ul><li>방문한 페이지 및 체류 시간.</li><li>기기 및 브라우저 정보.</li><li>IP 주소 기반 지리적 위치 정보.</li><li>참조 웹사이트 또는 채널.</li></ul><p>처음 방문 시 "동의하지 않음"을 선택하여 Google의 데이터 수집을 거부할 수 있습니다.</p><h3>3. 로컬 저장 데이터</h3><p>브라우저의 sessionStorage를 사용하여 검증 상태를 저장합니다. 이 데이터는 현재 브라우저 세션 동안만 유효하며 브라우저를 닫으면 자동으로 삭제됩니다.</p><h2>정보 사용 방법</h2><p>수집된 정보는 다음 목적으로만 사용됩니다:</p><ol><li><strong>보안 검증</strong>: 자동화된 공격 및 악의적 접근 식별 및 방지.</li><li><strong>서비스 개선</strong>: 사용자 행동 패턴 파악 및 사이트 경험 최적화.</li><li><strong>통계 분석</strong>: 접근 통계 데이터 생성, 콘텐츠 계획 및 조정에 활용.</li><li><strong>콘텐츠 적응</strong>: 사용자 환경에 따른 적절한 접근 전략 제공.</li></ol><div class="highlight-box"><p><strong>당사의 약속:</strong> 개인정보를 마케팅 목적으로 제3자에게 판매, 임대 또는 기타 방식으로 제공하지 않습니다.</p></div><h2>데이터 저장 및 보안</h2><ul><li><strong>저장 위치</strong>: 모든 데이터는 귀하의 로컬 브라우저에 저장되며, 당사 사이트에는 서버 측 데이터베이스가 없습니다.</li><li><strong>보관 기간</strong>: 검증 상태 데이터는 브라우저 세션 동안만 유지되며 세션 종료 후 자동 삭제됩니다.</li><li><strong>전송 보안</strong>: HTTPS 암호화 프로토콜을 사용하여 데이터를 전송하고 전송 중 정보 보안을 보장합니다.</li><li><strong>접근 제한</strong>: 귀하의 브라우저에 저장된 검증 상태 데이터에 액세스할 수 없습니다.</li></ul><h2>지역 서비스 설명</h2><p>현재 주로 중국 본토 및 홍콩, 마카오, 대만 지역 사용자에게 서비스를 제공합니다. 이 조치는 차별에 기반한 것이 아니라 다음의 실제적인 고려 사항에 기반합니다:</p><ul><li>GitHub Pages에 배포되어 일부 지역에서 접속이 불안정할 수 있습니다.</li><li>콘텐츠 스타일은 주로 중국어 사용자 그룹을 대상으로 합니다.</li><li>작가는 현재 중국어 콘텐츠 제작 및 유지 관리 능력만 갖추고 있습니다.</li></ul><h2>귀하의 권리</h2><p>개인정보 주체로서 귀하는 다음과 같은 권리를 가집니다:</p><ul><li><strong>알 권리</strong>: 당사가 수집하는 데이터와 구체적인 용도를 이해할 권리.</li><li><strong>거부권</strong>: Google의 데이터 수집을 거부할 수 있습니다(처음 방문 시 "동의하지 않음" 선택).</li><li><strong>삭제권</strong>: 브라우저를 닫으면 검증 상태가 삭제되어 사이트가 더 이상 귀하를 추적할 수 없습니다.</li><li><strong>쿠키 통제</strong>: 브라우저 설정에서 쿠키 및 저장 권한을 관리할 수 있습니다.</li></ul><h2>타사 서비스</h2><p>당사 사이트는 다음과 같은 타사 서비스를 사용할 수 있습니다:</p><ul><li><strong>Cloudflare</strong>: CDN 및 기본 보안 보호.</li><li><strong>Google Analytics</strong>: 웹사이트 접속 데이터 분석.</li><li><strong>Font Awesome</strong>: 아이콘 글꼴 라이브러리.</li><li><strong>CodeMirror</strong>: 온라인 코드 편집기 구성 요소.</li></ul><p>이러한 타사 서비스는 각각 자체 개인정보처리방침을 가지고 있으므로 관련 약관을 검토하는 것이 좋습니다.</p><h2>콘텐츠 설명</h2><p>당사 사이트의 일부 작품에는 다음 유형의 콘텐츠가 포함될 수 있으며 모든 사용자에게 적합하지 않을 수 있습니다:</p><ul><li>심리 스릴러, 서스펜스 소재.</li><li>복잡한 감정 관계 묘사.</li><li>성인 대상 콘텐츠(연령 경고 제공됨).</li></ul><p>관련 작품 페이지에 명확한 콘텐츠 경고를 추가할 것입니다. 귀하의 상황에 따라 계속 탐색할지 신중하게 선택하시기 바랍니다.</p><h2>정책 업데이트</h2><p>본 개인정보처리방침은 수시로 업데이트될 수 있습니다. 업데이트 시 이 페이지에 새 버전을 게시하고 "마지막 업데이트" 날짜를 업데이트합니다.</p><p>중요한 변경 사항이 있는 경우 웹사이트 공지를 통해 알려드립니다.</p><h2>문의하기</h2><div class="contact-box"><h3>프라이버시 문제</h3><p>본 개인정보처리방침에 대해 질문이 있거나 당사가 수집한 귀하와 관련된 데이터를 알고 싶으시면 다음 방법으로 문의하세요:</p><p>📧 GitHub Issues: <a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues/new" target="_blank">Issue 제출</a></p><p style="margin-top: 10px; font-size: 14px; color: var(--text-secondary);">참고: 당사 사이트는 개인 웹사이트이므로 완전한 법적 대응을 제공하지 못할 수 있지만 모든 피드백을 진지하게 받아들입니다.</p></div>`
+            },
+            // 法语 (Français) 为保持长度但内容完整，稍精简但保留所有结构，此处确保语义正确
+            "fr": {
+                back: "Retour à l'accueil",
+                title: "Politique de confidentialité",
+                updatePrefix: "Dernière mise à jour : 11 avril 2026",
+                footer: "© 2025-2026 ciallo0721-cmd | Écrire des histoires avec du code, transmettre des émotions par le jeu",
+                content: `<h2>Préface</h2><p>ciallo0721-cmd (ci-après dénommé "ce site") accorde une grande importance à votre vie privée et à la protection de vos informations personnelles. Cette politique de confidentialité vise à expliquer comment nous collectons, utilisons, stockons et protégeons vos informations, ainsi que les droits dont vous disposez.</p><div class="warning-box"><p><strong>⚠️ Avis spécial :</strong> Ce site est un site personnel de création. Certains contenus peuvent contenir des éléments inappropriés pour les mineurs (comme des romans visuels de thriller psychologique). Les tuteurs sont invités à superviser.</p></div><h2>Informations que nous collectons</h2><h3>1. Informations collectées lors du processus de vérification</h3><p>Pour prévenir les accès malveillants et garantir la sécurité du site, nous pouvons collecter les informations suivantes lorsque vous accédez à des pages spécifiques :</p><ul><li><strong>Adresse IP</strong> : Utilisée pour déterminer la localisation géographique et effectuer des contrôles de sécurité de base.</li><li><strong>User-Agent du navigateur</strong> : Utilisé pour identifier le type et la version du navigateur.</li><li><strong>Paramètres de langue et de fuseau horaire du navigateur</strong> : Pour aider à déterminer la région de l'utilisateur.</li><li><strong>Résolution d'écran et fuseau horaire</strong> : Pour analyser l'environnement de l'appareil utilisateur.</li></ul><h3>2. Service Google Analytics</h3><p>Nous utilisons Google Analytics pour comprendre le trafic du site. Google peut collecter les informations suivantes :</p><ul><li>Pages visitées et durée de séjour.</li><li>Informations sur l'appareil et le navigateur.</li><li>Informations de localisation géographique basées sur l'adresse IP.</li><li>Site source ou canal de référence.</li></ul><p>Vous pouvez choisir "Ne pas accepter" lors de votre première visite pour refuser la collecte de données par Google.</p><h3>3. Données de stockage local</h3><p>Nous utilisons le sessionStorage du navigateur pour stocker l'état de vérification. Ces données ne sont valides que pendant la session de navigation en cours et sont automatiquement effacées à la fermeture du navigateur.</p><h2>Comment nous utilisons vos informations</h2><p>Les informations collectées sont utilisées uniquement aux fins suivantes :</p><ol><li><strong>Vérification de sécurité</strong> : Identifier et prévenir les attaques automatisées et les accès malveillants.</li><li><strong>Amélioration du service</strong> : Comprendre les modèles de comportement des utilisateurs pour optimiser l'expérience du site.</li><li><strong>Analyse statistique</strong> : Générer des statistiques de visite pour la planification et l'ajustement du contenu.</li><li><strong>Adaptation du contenu</strong> : Fournir des stratégies d'accès appropriées en fonction de l'environnement de l'utilisateur.</li></ol><div class="highlight-box"><p><strong>Notre engagement :</strong> Nous ne vendons, ne louons ni ne fournissons vos informations personnelles à des tiers à des fins de marketing.</p></div><h2>Stockage et sécurité des données</h2><ul><li><strong>Emplacement de stockage</strong> : Toutes les données sont stockées localement dans votre navigateur. Ce site ne dispose pas de base de données côté serveur.</li><li><strong>Durée de conservation</strong> : Les données d'état de vérification ne sont conservées que pendant la session du navigateur et sont automatiquement effacées après la session.</li><li><strong>Sécurité du transfert</strong> : Ce site utilise le protocole de cryptage HTTPS pour transférer les données, garantissant la sécurité des informations pendant le transfert.</li><li><strong>Restriction d'accès</strong> : Nous ne pouvons pas accéder aux données d'état de vérification stockées dans votre navigateur.</li></ul><h2>Déclaration de service régional</h2><p>Nous fournissons actuellement des services principalement aux utilisateurs de la Chine continentale, de Hong Kong, de Macao et de Taïwan. Cette disposition n'est pas discriminatoire mais repose sur les considérations pratiques suivantes :</p><ul><li>Le site est hébergé sur GitHub Pages, l'accès peut être instable dans certaines régions.</li><li>Le style de contenu s'adresse principalement aux utilisateurs sinophones.</li><li>L'auteur n'a actuellement que la capacité de créer et de maintenir du contenu en chinois.</li></ul><h2>Vos droits</h2><p>En tant que sujet des données, vous disposez des droits suivants :</p><ul><li><strong>Droit à l'information</strong> : Comprendre quelles données nous collectons et leurs utilisations spécifiques.</li><li><strong>Droit de refus</strong> : Vous pouvez refuser la collecte de données par Google (choisissez "Ne pas accepter" lors de la première visite).</li><li><strong>Droit à l'effacement</strong> : Fermez votre navigateur pour effacer l'état de vérification ; le site ne peut plus vous suivre.</li><li><strong>Contrôle des cookies</strong> : Vous pouvez gérer les cookies et les autorisations de stockage dans les paramètres de votre navigateur.</li></ul><h2>Services tiers</h2><p>Ce site peut utiliser les services tiers suivants :</p><ul><li><strong>Cloudflare</strong> : CDN et protection de sécurité de base.</li><li><strong>Google Analytics</strong> : Analyse des données de trafic du site.</li><li><strong>Font Awesome</strong> : Bibliothèque de polices d'icônes.</li><li><strong>CodeMirror</strong> : Composant d'éditeur de code en ligne.</li></ul><p>Ces services tiers ont chacun leurs propres politiques de confidentialité ; nous vous recommandons de consulter leurs conditions.</p><h2>Clause de non-responsabilité sur le contenu</h2><p>Certaines œuvres de ce site contiennent les types de contenu suivants, qui peuvent ne pas convenir à tous les utilisateurs :</p><ul><li>Thèmes de thriller psychologique, suspense.</li><li>Descriptions de relations émotionnelles complexes.</li><li>Contenu pour adultes (avertissement d'âge fourni).</li></ul><p>Nous ajouterons des avertissements clairs sur les pages des œuvres concernées. Veuillez faire preuve de discernement avant de continuer à naviguer.</p><h2>Mises à jour de la politique</h2><p>Nous pouvons mettre à jour cette politique de confidentialité de temps à autre. En cas de mise à jour, nous publierons une nouvelle version sur cette page et mettrons à jour la date de "Dernière mise à jour".</p><p>En cas de changement majeur, nous vous en informerons par un avis sur le site.</p><h2>Nous contacter</h2><div class="contact-box"><h3>Questions relatives à la vie privée</h3><p>Si vous avez des questions concernant cette politique de confidentialité ou souhaitez savoir quelles données nous avons collectées vous concernant, veuillez nous contacter via :</p><p>📧 GitHub Issues : <a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues/new" target="_blank">Soumettre un Issue</a></p><p style="margin-top: 10px; font-size: 14px; color: var(--text-secondary);">Remarque : Comme il s'agit d'un site personnel, nous ne pouvons peut-être pas fournir une réponse juridique complète, mais nous prendrons chaque retour au sérieux.</p></div>`
+            },
+            // 俄语 (Русский) 保留完整结构
+            "ru": {
+                back: "На главную",
+                title: "Политика конфиденциальности",
+                updatePrefix: "Последнее обновление: 11 апреля 2026 г.",
+                footer: "© 2025-2026 ciallo0721-cmd | Писать истории с помощью кода, передавать эмоции через игры",
+                content: `<h2>Введение</h2><p>ciallo0721-cmd (далее именуемый «этот сайт») уделяет большое внимание вашей конфиденциальности и защите личной информации. Настоящая Политика конфиденциальности объясняет, как мы собираем, используем, храним и защищаем вашу информацию, а также ваши права.</p><div class="warning-box"><p><strong>⚠️ Особое примечание:</strong> Этот сайт является персональным творческим сайтом. Некоторые материалы могут содержать элементы, неподходящие для несовершеннолетних (например, психологические триллеры в визуальных новеллах). Родителям рекомендуется контролировать.</p></div><h2>Информация, которую мы собираем</h2><h3>1. Информация, собираемая в процессе проверки</h3><p>Для предотвращения вредоносных посещений и обеспечения безопасности сайта при доступе к определенным страницам мы можем собирать следующую информацию:</p><ul><li><strong>IP-адрес</strong>: Используется для определения географического положения пользователя и проведения базовых проверок безопасности.</li><li><strong>User-Agent браузера</strong>: Используется для идентификации типа и версии браузера.</li><li><strong>Язык браузера и настройки часового пояса</strong>: Для вспомогательного определения региона пользователя.</li><li><strong>Разрешение экрана и часовой пояс</strong>: Для анализа среды устройства пользователя.</li></ul><h3>2. Сервис Google Analytics</h3><p>Мы используем Google Analytics для анализа посещаемости сайта. Google может собирать следующую информацию:</p><ul><li>Посещенные страницы и время пребывания.</li><li>Информация об устройстве и браузере.</li><li>Географическая информация на основе IP-адреса.</li><li>Сайт-источник или канал перехода.</li></ul><p>При первом посещении вы можете выбрать «Не согласен», чтобы отказаться от сбора данных Google.</p><h3>3. Локальное хранилище данных</h3><p>Мы используем sessionStorage браузера для хранения статуса проверки. Эти данные действительны только в течение текущего сеанса браузера и автоматически удаляются после закрытия браузера.</p><h2>Как мы используем вашу информацию</h2><p>Собираемая информация используется только в следующих целях:</p><ol><li><strong>Проверка безопасности</strong>: Выявление и предотвращение автоматизированных атак и вредоносных доступов.</li><li><strong>Улучшение обслуживания</strong>: Понимание моделей поведения пользователей для оптимизации работы сайта.</li><li><strong>Статистический анализ</strong>: Формирование статистики посещений для планирования и корректировки контента.</li><li><strong>Адаптация контента</strong>: Предоставление соответствующих стратегий доступа в зависимости от среды пользователя.</li></ol><div class="highlight-box"><p><strong>Наше обязательство:</strong> Мы не продаем, не сдаем в аренду и не передаем вашу личную информацию третьим лицам в маркетинговых целях.</p></div><h2>Хранение и безопасность данных</h2><ul><li><strong>Место хранения</strong>: Все данные хранятся локально в вашем браузере. На этом сайте нет серверной базы данных.</li><li><strong>Срок хранения</strong>: Данные о состоянии проверки сохраняются только в течение сеанса браузера и автоматически удаляются после его завершения.</li><li><strong>Безопасность передачи</strong>: Этот сайт использует протокол шифрования HTTPS для передачи данных, обеспечивая безопасность информации во время передачи.</li><li><strong>Ограничение доступа</strong>: Мы не можем получить доступ к данным о состоянии проверки, хранящимся в вашем браузере.</li></ul><h2>Пояснение по региональному обслуживанию</h2><p>В настоящее время мы предоставляем услуги в основном пользователям материкового Китая, Гонконга, Макао и Тайваня. Это соглашение не является дискриминационным, а основано на следующих практических соображениях:</p><ul><li>Сайт размещен на GitHub Pages, в некоторых регионах доступ может быть нестабильным.</li><li>Стиль контента ориентирован в первую очередь на китайскоязычную аудиторию.</li><li>Автор в настоящее время обладает только возможностью создания и поддержки контента на китайском языке.</li></ul><h2>Ваши права</h2><p>Как субъект персональных данных, вы имеете следующие права:</p><ul><li><strong>Право на информацию</strong>: Знать, какие данные мы собираем и для каких конкретных целей.</li><li><strong>Право на отказ</strong>: Вы можете отказаться от сбора данных Google (выберите «Не согласен» при первом посещении).</li><li><strong>Право на удаление</strong>: Закройте браузер, чтобы очистить статус проверки; сайт больше не сможет отслеживать вас.</li><li><strong>Управление cookie</strong>: Вы можете управлять файлами cookie и разрешениями на хранение в настройках браузера.</li></ul><h2>Сторонние сервисы</h2><p>Этот сайт может использовать следующие сторонние сервисы:</p><ul><li><strong>Cloudflare</strong>: CDN и базовая защита безопасности.</li><li><strong>Google Analytics</strong>: Анализ данных о посещаемости сайта.</li><li><strong>Font Awesome</strong>: Библиотека шрифтов иконок.</li><li><strong>CodeMirror</strong>: Компонент онлайн-редактора кода.</li></ul><p>Эти сторонние сервисы имеют свои собственные политики конфиденциальности; рекомендуем ознакомиться с их условиями.</p><h2>Пояснение к контенту</h2><p>Некоторые произведения на этом сайте содержат следующие типы контента, которые могут подходить не всем пользователям:</p><ul><li>Психологические триллеры, темы саспенса.</li><li>Описания сложных эмоциональных отношений.</li><li>Контент для взрослых (возрастное предупреждение предоставлено).</li></ul><p>Мы добавим четкие предупреждения на страницы соответствующих произведений. Пожалуйста, действуйте по своему усмотрению, решая, продолжать ли просмотр.</p><h2>Обновление политики</h2><p>Мы можем время от времени обновлять эту Политику конфиденциальности. При обновлении мы опубликуем новую версию на этой странице и обновим дату «Последнего обновления».</p><p>В случае существенных изменений мы уведомим вас через объявление на сайте.</p><h2>Свяжитесь с нами</h2><div class="contact-box"><h3>Вопросы конфиденциальности</h3><p>Если у вас есть какие-либо вопросы о настоящей Политике конфиденциальности или вы хотите узнать, какие данные о вас мы собрали, свяжитесь с нами:</p><p>📧 GitHub Issues: <a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues/new" target="_blank">Отправить Issue</a></p><p style="margin-top: 10px; font-size: 14px; color: var(--text-secondary);">Примечание: Поскольку это личный сайт, мы не можем предоставить полного юридического ответа, но отнесемся к каждому отзыву серьезно.</p></div>`
+            }
+        };
+
+        // DOM 元素
+        const backTextSpan = document.getElementById('backText');
+        const pageTitle = document.getElementById('pageTitle');
+        const updateDateElem = document.getElementById('updateDateText');
+        const footerTextElem = document.getElementById('footerText');
+        const mainContentDiv = document.getElementById('mainContent');
+        const langSelect = document.getElementById('languageSwitcher');
+
+        // 切换语言的核心函数
+        function switchLanguage(langCode) {
+            const t = translations[langCode];
+            if (!t) return;
+            // 更新头部、底部简单文本
+            if (backTextSpan) backTextSpan.innerText = t.back;
+            if (pageTitle) pageTitle.innerText = t.title;
+            if (updateDateElem) updateDateElem.innerText = t.updatePrefix;
+            if (footerTextElem) footerTextElem.innerText = t.footer;
+            if (mainContentDiv) mainContentDiv.innerHTML = t.content;
+            // 更新html lang 属性
+            document.documentElement.setAttribute('lang', langCode === 'zh-CN' ? 'zh-CN' : (langCode === 'zh-TW' ? 'zh-TW' : langCode));
+            // 更新页面 meta description 的多语言 (简单处理)
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) {
+                if (langCode === 'zh-CN') metaDesc.setAttribute('content', 'ciallo0721-cmd 个人网站的隐私政策，说明我们如何收集、使用和保护您的数据。');
+                else if (langCode === 'zh-TW') metaDesc.setAttribute('content', 'ciallo0721-cmd 個人網站的隱私政策，說明我們如何收集、使用和保護您的數據。');
+                else if (langCode === 'en') metaDesc.setAttribute('content', 'Privacy policy of ciallo0721-cmd personal website, explaining how we collect, use and protect your data.');
+                else if (langCode === 'ja') metaDesc.setAttribute('content', 'ciallo0721-cmd個人ウェブサイトのプライバシーポリシー。データの収集、使用、保護方法を説明します。');
+                else if (langCode === 'ko') metaDesc.setAttribute('content', 'ciallo0721-cmd 개인 웹사이트의 개인정보처리방침으로, 데이터 수집, 사용 및 보호 방법을 설명합니다.');
+                else if (langCode === 'fr') metaDesc.setAttribute('content', 'Politique de confidentialité du site personnel ciallo0721-cmd, expliquant comment nous collectons, utilisons et protégeons vos données.');
+                else if (langCode === 'ru') metaDesc.setAttribute('content', 'Политика конфиденциальности персонального сайта ciallo0721-cmd, объясняющая, как мы собираем, используем и защищаем ваши данные.');
+            }
+            // 保存用户语言偏好
+            localStorage.setItem('preferredLang', langCode);
+        }
+
+        // 监听切换事件
+        langSelect.addEventListener('change', (e) => {
+            switchLanguage(e.target.value);
+        });
+
+        // 初始加载时检测保存的语言或默认中文
+        const savedLang = localStorage.getItem('preferredLang');
+        const defaultLang = (savedLang && translations[savedLang]) ? savedLang : 'zh-CN';
+        langSelect.value = defaultLang;
+        switchLanguage(defaultLang);
+    </script>
+</body>
+</html>

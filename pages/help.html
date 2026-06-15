@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帮助中心 | ciallo0721-cmd</title>
+    <meta name="description" content="ciallo0721-cmd 网站帮助中心，解答 Cloudflare 错误码、访问验证、常见问题等">
+    <link rel="icon" href="./fanv.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: linear-gradient(135deg, #0a0a1a 0%, #0d1b3e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* 顶部导航 */
+        .back-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 18px;
+            background: rgba(51,102,255,0.1);
+            border: 1px solid rgba(51,102,255,0.3);
+            border-radius: 20px;
+            color: #3366ff;
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(51,102,255,0.2);
+            border-color: rgba(51,102,255,0.6);
+            transform: translateX(-3px);
+        }
+        .page-badge {
+            font-size: 0.78rem;
+            color: #555;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+        .page-header .icon {
+            font-size: 3.2rem;
+            background: linear-gradient(135deg, #3366ff, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 14px;
+        }
+        .page-header h1 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .page-header p {
+            color: #888;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        /* 分组标题 */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.82rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 28px 0 12px;
+        }
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.07);
+        }
+
+        /* 错误码卡片 */
+        .error-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            transition: border-color 0.3s, background 0.3s;
+            cursor: pointer;
+        }
+        .error-card:hover {
+            background: rgba(51,102,255,0.05);
+            border-color: rgba(51,102,255,0.25);
+        }
+        .error-card.open {
+            border-color: rgba(51,102,255,0.35);
+            background: rgba(51,102,255,0.06);
+        }
+
+        .error-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .error-code {
+            font-family: 'MaokenAssortedSans', 'Fira Code', 'Courier New', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .code-red   { background: rgba(255,80,80,0.15);  color: #ff6b6b; border: 1px solid rgba(255,80,80,0.3); }
+        .code-amber { background: rgba(255,160,0,0.15);  color: #ffb347; border: 1px solid rgba(255,160,0,0.3); }
+        .code-blue  { background: rgba(51,102,255,0.15); color: #7aa2ff; border: 1px solid rgba(51,102,255,0.3); }
+
+        .error-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #ddd;
+            flex: 1;
+        }
+        .error-toggle {
+            color: #555;
+            font-size: 0.85rem;
+            transition: transform 0.3s, color 0.3s;
+            flex-shrink: 0;
+        }
+        .error-card.open .error-toggle {
+            transform: rotate(180deg);
+            color: #3366ff;
+        }
+
+        .error-body {
+            display: none;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+        .error-card.open .error-body { display: block; }
+
+        .error-desc {
+            font-size: 0.87rem;
+            color: #999;
+            line-height: 1.65;
+            margin-bottom: 12px;
+        }
+        .solution-box {
+            background: rgba(107,255,107,0.06);
+            border: 1px solid rgba(107,255,107,0.2);
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-size: 0.84rem;
+            color: #90ee90;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .solution-box strong { color: #6bff6b; }
+        .doc-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: #3366ff;
+            text-decoration: none;
+            padding: 4px 10px;
+            border: 1px solid rgba(51,102,255,0.25);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .doc-link:hover {
+            background: rgba(51,102,255,0.1);
+            border-color: rgba(51,102,255,0.5);
+            color: #7aa2ff;
+        }
+
+        /* 联系站长区域 */
+        .contact-card {
+            margin-top: 36px;
+            background: linear-gradient(135deg, rgba(51,102,255,0.1), rgba(37,117,252,0.06));
+            border: 1px solid rgba(51,102,255,0.25);
+            border-radius: 16px;
+            padding: 22px 24px;
+            text-align: center;
+        }
+        .contact-card h3 {
+            font-size: 1rem;
+            color: #ddd;
+            margin-bottom: 8px;
+        }
+        .contact-card p {
+            font-size: 0.86rem;
+            color: #888;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #3366ff, #2575fc);
+            border-radius: 24px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(51,102,255,0.3);
+        }
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(51,102,255,0.45);
+        }
+
+        /* 隐私政策 footer */
+        .page-footer {
+            text-align: center;
+            margin-top: 36px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            font-size: 0.82rem;
+            color: #555;
+        }
+        .page-footer a {
+            color: #555;
+            text-decoration: none;
+            transition: color 0.3s;
+            margin: 0 8px;
+        }
+        .page-footer a:hover { color: #3366ff; }
+
+        @media (max-width: 480px) {
+            .page-header h1 { font-size: 1.4rem; }
+            .error-title { font-size: 0.88rem; }
+        }
+    </style>
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+    <!-- IP 地理检测（美国用户拒绝访问） -->
+    <script src="./geo-check.js"></script>
+    <!-- HTTP 检测与提示 -->
+    <script>
+        (function() {
+            function checkHTTP() {
+                if (window.location.protocol === 'http:') {
+                    var urlSpan = document.getElementById('currentHttpUrl');
+                    if (urlSpan) urlSpan.textContent = window.location.href;
+                    var overlay = document.getElementById('httpWarningOverlay');
+                    if (overlay) overlay.style.display = 'flex';
+                }
+            }
+            function switchToHTTPS() {
+                var url = window.location.href;
+                url = url.replace(/^http:/i, 'https:');
+                window.location.href = url;
+            }
+            function continueHTTP() {
+                var overlay = document.getElementById('httpWarningOverlay');
+                if (overlay) overlay.style.display = 'none';
+            }
+            window.switchToHTTPS = switchToHTTPS;
+            window.continueHTTP = continueHTTP;
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkHTTP);
+            } else {
+                checkHTTP();
+            }
+        })();
+    </script>
+
+</head>
+<body>
+<div class="container">
+
+    <!-- 顶部导航 -->
+    <div class="back-bar">
+        <a href="./index.html" class="back-btn"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        <span class="page-badge">帮助中心</span>
+    </div>
+
+    <!-- 页面标题 -->
+    <div class="page-header">
+        <div class="icon"><i class="fas fa-life-ring"></i></div>
+        <h1>遇到问题了？</h1>
+        <p>以下整理了访问本站时常见的错误码和解决方法喵～<br>如果还是解决不了，欢迎联系站长。</p>
+    </div>
+
+    <!-- Cloudflare 概述 -->
+    <div class="section-label"><i class="fab fa-cloudflare"></i> 关于 Cloudflare 错误</div>
+    <div style="background:rgba(51,102,255,0.06);border:1px solid rgba(51,102,255,0.2);border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:0.85rem;color:#999;line-height:1.7;">
+        本站使用 <strong style="color:#7aa2ff;">Cloudflare</strong> 提供 CDN 加速和安全防护。当你访问本站时，如果遇到错误页面，通常是 Cloudflare 返回的。下面列出了最常见的 Cloudflare 错误码及其含义和解决方法喵～
+    </div>
+
+    <!-- Cloudflare 常见错误 -->
+    <div class="section-label"><i class="fas fa-list"></i> Cloudflare 常见错误码</div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-red">CF 1020</span>
+            <span class="error-title">Access Denied — 访问被拒绝</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">Cloudflare 防火墙拦截了您的请求。常见原因：IP 信誉评分过低、使用了代理/VPN、浏览器指纹异常，或请求头不正常。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>① 关闭 VPN/代理重试；② 清除浏览器 Cookie 后刷新；③ 换用无痕模式或另一个浏览器；④ 切换网络（如用流量代替 WiFi）。
+            </div>
+            <a class="doc-link" href="https://developers.cloudflare.com/support/troubleshooting/cloudflare-errors/troubleshooting-cloudflare-1xxx-errors/#error-1020-access-denied" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Cloudflare 官方文档</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-amber">CF 1015</span>
+            <span class="error-title">Too Many Requests — 请求过于频繁</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">您在短时间内发送了太多请求，触发了 Cloudflare 的速率限制（Rate Limiting）保护机制。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>等待 5–15 分钟后再访问，期间避免频繁刷新页面。正常操作不会触发此限制。
+            </div>
+            <a class="doc-link" href="https://developers.cloudflare.com/support/troubleshooting/cloudflare-errors/troubleshooting-cloudflare-1xxx-errors/" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Cloudflare 官方文档</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-red">CF 1010</span>
+            <span class="error-title">Access Denied — 浏览器特征异常</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">Cloudflare 检测到您的浏览器特征（User-Agent、JS 指纹等）与正常用户不符，判定为可疑请求。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>① 确保浏览器已启用 JavaScript 和 Cookie；② 不要使用过时或魔改版浏览器；③ 换用 Chrome/Firefox/Edge 最新版本重试。
+            </div>
+            <a class="doc-link" href="https://www.capsolver.com/zh/blog/reCAPTCHA/cloudflare-1010-error-fix" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> 参考解决方案</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-blue">CF 1000</span>
+            <span class="error-title">DNS 解析错误</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">Cloudflare 无法解析域名指向的源服务器，通常是 DNS 配置问题或源站 IP 变更导致。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>尝试刷新 DNS 缓存（Windows: <code style="background:rgba(255,255,255,0.1);padding:1px 5px;border-radius:4px;">ipconfig /flushdns</code>）后重试，或等待站长修复 DNS 配置。
+            </div>
+            <a class="doc-link" href="https://developers.cloudflare.com/support/troubleshooting/cloudflare-errors/troubleshooting-cloudflare-1xxx-errors/" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Cloudflare 官方文档</a>
+        </div>
+    </div>
+
+    <!-- HTTP 标准错误 -->
+    <div class="section-label"><i class="fas fa-server"></i> HTTP 标准错误</div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-red">500</span>
+            <span class="error-title">Internal Server Error — 服务器内部错误</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">服务器端程序出错，常见于代码 bug、服务器配置错误或临时资源耗尽。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>稍后刷新重试。若反复出现，请联系站长。
+            </div>
+            <a class="doc-link" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/500" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> MDN 文档</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-red">502</span>
+            <span class="error-title">Bad Gateway — 网关错误</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">反向代理（Cloudflare/CDN）无法从源服务器获取有效响应，源站可能离线或过载。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>等待几分钟后刷新重试，通常是临时性问题。
+            </div>
+            <a class="doc-link" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/502" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> MDN 文档</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-amber">503</span>
+            <span class="error-title">Service Unavailable — 服务暂时不可用</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">服务器暂时无法处理请求，通常是因为正在维护、过载，或正在遭受 DDoS 攻击。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>稍后重试。如果是 GitHub Pages 托管，可能平台正在维护。
+            </div>
+            <a class="doc-link" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/503" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> MDN 文档</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-amber">504</span>
+            <span class="error-title">Gateway Timeout — 网关超时</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">代理服务器等待源服务器响应时超时，通常是服务器处理请求耗时过长。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>刷新页面重试即可，通常为临时性问题，几秒后自动恢复。
+            </div>
+            <a class="doc-link" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/504" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> MDN 文档</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-blue">404</span>
+            <span class="error-title">Not Found — 页面不存在</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">请求的页面或资源不存在，可能是链接错误、页面已被删除或 URL 输入有误。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>检查 URL 是否正确，或从<a href="./index.html" style="color:#6bff6b;">首页</a>重新导航进入。
+            </div>
+            <a class="doc-link" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/404" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> MDN 文档</a>
+        </div>
+    </div>
+
+    <!-- 联系站长 -->
+    <div class="contact-card">
+        <h3>以上都解决不了？</h3>
+        <p>把错误码、出现时间和截图发给站长喵～<br>通常会在 24 小时内回复。</p>
+        <a href="./adss.html" class="contact-btn"><i class="fas fa-envelope"></i> 联系站长</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+        <a href="./privacy.html"><i class="fas fa-shield-alt"></i> 隐私政策</a>
+        <a href="./index.html"><i class="fas fa-home"></i> 首页</a>
+        <a href="./adss.html"><i class="fas fa-envelope"></i> 联系</a>
+        <br><br>
+        © ciallo0721-cmd · 本页面不收集任何数据
+    </div>
+
+</div>
+
+<script>
+    function toggleCard(card) {
+        card.classList.toggle('open');
+    }
+</script>
+</body>
+</html>

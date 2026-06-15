@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>心情追踪 | Mood Tracker Dashboard</title>
+
+    <!-- pageMeta 定义 -->
+    <script>
+    window.pageMeta = {
+        content_type: "app",
+        page_name: "mood-tracker",
+        category: ""
+    };
+    </script>
+
+    <link rel="canonical" href="https://91vip.xn--32v.ink/app/mood-tracker/">
+  <link rel="icon" href="../fanv.ico">
+  <style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('../css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #eef2f7;
+      font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: #334155;
+    }
+
+    h1.page-title {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #1e293b;
+    }
+    .page-sub {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 32px;
+    }
+
+    :root {
+      --wall-bg: #f8fafc;
+      --text-gray: #718096;
+      --empty-cell: #e2e8f0;
+      --cell-w: 14px;
+      --cell-h: 11px;
+      --gap: 3px;
+      --scatter-w: 600px;
+      --scatter-h: 350px;
+      --dot-size: 14px;
+      --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    /* 加载与错误提示样式 */
+    .loading-message, .error-message {
+      text-align: center;
+      padding: 40px;
+      font-size: 1rem;
+      background: var(--wall-bg);
+      border-radius: 16px;
+      width: 95%;
+      max-width: 900px;
+      margin: 20px auto;
+      border: 1px solid #e2e8f0;
+    }
+    .error-message {
+      color: #dc2626;
+      border-left: 4px solid #dc2626;
+    }
+
+    .mood-dashboard-embed-context {
+      background: var(--wall-bg);
+      padding: 45px 40px;
+      border-radius: 16px;
+      margin: 0 auto 32px;
+      width: 95%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.07);
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-gray);
+      margin-bottom: 20px;
+      align-self: flex-start;
+    }
+
+    /* ===== Heatmap ===== */
+    .matrix-wrapper {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      grid-template-rows: 22px 1fr;
+      column-gap: 10px;
+      row-gap: 6px;
+      margin-bottom: 16px;
+      width: 100%;
+      overflow: visible;
+    }
+
+    .month-labels {
+      grid-column: 2;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text-gray);
+      padding-right: 4px;
+    }
+
+    .day-labels {
+      grid-row: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text-gray);
+      height: calc(var(--cell-h) * 7 + var(--gap) * 6);
+      padding-bottom: 2px;
+    }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-rows: repeat(7, var(--cell-h));
+      grid-auto-flow: column;
+      gap: var(--gap);
+      width: 100%;
+      overflow: visible;
+      isolation: isolate;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cell, .dot {
+      transition:
+        transform 0.4s var(--ease-out-back),
+        box-shadow 0.3s ease,
+        filter 0.3s ease;
+      will-change: transform;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cell {
+      width: 100%;
+      max-width: var(--cell-w);
+      height: var(--cell-h);
+      border-radius: 2px;
+      background: var(--empty-cell);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .cell:hover {
+      transform: scale(1.6);
+      z-index: 100;
+      filter: brightness(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      outline: 2px solid transparent;
+    }
+
+    /* ===== Legend ===== */
+    .heatmap-legend {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--text-gray);
+      margin-top: 10px;
+      align-self: flex-end;
+    }
+    .legend-cells {
+      display: flex;
+      gap: 3px;
+    }
+    .legend-cell {
+      width: 12px;
+      height: 10px;
+      border-radius: 2px;
+    }
+
+    /* ===== Divider ===== */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: #e2e8f0;
+      margin: 28px 0;
+    }
+
+    /* ===== Scatter ===== */
+    .scatter-plots {
+      width: 100%;
+      max-width: var(--scatter-w);
+      position: relative;
+      margin-top: 60px;
+    }
+
+    .scatter-canvas {
+      width: 100%;
+      height: var(--scatter-h);
+      border-left: 2px solid #cbd5e1;
+      border-bottom: 2px solid #cbd5e1;
+      position: relative;
+      overflow: visible;
+      background: linear-gradient(to bottom right, #5eead4 0%, #334155 65%, #1e293b 100%);
+      border-radius: 0 0 0 4px;
+    }
+
+    .axis-title {
+      position: absolute;
+      font-size: 11px;
+      color: var(--text-gray);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .title-y { left: -90px; top: 50%; transform: translateY(-50%) rotate(-90deg); width: 120px; text-align: center; }
+    .title-x { bottom: -40px; left: 50%; transform: translateX(-50%); }
+
+    .axis-tick { position: absolute; font-size: 10px; color: #94a3b8; font-family: 'MaokenAssortedSans', monospace; }
+    .tick-y1 { bottom: 5%; left: -30px; }
+    .tick-y5 { top: 5%; left: -30px; }
+    .tick-x1 { bottom: -22px; left: 5%; }
+    .tick-x5 { bottom: -22px; right: 5%; }
+
+    .dot {
+      width: var(--dot-size);
+      height: var(--dot-size);
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.8);
+      position: absolute;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .dot:hover {
+      transform: translate(-50%, -50%) scale(1.8);
+      z-index: 500;
+      filter: brightness(1.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    /* ===== Tooltip ===== */
+    [data-tip]::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: 260%;
+      left: 50%;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(8px) scale(0.9);
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 11px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      z-index: 2000;
+      pointer-events: none;
+      box-shadow: 0 15px 30px -5px rgba(0,0,0,0.4);
+      width: max-content;
+      max-width: 220px;
+      transition:
+        opacity 0.25s var(--ease-out-expo),
+        transform 0.3s var(--ease-out-expo),
+        visibility 0.25s;
+    }
+
+    [data-tip]:hover::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    /* ===== Stats bar ===== */
+    .stats-bar {
+      display: flex;
+      gap: 24px;
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ===== Back link and Source link ===== */
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .back-link, .source-link {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .back-link:hover, .source-link:hover { color: #3b82f6; }
+
+    @media (max-width: 768px) {
+      .mood-dashboard-embed-context { padding: 24px 16px; }
+      :root {
+        --cell-h: 8px;
+        --scatter-h: 260px;
+        --dot-size: 11px;
+      }
+      .title-y { left: -70px; font-size: 9px; }
+      .title-x { bottom: -36px; font-size: 9px; }
+      .scatter-plots { margin-top: 50px; }
+    }
+  </style>
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+    <!-- IP 地理检测（美国用户拒绝访问） -->
+    <script src="./geo-check.js"></script>
+    <!-- HTTP 检测与提示 -->
+    <script>
+        (function() {
+            function checkHTTP() {
+                if (window.location.protocol === 'http:') {
+                    var urlSpan = document.getElementById('currentHttpUrl');
+                    if (urlSpan) urlSpan.textContent = window.location.href;
+                    var overlay = document.getElementById('httpWarningOverlay');
+                    if (overlay) overlay.style.display = 'flex';
+                }
+            }
+            function switchToHTTPS() {
+                var url = window.location.href;
+                url = url.replace(/^http:/i, 'https:');
+                window.location.href = url;
+            }
+            function continueHTTP() {
+                var overlay = document.getElementById('httpWarningOverlay');
+                if (overlay) overlay.style.display = 'none';
+            }
+            window.switchToHTTPS = switchToHTTPS;
+            window.continueHTTP = continueHTTP;
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkHTTP);
+            } else {
+                checkHTTP();
+            }
+        })();
+    </script>
+
+</head>
+<body>
+
+<div class="footer-links">
+  <a class="back-link" href="../index.html">← 返回主页</a>
+  <a class="source-link" href="https://github.com/LiuyiRigel/Mood-Tracker-Dashboard" target="_blank" rel="noopener noreferrer">📂 源代码</a>
+</div>
+
+<h1 class="page-title">🌈 心情追踪仪表板</h1>
+<p class="page-sub">不是为了激励，只是为了看清自己。</p>
+
+<!-- Stats -->
+<div class="mood-dashboard-embed-context" style="padding:28px 40px;">
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-item"><div class="stat-value" id="statDays">—</div><div class="stat-label">记录天数</div></div>
+    <div class="stat-item"><div class="stat-value" id="statAvgM">—</div><div class="stat-label">平均心情</div></div>
+    <div class="stat-item"><div class="stat-value" id="statAvgA">—</div><div class="stat-label">平均指标B</div></div>
+    <div class="stat-item"><div class="stat-value" id="statBest">—</div><div class="stat-label">最佳日期</div></div>
+  </div>
+</div>
+
+<!-- Heatmap -->
+<div class="mood-dashboard-embed-context">
+  <div class="section-title">📅 全年心情热力图</div>
+  <div class="matrix-wrapper">
+    <div class="month-labels" id="monthLabels"></div>
+    <div class="day-labels"><span>一</span><span>三</span><span>五</span><span>日</span></div>
+    <div class="matrix-grid" id="matrixGrid"></div>
+  </div>
+  <div class="heatmap-legend">
+    <span>低</span>
+    <div class="legend-cells" id="legendCells"></div>
+    <span>高</span>
+  </div>
+</div>
+
+<!-- Scatter -->
+<div class="mood-dashboard-embed-context">
+  <div class="section-title">📊 心情 × 指标B 相关性散点图</div>
+  <div class="scatter-plots">
+    <div class="axis-title title-y">Positive Mood</div>
+    <div class="axis-title title-x">Indicator B</div>
+    <div class="axis-tick tick-y1">1.0</div>
+    <div class="axis-tick tick-y5">5.0</div>
+    <div class="axis-tick tick-x1">1.0</div>
+    <div class="axis-tick tick-x5">5.0</div>
+    <div class="scatter-canvas" id="scatterCanvas"></div>
+  </div>
+</div>
+
+<!-- Loading / Error Message Area (Hidden by default) -->
+<div id="messageArea" style="display: none;" class="loading-message"></div>
+
+<script>
+// ===== Data Layer =====
+const STORAGE_KEY = 'mood_tracker_data_v1';
+
+// ===== Color Helper =====
+function moodColor(m, a) {
+  const hue = (a - 1) * 11.25 + 155;
+  const lit = m * 11 - a * 7 + 30;
+  return `hsl(${hue.toFixed(1)}, 45%, ${lit.toFixed(1)}%)`;
+}
+function moodColorDot(m, a) {
+  const hue = (a - 1) * 11.25 + 155;
+  const lit = m * 11 - a * 7 + 30;
+  return `hsl(${hue.toFixed(1)}, 50%, ${lit.toFixed(1)}%)`;
+}
+
+// ===== Date Helpers =====
+function getYear() {
+  return new Date().getFullYear();
+}
+
+function formatDate(date) {
+  return date.toISOString().slice(0, 10);
+}
+
+function getDayOfWeek(dateStr) {
+  // Returns 1=Mon … 7=Sun (ISO)
+  const d = new Date(dateStr + 'T00:00:00');
+  let dow = d.getDay(); // 0=Sun
+  return dow === 0 ? 7 : dow;
+}
+
+// ===== Render Helpers =====
+function renderStats(data) {
+  const days = data.length;
+  const avgM = days ? (data.reduce((s,d)=>s+d.m,0)/days).toFixed(2) : '—';
+  const avgA = days ? (data.reduce((s,d)=>s+d.a,0)/days).toFixed(2) : '—';
+  let best = '—';
+  if (days) {
+    const top = data.slice().sort((a,b) => b.m - a.m)[0];
+    best = top.date.slice(5); // MM-DD
+  }
+  document.getElementById('statDays').textContent = days;
+  document.getElementById('statAvgM').textContent = avgM;
+  document.getElementById('statAvgA').textContent = avgA;
+  document.getElementById('statBest').textContent = best;
+}
+
+function renderHeatmap(data) {
+  const year = getYear();
+  const dataMap = {};
+  data.forEach(d => { dataMap[d.date] = d; });
+
+  // Month labels
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const mlEl = document.getElementById('monthLabels');
+  mlEl.innerHTML = months.map(m => `<span>${m}</span>`).join('');
+
+  const grid = document.getElementById('matrixGrid');
+  grid.innerHTML = '';
+
+  // Jan 1 of year
+  const start = new Date(year, 0, 1);
+  const end = new Date(year, 11, 31);
+  const totalDays = Math.round((end - start) / 86400000) + 1;
+
+  for (let i = 0; i < totalDays; i++) {
+    const d = new Date(start.getTime() + i * 86400000);
+    const dateStr = formatDate(d);
+    const dow = getDayOfWeek(dateStr); // 1=Mon…7=Sun
+    const entry = dataMap[dateStr];
+
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.style.gridRow = dow;
+
+    let tip;
+    if (entry) {
+      const color = moodColor(entry.m, entry.a);
+      cell.style.backgroundColor = color;
+      tip = `${dateStr}\n心情: ${entry.m}  指标B: ${entry.a}`;
+      if (entry.note) tip += `\n备注: ${entry.note}`;
+    } else {
+      tip = `${dateStr}\n无数据`;
+    }
+    cell.setAttribute('data-tip', tip);
+    grid.appendChild(cell);
+  }
+
+  // Legend
+  const legendEl = document.getElementById('legendCells');
+  legendEl.innerHTML = '';
+  for (let v = 1; v <= 5; v++) {
+    const lc = document.createElement('div');
+    lc.className = 'legend-cell';
+    lc.style.backgroundColor = moodColor(v, 3 - v * 0.3 + 1.5);
+    legendEl.appendChild(lc);
+  }
+}
+
+function renderScatter(data) {
+  const canvas = document.getElementById('scatterCanvas');
+  canvas.innerHTML = '';
+
+  data.forEach(item => {
+    const m = parseFloat(item.m);
+    const a = parseFloat(item.a);
+    const x = ((a - 1) / 4) * 90 + 5;
+    const yRaw = ((m - 1) / 4) * 90 + 5;
+    const y = 100 - yRaw;
+
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    dot.style.backgroundColor = moodColorDot(m, a);
+    dot.style.left = x + '%';
+    dot.style.top = y + '%';
+
+    let tip = `${item.date}\n心情: ${item.m}  指标B: ${item.a}`;
+    if (item.note) tip += `\n备注: ${item.note}`;
+    dot.setAttribute('data-tip', tip);
+    canvas.appendChild(dot);
+  });
+}
+
+// ===== Render All (after data is loaded) =====
+function renderAllWithData(data) {
+  renderStats(data);
+  renderHeatmap(data);
+  renderScatter(data);
+}
+
+// ===== Load Data from moods.json and render =====
+async function initializeDataAndRender() {
+  const messageArea = document.getElementById('messageArea');
+  const dashboardContainers = document.querySelectorAll('.mood-dashboard-embed-context');
+  
+  // Show loading state
+  messageArea.style.display = 'block';
+  messageArea.innerHTML = '📡 正在加载心情数据...';
+  messageArea.className = 'loading-message';
+  dashboardContainers.forEach(el => el.style.opacity = '0.5');
+
+  try {
+    // 使用 fetch 加载 moods.json 文件
+    const response = await fetch('./moods.json');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const loadedData = await response.json();
+    
+    // 校验数据格式 (简单检查是否为数组)
+    if (!Array.isArray(loadedData)) {
+      throw new Error('数据格式错误：moods.json 应该是一个数组');
+    }
+    
+    // 将数据存入 localStorage 以备后续操作
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(loadedData));
+    
+    // 隐藏加载提示，渲染仪表板
+    messageArea.style.display = 'none';
+    dashboardContainers.forEach(el => el.style.opacity = '1');
+    
+    renderAllWithData(loadedData);
+    
+  } catch (error) {
+    console.error('加载 moods.json 失败:', error);
+    messageArea.innerHTML = `❌ 加载心情数据失败: ${error.message}<br><br>💡 提示: 请确保 moods.json 文件与 index.html 在同一目录下，并且通过 HTTP 服务器访问（如使用 Live Server 或 http-server）。`;
+    messageArea.className = 'error-message';
+    dashboardContainers.forEach(el => el.style.opacity = '0.3');
+  }
+}
+
+// ===== Start =====
+initializeDataAndRender();
+</script>
+</body>
+</html>

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站状态 | ciallo0721-cmd</title>
+    <meta name="description" content="ciallo0721-cmd 网站状态页面，显示各页面和服务的运行状态">
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="./fanv.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./fanv.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
+    <style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+        :root {
+            --blue: #3366ff;
+            --blue2: #2575fc;
+            --green: #22c55e;
+            --green-bg: #f0fdf4;
+            --green-border: #86efac;
+            --yellow: #f59e0b;
+            --yellow-bg: #fffbeb;
+            --yellow-border: #fcd34d;
+            --red: #ef4444;
+            --red-bg: #fef2f2;
+            --red-border: #fca5a5;
+            --gray: #9ca3af;
+            --gray-bg: #f9fafb;
+            --gray-border: #d1d5db;
+            --text: #1D1D1F;
+            --text2: #515154;
+            --bg: #f5f5f7;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 16px rgba(0,0,0,0.08);
+            --radius: 16px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ===== 顶部导航 ===== */
+        .topbar {
+            background: linear-gradient(135deg, #1D1D1F, #2D2D2F);
+            color: white;
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+        }
+        .topbar-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .topbar-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .topbar-title i { color: var(--blue); }
+        .back-btn {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .back-btn:hover { color: white; }
+
+        /* ===== 主体 ===== */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        /* ===== 全局状态框 ===== */
+        .global-status {
+            border-radius: var(--radius);
+            padding: 32px 36px;
+            margin-bottom: 36px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            box-shadow: var(--shadow);
+            border: 2px solid;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .global-status::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+        }
+
+        /* 绿色 - 正常 */
+        .status-ok {
+            background: var(--green-bg);
+            border-color: var(--green-border);
+        }
+        .status-ok::before { background: var(--green); }
+        .status-ok .gs-icon { color: var(--green); }
+
+        /* 黄色 - 部分故障 */
+        .status-warn {
+            background: var(--yellow-bg);
+            border-color: var(--yellow-border);
+        }
+        .status-warn::before { background: var(--yellow); }
+        .status-warn .gs-icon { color: var(--yellow); }
+
+        /* 红色 - 严重故障 */
+        .status-error {
+            background: var(--red-bg);
+            border-color: var(--red-border);
+        }
+        .status-error::before { background: var(--red); }
+        .status-error .gs-icon { color: var(--red); }
+
+        /* 灰色 - 无记录 */
+        .status-gray {
+            background: var(--gray-bg);
+            border-color: var(--gray-border);
+        }
+        .status-gray::before { background: var(--gray); }
+        .status-gray .gs-icon { color: var(--gray); }
+
+        .gs-icon {
+            font-size: 2.8rem;
+            flex-shrink: 0;
+        }
+        .gs-text h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .gs-text p {
+            font-size: 0.95rem;
+            color: var(--text2);
+            line-height: 1.6;
+        }
+        .gs-badge {
+            margin-left: auto;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+        .gs-badge .badge-label {
+            font-size: 0.75rem;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .gs-badge .badge-time {
+            font-size: 0.82rem;
+            color: var(--text2);
+        }
+
+        /* ===== 区块标题 ===== */
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            margin-top: 36px;
+        }
+        .section-head h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .section-head i {
+            color: var(--blue);
+            font-size: 1rem;
+        }
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, #ddd, transparent);
+        }
+
+        /* ===== 页面状态卡片列表 ===== */
+        .page-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .page-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid #e5e7eb;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .page-item:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
+        .page-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 0 6px currentColor;
+        }
+        .dot-ok    { background: var(--green);  color: var(--green); }
+        .dot-warn  { background: var(--yellow); color: var(--yellow); }
+        .dot-error { background: var(--red);    color: var(--red); }
+        .dot-gray  { background: var(--gray);   color: var(--gray); }
+
+        .page-info { flex: 1; min-width: 0; }
+        .page-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .page-name a {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 400;
+        }
+        .page-name a:hover { text-decoration: underline; }
+        .page-desc {
+            font-size: 0.82rem;
+            color: var(--text2);
+            margin-top: 2px;
+        }
+
+        .page-tag {
+            flex-shrink: 0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .tag-ok    { background: #dcfce7; color: #16a34a; }
+        .tag-warn  { background: #fef9c3; color: #b45309; }
+        .tag-error { background: #fee2e2; color: #b91c1c; }
+        .tag-gray  { background: #f3f4f6; color: #6b7280; }
+
+        /* ===== 说明框 ===== */
+        .info-box {
+            background: white;
+            border-radius: 12px;
+            padding: 18px 22px;
+            border-left: 4px solid var(--blue);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            font-size: 0.88rem;
+            color: var(--text2);
+            line-height: 1.7;
+            margin-top: 36px;
+        }
+        .info-box strong { color: var(--text); }
+
+        /* ===== 图例 ===== */
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            margin-bottom: 4px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82rem;
+            color: var(--text2);
+        }
+        .legend-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+        }
+
+        /* ===== 底部 ===== */
+        .footer-bar {
+            text-align: center;
+            padding: 28px 0 12px;
+            font-size: 0.82rem;
+            color: var(--text2);
+        }
+        .footer-bar a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        /* ===== 历史回放 ===== */
+        .sh-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .sh-item {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            animation: shFadeIn 0.5s ease both;
+            position: relative;
+        }
+        @keyframes shFadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .sh-dot {
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 22px;
+            z-index: 2;
+            position: relative;
+            box-shadow: 0 0 0 3px var(--bg);
+        }
+        .sh-dot-ok    { background: var(--green);  }
+        .sh-dot-warn  { background: var(--yellow); }
+        .sh-dot-error { background: var(--red);    }
+        .sh-dot-gray  { background: var(--gray);   }
+        .sh-line {
+            width: 2px;
+            background: #e5e7eb;
+            margin: 0 6px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .sh-item:last-child .sh-line { display: none; }
+        .sh-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin: 8px 0 8px 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            flex: 1;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .sh-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transform: translateX(2px);
+        }
+        .sh-card-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+        .sh-date {
+            font-size: 0.82rem;
+            color: var(--text2);
+            font-weight: 500;
+        }
+        .sh-tag {
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .sh-tag-ok    { background: #dcfce7; color: #16a34a; }
+        .sh-tag-warn  { background: #fef9c3; color: #b45309; }
+        .sh-tag-error { background: #fee2e2; color: #b91c1c; }
+        .sh-tag-gray  { background: #f3f4f6; color: #6b7280; }
+        .sh-card-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+        .sh-card-desc {
+            font-size: 0.82rem;
+            color: var(--text2);
+            line-height: 1.5;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 600px) {
+            .global-status { flex-wrap: wrap; padding: 22px 20px; gap: 16px; }
+            .gs-badge { margin-left: 0; align-items: flex-start; }
+            .container { padding: 24px 16px 40px; }
+            .sh-card { padding: 12px 14px; margin-left: 6px; }
+        }
+
+        /* ===== 脉冲动画（绿点） ===== */
+        @keyframes pulse-ok {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+            50%       { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+        }
+        .dot-ok { animation: pulse-ok 2.5s infinite; }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+    <!-- 状态历史数据 -->
+    <script src="status-data.js"></script>
+
+    <!-- IP 地理检测（美国用户拒绝访问） -->
+    <script src="./geo-check.js"></script>
+    <!-- HTTP 检测与提示 -->
+    <script>
+        (function() {
+            function checkHTTP() {
+                if (window.location.protocol === 'http:') {
+                    var urlSpan = document.getElementById('currentHttpUrl');
+                    if (urlSpan) urlSpan.textContent = window.location.href;
+                    var overlay = document.getElementById('httpWarningOverlay');
+                    if (overlay) overlay.style.display = 'flex';
+                }
+            }
+            function switchToHTTPS() {
+                var url = window.location.href;
+                url = url.replace(/^http:/i, 'https:');
+                window.location.href = url;
+            }
+            function continueHTTP() {
+                var overlay = document.getElementById('httpWarningOverlay');
+                if (overlay) overlay.style.display = 'none';
+            }
+            window.switchToHTTPS = switchToHTTPS;
+            window.continueHTTP = continueHTTP;
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkHTTP);
+            } else {
+                checkHTTP();
+            }
+        })();
+    </script>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<div class="topbar">
+    <div class="topbar-inner">
+        <div class="topbar-title">
+            <i class="fas fa-shield-halved"></i>
+            网站状态监控
+        </div>
+        <a href="./index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> 返回主页
+        </a>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- ===== 全局状态框 ===== -->
+    <!-- 
+        修改说明：只需修改下面 <div> 的 class：
+        正常：class="global-status status-ok"
+        轻微故障：class="global-status status-warn"
+        严重故障：class="global-status status-error"
+        
+        图标和文字会自动同步，无需手动修改其他内容。
+    -->
+    <div class="global-status status-ok" id="globalStatusBox">   <!--改这里-->
+        <div class="gs-icon">
+            <i class="fas fa-circle-check" id="globalStatusIcon"></i>
+        </div>
+        <div class="gs-text">
+            <h2 id="globalStatusTitle">所有系统正常运行喵～</h2>
+            <p id="globalStatusDesc">当前所有页面与功能均可正常访问，没有已知故障。(๑˃̵ᴗ˂̵)و</p>
+        </div>
+        <div class="gs-badge">
+            <span class="badge-label">最后更新</span>
+            <span class="badge-time" id="lastUpdateTime">—</span>
+        </div>
+    </div>
+
+    <!-- 图例 -->
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> 一切正常</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> 小问题（错别字/引用错误等）</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> 严重问题（无法访问/界面错位等）</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--gray)"></div> 无记录</div>
+    </div>
+
+
+
+    <!-- ===== 历史回放 ===== -->
+    <div class="section-head">
+        <i class="fas fa-history"></i>
+        <h3>历史回放</h3>
+        <div class="section-line"></div>
+    </div>
+    <p style="font-size:0.85rem;color:var(--text2);margin-bottom:20px;">
+        每次网站更新都会在此记录状态喵～红色=严重问题，黄色=小问题，绿色=一切正常。
+    </p>
+    <div class="sh-container" id="statusHistoryList">
+        <!-- JS 动态渲染 -->
+    </div>
+
+    <!-- 底部 -->
+    <div class="footer-bar">
+        <a href="./index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
+        &nbsp;·&nbsp;
+        © 2026 ciallo0721-cmd
+    </div>
+
+</div>
+
+<script>
+    // 自动填写最后更新时间
+    const timeEl = document.getElementById('lastUpdateTime');
+    if (timeEl) {
+        const now = new Date();
+        const pad = n => String(n).padStart(2, '0');
+        timeEl.textContent = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    }
+
+    // 根据全局状态框的 class 自动同步图标、标题和描述（只需修改一个 class）
+    function syncGlobalStatusByClass() {
+        const statusBox = document.getElementById('globalStatusBox');
+        if (!statusBox) return;
+
+        // 获取当前状态类型
+        let statusType = 'ok'; // 默认正常
+        if (statusBox.classList.contains('status-warn')) {
+            statusType = 'warn';
+        } else if (statusBox.classList.contains('status-error')) {
+            statusType = 'error';
+        } else if (statusBox.classList.contains('status-gray')) {
+            statusType = 'gray';
+        } else if (statusBox.classList.contains('status-ok')) {
+            statusType = 'ok';
+        }
+
+        // 图标元素和文本元素
+        const iconEl = document.getElementById('globalStatusIcon');
+        const titleEl = document.getElementById('globalStatusTitle');
+        const descEl = document.getElementById('globalStatusDesc');
+
+        // 根据状态类型映射内容
+        const mapping = {
+            ok: {
+                iconClass: 'fas fa-circle-check',
+                title: '所有系统正常运行喵～',
+                desc: '当前所有页面与功能均可正常访问，没有已知故障。(๑˃̵ᴗ˂̵)و'
+            },
+            warn: {
+                iconClass: 'fas fa-exclamation-triangle',
+                title: '部分系统出现小问题喵～',
+                desc: '发现一些小问题（错别字、引用错误等），不影响正常访问，正在修复中喵～'
+            },
+            error: {
+                iconClass: 'fas fa-circle-exclamation',
+                title: '系统出现严重问题喵！',
+                desc: '当前存在严重问题（无法正常访问、界面错位等），正在全力抢修，非常抱歉！'
+            },
+            gray: {
+                iconClass: 'fas fa-minus-circle',
+                title: '暂无状态记录喵～',
+                desc: '还没有最近的更新状态记录，等下次更新网站后就会出现在这里啦 (。-ω-)zzz'
+            }
+        };
+
+        const current = mapping[statusType];
+        if (iconEl) {
+            // 移除现有图标类，添加新图标类（保留 fas 基础类）
+            iconEl.className = ''; 
+            iconEl.classList.add(...current.iconClass.split(' '));
+        }
+        if (titleEl) titleEl.textContent = current.title;
+        if (descEl) descEl.textContent = current.desc;
+    }
+
+    // 页面加载完成后执行同步
+    window.addEventListener('DOMContentLoaded', syncGlobalStatusByClass);
+</script>
+
+</body>
+</html>

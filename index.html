@@ -57,6 +57,15 @@
     <title>ciallo0721-cmd's blog</title>
     <!-- SEO Meta Tags -->
     <meta name="description" content="ciallo0721-cmd 的个人创作博客，专注于 Ren'Py 视觉小说开发、二次元文化分享与游戏创作。包含技术文章、原创游戏作品和创作心得。">
+    
+    <!-- pageMeta 定义（GA4 统一埋点） -->
+    <script>
+    window.pageMeta = {
+        content_type: 'landing',
+        page_name: 'homepage',
+        category: '首页'
+    };
+    </script>
     <meta name="keywords" content="Ren'Py教程, 视觉小说开发, 二次元技术博客, ciallo0721-cmd, Ren'Py游戏, 视觉小说, 二次元创作, 动漫技术, 独立游戏开发">
     <meta name="author" content="ciallo0721-cmd">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -783,6 +792,11 @@
       gtag('js', new Date());
       gtag('config', 'G-TR4FT7JPDZ');
     </script>
+    
+    <!-- GA4 统一埋点模块 -->
+    <script src="./assets/js/gtag-config.js"></script>
+    
+    <!-- 其他 head 内容 -->
     <!-- IP 地理检测（美国用户拒绝访问） -->
     <script src="./geo-check.js"></script>
     <!-- HTTP 检测与提示 -->
