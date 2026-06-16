@@ -1755,8 +1755,8 @@
 
     <!-- 网站运行状态实时更新 -->
     <script>
+    window.SITE_START = new Date('2025-10-20T00:00:00+08:00');
     document.addEventListener('DOMContentLoaded', function() {
-        var SITE_START = new Date('2025-10-20T00:00:00+08:00');
 
         // 更新当前时间（北京时间）
         function updateCurrentTime() {
@@ -1778,7 +1778,7 @@
         // 计算已运行天数
         function updateRunningDays() {
             var now = new Date();
-            var diffMs = now.getTime() - SITE_START.getTime();
+            var diffMs = now.getTime() - window.SITE_START.getTime();
             var diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
             var el = document.getElementById('siteRunningDays');
             if (el) el.textContent = diffDays + ' 天';
@@ -1831,9 +1831,13 @@
                 }
                 var d = window.dynamicData;
                 var parts = [];
-                if (d.siteStats && d.siteStats.daysRunning) {
-                    parts.push('已运行 ' + d.siteStats.daysRunning + ' 天');
-                }
+                // 实时计算运行天数
+                try {
+                    var _now = new Date();
+                    var _start = window.SITE_START || new Date('2025-10-20T00:00:00+08:00');
+                    var _diffDays = Math.floor((_now.getTime() - _start.getTime()) / (1000 * 60 * 60 * 24));
+                    parts.push('已运行 ' + _diffDays + ' 天');
+                } catch(e) {}
                 if (d.siteStats && d.siteStats.articles) {
                     parts.push(d.siteStats.articles + ' 篇文章');
                 }
