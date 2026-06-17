@@ -73,7 +73,37 @@ print("Hello World")
 # [Table] ... [/Table]  表格
 # [HR]  分割线
 # [HTML] ... [/HTML]  原始 HTML
+# [Image src=xxx] ...  图片（新）
+# [Video src=xxx] ...  视频（新）
+# [Audio src=xxx] ...  音频（新）
+# [PDF src=xxx] ...  PDF 文件（新）
 # **文字**  加粗
 # *文字*  斜体
 # `代码`  行内代码
 # [文字](链接)  链接
+
+# ===== 高级：插入多媒体（新功能）=====
+# 现在支持直接用标签插入图片、视频、音频、PDF，不需要写 HTML！
+
+# --- 插入图片 ---
+# [Image src=图片路径 alt=图片描述 width=宽度 caption=图片说明]
+# 示例：
+# [Image src=./screenshot.png alt=截图 width=80% caption=这是截图说明]
+
+# --- 插入视频 ---
+# [Video src=视频路径 width=宽度 controls=是否显示控制条 autoplay=是否自动播放 loop=是否循环 muted=是否静音]
+# 示例：
+# [Video src=./demo.mp4 width=100% controls=true]
+
+# --- 插入音频 ---
+# [Audio src=音频路径 controls=是否显示控制条 autoplay=是否自动播放 loop=是否循环]
+# 示例：
+# [Audio src=./music.mp3 controls=true]
+
+# --- 插入 PDF ---
+# [PDF src=PDF文件路径 width=宽度 height=高度]
+# 示例：
+# [PDF src=./document.pdf width=100% height=800px]
+
+# 注意：这些标签都是"自闭合"的，不需要结束标签（不像 [Code]...[/Code] 那样）
+# 文件要放在文章文件夹里（和 index.html 同级）

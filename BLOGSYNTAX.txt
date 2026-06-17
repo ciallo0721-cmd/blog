@@ -88,7 +88,27 @@ def hello():
 # --- 分割线 ---
 [HR]
 
+# --- 图片（新） ---
+[Image src=./pic.png alt=图片描述 width=80% caption=图片说明]
+# 或简写
+[Img src=./pic.png alt=图片描述]
+
+# --- 视频（新，使用自研播放器） ---
+[Video src=./video.mp4]
+
+# --- 音频（新，使用自研播放器） ---
+[Audio src=./music.mp3 title=歌曲标题 artist=歌手]
+
+# --- PDF（新） ---
+[PDF src=./document.pdf width=100% height=600px]
+
+# 说明：用 iframe 嵌入 PDF，需要浏览器支持 PDF 预览
+# 文件放在文章文件夹里，用相对路径 ./ 引用
+
 # --- 直接写 HTML（高级） ---
+[HTML]
+<img src="./screenshot.png" style="max-width:100%">
+[/HTML]
 [HTML]
 <img src="./screenshot.png" style="max-width:100%">
 [/HTML]

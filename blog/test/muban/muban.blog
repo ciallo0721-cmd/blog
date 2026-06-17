@@ -1,0 +1,243 @@
+[Title] BlockScript 功能完整演示
+[Date] 2026-06-17
+[Author] ciallo0721-cmd
+[Tag] 演示, 教程, BlockScript
+
+[正文开始]
+
+[H1] 🎉 BlockScript 功能完整演示
+
+这是一篇**完整的 BlockScript 语法演示文章**，展示了所有支持的功能标签。
+
+你可以直接复制这个文件作为模板来写新文章喵～
+
+[H2] 📝 基础语法
+
+普通段落直接写，空行分割段落。
+
+**加粗文字** 用两个星号  
+*斜体文字* 用一个星号  
+`代码或文件名` 用反引号
+
+[H2] 🔗 链接
+
+普通链接：[ciallo0721-cmd的博客](https://91vip.xn--32v.ink)
+
+[H2] 📋 列表演示
+
+[ul]
+- 无序列表项 1
+- 无序列表项 2
+- 无序列表项 3
+[/ul]
+
+[ol]
+1. 有序列表项 1
+2. 有序列表项 2
+3. 有序列表项 3
+[/ol]
+
+[H2] 💬 引用演示
+
+[quote]
+这是一段引用内容。
+可以是多行，会自动渲染成引用块。
+[/quote]
+
+[H2] 💻 代码块演示
+
+[Code lang=python]
+# Python 代码示例
+def hello(name):
+    print(f"Hello, {name}!")
+    return True
+
+hello("World")
+[/Code]
+
+[Code lang=javascript]
+// JavaScript 代码示例
+function greet(name) {
+    console.log(`Hello, ${name}!`);
+    return true;
+}
+
+greet("World");
+[/Code]
+
+[H2] 🚨 提示框演示
+
+[Alert type=info]
+💡 这是普通信息提示框（type=info）
+[/Alert]
+
+[Alert type=success]
+✅ 这是成功提示框（type=success）
+[/Alert]
+
+[Alert type=warning]
+⚠️ 这是警告提示框（type=warning）
+[/Alert]
+
+[Alert type=danger]
+🚨 这是危险提示框（type=danger）
+[/Alert]
+
+[H2] 🔘 按钮演示
+
+[Btn href=https://github.com color=primary]GitHub 主页[/Btn]
+
+[Btn href=/ color=secondary]返回首页[/Btn]
+
+[H2] 📊 表格演示
+
+[Table]
+功能|语法|说明
+图片|[Image src=...]|插入图片
+视频|[Video src=...]|插入视频
+音频|[Audio src=...]|插入音频
+PDF|[PDF src=...]|嵌入PDF
+[/Table]
+
+[HR]
+
+[H1] 🖼️ 多媒体功能（新）
+
+[H2] 图片演示
+
+下面是一张实际存在的图片（pic.png）：
+
+[Image src=./pic.png alt=演示图片 width=80% caption=这是 pic.png 的图片说明]
+
+也可以插入多张图片：
+
+[Image src=./2.png alt=图片2 width=60% caption=图片2的说明]
+
+[Image src=./3.png alt=图片3 width=60% caption=图片3的说明]
+
+[H2] 视频演示
+
+下面是一段实际存在的视频（video.mp4），使用自研视频播放器：
+
+[Video src=./video.mp4]
+
+[Alert type=info]
+💡 视频播放器功能：播放/暂停、进度条、音量控制、全屏、网络错误自动重试
+[/Alert]
+
+[H2] 音频演示
+
+下面是一段音频（music/2分人声.mp3），使用自研音乐播放器：
+
+[Audio src=./music/2分人声.mp3 title=2分人声]
+
+另一段音频（music/4分长.mp3）：
+
+[Audio src=./music/4分长.mp3 title=4分长]
+
+[H2] PDF 演示
+
+下面是一份本地 PDF 文件（warma.pdf），用 [PDF] 标签嵌入：
+
+[PDF src=./warma.pdf width=100% height=600px]
+
+[Alert type=info]
+💡 PDF 标签会用 iframe 嵌入 PDF 文件，需要浏览器支持 PDF 预览。
+[/Alert]
+
+[HR]
+
+[H1] 📚 完整语法参考
+
+[H2] 头部元数据（必写）
+
+[Code lang=text]
+[Title] 文章标题
+[Date] 2026-06-17
+[Author] 作者名
+[Tag] 标签1, 标签2, 标签3
+
+[正文开始]
+[/Code]
+
+[H2] 支持的标签
+
+[Table]
+标签|语法|说明
+[H1]|[H1] 标题|一级标题
+[H2]|[H2] 标题|二级标题
+[H3]|[H3] 标题|三级标题
+[ul]|[ul]...[/ul]|无序列表
+[ol]|[ol]...[/ol]|有序列表
+[quote]|[quote]...[/quote]|引用
+[Code]|[Code lang=xxx]...[/Code]|代码块
+[Alert]|[Alert type=xxx]...[/Alert]|提示框
+[Btn]|[Btn href=xxx]文字[/Btn]|按钮
+[Table]|[Table]...[/Table]|表格
+[HR]|[HR]|分割线
+[Image]|[Image src=xxx]|图片（新）
+[Video]|[Video src=xxx]|视频（新）
+[Audio]|[Audio src=xxx]|音频（新）
+[HTML]|[HTML]...[/HTML]|原始HTML
+[/Table]
+
+[H2] 文字样式
+
+[Table]
+样式|写法|效果
+加粗|**文字**|**加粗文字**
+斜体|*文字*|*斜体文字*
+代码|`代码`|`代码`
+[/Table]
+
+[H2] 链接
+
+写法：`[链接文字](https://网址)`
+
+示例：[ciallo0721-cmd的博客](https://91vip.xn--32v.ink)
+
+[HR]
+
+[H1] 🎯 如何使用这个模板
+
+[H2] 方法1：作为参考
+
+打开这个文件（`muban.blog`），查看各种语法的写法，然后照着写自己的文章。
+
+[H2] 方法2：复制改内容
+
+1. 复制 `muban.blog` 为 `你的文章ID.blog`
+2. 修改头部元数据（标题、日期、作者、标签）
+3. 删除不需要的演示内容
+4. 添加你自己的内容
+
+[H2] 方法3：从零开始
+
+参考 `HOW_TO_WRITE_BLOG.txt` 和 `BLOGSYNTAX.txt` 文件，从零开始写。
+
+[HR]
+
+[H1] 💡 提示
+
+[Alert type=warning]
+⚠️ 注意事项：
+
+1. **多媒体文件要放在文章文件夹里**（和 index.html 同级）
+2. **图片/视频/音频路径要写对**（用 `./文件名` 表示当前文件夹）
+3. **PDF 用 [PDF] 标签嵌入**，需要浏览器支持 PDF 预览
+4. **文件太大影响加载速度**（建议压缩后再上传）
+[/Alert]
+
+[Alert type=info]
+💡 快速测试：
+
+1. 双击 `index.html` 用浏览器打开
+2. 如果能看到这篇文章，说明解码器工作正常
+3. 如果图片/视频/音频能播放，说明文件路径正确
+[/Alert]
+
+[H2] 🚀 开始写你的文章吧！
+
+[Btn href=https://91vip.xn--32v.ink color=primary]访问我的博客[/Btn]
+
+全文完毕！🎉

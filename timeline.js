@@ -1,6 +1,11 @@
 
         window.timelineData = [
             {
+                date: "2026年6月17日",
+                title: "articles-data.js 重构：灵活路径映射系统 v2",
+                desc: "将 blog 架构从平铺目录改为分类嵌套后，重写 articles-data.js：移除所有硬编码 fileName，引入 _pathMap 映射表集中管理路径，所有查询方法自动附加计算后的 fileName，新增 getPath()/getCategories() 外部接口，改架构只需改一行映射表的说喵～"
+            },
+            {
                 date: "2026年6月13日",
                 title: "新增节日公告自动更新系统",
                 desc: "建立 GitHub Actions 工作流，每天北京时间 00:00 自动检测 21 个节日/纪念日/特别日期，自动替换站点公告为对应节日文案（含春节动态日期农历查表，覆盖2027-2035年除夕到初六）的说喵～"
