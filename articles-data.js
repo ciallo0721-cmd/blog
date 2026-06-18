@@ -26,6 +26,7 @@ window.articlesData = {
         "21": "科技/python/21/",
         "22": "生活/另一个次元/22/",
         "23": "心理/巴纳姆效应/23/",
+        "24": "ACG/番剧分享/24/",
         "pdf-1": "test/pdf-1/",
         "manga-1": "test/manga-1/",
         "video-1": "test/video-1/"
@@ -285,6 +286,16 @@ window.articlesData = {
             date: "2026-06-09",
             tags: ["心理学", "巴纳姆效应", "冷读术", "认知偏误", "科学思维", "占卜揭秘"],
             readTime: 35,
+            featured: true
+        },
+        {
+            id: 24,
+            category: "ACG",
+            title: "番剧分享 | 免费分享我收藏的番剧",
+            excerpt: "免费分享收藏的番剧资源，提供Google网盘下载链接。国内用户可能无法直接访问，还请见谅～",
+            date: "2026-06-18",
+            tags: ["番剧", "分享", "ACG", "Google网盘", "资源"],
+            readTime: 5,
             featured: true
         },
         {

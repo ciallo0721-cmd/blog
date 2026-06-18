@@ -1,6 +1,11 @@
 
         window.timelineData = [
             {
+                date: "2026年6月18日",
+                title: "新增番剧分享文章 (24)",
+                desc: "创建番剧分享文章，提供Google网盘链接分享收藏的番剧资源，并说明国内访问可能存在的问题，还请见谅的说～"
+            },
+            {
                 date: "2026年6月17日",
                 title: "articles-data.js 重构：灵活路径映射系统 v2",
                 desc: "将 blog 架构从平铺目录改为分类嵌套后，重写 articles-data.js：移除所有硬编码 fileName，引入 _pathMap 映射表集中管理路径，所有查询方法自动附加计算后的 fileName，新增 getPath()/getCategories() 外部接口，改架构只需改一行映射表的说喵～"
