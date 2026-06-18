@@ -367,6 +367,26 @@ function renderArticle(container, article, articleId) {
   });
   
   html += '</div></div></div>';
+
+  // 添加上一篇/下一篇导航
+  if (window.articlesData && typeof window.articlesData.getAdjacentArticles === 'function') {
+    var adj = window.articlesData.getAdjacentArticles(articleId);
+    html += '<div style="display:flex;justify-content:space-between;margin-top:40px;padding-top:30px;border-top:1px solid rgba(0,0,0,0.1);">';
+    if (adj.prev) {
+      var prevPath = (adj.prev.fileName || '') + '?blog_id=' + adj.prev.id;
+      html += '<a href="/blog/' + prevPath + '" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;padding:10px 20px;border-radius:25px;text-decoration:none;font-weight:600;font-size:0.95rem;transition:var(--transition);">← 上一篇：' + escHtml(adj.prev.title) + '</a>';
+    } else {
+      html += '<div></div>';
+    }
+    if (adj.next) {
+      var nextPath = (adj.next.fileName || '') + '?blog_id=' + adj.next.id;
+      html += '<a href="/blog/' + nextPath + '" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;padding:10px 20px;border-radius:25px;text-decoration:none;font-weight:600;font-size:0.95rem;transition:var(--transition);">下一篇：' + escHtml(adj.next.title) + ' →</a>';
+    } else {
+      html += '<div></div>';
+    }
+    html += '</div>';
+  }
+
   container.innerHTML = html;
 
   // 初始化自定义播放器（必须在 innerHTML 赋值之后！）
