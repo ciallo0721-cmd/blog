@@ -465,19 +465,32 @@
       }
     }
 
-    // 回退：提取当前文件夹名作为 ID
+    // 回退：从路径中提取文章 ID（支持嵌套目录，如 /blog/兴趣/另一个次元/24/）
     if (!articleId) {
       var path = window.location.pathname || '';
       var pathParts = path.split('/').filter(function (p) { return p; });
-      var blogIdx = -1;
-      for (var i = 0; i < pathParts.length; i++) {
-        if (pathParts[i] === 'blog') {
-          blogIdx = i;
-          break;
+      // 尝试从 _pathMap 反向匹配：看当前路径是否包含某个文件夹路径
+      if (window.articlesData && window.articlesData._pathMap) {
+        var pm = window.articlesData._pathMap;
+        var matchedId = '';
+        for (var key in pm) {
+          if (pm.hasOwnProperty(key)) {
+            var folderPath = pm[key];
+            // 去掉尾随斜杠再做匹配，兼容 URL 有/无斜杠两种情况
+            var folderPathNorm = folderPath.replace(/\/+$/, '');
+            if (path.indexOf('/' + folderPathNorm) !== -1) {
+              matchedId = key;
+              break;
+            }
+          }
+        }
+        if (matchedId) {
+          articleId = matchedId;
         }
       }
-      if (blogIdx !== -1 && blogIdx + 1 < pathParts.length) {
-        articleId = pathParts[blogIdx + 1];
+      // 如果还是没匹配到，尝试取路径最后一段作为 ID
+      if (!articleId && pathParts.length) {
+        articleId = pathParts[pathParts.length - 1];
       }
     }
 
