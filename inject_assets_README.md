@@ -9,7 +9,7 @@
 
 ## 用法
 ```bash
-cd "g:\EmoScan Pro\ciallo0721-cmd.github.io"
+cd "g:\EmoScan Pro\ciallo0721-cmd.top"
 python inject_assets.py
 ```
 

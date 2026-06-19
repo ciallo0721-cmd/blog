@@ -429,5 +429,5 @@ fs.writeFileSync('index.html', html, 'utf8');
 console.log('index.html 写入成功！');
 `;
 
-fs.writeFileSync('G:/EmoScan Pro/91vip.xn--32v.ink/blog/_decoder/build.js', css + js, 'utf8');
+fs.writeFileSync('G:/EmoScan Pro/ciallo0721-cmd.top/blog/_decoder/build.js', css + js, 'utf8');
 console.log('build.js 已创建，请运行：node build.js');

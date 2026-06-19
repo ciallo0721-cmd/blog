@@ -9,7 +9,7 @@ import urllib.request
 import base64
 from pathlib import Path
 
-ONLINE_URL = "https://91vip.xn--32v.ink/"
+ONLINE_URL = "https://ciallo0721-cmd.top/"
 APP_NAME = "ciallo0721-cmd 个人网站"
 
 def is_online():
@@ -67,7 +67,7 @@ def main():
 <body>
     <div class="container">
         <h1>😿 离线模式</h1>
-        <p>无法连接到 91vip.xn--32v.ink</p>
+        <p>无法连接到 ciallo0721-cmd.top</p>
         <p>请检查网络连接后重试</p>
         <div class="btn" onclick="location.reload()">重试</div>
     </div>

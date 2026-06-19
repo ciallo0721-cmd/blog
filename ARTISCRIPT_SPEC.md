@@ -540,5 +540,5 @@ AST 示例（对应上面的文档）：
 ---
 
 *ArtiScript v1 Specification*  
-*Designed for ciallo0721-cmd.github.io*  
+*Designed for ciallo0721-cmd.top*  
 *2026-06-15*

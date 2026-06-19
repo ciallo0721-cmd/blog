@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
-    private static final String WEBSITE_URL = "https://91vip.xn--32v.ink/";
+    private static final String WEBSITE_URL = "https://ciallo0721-cmd.top/";
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {

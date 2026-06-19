@@ -49,7 +49,7 @@ import sys
 from pathlib import Path
 
 # 网站 URL
-ONLINE_URL = "https://91vip.xn--32v.ink/"
+ONLINE_URL = "https://ciallo0721-cmd.top/"
 OFFLINE_DIR = Path(__file__).parent / "offline_content"
 
 def check_online():

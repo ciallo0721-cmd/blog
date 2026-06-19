@@ -568,6 +568,6 @@ function renderBlock(block) {
 ---
 
 *NextScript v1 Specification*  
-*Designed for ciallo0721-cmd.github.io*  
+*Designed for ciallo0721-cmd.top*  
 *2026-06-15*  
 *The true "Markdown 3.0"*

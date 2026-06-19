@@ -1,6 +1,6 @@
 # SEO优化配置 - 允许所有主流搜索引擎爬虫
 # 站点地图声明
-Sitemap: https://91vip.xn--32v.ink/sitemap.xml
+Sitemap: https://ciallo0721-cmd.top/sitemap.xml
 
 # 允许所有搜索引擎爬虫访问
 User-agent: *
@@ -10,7 +10,7 @@ Allow: /
 Disallow: /admin/
 Disallow: /functions/
 Disallow: /images/
-Disallow: /备用站点beiyong.xn--32v.ink/
+Disallow: /备用站点beiyong.ciallo0721-cmd.top/
 Disallow: /blog/grayscale-test/
 
 # 允许爬虫访问新结构

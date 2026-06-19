@@ -1,6 +1,6 @@
 # 网站打包工具
 
-将 ciallo0721-cmd.github.io 个人网站打包为 **Windows 桌面应用 (EXE)** 和 **Android 应用 (APK)**
+将 ciallo0721-cmd.top 个人网站打包为 **Windows 桌面应用 (EXE)** 和 **Android 应用 (APK)**
 
 ## 文件说明
 
@@ -65,7 +65,7 @@ GitHub Actions 工作流 (`.github/workflows/daily-build.yml`) 配置：
    - 调试版本可以直接安装到 Android 设备
 
 3. **网站更新**：
-   - 应用加载在线网站 (https://91vip.xn--32v.ink/)
+   - 应用加载在线网站 (https://ciallo0721-cmd.top/)
    - 网站内容更新后，应用会自动显示最新版本
    - 无需重新打包应用（除非修改了应用配置）
 

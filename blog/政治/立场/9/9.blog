@@ -121,7 +121,7 @@
                 </button>
             </div>
             <div class="share-text" id="shareText">
-                快来看看这篇文章: https://ciallo0721-cmd.github.io/gg.html
+                快来看看这篇文章: https://ciallo0721-cmd.top/gg.html
             </div>
             <div class="share-actions">
                 <button class="share-copy-btn" id="copyShareText">
@@ -373,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
             articleTitle = '这篇文章';
         }
         
-        const shareUrl = `https://ciallo0721-cmd.github.io/${currentArticleId}.html`;
+        const shareUrl = `https://ciallo0721-cmd.top/${currentArticleId}.html`;
         const shareMessage = `快来看看这篇文章《${articleTitle}》: ${shareUrl}`;
         shareText.textContent = shareMessage;
         

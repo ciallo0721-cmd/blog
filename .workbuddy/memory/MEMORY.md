@@ -2,6 +2,7 @@
 
 ## 项目信息
 - **项目名称**：ciallo0721-cmd.github.io 个人网站
+- **域名**：https://ciallo0721-cmd.top（原 91vip.xn--32v.ink，2026-06-19 更换）
 - **类型**：纯静态站（GitHub Pages），无服务端
 - **技术栈**：原生 HTML/CSS/JS，CodeMirror 5.65.2，Cloudflare Turnstile，Ren'Py 导出游戏
 - **部署平台**：GitHub Pages

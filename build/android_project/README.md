@@ -1,6 +1,6 @@
 # ciallo0721-cmd 网站 Android 应用
 
-使用 Android WebView 加载 https://91vip.xn--32v.ink/
+使用 Android WebView 加载 https://ciallo0721-cmd.top/
 
 ## 构建 APK
 

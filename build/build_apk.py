@@ -59,7 +59,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
-    private static final String WEBSITE_URL = "https://91vip.xn--32v.ink/";
+    private static final String WEBSITE_URL = "https://ciallo0721-cmd.top/";
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -288,7 +288,7 @@ def create_readme():
     """创建 README.md"""
     readme = '''# ciallo0721-cmd 网站 Android 应用
 
-使用 Android WebView 加载 https://91vip.xn--32v.ink/
+使用 Android WebView 加载 https://ciallo0721-cmd.top/
 
 ## 构建 APK
 

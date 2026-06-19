@@ -11,7 +11,7 @@ import os
 import sys
 from pathlib import Path
 
-WEBSITE_URL = "https://91vip.xn--32v.ink/"
+WEBSITE_URL = "https://ciallo0721-cmd.top/"
 APP_NAME = "ciallo0721-cmd 个人网站"
 
 def open_website():

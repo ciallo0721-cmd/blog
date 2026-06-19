@@ -15,7 +15,7 @@ function createWindow() {
   })
 
   // 加载网站
-  win.loadURL('https://91vip.xn--32v.ink/')
+  win.loadURL('https://ciallo0721-cmd.top/')
 }
 
 app.whenReady().then(() => {

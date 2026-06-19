@@ -2,7 +2,7 @@
 # 批量创建 redirect 跳转页脚本
 # 用法: ./create-redirects.sh
 
-BASE_URL="https://91vip.xn--32v.ink"
+BASE_URL="https://ciallo0721-cmd.top"
 REDIRECT_DIR="redirect"
 
 # 创建 redirect 目录（如果需要）

@@ -472,6 +472,7 @@
     </script>
     <!-- IP 地理检测（美国用户拒绝访问） -->
     <script src="./geo-check.js"></script>
+    <script src="../articles-data.js"></script>
     <!-- HTTP 检测与提示 -->
     <script>
         (function() {
@@ -1135,7 +1136,8 @@ async function loadArticles() {
 }
 
 function viewArticle(id) {
-    window.open('../blog/' + id + '/', '_blank');
+    var path = window.articlesData ? window.articlesData.getPath(id) : id + '/';
+    window.open('../blog/' + path, '_blank');
 }
 
 async function deleteArticle(id) {

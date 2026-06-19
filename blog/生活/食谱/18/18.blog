@@ -225,7 +225,7 @@
                 </button>
             </div>
             <div class="share-text" id="shareText">
-                快来看看这篇文章: https://91vip.xn--32v.ink/blog/18/
+                快来看看这篇文章: https://ciallo0721-cmd.top/blog/18/
             </div>
             <div class="share-actions">
                 <button class="share-copy-btn" id="copyShareText">
@@ -299,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const closeBtn2 = document.getElementById('closeShareModalBtn');
         if (!shareButton || !shareModal) return;
         const articleTitle = document.getElementById('articleTitle').textContent;
-        const shareUrl = `https://91vip.xn--32v.ink/blog/18/`;
+        const shareUrl = `https://ciallo0721-cmd.top/blog/18/`;
         const shareMessage = `快来看看这篇文章《${articleTitle}》: ${shareUrl}`;
         shareText.textContent = shareMessage;
         shareButton.addEventListener('click', () => shareModal.classList.add('active'));

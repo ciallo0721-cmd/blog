@@ -3,7 +3,7 @@
 ## 目录结构
 
 ```
-ciallo0721-cmd.github.io/
+ciallo0721-cmd.top/
 ├── vid/          ← 视频播放器
 │   ├── video-player.js
 │   └── video-player.css

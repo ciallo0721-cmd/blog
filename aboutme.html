@@ -562,7 +562,7 @@ body{background:#e8eeff!important}*{animation:none!important;transition:none!imp
             <i class="fas fa-link"></i> 复制链接
         </button>
         <a class="share-btn"
-           href="https://service.weibo.com/share/share.php?url=https://91vip.xn--32v.ink/aboutme.html&title=发现了一个超厉害的视觉小说创作者ciallo0721-cmd，游戏超好玩！🎮"
+           href="https://service.weibo.com/share/share.php?url=https://ciallo0721-cmd.top/aboutme.html&title=发现了一个超厉害的视觉小说创作者ciallo0721-cmd，游戏超好玩！🎮"
            target="_blank">
             <i class="fab fa-weibo"></i> 分享微博
         </a>
@@ -610,7 +610,7 @@ body{background:#e8eeff!important}*{animation:none!important;transition:none!imp
 
 // ===== 复制链接 =====
 function copyLink() {
-    var url = 'https://91vip.xn--32v.ink/aboutme.html';
+    var url = 'https://ciallo0721-cmd.top/aboutme.html';
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(url).then(showCopyTip);
     } else {
@@ -630,7 +630,7 @@ function showCopyTip() {
 
 // ===== 分享QQ =====
 function shareQQ() {
-    var url = encodeURIComponent('https://91vip.xn--32v.ink/aboutme.html');
+    var url = encodeURIComponent('https://ciallo0721-cmd.top/aboutme.html');
     var title = encodeURIComponent('发现了超厉害的视觉小说创作者！游戏真的很好玩🎮');
     window.open('https://connect.qq.com/widget/shareqq/index.html?url='+url+'&title='+title, '_blank');
 }
@@ -641,7 +641,7 @@ function nativeShare() {
         navigator.share({
             title: 'ciallo0721-cmd — 视觉小说创作者',
             text: '发现了一个超有个性的独立游戏创作者，游戏超好玩！',
-            url: 'https://91vip.xn--32v.ink/aboutme.html'
+            url: 'https://ciallo0721-cmd.top/aboutme.html'
         }).catch(function(){});
     } else {
         copyLink();

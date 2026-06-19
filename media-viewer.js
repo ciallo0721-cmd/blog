@@ -1,6 +1,6 @@
 /**
  * Media Viewer - 图片放大 & 自定义视频播放器
- * 适用于 91vip.xn--32v.ink 文章页面
+ * 适用于 ciallo0721-cmd.top 文章页面
  * 
  * 使用方法：
  * 1. 在 HTML 中引入此脚本：<script src="../../media-viewer.js"></script>

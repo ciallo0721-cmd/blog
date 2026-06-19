@@ -1,5 +1,5 @@
 # 站点信息架构改造方案 v2.0
-# 适用于 ciallo0721-cmd.github.io — 纯静态站 / GitHub Pages
+# 适用于 ciallo0721-cmd.top — 纯静态站 / GitHub Pages
 
 生成时间：2026-06-15
 作者：塔菲（永雏塔菲_bot）
@@ -220,11 +220,11 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="0; url=/blog/">
-    <link rel="canonical" href="https://91vip.xn--32v.ink/blog/">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/blog/">
     <title>页面已迁移 - ciallo0721-cmd</title>
 </head>
 <body>
-    <p>页面已迁移到 <a href="/blog/">https://91vip.xn--32v.ink/blog/</a></p>
+    <p>页面已迁移到 <a href="/blog/">https://ciallo0721-cmd.top/blog/</a></p>
     <script>window.location.replace("/blog/");</script>
 </body>
 </html>
@@ -294,7 +294,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="0; url=/app/moeface/">
-    <link rel="canonical" href="https://91vip.xn--32v.ink/app/moeface/">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/app/moeface/">
     <title>页面已迁移</title>
 </head>
 <body>
@@ -491,9 +491,9 @@ window.pageMeta = {
 
 **规范写法**：
 ```
-✅ 推荐：https://91vip.xn--32v.ink/blog/
-❌ 避免：https://91vip.xn--32v.ink/blog
-❌ 避免：https://91vip.xn--32v.ink/wz.html
+✅ 推荐：https://ciallo0721-cmd.top/blog/
+❌ 避免：https://ciallo0721-cmd.top/blog
+❌ 避免：https://ciallo0721-cmd.top/wz.html
 ```
 
 ### 6.2 Canonical URL 模板
@@ -501,25 +501,25 @@ window.pageMeta = {
 每个页面必须在 `<head>` 里加 canonical：
 
 ```html
-<link rel="canonical" href="https://91vip.xn--32v.ink/[规范路径]">
+<link rel="canonical" href="https://ciallo0721-cmd.top/[规范路径]">
 ```
 
 #### 博客文章示例
 
 ```html
-<link rel="canonical" href="https://91vip.xn--32v.ink/blog/23/">
+<link rel="canonical" href="https://ciallo0721-cmd.top/blog/23/">
 ```
 
 #### 应用页面示例
 
 ```html
-<link rel="canonical" href="https://91vip.xn--32v.ink/app/moeface/">
+<link rel="canonical" href="https://ciallo0721-cmd.top/app/moeface/">
 ```
 
 #### 首页示例
 
 ```html
-<link rel="canonical" href="https://91vip.xn--32v.ink/">
+<link rel="canonical" href="https://ciallo0721-cmd.top/">
 ```
 
 ### 6.3 防止重复收录
@@ -542,7 +542,7 @@ Disallow: /wz.html
 
 ```xml
 <url>
-    <loc>https://91vip.xn--32v.ink/blog/</loc>
+    <loc>https://ciallo0721-cmd.top/blog/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
 </url>
@@ -568,7 +568,7 @@ Disallow: /wz.html
 
 ```html
 <!-- /wz/index.html 或 /wz.html -->
-<link rel="canonical" href="https://91vip.xn--32v.ink/blog/">
+<link rel="canonical" href="https://ciallo0721-cmd.top/blog/">
 <meta http-equiv="refresh" content="0; url=/blog/">
 ```
 
@@ -608,7 +608,7 @@ Disallow: /wz.html
 ### 阶段六：清理（可选，建议等待 1-2 个月）
 
 15. 确认 GA4 数据显示正常（旧 URL 的 PV 逐渐下降到 0）
-16. 确认搜索引擎已更新索引（用 `site:91vip.xn--32v.ink/wz` 检查）
+16. 确认搜索引擎已更新索引（用 `site:ciallo0721-cmd.top/wz` 检查）
 17. 删除旧目录（或直接保留跳转页，长期有效）
 
 ---
@@ -621,7 +621,7 @@ Disallow: /wz.html
 <head>
     <meta charset="UTF-8">
     <title>文章标题 - ciallo0721-cmd</title>
-    <link rel="canonical" href="https://91vip.xn--32v.ink/blog/23/">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/blog/23/">
     
     <!-- pageMeta 定义（必须在 gtag 之前） -->
     <script>
@@ -654,7 +654,7 @@ Disallow: /wz.html
 <head>
     <meta charset="UTF-8">
     <title>MoeFace - AI 人脸识别</title>
-    <link rel="canonical" href="https://91vip.xn--32v.ink/app/moeface/">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/app/moeface/">
     
     <script>
     window.pageMeta = {
@@ -696,7 +696,7 @@ Disallow: /wz.html
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="0; url={{NEW_URL}}">
-    <link rel="canonical" href="https://91vip.xn--32v.ink{{NEW_URL}}">
+    <link rel="canonical" href="https://ciallo0721-cmd.top{{NEW_URL}}">
     <title>页面已迁移 - ciallo0721-cmd</title>
     <style>
         body { font-family: sans-serif; text-align: center; padding: 50px; }
@@ -707,7 +707,7 @@ Disallow: /wz.html
     <h1>页面已迁移 🐱</h1>
     <p>正在跳转到新地址...</p>
     <p>如果没有自动跳转，请点击：
-        <a href="{{NEW_URL}}">https://91vip.xn--32v.ink{{NEW_URL}}</a>
+        <a href="{{NEW_URL}}">https://ciallo0721-cmd.top{{NEW_URL}}</a>
     </p>
     <script>
         window.location.replace("{{NEW_URL}}");

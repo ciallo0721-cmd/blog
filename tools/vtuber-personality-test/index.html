@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="12道趣味题目，测测你的VTuber人格是可爱系、帅气系、治愈系还是混沌系？生成精美卡片分享给好友！">
     <meta name="keywords" content="VTuber,人格测试,虚拟主播,二次元,心理测试">
-    <link rel="canonical" href="https://91vip.xn--32v.ink/tools/vtuber-personality-test/">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/tools/vtuber-personality-test/">
     <link rel="icon" href="../../fanv.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>VTuber 人格测试 | ciallo0721-cmd</title>
@@ -776,10 +776,10 @@
 
 <!-- Footer CTA -->
 <footer class="cta-section">
-    <a href="https://91vip.xn--32v.ink" target="_blank" rel="noopener">
+    <a href="https://ciallo0721-cmd.top" target="_blank" rel="noopener">
         <i class="fa-solid fa-star"></i> 探索更多精彩工具
     </a>
-    <p class="cta-sub">ciallo0721-cmd 工具出品 | 91vip.xn--32v.ink</p>
+    <p class="cta-sub">ciallo0721-cmd 工具出品 | ciallo0721-cmd.top</p>
 </footer>
 
 <!-- Toast -->
@@ -1046,7 +1046,7 @@
         ctx.fillStyle = '#888'; ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif'; ctx.fillText('🎨 代表色', 60, y); y += 18;
         ctx.fillStyle = r.color; ctx.font = 'bold 15px "PingFang SC","Microsoft YaHei",sans-serif'; ctx.fillText(r.colorName, 60, y);
         ctx.fillStyle = r.color; roundRect(ctx, 200, y - 14, 20, 20, 4); ctx.fill();
-        ctx.fillStyle = '#aaa'; ctx.font = '10px "PingFang SC","Microsoft YaHei",sans-serif'; ctx.textAlign = 'center'; ctx.fillText('ciallo0721-cmd 工具出品 | 91vip.xn--32v.ink', 200, 475);
+        ctx.fillStyle = '#aaa'; ctx.font = '10px "PingFang SC","Microsoft YaHei",sans-serif'; ctx.textAlign = 'center'; ctx.fillText('ciallo0721-cmd 工具出品 | ciallo0721-cmd.top', 200, 475);
         container.appendChild(canvas);
         window._resultCanvas = canvas;
     }
@@ -1055,9 +1055,9 @@
     function lightenColor(hex, amt) { const c = hexToRgb(hex); return `rgb(${Math.min(255,Math.round(c.r+(255-c.r)*amt))},${Math.min(255,Math.round(c.g+(255-c.g)*amt))},${Math.min(255,Math.round(c.b+(255-c.b)*amt))})`; }
     function darkenColor(hex, amt) { const c = hexToRgb(hex); return `rgb(${Math.max(0,Math.round(c.r*(1-amt)))},${Math.max(0,Math.round(c.g*(1-amt)))},${Math.max(0,Math.round(c.b*(1-amt)))})`; }
     window.saveImage = function() { if (window._resultCanvas) { const link = document.createElement('a'); link.download = 'vtuber-personality-' + currentResult.name + '.png'; link.href = window._resultCanvas.toDataURL('image/png'); link.click(); showToast('卡片已保存！'); } };
-    window.copyResult = function() { const r = currentResult; const text = `🎭 我的VTuber人格测试结果\n\n✨ 名字：${r.name}\n🏷 类型：${r.type} · ${r.desc}\n💬 口头禅：${r.catchphrase}\n🎨 立绘风格：${r.artstyle}\n🌈 代表色：${r.colorName}\n\n你也来测测👉 https://91vip.xn--32v.ink/tools/vtuber-personality-test/`; if (navigator.clipboard) navigator.clipboard.writeText(text).then(()=>showToast('结果已复制')).catch(()=>fallbackCopy(text)); else fallbackCopy(text); };
+    window.copyResult = function() { const r = currentResult; const text = `🎭 我的VTuber人格测试结果\n\n✨ 名字：${r.name}\n🏷 类型：${r.type} · ${r.desc}\n💬 口头禅：${r.catchphrase}\n🎨 立绘风格：${r.artstyle}\n🌈 代表色：${r.colorName}\n\n你也来测测👉 https://ciallo0721-cmd.top/tools/vtuber-personality-test/`; if (navigator.clipboard) navigator.clipboard.writeText(text).then(()=>showToast('结果已复制')).catch(()=>fallbackCopy(text)); else fallbackCopy(text); };
     function fallbackCopy(t) { const ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.left = '-9999px'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); showToast('结果已复制'); } catch(e) { showToast('复制失败'); } document.body.removeChild(ta); }
-    window.shareQQ = function() { const r = currentResult; const url = encodeURIComponent('https://91vip.xn--32v.ink/tools/vtuber-personality-test/'); const title = encodeURIComponent(`我的VTuber人格：${r.name}（${r.type}·${r.desc}）`); const summary = encodeURIComponent(`口头禅：${r.catchphrase} | 你也来测测你的VTuber人格吧！`); window.open(`https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${url}&title=${title}&summary=${summary}&site=ciallo0721-cmd`, '_blank'); };
+    window.shareQQ = function() { const r = currentResult; const url = encodeURIComponent('https://ciallo0721-cmd.top/tools/vtuber-personality-test/'); const title = encodeURIComponent(`我的VTuber人格：${r.name}（${r.type}·${r.desc}）`); const summary = encodeURIComponent(`口头禅：${r.catchphrase} | 你也来测测你的VTuber人格吧！`); window.open(`https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${url}&title=${title}&summary=${summary}&site=ciallo0721-cmd`, '_blank'); };
     window.retryTest = function() { currentMode = 'normal'; currentQuestion = 0; questions = []; answers = []; currentSelections = []; currentResult = null; document.getElementById('canvas-container').innerHTML = ''; showScreen('welcome'); document.getElementById('counter-num').textContent = getCounter(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
     let toastTimer; function showToast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2000); }
 })();

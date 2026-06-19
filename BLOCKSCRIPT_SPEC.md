@@ -584,5 +584,5 @@ def render_blog(blog_file_path):
 ---
 
 *BlockScript v1 Specification*  
-*Designed for ciallo0721-cmd.github.io*  
+*Designed for ciallo0721-cmd.top*  
 *2026-06-15*

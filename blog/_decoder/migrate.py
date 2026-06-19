@@ -12,7 +12,7 @@ from html.parser import HTMLParser
 
 BLOG_DIR = "G:/EmoScan Pro/ciallo0721-cmd.github.io/blog"
 DECODER_DIR = os.path.join(BLOG_DIR, "_decoder")
-SITE_ROOT = "https://91vip.xn--32v.ink"
+SITE_ROOT = "https://ciallo0721-cmd.top"
 
 # 需要处理的文章目录（按顺序）
 ARTICLE_DIRS = [

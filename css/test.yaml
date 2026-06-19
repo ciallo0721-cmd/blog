@@ -42,7 +42,7 @@ proxy-groups:
 rules:
   # 特定域名走代理
   - DOMAIN-SUFFIX,bilibili.com,PROXY
-  - DOMAIN-SUFFIX,91vip.xn--32v.ink,PROXY
+  - DOMAIN-SUFFIX,ciallo0721-cmd.top,PROXY
   - DOMAIN-SUFFIX,baidu.com,PROXY
   - DOMAIN-SUFFIX,github.com,PROXY
   # 其他所有流量直连

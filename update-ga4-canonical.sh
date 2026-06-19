@@ -33,7 +33,7 @@ update_html_file() {
     };\
     </script>\
 \
-    <link rel="canonical" href="'https://91vip.xn--32v.ink$canonical_url'">' "$file"
+    <link rel="canonical" href="'https://ciallo0721-cmd.top$canonical_url'">' "$file"
     
     echo "Updated: $file"
 }

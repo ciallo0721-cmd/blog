@@ -52,7 +52,7 @@
 
                 <h2> 去评论的链接</h2>
                 <p style="background: #f0f4ff; padding: 16px 20px; border-radius: 16px; text-align: center; margin: 20px 0;">
-                    <a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues/1" target="_blank" style="font-size: 1.3rem; font-weight: bold; color: #3366ff; text-decoration: none;">
+                    <a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.top/issues/1" target="_blank" style="font-size: 1.3rem; font-weight: bold; color: #3366ff; text-decoration: none;">
                         <i class="fab fa-github"></i> 点击这里，去 GitHub Issue 评论
                     </a><br>
                     <span style="font-size: 0.85rem; color: #515154;">（没有 GitHub 账号也能看，但评论需要注册一个，几分钟就好）</span>
@@ -183,7 +183,7 @@
                 </button>
             </div>
             <div class="share-text" id="shareText">
-                快来看看这篇文章: https://91vip.xn--32v.ink/blog/11/
+                快来看看这篇文章: https://ciallo0721-cmd.top/blog/11/
             </div>
             <div class="share-actions">
                 <button class="share-copy-btn" id="copyShareText">
