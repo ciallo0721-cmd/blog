@@ -2,6 +2,11 @@
         window.timelineData = [
             {
                 date: "2026年6月19日",
+                title: "首页 tools 区增加新番数据库 & 人脸识别",
+                desc: "将 新番数据库 和 MoeFace 人脸识别 两张工具卡片加入首页 #tools 区，现在 tools 区共有 6 个工具的说喵～"
+            },
+            {
+                date: "2026年6月19日",
                 title: "更换域名：从 91vip.xn--32v.ink 到 ciallo0721-cmd.top",
                 desc: "将网站全部域名的引用从 91vip.xn--32v.ink 更换为 ciallo0721-cmd.top，批量替换了 100+ 个文件中的所有旧域名引用的说喵～ (๑•̀ㅂ•́)و✧"
             },
