@@ -26,10 +26,7 @@ window.articlesData = {
         "21": "科技/python/21/",
         "22": "兴趣/另一个次元/22/",
         "23": "心理/巴纳姆效应/23/",
-        "24": "兴趣/另一个次元/24/",
-        "pdf-1": "test/pdf-1/",
-        "manga-1": "test/manga-1/",
-        "video-1": "test/video-1/"
+        "24": "兴趣/另一个次元/24/"
     },
 
     // --- 给文章对象附加 fileName（返回新对象，不改原始数据）---
@@ -269,16 +266,6 @@ window.articlesData = {
             featured: true
         },
         {
-            id: "pdf-1",
-            category: "生活",
-            title: "《发呆改变世界》沃玛",
-            excerpt: "《发呆改变世界》沃玛.pdf---一个测试文章",
-            date: "2026-06-07",
-            tags: ["沃玛", "发呆", "短篇", "隐藏文章（仅限直链访问）"],
-            readTime: 10,
-            featured: true
-        },
-        {
             id: 23,
             category: "心理学",
             title: "占卜的原理：心理学拆解\"为什么总觉得很准\"",
@@ -290,35 +277,6 @@ window.articlesData = {
         },
         {
             id: 24,
-            category: "ACG",
-            title: "番剧分享 | 免费分享我收藏的番剧",
-            excerpt: "免费分享收藏的番剧资源，提供Google网盘下载链接。国内用户可能无法直接访问，还请见谅～",
-            date: "2026-06-18",
-            tags: ["番剧", "分享", "ACG", "Google网盘", "资源"],
-            readTime: 5,
-            featured: true
-        },
-        {
-            id: "manga-1",
-            category: "测试",
-            title: "漫画阅读器 · manga-1 测试",
-            excerpt: "内置 EPUB 格式漫画/小说阅读器的测试文章，支持上传本地文件和 URL 加载、单页/双页模式切换。",
-            date: "2026-06-13",
-            tags: ["漫画阅读器", "EPUB", "测试文章", "隐藏文章（仅限直链访问）"],
-            readTime: 5,
-            featured: false
-        },
-        {
-            id: "video-1",
-            category: "测试",
-            title: "加密流媒体播放器 · video-1 测试",
-            excerpt: "内置 HLS 加密流媒体播放器的测试文章，支持 .m3u8 / .ts 加密视频播放，自动加载本地 ./1.m3u8 流文件，附带 mp4→HLS 批处理转换脚本。",
-            date: "2026-06-13",
-            tags: ["流媒体", "HLS", "m3u8", "加密视频", "测试文章", "隐藏文章（仅限直链访问）"],
-            readTime: 5,
-            featured: false
-        }
-    ],
 
     // --- 获取带 fileName 的排序列表 ---
     getSortedArticles: function() {
