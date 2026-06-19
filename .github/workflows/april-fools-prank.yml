@@ -44,7 +44,7 @@ jobs:
       - name: 🚀 部署到 GitHub Pages
         run: |
           echo "✅ 恶作剧脚本已激活！"
-          echo "📝 访问 https://91vip.xn--32v.ink 查看效果"
+          echo "📝 访问 https://ciallo0721-cmd.top 查看效果"
 
   deactivate-prank:
     runs-on: ubuntu-latest

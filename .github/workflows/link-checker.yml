@@ -23,7 +23,7 @@ jobs:
         uses: lycheeverse/lychee-action@v2
         with:
           args: >
-            --base-url https://91vip.xn--32v.ink
+            --base-url https://ciallo0721-cmd.top
             --max-concurrency 64
             --timeout 30
             --retry-wait-time 5

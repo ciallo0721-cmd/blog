@@ -36,7 +36,7 @@ jobs:
           from datetime import datetime
           from pathlib import Path
 
-          SITE_URL = "https://91vip.xn--32v.ink"
+          SITE_URL = "https://ciallo0721-cmd.top"
 
           def get_lastmod(filepath):
               if os.path.exists(filepath):
