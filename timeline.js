@@ -13,7 +13,7 @@
             {
                 date: "2026年6月18日",
                 title: "修复文章24无法访问 + decoder.js 共享化",
-                desc: "修复多个 bug：① decoder.js 未解析 URL 查询参数 ?blog_id=，导致嵌套路径下无法获取文章ID；② 文章 HTML 中 ../articles-data.js 在嵌套目录（如 blog/兴趣/另一个次元/24/）下解析不到根目录，window.articlesData 为 undefined；③ renderArticle 中 trimmedContent 变量名拼写不一致导致 JS 报错。将所有文章 HTML 的 decoder.js 引用统一为 /blog/_decoder/decoder.js 共享版本，articles-data.js/wiki-data.js/wiki-linker.js 全部改为绝对路径，decoder.js 新增 ?blog_id= 解析和 _pathMap 路径拼接逻辑的说喵～"
+                desc: "修复多个 bug：① decoder.js 未解析 URL 查询参数 ?blog_id=，导致嵌套路径下无法获取文章ID；② 文章 HTML 中 ../articles-data.js 在嵌套目录（如 blog/兴趣/另一个次元/24/）下解析不到根目录，window.articlesData 为 undefined；③ renderArticle 中 trimmedContent 变量名拼写不一致导致 JS 报错。将所有文章 HTML 的 decoder.js 引用统一为 /blog/decoder/decoder.js 共享版本，articles-data.js/wiki-data.js/wiki-linker.js 全部改为绝对路径，decoder.js 新增 ?blog_id= 解析和 _pathMap 路径拼接逻辑的说喵～"
             },
             {
                 date: "2026年6月18日",
