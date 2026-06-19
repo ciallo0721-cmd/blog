@@ -1,56 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- 静态页面 -->
+  <!-- 首页 -->
+  <url>
+    <loc>https://ciallo0721-cmd.top/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- 核心页面 -->
   <url>
     <loc>https://ciallo0721-cmd.top/index.html</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-
   <url>
     <loc>https://ciallo0721-cmd.top/wz.html</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-
+  <url>
+    <loc>https://ciallo0721-cmd.top/wz/index.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://ciallo0721-cmd.top/aboutme.html</loc>
     <lastmod>2026-06-19</lastmod>
-    <changefreq>yearly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-
+  <url>
+    <loc>https://ciallo0721-cmd.top/friends.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
   <url>
     <loc>https://ciallo0721-cmd.top/adss.html</loc>
     <lastmod>2026-06-19</lastmod>
-    <changefreq>yearly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/status.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/10.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
 
+  <!-- 法律 & 帮助 -->
   <url>
     <loc>https://ciallo0721-cmd.top/privacy.html</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
-
+  <url>
+    <loc>https://ciallo0721-cmd.top/privacy-policy.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/user-agreement.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/privacyandpolicy/index.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
   <url>
     <loc>https://ciallo0721-cmd.top/help.html</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
-
   <url>
-    <loc>https://ciallo0721-cmd.top/status.html</loc>
+    <loc>https://ciallo0721-cmd.top/access-denied.html</loc>
     <lastmod>2026-06-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 
-  <!-- 博客文章 -->
+  <!-- 博客首页 & 解码器 -->
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/index.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://ciallo0721-cmd.top/blog/_decoder/</loc>
     <lastmod>2026-06-19</lastmod>
@@ -58,47 +110,520 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- 游戏页面 -->
+  <!-- 博客文章 -->
   <url>
-    <loc>https://ciallo0721-cmd.top/bjqy/index.html</loc>
+    <loc>https://ciallo0721-cmd.top/blog/Q&A/11/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/Q&A/12/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/Q&A/公告/4/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/Q&A/公告/5/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/Q&A/公告/8/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/Q&A/公告/10/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/兴趣/Music/1/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/兴趣/Music/7/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/兴趣/Vtuber/真白花音/13/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/兴趣/Vtuber/真白花音/14/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/兴趣/Vtuber/真白花音/15/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/兴趣/另一个次元/22/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/兴趣/另一个次元/24/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/兴趣/绘画/3/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/心理/巴纳姆效应/23/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/政治/立场/9/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/生活/闲聊&杂谈/6/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/生活/食谱/18/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/科技/Github/16/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/科技/python/21/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/科技/renpy/19/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/科技/renpy/20/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/科技/Unity/2/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/科技/算法/17/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 测试文章 -->
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/test/60/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/test/manga-1/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/test/pdf-1/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/blog/test/video-1/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- 百科首页 -->
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 百科词条 -->
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/dashichang/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/hanamine/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/mediapipe/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/openutau/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/paddleocr/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/python/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/renpy/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/taffy/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/tongshiting/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/unity/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/utau/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/vocaloid/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/wiki/vtuber/</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
+  <!-- 游戏（规范路径 /app/games/） -->
   <url>
-    <loc>https://ciallo0721-cmd.top/fors/index.html</loc>
+    <loc>https://ciallo0721-cmd.top/app/games/91/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/app/games/bjqy/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/app/games/fors/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/app/games/LAIDB/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/app/games/zmdspp/indexzm.html</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
+  <!-- 应用 -->
   <url>
-    <loc>https://ciallo0721-cmd.top/LAIDB/index.html</loc>
+    <loc>https://ciallo0721-cmd.top/app/moeface/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/app/mood-tracker/</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
+  <!-- 工具 -->
   <url>
-    <loc>https://ciallo0721-cmd.top/zmdspp/indexzm.html</loc>
+    <loc>https://ciallo0721-cmd.top/app/tools/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/app/tools/anime-color-analyzer/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/app/tools/renpy-template-generator/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/app/tools/vtuber-name-generator/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/app/tools/vtuber-personality-test/</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
+  <!-- 其他页面 -->
   <url>
-    <loc>https://ciallo0721-cmd.top/91/index.html</loc>
+    <loc>https://ciallo0721-cmd.top/arg/</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/cs2/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/linjiayi/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/oops/</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 
+  <!-- 自定义错误页面（HTTP 状态码） -->
   <url>
-    <loc>https://ciallo0721-cmd.top/dkdfj/index.html</loc>
+    <loc>https://ciallo0721-cmd.top/400.html</loc>
     <lastmod>2026-06-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/401.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/402.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/403.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/404.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/405.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/406.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/407.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/408.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/409.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/410.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/411.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/412.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/413.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/414.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/415.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/416.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/417.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/418.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/500.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/501.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/502.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/503.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/504.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://ciallo0721-cmd.top/505.html</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
   </url>
 
 </urlset>
