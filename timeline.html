@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更新记录 - ciallo0721-cmd</title>
+    <link rel="canonical" href="https://ciallo0721-cmd.top/timeline.html">
+    <meta name="description" content="ciallo0721-cmd 网站的完整更新记录，记录每次功能更新、修复和新内容的发布历史">
+    <link rel="icon" href="./fanv.ico" type="image/x-icon">
+    <style>
+        @font-face {
+            font-family: 'MaokenAssortedSans';
+            src: url('css/MaokenAssortedSans.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        :root {
+            --blue: #3366ff;
+            --blue2: #2575fc;
+            --text: #1D1D1F;
+            --text2: #515154;
+            --bg: #f5f5f7;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 16px rgba(0,0,0,0.08);
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--blue), var(--blue2));
+            color: white;
+            padding: 40px 20px 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 16px;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .back-btn:hover { color: white; }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+        }
+
+        /* 时间线样式 */
+        .timeline-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .tl-item {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            animation: fadeIn 0.5s ease both;
+            position: relative;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .tl-dot {
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            background: var(--blue);
+            flex-shrink: 0;
+            margin-top: 24px;
+            z-index: 2;
+            position: relative;
+            box-shadow: 0 0 0 3px var(--bg);
+        }
+        .tl-line {
+            width: 2px;
+            background: #d1d5db;
+            margin: 0 6px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .tl-item:last-child .tl-line { display: none; }
+
+        .tl-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin: 8px 0 8px 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid #e5e7eb;
+            flex: 1;
+            transition: all 0.2s;
+        }
+        .tl-card:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transform: translateX(2px);
+        }
+        .tl-date {
+            font-size: 0.82rem;
+            color: var(--text2);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tl-date i {
+            color: var(--blue);
+            font-size: 0.75rem;
+        }
+        .tl-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .tl-desc {
+            font-size: 0.9rem;
+            color: var(--text2);
+            line-height: 1.7;
+        }
+
+        .empty-msg {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text2);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text2);
+            font-size: 0.85rem;
+        }
+        .footer a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.4rem; }
+            .container { padding: 24px 16px 40px; }
+            .tl-card { padding: 14px 16px; margin-left: 8px; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-history"></i> 完整更新记录</h1>
+        <p>从最开始到现在，每次更新都有记录喵～</p>
+        <a href="./index.html" class="back-btn"><i class="fas fa-arrow-left"></i> 返回主页</a>
+    </div>
+
+    <div class="container">
+        <div class="timeline-list" id="timelineList"></div>
+    </div>
+
+    <div class="footer">
+        <a href="./index.html"><i class="fas fa-arrow-left"></i> 返回主页</a>
+        &nbsp;·&nbsp;
+        &copy; 2026 ciallo0721-cmd
+    </div>
+
+    <script src="./timeline.js"></script>
+    <script>
+        function renderFullTimeline() {
+            const container = document.getElementById('timelineList');
+            if (!container) return;
+
+            const data = window.timelineData;
+            if (!data || !data.length) {
+                container.innerHTML = '<div class="empty-msg"><i class="fas fa-inbox"></i><p>暂无更新记录喵～</p></div>';
+                return;
+            }
+
+            // 从旧到新排列
+            const sorted = data.slice().reverse();
+
+            container.innerHTML = sorted.map((item, index) => {
+                const desc = item.desc ? item.desc.replace(/\n/g, '<br>') : '';
+                return `
+                    <div class="tl-item" style="animation-delay: ${index * 0.05}s">
+                        <div class="tl-line"></div>
+                        <div class="tl-dot"></div>
+                        <div class="tl-card">
+                            <div class="tl-date"><i class="far fa-calendar-alt"></i> ${item.date}</div>
+                            <div class="tl-title">${item.title}</div>
+                            ${desc ? `<div class="tl-desc">${desc}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', renderFullTimeline);
+    </script>
+</body>
+</html>
