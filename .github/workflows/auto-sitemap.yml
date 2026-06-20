@@ -1,12 +1,9 @@
 name: Auto Update Sitemap
 
 on:
-  # 手动触发
   workflow_dispatch:
-  # 每天 UTC 4:00（北京时间中午12:00）自动运行
   schedule:
     - cron: '0 4 * * *'
-  # 当有页面文件变更时也触发
   push:
     branches: [main]
     paths:
@@ -29,92 +26,99 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Generate sitemap.xml
+      - name: Generate sitemap.xml with URL encoding
         run: |
           python3 << 'PYEOF'
-          import os
+          import os, re
           from datetime import datetime
           from pathlib import Path
+          from urllib.parse import quote
 
           SITE_URL = "https://ciallo0721-cmd.top"
 
-          def get_lastmod(filepath):
-              if os.path.exists(filepath):
-                  ts = os.path.getmtime(filepath)
-                  return datetime.fromtimestamp(ts).strftime("%Y-%m-%d")
-              return datetime.now().strftime("%Y-%m-%d")
+          def encode_url_path(path):
+              """URL 编码路径中的非 ASCII 字符，并对 & 做 XML 转义"""
+              encoded = quote(path, safe='/:@!$\'()*+,;=-._~')
+              encoded = encoded.replace('&', '&amp;')
+              if not encoded.endswith('/') and '.' not in encoded:
+                  encoded += '/'
+              return encoded
 
-          def find_blog_articles():
-              """自动扫描 blog/ 目录下的文章"""
+          # 递归扫描 blog/ 下的 index.html（排除 decoder/ 和 test/）
+          def find_articles(blog_dir):
               articles = []
-              blog_dir = Path("blog")
-              if not blog_dir.exists():
-                  return articles
-              for item in sorted(blog_dir.iterdir(), key=lambda x: (not x.name.isdigit(), x.name)):
-                  if item.is_dir() and (item / "index.html").exists():
-                      articles.append((f"blog/{item.name}/", get_lastmod(str(item / "index.html"))))
+              blog_path = Path(blog_dir)
+              for idx in blog_path.rglob("index.html"):
+                  parent = idx.parent
+                  # 跳过 decoder/ 和 test/ 目录
+                  if "decoder" in parent.parts or "test" in parent.parts:
+                      continue
+                  rel_path = idx.relative_to(".")
+                  lastmod = datetime.fromtimestamp(idx.stat().st_mtime).strftime("%Y-%m-%d")
+                  articles.append((str(rel_path.parent.as_posix()) + "/", lastmod))
               return articles
 
           lines = [
               '<?xml version="1.0" encoding="UTF-8"?>',
-              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+              '  <!-- ========== 站点地图 (自动生成) ========== -->'
           ]
 
-          # ===== 静态页面 =====
+          # 静态页面
           static_pages = [
               ("index.html",           "1.0", "weekly"),
-              ("wz.html",              "0.9", "weekly"),
+              ("blog/",                "0.9", "daily"),
               ("aboutme.html",         "0.7", "yearly"),
               ("adss.html",            "0.6", "yearly"),
               ("privacy.html",         "0.5", "yearly"),
               ("help.html",            "0.5", "yearly"),
               ("status.html",          "0.6", "monthly"),
+              ("wiki/index.html",      "0.8", "weekly"),
           ]
-          lines.append('  <!-- 静态页面 -->')
           for path, priority, freq in static_pages:
               lines.extend([
                   '  <url>',
-                  f'    <loc>{SITE_URL}/{path}</loc>',
-                  f'    <lastmod>{get_lastmod(path)}</lastmod>',
+                  f'    <loc>{SITE_URL}/{encode_url_path(path)}</loc>',
+                  f'    <lastmod>{datetime.now().strftime("%Y-%m-%d")}</lastmod>',
                   f'    <changefreq>{freq}</changefreq>',
                   f'    <priority>{priority}</priority>',
-                  '  </url>', ''
+                  '  </url>',
               ])
 
-          # ===== 博客文章（自动扫描）=====
-          articles = find_blog_articles()
-          if articles:
-              lines.append('  <!-- 博客文章 -->')
-              for art_path, lastmod in articles:
-                  lines.extend([
-                      '  <url>',
-                      f'    <loc>{SITE_URL}/{art_path}</loc>',
-                      f'    <lastmod>{lastmod}</lastmod>',
-                      '    <changefreq>monthly</changefreq>',
-                      '    <priority>0.8</priority>',
-                      '  </url>', ''
-              ])
-              print(f"📝 发现 {len(articles)} 篇博客文章")
-
-          # ===== 游戏页面 =====
+          # 游戏页面
           game_pages = [
-              ("bjqy/index.html",      "0.6", "monthly"),
-              ("fors/index.html",      "0.6", "monthly"),
-              ("LAIDB/index.html",     "0.6", "monthly"),
-              ("zmdspp/indexzm.html",  "0.6", "monthly"),
-              ("91/index.html",        "0.6", "monthly"),
-              ("dkdfj/index.html",     "0.6", "monthly"),
+              ("bjqy/index.html",     "0.6", "monthly"),
+              ("fors/index.html",     "0.6", "monthly"),
+              ("LAIDB/index.html",    "0.6", "monthly"),
+              ("zmdspp/indexzm.html", "0.6", "monthly"),
+              ("91/index.html",       "0.6", "monthly"),
+              ("dkdfj/index.html",    "0.6", "monthly"),
           ]
-          lines.append('  <!-- 游戏页面 -->')
           for path, priority, freq in game_pages:
               lines.extend([
                   '  <url>',
-                  f'    <loc>{SITE_URL}/{path}</loc>',
-                  f'    <lastmod>{get_lastmod(path)}</lastmod>',
+                  f'    <loc>{SITE_URL}/{encode_url_path(path)}</loc>',
+                  f'    <lastmod>{datetime.now().strftime("%Y-%m-%d")}</lastmod>',
                   f'    <changefreq>{freq}</changefreq>',
                   f'    <priority>{priority}</priority>',
-                  '  </url>', ''
+                  '  </url>',
               ])
+
+          # 博客文章（递归扫描）
+          articles = find_articles("blog")
+          if articles:
+              print(f"📝 发现 {len(articles)} 篇博客文章")
+              for art_path, lastmod in articles:
+                  lines.extend([
+                      '  <url>',
+                      f'    <loc>{SITE_URL}/{encode_url_path(art_path)}</loc>',
+                      f'    <lastmod>{lastmod}</lastmod>',
+                      '    <changefreq>monthly</changefreq>',
+                      '    <priority>0.6</priority>',
+                      '  </url>',
+                  ])
+          else:
+              print("⚠️ 未找到博客文章，请检查 blog/ 目录结构")
 
           lines.append('</urlset>')
           sitemap = '\n'.join(lines)
@@ -127,11 +131,10 @@ jobs:
 
       - name: Show sitemap preview
         run: |
-          echo "=== 生成的 sitemap.xml ==="
-          cat sitemap.xml
-          echo ""
-          echo "=== 文件大小 ==="
-          wc -c sitemap.xml
+          echo "=== sitemap.xml 预览 ==="
+          head -30 sitemap.xml
+          echo "..."
+          echo "=== 总共 $(grep -c '<url>' sitemap.xml) 个 URL ==="
 
       - name: Commit and push if changed
         run: |

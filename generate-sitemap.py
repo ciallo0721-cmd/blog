@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""生成完整的 sitemap.xml"""
-import re, os, json
+"""生成完整的 sitemap.xml（带 URL 编码，修复中文路径问题）"""
+import re, os
+from urllib.parse import quote
 
 blog_root = r"G:\EmoScan Pro\ciallo0721-cmd.github.io"
 domain = "https://ciallo0721-cmd.top"
@@ -56,17 +57,27 @@ for line in lines:
 # 按日期排序
 articles.sort(key=lambda x: x.get('date', ''), reverse=True)
 
+def encode_url_path(path):
+    """URL 编码路径中的非 ASCII 字符，并对 & 做 XML 转义"""
+    encoded = quote(path, safe='/:@!$\'()*+,;=-._~')
+    # XML 中 & 必须转义为 &amp;
+    encoded = encoded.replace('&', '&amp;')
+    # 如果路径末尾没有 / 则添加
+    if not encoded.endswith('/') and '.' not in encoded:
+        encoded += '/'
+    return encoded
+
 # 生成 sitemap
 urls = []
 
 # 静态页面
-urls.append(('/index.html', '2026-06-20', 'weekly', '1.0'))
-urls.append(('/blog/', '2026-06-20', 'daily', '0.9'))
-urls.append(('/aboutme.html', '2026-06-01', 'yearly', '0.7'))
-urls.append(('/adss.html', '2026-06-01', 'yearly', '0.6'))
-urls.append(('/privacy.html', '2026-06-01', 'yearly', '0.5'))
-urls.append(('/help.html', '2026-06-01', 'yearly', '0.5'))
-urls.append(('/status.html', '2026-06-19', 'monthly', '0.6'))
+urls.append((encode_url_path('/index.html'), '2026-06-20', 'weekly', '1.0'))
+urls.append((encode_url_path('/blog/'), '2026-06-20', 'daily', '0.9'))
+urls.append((encode_url_path('/aboutme.html'), '2026-06-01', 'yearly', '0.7'))
+urls.append((encode_url_path('/adss.html'), '2026-06-01', 'yearly', '0.6'))
+urls.append((encode_url_path('/privacy.html'), '2026-06-01', 'yearly', '0.5'))
+urls.append((encode_url_path('/help.html'), '2026-06-01', 'yearly', '0.5'))
+urls.append((encode_url_path('/status.html'), '2026-06-19', 'monthly', '0.6'))
 
 # 游戏页面
 games = [
@@ -78,23 +89,23 @@ games = [
     ('/dkdfj/index.html', '0.6'),
 ]
 for path, pri in games:
-    urls.append((path, '2026-06-01', 'monthly', pri))
+    urls.append((encode_url_path(path), '2026-06-01', 'monthly', pri))
 
 # 百科页面
-urls.append(('/wiki/index.html', '2026-06-13', 'weekly', '0.8'))
-urls.append(('/wiki-data.js', '2026-06-13', 'monthly', '0.3'))
+urls.append((encode_url_path('/wiki/index.html'), '2026-06-13', 'weekly', '0.8'))
 
 # 所有博客文章
 for a in articles:
     aid = a['id']
     path = path_map.get(aid, aid + '/')
     lastmod = a.get('date', '2026-06-01')
-    urls.append((f'/blog/{path}', lastmod, 'monthly', '0.6'))
+    full_path = f'/blog/{path}'
+    urls.append((encode_url_path(full_path), lastmod, 'monthly', '0.6'))
 
 # 生成 XML
 xml_parts = ['<?xml version="1.0" encoding="UTF-8"?>']
 xml_parts.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
-xml_parts.append('  <!-- ========== 站点地图 (自动生成) ========== -->')
+xml_parts.append('  <!-- ========== 站点地图 (自动生成 2026-06-20) ========== -->')
 
 for loc, lastmod, changefreq, priority in urls:
     xml_parts.append(f'  <url>')
@@ -112,3 +123,4 @@ with open(output_path, 'w', encoding='utf-8') as f:
     f.write(xml_content)
 
 print(f"已生成 sitemap.xml: {len(urls)} 个 URL")
+print("所有中文路径已进行 URL 编码")
