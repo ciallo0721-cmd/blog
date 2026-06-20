@@ -27,6 +27,14 @@
 已修复：XSS、Python 编辑器沙箱逃逸、console.log 信息泄露、SRI 缺失、安全头缺失
 详见 artifact `security-audit-report.md`
 
+## SEO 修复：移除地理限制（2026-06-20）
+- **geo-check.js** 已中性化为空操作（no-op stub），不再执行任何 IP 地理检测或重定向
+- 所有引用 geo-check.js 的页面均改为加载无操作存根
+- 根 `index.html` 和 `linjiayi/index.html` 已移除 geo-check.js script 标签
+- `access-denied.html` 和 `pages/access-denied.html` 添加 noindex + 自动跳转首页
+- 原因：Googlebot/Bingbot 从美国 IP 爬取，地理拦截导致搜索引擎无法索引公开路由
+- 本站现为 ZERO 地理限制的公开项目站点
+
 ## 用户偏好
 - 用户是初中生开发者，Ren'Py 视觉小说爱好者
 - 网站风格：蓝色渐变（原紫色已全部替换）、二次元风格文案（"喵～"、"的说～"）
