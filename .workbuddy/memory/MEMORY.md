@@ -3,6 +3,8 @@
 ## 项目信息
 - **项目名称**：ciallo0721-cmd.github.io 个人网站
 - **域名**：https://ciallo0721-cmd.top（原 91vip.xn--32v.ink，2026-06-19 更换）
+- **子域名**：status.wiki.baicai.taffy.ciallo0721-cmd.top（客户端路由方案，tname 配 CNAME）
+- **baicai 纪念站**：真白花音（Mashiro Kanon），2019-05-07 出道→2019-10-31 隐退→2020-12-01 复活→2026-05-01 毕业。白发红瞳，144cm，5/29 生日，P家/Chucolala，粉丝名帕清姬。页面含完整事业时间线、轶事、资料卡片
 - **类型**：纯静态站（GitHub Pages），无服务端
 - **技术栈**：原生 HTML/CSS/JS，CodeMirror 5.65.2，Cloudflare Turnstile，Ren'Py 导出游戏
 - **部署平台**：GitHub Pages

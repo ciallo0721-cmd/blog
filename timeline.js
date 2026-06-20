@@ -2,6 +2,12 @@
         window.timelineData = [
             {
                 date: "2026年6月20日",
+                title: "二级域名系统上线：status / wiki / baicai / taffy",
+                desc: "创建四个二级域名站点喵～ status.ciallo0721-cmd.top（状态页）、wiki.ciallo0721-cmd.top（百科）、baicai.ciallo0721-cmd.top（真白花音纪念站）、taffy.ciallo0721-cmd.top（塔菲AI人设展示）。客户端路由方案（_subdomain-router.js），tname DNS 配 CNAME 就能用，等以后能切 Cloudflare DNS 了还能无缝升级到 Worker 版喵！"
+            },
+            {
+            {
+                date: "2026年6月20日",
                 title: "文章加载双保险：首选 .blog + 备选 html.html",
                 desc: "修复文章显示不全的问题！现在每篇文章都有 html.html 静态备份文件。decoder.js 加载策略改为：① 首选 .blog 文件（正常解析渲染）→ ② .blog 加载失败时自动回退到 html.html（提取内容显示）→ ③ 双重失败才显示错误提示。为全部 24 篇文章生成了完整的 html.html 备份喵～"
             },

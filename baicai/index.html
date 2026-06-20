@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>真白花音 纪念站 | 白菜</title>
+<meta name="description" content="真白花音（Mashiro Kanon）—— Bilibili VTuber，粉丝爱称「白菜」。诞生日5月29日，所属P家/Chucolala，于2026年5月1日毕业。此站为纪念站。">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="真白花音 纪念站">
+<meta property="og:description" content="Bilibili VTuber，粉丝爱称「白菜」。诞生日5月29日。永远记得你喵～">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://baicai.ciallo0721-cmd.top/">
+<link rel="icon" href="../fanv.ico">
+<style>
+:root {
+    --white: #f0ebe3;
+    --pink: #f2d5d5;
+    --pink2: #e8b4b4;
+    --text: #4a4a4a;
+    --text-light: #7a7a7a;
+    --accent: #c48b8b;
+    --purple: #7D72B4;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Serif SC", serif;
+    background: linear-gradient(180deg, #f8f4ef 0%, #f0ebe3 40%, #e8ddd0 100%);
+    color: var(--text);
+    line-height: 1.8;
+    min-height: 100vh;
+}
+
+/* ===== 顶部装饰条 ===== */
+.top-bar {
+    height: 4px;
+    background: linear-gradient(90deg, #d4bebe, #eeb8c3, #d4bebe);
+}
+
+/* ===== 顶图区 ===== */
+.hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+    overflow: hidden;
+}
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(ellipse at center, rgba(196,139,139,0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+.hero-icon {
+    font-size: 3.6rem;
+    margin-bottom: 12px;
+    display: block;
+}
+.hero h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #5a4040;
+    letter-spacing: 3px;
+    margin-bottom: 4px;
+    font-family: "Noto Serif SC", "PingFang SC", serif;
+}
+.hero .yomi {
+    font-size: 1rem;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+.hero .catch {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 20px;
+    background: rgba(196,139,139,0.1);
+    border-radius: 20px;
+    font-size: 0.88rem;
+    color: var(--accent);
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+/* ===== 花瓣飘落 ===== */
+.petals {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+.petal {
+    position: absolute;
+    top: -30px;
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(ellipse at center, rgba(242,213,213,0.5), rgba(232,180,180,0.3));
+    border-radius: 50% 0 50% 0;
+    opacity: 0.4;
+    animation: fall linear infinite;
+}
+@keyframes fall {
+    0% { transform: translateY(-30px) rotate(0deg) scale(1); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.2; }
+    100% { transform: translateY(100vh) rotate(360deg) scale(0.5); opacity: 0; }
+}
+
+/* ===== 主体 ===== */
+.container {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== 信息卡片 ===== */
+.card {
+    background: rgba(255,255,255,0.78);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(196,139,139,0.15);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+}
+.card h2 {
+    font-size: 1.15rem;
+    color: #5a4040;
+    font-weight: 600;
+    margin-bottom: 14px;
+    font-family: "Noto Serif SC", serif;
+    border-bottom: 1px solid rgba(196,139,139,0.15);
+    padding-bottom: 8px;
+}
+
+/* ===== 信息网格 ===== */
+.info-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 5px 18px;
+    font-size: 0.92rem;
+}
+.info-grid dt {
+    color: var(--accent);
+    font-weight: 500;
+    white-space: nowrap;
+}
+.info-grid dd {
+    color: var(--text);
+}
+.nicknames {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.nickname-tag {
+    display: inline-block;
+    padding: 1px 10px;
+    background: rgba(196,139,139,0.1);
+    border-radius: 10px;
+    font-size: 0.82rem;
+    color: #7a5555;
+}
+
+/* ===== 纪念文案 ===== */
+.memorial-text {
+    font-size: 0.98rem;
+    line-height: 2;
+    color: var(--text);
+}
+.memorial-text p {
+    margin-bottom: 14px;
+    text-indent: 2em;
+}
+.memorial-text p:first-child { text-indent: 0; }
+
+/* ===== 事业时间线 ===== */
+.timeline {
+    position: relative;
+    padding-left: 28px;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--pink2), var(--accent), #999, transparent);
+}
+.tl-item {
+    position: relative;
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+.tl-item::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 8px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid #f0ebe3;
+    box-shadow: 0 0 0 2px var(--accent);
+}
+.tl-item.gray::before {
+    background: #bbb;
+    box-shadow: 0 0 0 2px #bbb;
+}
+.tl-date {
+    font-size: 0.82rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 1px;
+}
+.tl-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #5a4040;
+    margin-bottom: 1px;
+}
+.tl-desc {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* ===== 轶事 ===== */
+.trivia-list {
+    font-size: 0.9rem;
+    color: var(--text);
+}
+.trivia-list li {
+    margin-bottom: 8px;
+    padding-left: 4px;
+    list-style: none;
+}
+.trivia-list li::before {
+    content: '🍃 ';
+}
+
+/* ===== 链接区 ===== */
+.links {
+    text-align: center;
+    font-size: 0.9rem;
+}
+.links a {
+    color: var(--accent);
+    text-decoration: none;
+    margin: 0 6px;
+}
+.links a:hover { text-decoration: underline; }
+
+/* ===== 留言区 ===== */
+.message-area {
+    text-align: center;
+    padding: 30px 20px 10px;
+}
+.message-area .quote {
+    font-size: 0.95rem;
+    color: var(--accent);
+    font-style: italic;
+    line-height: 2;
+    max-width: 500px;
+    margin: 0 auto;
+}
+.message-area .from {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+/* ===== 底部 ===== */
+.footer {
+    text-align: center;
+    padding: 16px 24px 36px;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    position: relative;
+    z-index: 1;
+}
+.footer a {
+    color: var(--accent);
+    text-decoration: none;
+}
+.footer a:hover { text-decoration: underline; }
+
+/* ===== 响应式 ===== */
+@media (max-width: 600px) {
+    .hero { padding: 40px 16px 30px; }
+    .hero h1 { font-size: 1.6rem; }
+    .card { padding: 20px 18px; }
+    .container { padding: 0 16px 40px; }
+    .info-grid { grid-template-columns: 1fr; gap: 2px; }
+    .info-grid dt { padding-top: 4px; }
+}
+
+.petals, .petal { user-select: none; }
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<div class="petals" id="petals"></div>
+
+<!-- 顶图 -->
+<section class="hero">
+    <span class="hero-icon">🗝</span>
+    <h1>真白花音</h1>
+    <p class="yomi">眞白かのん · Mashiro Kanon</p>
+    <span class="catch">「ちゅこららの清楚担当、真白かのんです！」</span>
+</section>
+
+<div class="container">
+
+    <!-- 基本资料 -->
+    <div class="card">
+        <h2>📌 基本资料</h2>
+        <dl class="info-grid">
+            <dt>爱称</dt>
+            <dd>
+                <div class="nicknames">
+                    <span class="nickname-tag">白菜</span>
+                    <span class="nickname-tag">屑精灵</span>
+                    <span class="nickname-tag">大头菜</span>
+                    <span class="nickname-tag">杂谈の神</span>
+                    <span class="nickname-tag">日本萝莉</span>
+                    <span class="nickname-tag">non酱</span>
+                    <span class="nickname-tag">娃娃菜</span>
+                    <span class="nickname-tag">菜子涵</span>
+                </div>
+            </dd>
+            <dt>发色 / 瞳色</dt>
+            <dd>白发 / 红瞳</dd>
+            <dt>身高</dt>
+            <dd>144cm</dd>
+            <dt>生日</dt>
+            <dd>5月29日（双子座）</dd>
+            <dt>种族</dt>
+            <dd>高等精灵公主 （自称清楚系）</dd>
+            <dt>所属</dt>
+            <dd>ちゅこらら（Chucolala） / P家</dd>
+            <dt>活动平台</dt>
+            <dd>Bilibili · YouTube</dd>
+            <dt>活动期间</dt>
+            <dd>2019-05 ～ 2019-10（一期）<br>2020-12 ～ 2026-05-01（二期）</dd>
+            <dt>粉丝名</dt>
+            <dd>帕清姬 / 真物</dd>
+            <dt>粉丝勋章</dt>
+            <dd>帕清姬 🗝</dd>
+            <dt>形象设计</dt>
+            <dd>Paryi · ana · ニャドラ</dd>
+        </dl>
+    </div>
+
+    <!-- 关于白菜 -->
+    <div class="card">
+        <h2>💭 关于白菜</h2>
+        <div class="memorial-text">
+            <p>真白花音，粉丝们更爱叫她「白菜」—— 一位自称 5 岁的高等精灵公主、P 家的清楚担当、被粉丝誉为「杂谈之神」的 VTuber。白髮红瞳，身高 144cm，最爱唱可爱系的歌，梦想是站上 BML 的舞台。</p>
+            <p>2019 年 5 月 7 日，白菜在 YouTube 发布了第一条自我介绍视频，作为「ちゅこらら」的一员正式出道。初配信就展现了屑精灵的本色——不知道要放 BGM、不知道要发推、对着观众跳脸。她的直播风格轻松有趣，杂谈能聊一整个晚上不冷场，歌声治愈又可爱，很快就吸引了一群忠实的帕清姬。</p>
+            <p>她曾在 2019 年 10 月短暂隐退，又在 2020 年 12 月奇迹般复活。复活后化身 P 家劳模——几乎每天直播，2021 年直播超过 1000 小时。她学会了中文、通过了 HSK3 级、在 BLS 拿下外语区冠军、登上冰火歌会、发行了原创曲《HAPPY♡Key Maker》和《歌声响起》……从一个日语都说不利索的屑精灵，变成了 B 站百万粉丝的「日本萝莉」。</p>
+            <p>2026 年 4 月 17 日，白菜发布了毕业公告。2026 年 5 月 1 日，她正式从 Bilibili 毕业。虽有不舍，但她留下的歌声和回忆，会一直被帕清姬们珍藏。</p>
+        </div>
+    </div>
+
+    <!-- 事业时间线 -->
+    <div class="card">
+        <h2>📅 重要时间线</h2>
+        <div class="timeline">
+            <div class="tl-item">
+                <div class="tl-date">2019-04-30</div>
+                <div class="tl-title">🎭 Chucolala 全员联动出道</div>
+                <div class="tl-desc">在巧可拉拉全员联动中和成员一起演舞台剧，正式进入观众视野</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2019-05-07</div>
+                <div class="tl-title">🎤 YouTube 初投稿</div>
+                <div class="tl-desc">发布YouTube自我介绍视频，以「ちゅこらら」成员身份正式出道</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2019-05-10</div>
+                <div class="tl-title">📡 初配信</div>
+                <div class="tl-desc">首次直播，经典跳脸、嘴臭表演和光速道歉三件套，奠定了屑精灵的基础</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2019-08-31</div>
+                <div class="tl-title">🇨🇳 首次B限·光速下播</div>
+                <div class="tl-desc">首次B站限定直播，因演唱攻击战被超管切断，成为经典名场面</div>
+            </div>
+            <div class="tl-item gray">
+                <div class="tl-date">2019-10-31</div>
+                <div class="tl-title">🌙 初次隐退</div>
+                <div class="tl-desc">因个人原因在YouTube和B站隐退。隐退B限名台词：<em>「总有一天我要让这里座无虚席！」</em></div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2020-12-01</div>
+                <div class="tl-title">✨ 奇迹复活</div>
+                <div class="tl-desc">在推特宣布复活！12月7日在B站举办复活直播，再次跳脸帕里妈妈</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2021-07-11</div>
+                <div class="tl-title">🏆 首次BW·卡拉OK冠军</div>
+                <div class="tl-desc">参加Bilibili World，以《ファンサ》获得卡拉OK比赛胜利</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2021-10-04</div>
+                <div class="tl-title">👗 中式女仆装公开</div>
+                <div class="tl-desc">12万粉丝纪念回公开中国风女仆形象，三个发型差分可爱到犯规</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2021-12-24</div>
+                <div class="tl-title">🥇 BLS外语区冠军</div>
+                <div class="tl-desc">在BLS 2021虚拟主播比赛中获得外语区冠军，奖品包含3D模型</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2022-05-29</div>
+                <div class="tl-title">🎂 生日会·千舰达成</div>
+                <div class="tl-desc">生日会新形象公开（邻家女孩风格）。当天达成千舰粉丝团和28万粉</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2022-11-13</div>
+                <div class="tl-title">🎉 3D发布会</div>
+                <div class="tl-desc">3D形象正式公开——演唱了《加油鸭》《蜜雪冰城》《新宝岛》等名曲</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2022-12-17</div>
+                <div class="tl-title">💛 100万粉丝达成</div>
+                <div class="tl-desc">B站粉丝数突破100万，获得金盾，成为P家最活跃成员之一</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2023-12-16</div>
+                <div class="tl-title">🎊 三周年3D Live</div>
+                <div class="tl-desc">三周年纪念3D Live，与小可学妹、小缘、早稻叽合唱，公开了3D偶像新衣服</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2024-10-26</div>
+                <div class="tl-title">👔 制服形象公开</div>
+                <div class="tl-desc">蓝色制服新形象，画师ana，模型师梦野依依，表情差分丰富到极致</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-date">2026-04-17</div>
+                <div class="tl-title">📄 毕业公告</div>
+                <div class="tl-desc">白菜发布毕业公告，宣布将于5月1日结束B站活动</div>
+            </div>
+            <div class="tl-item gray">
+                <div class="tl-date">2026-05-01</div>
+                <div class="tl-title">🌙 正式毕业</div>
+                <div class="tl-desc">真白花音在Bilibili完成最后一次直播，正式毕业。再见了，白菜</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 轶事 -->
+    <div class="card">
+        <h2>🍃 你知道的白菜</h2>
+        <ul class="trivia-list">
+            <li>自称5岁的高等精灵公主，梦想是登上BML舞台</li>
+            <li>口头禅「欧拉欧拉欧拉！！」「红豆泥」「chu~chu~」</li>
+            <li>数学天才——3的7次方算成21</li>
+            <li>讨厌洗澡但喜欢刷牙，和铃宫铃完全相反</li>
+            <li>最喜欢的动漫角色是卫宫切嗣</li>
+            <li>来中国后对蜜雪冰城情有独钟</li>
+            <li>因为中文的「白菜」发音太可爱，本人也很喜欢这个称呼</li>
+            <li>拥有超过10个Live2D形象——「娃娃菜」「诸葛白菜」「孙悟空菜」应有尽有</li>
+            <li>毕生之敌：帕里妈妈（虽然每次跳脸都被打断手）</li>
+        </ul>
+    </div>
+
+    <!-- 链接 -->
+    <div class="card links">
+        <h2>🔗 相关链接</h2>
+        <a href="https://space.bilibili.com/401480763" target="_blank" rel="noopener">Bilibili 空间</a>
+        · <a href="https://www.youtube.com/channel/UCcmSo1FpQygmtT7GzHFRh8A" target="_blank" rel="noopener">YouTube</a>
+        · <a href="https://twitter.com/mashiro_kqnon" target="_blank" rel="noopener">Twitter</a>
+        · <a href="../wiki/hanamine/index.html">百科词条</a>
+        · <a href="../wiki/index.html">📖 百科首页</a>
+    </div>
+
+    <!-- 留言区 -->
+    <div class="message-area">
+        <p class="quote">「总有一天我要让这里座无虚席！」<br>
+        「能与你相遇真是太好了。」<br>
+        —— 致真白花音，感谢你带来的每一个温暖瞬间。</p>
+        <p class="from">ciallo0721-cmd · 一个曾被白菜温暖过的帕清姬</p>
+    </div>
+
+</div>
+
+<div class="footer">
+    <a href="../index.html">← 返回主站</a>
+    &nbsp;·&nbsp;
+    致真白花音 · 永远记得你喵～ 🗝 &nbsp;·&nbsp;
+    © 2026 ciallo0721-cmd
+</div>
+
+<script>
+(function() {
+    var c = document.getElementById('petals');
+    if (!c) return;
+    for (var i = 0; i < 20; i++) {
+        var p = document.createElement('div');
+        p.className = 'petal';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (8 + Math.random() * 12) + 's';
+        p.style.animationDelay = (Math.random() * 15) + 's';
+        p.style.width = (10 + Math.random() * 12) + 'px';
+        p.style.height = (10 + Math.random() * 12) + 'px';
+        c.appendChild(p);
+    }
+})();
+</script>
+</body>
+</html>
