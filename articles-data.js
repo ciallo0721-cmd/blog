@@ -277,6 +277,15 @@ window.articlesData = {
         },
         {
             id: 24,
+            category: "ACG",
+            title: "番剧分享 | 免费分享我收藏的番剧",
+            excerpt: "免费分享收藏的番剧资源，提供Google网盘下载链接。国内用户可能无法直接访问，还请见谅～",
+            date: "2026-06-18",
+            tags: ["番剧", "分享", "ACG", "Google网盘", "资源"],
+            readTime: 5,
+            featured: true
+        },
+    ],
 
     // --- 获取带 fileName 的排序列表 ---
     getSortedArticles: function() {
