@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>主页大更新 - ciallo0721-cmd</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('/css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+}
+:root {
+    --bili-pink: #FB7299;
+    --bili-blue: #00A1D6;
+    --text-primary: #1D1D1F;
+    --text-secondary: #515154;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --transition: all 0.3s ease;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+.nav {
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(20px);
+    position: sticky; top:0; z-index:1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.nav-inner { display:flex; justify-content:space-between; align-items:center; padding:15px 20px; max-width:1200px; margin:0 auto; }
+.nav-logo { font-size:1.4rem; font-weight:700; color:var(--bili-pink); text-decoration:none; }
+.nav-logo:hover { color:var(--bili-blue); }
+.nav-links { display:flex; gap:10px; }
+.back-btn {
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color:white; border:none; padding:8px 20px; border-radius:25px;
+    font-size:0.95rem; font-weight:600; cursor:pointer; text-decoration:none;
+    display:inline-flex; align-items:center; gap:6px;
+    box-shadow: 0 4px 15px rgba(251,114,153,0.3); transition:var(--transition);
+}
+.back-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(251,114,153,0.4); color:white; }
+.article-page { max-width:1200px; margin:0 auto; padding:60px 20px; }
+.article-card {
+    background: rgba(255,255,255,0.95); backdrop-filter:blur(10px);
+    border-radius:20px; box-shadow:var(--shadow); padding:50px;
+    border:1px solid rgba(255,255,255,0.3); position:relative; overflow:hidden;
+    animation: fadeIn 0.5s ease;
+}
+@keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+.article-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background:linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+}
+.article-head { text-align:center; margin-bottom:40px; padding-bottom:30px; border-bottom:1px solid rgba(0,0,0,0.1); }
+.article-num {
+    display:inline-block; background:linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color:white; padding:8px 20px; border-radius:20px; font-size:0.9rem; font-weight:600; margin-bottom:20px;
+    box-shadow:0 4px 15px rgba(251,114,153,0.3);
+}
+.article-title { font-size:2.2rem; color:var(--text-primary); margin-bottom:20px; line-height:1.3; font-weight:700; }
+.article-meta { display:flex; justify-content:center; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:25px; }
+.article-date { color:var(--text-secondary); font-size:1rem; display:flex; align-items:center; gap:6px; }
+.article-tags { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:15px; }
+.article-tag {
+    background:rgba(251,114,153,0.1); color:var(--bili-pink);
+    padding:6px 15px; border-radius:15px; font-size:0.85rem; font-weight:500;
+    border:1px solid rgba(251,114,153,0.2); transition:var(--transition);
+}
+.article-tag:hover { background:var(--bili-pink); color:white; transform:translateY(-2px); }
+.article-body { font-size:1.05rem; line-height:1.8; color:var(--text-secondary); }
+.article-body h1 {
+    font-size:1.8rem; color:var(--text-primary); margin:32px 0 16px; font-weight:700;
+    position:relative; padding-bottom:10px;
+}
+.article-body h1::after {
+    content:''; position:absolute; bottom:0; left:0; width:60px; height:3px;
+    background:linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius:3px;
+}
+.article-body h2 {
+    font-size:1.5rem; color:var(--text-primary); margin:28px 0 14px; font-weight:600;
+    position:relative; padding-bottom:8px;
+}
+.article-body h2::after {
+    content:''; position:absolute; bottom:0; left:0; width:50px; height:3px;
+    background:linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius:3px;
+}
+.article-body h3 { font-size:1.25rem; color:var(--text-primary); margin:24px 0 12px; font-weight:600; }
+.article-body p { margin-bottom:18px; text-align:justify; }
+.article-body a { color:var(--bili-blue); text-decoration:none; border-bottom:1px solid rgba(0,161,214,0.3); }
+.article-body a:hover { color:var(--bili-pink); border-bottom-color:var(--bili-pink); }
+.article-body ul, .article-body ol { margin:0 0 18px 30px; }
+.article-body li { margin-bottom:8px; }
+.article-body blockquote {
+    border-left:4px solid var(--bili-blue); background:rgba(0,161,214,0.05);
+    margin:20px 0; padding:16px 20px; border-radius:0 12px 12px 0;
+    color:var(--text-secondary); font-style:normal;
+}
+.article-body blockquote p { margin-bottom:8px; }
+.article-body blockquote p:last-child { margin-bottom:0; }
+.article-body pre {
+    background:#1a1f2e; color:#e4e4e4; padding:16px; border-radius:8px;
+    overflow:auto; margin:20px 0; font-size:14px; line-height:1.5;
+}
+.article-body code {
+    background:rgba(251,114,153,0.1); color:var(--bili-pink); padding:2px 6px;
+    border-radius:4px; font-size:0.9em;
+}
+.article-body pre code { background:none; color:#e4e4e4; padding:0; }
+.article-body img { max-width:100%; height:auto; border-radius:8px; margin:20px 0; box-shadow:0 2px 12px rgba(0,0,0,0.1); }
+.article-body table { width:100%; border-collapse:collapse; margin:20px 0; }
+.article-body th, .article-body td { border:1px solid #e0e0e0; padding:12px; text-align:left; }
+.article-body th { background:linear-gradient(135deg, rgba(251,114,153,0.1), rgba(0,161,214,0.1)); font-weight:600; }
+.article-body hr { border:none; height:1px; background:linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); margin:30px 0; }
+</style>
+</head>
+<body>
+<div class="nav">
+<div class="nav-inner">
+<a href="/" class="nav-logo">ciallo0721-cmd</a>
+<div class="nav-links">
+<a href="/blog/" class="back-btn"><i class="fas fa-arrow-left"></i> 文章列表</a>
+</div>
+</div>
+</div>
+<div class="article-page">
+<div class="article-card">
+<div class="article-head">
+<div class="article-num">文章 #5</div>
+<h1 class="article-title">主页大更新</h1>
+<div class="article-meta">
+<div class="article-date">📅 2026-01-13</div>
+<div class="article-date">✍ ciallo0721-cmd</div>
+</div>
+<div class="article-tags"><span class="article-tag">文章</span></div>
+</div>
+<div class="article-body">
+<p>欢迎来到我的主页大更新说明！本次更新主要针对性能优化、用户体验改善以及界面美化进行了全面升级。经过仔细分析和测试，我们解决了多个关键问题，并引入了新的功能。</p>
+                
+                <h2>🎵 音乐播放器改进</h2>
+                <p>之前的主页使用了多个单独的 iframe 嵌入不同音乐，这不仅导致页面加载缓慢，而且用户体验不够流畅。本次更新中，我们重新设计了音乐播放器：</p>
+                
+                <div class="highlight-box">
+                    <p><strong>主要改进：</strong></p>
+                    <ul>
+                        <li>将多个独立的音乐 iframe 整合为一个统一的网易云音乐播放器</li>
+                        <li>创建了包含我最喜欢歌曲的播放列表</li>
+                        <li>减少了网络请求数量，提高加载速度</li>
+                        <li>提供了更好的播放控制和用户体验</li>
+                    </ul>
+
+</div>
+</div>
+</div>
+</body>
+</html>

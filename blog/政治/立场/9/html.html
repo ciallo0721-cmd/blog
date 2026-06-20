@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于GitHub Issue被恶意篡改的说明 - ciallo0721-cmd</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('/css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+}
+:root {
+    --bili-pink: #FB7299;
+    --bili-blue: #00A1D6;
+    --text-primary: #1D1D1F;
+    --text-secondary: #515154;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --transition: all 0.3s ease;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+.nav {
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(20px);
+    position: sticky; top:0; z-index:1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.nav-inner { display:flex; justify-content:space-between; align-items:center; padding:15px 20px; max-width:1200px; margin:0 auto; }
+.nav-logo { font-size:1.4rem; font-weight:700; color:var(--bili-pink); text-decoration:none; }
+.nav-logo:hover { color:var(--bili-blue); }
+.nav-links { display:flex; gap:10px; }
+.back-btn {
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color:white; border:none; padding:8px 20px; border-radius:25px;
+    font-size:0.95rem; font-weight:600; cursor:pointer; text-decoration:none;
+    display:inline-flex; align-items:center; gap:6px;
+    box-shadow: 0 4px 15px rgba(251,114,153,0.3); transition:var(--transition);
+}
+.back-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(251,114,153,0.4); color:white; }
+.article-page { max-width:1200px; margin:0 auto; padding:60px 20px; }
+.article-card {
+    background: rgba(255,255,255,0.95); backdrop-filter:blur(10px);
+    border-radius:20px; box-shadow:var(--shadow); padding:50px;
+    border:1px solid rgba(255,255,255,0.3); position:relative; overflow:hidden;
+    animation: fadeIn 0.5s ease;
+}
+@keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+.article-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background:linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+}
+.article-head { text-align:center; margin-bottom:40px; padding-bottom:30px; border-bottom:1px solid rgba(0,0,0,0.1); }
+.article-num {
+    display:inline-block; background:linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color:white; padding:8px 20px; border-radius:20px; font-size:0.9rem; font-weight:600; margin-bottom:20px;
+    box-shadow:0 4px 15px rgba(251,114,153,0.3);
+}
+.article-title { font-size:2.2rem; color:var(--text-primary); margin-bottom:20px; line-height:1.3; font-weight:700; }
+.article-meta { display:flex; justify-content:center; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:25px; }
+.article-date { color:var(--text-secondary); font-size:1rem; display:flex; align-items:center; gap:6px; }
+.article-tags { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:15px; }
+.article-tag {
+    background:rgba(251,114,153,0.1); color:var(--bili-pink);
+    padding:6px 15px; border-radius:15px; font-size:0.85rem; font-weight:500;
+    border:1px solid rgba(251,114,153,0.2); transition:var(--transition);
+}
+.article-tag:hover { background:var(--bili-pink); color:white; transform:translateY(-2px); }
+.article-body { font-size:1.05rem; line-height:1.8; color:var(--text-secondary); }
+.article-body h1 {
+    font-size:1.8rem; color:var(--text-primary); margin:32px 0 16px; font-weight:700;
+    position:relative; padding-bottom:10px;
+}
+.article-body h1::after {
+    content:''; position:absolute; bottom:0; left:0; width:60px; height:3px;
+    background:linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius:3px;
+}
+.article-body h2 {
+    font-size:1.5rem; color:var(--text-primary); margin:28px 0 14px; font-weight:600;
+    position:relative; padding-bottom:8px;
+}
+.article-body h2::after {
+    content:''; position:absolute; bottom:0; left:0; width:50px; height:3px;
+    background:linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius:3px;
+}
+.article-body h3 { font-size:1.25rem; color:var(--text-primary); margin:24px 0 12px; font-weight:600; }
+.article-body p { margin-bottom:18px; text-align:justify; }
+.article-body a { color:var(--bili-blue); text-decoration:none; border-bottom:1px solid rgba(0,161,214,0.3); }
+.article-body a:hover { color:var(--bili-pink); border-bottom-color:var(--bili-pink); }
+.article-body ul, .article-body ol { margin:0 0 18px 30px; }
+.article-body li { margin-bottom:8px; }
+.article-body blockquote {
+    border-left:4px solid var(--bili-blue); background:rgba(0,161,214,0.05);
+    margin:20px 0; padding:16px 20px; border-radius:0 12px 12px 0;
+    color:var(--text-secondary); font-style:normal;
+}
+.article-body blockquote p { margin-bottom:8px; }
+.article-body blockquote p:last-child { margin-bottom:0; }
+.article-body pre {
+    background:#1a1f2e; color:#e4e4e4; padding:16px; border-radius:8px;
+    overflow:auto; margin:20px 0; font-size:14px; line-height:1.5;
+}
+.article-body code {
+    background:rgba(251,114,153,0.1); color:var(--bili-pink); padding:2px 6px;
+    border-radius:4px; font-size:0.9em;
+}
+.article-body pre code { background:none; color:#e4e4e4; padding:0; }
+.article-body img { max-width:100%; height:auto; border-radius:8px; margin:20px 0; box-shadow:0 2px 12px rgba(0,0,0,0.1); }
+.article-body table { width:100%; border-collapse:collapse; margin:20px 0; }
+.article-body th, .article-body td { border:1px solid #e0e0e0; padding:12px; text-align:left; }
+.article-body th { background:linear-gradient(135deg, rgba(251,114,153,0.1), rgba(0,161,214,0.1)); font-weight:600; }
+.article-body hr { border:none; height:1px; background:linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); margin:30px 0; }
+</style>
+</head>
+<body>
+<div class="nav">
+<div class="nav-inner">
+<a href="/" class="nav-logo">ciallo0721-cmd</a>
+<div class="nav-links">
+<a href="/blog/" class="back-btn"><i class="fas fa-arrow-left"></i> 文章列表</a>
+</div>
+</div>
+</div>
+<div class="article-page">
+<div class="article-card">
+<div class="article-head">
+<div class="article-num">文章 #9</div>
+<h1 class="article-title">关于GitHub Issue被恶意篡改的说明</h1>
+<div class="article-meta">
+<div class="article-date">📅 2026-03-04</div>
+<div class="article-date">✍ ciallo0721-cmd</div>
+</div>
+<div class="article-tags"><span class="article-tag">文章</span></div>
+</div>
+<div class="article-body">
+<h2>致每一位可能看到这篇文章的人，尤其是从那个 Issue 过来的访客</h2>
+                <p>如果你是因为在 GitHub 上看到一个名为 <code>china-dictatorship</code>的仓库(作者:cirosantilli)，点进了其中编号为 #1663 的 Issue，并被里面的一堆反华网址所困惑，那么请你花几分钟读完这篇文章。事情不是你看到的那样。</p>
+                
+                <h2>事件真相</h2>
+                <p>2026年2月底，我在浏览 GitHub 时发现了上述仓库。该仓库名称及内容带有明显的针对中国的仇恨和歧视色彩。出于一个中国公民的朴素情感，我在该仓库的 Issues 区发布了一条批评内容（原话:我直接我拿那个灭火器，我********里面,司马反动派）。随后，该仓库的管理员（也就是那个作者）利用管理员权限，将我发布的 Issue 正文恶意篡改，塞入了一大堆反华网站链接，企图造成“这些链接是我发的”的假象。然而，他忽略了一点：GitHub 的每一次修改都会留下历史记录。同时，我在评论区留下的“孙笑川干的”等玩梗评论，他无法篡改。</p>
+                
+                <h2>我的立场</h2>
+                <p><strong>我，ciallo0721-cmd，坚决反对任何抹黑中国、分裂国家的言论和行为。我热爱我的祖国，拥护中国共产党的领导，坚持一个中国原则。台湾自古以来就是中国的神圣领土，不容置疑。</strong> 这也是我最初站出来批评那个仓库的原因。我的发声，是出于一个中国人的本能和责任感。</p>
+                
+                <h2>律师的意见</h2>
+                <p>事件发生后，我曾一度陷入恐惧：害怕被误解、害怕网警上门、害怕留案底。我咨询了一位律师（免费咨询，也就是“0元取”），并将所有证据（修改历史截图、举报记录等）发给了他。律师看过之后明确告诉我：“没啥事，不用报警。你没有任何违法行为，那些链接是他改的，与你无关。” 律师的专业判断让我逐渐冷静下来。虽然咨询是免费的，但他的结论基于法律事实，是可信的。</p>
+                
+                <h2>给从那个 Issue 过来的人</h2>
+                <p style="background-color: #f8f9fa; border-left: 4px solid #dc3545; padding: 15px; margin: 20px 0;">
+                    <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i> 
+                    <strong>如果你是因为那个被篡改的 Issue 而来到这里的，请你务必点击该 Issue 右上角的 “...”，选择 “View edits” 或查看修改历史。</strong> 你会清楚地看到：原始内容是我的批评，后来被管理员改成了网址。那些网址与我无关。我从未发布过任何反华、违法或不良信息。我的评论区依然保留着原话，可以作为旁证。
+                </p>
+                
+                <h2>我的诉求与现状</h2>
+                <p>我已经通过 GitHub 官方举报渠道和国家网信办举报中心（12377.cn）对该仓库进行了正式举报。目前，举报已受理，等待处理结果。我保留了一切证据，包括修改历史截图、举报记录以及与律师的沟通记录。法律上，我是完全清白的。</p>
+                
+                <h2>最后想说的话</h2>
+                <p>网络不是法外之地，每个人都要为自己的言行负责。我为我最初的冲动言辞（骂人）道歉，但我的初衷是维护国家尊严。对于那些躲在屏幕后恶意篡改他人内容、企图嫁祸于人的人，我想说：你改得了文字，改不了历史；你骗得过一时，骗不过一世。真相或许会迟到，但永远不会缺席。</p>
+                <p>如果哪一天我没消息了，要么是被传去局子里了（当然这几乎不可能），要么是懒。但无论如何，这篇文章会一直在这里，作为最真实的记录。</p>
+                <blockquote>
+                    <strong>“清者自清，浊者自浊。” 感谢每一位愿意了解真相的人。</strong>
+                </blockquote>
+                <p style="text-align: right;">—— ciallo0721-cmd 2026.03.04 于家中</p>
+
+</div>
+</div>
+</div>
+</body>
+</html>

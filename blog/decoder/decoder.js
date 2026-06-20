@@ -442,6 +442,72 @@
       '</div>';
   }
 
+  // ========== 从 html.html 回退加载 ==========
+  function loadHtmlFallback(app, blogUrl, articleId) {
+    var htmlFallbackUrl = blogUrl.replace(/\/\d+\.blog$/, '/html.html');
+    var xhr2 = new XMLHttpRequest();
+    xhr2.open('GET', htmlFallbackUrl, true);
+    xhr2.onload = function () {
+      if (xhr2.status === 200 || (xhr2.status === 0 && xhr2.responseText)) {
+        try {
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(xhr2.responseText, 'text/html');
+          // 尝试从 html.html 中提取文章内容
+          var articleCard = doc.querySelector('.article-card');
+          if (articleCard) {
+            // 更新页面标题
+            var pageTitle = doc.querySelector('title');
+            if (pageTitle) document.title = pageTitle.textContent;
+            app.innerHTML = '<div class="article-page">' + articleCard.outerHTML + '</div>';
+            // 添加回退提示
+            var notice = document.createElement('div');
+            notice.style.cssText = 'text-align:center;padding:10px 20px;margin:16px auto;max-width:800px;background:rgba(251,114,153,0.08);border:1px solid rgba(251,114,153,0.2);border-radius:12px;color:var(--bili-pink);font-size:0.9rem;';
+            notice.innerHTML = '⚠️ 使用备份页面加载（.blog 文件不可用）';
+            app.insertBefore(notice, app.firstChild);
+          } else {
+            // 如果找不到 .article-card，直接显示整个 body 内容
+            var bodyContent = doc.querySelector('body');
+            if (bodyContent) {
+              document.title = (doc.querySelector('title') || {}).textContent || '文章 - ciallo0721-cmd';
+              // 只取出 .article-page 及之后的容器
+              var articlePage = doc.querySelector('.article-page');
+              if (articlePage) {
+                app.innerHTML = articlePage.outerHTML;
+              } else {
+                app.innerHTML = bodyContent.innerHTML;
+              }
+            } else {
+              app.innerHTML = xhr2.responseText;
+            }
+          }
+        } catch (e) {
+          // DOM解析失败时直接显示原始内容
+          app.innerHTML = xhr2.responseText;
+        }
+      } else {
+        showErr(app, '找不到文章文件',
+          '无法加载 <code>' + escHtml(blogUrl) + '</code>，回退 <code>' + escHtml(htmlFallbackUrl) + '</code> 也失败了。<br><br>' +
+          '如果你是在本地直接打开此 HTML 文件（地址栏显示 <code>file://</code>），<br>' +
+          '请先用本地服务器打开，例如：<br>' +
+          '<code>cd "网站文件夹" &amp;&amp; python -m http.server 8080</code><br><br>' +
+          '然后访问 <code>http://localhost:8080/blog/</code>'
+        );
+      }
+    };
+    xhr2.onerror = function () {
+      showErr(app, '加载失败',
+        '网络错误或文件不存在：<code>' + escHtml(blogUrl) + '</code><br>' +
+        '回退 <code>' + escHtml(htmlFallbackUrl) + '</code> 也失败了。<br>' +
+        '请确保文章文件存在于正确路径。'
+      );
+    };
+    try {
+      xhr2.send();
+    } catch (e) {
+      showErr(app, '发送请求失败', e.message);
+    }
+  }
+
   // ========== 主入口 ==========
   function init() {
     var app = document.getElementById('app');
@@ -519,25 +585,19 @@
           renderArticle(app, article, articleId);
         }
       } else {
-        showErr(app, '找不到文章文件',
-          '无法加载 <code>' + escHtml(blogUrl) + '</code>。<br><br>' +
-          '如果你是在本地直接打开此 HTML 文件（地址栏显示 <code>file://</code>），<br>' +
-          '请先用本地服务器打开，例如：<br>' +
-          '<code>cd "网站文件夹" &amp;&amp; python -m http.server 8080</code><br><br>' +
-          '然后访问 <code>http://localhost:8080/blog/</code>'
-        );
+        // .blog 加载失败 → 尝试加载 html.html 回退
+        loadHtmlFallback(app, blogUrl, articleId);
       }
     };
     xhr.onerror = function () {
-      showErr(app, '加载失败',
-        '网络错误或文件不存在：<code>' + escHtml(blogUrl) + '</code><br>' +
-        '请确保 <code>' + escHtml(articleId) + '.blog</code> 存在于正确路径。'
-      );
+      // 网络错误 → 尝试加载 html.html 回退
+      loadHtmlFallback(app, blogUrl, articleId);
     };
     try {
       xhr.send();
     } catch (e) {
-      showErr(app, '发送请求失败', e.message);
+      // 发送异常 → 尝试加载 html.html 回退
+      loadHtmlFallback(app, blogUrl, articleId);
     }
   }
 

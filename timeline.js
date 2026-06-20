@@ -2,6 +2,11 @@
         window.timelineData = [
             {
                 date: "2026年6月20日",
+                title: "文章加载双保险：首选 .blog + 备选 html.html",
+                desc: "修复文章显示不全的问题！现在每篇文章都有 html.html 静态备份文件。decoder.js 加载策略改为：① 首选 .blog 文件（正常解析渲染）→ ② .blog 加载失败时自动回退到 html.html（提取内容显示）→ ③ 双重失败才显示错误提示。为全部 24 篇文章生成了完整的 html.html 备份喵～"
+            },
+            {
+                date: "2026年6月20日",
                 title: "SEO 大优化：预渲染24篇文章 + 修复 CSP + 新 sitemap",
                 desc: "全面 SEO 优化：生成 24 篇博客文章的静态 HTML 文件（不再依赖 JS 加载）；放宽 CSP 以允许 Googlebot 渲染；重写 sitemap.xml 包含 39 个 URL；添加 noscript 静态链接回退；优化 robots.txt。附赠 `prerender-blog.py` 预渲染脚本喵～"
             },
