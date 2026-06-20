@@ -6,24 +6,25 @@ Sitemap: https://ciallo0721-cmd.top/sitemap.xml
 User-agent: *
 Allow: /
 
-# 禁止爬虫访问敏感目录
+# 仅禁止敏感目录
 Disallow: /admin/
 Disallow: /functions/
-Disallow: /images/
-Disallow: /备用站点beiyong.ciallo0721-cmd.top/
-Disallow: /blog/grayscale-test/
 
-# 允许爬虫访问新结构
+# 允许爬虫访问所有内容区域
 Allow: /blog/
+Allow: /wiki/
 Allow: /app/
 Allow: /exp/
-Allow: /wiki/
 Allow: /pages/
+Allow: /images/
 
 # 特别配置主流搜索引擎
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /
 
 User-agent: Bingbot
 Allow: /

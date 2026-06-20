@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>加载中...</title>
+<title>闲聊 - ciallo0721-cmd</title>
 <!-- Font Awesome（视频/音频播放器图标依赖） -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -154,6 +154,25 @@ body {
   gtag('config', 'G-TR4FT7JPDZ');
 </script>
 
+<meta name="description" content="一些日常闲聊和碎碎念。">
+<meta name="keywords" content="文章">
+<link rel="canonical" href="https://ciallo0721-cmd.top/blog/生活/闲聊&amp;杂谈/6/">
+<meta property="og:title" content="闲聊">
+<meta property="og:description" content="一些日常闲聊和碎碎念。">
+<meta property="og:url" content="https://ciallo0721-cmd.top/blog/生活/闲聊&amp;杂谈/6/">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-01-13">
+<meta property="article:author" content="ciallo0721-cmd">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="闲聊">
+<meta name="twitter:description" content="一些日常闲聊和碎碎念。">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "闲聊", "author": {"@type": "Person", "name": "ciallo0721-cmd"}, "datePublished": "2026-01-13", "description": "一些日常闲聊和碎碎念。", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://ciallo0721-cmd.top/blog/生活/闲聊&杂谈/6/"}, "keywords": "文章"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "首页", "item": "https://ciallo0721-cmd.top/"}, {"@type": "ListItem", "position": 2, "name": "博客", "item": "https://ciallo0721-cmd.top/blog/"}, {"@type": "ListItem", "position": 3, "name": "闲聊", "item": "https://ciallo0721-cmd.top/blog/生活/闲聊&杂谈/6/"}]}
+</script>
+
 </head>
 <body>
 
@@ -165,10 +184,46 @@ body {
 </nav>
 
 <div id="app">
-  <div class="loading-wrap">
-    <div class="spinner"></div>
-    <p>正在加载文章...</p>
-  </div>
+<div class="article-page">
+<div class="article-card">
+<div class="article-head">
+<div class="article-num">文章 #6</div>
+<h1 class="article-title">闲聊</h1>
+<div class="article-meta">
+<div class="article-date">📅 2026-01-13</div>
+<div class="article-date">✍ ciallo0721-cmd</div>
+<div class="article-date">📖 阅读约 4 分钟</div>
+</div>
+<div class="article-tags"><span class="article-tag">文章</span></div></div>
+<div class="article-body">
+<h2>嗯对,没什么东西</h2>
+                <p>教你们怎么把旮旯给木装到图片里面</p>
+                
+                <h3>1.以Windows10系统为例</h3>
+                <p>首先,win+r,输入cmd</p>
+                <p>然后,输入以下命令:</p>    
+                <pre><code>#输入以下命令
+copy /b (你的图片/视频路径) + (你的旮旯给木路径) (输出的位置)
+                </code></pre>
+
+                <p>看看效果</p>
+                <img
+                    src=".\wenzhangyong\6html.png"
+                    alt="图1.1 效果"
+                    class="zoomable"
+                                                 />
+                
+                <blockquote>
+                    但是!
+                    杀毒软件可能报警：这种文件捆绑技术常被恶意软件使用，杀毒软件可能会标记为可疑
+                </blockquote>
+
+                <p>原理：将两个文件二进制拼接，图片查看器读取到图片结束标记就停止，忽略后面的压缩包数据</p>
+                
+                <p>就这些了。</p></div>
+</div>
+<div style="display:flex;justify-content:space-between;margin-top:40px;padding-top:30px;border-top:1px solid rgba(0,0,0,0.1);flex-wrap:wrap;gap:15px;"><a href="/blog/Q&A/公告/4/?blog_id=4" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;padding:10px 20px;border-radius:25px;text-decoration:none;font-weight:600;font-size:0.95rem;transition:var(--transition);">&larr; 上一篇：关于为什么主页变成了这样</a><a href="/blog/Q&A/公告/5/?blog_id=5" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;padding:10px 20px;border-radius:25px;text-decoration:none;font-weight:600;font-size:0.95rem;transition:var(--transition);">下一篇：主页大更新 &rarr;</a></div></div>
+
 </div>
 
 <script src="/articles-data.js"></script>
@@ -176,5 +231,20 @@ body {
 <!-- 自定义视频/音频播放器 JS -->
 <script src="/vid/video-player.js"></script>
 <script src="/mus/audio-player.js"></script>
+<script>
+(function(){
+  // 服务器端已渲染内容，不需要加载 loading
+  // 如果用户启用 JS，这会让视频/音频播放器正常工作
+  if(typeof VideoPlayer !== "undefined" && VideoPlayer.initAll) {
+    setTimeout(function(){ VideoPlayer.initAll(); }, 0);
+  }
+  if(typeof AudioPlayer !== "undefined" && AudioPlayer.initAll) {
+    setTimeout(function(){ AudioPlayer.initAll(); }, 0);
+  }
+  // 标记已预渲染，避免 decoder.js 重复加载
+  window.__PRERENDERED = true;
+})();
+</script>
+
 </body>
 </html>

@@ -1,6 +1,11 @@
 
         window.timelineData = [
             {
+                date: "2026年6月20日",
+                title: "SEO 大优化：预渲染24篇文章 + 修复 CSP + 新 sitemap",
+                desc: "全面 SEO 优化：生成 24 篇博客文章的静态 HTML 文件（不再依赖 JS 加载）；放宽 CSP 以允许 Googlebot 渲染；重写 sitemap.xml 包含 39 个 URL；添加 noscript 静态链接回退；优化 robots.txt。附赠 `prerender-blog.py` 预渲染脚本喵～"
+            },
+            {
                 date: "2026年6月19日",
                 title: "首页 tools 区增加新番数据库 & 人脸识别",
                 desc: "将 新番数据库 和 MoeFace 人脸识别 两张工具卡片加入首页 #tools 区，并移除了导航栏上重复的两个独立按钮，现在 tools 区共有 6 个工具的说喵～"

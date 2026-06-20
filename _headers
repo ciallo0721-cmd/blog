@@ -14,22 +14,24 @@
   # 权限策略：禁用不必要的浏览器特性
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
 
-  # Content Security Policy (收紧版)
+  # Content Security Policy (SEO-安全平衡版)
   # 说明：
-  #   - default-src 'self'           默认仅允许同源资源
-  #   - script-src 'self'            仅允许同源脚本（静态站不需要内联脚本）
+  #   - default-src 'self'                                   默认仅允许同源资源
+  #   - script-src 'self' 'unsafe-inline' 'unsafe-eval'      保留内联脚本和动态加载（decoder.js、GA 等需要）
   #   - style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com
-  #       保留 unsafe-inline 因为现有CSS需要它
-  #   - font-src 'self' cdnjs.cloudflare.com
+  #   - font-src 'self' cdnjs.cloudflare.com data:
   #   - img-src 'self' data: blob:
-  #       允许 data URI（头像占位 SVG 用到）
   #   - media-src 'self'
-  #   - frame-src 'self'             仅允许同源 iframe（移除外部嵌入）
-  #   - connect-src 'self'           仅允许同源请求
-  #   - object-src 'none'            禁止 Flash 等插件
-  #   - base-uri 'self'              防 base 标签劫持
-  #   注意：eval 和外部脚本已被移除，提高安全性
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; font-src 'self' cdnjs.cloudflare.com data:; img-src 'self' data: blob:; media-src 'self'; frame-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';
+  #   - frame-src 'self'
+  #   - connect-src 'self'                                   允许同源 XHR（加载 .blog 文件）
+  #   - object-src 'none'
+  #   - base-uri 'self'
+  #   - form-action 'self'
+  #
+  #   注意: 'unsafe-inline' 对 Googlebot 的渲染管线至关重要，因为 decoder 使用内联 JS 加载文章。
+  #   如果没有 unsafe-inline，Googlebot 的 headless Chrome 将无法执行任何脚本，
+  #   导致页面被判定为无内容（"Crawled but not indexed"）。
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; font-src 'self' cdnjs.cloudflare.com data:; img-src 'self' data: blob:; media-src 'self'; frame-src 'self'; connect-src 'self' https://www.google-analytics.com; object-src 'none'; base-uri 'self'; form-action 'self';
 
   # 性能优化：缓存策略
   # 静态资源缓存1年

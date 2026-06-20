@@ -223,6 +223,17 @@
             <p class="articles-count">共 <span class="highlight" id="articleCount">0</span> 篇文章</p>
         </div>
         <div class="articles-grid" id="articlesGrid"></div>
+
+        <!-- SEO 静态文章列表（Googlebot 可见，JS 用户隐藏） -->
+        <noscript>
+          <div style="margin-top:40px;padding:20px;background:rgba(255,255,255,0.95);border-radius:12px;box-shadow:var(--shadow);">
+            <h3 style="margin-bottom:20px;color:var(--text-primary);">所有文章</h3>
+            <ul style="list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:15px;">
+              <!-- SEO 占位：文章链接将在部署前由 prerender-blog.py 填充 -->
+              <li><a href="/blog/" style="color:var(--bili-blue);text-decoration:none;padding:10px;display:block;border:1px solid rgba(0,0,0,0.1);border-radius:8px;">浏览所有文章 →</a></li>
+            </ul>
+          </div>
+        </noscript>
         <div class="no-results" id="noResults">
             <i class="fas fa-search"></i>
             <h3>未找到相关文章</h3>
