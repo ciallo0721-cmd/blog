@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>C-PTSD：复杂性创伤后应激障碍——看不见的伤口 | ciallo0721-cmd</title>
+    <meta name="description" content="当创伤不是一次性事件，而是漫长的、重复的、无法逃脱的经历——在人际关系中长期暴露于控制、虐待、忽视中所形成的复杂创伤反应。">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="../../fanv.ico" type="image/x-icon">
+    <style>
+        @font-face { font-family:'MaokenAssortedSans'; src:url('../../css/MaokenAssortedSans.ttf') format('truetype'); font-weight:normal; font-style:normal; }
+        :root { --bili-pink:#FB7299; --bili-blue:#00A1D6; --text-primary:#1D1D1F; --text-secondary:#3A3A3C; --bg-light:#F5F5F7; --transition:all 0.3s ease; --shadow:0 12px 28px rgba(0,0,0,0.08); --shadow-hover:0 20px 32px rgba(0,0,0,0.12); }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { font-family:'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; line-height:1.75; color:var(--text-primary); background:linear-gradient(145deg,#f6f8fc 0%,#e2e8f0 100%); min-height:100vh; }
+        .container { max-width:1280px; margin:0 auto; padding:0 24px; }
+        nav { background:rgba(255,255,255,0.96); backdrop-filter:blur(20px); position:sticky; top:0; z-index:1000; box-shadow:0 2px 16px rgba(0,0,0,0.06); border-bottom:1px solid rgba(255,255,255,0.4); }
+        .nav-container { display:flex; justify-content:space-between; align-items:center; padding:16px 24px; flex-wrap:wrap; gap:12px; }
+        .logo { font-size:1.7rem; font-weight:800; color:var(--bili-pink); text-decoration:none; display:flex; align-items:center; gap:12px; }
+        .logo:hover { transform:translateY(-2px); color:var(--bili-blue); }
+        .back-btn { background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue)); color:white; padding:8px 24px; border-radius:40px; font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:10px; box-shadow:0 6px 14px rgba(251,114,153,0.3); transition:var(--transition); }
+        .back-btn:hover { transform:translateY(-2px); box-shadow:0 10px 20px rgba(0,161,214,0.35); }
+        .article-detail-container { padding:56px 0; }
+        .article-detail { background:rgba(255,255,255,0.97); backdrop-filter:blur(4px); border-radius:44px; box-shadow:var(--shadow); padding:56px 64px; border:1px solid rgba(255,255,255,0.7); animation:fadeIn 0.6s ease; position:relative; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        .article-detail::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue)); border-radius:44px 44px 0 0; }
+        .article-header { text-align:center; margin-bottom:56px; border-bottom:1px solid rgba(0,0,0,0.08); padding-bottom:40px; }
+        .article-number { display:inline-block; background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue)); color:white; padding:8px 28px; border-radius:60px; font-weight:700; margin-bottom:24px; letter-spacing:1px; }
+        .article-title { font-size:2.6rem; margin-bottom:28px; background:linear-gradient(135deg,#1D1D1F,#3a3a3e); background-clip:text; -webkit-background-clip:text; color:transparent; line-height:1.25; }
+        .article-intro { font-size:1.3rem; color:var(--bili-blue); max-width:850px; margin:0 auto 28px; font-weight:500; }
+        .article-meta { display:flex; justify-content:center; gap:32px; margin-bottom:28px; flex-wrap:wrap; }
+        .article-tags { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
+        .article-tag { background:rgba(251,114,153,0.12); color:var(--bili-pink); padding:6px 20px; border-radius:40px; font-size:0.85rem; border:1px solid rgba(251,114,153,0.3); font-weight:600; }
+        .article-content { font-size:1.08rem; line-height:1.85; color:var(--text-secondary); }
+        .article-content h2 { color:var(--text-primary); margin:48px 0 18px; font-size:1.8rem; font-weight:800; position:relative; padding-bottom:12px; }
+        .article-content h2::after { content:''; position:absolute; bottom:0; left:0; width:70px; height:4px; background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue)); border-radius:4px; }
+        .article-content h3 { color:var(--text-primary); margin:32px 0 16px; font-size:1.4rem; font-weight:700; }
+        .article-content p { margin-bottom:1.3rem; text-align:justify; }
+        .article-content ul, .article-content ol { margin-left:28px; margin-bottom:1.5rem; }
+        .article-content li { margin-bottom:0.4rem; }
+        .article-content blockquote { border-left:5px solid var(--bili-pink); padding:18px 28px; margin:28px 0; background:rgba(251,114,153,0.03); border-radius:0 24px 24px 0; font-style:normal; font-weight:500; color:#2c2c2e; }
+        .hl { background:rgba(251,114,153,0.2); padding:2px 10px; border-radius:20px; color:#b91c3c; font-weight:700; }
+        .hl-blue { background:rgba(0,161,214,0.15); color:#005f8c; padding:2px 10px; border-radius:20px; }
+        .callout { border-radius:24px; padding:20px 26px; margin:28px 0; display:flex; gap:16px; align-items:flex-start; background:white; box-shadow:0 4px 14px rgba(0,0,0,0.03); }
+        .callout-info { background:#f0f7ff; border-left:6px solid #0a84ff; }
+        .callout-warning { background:#fff7eb; border-left:6px solid #ff9f0a; }
+        .callout-danger { background:#fff0f0; border-left:6px solid #ff3b30; }
+        .callout-success { background:#edfff3; border-left:6px solid #2cbe4e; }
+        footer { background:linear-gradient(135deg,#1D1D1F,#2c2c2e); color:#e8e8ed; text-align:center; padding:48px 0 32px; margin-top:80px; }
+        .timeline-case { position:relative; padding:18px 0 18px 36px; margin:20px 0; border-left:3px solid var(--bili-pink); }
+        .timeline-case::before { content:''; position:absolute; left:-9px; top:22px; width:15px; height:15px; background:var(--bili-pink); border-radius:50%; }
+        .timeline-case .case-date { font-weight:700; color:var(--bili-blue); margin-bottom:4px; }
+        .data-table { width:100%; border-collapse:collapse; margin:24px 0; font-size:0.95rem; }
+        .data-table th { background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue)); color:white; padding:12px 16px; text-align:left; }
+        .data-table td { padding:10px 16px; border-bottom:1px solid #eee; }
+        .data-table tr:nth-child(even) { background:#f8f9fa; }
+        @media (max-width:768px) { .article-detail { padding:24px 18px; } .article-title { font-size:1.8rem; } .article-content h2 { font-size:1.5rem; } .nav-container { padding:12px 16px; } }
+    </style>
+    <script src="../../wiki-data.js"></script>
+    <script src="../../css/wiki-linker.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="container nav-container">
+            <a href="../../index.html" class="logo"><i class="fas fa-brain"></i> ciallo0721-cmd · 心理学科普</a>
+            <a href="../../index.html" class="back-btn"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+    </nav>
+    <main class="container article-detail-container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="article-number">🧠 心理学科普 · 深度系列</div>
+                <h1 class="article-title">C-PTSD：复杂性创伤后应激障碍——看不见的伤口</h1>
+                <p class="article-intro">当创伤不是一次性事件，而是漫长的、重复的、无法逃脱的经历——在人际关系中长期暴露于控制、虐待、忽视中所形成的复杂创伤反应。</p>
+                <div class="article-meta">
+                    <div class="article-date"><i class="far fa-calendar"></i> 2026-06-21</div>
+                    <div class="article-date"><i class="far fa-clock"></i> 深度阅读 ≈ 18分钟</div>
+                </div>
+                <div class="article-tags">
+                    <span class="article-tag">C-PTSD</span>
+                    <span class="article-tag">复杂性创伤</span>
+                    <span class="article-tag">童年创伤</span>
+                    <span class="article-tag">心理虐待</span>
+                    <span class="article-tag">依恋创伤</span>
+                </div>
+            </header>
+            <div class="article-content">
+<h2>什么是C-PTSD？</h2>
+<p><span class="hl">复杂性创伤后应激障碍</span>（Complex PTSD，C-PTSD）是PTSD的一个亚型，最早由精神病学家朱迪斯·赫尔曼（Judith Herman）在1992年提出。与PTSD不同，C-PTSD源于长期、重复、持续数月至数年的创伤暴露，且通常是在受害者无法逃脱的环境中发生的。</p>
+<p>最常见的C-PTSD源头是童年期的持续性虐待和忽视。儿童处于依赖成人生存的位置，无法逃离施虐者——这种"被困"的体验是C-PTSD的核心特征。</p>
+
+<h2>C-PTSD vs PTSD：核心差异</h2>
+<p>除了PTSD的全部症状外，C-PTSD还额外包含三大核心特征：</p>
+
+<h3>1. 情绪调节困难</h3>
+<p>情绪反应极度不稳定：微小的刺激可引发剧烈情绪波动；难以平静下来；可能经历<span class="hl-blue">"情绪闪回"</span>（affect flashbacks）——仅有情绪感受的闪回，不伴随视觉记忆。</p>
+
+<h3>2. 负面的自我概念</h3>
+<p>深层的内化的羞耻感和罪疚感："我活该被这样对待"、"我有问题"、"我不配被爱"。这种自我评价根深蒂固，不会因外界的肯定而轻易改变。</p>
+
+<h3>3. 人际关系困难</h3>
+<p>对他人的信任严重受损，在过度依赖与完全回避之间摇摆。难以设定健康的人际边界，容易进入虐待性的关系中，或完全回避亲密关系。</p>
+
+<h2>C-PTSD的典型来源</h2>
+<ul>
+<li>童年期长期的情感忽视与虐待（被忽视、被贬低、被恐吓）</li>
+<li>长期的家庭暴力环境</li>
+<li>长期性虐待（尤其是发生在家庭内部的）</li>
+<li>被长期囚禁或沦为战俘的经历</li>
+<li>长期受到系统性控制（邪教、极端组织）</li>
+<li>患有精神疾病且拒绝治疗的父母</li>
+</ul>
+
+<h2>"隐形的伤口"</h2>
+<p>C-PTSD常被称为"看不见的伤口"，因为它的表现并不像PTSD那样有明显的闪回或回避行为。很多C-PTSD患者看起来"只是在正常生活"——他们戴上了<span class="hl">"高功能"的面具</span>，用各种方式维持表面的正常运作。</p>
+<p>但这种表面正常往往代价巨大：完美主义、过度工作、物质滥用、自伤行为、反复陷入虐待关系……这些都是他们在没有专业帮助的情况下自行摸索出的"生存策略"。</p>
+
+<blockquote>C-PTSD最残酷的地方在于：创伤的施虐者往往同时也是受害者需要依赖的照顾者。孩子在最需要安全依恋的环境中被反复伤害，这种矛盾造就了最深层的心理创伤。</blockquote>
+
+<h2>疗愈的可能性</h2>
+<p>C-PTSD的疗愈是一个漫长但可能的过程：</p>
+<ul>
+<li><strong>建立安全感</strong>：首先是创造一个安全、可预测的当下生活环境</li>
+<li><strong>创伤聚焦治疗</strong>：相位式治疗（稳定化→创伤处理→整合）是黄金标准</li>
+<li><strong>重建关系能力</strong>：在安全的治疗关系中重新学习信任和建立边界</li>
+<li><strong>身体工作</strong>：躯体治疗、瑜伽等有助于释放储存在身体中的创伤</li>
+</ul>
+<p>最关键的一步是：<strong>意识到"这不是我的错"</strong>。C-PTSD不是因为你不好，而是因为你经历了太多不该承受的事。</p>
+            </div>
+        </article>
+                <!-- 广告位占位 -->
+        <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
+          <a href="../../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
+            <img src="../../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
+              style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
+          </a>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <div>ciallo0721-cmd · 理性与好奇心</div>
+            <p>© 2026 心理学深度系列 · 基于临床心理学与认知神经科学撰写</p>
+        </div>
+    </footer>
+</body>
+</html>
