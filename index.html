@@ -2093,5 +2093,29 @@
         }
     </script>
     <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0);</script>
+
+    <audio id="bg-music" src="./css/we are the world.mp3" loop preload="auto"></audio>
+
+<script>
+    (function() {
+        var now = new Date();
+        var cstOffset = 8 * 60;
+        var localOffset = now.getTimezoneOffset();
+        var cst = new Date(now.getTime() + (cstOffset + localOffset) * 60000);
+        if (cst.getMonth() === 8 && cst.getDate() === 21) {
+            var audio = document.getElementById('bg-music');
+            audio.volume = 0.4;
+            audio.play().catch(function() {
+                var playOnInteraction = function() {
+                    audio.play();
+                    document.removeEventListener('click', playOnInteraction);
+                    document.removeEventListener('touchstart', playOnInteraction);
+                };
+                document.addEventListener('click', playOnInteraction);
+                document.addEventListener('touchstart', playOnInteraction);
+            });
+        }
+    })();
+</script>
 </body>
 </html>
