@@ -1,6 +1,7 @@
 // articles-data.js — 文章数据源
 window.articlesData = {
-    articles: [
+    articles: (function() {
+        var raw = [
         {
             id: 1,
             category: "教程",
@@ -309,36 +310,6 @@ window.articlesData = {
             readTime: 12,
             featured: true
         },
-    ],
-
-    getSortedArticles: function() {
-        return [...this.articles].sort((a, b) => new Date(b.date) - new Date(a.date));
-    },
-
-    getArticleById: function(id) {
-        return this.articles.find(article => String(article.id) === String(id));
-    },
-
-    getAdjacentArticles: function(id) {
-        const sorted = this.getSortedArticles();
-        const index = sorted.findIndex(article => String(article.id) === String(id));
-        return {
-            prev: index < sorted.length - 1 ? sorted[index + 1] : null,
-            next: index > 0 ? sorted[index - 1] : null
-        };
-    },
-
-    getArticlesByCategory: function(category) {
-        if (!category || category === '全部') return this.getSortedArticles();
-        return this.getSortedArticles().filter(a => a.category === category);
-    },
-
-    getFeaturedArticles: function(excludeId = null, limit = 3) {
-        let filtered = this.getSortedArticles();
-        if (excludeId !== null) {
-            const excludeIdStr = String(excludeId);
-            filtered = filtered.filter(article => String(article.id) !== excludeIdStr);
-        }
-        return filtered.slice(0, limit);
-    }
-};
+        ];
+        return raw.sort(function(a, b) { return a.id - b.id; });
+    })(),
