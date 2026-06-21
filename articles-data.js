@@ -523,6 +523,11 @@ window.articlesData = {
             next: idx < this.articles.length - 1 ? this.articles[idx + 1] : null
         };
     },
+    getSortedArticles: function() {
+        return this.articles.slice().sort(function(a, b) {
+            return new Date(b.date) - new Date(a.date);
+        });
+    },
     getFeaturedArticles: function(excludeId, limit) {
         if (limit === undefined) limit = 3;
         return this.articles
