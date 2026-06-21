@@ -1,53 +1,10 @@
-// articles-data.js — 文章数据源（v2：灵活路径映射）
+// articles-data.js — 文章数据源
 window.articlesData = {
-    // --- 路径映射表（集中管理，改架构只改这里！）---
-    // key = 文章 id, value = 相对于 /blog/ 的目录路径
-    _pathMap: {
-        "1": "兴趣/Music/1/",
-        "2": "科技/Unity/2/",
-        "3": "兴趣/绘画/3/",
-        "4": "Q&A/公告/4/",
-        "5": "Q&A/公告/5/",
-        "6": "生活/闲聊&杂谈/6/",
-        "7": "兴趣/Music/7/",
-        "8": "Q&A/公告/8/",
-        "9": "政治/立场/9/",
-        "10": "Q&A/公告/10/",
-        "11": "Q&A/11/",
-        "12": "Q&A/12/",
-        "13": "兴趣/Vtuber/真白花音/13/",
-        "14": "兴趣/Vtuber/真白花音/14/",
-        "15": "兴趣/Vtuber/真白花音/15/",
-        "16": "科技/Github/16/",
-        "17": "科技/算法/17/",
-        "18": "生活/食谱/18/",
-        "19": "科技/renpy/19/",
-        "20": "科技/renpy/20/",
-        "21": "科技/python/21/",
-        "22": "兴趣/另一个次元/22/",
-        "23": "心理/巴纳姆效应/23/",
-        "24": "兴趣/另一个次元/24/"
-    },
-
-    // --- 给文章对象附加 fileName（返回新对象，不改原始数据）---
-    _withFileName: function(article) {
-        if (!article) return null;
-        var idStr = String(article.id);
-        var path = this._pathMap[idStr] || idStr + '/';
-        return Object.assign({}, article, { fileName: path });
-    },
-
-    // --- 批量附加 fileName ---
-    _withFileNameAll: function(articles) {
-        var self = this;
-        return articles.map(function(a) { return self._withFileName(a); });
-    },
-
-    // 文章数据（不包含 fileName，由 _pathMap 自动解析）
     articles: [
         {
             id: 1,
             category: "教程",
+            fileName: "教程/1/",
             title: "UTAU教程：从调音到发布完全指南",
             excerpt: "学习如何使用UTAU进行歌声合成，从基础调音到高级技巧，完整指南带你入门。",
             date: "2025-12-28",
@@ -58,6 +15,7 @@ window.articlesData = {
         {
             id: 2,
             category: "教程",
+            fileName: "教程/2/",
             title: "Unity 2D角色移动系统完全指南",
             excerpt: "从零开始构建一个完整的2D角色移动系统，包含平滑移动、跳跃、冲刺和动画控制。",
             date: "2025-12-29",
@@ -68,6 +26,7 @@ window.articlesData = {
         {
             id: 3,
             category: "教程",
+            fileName: "教程/3/",
             title: "2.5头身小人绘画全攻略：从基础到头发细节",
             excerpt: "本教程将详细讲解如何绘制可爱的2.5头身小人，涵盖比例结构、面部表情、头发与呆毛绘制技巧，适合初学者和有一定基础的画手。",
             date: "2025-12-30",
@@ -78,6 +37,7 @@ window.articlesData = {
         {
             id: 4,
             category: "公告",
+            fileName: "公告/4/",
             title: "关于为什么主页变成了这样",
             excerpt: "网站被攻击、性能问题大揭秘！详细解释网站主页暂时变成公告页面的原因，以及维护到1月18日的恢复计划。",
             date: "2026-01-10",
@@ -88,6 +48,7 @@ window.articlesData = {
         {
             id: 5,
             category: "公告",
+            fileName: "公告/5/",
             title: "主页大更新",
             excerpt: "修复了加载时间过长的问题，更新音乐播放器。",
             date: "2026-01-13",
@@ -98,6 +59,7 @@ window.articlesData = {
         {
             id: 6,
             category: "闲聊",
+            fileName: "闲聊/6/",
             title: "闲聊",
             excerpt: "一些日常闲聊和碎碎念。",
             date: "2026-01-13",
@@ -108,6 +70,7 @@ window.articlesData = {
         {
             id: 7,
             category: "ACG",
+            fileName: "ACG/7/",
             title: "新歌姬发布",
             excerpt: "新歌姬发布：沙雕の贤者V2 正式上线！",
             date: "2026-01-17",
@@ -118,6 +81,7 @@ window.articlesData = {
         {
             id: 8,
             category: "公告",
+            fileName: "公告/8/",
             title: "网站小更新",
             excerpt: "网站小更新：增加了一些实用工具和功能。",
             date: "2026-01-28",
@@ -128,6 +92,7 @@ window.articlesData = {
         {
             id: 9,
             category: "公告",
+            fileName: "公告/9/",
             title: "关于GitHub Issue被恶意篡改的说明",
             excerpt: "一份严肃的记录：我的 Issue 被仓库管理员篡改，真相在此。",
             date: "2026-03-04",
@@ -138,6 +103,7 @@ window.articlesData = {
         {
             id: 10,
             category: "公告",
+            fileName: "公告/10/",
             title: "喜报",
             excerpt: "喜报！网站PV达到了111。",
             date: "2026-04-11",
@@ -148,6 +114,7 @@ window.articlesData = {
         {
             id: 11,
             category: "公告",
+            fileName: "公告/11/",
             title: "网站建议收集帖 | 欢迎来提想法",
             excerpt: "网站内容建议收集帖 · 想让我加什么/删什么？每天都会看。",
             date: "2026-04-11",
@@ -158,6 +125,7 @@ window.articlesData = {
         {
             id: 12,
             category: "公告",
+            fileName: "公告/12/",
             title: "关于本站广告位的说明：为什么会有广告？以及我们不会成为\"邪恶网站\"",
             excerpt: "针对近期访客对广告位设置的疑问，本文将详细解释放置广告的原因、广告的具体形式，以及本站绝不会成为弹窗满天飞的\"邪恶网站\"的承诺。",
             date: "2026-04-23",
@@ -168,6 +136,7 @@ window.articlesData = {
         {
             id: 13,
             category: "ACG",
+            fileName: "ACG/13/",
             title: "再见了，我的白菜——写给真白花音的告别",
             excerpt: "2026年4月17日，B站第一日V真白花音宣布将于5月1日毕业。作为从2023年开始关注她的老粉，写下这篇告别文章。",
             date: "2026-04-29",
@@ -178,6 +147,7 @@ window.articlesData = {
         {
             id: 14,
             category: "ACG",
+            fileName: "ACG/14/",
             title: "再见，白菜",
             excerpt: "2026年5月1日，真白花音正式毕业了。再见，我的第一个V，再见，白菜。",
             date: "2026-05-01",
@@ -188,6 +158,7 @@ window.articlesData = {
         {
             id: 15,
             category: "ACG",
+            fileName: "ACG/15/",
             title: "真白花音退网前最后五分钟",
             excerpt: "记录真白花音退网前的最后五分钟，永远的回忆。",
             date: "2026-05-01",
@@ -198,6 +169,7 @@ window.articlesData = {
         {
             id: 16,
             category: "教程",
+            fileName: "教程/16/",
             title: "从零开始，怎么注册GitHub并克隆仓库",
             excerpt: "从零开始学习如何注册GitHub账号并克隆仓库到本地，适合完全新手。",
             date: "2026-05-07",
@@ -208,6 +180,7 @@ window.articlesData = {
         {
             id: 17,
             category: "科技",
+            fileName: "科技/17/",
             title: "优化X(Twitter)推荐算法",
             excerpt: "如何优化X(Twitter)的时间线推荐，获取更有价值的内容。",
             date: "2026-05-13",
@@ -218,6 +191,7 @@ window.articlesData = {
         {
             id: 18,
             category: "生活",
+            fileName: "生活/18/",
             title: "泰式柠檬番茄酸辣炸鸡腿",
             excerpt: "酸辣开胃、香喷喷又下饭——这道泰式炸鸡腿是整个家庭的最爱！泰式辣椒酱配柠檬和番茄，一上桌孩子们就忍不住多盛一碗饭。附完整食材清单和分步做法。（转载自 lifangcook）",
             date: "2026-05-17",
@@ -228,6 +202,7 @@ window.articlesData = {
         {
             id: 19,
             category: "教程",
+            fileName: "教程/19/",
             title: "Ren'Py 人物立绘怎么换？完整替换指南",
             excerpt: "详细教程：3种方法更换 Ren'Py 视觉小说的人物立绘，包括文件替换、代码修改和动态立绘切换，附常见问题排查。",
             date: "2026-05-22",
@@ -238,6 +213,7 @@ window.articlesData = {
         {
             id: 20,
             category: "教程",
+            fileName: "教程/20/",
             title: "Ren'Py 存档系统完全教程：自定义存档位置与多存档槽",
             excerpt: "深入讲解 Ren'Py 存档系统，涵盖默认存档位置、自定义存档路径、多存档槽管理、存档缩略图、加密防篡改和自动存档配置，附完整代码示例。",
             date: "2026-05-22",
@@ -248,6 +224,7 @@ window.articlesData = {
         {
             id: 21,
             category: "教程",
+            fileName: "教程/21/",
             title: "Python 截图识别文字完全教程：从 Tesseract 到深度学习",
             excerpt: "完整教程：使用 Python 实现截图文字识别，涵盖 Tesseract、PaddleOCR、截图工具选型、图像预处理技巧和性能优化，附实战代码。",
             date: "2026-05-22",
@@ -258,6 +235,7 @@ window.articlesData = {
         {
             id: 22,
             category: "ACG",
+            fileName: "ACG/22/",
             title: "雌小鬼：从贬义词到萌属性的进化史",
             excerpt: "深度解析ACG萌属性「雌小鬼（メスガキ）」——从日语贬称到二次元文化标签的完整进化史，包含典型形象、与傲娇/小恶魔的区别、让你明白担当解析，以及典型角色一览。",
             date: "2026-06-04",
@@ -268,6 +246,7 @@ window.articlesData = {
         {
             id: 23,
             category: "心理学",
+            fileName: "心理学/23/",
             title: "占卜的原理：心理学拆解\"为什么总觉得很准\"",
             excerpt: "超6800字深度心理学文章：从巴纳姆效应、冷读术、确认偏误、自我实现预言到安慰剂效应，用科学实验与认知科学彻底解释占卜为何让人觉得\"神准\"。批判性思维必读。",
             date: "2026-06-09",
@@ -275,80 +254,36 @@ window.articlesData = {
             readTime: 35,
             featured: true
         },
-        {
-            id: 24,
-            category: "ACG",
-            title: "番剧分享 | 免费分享我收藏的番剧",
-            excerpt: "免费分享收藏的番剧资源，提供Google网盘下载链接。国内用户可能无法直接访问，还请见谅～",
-            date: "2026-06-18",
-            tags: ["番剧", "分享", "ACG", "Google网盘", "资源"],
-            readTime: 5,
-            featured: true
-        },
     ],
 
-    // --- 获取带 fileName 的排序列表 ---
     getSortedArticles: function() {
-        return this._withFileNameAll(
-            [...this.articles].sort(function(a, b) {
-                return new Date(b.date) - new Date(a.date);
-            })
-        );
+        return [...this.articles].sort((a, b) => new Date(b.date) - new Date(a.date));
     },
 
-    // --- 按 ID 查找（返回带 fileName 的对象）---
     getArticleById: function(id) {
-        var article = this.articles.find(function(a) {
-            return String(a.id) === String(id);
-        });
-        return this._withFileName(article);
+        return this.articles.find(article => String(article.id) === String(id));
     },
 
-    // --- 获取上一篇 / 下一篇（含 fileName）---
     getAdjacentArticles: function(id) {
-        var sorted = this.getSortedArticles();
-        var index = sorted.findIndex(function(article) {
-            return String(article.id) === String(id);
-        });
+        const sorted = this.getSortedArticles();
+        const index = sorted.findIndex(article => String(article.id) === String(id));
         return {
             prev: index < sorted.length - 1 ? sorted[index + 1] : null,
             next: index > 0 ? sorted[index - 1] : null
         };
     },
 
-    // --- 按分类筛选 ---
     getArticlesByCategory: function(category) {
-        if (!category || category === '\u5168\u90e8') return this.getSortedArticles();
-        var self = this;
-        return this._withFileNameAll(
-            this.articles.filter(function(a) { return a.category === category; })
-        ).sort(function(a, b) {
-            return new Date(b.date) - new Date(a.date);
-        });
+        if (!category || category === '全部') return this.getSortedArticles();
+        return this.getSortedArticles().filter(a => a.category === category);
     },
 
-    // --- 获取推荐/精选文章 ---
-    getFeaturedArticles: function(excludeId, limit) {
-        if (limit === undefined) limit = 3;
-        var filtered = this.getSortedArticles();
-        if (excludeId !== null && excludeId !== undefined) {
-            var excludeStr = String(excludeId);
-            filtered = filtered.filter(function(a) { return String(a.id) !== excludeStr; });
+    getFeaturedArticles: function(excludeId = null, limit = 3) {
+        let filtered = this.getSortedArticles();
+        if (excludeId !== null) {
+            const excludeIdStr = String(excludeId);
+            filtered = filtered.filter(article => String(article.id) !== excludeIdStr);
         }
         return filtered.slice(0, limit);
-    },
-
-    // --- 手动获取某篇文章的路径（外部备用接口）---
-    getPath: function(id) {
-        return this._pathMap[String(id)] || String(id) + '/';
-    },
-
-    // --- 直接获取所有分类列表（去重）---
-    getCategories: function() {
-        var cats = {};
-        this.articles.forEach(function(a) {
-            if (a.category) cats[a.category] = true;
-        });
-        return Object.keys(cats);
     }
 };
