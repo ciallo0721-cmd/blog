@@ -1,5 +1,10 @@
 window.timelineData = [
             {
+                date: "2026年6月21日",
+                title: "百科词条更新：真白花音（白菜）内容全面升级",
+                desc: "参考 baicai.ciallo0721-cmd.top 纪念站，全面更新 wiki 中真白花音词条。修正出道时间（原错误写为2023年，实为2019年5月7日），补充基本资料（生日5月29日、身高144cm、白发红瞳、所属Chucolala/P家等）、完整16条事业时间线（2019-2026）、9条轶事、以及B站/YouTube/Twitter外部链接。同步更新 wiki/data.json 和 wiki/hanamine/index.html 的说喵～"
+            },
+            {
                 date: "2026年6月20日",
                 title: "二级域名系统上线：status / wiki / baicai / taffy",
                 desc: "创建四个二级域名站点喵～ status.ciallo0721-cmd.top（状态页）、wiki.ciallo0721-cmd.top（百科）、baicai.ciallo0721-cmd.top（真白花音纪念站）、taffy.ciallo0721-cmd.top（塔菲AI人设展示）。客户端路由方案（_subdomain-router.js），tname DNS 配 CNAME 就能用，等以后能切 Cloudflare DNS 了还能无缝升级到 Worker 版喵！"
