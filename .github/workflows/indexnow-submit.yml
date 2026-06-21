@@ -1,0 +1,52 @@
+name: IndexNow Auto Submit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/**'
+      - 'index.html'
+      - 'articles-data.js'
+  workflow_dispatch:  # 手动触发
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Submit all URLs to IndexNow
+        run: |
+          curl -X POST "https://api.indexnow.org/IndexNow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d '{
+              "host": "ciallo0721-cmd.top",
+              "key": "78e189d695964af9a74c8a4c0493ac7e",
+              "keyLocation": "https://ciallo0721-cmd.top/78e189d695964af9a74c8a4c0493ac7e.txt",
+              "urlList": [
+                "https://ciallo0721-cmd.top/",
+                "https://ciallo0721-cmd.top/教程/1/",
+                "https://ciallo0721-cmd.top/教程/2/",
+                "https://ciallo0721-cmd.top/教程/3/",
+                "https://ciallo0721-cmd.top/教程/16/",
+                "https://ciallo0721-cmd.top/教程/19/",
+                "https://ciallo0721-cmd.top/教程/20/",
+                "https://ciallo0721-cmd.top/教程/21/",
+                "https://ciallo0721-cmd.top/公告/4/",
+                "https://ciallo0721-cmd.top/公告/5/",
+                "https://ciallo0721-cmd.top/公告/8/",
+                "https://ciallo0721-cmd.top/公告/9/",
+                "https://ciallo0721-cmd.top/公告/10/",
+                "https://ciallo0721-cmd.top/公告/11/",
+                "https://ciallo0721-cmd.top/公告/12/",
+                "https://ciallo0721-cmd.top/ACG/7/",
+                "https://ciallo0721-cmd.top/ACG/13/",
+                "https://ciallo0721-cmd.top/ACG/14/",
+                "https://ciallo0721-cmd.top/ACG/15/",
+                "https://ciallo0721-cmd.top/ACG/22/",
+                "https://ciallo0721-cmd.top/科技/17/",
+                "https://ciallo0721-cmd.top/生活/18/",
+                "https://ciallo0721-cmd.top/闲聊/6/",
+                "https://ciallo0721-cmd.top/心理学/23/"
+              ]
+            }' -w "\nHTTP %{http_code}\n" -o /dev/null
