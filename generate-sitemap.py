@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""生成完整的 sitemap.xml（带 URL 编码，修复中文路径问题）"""
+"""生成完整的 sitemap.xml（带 URL 编码，修复中文路径问题）
+
+重要说明：
+- 本脚本使用 articles-data.js 中每篇文章的 `date` 字段作为 <lastmod> 日期
+- 为了保持 Bing/Google 索引稳定，请不要随意修改 articles-data.js 中文章的 `date` 字段
+- 如果确实需要让搜索引擎重新索引某篇文章，再修改该文章的 `date` 字段
+- 或者，可以在 articles-data.js 中为文章添加 `sitemapLastmod` 字段（可选），本脚本会优先使用这个字段
+"""
 import re, os
 from urllib.parse import quote
 
@@ -44,11 +51,14 @@ for line in lines:
                 a = {}
                 id_m = re.search(r'id:\s*(\d+)', block)
                 if id_m: a['id'] = id_m.group(1)
-                title_m = re.search(r'title:\s*"([^"]*)"', block)
-                if title_m: a['title'] = title_m.group(1)
-                date_m = re.search(r'date:\s*"([^"]*)"', block)
-                if date_m: a['date'] = date_m.group(1)
-                if a.get('id'):
+            title_m = re.search(r'title:\s*"([^"]*)"', block)
+            if title_m: a['title'] = title_m.group(1)
+            date_m = re.search(r'date:\s*"([^"]*)"', block)
+            if date_m: a['date'] = date_m.group(1)
+            # 读取可选的 sitemapLastmod 字段（用于控制 sitemap 中的 lastmod 日期）
+            sitemap_lastmod_m = re.search(r'sitemapLastmod:\s*"([^"]*)"', block)
+            if sitemap_lastmod_m: a['sitemapLastmod'] = sitemap_lastmod_m.group(1)
+            if a.get('id'):
                     articles.append(a)
                 current_block = ''
         if brace_depth >= 1:
@@ -98,7 +108,8 @@ urls.append((encode_url_path('/wiki/index.html'), '2026-06-13', 'weekly', '0.8')
 for a in articles:
     aid = a['id']
     path = path_map.get(aid, aid + '/')
-    lastmod = a.get('date', '2026-06-01')
+    # 优先使用 sitemapLastMod 字段，否则使用 date 字段
+    lastmod = a.get('sitemapLastMod', a.get('date', '2026-06-01'))
     full_path = f'/blog/{path}'
     urls.append((encode_url_path(full_path), lastmod, 'monthly', '0.6'))
 
