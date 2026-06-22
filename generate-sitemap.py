@@ -1,30 +1,22 @@
 #!/usr/bin/env python3
-"""生成完整的 sitemap.xml（带 URL 编码，修复中文路径问题）
+"""生成完整的 sitemap.xml
 
-重要说明：
-- 本脚本使用 articles-data.js 中每篇文章的 `date` 字段作为 <lastmod> 日期
-- 为了保持 Bing/Google 索引稳定，请不要随意修改 articles-data.js 中文章的 `date` 字段
-- 如果确实需要让搜索引擎重新索引某篇文章，再修改该文章的 `date` 字段
-- 或者，可以在 articles-data.js 中为文章添加 `sitemapLastmod` 字段（可选），本脚本会优先使用这个字段
+重要：
+- 文章 lastmod 优先使用 articles-data.js 中的 date 字段（文章发布时间）
+- 如果文章对应的 index.html 文件修改时间晚于 date 字段，取较新的那个
+- 可在 articles-data.js 中为文章添加 sitemapLastmod 字段手动覆盖
 """
-import re, os
+import re, os, datetime
 from urllib.parse import quote
 
 blog_root = r"G:\EmoScan Pro\ciallo0721-cmd.github.io"
 domain = "https://ciallo0721-cmd.top"
+today = datetime.date.today().isoformat()
 
-# 解析 pathMap
+# 读取文章数据
 with open(os.path.join(blog_root, 'articles-data.js'), 'r', encoding='utf-8') as f:
     content = f.read()
 
-path_map = {}
-m = re.search(r'_pathMap:\s*\{([^}]+)\}', content, re.DOTALL)
-if m:
-    entries = re.findall(r'"(\d+)":\s*"([^"]+)"', m.group(1))
-    for k, v in entries:
-        path_map[k] = v
-
-# 解析文章数据
 articles = []
 lines = content.split('\n')
 in_articles = False
@@ -51,14 +43,15 @@ for line in lines:
                 a = {}
                 id_m = re.search(r'id:\s*(\d+)', block)
                 if id_m: a['id'] = id_m.group(1)
-            title_m = re.search(r'title:\s*"([^"]*)"', block)
-            if title_m: a['title'] = title_m.group(1)
-            date_m = re.search(r'date:\s*"([^"]*)"', block)
-            if date_m: a['date'] = date_m.group(1)
-            # 读取可选的 sitemapLastmod 字段（用于控制 sitemap 中的 lastmod 日期）
-            sitemap_lastmod_m = re.search(r'sitemapLastmod:\s*"([^"]*)"', block)
-            if sitemap_lastmod_m: a['sitemapLastmod'] = sitemap_lastmod_m.group(1)
-            if a.get('id'):
+                title_m = re.search(r'title:\s*"([^"]*)"', block)
+                if title_m: a['title'] = title_m.group(1)
+                fileName_m = re.search(r'fileName:\s*"([^"]*)"', block)
+                if fileName_m: a['fileName'] = fileName_m.group(1)
+                date_m = re.search(r'date:\s*"([^"]*)"', block)
+                if date_m: a['date'] = date_m.group(1)
+                sitemap_lastmod_m = re.search(r'sitemapLastmod:\s*"([^"]*)"', block)
+                if sitemap_lastmod_m: a['sitemapLastmod'] = sitemap_lastmod_m.group(1)
+                if a.get('id'):
                     articles.append(a)
                 current_block = ''
         if brace_depth >= 1:
@@ -68,26 +61,62 @@ for line in lines:
 articles.sort(key=lambda x: x.get('date', ''), reverse=True)
 
 def encode_url_path(path):
-    """URL 编码路径中的非 ASCII 字符，并对 & 做 XML 转义"""
+    """URL 编码路径中的非 ASCII 字符"""
     encoded = quote(path, safe='/:@!$\'()*+,;=-._~')
-    # XML 中 & 必须转义为 &amp;
     encoded = encoded.replace('&', '&amp;')
-    # 如果路径末尾没有 / 则添加
     if not encoded.endswith('/') and '.' not in encoded:
         encoded += '/'
     return encoded
 
-# 生成 sitemap
+def get_file_lastmod(rel_path):
+    """获取文件实际修改时间"""
+    full = os.path.join(blog_root, rel_path.lstrip('/'))
+    try:
+        mtime = os.path.getmtime(full)
+        return datetime.date.fromtimestamp(mtime).isoformat()
+    except OSError:
+        return None
+
+def pick_lastmod(article):
+    """确定文章的 lastmod：
+       1) sitemapLastmod 手动覆盖
+       2) 否则取 max(文章date, 文件mtime)
+    """
+    if article.get('sitemapLastmod'):
+        return article['sitemapLastmod']
+    
+    article_date = article.get('date', '2026-06-01')
+    fileName = article.get('fileName', str(article['id']))
+    file_path = f'/blog/{fileName}index.html'
+    file_mtime = get_file_lastmod(file_path)
+    
+    if file_mtime and file_mtime > article_date:
+        return file_mtime
+    return article_date
+
+# ===== 生成 sitemap =====
 urls = []
 
-# 静态页面
-urls.append((encode_url_path('/index.html'), '2026-06-20', 'weekly', '1.0'))
-urls.append((encode_url_path('/blog/'), '2026-06-20', 'daily', '0.9'))
-urls.append((encode_url_path('/aboutme.html'), '2026-06-01', 'yearly', '0.7'))
-urls.append((encode_url_path('/adss.html'), '2026-06-01', 'yearly', '0.6'))
-urls.append((encode_url_path('/privacy.html'), '2026-06-01', 'yearly', '0.5'))
-urls.append((encode_url_path('/help.html'), '2026-06-01', 'yearly', '0.5'))
-urls.append((encode_url_path('/status.html'), '2026-06-19', 'monthly', '0.6'))
+# 首页（规范写法：/ 而不是 /index.html）
+urls.append((encode_url_path('/'), get_file_lastmod('/index.html') or today, 'weekly', '1.0'))
+
+# 文章列表页（主入口）
+urls.append((encode_url_path('/wz/'), get_file_lastmod('/wz/index.html') or today, 'daily', '0.9'))
+
+# 博客分类首页
+urls.append((encode_url_path('/blog/'), get_file_lastmod('/blog/index.html') or today, 'daily', '0.8'))
+
+# 其他静态页面
+static_pages = [
+    ('/aboutme.html', 'yearly', '0.7'),
+    ('/adss.html', 'yearly', '0.6'),
+    ('/privacy.html', 'yearly', '0.5'),
+    ('/help.html', 'yearly', '0.5'),
+    ('/status.html', 'monthly', '0.6'),
+]
+for path, freq, pri in static_pages:
+    ld = get_file_lastmod(path) or today
+    urls.append((encode_url_path(path), ld, freq, pri))
 
 # 游戏页面
 games = [
@@ -99,32 +128,32 @@ games = [
     ('/dkdfj/index.html', '0.6'),
 ]
 for path, pri in games:
-    urls.append((encode_url_path(path), '2026-06-01', 'monthly', pri))
+    ld = get_file_lastmod(path) or '2026-06-01'
+    urls.append((encode_url_path(path), ld, 'monthly', pri))
 
 # 百科页面
-urls.append((encode_url_path('/wiki/index.html'), '2026-06-13', 'weekly', '0.8'))
+wiki_ld = get_file_lastmod('/wiki/index.html') or '2026-06-13'
+urls.append((encode_url_path('/wiki/index.html'), wiki_ld, 'weekly', '0.8'))
 
 # 所有博客文章
 for a in articles:
-    aid = a['id']
-    path = path_map.get(aid, aid + '/')
-    # 优先使用 sitemapLastMod 字段，否则使用 date 字段
-    lastmod = a.get('sitemapLastMod', a.get('date', '2026-06-01'))
-    full_path = f'/blog/{path}'
+    fileName = a.get('fileName', str(a['id']))
+    lastmod = pick_lastmod(a)
+    full_path = f'/blog/{fileName}'
     urls.append((encode_url_path(full_path), lastmod, 'monthly', '0.6'))
 
 # 生成 XML
 xml_parts = ['<?xml version="1.0" encoding="UTF-8"?>']
 xml_parts.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
-xml_parts.append('  <!-- ========== 站点地图 (自动生成 2026-06-20) ========== -->')
+xml_parts.append(f'  <!-- ========== 站点地图 (自动生成 {today}) ========== -->')
 
 for loc, lastmod, changefreq, priority in urls:
-    xml_parts.append(f'  <url>')
+    xml_parts.append('  <url>')
     xml_parts.append(f'    <loc>{domain}{loc}</loc>')
     xml_parts.append(f'    <lastmod>{lastmod}</lastmod>')
     xml_parts.append(f'    <changefreq>{changefreq}</changefreq>')
     xml_parts.append(f'    <priority>{priority}</priority>')
-    xml_parts.append(f'  </url>')
+    xml_parts.append('  </url>')
 
 xml_parts.append('</urlset>')
 xml_content = '\n'.join(xml_parts)
@@ -134,4 +163,5 @@ with open(output_path, 'w', encoding='utf-8') as f:
     f.write(xml_content)
 
 print(f"已生成 sitemap.xml: {len(urls)} 个 URL")
-print("所有中文路径已进行 URL 编码")
+for u in urls:
+    print(f"  {domain}{u[0]}  lastmod={u[1]}")
