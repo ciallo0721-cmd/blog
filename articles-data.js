@@ -391,12 +391,12 @@ window.articlesData = {
             id: 47,
             category: "生活",
             fileName: "生活/47/",
-            title: "番茄炒蛋——最简单的家常味道",
-            excerpt: "番茄炒蛋，一道简单又美味的家常菜，10分钟就能搞定，新手也能轻松上手！",
+            title: "关于性别话题的一些想法",
+            excerpt: "一个普通初中生对网上某些讨论的个人观察和困惑。纯主观想法，不带节奏，理性交流喵～",
             date: "2026-06-22",
-            tags: ["美食", "家常菜", "番茄炒蛋", "简单快手", "菜谱"],
+            tags: ["个人观点", "日常思考", "友好交流"],
             readTime: 5,
-            featured: true
+            featured: false
         },
         {
             id: 48,

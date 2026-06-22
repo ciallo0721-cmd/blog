@@ -55,6 +55,26 @@
         .data-table th { background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue)); color:white; padding:12px 16px; text-align:left; }
         .data-table td { padding:10px 16px; border-bottom:1px solid #eee; }
         .data-table tr:nth-child(even) { background:#f8f9fa; }
+        /* 自述保护 - 防复制/右键 */
+        .protected-section {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .protected-section code.redact {
+            background: #000;
+            color: #000;
+            padding: 1px 8px;
+            border-radius: 3px;
+            cursor: help;
+            transition: color 0.3s ease, background 0.3s ease;
+            font-family: inherit;
+        }
+        .protected-section code.redact:hover {
+            color: #fff;
+            background: #1a1a1a;
+        }
         @media (max-width:768px) { .article-detail { padding:24px 18px; } .article-title { font-size:1.8rem; } .article-content h2 { font-size:1.5rem; } .nav-container { padding:12px 16px; } }
         /* 密码保护 */
         #passwordOverlay {
@@ -169,6 +189,8 @@
 <p>说实话，我对心理学的兴趣其实开始得很晚——也就是最近几个月的事。不是从小立志，不是书斋里的沉思，而是因为我自己真的经历了什么，才不得不去理解这一切。</p>
 <p>故事要从六年级开始说起。那是去年的事。</p>
 
+<div id="selfStory" class="protected-section">
+
 <h2>六年级的那个春天</h2>
 <p>去年2月份，我有一个朋友。那时我忽然萌生了一个念头——想好好学习了。我跟他说，我想学习，这几天可能不会怎么找他说话。他答应了，但此后每一天都在问我"学咋样了"。</p>
 <p>与此同时，我和另一个同学——我叫他C吧——在课余时间会一起聊天，内容大部分和学习有关。但我那个朋友开始觉得我不和他玩了。他一直在追问。有一天，C和他吵起来了。我先去问了C怎么回事——我和C之间本来就有一点点小矛盾——然后他（那个朋友）就认为我站到了C那边。</p>
@@ -180,12 +202,12 @@
 <h2>事情的失控</h2>
 <p>老师知道了。但她没有私下找我了解情况，而是在全班面前说了这件事。在此之前，我在朋友圈发了一条动态——忍无可忍了，在上面说了我想/kill @a。还有其他人在朋友圈发泄过同样极端的情绪，但他们没有被批评。</p>
 <p>老师开始骂我，骂我妈。那一瞬间，我的念头扩大到了<strong>/kill @a</strong>。</p>
-<p>那是3月份。我开始在网上搜索自制炸弹的方法。慢慢地，我学会了。我开始看材料——材料不算贵，但我最终没有买。我那时候还有一点良心。我甚至画出了结构图和安放地点。</p>
+<p>那是3月份。我开始在网上搜索自制<code class="redact">炸弹</code>的方法。慢慢地，我学会了。我开始看材料——材料不算贵，但我最终没有买。我那时候还有一点良心。我甚至画出了结构图和安放地点。</p>
 <p>有一天，我把刀带去了学校。我试着挟持他——但没用。我又被老师知道了。老师连问都没问到底发生了什么，就认定是我的错，继续骂我。</p>
 <p>更过分的是，她连我姥爷（已故）都骂了。</p>
 
-<p>在那之后，我彻底走向了更危险的计划。我开始研究C2炸弹的制作。我甚至用塑料做过一次试验——想看看老师会不会发现我藏在某处的"炸弹"。她一直没有发现。</p>
-<p>转眼毕业了。最后一天，我真的带上了烟花和汽油。</p>
+<p>在那之后，我彻底走向了更危险的计划。我开始研究<code class="redact">C2炸弹</code>的制作。我甚至用塑料做过一次试验——想看看老师会不会发现我藏在某处的"<code class="redact">炸弹</code>"。她一直没有发现。</p>
+<p>转眼毕业了。最后一天，我真的带上了<code class="redact">烟花和汽油</code>。</p>
 
 <p><strong>但我失败了。</strong></p>
 
@@ -213,7 +235,9 @@
 <li>如果你现在正身处黑暗中——我六年级的时候觉得世界已经彻底完了，但我现在还能坐在这里打字。不是因为我有多坚强，而是因为我发现了一件事：<strong>有人理解你是什么感觉，比什么都有用</strong></li>
 </ul>
 
-<p>所以，这个系列不是尾声。它只是一个开始。一个六年级的、带着刀和汽油准备结束一切的孩子的故事，没有以悲剧结束——这件事本身，就是我想告诉所有人的。</p>
+<p>所以，这个系列不是尾声。它只是一个开始。一个六年级的、带着<code class="redact">刀和汽油</code>准备结束一切的孩子的故事，没有以悲剧结束——这件事本身，就是我想告诉所有人的。</p>
+
+</div>
 
 <div class="callout callout-success">
 <i class="fas fa-phone-alt"></i>
@@ -272,6 +296,24 @@
     input.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') { btn.click(); }
     });
+})();
+</script>
+<script>
+// 自述部分防复制/右键
+(function(){
+    var ps = document.getElementById('selfStory');
+    if (!ps) return;
+    ps.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    ps.addEventListener('copy', function(e) {
+        e.preventDefault();
+        e.clipboardData.setData('text/plain', '(*该内容受到保护,无法复制*)');
+    });
+    ps.addEventListener('cut', function(e) {
+        e.preventDefault();
+        e.clipboardData.setData('text/plain', '(*该内容受到保护,无法复制*)');
+    });
+    // 阻止拖拽选中复制
+    ps.addEventListener('dragstart', function(e) { e.preventDefault(); });
 })();
 </script>
 </body>
