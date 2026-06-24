@@ -557,10 +557,19 @@ window.articlesData = {
         };
     },
     getSortedArticles: function() {
-        return this.articles.slice().sort(function(a, b) {
-            return new Date(b.date) - new Date(a.date);
-        });
-    },
+    return this.articles.slice().sort(function(a, b) {
+        // 先按日期倒序
+        var dateDiff = new Date(b.date) - new Date(a.date);
+
+        // 日期不同直接返回
+        if (dateDiff !== 0) {
+            return dateDiff;
+        }
+
+        // 同一天按文章ID倒序
+        return b.id - a.id;
+    });
+},
     getFeaturedArticles: function(excludeId, limit) {
         if (limit === undefined) limit = 3;
         return this.articles
