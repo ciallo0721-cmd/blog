@@ -234,11 +234,7 @@ body {
         <nav class="mw-nav">
             <a href="../index.html"><span>🏠</span> 返回主站</a>
             <a href="#" class="active" id="navTermsLink"><span>📚</span> 词条</a>
-            <a href="#" id="navCharsLink"><span>👤</span> 角色</a>
             <span class="mw-nav-right">
-                <a href="https://acetaffy.org" target="_blank" rel="noopener" style="font-size:0.82rem;opacity:0.7;">
-                    🌐 永雏塔菲百科
-                </a>
             </span>
         </nav>
     </div>
@@ -281,9 +277,8 @@ body {
             <a href="../wz.html">文章</a> ·
             <a href="../index.html">主页</a>
         </p>
-        <p style="margin-top:6px;font-size:0.8rem;">
-            参考 MediaWiki 设计 · Citizen 皮肤样式 ·
-            <a href="https://acetaffy.org" target="_blank" rel="noopener">永雏塔菲百科</a>
+        <p style="margin-top:8px;font-size:0.78rem;color:#999;border-top:1px solid var(--mw-light-border);padding-top:8px;">
+            ⚠️ <strong>免责声明</strong>：本站百科词条内容均为编者用自己的话对相关概念进行描述和整理，仅供参考学习之用，不代表官方立场或权威定义。
         </p>
     </div>
 </footer>
@@ -293,28 +288,12 @@ body {
 (function() {
     'use strict';
 
-    var currentMode = 'terms';
     var currentCat = 'all';
     var data = null;
 
-    // 等待 wikiData 就绪
-    function waitWikiData(callback) {
-        if (window.wikiData && window.wikiData.isReady && window.wikiData.isReady()) {
-            data = window.wikiData;
-            callback();
-            return;
-        }
-        if (window.wikiDataReady) {
-            window.wikiDataReady(function() {
-                data = window.wikiData;
-                callback();
-            });
-        } else {
-            document.addEventListener('wikidata:ready', function() {
-                data = window.wikiData;
-                callback();
-            });
-        }
+    // 同步获取数据（wiki-data.js 已内联数据，无需等待 XHR）
+    if (window.wikiData && window.wikiData.isReady && window.wikiData.isReady()) {
+        data = window.wikiData;
     }
 
     function getAllTerms() {
@@ -324,19 +303,6 @@ body {
                 var t = data.terms[key];
                 t._id = key;
                 arr.push(t);
-            }
-        }
-        arr.sort(function(a, b) { return a.name.localeCompare(b.name, 'zh'); });
-        return arr;
-    }
-
-    function getAllCharacters() {
-        var arr = [];
-        for (var key in data.characters) {
-            if (data.characters.hasOwnProperty(key)) {
-                var c = data.characters[key];
-                c._id = key;
-                arr.push(c);
             }
         }
         arr.sort(function(a, b) { return a.name.localeCompare(b.name, 'zh'); });
@@ -365,49 +331,31 @@ body {
         // 绑定点击事件
         nav.querySelectorAll('.category-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
-                switchTab(currentMode, this.getAttribute('data-cat'));
+                switchTab(this.getAttribute('data-cat'));
             });
         });
     }
 
-    function renderGrid(items, mode) {
+    function renderGrid(items) {
         var grid = document.getElementById('wikiGrid');
         if (!items || items.length === 0) {
             grid.innerHTML = '<div class="wiki-empty"><span style="font-size:3rem;opacity:0.3;display:block;margin-bottom:16px;">📭</span>暂无内容</div>';
             return;
         }
 
+        // 仅支持词条模式
+
         grid.innerHTML = '';
         items.forEach(function(item) {
             var card = document.createElement('a');
             var entryId = item._id;
-            if (mode === 'characters') {
-                card.href = entryId + '/index.html';
-            } else {
-                card.href = entryId + '/index.html';
-            }
+            card.href = entryId + '/index.html';
             card.className = 'wiki-card';
 
             var content = '';
-            if (mode === 'characters') {
-                content += '<div class="wiki-card-cat">👤 ' + (item.category || '角色') + '</div>';
-                content += '<div class="wiki-card-title">' + item.name + '</div>';
-                if (item.attributes) {
-                    var attrText = '';
-                    var keys = Object.keys(item.attributes);
-                    for (var i = 0; i < Math.min(keys.length, 3); i++) {
-                        attrText += keys[i] + '：' + item.attributes[keys[i]] + ' · ';
-                    }
-                    attrText = attrText.replace(/· $/, '');
-                    content += '<div class="wiki-card-summary">' + attrText + '</div>';
-                } else {
-                    content += '<div class="wiki-card-summary">' + (item.description ? item.description.replace(/<[^>]+>/g, '').substring(0, 100) : '暂无信息') + '</div>';
-                }
-            } else {
-                content += '<div class="wiki-card-cat">' + (item.category || '其他') + '</div>';
-                content += '<div class="wiki-card-title">' + item.name + '</div>';
-                content += '<div class="wiki-card-summary">' + (item.summary || '') + '</div>';
-            }
+            content += '<div class="wiki-card-cat">' + (item.category || '其他') + '</div>';
+            content += '<div class="wiki-card-title">' + item.name + '</div>';
+            content += '<div class="wiki-card-summary">' + (item.summary || '') + '</div>';
             content += '<div class="wiki-card-footer"><span>' + (item.updatedAt || '') + '</span></div>';
 
             card.innerHTML = content;
@@ -415,11 +363,10 @@ body {
         });
     }
 
-    function switchTab(mode, category) {
-        currentMode = mode;
+    function switchTab(category) {
         currentCat = category || 'all';
 
-        var items = mode === 'characters' ? getAllCharacters() : getAllTerms();
+        var items = getAllTerms();
         var cats = getCategories(items);
 
         // 更新分类导航
@@ -431,33 +378,32 @@ body {
         }
 
         // 更新标题
-        var titleText = mode === 'characters' ? '角色图鉴' : '百科词条';
-        var subText = mode === 'characters' ? '收录本站相关的角色信息。' : '记录和分享各种知识，从技术到文化。';
+        var titleText = '百科词条';
+        var subText = '记录和分享各种知识，从技术到文化。';
         if (currentCat !== 'all') {
             titleText += ' - ' + currentCat;
         }
         document.getElementById('pageTitle').textContent = titleText;
         document.getElementById('pageSubtitle').textContent = subText;
-        document.getElementById('sectionTitleText').textContent = currentCat === 'all' ? (mode === 'characters' ? '全部角色' : '全部词条') : currentCat;
+        document.getElementById('sectionTitleText').textContent = currentCat === 'all' ? '全部词条' : currentCat;
         document.getElementById('catCount').textContent = '（' + items.length + '）';
 
         // 渲染网格
-        renderGrid(items, mode);
+        renderGrid(items);
 
         // 更新导航高亮
-        document.getElementById('navTermsLink').className = mode === 'terms' ? 'active' : '';
-        document.getElementById('navCharsLink').className = mode === 'characters' ? 'active' : '';
+        document.getElementById('navTermsLink').className = 'active';
     }
 
     // 搜索
     function doSearch(query) {
         query = query.toLowerCase().trim();
         if (!query) {
-            switchTab(currentMode, currentCat);
+            switchTab(currentCat);
             return;
         }
 
-        var items = currentMode === 'characters' ? getAllCharacters() : getAllTerms();
+        var items = getAllTerms();
         var filtered = items.filter(function(item) {
             if (item.name.toLowerCase().indexOf(query) !== -1) return true;
             if (item.aliases) {
@@ -472,14 +418,12 @@ body {
 
         document.getElementById('sectionTitleText').textContent = '搜索结果';
         document.getElementById('catCount').textContent = '（' + filtered.length + '）';
-        renderGrid(filtered, currentMode);
+        renderGrid(filtered);
     }
 
     // 初始化
     function init() {
-        waitWikiData(function() {
-            switchTab('terms', 'all');
-        });
+        switchTab('all');
 
         // 搜索事件
         document.getElementById('searchBtn').addEventListener('click', function() {
@@ -494,12 +438,7 @@ body {
         // 导航切换
         document.getElementById('navTermsLink').addEventListener('click', function(e) {
             e.preventDefault();
-            switchTab('terms', 'all');
-            document.getElementById('searchInput').value = '';
-        });
-        document.getElementById('navCharsLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            switchTab('characters', 'all');
+            switchTab('all');
             document.getElementById('searchInput').value = '';
         });
     }
