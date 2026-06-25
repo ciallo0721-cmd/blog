@@ -5,9 +5,18 @@ on:
     branches: [main]
     paths:
       - 'blog/**'
+      - 'wiki/**'
       - 'index.html'
       - 'articles-data.js'
+      - 'status.html'
+      - 'aboutme.html'
+      - 'wz.html'
+      - 'baicai/**'
+      - 'taffy/**'
+      - '_config.yml'
   workflow_dispatch:  # 手动触发
+  schedule:
+    - cron: '0 */6 * * *'  # 每6小时自动补提一次（兜底）
 
 jobs:
   submit:
@@ -15,38 +24,85 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Submit all URLs to IndexNow
+      - name: Generate URL list from articles-data.js and submit to IndexNow
         run: |
-          curl -X POST "https://api.indexnow.org/IndexNow" \
+          # ---- 动态生成所有文章 URL ----
+          # 用 node 解析 articles-data.js，提取所有文章的 fileName
+          ARTICLE_URLS=$(node -e "
+            var fs = require('fs');
+            // 模拟浏览器环境：articles-data.js 依赖 window.articlesData
+            global.window = {};
+            eval(fs.readFileSync('articles-data.js', 'utf8'));
+            var articles = window.articlesData.articles;
+            var urls = articles.map(function(a) {
+              var p = a.fileName;
+              // 确保结尾有 /
+              if (p.endsWith('/')) return p;
+              return p + '/';
+            });
+            // 去重并按字母排序
+            var unique = [...new Set(urls)].sort();
+            unique.forEach(function(u) { console.log(u); });
+          " 2>/dev/null)
+
+          # ---- 基础页面 URL ----
+          BASE_URLS=(
+            ""
+            "aboutme"
+            "wz"
+            "status"
+            "wiki/"
+            "baicai/"
+            "taffy/"
+          )
+
+          # ---- 组装 JSON payload ----
+          HOST="ciallo0721-cmd.top"
+          KEY="78e189d695964af9a74c8a4c0493ac7e"
+          KEY_LOCATION="https://${HOST}/78e189d695964af9a74c8a4c0493ac7e.txt"
+
+          # 先加基础页面
+          URL_LIST=""
+          for u in "${BASE_URLS[@]}"; do
+            URL_LIST="${URL_LIST}\"https://${HOST}/${u}\","
+          done
+
+          # 再加文章页面
+          while IFS= read -r articlePath; do
+            [ -z "$articlePath" ] && continue
+            URL_LIST="${URL_LIST}\"https://${HOST}/${articlePath}\","
+          done <<< "$ARTICLE_URLS"
+
+          # 去掉最后一个逗号
+          URL_LIST="${URL_LIST%,}"
+
+          # 构建 JSON
+          JSON="{\"host\":\"${HOST}\",\"key\":\"${KEY}\",\"keyLocation\":\"${KEY_LOCATION}\",\"urlList\":[${URL_LIST}]}"
+
+          echo "Submitting $(echo "$URL_LIST" | grep -o '"https://' | wc -l) URLs to IndexNow..."
+
+          # ---- 发请求（每次最多提交 1 万个 URL，IndexNow 限制）----
+          # 先用 POST 试试
+          RESPONSE=$(curl -s -X POST "https://api.indexnow.org/IndexNow" \
             -H "Content-Type: application/json; charset=utf-8" \
-            -d '{
-              "host": "ciallo0721-cmd.top",
-              "key": "78e189d695964af9a74c8a4c0493ac7e",
-              "keyLocation": "https://ciallo0721-cmd.top/78e189d695964af9a74c8a4c0493ac7e.txt",
-              "urlList": [
-                "https://ciallo0721-cmd.top/",
-                "https://ciallo0721-cmd.top/教程/1/",
-                "https://ciallo0721-cmd.top/教程/2/",
-                "https://ciallo0721-cmd.top/教程/3/",
-                "https://ciallo0721-cmd.top/教程/16/",
-                "https://ciallo0721-cmd.top/教程/19/",
-                "https://ciallo0721-cmd.top/教程/20/",
-                "https://ciallo0721-cmd.top/教程/21/",
-                "https://ciallo0721-cmd.top/公告/4/",
-                "https://ciallo0721-cmd.top/公告/5/",
-                "https://ciallo0721-cmd.top/公告/8/",
-                "https://ciallo0721-cmd.top/公告/9/",
-                "https://ciallo0721-cmd.top/公告/10/",
-                "https://ciallo0721-cmd.top/公告/11/",
-                "https://ciallo0721-cmd.top/公告/12/",
-                "https://ciallo0721-cmd.top/ACG/7/",
-                "https://ciallo0721-cmd.top/ACG/13/",
-                "https://ciallo0721-cmd.top/ACG/14/",
-                "https://ciallo0721-cmd.top/ACG/15/",
-                "https://ciallo0721-cmd.top/ACG/22/",
-                "https://ciallo0721-cmd.top/科技/17/",
-                "https://ciallo0721-cmd.top/生活/18/",
-                "https://ciallo0721-cmd.top/闲聊/6/",
-                "https://ciallo0721-cmd.top/心理学/23/"
-              ]
-            }' -w "\nHTTP %{http_code}\n" -o /dev/null
+            -d "$JSON" \
+            -w "\nHTTP_CODE:%{http_code}" 2>&1)
+
+          echo "IndexNow response:"
+          echo "$RESPONSE"
+
+          HTTP_CODE=$(echo "$RESPONSE" | grep "HTTP_CODE:" | sed 's/.*HTTP_CODE://')
+
+          # HTTP 200 = 成功；202 = 已接受（Bing/Yandex）
+          if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "202" ]; then
+            echo "✅ IndexNow submission successful (HTTP $HTTP_CODE)"
+          else
+            echo "⚠️  IndexNow submission returned HTTP $HTTP_CODE, trying alternative endpoint..."
+            # 备用：用 Bing 的 IndexNow 端点
+            RESPONSE2=$(curl -s -X POST "https://www.bing.com/indexnow?url=${HOST}&key=${KEY}" \
+              -H "Content-Type: application/json; charset=utf-8" \
+              -d "$JSON" \
+              -w "\nHTTP_CODE:%{http_code}" 2>&1)
+            echo "Bing IndexNow response:"
+            echo "$RESPONSE2"
+          fi
