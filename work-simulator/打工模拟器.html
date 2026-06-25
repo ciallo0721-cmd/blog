@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打工模拟器</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        background: #111;
+        display: flex; justify-content: center; align-items: center;
+        min-height: 100vh; font-family: 'Consolas', 'Courier New', monospace;
+      }
+      #game-container { width: 820px; max-width: 98vw; }
+
+      /* ===== 终端窗口 ===== */
+      #terminal {
+        background: #000; color: #0f0;
+        height: 480px; overflow-y: auto; overflow-x: hidden;
+        padding: 10px 14px; font-size: 14px; line-height: 1.6;
+        border: 2px solid #333; border-radius: 8px 8px 0 0;
+        white-space: pre-wrap; word-wrap: break-word;
+        scroll-behavior: smooth;
+      }
+      #terminal::-webkit-scrollbar { width: 6px; }
+      #terminal::-webkit-scrollbar-track { background: #111; }
+      #terminal::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+      #terminal .ansi-1  { font-weight: bold; }
+      #terminal .ansi-31 { color: #e74c3c; }
+      #terminal .ansi-32 { color: #2ecc71; }
+      #terminal .ansi-33 { color: #f1c40f; }
+      #terminal .ansi-34 { color: #3498db; }
+      #terminal .ansi-35 { color: #9b59b6; }
+      #terminal .ansi-36 { color: #1abc9c; }
+      #terminal .ansi-37 { color: #ecf0f1; }
+
+      /* ===== 输入行 ===== */
+      #input-line {
+        display: flex; background: #1a1a1a;
+        border-left: 2px solid #333; border-right: 2px solid #333;
+      }
+      #input-line input {
+        flex: 1;
+        background: #0a0a0a; color: #0f0;
+        border: none; padding: 8px 12px;
+        font-family: 'Consolas', monospace; font-size: 15px;
+        outline: none;
+      }
+      #input-line input:focus { background: #111; }
+      #input-line #btn-send {
+        background: #2ecc71; color: #000;
+        border: none; padding: 8px 20px;
+        cursor: pointer; font-weight: bold; font-size: 14px;
+      }
+      #input-line #btn-send:hover { background: #27ae60; }
+      #input-line #btn-send:active { background: #1e8449; }
+
+      /* ===== 虚拟键盘 ===== */
+      #keyboard {
+        background: #1a1a2e; padding: 8px 6px;
+        border-radius: 0 0 8px 8px;
+        border: 2px solid #333; border-top: none;
+        user-select: none;
+      }
+      .key-row { display: flex; justify-content: center; margin-bottom: 5px; gap: 4px; }
+      .key-row:last-child { margin-bottom: 0; }
+      .key {
+        background: #3a3a4a; color: #ddd;
+        border: 1px solid #555; border-radius: 4px;
+        padding: 10px 0; min-width: 46px;
+        text-align: center; cursor: pointer;
+        font-family: 'Consolas', monospace; font-size: 15px;
+        transition: background 0.08s;
+      }
+      .key:hover { background: #4a4a5a; }
+      .key:active, .key.pressed { background: #6a6a8a; transform: scale(0.95); }
+      .key-wide { min-width: 80px; }
+      .key-enter  { background: #2e7d5e; min-width: 96px; }
+      .key-enter:hover { background: #3a9a72; }
+      .key-space  { min-width: 220px; }
+      .key-fn     { background: #3a4a6a; min-width: 56px; }
+      .key-fn:hover { background: #4a5a8a; }
+      .key-fn2    { background: #5a3a4a; min-width: 56px; }
+      .key-fn2:hover { background: #7a4a5a; }
+
+      /* 加载遮罩 */
+      #loading {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: #111; display: flex; flex-direction: column;
+        justify-content: center; align-items: center; z-index: 999;
+        color: #0f0; font-family: 'Consolas', monospace;
+        transition: opacity 0.5s;
+      }
+      #loading.hide { opacity: 0; pointer-events: none; }
+      #loading .spinner {
+        width: 40px; height: 40px; margin-bottom: 20px;
+        border: 4px solid #333; border-top-color: #0f0;
+        border-radius: 50%; animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      #loading .status { font-size: 14px; color: #888; margin-top: 10px; }
+
+      @media (max-width: 600px) {
+        #terminal { height: 350px; font-size: 12px; padding: 8px; }
+        .key { min-width: 30px; padding: 8px 0; font-size: 12px; }
+        .key-wide { min-width: 60px; }
+        .key-space { min-width: 140px; }
+        .key-enter { min-width: 70px; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- 加载遮罩 -->
+    <div id="loading">
+      <div class="spinner"></div>
+      <div>打工模拟器加载中...</div>
+      <div class="status" id="load-status"></div>
+    </div>
+
+    <!-- 游戏容器 -->
+    <div id="game-container">
+      <div id="terminal"></div>
+      <div id="input-line">
+        <input type="text" id="cmd-input" placeholder="输入指令..." autofocus>
+        <button id="btn-send">↵ 发送</button>
+      </div>
+      <div id="keyboard">
+        <!-- 数字行 -->
+        <div class="key-row">
+          <div class="key" data-key="1">1</div>
+          <div class="key" data-key="2">2</div>
+          <div class="key" data-key="3">3</div>
+          <div class="key" data-key="4">4</div>
+          <div class="key" data-key="5">5</div>
+          <div class="key" data-key="6">6</div>
+          <div class="key" data-key="7">7</div>
+          <div class="key" data-key="8">8</div>
+          <div class="key" data-key="9">9</div>
+          <div class="key" data-key="0">0</div>
+        </div>
+        <!-- 字母 Q-P -->
+        <div class="key-row">
+          <div class="key" data-key="q">Q</div>
+          <div class="key" data-key="w">W</div>
+          <div class="key" data-key="e">E</div>
+          <div class="key" data-key="r">R</div>
+          <div class="key" data-key="t">T</div>
+          <div class="key" data-key="y">Y</div>
+          <div class="key" data-key="u">U</div>
+          <div class="key" data-key="i">I</div>
+          <div class="key" data-key="o">O</div>
+          <div class="key" data-key="p">P</div>
+        </div>
+        <!-- 字母 A-L -->
+        <div class="key-row">
+          <div class="key" data-key="a">A</div>
+          <div class="key" data-key="s">S</div>
+          <div class="key" data-key="d">D</div>
+          <div class="key" data-key="f">F</div>
+          <div class="key" data-key="g">G</div>
+          <div class="key" data-key="h">H</div>
+          <div class="key" data-key="j">J</div>
+          <div class="key" data-key="k">K</div>
+          <div class="key" data-key="l">L</div>
+        </div>
+        <!-- 字母 Z-M + 特殊 -->
+        <div class="key-row">
+          <div class="key" data-key="z">Z</div>
+          <div class="key" data-key="x">X</div>
+          <div class="key" data-key="c">C</div>
+          <div class="key" data-key="v">V</div>
+          <div class="key" data-key="b">B</div>
+          <div class="key" data-key="n">N</div>
+          <div class="key" data-key="m">M</div>
+          <div class="key" data-key="@">@</div>
+          <div class="key key-back" data-key="\b">⌫</div>
+        </div>
+        <!-- 功能行 -->
+        <div class="key-row">
+          <div class="key key-fn" data-key=" ">空格</div>
+          <div class="key key-enter" data-key="\n">↵ Enter</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ===== DOM 引用 =====
+      var terminal = document.getElementById('terminal');
+      var cmdInput = document.getElementById('cmd-input');
+      var btnSend = document.getElementById('btn-send');
+      var loading = document.getElementById('loading');
+      var loadStatus = document.getElementById('load-status');
+
+      // ===== ANSI 转 HTML =====
+      function ansiToHtml(text) {
+        return text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\033\[1m/g, '<span class="ansi-1">')
+          .replace(/\033\[31m/g, '<span class="ansi-31">')
+          .replace(/\033\[32m/g, '<span class="ansi-32">')
+          .replace(/\033\[33m/g, '<span class="ansi-33">')
+          .replace(/\033\[34m/g, '<span class="ansi-34">')
+          .replace(/\033\[35m/g, '<span class="ansi-35">')
+          .replace(/\033\[36m/g, '<span class="ansi-36">')
+          .replace(/\033\[37m/g, '<span class="ansi-37">')
+          .replace(/\033\[0m/g, '</span>')
+          .replace(/\033\[2J\033\[H/g, '')
+          .replace(/\033\[H/g, '')
+          .replace(/\033\[2J/g, '')
+          .replace(/\033c/g, '')
+          // Remove any remaining escape sequences
+          .replace(/\033\[[0-9;]*[a-zA-Z]/g, '');
+      }
+
+      function writeTerminal(text) {
+        var html = ansiToHtml(text);
+        // Close unclosed spans
+        var spanCount = (html.match(/<span/g) || []).length;
+        var closeCount = (html.match(/<\/span/g) || []).length;
+        for (var i = 0; i < spanCount - closeCount; i++) {
+          html += '</span>';
+        }
+        terminal.innerHTML += html;
+        terminal.scrollTop = terminal.scrollHeight;
+      }
+
+      function clearTerminal() {
+        terminal.innerHTML = '';
+      }
+
+      // ===== 输入缓冲 =====
+      var inputBuffer = [];
+
+      function feedChar(ch) {
+        inputBuffer.push(ch.charCodeAt(0));
+      }
+
+      function feedString(str) {
+        for (var i = 0; i < str.length; i++) {
+          feedChar(str[i]);
+        }
+        feedChar('\n'); // Enter
+      }
+
+      // ===== 虚拟键盘事件 =====
+      document.querySelectorAll('.key').forEach(function(keyEl) {
+        keyEl.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          var key = this.dataset.key;
+          if (key === '\b') {
+            // Backspace: remove last char from input field
+            cmdInput.value = cmdInput.value.slice(0, -1);
+          } else if (key === '\n') {
+            // Enter: submit current input
+            submitInput();
+          } else if (key === ' ') {
+            cmdInput.value += ' ';
+          } else {
+            cmdInput.value += key;
+          }
+          cmdInput.focus();
+          // Visual feedback
+          this.classList.add('pressed');
+          setTimeout(() => this.classList.remove('pressed'), 120);
+        });
+      });
+
+      // ===== 提交输入 =====
+      function submitInput() {
+        var val = cmdInput.value.trim();
+        if (val) {
+          writeTerminal('<span style="color:#888">> ' + val + '</span>\n');
+          feedString(val);
+          cmdInput.value = '';
+        } else {
+          // Just send Enter
+          feedChar('\n');
+        }
+        cmdInput.focus();
+      }
+
+      btnSend.addEventListener('click', submitInput);
+
+      cmdInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          submitInput();
+        }
+      });
+
+      // ===== 物理键盘也支持 =====
+      document.addEventListener('keydown', function(e) {
+        if (e.target === cmdInput) return; // Already handled by input field
+        if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+        var key = e.key;
+        if (key === 'Enter') {
+          e.preventDefault();
+          submitInput();
+        } else if (key === 'Backspace') {
+          e.preventDefault();
+          cmdInput.value = cmdInput.value.slice(0, -1);
+        } else if (key.length === 1) {
+          e.preventDefault();
+          cmdInput.value += key;
+        }
+        cmdInput.focus();
+      });
+
+      // ===== Emscripten 模块配置 =====
+      var statusElement = document.getElementById('load-status');
+
+      var Module = {
+        print: function(text) {
+          console.log(text);
+          // 忽略控制台加载的进度消息
+          if (text && text.includes('pre-main')) return;
+          writeTerminal(text + '\n');
+        },
+        printErr: function(text) {
+          console.error(text);
+        },
+        setStatus: function(text) {
+          if (loadStatus) loadStatus.textContent = text || '';
+          if (!text) {
+            loading.classList.add('hide');
+            setTimeout(function() { loading.style.display = 'none'; }, 500);
+          }
+        },
+        monitorRunDependencies: function(left) {
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+          this.setStatus(left
+            ? '加载中... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')'
+            : '');
+        },
+        totalDependencies: 0,
+        // 捕获 ANSI 清屏
+        canvas: (function() {
+          var c = document.createElement('canvas');
+          c.style.display = 'none';
+          document.body.appendChild(c);
+          return c;
+        })(),
+        onRuntimeInitialized: function() {
+          // 设置自定义 stdin
+          if (typeof FS !== 'undefined') {
+            FS.init(function() {
+              if (inputBuffer.length > 0) {
+                return inputBuffer.shift();
+              }
+              return null;
+            }, null, null);
+          }
+          writeTerminal('打工模拟器 v3.0 - Web版\n');
+          writeTerminal('游戏已加载完成，开始打工吧！\n\n');
+        }
+      };
+
+      // ===== 替换清屏行为 =====
+      var origWrite = writeTerminal;
+      writeTerminal = function(text) {
+        // If ESC[2J (clear screen), clear terminal
+        if (text.includes('\033[2J') || text.includes('\033[H')) {
+          clearTerminal();
+        }
+        origWrite(text);
+      };
+
+      // ===== 加载模块 =====
+      var script = document.createElement('script');
+      script.src = '打工模拟器.js';
+      script.async = true;
+      document.body.appendChild(script);
+    </script>
+
+    <!-- 隐藏 textarea 供 Emscripten 旧版兼容 -->
+    <textarea id="output" style="display:none"></textarea>
+  </body>
+</html>
