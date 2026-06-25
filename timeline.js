@@ -1,6 +1,11 @@
 window.timelineData = [
             {
                 date: "2026年6月25日",
+                title: "导航栏缩小 + MoeFace Web 前端 .moe 解析器重写",
+                desc: "将导航栏 nav-container padding 从 15px 20px 缩小为 8px 15px，nav-links gap 从 35px 缩小为 18px，同步更新全部 29 个 HTML 文件。同时重写 app/moeface/index.html 的 loadDatabase()，将 JSON.parse 改为解析 .moe 实际文本格式（多部位特征取平均）的说喵～"
+            },
+            {
+                date: "2026年6月25日",
                 title: "修复 IndexNow 工作流：动态 URL 生成 + 密钥文件补全",
                 desc: "重写 indexnow-submit.yml：从 articles-data.js 动态解析全部 49 篇文章的 URL，扩大触发路径（wiki/status/aboutme/wz/baicai/taffy 等），新增每6小时定时兜底提交和备用 Bing IndexNow 端点。补充 IndexNow 验证密钥文件 78e189d695964af9a74c8a4c0493ac7e.txt 的说喵～"
             },
