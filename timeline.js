@@ -1,5 +1,10 @@
 window.timelineData = [
             {
+                date: "2026年6月25日",
+                title: "修复 IndexNow 工作流：动态 URL 生成 + 密钥文件补全",
+                desc: "重写 indexnow-submit.yml：从 articles-data.js 动态解析全部 49 篇文章的 URL，扩大触发路径（wiki/status/aboutme/wz/baicai/taffy 等），新增每6小时定时兜底提交和备用 Bing IndexNow 端点。补充 IndexNow 验证密钥文件 78e189d695964af9a74c8a4c0493ac7e.txt 的说喵～"
+            },
+            {
                 date: "2026年6月22日",
                 title: "新文章 #47：关于性别话题的一些想法",
                 desc: "写了一篇关于网上性别话题的个人随想喵～ 纯个人观察，不说教不站队，加了弹窗警告和免责声明。感兴趣的朋友可以去看看的说～"
