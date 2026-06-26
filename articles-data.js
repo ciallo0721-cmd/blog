@@ -541,6 +541,17 @@ window.articlesData = {
             readTime: 18,
             featured: true
         },
+        {
+            id: 50,
+            category: "ACG",
+            fileName: "ACG/50/",
+            title: "樱花校园模拟器：桃子组神秘房间通关攻略",
+            excerpt: "桃子组神秘房间通关视频攻略，直接看视频。",
+            date: "2026-06-26",
+            tags: ["樱花校园模拟器", "桃子组", "游戏攻略", "视频"],
+            readTime: 1,
+            featured: true
+        },
         ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),

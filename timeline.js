@@ -1,6 +1,16 @@
 window.timelineData = [
             {
                 date: "2026年6月26日",
+                title: "修复 /blog/ 页面 Meta Description 过短问题",
+                desc: "Bing Webmaster Tools 检测到 /blog/ 页面 meta description 仅16字符（ciallo0721-cmd 的文章站），不符合搜索引擎要求。已扩写为完整描述（~68字符），同时补充了 OGP（og:title/description/url/type/site_name）和 Twitter Card 元数据，提升搜索引擎和社会化分享表现的说喵～"
+            },
+            {
+                date: "2026年6月26日",
+                title: "新文章 #50：樱花校园模拟器桃子组神秘房间通关攻略",
+                desc: "发布游戏攻略文章，介绍樱花校园模拟器中桃子组（黑帮团，持火箭筒）神秘房间的通关方法。文章以视频为主，无文字内容，视频文件位于 blog/ACG/50/1.mp4 的说喵～"
+            },
+            {
+                date: "2026年6月26日",
                 title: "自研视频播放器停用 · 替换为浏览器原生播放器",
                 desc: "自研视频播放器（video-player.js / nice-video.js / MediaViewer视频功能）因2026/6/16后兼容性问题彻底失效，打了也播不了的说喵～ 已将其从4篇含有视频的文章（#15 真白花音退网视频、#16 注册GitHub教程、#17 优化X推荐、muban样板文章）中全部替换为标准HTML5 `<video controls>` 原生播放器，并清理3篇无实际视频内容的文章中残留的脚本引用的说喵～（状态标记为🔴红色）"
             },
