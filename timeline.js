@@ -1,6 +1,11 @@
 window.timelineData = [
             {
                 date: "2026年6月26日",
+                title: "网站挂上爱发电赞助链接",
+                desc: "在首页导航栏、移动端菜单、页脚添加爱发电链接（https://ifdian.net/a/ciallo0721-cmd），同步修复 wz/index.html 断裂的赞助支持锚点链接，更新 i18n 映射使其准确匹配导航项的说喵～"
+            },
+            {
+                date: "2026年6月26日",
                 title: "修复 /blog/ 页面 Meta Description 过短问题",
                 desc: "Bing Webmaster Tools 检测到 /blog/ 页面 meta description 仅16字符（ciallo0721-cmd 的文章站），不符合搜索引擎要求。已扩写为完整描述（~68字符），同时补充了 OGP（og:title/description/url/type/site_name）和 Twitter Card 元数据，提升搜索引擎和社会化分享表现的说喵～"
             },
