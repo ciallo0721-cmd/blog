@@ -1,0 +1,41 @@
+# ============================================================
+# 自动注入 GA4 跟踪代码
+# 每次 push 到 main，自动为新增 / 缺失 GA 的 HTML 页面注入
+# ============================================================
+name: 自动注入 GA4
+
+on:
+  push:
+    branches: [main]
+  # 也可手动触发，方便补全遗漏的页面
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inject-ga:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 执行 GA 注入脚本
+        id: ga
+        run: python .github/scripts/inject-ga.py
+
+      - name: 提交并推送修改
+        if: steps.ga.outputs.injected_count != '0'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "🤖 自动注入 GA4 跟踪代码到 ${{ steps.ga.outputs.injected_count }} 个页面"
+          git push
