@@ -8,9 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="/fanv.ico" type="image/x-icon">
     <link rel="stylesheet" href="../../pic/image-viewer.css">
-    <link rel="stylesheet" href="../../vid/video-player.css">
     <script src="../../pic/image-viewer.js"></script>
-    <script src="../../vid/video-player.js"></script>
     <script src="/articles-data.js"></script>
     <!-- 百科词条系统 -->
     <script src="/wiki-data.js"></script>
@@ -423,11 +421,6 @@
         .article-video-container {
             margin: 40px 0;
             text-align: center;
-        }
-
-        .article-video-container .video-player-container {
-            display: inline-block;
-            max-width: 100%;
         }
 
         .article-navigation {
@@ -962,28 +955,9 @@ git config --global user.email "你的邮箱@example.com"</code></pre>
                 <p>按下回车，Git 就会自动下载整个仓库到本地。完成后当前文件夹会出现一个以仓库名命名的目录，打开它即可看到所有文件。</p>
 
                 <div class="article-video-container">
-                    <div class="video-player-container" data-src="video/git-clone-demo.mp4">
-                        <div class="video-poster">
-                            <div class="play-button"><i class="fas fa-play"></i></div>
-                        </div>
-                        <video preload="metadata"></video>
-                        <div class="video-controls">
-                            <button class="vp-control-btn vp-play-pause"><i class="fas fa-play"></i></button>
-                            <div class="vp-progress-container">
-                                <div class="vp-progress-bar">
-                                    <div class="vp-progress-fill"></div>
-                                    <div class="vp-progress-handle"></div>
-                                </div>
-                            </div>
-                            <span class="vp-time-display">00:00 / 00:00</span>
-                            <div class="vp-volume-container">
-                                <button class="vp-control-btn vp-volume-btn"><i class="fas fa-volume-up"></i></button>
-                                <div class="vp-volume-slider"><div class="vp-volume-fill"></div></div>
-                            </div>
-                            <button class="vp-control-btn vp-fullscreen-btn"><i class="fas fa-expand"></i></button>
-                        </div>
-                        <div class="vp-loading"></div>
-                    </div>
+                    <video controls style="width:100%;border-radius:12px;">
+                        <source src="video/git-clone-demo.mp4" type="video/mp4">
+                    </video>
                     <div class="image-caption">视频：如何 Clone 仓库（演示基本流程）</div>
                 </div>
 
@@ -1298,57 +1272,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 自定义视频播放器 - 使用独立组件
-    function initCustomVideoPlayer() {
-        console.log('[DEBUG] initCustomVideoPlayer called');
-        console.log('[DEBUG] VideoPlayer exists:', typeof VideoPlayer !== 'undefined');
-        
-        // 直接查找所有可能的元素
-        const allDivs = document.querySelectorAll('div');
-        console.log('[DEBUG] Total divs in document:', allDivs.length);
-        
-        const vc = document.querySelector('.video-player-container');
-        console.log('[DEBUG] Found .video-player-container:', !!vc);
-        if (vc) {
-            console.log('[DEBUG] vc innerHTML preview:', vc.innerHTML.substring(0, 100));
-        }
-        
-        const articleContent = document.getElementById('articleContent');
-        console.log('[DEBUG] articleContent exists:', !!articleContent);
-        if (articleContent) {
-            console.log('[DEBUG] articleContent children count:', articleContent.children.length);
-            console.log('[DEBUG] articleContent innerHTML length:', articleContent.innerHTML.length);
-            console.log('[DEBUG] Has video-player-container in innerHTML:', articleContent.innerHTML.includes('video-player-container'));
-            console.log('[DEBUG] Has video-player-container in outerHTML:', articleContent.outerHTML.includes('video-player-container'));
-            console.log('[DEBUG] articleContent innerHTML preview:', articleContent.innerHTML.substring(0, 300));
-        }
-
-        document.querySelectorAll('.video-player-container').forEach(container => {
-            // 跳过已初始化的
-            if (container.dataset.initialized) {
-                console.log('[DEBUG] Skipping already initialized container');
-                return;
-            }
-            container.dataset.initialized = 'true';
-
-            const src = container.dataset.src || '';
-            const video = container.querySelector('video');
-            console.log('[DEBUG] video src:', src, 'video element:', !!video);
-            if (video && src) {
-                video.src = src;
-                video.load();
-                console.log('[DEBUG] video.src set to:', video.src);
-            }
-
-            if (typeof VideoPlayer !== 'undefined') {
-                console.log('[DEBUG] Calling VideoPlayer.init');
-                VideoPlayer.init(container);
-            } else {
-                console.error('[DEBUG] VideoPlayer not found!');
-            }
-        });
-    }
-    
     // 添加代码复制功能
     function addCodeCopyFunction() {
         document.querySelectorAll('pre code').forEach((codeBlock) => {
@@ -1513,9 +1436,6 @@ document.addEventListener('DOMContentLoaded', function() {
         addReadingProgressBar();
         initShareFunction();
         initImageZoom();
-        
-        // 等待DOM更新后再初始化视频播放器
-        setTimeout(initCustomVideoPlayer, 50);
     }
     
     // 初始化页面

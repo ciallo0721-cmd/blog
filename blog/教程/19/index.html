@@ -771,8 +771,6 @@
         .cta-box a { display:inline-block; background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue)); color:white; text-decoration:none; padding:12px 28px; border-radius:25px; font-weight:600; transition:var(--transition); }
         .cta-box a:hover { transform:translateY(-2px); box-shadow:0 4px 15px rgba(51,102,255,0.4); }
 </style>
-<link rel="stylesheet" href="../../video-player.css">
-<script src="../../video-player.js"></script>
 
     <!-- IP 地理检测（美国用户拒绝访问） -->
     <script src="/geo-check.js"></script>
@@ -1553,11 +1551,6 @@ document.addEventListener('DOMContentLoaded', function() {
         addReadingProgressBar();
         initShareFunction();
         initImageZoom();
-        
-        // 初始化自定义视频播放器（如果页面中有）
-        if (window.MediaViewer && window.MediaViewer.initCustomVideoPlayer) {
-            window.MediaViewer.initCustomVideoPlayer();
-        }
     }
     
     // 初始化页面

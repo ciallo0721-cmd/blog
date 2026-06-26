@@ -9,11 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/media-viewer.css">
     <link rel="icon" href="/fanv.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../../video-player.css">
     <script src="/media-viewer.js"></script>
-    <script src="../../video-player.js"></script>
-    <link rel="stylesheet" href="../../nice-video.css">
-    <script src="../../nice-video.js"></script>
     <link rel="stylesheet" href="../../mus/audio-player.css">
     <script src="../../mus/audio-player.js"></script>
     <!-- PDF.js -->
@@ -766,8 +762,8 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
                                 <td><i class="fas fa-video" style="color:var(--bili-blue)"></i> 视频播放器</td>
                                 <td><span class="badge badge-blue">媒体</span></td>
                                 <td><span class="badge badge-green">是</span></td>
-                                <td><span class="dot dot-green"></span>正常</td>
-                                <td>nice-video.js 自研</td>
+                                <td><span class="dot dot-red"></span>已停用</td>
+                                <td>自研播放器 2026/6/16 后停用，已换原生</td>
                             </tr>
                             <tr>
                                 <td><i class="fas fa-share-alt" style="color:var(--bili-pink)"></i> 分享弹窗</td>
@@ -974,10 +970,10 @@ jobs:
 
                 <h3>视频播放器</h3>
                 <div class="article-audio-container">
-                    <div class="nice-video-container" data-src="./video.mp4">
-                        <video preload="metadata"></video>
-                    </div>
-                    <div class="image-caption">视频：自研 nice-video.js 播放器</div>
+                    <video controls style="width:100%;border-radius:12px;">
+                        <source src="./video.mp4" type="video/mp4">
+                    </video>
+                    <div class="image-caption">视频：浏览器原生播放器（原自研播放器已停用）</div>
                 </div>
 
                 <hr>
@@ -1388,8 +1384,8 @@ jobs:
             }
         });
 
-        // 视频播放器
-        if (window.NiceVideo) NiceVideo.initAll();
+        // 视频播放器（自研播放器已停用，改用浏览器原生播放器）
+        // if (window.NiceVideo) NiceVideo.initAll();
 
         // 绘制图表
         drawLineChart(); drawBarChart(); drawPieChart();

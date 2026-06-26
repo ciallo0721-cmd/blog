@@ -1,5 +1,15 @@
 window.timelineData = [
             {
+                date: "2026年6月26日",
+                title: "自研视频播放器停用 · 替换为浏览器原生播放器",
+                desc: "自研视频播放器（video-player.js / nice-video.js / MediaViewer视频功能）因2026/6/16后兼容性问题彻底失效，打了也播不了的说喵～ 已将其从4篇含有视频的文章（#15 真白花音退网视频、#16 注册GitHub教程、#17 优化X推荐、muban样板文章）中全部替换为标准HTML5 `<video controls>` 原生播放器，并清理3篇无实际视频内容的文章中残留的脚本引用的说喵～（状态标记为🔴红色）"
+            },
+            {
+                date: "2026年6月26日",
+                title: "sitemap 添加 /work/（打工模拟器）条目",
+                desc: "将 https://ciallo0721-cmd.top/work/ 打工模拟器 WebAssembly 游戏页面加入站点地图（sitemap.xml），便于搜索引擎索引的说喵～"
+            },
+            {
                 date: "2026年6月25日",
                 title: "导航栏缩小 + MoeFace Web 前端 .moe 解析器重写",
                 desc: "将导航栏 nav-container padding 从 15px 20px 缩小为 8px 15px，nav-links gap 从 35px 缩小为 18px，同步更新全部 29 个 HTML 文件。同时重写 app/moeface/index.html 的 loadDatabase()，将 JSON.parse 改为解析 .moe 实际文本格式（多部位特征取平均）的说喵～"

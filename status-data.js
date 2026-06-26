@@ -32,9 +32,9 @@
 window.statusHistory = [
     {
         date: "2026年6月26日",
-        status: "green",
-        title: "一切正常喵～",
-        desc: ""
+        status: "red",
+        title: "自研视频播放器停用 · 替换为原生浏览器播放器",
+        desc: "自研视频播放器（video-player.js/nice-video.js/MediaViewer视频播放功能）已于2026/6/16后因兼容性问题彻底失效。已将其从4篇有视频的文章中移除，替换为标准HTML5 `<video controls>` 原生播放器，并清理3篇无视频文章中残留的脚本引用的说喵～"
     },
     {
         date: "2026年6月25日",

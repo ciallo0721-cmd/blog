@@ -7,8 +7,7 @@
     <meta name="description" content="视频 - ciallo0721-cmd">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://ciallo0721-cmd.top/blog/ACG/15/">
-    <link rel="icon" href="/fanv.ico" type="image/x-icon"><link rel="stylesheet" href="../../pic/image-viewer.css">
-    <link rel="stylesheet" href="../../vid/video-player.css">
+    <link rel="icon" href="/fanv.ico" type="image/x-icon">    <link rel="stylesheet" href="../../pic/image-viewer.css">
 
     <style>
 @font-face {
@@ -265,32 +264,9 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
             </header>
             
             <div class="article-content" id="articleContent">
-                <div class="video-container">
-                <div class="video-player-container" data-src="./bc.mp4">
-                    <div class="video-poster">
-                        <div class="play-button">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
-                    <video preload="metadata"></video>
-                    <div class="video-controls">
-                        <button class="vp-control-btn vp-play-pause"><i class="fas fa-play"></i></button>
-                        <div class="vp-progress-container">
-                            <div class="vp-progress-bar">
-                                <div class="vp-progress-fill"></div>
-                                <div class="vp-progress-handle"></div>
-                            </div>
-                        </div>
-                        <span class="vp-time-display">00:00 / 00:00</span>
-                        <div class="vp-volume-container">
-                            <button class="vp-control-btn vp-volume-btn"><i class="fas fa-volume-up"></i></button>
-                            <div class="vp-volume-slider"><div class="vp-volume-fill"></div></div>
-                        </div>
-                        <button class="vp-control-btn vp-fullscreen-btn"><i class="fas fa-expand"></i></button>
-                    </div>
-                    <div class="vp-loading"></div>
-                </div>
-                </div>
+                <video controls style="width:100%;border-radius:12px;margin:25px 0;">
+                    <source src="./bc.mp4" type="video/mp4">
+                </video>
             </div>
         </article>
 
@@ -412,5 +388,4 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
 
     <script src="../../pic/image-viewer.js"></script>
-    <script src="../../vid/video-player.js"></script>
 </html>
