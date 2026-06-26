@@ -8,7 +8,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: #1a1a2e;
-      font-family: 'Consolas', 'Courier New', monospace;
+      font-family: 'Consolas', 'Courier New', 'Segoe UI Emoji', 'Apple Color Emoji', monospace;
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -38,96 +38,65 @@
       border-bottom: 1px solid #2a2a4a;
       flex-shrink: 0;
     }
-    .terminal-dots {
-      display: flex;
-      gap: 7px;
-    }
-    .terminal-dot {
-      width: 12px; height: 12px;
-      border-radius: 50%;
-    }
+    .terminal-dots { display: flex; gap: 7px; }
+    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
     .dot-red { background: #ff5f56; }
     .dot-yellow { background: #ffbd2e; }
     .dot-green { background: #27c93f; }
     .terminal-title {
-      color: #8899bb;
+      color: #8888aa;
       font-size: 13px;
-      margin-left: 8px;
-      flex: 1;
       letter-spacing: 1px;
     }
-    .terminal-badge {
-      background: #e94560;
-      color: #fff;
-      font-size: 11px;
-      padding: 2px 10px;
-      border-radius: 10px;
-      font-family: 'Consolas', monospace;
-    }
-    .terminal-output {
+    #output {
       flex: 1;
+      padding: 16px;
       overflow-y: auto;
-      padding: 16px 18px;
+      color: #c0c0dd;
       font-size: 14px;
-      line-height: 1.6;
-      color: #e0e0e0;
+      line-height: 1.5;
       white-space: pre-wrap;
       word-wrap: break-word;
-      background: #0d0d1a;
-      scroll-behavior: smooth;
     }
-    .terminal-output::-webkit-scrollbar { width: 6px; }
-    .terminal-output::-webkit-scrollbar-track { background: #0d0d1a; }
-    .terminal-output::-webkit-scrollbar-thumb { background: #2a2a4a; border-radius: 3px; }
-    .terminal-input-area {
+    #output::-webkit-scrollbar { width: 6px; }
+    #output::-webkit-scrollbar-track { background: #0d0d1a; }
+    #output::-webkit-scrollbar-thumb { background: #2a2a4a; border-radius: 3px; }
+
+    .input-area {
       display: flex;
-      align-items: center;
-      gap: 0;
-      padding: 8px 18px 10px;
-      background: #12122a;
+      padding: 10px 16px;
+      background: #111128;
       border-top: 1px solid #2a2a4a;
+      gap: 8px;
       flex-shrink: 0;
     }
-    .terminal-prompt {
-      color: #27c93f;
-      font-size: 14px;
-      margin-right: 8px;
-      user-select: none;
-    }
-    .terminal-input {
+    .input-area input {
       flex: 1;
-      background: #1a1a3a;
-      border: 1px solid #2a2a5a;
+      background: #0d0d1a;
+      border: 1px solid #2a2a4a;
       border-radius: 6px;
-      padding: 7px 12px;
-      color: #e0e0e0;
-      font-family: 'Consolas', 'Courier New', monospace;
+      padding: 8px 12px;
+      color: #c0c0dd;
+      font-family: inherit;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s;
     }
-    .terminal-input:focus {
-      border-color: #e94560;
-      box-shadow: 0 0 8px rgba(233, 69, 96, 0.2);
-    }
-    .terminal-input::placeholder { color: #555; }
-    .btn-send {
+    .input-area input:focus { border-color: #e94560; }
+    .input-area input::placeholder { color: #555577; }
+    .input-area button {
       background: #e94560;
-      color: #fff;
       border: none;
       border-radius: 6px;
-      padding: 7px 16px;
-      margin-left: 8px;
-      font-family: 'Consolas', monospace;
-      font-size: 13px;
+      padding: 8px 16px;
+      color: #fff;
+      font-size: 14px;
       cursor: pointer;
-      transition: background 0.2s;
+      font-family: inherit;
     }
-    .btn-send:hover { background: #c73650; }
-    .btn-send:active { background: #a02a40; }
+    .input-area button:disabled { opacity: 0.4; cursor: not-allowed; }
+
     .loading-overlay {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
+      position: absolute; inset: 0;
       background: #0d0d1a;
       display: flex;
       flex-direction: column;
@@ -136,17 +105,8 @@
       z-index: 10;
       transition: opacity 0.5s;
     }
-    .loading-overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-    .loading-text {
-      color: #e94560;
-      font-size: 20px;
-      margin-bottom: 20px;
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-    .loading-spinner {
+    .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+    .spinner {
       width: 40px; height: 40px;
       border: 3px solid #2a2a4a;
       border-top-color: #e94560;
@@ -154,88 +114,77 @@
       animation: spin 0.8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
-    }
+    #statusText { color: #8888aa; margin-top: 12px; font-size: 14px; }
     .file-warning {
+      display: none;
       background: #2a1a1a;
-      border: 1px solid #e94560;
-      border-radius: 8px;
-      padding: 16px 20px;
-      margin: 16px;
-      max-width: 600px;
-      color: #ff9999;
-      font-size: 14px;
-      line-height: 1.8;
+      border: 2px solid #ff6b6b;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px;
+      text-align: center;
     }
+    .file-warning h2 { color: #ff6b6b; margin-bottom: 12px; }
+    .file-warning p { color: #c0c0dd; line-height: 1.8; }
     .file-warning code {
-      background: #1a1a1a;
+      background: #1a1a2e;
       padding: 2px 8px;
       border-radius: 4px;
-      color: #ffbd2e;
-      font-family: 'Consolas', monospace;
-    }
-    .file-warning .cmd {
-      display: block;
-      background: #1a1a1a;
-      padding: 10px 14px;
-      margin: 8px 0;
-      border-radius: 6px;
-      color: #27c93f;
-      font-family: 'Consolas', monospace;
       font-size: 13px;
+      color: #ffbd2e;
     }
 
-    /* ANSI color styles */
-    .ansi-reset { color: #e0e0e0; }
-    .ansi-red { color: #ff6b6b; }
-    .ansi-green { color: #51cf66; }
-    .ansi-yellow { color: #ffd43b; }
-    .ansi-blue { color: #5c7cfa; }
-    .ansi-magenta { color: #da77f2; }
-    .ansi-cyan { color: #3bc9db; }
-    .ansi-white { color: #e0e0e0; }
-    .ansi-bold { font-weight: bold; }
+    .terminal-container { position: relative; }
+    #output .ansi-reset { color: #c0c0dd; }
+    #output .ansi-red { color: #ff6b6b; }
+    #output .ansi-green { color: #27c93f; }
+    #output .ansi-yellow { color: #ffbd2e; }
+    #output .ansi-blue { color: #5dade2; }
+    #output .ansi-magenta { color: #c77dff; }
+    #output .ansi-cyan { color: #5dd8d8; }
+    #output .ansi-white { color: #e0e0f0; }
+    #output .ansi-bold { font-weight: bold; }
   </style>
 </head>
 <body>
-
-  <div id="fileWarning" class="file-warning" style="display:none;">
-    ⚠️ 检测到你直接用浏览器打开了 HTML 文件（<code>file://</code> 协议）。
-    现代浏览器禁止从本地文件加载 WASM，请改用 HTTP 服务器运行：
-    <span class="cmd">cd "G:\EmoScan Pro\Work-Simulator\源码"<br>python -m http.server 8000</span>
-    然后浏览器打开 <code style="color:#3bc9db;">http://localhost:8000/打工模拟器.html</code>
+  <!-- 文件协议警告 -->
+  <div id="fileWarning" class="file-warning">
+    <h2>⚠️ 请用 HTTP 服务器打开</h2>
+    <p>直接从文件管理器双击 HTML 会导致 WASM 无法加载。<br>
+    请在终端运行：</p>
+    <p><code>cd "G:\EmoScan Pro\Work-Simulator\源码"</code></p>
+    <p><code>python -m http.server 8000</code></p>
+    <p>然后浏览器打开 <code>http://localhost:8000/打工模拟器.html</code></p>
   </div>
 
-  <div class="terminal-container" id="terminal">
+  <!-- 终端 -->
+  <div id="terminal" class="terminal-container">
     <div class="terminal-header">
       <div class="terminal-dots">
         <div class="terminal-dot dot-red"></div>
         <div class="terminal-dot dot-yellow"></div>
         <div class="terminal-dot dot-green"></div>
       </div>
-      <span class="terminal-title">🐱 打工模拟器 — Web 终端版</span>
-      <span class="terminal-badge">WASM</span>
+      <div class="terminal-title">打工模拟器 v3.0 - Web版</div>
     </div>
 
-    <div class="terminal-output" id="output">
-      <span style="color:#555;">正在加载游戏引擎...</span>
+    <!-- 加载覆盖层 -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="spinner"></div>
+      <div id="statusText">正在加载游戏引擎...</div>
     </div>
 
-    <div class="terminal-input-area">
-      <span class="terminal-prompt">❯</span>
-      <input class="terminal-input" id="inputField" type="text" placeholder="在这里输入... 按 Enter 发送" autofocus disabled>
-      <button class="btn-send" id="sendBtn" disabled>发送</button>
-    </div>
-  </div>
+    <div id="output"><span style="color:#555;">正在加载游戏引擎...</span></div>
 
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-text" id="statusText">加载中...</div>
-    <div class="loading-spinner"></div>
+    <div class="input-area">
+      <input id="inputField" type="text" placeholder="在此输入，按 Enter 发送..." disabled autocomplete="off" />
+      <button id="sendBtn" disabled>发送</button>
+    </div>
   </div>
 
   <script>
+    "use strict";
+
     // ============================================================
     //  DOM 引用
     // ============================================================
@@ -246,6 +195,7 @@
     var overlayEl = document.getElementById('loadingOverlay');
     var warnEl    = document.getElementById('fileWarning');
     var termEl    = document.getElementById('terminal');
+    var termContainer = document.querySelector('.terminal-container');
 
     // ============================================================
     //  file:// 检测
@@ -279,34 +229,24 @@
       '1;37':  'ansi-white ansi-bold',
     };
 
-    // 是否处于"屏幕已清除"状态（用于把 CLS 换成分隔线）
-    var _lastWasClear = false;
-
     function ansiToHtml(text) {
-      // 转义 HTML（防 XSS）
       text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      // ESC[2J 或 ESC[H 或 ESC[2J ESC[H → 替换为分隔线（清屏视觉效果）
-      text = text.replace(/(\x1b\[2J)?(\x1b\[H|\x1b\[0;0H|\x1b\[1;1H)/g, function() {
-        return '\n\x1b[dim]─────────────────────────────────────────\x1b[/]\n';
-      });
+      text = text.replace(/\x1b\[2J\x1b\[H/g, '\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n');
       text = text.replace(/\x1b\[2J/g, '');
-      // 移除其他光标控制序列
       text = text.replace(/\x1b\[\d*(?:[ABCDEFGKST])/g, '');
       text = text.replace(/\x1b\[\d*;\d*[Hf]/g, '');
-      // 替换 ANSI 颜色/样式转义序列
+      text = text.replace(/\x1b\[H/g, '');
+      text = text.replace(/\x1b\[0;0H/g, '');
+      text = text.replace(/\x1b\[1;1H/g, '');
       text = text.replace(/\x1b\[([\d;]*)m/g, function(match, code) {
         if (code === '' || code === '0') return '</span><span class="ansi-reset">';
         var cls = ansiMap[code];
         if (cls) return '</span><span class="' + cls + '">';
         return '';
       });
-      // 清理刚才加的临时标记
-      text = text.replace(/\x1b\[dim\]/g, '<span style="color:#333;user-select:none;">');
-      text = text.replace(/\x1b\[\/\]/g, '</span>');
       return text;
     }
 
-    // 输出纯文本（自动处理 ANSI→HTML 转换）
     var _firstOutput = true;
     function writeOutput(text) {
       var html = ansiToHtml(text);
@@ -319,7 +259,6 @@
       outputEl.scrollTop = outputEl.scrollHeight;
     }
 
-    // 输出预格式化 HTML（不转义，用于提示/错误/UI 装饰）
     function writeHtml(html) {
       if (_firstOutput) {
         outputEl.innerHTML = html;
@@ -331,13 +270,12 @@
     }
 
     // ============================================================
-    //  输入队列系统 — 三层输入，永不弹窗！
-    //  __inputQueue 是全局暴露的，供 patch 后的 打工模拟器.js 读取
+    //  输入队列系统 — 三层输入
+    //  __inputQueue 是全局暴露的，供 patch 后的 JS 胶水代码读取
     // ============================================================
     var inputQueue = [];
-    window.__inputQueue = inputQueue;  // 暴露给 JS 胶水代码中的 FS_stdin_getChar 使用
+    window.__inputQueue = inputQueue;
 
-    // 推送一行文本到队列（末尾自动加 \n）
     function queueLine(text) {
       for (var i = 0; i < text.length; i++) {
         inputQueue.push(text.charCodeAt(i));
@@ -345,18 +283,16 @@
       inputQueue.push('\n'.charCodeAt(0));
     }
 
-    // 推送单个字符到队列
     function queueChar(c) {
       inputQueue.push(c.charCodeAt(0));
     }
 
     // ============================================================
-    //  Tier 1 — 全局键盘捕获（在加载动画 yield 期间也能捕获按键！）
+    //  Tier 1 — 全局键盘捕获
     // ============================================================
     document.addEventListener('keydown', function(e) {
       if (document.activeElement === inputEl) return;
       if (e.ctrlKey || e.altKey || e.metaKey) return;
-
       if (e.key === 'Enter') {
         queueChar('\n');
         e.preventDefault();
@@ -393,17 +329,47 @@
     });
 
     // ============================================================
-    //  Tier 3 — 自定义 stdin（C++ 已加 emscripten_sleep yield 点）
-    //  队列为空时返回 null（EOF），C++ 的 fgets 返回 NULL，
-    //  触发 get_valid_input 里的 emscripten_sleep(100)，等待用户输入。
+    //  localStorage 存档持久化
+    //  游戏存档文件: worker_sim_save.dat（C++ 代码中的 SAVE_FILE）
     // ============================================================
-    function customStdin() {
-      if (inputQueue.length > 0) {
-        return inputQueue.shift();
+    var SAVE_FILENAME = 'worker_sim_save.dat';
+
+    // 从 localStorage 加载存档到虚拟 FS
+    function loadSaveFromLocal() {
+      try {
+        var saved = localStorage.getItem(SAVE_FILENAME);
+        if (saved && typeof FS !== 'undefined') {
+          var binary = atob(saved);
+          var arr = new Uint8Array(binary.length);
+          for (var i = 0; i < binary.length; i++) arr[i] = binary.charCodeAt(i);
+          FS.writeFile(SAVE_FILENAME, arr);
+          console.log('[Save] 已从 localStorage 恢复存档');
+        }
+      } catch(e) {
+        console.log('[Save] 无存档或加载失败:', e.message);
       }
-      // 返回 null 表示 EOF → fgets 返回 NULL → C++ sleep(100) 等用户
-      return null;
     }
+
+    // 将虚拟 FS 的存档保存到 localStorage
+    function saveSaveToLocal() {
+      try {
+        if (typeof FS !== 'undefined' && FS.analyzePath) {
+          var info = FS.analyzePath(SAVE_FILENAME);
+          if (info.exists) {
+            var data = FS.readFile(SAVE_FILENAME, { encoding: 'binary' });
+            var binary = '';
+            for (var i = 0; i < data.length; i++) binary += String.fromCharCode(data[i]);
+            localStorage.setItem(SAVE_FILENAME, btoa(binary));
+            console.log('[Save] 存档已同步到 localStorage');
+          }
+        }
+      } catch(e) {
+        console.log('[Save] 同步失败:', e.message);
+      }
+    }
+
+    // 定期从 FS 同步到 localStorage（每 5 秒）
+    setInterval(saveSaveToLocal, 5000);
 
     // ============================================================
     //  Module 定义（给 Emscripten 用）
@@ -421,7 +387,6 @@
 
     var Module = {
       print: function() {
-        // Emscripten 的 print 每次调用对应一行（行尾不含\n），手动加换行
         var text = Array.prototype.join.call(arguments, ' ');
         writeOutput(text + '\n');
       },
@@ -435,6 +400,8 @@
 
       preRun: [
         function() {
+          // 从 localStorage 恢复存档
+          loadSaveFromLocal();
           if (typeof FS !== 'undefined') {
             FS.init(customStdin, null, null);
           }
@@ -454,6 +421,8 @@
             inputEl.disabled = false;
             sendBtn.disabled = false;
             inputEl.focus();
+            // 加载完成后立即再同步一次存档（可能游戏加载时读了存档）
+            setTimeout(saveSaveToLocal, 1000);
             writeHtml('<span style="color:#27c93f;">═══════ 打工模拟器 已启动 ═══════</span>\n\n');
           }, 300);
         }
@@ -471,20 +440,7 @@
       })()
     };
 
-    window.onerror = window.onunhandledrejection = function() {
-      setStatus('发生错误，请查看控制台');
-      overlayEl.classList.add('hidden');
-    };
-
-    window.Module = Module;
-
-    // ============================================================
-    //  覆盖 Emscripten 胶水代码中的 FS_stdin_getChar
-    //  该函数在 打工模拟器.js 里是全局 var，所以在 JS 加载执行后
-    //  直接覆盖 window.FS_stdin_getChar 即可劫持所有 stdin 读取。
-    // ============================================================
-    // onRuntimeInitialized — 覆盖全局 FS_stdin_getChar（双保险）
-    // 打工模拟器.js 已直接 patch 去掉了 window.prompt，此处额外覆盖以防万一
+    // onRuntimeInitialized — 再覆盖一次 FS_stdin_getChar 做双保险
     Module.onRuntimeInitialized = function() {
       if (typeof FS_stdin_getChar !== 'undefined') {
         window.FS_stdin_getChar = function() {
@@ -497,10 +453,33 @@
       if (typeof FS_stdin_getChar_buffer !== 'undefined') {
         FS_stdin_getChar_buffer = [];
       }
+      // 用户按 Ctrl+S 时手动同步存档
+      document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 's') {
+          e.preventDefault();
+          saveSaveToLocal();
+          writeHtml('\n<span style="color:#27c93f;">💾 存档已保存到浏览器！</span>\n');
+        }
+      });
     };
+
+    // Tier 3 — 自定义 stdin
+    function customStdin() {
+      if (inputQueue.length > 0) {
+        return inputQueue.shift();
+      }
+      return null;
+    }
+
+    window.onerror = window.onunhandledrejection = function() {
+      setStatus('发生错误，请查看控制台');
+      overlayEl.classList.add('hidden');
+    };
+
+    window.Module = Module;
   </script>
 
-  <script async type="text/javascript" src="%E6%89%93%E5%B7%A5%E6%A8%A1%E6%8B%9F%E5%99%A8.js"></script>
+  <script async type="text/javascript" src="打工模拟器.js"></script>
   <div id="canvas" style="display:none;"></div>
 </body>
 </html>
