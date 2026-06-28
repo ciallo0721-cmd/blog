@@ -1,5 +1,10 @@
 window.timelineData = [
             {
+                date: "2026年6月28日",
+                title: "首页和友链页新增域名推广返佣板块",
+                desc: "在 friends.html 和 index.html 添加 tname.net 推广返佣板块，含专属推广链接（https://tname.net?sid=11078）、返佣规则展示（注册¥3/购买¥2）、累计返佣金额和返佣记录表格的说喵～"
+            },
+            {
                 date: "2026年6月26日",
                 title: "网站挂上爱发电赞助链接",
                 desc: "在首页导航栏、移动端菜单、页脚添加爱发电链接（https://ifdian.net/a/ciallo0721-cmd），同步修复 wz/index.html 断裂的赞助支持锚点链接，更新 i18n 映射使其准确匹配导航项的说喵～"

@@ -1186,6 +1186,56 @@
             <a href="https://ciallo0721-cmd.top/moeface" target="_blank" rel="noopener" class="game-card" style="text-decoration:none;color:inherit;"><div style="padding:28px 24px;text-align:center;"><i class="fas fa-face-smile" style="font-size:2.2rem;color:#ff6699;margin-bottom:14px;"></i><h3 style="margin-bottom:8px;font-size:1.1rem;">人脸识别</h3><p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;">上传图片识别动漫角色，纯浏览器端 AI 处理喵～</p></div></a>
         </div><div style="text-align:center;margin-top:30px;"><a href="./tools/" class="game-jump-btn" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;"><i class="fas fa-wand-magic-sparkles"></i> 查看全部工具的说～</a></div></section>
 
+        <section id="promo" class="section" style="background:linear-gradient(135deg, rgba(51,102,255,0.04), rgba(37,117,252,0.04));border:1px solid rgba(51,102,255,0.15);">
+            <div class="section-title"><h2>🌐 想搞个自己的域名吗</h2></div>
+            <p style="color:var(--text-secondary);margin-bottom:20px;line-height:1.8;font-size:0.95rem;">
+                悄悄说，我域名都是在这个站搞的，<strong style="color:var(--bili-pink);">比某里某讯便宜一截</strong>～<br>
+                注册只要十几块，还不用实名等审核，懂的都懂喵～
+            </p>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap;">
+                <span style="font-weight:600;font-size:0.9rem;white-space:nowrap;">👇 点这里看看</span>
+                <div style="display:flex;align-items:center;background:white;border:2px solid rgba(51,102,255,0.2);border-radius:12px;overflow:hidden;flex:1;min-width:280px;">
+                    <input type="text" style="flex:1;border:none;padding:10px 14px;font-size:0.9rem;background:transparent;color:var(--text-primary);outline:none;font-family:'Courier New',monospace;" value="https://tname.net?sid=11078" readonly id="promoLinkIndex">
+                    <button onclick="copyPromoLinkIndex()" style="background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;padding:10px 20px;cursor:pointer;font-size:0.88rem;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:6px;transition:all 0.3s;" id="promoBtnIndex"><i class="fas fa-copy"></i> 复制</button>
+                </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;">
+                <div style="background:white;border:1px solid rgba(51,102,255,0.12);border-radius:16px;padding:20px;text-align:center;">
+                    <div style="font-size:2rem;font-weight:800;color:#4CAF50;margin-bottom:6px;">¥3</div>
+                    <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.4;">下级注册域名<br><small style="font-size:0.78rem;opacity:0.7;">单条返佣</small></div>
+                </div>
+                <div style="background:white;border:1px solid rgba(51,102,255,0.12);border-radius:16px;padding:20px;text-align:center;">
+                    <div style="font-size:2rem;font-weight:800;color:#FF9800;margin-bottom:6px;">¥2</div>
+                    <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.4;">下级购买域名<br><small style="font-size:0.78rem;opacity:0.7;">单条返佣</small></div>
+                </div>
+                <div style="background:white;border:1px solid rgba(51,102,255,0.12);border-radius:16px;padding:20px;text-align:center;">
+                    <div style="font-size:2rem;font-weight:800;color:var(--bili-pink);margin-bottom:6px;" id="currentEarningsIndex">¥0</div>
+                    <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.4;">累计返佣金额<br><small style="font-size:0.78rem;opacity:0.7;">直接到账会员余额</small></div>
+                </div>
+            </div>
+            <div style="background:white;border-radius:12px;border:1px solid #eee;overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
+                    <thead>
+                        <tr style="background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;">
+                            <th style="padding:12px 16px;text-align:left;font-weight:600;white-space:nowrap;">用户ID</th>
+                            <th style="padding:12px 16px;text-align:left;font-weight:600;white-space:nowrap;">消费详情</th>
+                            <th style="padding:12px 16px;text-align:left;font-weight:600;white-space:nowrap;">消费余额</th>
+                            <th style="padding:12px 16px;text-align:left;font-weight:600;white-space:nowrap;">返佣金额</th>
+                            <th style="padding:12px 16px;text-align:left;font-weight:600;white-space:nowrap;">消费时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" style="text-align:center;padding:40px 16px;color:#bbb;font-size:0.9rem;">
+                                <i style="display:block;font-size:2rem;margin-bottom:8px;color:#ddd;" class="fas fa-inbox"></i>
+                                暂无返佣记录，快去分享你的推广链接吧～
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
         <div class="animation-divider"><span></span><span></span><span></span><span></span><span></span></div>
 
         <!-- 广告位占位 -->
@@ -1265,6 +1315,29 @@
         function toggleCollapse(el) {
             var section = el.closest('.collapsible-section');
             if (section) section.classList.toggle('collapsed');
+        }
+
+        // 复制推广链接（首页版）
+        function copyPromoLinkIndex() {
+            var input = document.getElementById('promoLinkIndex');
+            var btn = document.getElementById('promoBtnIndex');
+            navigator.clipboard.writeText(input.value).then(function() {
+                btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                btn.style.background = '#4CAF50';
+                setTimeout(function() {
+                    btn.innerHTML = '<i class="fas fa-copy"></i> 复制';
+                    btn.style.background = '';
+                }, 2500);
+            }).catch(function() {
+                input.select();
+                document.execCommand('copy');
+                btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                btn.style.background = '#4CAF50';
+                setTimeout(function() {
+                    btn.innerHTML = '<i class="fas fa-copy"></i> 复制';
+                    btn.style.background = '';
+                }, 2500);
+            });
         }
 
         // ===== Cloudflare Turnstile 验证回调 =====
@@ -2096,7 +2169,12 @@
     </script>
     <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0);</script>
 
-    <audio id="bg-music" src="./css/we are the world.mp3" loop preload="auto"></audio>
+    <audio id="bg-music" src="./css/戸高一生 - 似顔絵広場 (似顔絵チャンネル).mp3" loop preload="auto"></audio>
+
+    <!-- 背景音乐停止按钮（右上角） -->
+    <button class="theme-switcher" id="musicStopBtn" onclick="stopMusic()" title="停止背景音乐" style="min-width:auto;padding:12px 18px;">
+        <i class="fas fa-stop"></i><span>停止音乐</span>
+    </button>
 
 <script>
     (function() {
@@ -2118,6 +2196,13 @@
             });
         }
     })();
+
+    // 停止背景音乐
+    function stopMusic() {
+        var audio = document.getElementById('bg-music');
+        audio.pause();
+        audio.currentTime = 0;
+    }
 </script>
 </body>
 </html>
