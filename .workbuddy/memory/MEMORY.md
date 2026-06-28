@@ -149,6 +149,7 @@
 - 新建 `status.html`：全局状态框 + 历史回放时间线（从 status-data.js 加载），支持四色状态（绿/黄/红/灰）
 - `status-data.js`：状态历史数据源，包含 date/status/title/desc，status 支持 green/yellow/red/gray
 - 包含主页面、文章（1-10）、游戏（bjqy/fors/LAIDB/melon/zmdspp）、错误页四个分区
+- **游戏命名对照**：bjqy = 病娇契约（Yandere契约）、zmdspp = 周末的诗篇、fors = 已从 sitemap 移除 + noindex
 - `index.html` footer 添加「查看网站状态」链接（绿色脉冲圆点图标）
 - **工作流**：`.github/workflows/status-update.yml` 在每次 push main 时自动追加 green 状态记录；手动触发可指定 yellow/red 状态
 
