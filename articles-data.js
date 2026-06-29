@@ -552,6 +552,17 @@ window.articlesData = {
             readTime: 1,
             featured: true
         },
+        {
+            id: 51,
+            category: "ACG",
+            fileName: "ACG/51/",
+            title: "赤井心桐生可可事件（龙心事件）深度回顾",
+            excerpt: "2020年9月，一场由YouTube后台界面触发、因COVER公关灾难激化、最终改变整个VTuber行业格局的标志性事件。",
+            date: "2026-06-29",
+            tags: ["VTuber", "hololive", "赤井心", "桐生可可", "龙心事件", "虚拟主播", "行业分析"],
+            readTime: 25,
+            featured: true
+        },
         ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
