@@ -364,6 +364,94 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 .ref-list li a {
     font-weight: 500;
 }
+
+/* 不可复制区域 */
+.no-copy {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: relative;
+}
+
+/* 免责弹窗覆盖层 */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(6px);
+}
+.popup-overlay.active {
+    display: flex;
+}
+.popup-box {
+    background: #fff;
+    border-radius: 18px;
+    padding: 35px 30px;
+    max-width: 530px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: popupFade 0.3s ease;
+    position: relative;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+.popup-box h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.popup-box p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    text-align: left;
+}
+.popup-box .popup-btn {
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 25px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+}
+.popup-box .popup-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(251, 114, 153, 0.4);
+}
+@keyframes popupFade {
+    from { opacity: 0; transform: scale(0.92) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* 引号标注样式 - 表示该内容为转述的第三方观点 */
+.quoted-view {
+    quotes: "「" "」";
+}
+.quoted-view::before {
+    content: open-quote;
+    color: var(--bili-pink);
+    font-weight: 700;
+}
+.quoted-view::after {
+    content: close-quote;
+    color: var(--bili-pink);
+    font-weight: 700;
+}
     </style>
     <script src="/articles-data.js"></script>
     <!-- 百科词条系统 -->
@@ -544,10 +632,22 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 
                 <p>根据B站官方发布的数据，2021年B站虚拟区营收相比2020年翻了一番多。越来越多的中国资本和创作者涌入这个领域，逐步建立起了独立于日本VTuber产业的中文虚拟主播生态。</p>
 
+                <!-- 免责弹窗 -->
+                <div class="popup-overlay" id="viewpointPopup">
+                    <div class="popup-box">
+                        <h2>📢 阅读前提示</h2>
+                        <p>下方将呈现事件中各方的不同看法与立场。需要特别说明的是：<strong>这只是对已有观点的客观摘录与转述</strong>，不代表本站、本文作者认同其中任何一方的立场。</p>
+                        <p>特别是其中涉及不同地区、不同国家的舆论描述——<strong>这些都是该群体在当时事件中的实际反应</strong>，将它们记录下来是为了让读者理解事件的全貌和复杂性，<strong>绝非本站对这些观点的背书</strong>。</p>
+                        <p>请以理性、批判的态度阅读。如有任何疑问，文末有明确的立场声明。</p>
+                        <button class="popup-btn" onclick="document.getElementById('viewpointPopup').classList.remove('active');">我已了解，继续阅读</button>
+                    </div>
+                </div>
+
                 <!-- 各方视角对比 -->
+                <div class="no-copy" id="viewpointSection">
                 <h2>🌐 各方视角对比</h2>
 
-                <p>龙心事件之所以复杂，是因为不同文化背景的观众对同一事实有着完全不同的解读。以下是几个主要视角的对比：</p>
+                <p>龙心事件之所以复杂，是因为不同文化背景的观众对同一事实有着完全不同的解读。以下是几个主要视角的对比（<em>以下内容均为对各方已有观点的整理转述</em>）：</p>
 
                 <div class="table-wrap">
                     <table>
@@ -563,38 +663,38 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
                         <tbody>
                             <tr>
                                 <td><strong>中国大陆主流/官方</strong></td>
-                                <td>爱国斗争，年轻人维护国家主权</td>
-                                <td>主播触碰政治红线，公司咎由自取</td>
-                                <td>批评其行为及复播态度</td>
-                                <td>公关灾难，咎由自取</td>
+                                <td>「爱国斗争，年轻人维护国家主权」</td>
+                                <td>「主播触碰政治红线，公司咎由自取」</td>
+                                <td>「批评其行为及复播态度」</td>
+                                <td>「公关灾难，咎由自取」</td>
                             </tr>
                             <tr>
                                 <td><strong>台湾地区/自由派</strong></td>
-                                <td>中国政治霸凌虚拟偶像，压制言论自由</td>
-                                <td>"小粉红出征"</td>
-                                <td>同情，视其为言论自由受害者</td>
-                                <td>软弱、"跪舔"中国</td>
+                                <td>「中国政治霸凌虚拟偶像，压制言论自由」</td>
+                                <td>「小粉红出征」</td>
+                                <td>「同情，视其为言论自由受害者」</td>
+                                <td>「软弱、跪舔中国」</td>
                             </tr>
                             <tr>
                                 <td><strong>日本主流/粉丝</strong></td>
-                                <td>中国企业干涉日本内容创作，COVER软弱</td>
-                                <td>过度反应，主播无辜</td>
-                                <td>强烈同情，声援"Free Coco"</td>
-                                <td>向中国屈服，出卖艺人</td>
+                                <td>「中国企业干涉日本内容创作，COVER软弱」</td>
+                                <td>「过度反应，主播无辜」</td>
+                                <td>「强烈同情，声援Free Coco」</td>
+                                <td>「向中国屈服，出卖艺人」</td>
                             </tr>
                             <tr>
                                 <td><strong>欧美粉丝圈</strong></td>
-                                <td>"言论自由"vs"中国审查"</td>
-                                <td>网络霸凌，政治迫害</td>
-                                <td>压倒性同情，视其为"审查牺牲品"</td>
-                                <td>软弱，丧失原则</td>
+                                <td>「言论自由vs中国审查」</td>
+                                <td>「网络霸凌，政治迫害」</td>
+                                <td>「压倒性同情，视其为审查牺牲品」</td>
+                                <td>「软弱，丧失原则」</td>
                             </tr>
                             <tr>
                                 <td><strong>行业/中性记录</strong></td>
-                                <td>跨文化商业冲突，公关失败案例</td>
-                                <td>重大行业事件，生态剧变</td>
-                                <td>客观记录，呈现多方争议</td>
-                                <td>公关水平低下，长期忽视中国市场</td>
+                                <td>「跨文化商业冲突，公关失败案例」</td>
+                                <td>「重大行业事件，生态剧变」</td>
+                                <td>「客观记录，呈现多方争议」</td>
+                                <td>「公关水平低下，长期忽视中国市场」</td>
                             </tr>
                         </tbody>
                     </table>
@@ -658,6 +758,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
                     <p><strong>📌 对粉丝</strong>：跨文化的理解和包容在全球化时代弥足珍贵。不同背景的观众对同一件事的理解可能完全不同，<span class="hl-blue">尝试理解对方的视角不等于放弃自己的立场</span>。</p>
                     <p><strong>📌 对整个行业</strong>：<span class="hl-blue">"去政治化"本身就是一个无法实现的神话</span>。当行业规模足够大、跨国程度足够深时，政治问题会自己找上门来。与其幻想一个纯粹的娱乐乌托邦，不如建立更成熟的风险应对机制。</p>
                 </div>
+</div>
 
                 <!-- 参考资料 -->
                 <h2>📚 参考资料与扩展阅读</h2>
@@ -777,6 +878,32 @@ document.addEventListener('DOMContentLoaded', function() {
         updateArticleInfo(currentArticleId);
         initArticleNavigation(currentArticleId);
         initRelatedArticles(currentArticleId);
+        // 在页面加载后显示免责弹窗
+        setTimeout(function() {
+            var popup = document.getElementById('viewpointPopup');
+            if (popup) popup.classList.add('active');
+        }, 800);
+        // 额外防护：阻止在不可复制区域内的右键和复制行为
+        document.addEventListener('contextmenu', function(e) {
+            var target = e.target;
+            while (target) {
+                if (target.id === 'viewpointSection') {
+                    e.preventDefault();
+                    return;
+                }
+                target = target.parentElement;
+            }
+        });
+        document.addEventListener('copy', function(e) {
+            var target = e.target;
+            while (target) {
+                if (target.id === 'viewpointSection') {
+                    e.preventDefault();
+                    return;
+                }
+                target = target.parentElement;
+            }
+        });
     }
     initPage();
 
