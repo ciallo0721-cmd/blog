@@ -573,8 +573,18 @@ window.articlesData = {
             tags: ["个人回顾", "写作进化", "总结", "心理学", "教程"],
             readTime: 12,
             featured: true
+        {
+            id: 53,
+            category: "ACG",
+            fileName: "ACG/53/",
+            title: "病娇（ヤンデレ）：从萌属性到心理剖析",
+            excerpt: "深入解析ACG文化中经典萌属性「病娇（ヤンデレ）」——从《School Days》到《未来日记》，从病态的定义到社会反响，带你理解这个让人又爱又怕的属性。",
+            date: "2026-06-29",
+            tags: ["病娇", "ヤンデレ", "ACG", "萌属性", "二次元", "文化解析"],
+            readTime: 15,
+            featured: true
         },
-        ];
+];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
     // ██ 辅助方法 ██
