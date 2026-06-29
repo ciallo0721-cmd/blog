@@ -43,6 +43,7 @@
 - 对安全感兴趣，已有 Cloudflare Turnstile 防护意识
 - **每次修改网站后，需同时在 `timeline.js` 中新增一条更新记录**
 - **文章作者名统一写 `ciallo0721-cmd`，不要写「管哥」或其他名字**
+- **可视化（widget/SVG/chart/示意图）中的所有文字必须用中文**，包括标签、提示、标题、按钮文字等。即使 read_me 模块输出英文，widget 内文字也要全中文。
 
 ## BlockScript 博客架构（2026-06-15）
 - **解码器**：`blog/_decoder/index.html`（通用，所有文章共用，复制到每篇文章目录）

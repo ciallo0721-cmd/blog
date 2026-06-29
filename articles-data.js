@@ -563,6 +563,17 @@ window.articlesData = {
             readTime: 25,
             featured: true
         },
+        {
+            id: 52,
+            category: "生活",
+            fileName: "生活/52/",
+            title: "从 UTAU 到心理学——我的 51 篇文章进化路",
+            excerpt: "一个初中生写作者从2025年12月到2026年6月，51篇文章的写作风格演变全记录。从UTAU教程、闲聊碎碎念，到告别白菜的情感宣泄，再到24篇心理学系列的井喷——回顾这9个月的写作轨迹。",
+            date: "2026-06-29",
+            tags: ["个人回顾", "写作进化", "总结", "心理学", "教程"],
+            readTime: 12,
+            featured: true
+        },
         ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
