@@ -585,6 +585,17 @@ window.articlesData = {
             readTime: 15,
             featured: true
         },
+        {
+            id: 54,
+            category: "心理学",
+            fileName: "心理学/54/",
+            title: "为什么儿童会对高饱和度上瘾？——从脑腐到Cocomelon的色彩心理学",
+            excerpt: "为什么婴幼儿玩具几乎都是高饱和的鲜艳色系？色彩对孩子的大脑发育有什么影响？从进化心理学到脑腐（烂梗），从Cocomelon到蒙台梭利教具，深度解析高饱和度色彩对儿童认知的影响。",
+            date: "2026-06-30",
+            tags: ["色彩心理学", "儿童发展", "高饱和度", "脑腐", "烂梗", "Cocomelon", "视觉发育"],
+            readTime: 15,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
