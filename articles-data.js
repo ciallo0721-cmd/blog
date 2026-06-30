@@ -572,7 +572,8 @@ window.articlesData = {
             date: "2026-06-29",
             tags: ["个人回顾", "写作进化", "总结", "心理学", "教程"],
             readTime: 12,
-            featured: true
+            featured: true,
+        },
         {
             id: 53,
             category: "ACG",
