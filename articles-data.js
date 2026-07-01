@@ -596,6 +596,17 @@ window.articlesData = {
             readTime: 15,
             featured: true
         },
+        {
+            id: 55,
+            category: "生活",
+            fileName: "生活/55/",
+            title: "我的音乐品味三年进化史（2023-2026）",
+            excerpt: "从2023年7月到2026年7月，三年间收藏的180+首歌完整回顾——从洗脑神曲到Vocaloid电波系，从DDLC OST到俄语硬曲，记录一个初中生的音乐品味进化之路。",
+            date: "2026-07-01",
+            tags: ["音乐", "品味", "个人回顾", "歌单", "Vocaloid", "OST"],
+            readTime: 15,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
