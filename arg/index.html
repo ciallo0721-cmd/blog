@@ -5,7 +5,7 @@
 <title>Desktop</title>
 <style>
 /* ============================
-   CSS 变量 & 全局 (保持原风格)
+   Win98 外壳 CSS（保留）
    ============================ */
 :root {
   --win98-grey: #c0c0c0;
@@ -17,35 +17,27 @@
   --arg-red: #cc0000;
   --arg-bg: #0a0a0a;
 }
-
 * { margin:0; padding:0; box-sizing:border-box; }
-
 body {
   width:100vw; height:100vh; overflow:hidden;
   font-family: "Courier New", "NSimSun", "SimSun", monospace;
-  background:#1a1a1a;
+  background:#1a1a1a; user-select:none;
 }
-
 #desktop {
   width:100vw; height:calc(100vh - 32px);
   background:#008080;
   background-image:
-    repeating-linear-gradient(0deg,   rgba(0,0,0,0.05) 0px, transparent 1px, transparent 3px),
-    repeating-linear-gradient(90deg,  rgba(0,0,0,0.05) 0px, transparent 1px, transparent 3px);
-  position:relative; overflow:hidden;
-  cursor:default;
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0px, transparent 1px, transparent 3px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0px, transparent 1px, transparent 3px);
+  position:relative; overflow:hidden; cursor:default;
 }
-
 .desk-icon {
   position:absolute; width:72px;
   display:flex; flex-direction:column; align-items:center;
   padding:4px 2px; cursor:pointer; border:1px solid transparent;
-  border-radius:0; transition: background 0.1s;
+  border-radius:0; transition:background 0.1s;
 }
-.desk-icon:hover {
-  background:rgba(0,0,128,0.25);
-  border:1px dotted rgba(255,255,255,0.6);
-}
+.desk-icon:hover { background:rgba(0,0,128,0.25); border:1px dotted rgba(255,255,255,0.6); }
 .desk-icon:active { background:rgba(0,0,128,0.45); }
 .desk-icon .ico { font-size:30px; margin-bottom:3px; pointer-events:none; }
 .desk-icon .lbl {
@@ -57,1296 +49,1017 @@ body {
 #taskbar {
   position:fixed; bottom:0; left:0; right:0; height:32px;
   background:linear-gradient(180deg, #245edb 0%, #3f8cf3 4%, #245edb 6%, #245edb 92%, #1941a5 100%);
-  border-top:2px solid #5a9cf3; border-bottom:1px solid #0a1e5a;
-  display:flex; align-items:center; z-index:99999;
+  border-top:2px solid #5ab0ff; display:flex; align-items:center;
+  padding:0 2px; z-index:9999; gap:2px;
 }
-#start-btn {
-  height:28px; margin:2px 3px; padding:0 10px 0 6px;
-  background:linear-gradient(180deg, #3c8f3c 0%, #2d7b2d 50%, #1e5f1e 100%);
-  border-top:2px solid #5cb85c; border-left:2px solid #5cb85c;
-  border-right:2px solid #1a4a1a; border-bottom:2px solid #1a4a1a;
-  color:#fff; font-weight:bold; font-size:11px; cursor:pointer;
-  display:flex; align-items:center; gap:5px;
-  font-family:"Courier New", monospace; line-height:1;
+#taskbar .start-btn {
+  height:24px; min-width:56px; background:linear-gradient(180deg, #3c9c3c 0%, #2d7a2d 100%);
+  border:2px outset #c0c0c0; border-radius:0; color:#fff; font-weight:bold;
+  font-size:12px; cursor:pointer; font-family:"Tahoma", sans-serif; letter-spacing:0.5px;
+  display:flex; align-items:center; gap:4px; padding:0 8px;
 }
-#start-btn:active { border-style:inset; }
-#start-btn .start-ico { font-size:15px; }
-#taskbar-slots {
-  flex:1; display:flex; align-items:center; gap:2px; padding:0 4px;
-  overflow:hidden;
+#taskbar .start-btn:active { border-style:inset; }
+#taskbar .start-btn .flag { font-size:14px; }
+#taskbar .tb-sep {
+  width:4px; height:24px; background:linear-gradient(180deg, #808080, #c0c0c0, #808080);
+  margin:0 2px;
 }
-.tbar-item {
-  height:26px; max-width:160px; flex-shrink:1; min-width:40px;
-  padding:0 10px; background:linear-gradient(180deg, #3b5ce8 0%, #2b4cd4 100%);
-  border-top:1px solid rgba(255,255,255,0.3); border-left:1px solid rgba(255,255,255,0.3);
-  border-right:1px solid rgba(0,0,0,0.3); border-bottom:1px solid rgba(0,0,0,0.3);
-  color:#fff; font-size:11px; cursor:pointer;
-  display:flex; align-items:center; white-space:nowrap; overflow:hidden;
-  text-overflow:ellipsis; font-family:"Courier New", monospace;
+#taskbar .task-item {
+  height:24px; min-width:120px; max-width:200px;
+  background:linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 4%, #d0d0d0 50%, #e0e0e0 96%, #f0f0f0 100%);
+  border:2px outset #c0c0c0; border-radius:0; font-size:11px;
+  padding:0 8px; cursor:pointer; white-space:nowrap; overflow:hidden;
+  text-overflow:ellipsis; font-family:"Tahoma",sans-serif; display:flex; align-items:center;
 }
-.tbar-item.active { background:linear-gradient(180deg, #1c4ab8 0%, #1a3f9e 100%); border-style:inset; }
-#clock {
-  margin-left:auto; color:#fff; font-size:11px;
-  padding:0 12px; height:100%; display:flex; align-items:center;
-  border-left:1px solid rgba(255,255,255,0.2);
-  text-shadow:1px 1px 1px rgba(0,0,0,0.5);
-  font-family:"Courier New", monospace;
+#taskbar .task-item.active {
+  background:linear-gradient(180deg, #e8e8ff 0%, #d0d0ff 4%, #c0c0e0 50%, #d0d0ff 96%, #e8e8ff 100%);
+  border-style:inset; font-weight:bold;
 }
+#taskbar .tray {
+  margin-left:auto; height:24px; display:flex; align-items:center; gap:4px;
+  background:linear-gradient(180deg, #2870c0 0%, #4898ff 100%);
+  border:2px inset #c0c0c0; padding:0 6px; font-size:11px; color:#fff; font-family:"Tahoma",sans-serif;
+}
+/* Start Menu */
+#start-menu {
+  position:fixed; bottom:32px; left:0; width:220px;
+  background:#c0c0c0; border:2px outset #ffffff;
+  border-bottom:none; border-left:none; z-index:10000; display:none;
+  box-shadow:2px 2px 6px rgba(0,0,0,0.4);
+}
+#start-menu.show { display:block; }
+#start-menu .sm-banner {
+  background:linear-gradient(180deg, #245edb 0%, #245edb 80%, #1941a5 100%);
+  color:#fff; font-weight:bold; font-size:16px; padding:12px 8px; letter-spacing:1px;
+  font-family:"Tahoma",sans-serif; writing-mode:vertical-lr; transform:rotate(180deg);
+  float:left; height:100%; width:30px; text-align:center;
+}
+#start-menu .sm-item {
+  display:flex; align-items:center; gap:8px; padding:6px 12px;
+  font-size:12px; font-family:"Tahoma",sans-serif; cursor:pointer;
+}
+#start-menu .sm-item:hover { background:#000080; color:#fff; }
+#start-menu .sm-item .sm-icon { font-size:16px; width:20px; text-align:center; }
+#start-menu hr { margin:4px 8px; border:none; border-top:1px solid #808080; border-bottom:1px solid #ffffff; }
 
-.win {
-  position:absolute; display:flex; flex-direction:column;
-  background:var(--win98-grey); min-width:180px; min-height:100px;
-  border-top:2px solid var(--win98-light);
-  border-left:2px solid var(--win98-light);
-  border-right:2px solid var(--win98-darker);
-  border-bottom:2px solid var(--win98-darker);
-  box-shadow:1px 1px 0 #000;
+/* Window */
+.window {
+  position:absolute; min-width:300px; min-height:200px;
+  background:#c0c0c0; border:2px outset #ffffff;
+  box-shadow:2px 2px 0 rgba(0,0,0,0.3); display:none; flex-direction:column;
+  border-radius:0; z-index:1;
 }
-.win-titlebar {
-  height:22px; flex-shrink:0;
+.window.active { z-index:100; }
+.window.minimized { display:none; }
+.window-title {
   background:linear-gradient(90deg, #000080, #1084d0);
-  color:#fff; font-size:11px; font-weight:bold;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:1px 3px; cursor:grab; user-select:none;
+  color:#fff; font-size:12px; font-family:"Tahoma",sans-serif;
+  font-weight:bold; padding:3px 4px; display:flex; align-items:center;
+  cursor:move; user-select:none; flex-shrink:0;
 }
-.win-titlebar.inactive { background:linear-gradient(90deg, #808080, #b0b0b0); }
-.win-titlebar .win-title { display:flex; align-items:center; gap:4px; overflow:hidden; }
-.win-btns { display:flex; gap:2px; flex-shrink:0; }
-.win-btn {
-  width:16px; height:14px;
-  background:var(--win98-grey);
-  border-top:2px solid var(--win98-light); border-left:2px solid var(--win98-light);
-  border-right:2px solid var(--win98-darker); border-bottom:2px solid var(--win98-darker);
-  display:flex; align-items:center; justify-content:center;
-  font-size:9px; cursor:pointer; padding:0; line-height:1;
+.window-title .wt-icon { margin-right:4px; font-size:13px; }
+.window-title .wt-text { flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.window-title .wt-btns { display:flex; gap:2px; margin-left:4px; }
+.window-title .wt-btns button {
+  width:16px; height:14px; background:#c0c0c0; border:1px outset #ffffff;
+  font-size:10px; line-height:12px; cursor:pointer; padding:0; border-radius:0;
+  font-family:"Tahoma",sans-serif; color:#000;
 }
-.win-btn:active { border-style:inset; }
-.win-body { flex:1; margin:3px; display:flex; flex-direction:column; overflow:hidden; }
-
+.window-title .wt-btns button:active { border-style:inset; }
+.window-menu {
+  background:#c0c0c0; display:flex; font-size:12px; font-family:"Tahoma",sans-serif;
+  padding:1px 0; border-bottom:1px solid #808080; flex-shrink:0;
+}
+.window-menu span { padding:2px 8px; cursor:pointer; }
+.window-menu span:hover { background:#000080; color:#fff; }
+.window-body {
+  flex:1; background:#ffffff; overflow:hidden; position:relative; display:flex; flex-direction:column;
+}
+/* Browser specific */
 .browser-toolbar {
-  display:flex; align-items:center; gap:4px;
-  padding:3px; background:var(--win98-grey);
-  border-bottom:1px solid var(--win98-dark); flex-shrink:0;
+  background:#c0c0c0; display:flex; gap:4px; padding:4px; border-bottom:1px solid #808080;
+  flex-wrap:wrap; flex-shrink:0;
 }
 .browser-toolbar button {
-  font-family:"Courier New", monospace; font-size:11px;
-  padding:1px 7px; cursor:pointer;
-  background:var(--win98-grey);
-  border-top:2px solid var(--win98-light); border-left:2px solid var(--win98-light);
-  border-right:2px solid var(--win98-darker); border-bottom:2px solid var(--win98-darker);
+  padding:2px 6px; font-size:11px; background:#c0c0c0; border:1px outset #ffffff;
+  cursor:pointer; font-family:"Tahoma",sans-serif; border-radius:0;
 }
 .browser-toolbar button:active { border-style:inset; }
 .browser-toolbar button:disabled { color:#808080; }
-.addr-bar {
-  flex:1; display:flex; align-items:center;
-  border:2px inset var(--win98-grey); background:#fff;
-  padding:1px 4px; height:20px; font-size:12px;
-  font-family:"Courier New", monospace; color:#000; overflow:hidden;
+.browser-toolbar .url-bar {
+  flex:1; min-width:120px; height:22px; border:1px inset #ffffff;
+  background:#ffffff; padding:2px 6px; font-size:11px; font-family:"Tahoma",sans-serif;
 }
-.addr-bar .addr-tag { color:#0000aa; margin-right:3px; font-size:11px; }
 .browser-content {
-  flex:1; background:var(--arg-bg); overflow-y:auto; overflow-x:hidden;
-  padding:14px; color:var(--arg-green); font-family:"Courier New", monospace;
-  font-size:13.5px; line-height:1.7; position:relative;
-}
-.browser-statusbar {
-  height:20px; background:var(--win98-grey);
-  border-top:1px solid var(--win98-dark); flex-shrink:0;
-  display:flex; align-items:center; padding:0 5px;
-  font-size:11px; color:#000; font-family:"Courier New", monospace;
+  flex:1; background:#f5f5f0; overflow-y:auto; padding:16px;
+  font-family:"SimSun",serif; font-size:14px; line-height:1.8; color:#222;
 }
 
-.term-screen {
-  background:#000; color:var(--arg-green);
-  font-family:"Courier New", monospace; font-size:13.5px;
-  padding:8px; flex:1; overflow-y:auto; white-space:pre-wrap; word-break:break-all;
-  line-height:1.5;
-}
-.term-input-line {
-  display:flex; align-items:center;
-  background:#000; color:var(--arg-green);
-  font-family:"Courier New", monospace; font-size:13.5px;
-  padding:0 8px 8px;
-}
-.term-input-line .prompt { color:var(--arg-green); margin-right:4px; white-space:nowrap; }
-.term-input-line input {
-  flex:1; background:transparent; border:none; outline:none;
-  color:var(--arg-green); font-family:"Courier New", monospace; font-size:13.5px;
-  caret-color:var(--arg-green);
+/* Terminal specific */
+.terminal-body {
+  flex:1; background:#0a0a0a; color:var(--arg-green); overflow-y:auto;
+  padding:8px; font-family:"Courier New", monospace; font-size:13px;
+  cursor:text; line-height:1.5; white-space:pre-wrap; word-break:break-all;
 }
 
-.typing { border-right:2px solid var(--arg-green); animation:caret-blink 0.7s step-end infinite; }
-@keyframes caret-blink { 0%,100%{border-color:var(--arg-green)} 50%{border-color:transparent} }
+/* ============================
+   叙事页面样式
+   ============================ */
 
-@keyframes flicker {
-  0%,18%,21%,23%,25%,53%,57%,100% { opacity:1; }
-  19%,22%,24%,55%,56% { opacity:0.08; }
-}
-.flicker { animation:flicker 2.5s infinite; }
+/* 警告页 */
+.warn-page { text-align:center; padding:40px 20px; color:#333; }
+.warn-page .warn-icon { font-size:48px; margin-bottom:16px; }
+.warn-page .warn-title { font-size:20px; font-weight:bold; color:#8b0000; margin-bottom:16px; }
+.warn-page .warn-text { font-size:13px; color:#555; margin-bottom:24px; max-width:480px; margin-left:auto; margin-right:auto; }
+.warn-page .warn-input { padding:6px 10px; border:1px inset #ccc; font-size:13px; width:200px; font-family:inherit; }
+.warn-page .warn-btn { padding:6px 20px; margin-left:8px; cursor:pointer; background:#c0c0c0; border:1px outset #fff; font-size:13px; font-family:"Tahoma",sans-serif; }
 
-@keyframes glitch-h {
-  0%   { transform:translate(0,0); }
-  20%  { transform:translate(-3px, 1px); }
-  40%  { transform:translate(2px,-2px); }
-  60%  { transform:translate(-1px, 2px); }
-  80%  { transform:translate(3px,-1px); }
-  100% { transform:translate(0,0); }
-}
-.glitch-h { animation:glitch-h 0.3s steps(2) infinite; }
-
-.red-flash-layer {
-  position:fixed; top:0; left:0; right:0; bottom:0;
-  background:rgba(120,0,0,0.18); pointer-events:none; z-index:99990;
-  animation:flicker 0.6s infinite;
-}
-
+/* 论坛页 */
+.forum-page { padding:0; }
+.forum-header { background:#2c3e50; color:#d4e6f1; padding:12px 16px; font-size:18px; font-weight:bold; border-bottom:3px solid #1a252f; }
+.forum-nav { background:#d5d8dc; padding:6px 16px; font-size:12px; border-bottom:1px solid #aaa; display:flex; gap:16px; }
+.forum-nav a { color:#2c3e50; cursor:pointer; text-decoration:underline; }
 .forum-post {
-  border:1px solid #005500; margin:10px 0; padding:10px;
-  background:rgba(0,20,0,0.7);
+  border-bottom:1px solid #ddd; padding:12px 16px; margin:0;
 }
-.forum-author { color:#00aaff; font-size:12px; margin-bottom:5px; }
-.forum-title { color:#ffff40; font-size:15px; font-weight:bold; margin:6px 0; }
-.forum-body { color:#00dd00; font-size:13px; line-height:1.7; }
-.forum-meta { color:#008800; font-size:11px; margin-top:6px; }
+.forum-post .post-header { font-size:12px; color:#777; margin-bottom:6px; display:flex; justify-content:space-between; }
+.forum-post .post-author { font-weight:bold; color:#2c3e50; }
+.forum-post .post-date { color:#999; }
+.forum-post .post-body { font-size:14px; line-height:1.8; color:#333; }
+.forum-post.hidden-post .post-body { color:#d0d0d0; font-size:13px; cursor:pointer; transition:color 0.3s; }
+.forum-post.hidden-post .post-body:hover { color:#666; }
+.forum-post.hidden-post .post-header { color:#d0d0d0; }
+.forum-reply { background:#eef2f7; padding:12px 16px; border-top:2px solid #2c3e50; }
+.forum-reply textarea { width:100%; height:60px; border:1px inset #ccc; padding:6px; font-family:inherit; font-size:13px; resize:none; }
+.forum-reply .reply-hint { font-size:11px; color:#888; margin-bottom:6px; }
+.forum-reply .reply-btn { padding:4px 16px; cursor:pointer; background:#2c3e50; color:#fff; border:none; font-size:13px; font-family:"Tahoma",sans-serif; }
 
-.reply-section {
-  border:1px solid #004400; margin-top:12px; padding:8px;
-  background:rgba(0,15,0,0.6);
-}
-.reply-section textarea {
-  width:100%; height:56px; background:#000; color:var(--arg-green);
-  border:1px solid #005500; font-family:"Courier New",monospace;
-  font-size:12.5px; padding:4px; resize:none;
-}
-.reply-section button {
-  margin-top:5px; padding:4px 14px; background:#002200;
-  color:var(--arg-green); border:1px solid #008800; cursor:pointer;
-  font-family:"Courier New",monospace; font-size:12px;
-}
-.reply-section button:hover { background:#004400; }
+/* 时光机 */
+.wayback-page { text-align:center; padding:30px 20px; }
+.wayback-page .wb-logo { font-size:32px; margin-bottom:12px; color:#333; }
+.wayback-page .wb-input { padding:8px 12px; border:1px solid #ccc; font-size:14px; width:300px; font-family:inherit; }
+.wayback-page .wb-btn { padding:8px 16px; cursor:pointer; background:#333; color:#fff; border:none; font-size:14px; margin-left:4px; }
+.wayback-page .wb-result { margin-top:24px; text-align:left; padding:16px; background:#f0f0f0; }
+.wayback-page .wb-result a { color:#00c; cursor:pointer; text-decoration:underline; display:block; padding:4px 0; }
 
-.ascii-art {
-  color:#00aa00; font-size:10.5px; line-height:1.05;
-  white-space:pre; font-family:"Courier New",monospace;
-  text-align:center; margin:14px 0; letter-spacing:0;
-}
+/* 快照页 */
+.snapshot-page { }
+.snapshot-banner { background:#ffeaa7; padding:8px 16px; font-size:12px; color:#555; border-bottom:1px solid #f0c040; }
+.snapshot-date { text-align:center; font-size:16px; font-weight:bold; color:#2c3e50; padding:12px 0; }
+.snapshot-hint { background:#e8f8f5; padding:8px 16px; font-size:12px; color:#1a7a6a; border-bottom:1px solid #a3e4d7; margin-top:12px; }
 
-.wb-header {
-  color:#00cc00; font-size:17px; font-weight:bold;
-  text-align:center; margin-bottom:10px;
-  text-shadow:0 0 6px rgba(0,204,0,0.4);
-}
-.wb-search {
-  display:flex; gap:4px; margin:8px 0;
-}
-.wb-search input {
-  flex:1; background:#000; color:var(--arg-green); border:1px solid #005500;
-  font-family:"Courier New",monospace; font-size:13px; padding:4px 6px;
-}
-.wb-timeline {
-  display:flex; gap:6px; padding:8px; overflow-x:auto;
-  border:1px solid #004400; background:rgba(0,15,0,0.5); margin:8px 0;
-}
-.wb-snapshot {
-  min-width:76px; padding:7px; border:1px solid #005500;
-  background:rgba(0,30,0,0.7); color:var(--arg-green);
-  text-align:center; cursor:pointer; font-size:12px; flex-shrink:0;
-}
-.wb-snapshot:hover { background:rgba(0,60,0,0.8); }
+/* 终端界面 */
+.terminal-welcome { color:#aaa; }
+.terminal-prompt { color:var(--arg-green); }
+.terminal-cmd { color:#fff; }
+.terminal-output { color:var(--arg-green); }
+.terminal-mirror { color:#c0392b; font-style:italic; }
+.terminal-system { color:#f39c12; }
+.terminal-error { color:var(--arg-red); }
+.terminal-dim { color:#555; }
 
-.arg-btn {
-  display:inline-block; padding:9px 22px; margin:6px 0;
-  background:rgba(0,20,0,0.8); color:var(--arg-green);
-  border:2px solid #008800; cursor:pointer;
-  font-family:"Courier New",monospace; font-size:13.5px;
-  text-align:center; transition:background 0.15s;
-}
-.arg-btn:hover { background:rgba(0,50,0,0.9); }
-.arg-btn:active { border-style:inset; }
+/* 结局画面 */
+.ending-screen { position:absolute; top:0; left:0; right:0; bottom:0; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.ending-a { background:#0a0a0a; color:#fff; }
+.ending-b { background:#0a1a0a; color:var(--arg-green); }
+.ending-c { background:#000; color:#fff; }
+.ending-d { background:#1a1a2e; color:#c0c0d0; }
+.ending-screen .ending-title { font-size:28px; font-weight:bold; margin-bottom:24px; text-align:center; }
+.ending-screen .ending-text { font-size:15px; line-height:2; max-width:520px; text-align:center; padding:0 20px; }
+.ending-screen .ending-restart { margin-top:32px; padding:8px 24px; cursor:pointer; background:#333; color:#ccc; border:1px solid #555; font-size:13px; font-family:inherit; }
+.ending-screen .ending-restart:hover { background:#444; color:#fff; }
 
-.warn-page { text-align:center; padding:20px 10px; }
-.warn-icon { font-size:46px; margin-bottom:10px; }
-.warn-line { color:#ffaa00; font-size:15px; margin:7px 0; line-height:1.7; }
-.warn-notice { color:#ff4444; font-size:12.5px; margin:7px 0; }
-
-.final-page {
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  height:100%; min-height:300px;
+/* glitch */
+@keyframes glitch-text {
+  0%,100% { transform:none; }
+  20% { transform:translate(2px, -1px); }
+  40% { transform:translate(-2px, 1px); }
+  60% { transform:translate(1px, 0); }
+  80% { transform:translate(-1px, -1px); }
 }
-.final-line {
-  color:#ff0000; font-size:19px; text-align:center;
-  animation:final-fade 2.5s ease-in-out infinite;
-}
-@keyframes final-fade { 0%,100%{opacity:0} 50%{opacity:1} }
-.final-sub { color:#ff4444; font-size:13px; margin-top:14px; animation:final-fade 3s ease-in-out infinite; }
-
-.status-glitch {
-  color:#ff0000 !important; font-weight:bold; font-size:11px !important;
-  animation:flicker 0.7s infinite;
-}
-
-@keyframes bg-distort {
-  0%   { filter:none; }
-  25%  { filter:hue-rotate(130deg) brightness(0.6) saturate(1.5); }
-  50%  { filter:invert(0.15) hue-rotate(70deg) contrast(1.4); }
-  75%  { filter:sepia(0.3) hue-rotate(200deg) brightness(0.5); }
-  100% { filter:none; }
-}
-.desk-distort { animation:bg-distort 0.6s infinite; }
-
-.float-eye {
-  position:fixed; color:#cc0000; font-family:"Courier New",monospace;
-  pointer-events:none; z-index:99991; opacity:0.85;
-  animation:float-up linear forwards;
-}
-@keyframes float-up {
-  0%   { transform:translateY(0) rotate(0deg); opacity:0; }
-  8%   { opacity:0.85; }
-  85%  { opacity:0.85; }
-  100% { transform:translateY(-105vh) rotate(400deg); opacity:0; }
-}
-
-.browser-content::-webkit-scrollbar { width:8px; }
-.browser-content::-webkit-scrollbar-track { background:#001100; }
-.browser-content::-webkit-scrollbar-thumb { background:#005500; border-radius:0; }
-
-.mc-content { padding:14px; color:#000; font-size:13px; background:var(--win98-grey); flex:1; overflow:auto; }
-.mc-icon {
-  display:inline-flex; flex-direction:column; align-items:center;
-  width:68px; margin:6px; cursor:pointer; text-align:center; font-size:11px;
-  padding:3px; border:1px solid transparent;
-}
-.mc-icon:hover { background:rgba(0,0,128,0.15); border:1px dotted rgba(0,0,128,0.4); }
-
-.bg-black { background:#000 !important; }
-.hidden { display:none !important; }
+.glitch { animation:glitch-text 0.3s infinite; }
+.crack { position:absolute; pointer-events:none; font-size:18px; opacity:0; color:var(--arg-red); z-index:100; }
+.crack.show { opacity:1; transition:opacity 0.1s; }
 </style>
-
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-TR4FT7JPDZ');
-    </script>
-    <!-- IP 地理检测（美国用户拒绝访问） -->
-    <script src="/geo-check.js"></script>
-    <!-- HTTP 检测与提示 -->
-    <script>
-        (function() {
-            function checkHTTP() {
-                if (window.location.protocol === 'http:') {
-                    var urlSpan = document.getElementById('currentHttpUrl');
-                    if (urlSpan) urlSpan.textContent = window.location.href;
-                    var overlay = document.getElementById('httpWarningOverlay');
-                    if (overlay) overlay.style.display = 'flex';
-                }
-            }
-            function switchToHTTPS() {
-                var url = window.location.href;
-                url = url.replace(/^http:/i, 'https:');
-                window.location.href = url;
-            }
-            function continueHTTP() {
-                var overlay = document.getElementById('httpWarningOverlay');
-                if (overlay) overlay.style.display = 'none';
-            }
-            window.switchToHTTPS = switchToHTTPS;
-            window.continueHTTP = continueHTTP;
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', checkHTTP);
-            } else {
-                checkHTTP();
-            }
-        })();
-    </script>
-
 </head>
 <body>
 
+<!-- 桌面 -->
 <div id="desktop">
-  <div class="desk-icon" style="left:22px; top:24px;" data-win="browser"   onclick="deskIconClick('browser')">
-    <div class="ico">🌐</div>
-    <div class="lbl">网络浏览器</div>
+  <div class="desk-icon" id="icon-browser" style="left:24px;top:20px" ondblclick="openWindow('browser')">
+    <div class="ico">🌐</div><div class="lbl">Internet<br>Explorer</div>
   </div>
-  <div class="desk-icon" style="left:22px; top:115px;" data-win="terminal"  onclick="deskIconClick('terminal')">
-    <div class="ico" id="ico-terminal">🖥️</div>
-    <div class="lbl">终端</div>
+  <div class="desk-icon" id="icon-terminal" style="left:120px;top:20px" ondblclick="openWindow('terminal')">
+    <div class="ico">🖥️</div><div class="lbl">命令提示符<br>CMD</div>
   </div>
-
-  <div class="win hidden" id="win-browser" style="left:60px; top:35px; width:730px; height:510px;">
-    <div class="win-titlebar" id="tb-browser">
-      <div class="win-title">🌐 网络浏览器</div>
-      <div class="win-btns">
-        <button class="win-btn" onclick="winMin('browser')">_</button>
-        <button class="win-btn" onclick="winClose('browser')">✕</button>
-      </div>
-    </div>
-    <div class="win-body">
-      <div class="browser-toolbar">
-        <button onclick="browserBack()">← 后退</button>
-        <button onclick="browserRefresh()">↻ 刷新</button>
-        <div class="addr-bar">
-          <span class="addr-tag">地址：</span><span id="browser-url">about:blank</span>
-        </div>
-      </div>
-      <div class="browser-content" id="browser-content"></div>
-      <div class="browser-statusbar"><span id="browser-status">就绪</span></div>
-    </div>
+  <div class="desk-icon" id="icon-txt" style="left:216px;top:20px">
+    <div class="ico">📄</div><div class="lbl">readme.txt</div>
   </div>
-
-  <div class="win hidden" id="win-terminal" style="left:180px; top:70px; width:590px; height:390px;">
-    <div class="win-titlebar" id="tb-terminal">
-      <div class="win-title">🖥️ 命令提示符 — C:\9CC&gt;</div>
-      <div class="win-btns">
-        <button class="win-btn" onclick="winMin('terminal')">_</button>
-        <button class="win-btn" onclick="winClose('terminal')">✕</button>
-      </div>
-    </div>
-    <div class="win-body" style="background:#000;">
-      <div class="term-screen" id="term-output"></div>
-      <div class="term-input-line">
-        <span class="prompt" id="term-prompt">C:\9CC&gt;</span>
-        <input type="text" id="term-input" autocomplete="off" spellcheck="false">
-      </div>
-    </div>
-  </div>
-
-
-
-<div id="red-flash" class="red-flash-layer hidden"></div>
-
-<div id="taskbar">
-  <button id="start-btn" onclick="toggleStart()">
-    <span class="start-ico">🪟</span>开始
-  </button>
-  <div id="taskbar-slots"></div>
-  <div id="clock">--:--</div>
 </div>
 
-<div id="start-menu" class="hidden"
-  style="position:fixed; bottom:32px; left:0; width:180px;
-         background:var(--win98-grey); border:2px solid;
-         border-color:var(--win98-light) var(--win98-darker) var(--win98-darker) var(--win98-light);
-         z-index:100000; padding:2px 0; box-shadow:2px 2px 4px rgba(0,0,0,0.4);">
-  <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="deskIconClick('browser');closeStart()">🌐 网络浏览器</div>
-  <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="deskIconClick('terminal');closeStart()">🖥️ 终端</div>
-  <!-- <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="deskIconClick('mycomputer');closeStart()">💻 我的电脑</div> -->
-  <hr style="margin:2px 4px; border-color:var(--win98-dark);">
-  <div style="padding:6px 12px; font-size:12px; cursor:pointer;" onmouseover="this.style.background='#000080';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color=''" onclick="alert('第九频道 v0.9.5\n\n作者:ciallo0721-cmd\n\n提示:备用密码9TH_SAMPLE_9');closeStart()">ℹ️ 关于</div>
+<!-- 任务栏 -->
+<div id="taskbar">
+  <div class="start-btn" onclick="toggleStartMenu()">
+    <span class="flag">🪟</span> 开始
+  </div>
+  <div class="tb-sep"></div>
+  <div id="task-items"></div>
+  <div class="tray" id="clock">17:00</div>
+</div>
+
+<!-- 开始菜单 -->
+<div id="start-menu">
+  <div class="sm-banner">Windows 98</div>
+  <div class="sm-item" onclick="openWindow('browser');toggleStartMenu()"><span class="sm-icon">🌐</span> Internet Explorer</div>
+  <div class="sm-item" onclick="openWindow('terminal');toggleStartMenu()"><span class="sm-icon">🖥️</span> 命令提示符</div>
+  <hr>
+  <div class="sm-item" onclick="location.reload()"><span class="sm-icon">🔄</span> 重启</div>
+</div>
+
+<!-- ==================== 浏览器窗口 ==================== -->
+<div class="window" id="win-browser" data-win="browser" style="width:700px;height:520px;left:40px;top:30px;">
+  <div class="window-title" onmousedown="startDrag(event,'win-browser')">
+    <span class="wt-icon">🌐</span>
+    <span class="wt-text">Internet Explorer</span>
+    <span class="wt-btns">
+      <button onclick="minWindow('browser')">_</button>
+      <button onclick="maxWindow('browser')">□</button>
+      <button onclick="closeWindow('browser')">✕</button>
+    </span>
+  </div>
+  <div class="window-menu">
+    <span>文件</span><span>编辑</span><span>查看</span><span>收藏</span><span>帮助</span>
+  </div>
+  <div class="browser-toolbar">
+    <button onclick="browserBack()" title="后退" id="btn-back" disabled>←</button>
+    <button onclick="browserFwd()" title="前进" id="btn-fwd" disabled>→</button>
+    <button onclick="browserHome()">🏠</button>
+    <input class="url-bar" id="url-bar" value="about:blank" onkeydown="if(event.key==='Enter')browserGo()" readonly>
+    <button onclick="browserGo()">转到</button>
+  </div>
+  <div class="window-body">
+    <div class="browser-content" id="browser-content">
+      <!-- 动态渲染 -->
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 终端窗口 ==================== -->
+<div class="window" id="win-terminal" data-win="terminal" style="width:540px;height:360px;left:200px;top:100px;">
+  <div class="window-title" onmousedown="startDrag(event,'win-terminal')">
+    <span class="wt-icon">🖥️</span>
+    <span class="wt-text">命令提示符 — CMD.EXE</span>
+    <span class="wt-btns">
+      <button onclick="minWindow('terminal')">_</button>
+      <button onclick="maxWindow('terminal')">□</button>
+      <button onclick="closeWindow('terminal')">✕</button>
+    </span>
+  </div>
+  <div class="terminal-body" id="terminal-body" onclick="focusTerminal()">
+    <!-- 动态渲染 -->
+  </div>
+</div>
+
+<!-- ==================== Readme 窗口 ==================== -->
+<div class="window" id="win-readme" data-win="readme" style="width:420px;height:320px;left:90px;top:70px;">
+  <div class="window-title" onmousedown="startDrag(event,'win-readme')">
+    <span class="wt-icon">📄</span>
+    <span class="wt-text">readme.txt — 记事本</span>
+    <span class="wt-btns">
+      <button onclick="minWindow('readme')">_</button>
+      <button onclick="maxWindow('readme')">□</button>
+      <button onclick="closeWindow('readme')">✕</button>
+    </span>
+  </div>
+  <div class="window-body">
+    <div class="browser-content" id="readme-body" style="font-family:'SimSun',serif;font-size:14px;padding:16px;color:#222;">
+      <p style="font-weight:bold;font-size:16px;margin-bottom:12px;">readme.txt</p>
+      <p style="margin-bottom:8px;">欢迎来到这台旧电脑。</p>
+      <p style="margin-bottom:8px;">桌面上有两个有用的东西：</p>
+      <p style="margin-bottom:4px;padding-left:16px;">1. Internet Explorer — 浏览器</p>
+      <p style="margin-bottom:4px;padding-left:16px;">2. 命令提示符 — 终端</p>
+      <p style="margin-top:12px;margin-bottom:8px;">建议先打开浏览器看看。</p>
+      <p style="margin-top:16px;color:#888;font-style:italic;">——上一个使用者的留言</p>
+    </div>
+  </div>
 </div>
 
 <script>
-// =============================================================
-// 全局状态
-// =============================================================
-const state = {
+/* ====================
+   游戏状态管理
+   ==================== */
+const GAME_STATE = {
+  // 浏览器阶段
+  browserPhase: 'warn',      // warn | forum | wayback | snapshot | snapshot2003
   playerName: '',
-  phase: 'desktop',
-  browserHist: [],
-  browserUrl: 'about:blank',
-  termClose: 0,
-  audioCtx: null,
-  ending: false,
-  statusIv: null,
-  endingIvs: [],
-  oscillator: null,
+  postsRevealed: 0,          // 已阅读帖子数
+  hiddenPostClicked: false,  // 是否点击了隐藏帖子
+  waybackClicked: false,     // 是否点击了2003快照
+  
+  // 终端阶段
+  terminalPhase: 'idle',     // idle | connected | exploring | mirror_talk | ending
+  postsRead: false,          // 是否用 posts 查看了隐藏帖子
+  statusChecked: false,      // 是否用 status 查看过角色状态
+  mirrorRound: 0,            // 镜中人对话轮次 0-4
+  commandHistory: [],
+  
+  // 结局
+  endingTriggered: null,     // A | B | C | D 或 null
+  dialogLocked: false,       // 结局触发后锁定
+  
+  // 全局
+  terminalConnected: false   // 是否已连接终端服务器
 };
 
+/* ====================
+   窗口管理
+   ==================== */
+let winZIndex = 10;
+const windows = { browser: false, terminal: false, readme: false };
+let activeWin = null;
+
 function $(id) { return document.getElementById(id); }
-function randInt(a,b) { return Math.floor(Math.random()*(b-a+1))+a; }
-function randChar() {
-  const s='!@#$%^&*()_+-=[]{}|;:<>?/~`abcdefghijklmnopqrstuvwxyz0123456789';
-  return s[randInt(0,s.length-1)];
+
+function openWindow(name) {
+  const el = $('win-' + name);
+  el.style.display = 'flex';
+  el.style.zIndex = ++winZIndex;
+  // 确保浏览器有默认位置和大小
+  if (name === 'browser' && !el.style.left) { el.style.left = '40px'; el.style.top = '30px'; el.style.width = '700px'; el.style.height = '520px'; }
+  if (name === 'terminal' && !el.style.left) { el.style.left = '200px'; el.style.top = '100px'; el.style.width = '540px'; el.style.height = '360px'; }
+  if (name === 'readme' && !el.style.left) { el.style.left = '100px'; el.style.top = '80px'; el.style.width = '400px'; el.style.height = '300px'; }
+  windows[name] = true;
+  activeWin = name;
+  updateTaskItems();
+  if (name === 'browser') renderBrowserContent();
+  if (name === 'terminal') renderTerminal();
+  if (name === 'readme') renderReadme();
 }
-function garbage(n) { let s=''; for(let i=0;i<n;i++) s+=randChar(); return s; }
+
+function renderBrowserContent() {
+  switch (GAME_STATE.browserPhase) {
+    case 'warn': renderWarnPage(); break;
+    case 'forum': renderForumPage(); break;
+    case 'wayback': openWayback(); break;
+    case 'snapshot': openSnapshot(); break;
+    case 'snapshot2003': openSnapshot2003(); break;
+    default: renderWarnPage();
+  }
+}
+
+function closeWindow(name) {
+  $('win-' + name).style.display = 'none';
+  windows[name] = false;
+  if (activeWin === name) activeWin = null;
+  updateTaskItems();
+}
+
+function minWindow(name) {
+  $('win-' + name).style.display = 'none';
+  if (activeWin === name) activeWin = null;
+  updateTaskItems();
+  // 保留窗口状态，不清除 windows[name]
+}
+
+function maxWindow(name) {
+  const el = $('win-' + name);
+  el.style.left = '0'; el.style.top = '0';
+  el.style.width = '100vw'; el.style.height = 'calc(100vh - 32px)';
+}
+
+function focusWin(name) {
+  if (!windows[name]) { openWindow(name); return; }
+  const el = $('win-' + name);
+  el.style.display = 'flex';
+  el.style.zIndex = ++winZIndex;
+  activeWin = name;
+  updateTaskItems();
+}
+
+function updateTaskItems() {
+  const container = $('task-items');
+  container.innerHTML = '';
+  for (const [name, open] of Object.entries(windows)) {
+    if (!open) continue;
+    const div = document.createElement('div');
+    div.className = 'task-item' + (name === activeWin ? ' active' : '');
+    const labels = { browser: '🌐 Internet Explorer', terminal: '🖥️ CMD', readme: '📄 readme.txt' };
+    div.textContent = labels[name] || name;
+    div.onclick = () => {
+      if (name === activeWin) minWindow(name);
+      else focusWin(name);
+    };
+    container.appendChild(div);
+  }
+}
+
+// 拖拽
+let dragWin = null, dragX = 0, dragY = 0;
+function startDrag(e, winId) {
+  dragWin = $('win-' + winId.replace('win-',''));
+  dragX = e.clientX - dragWin.offsetLeft;
+  dragY = e.clientY - dragWin.offsetTop;
+  document.onmousemove = (ev) => {
+    if (dragWin) { dragWin.style.left = (ev.clientX - dragX) + 'px'; dragWin.style.top = (ev.clientY - dragY) + 'px'; }
+  };
+  document.onmouseup = () => { dragWin = null; document.onmousemove = null; };
+}
 
 // 时钟
 function updateClock() {
-  const d=new Date(), h=String(d.getHours()).padStart(2,'0'), m=String(d.getMinutes()).padStart(2,'0');
-  $('clock').textContent = h+':'+m;
+  const now = new Date();
+  $('clock').textContent = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
 }
+setInterval(updateClock, 10000);
 updateClock();
-setInterval(updateClock, 1000);
 
 // 开始菜单
-function toggleStart() { $('start-menu').classList.toggle('hidden'); }
-function closeStart() { $('start-menu').classList.add('hidden'); }
+function toggleStartMenu() {
+  const sm = $('start-menu');
+  sm.classList.toggle('show');
+}
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('#start-btn') && !e.target.closest('#start-menu')) closeStart();
+  if (!$('start-menu').contains(e.target) && !e.target.closest('.start-btn')) {
+    $('start-menu').classList.remove('show');
+  }
 });
 
-// 窗口管理
-const WIN_ORDER = ['browser','terminal','mycomputer','recycle'];
-let zSeed = 100;
+/* ====================
+   FORUM POSTS 数据
+   ==================== */
+const FORUM_POSTS = [
+  { id: 1, author: '深海', date: '2002-10-03 02:17', content: '欢迎来到镜面论坛。这里是我们几个夜间不睡觉的人的小天地。聊聊技术，聊聊生活，随便什么都可以。规矩就一条：别把外面的世界带进来。我是深海，这个服务器的管理员。有什么问题可以找我。', hidden: false },
+  { id: 2, author: '夜猫子', date: '2002-10-15 03:42', content: '有人遇到过这种情况吗？半夜用电脑的时候，屏幕黑掉之后能看到自己的倒影，但是倒影的动作不太对。我昨天晚上确定看到了——我明明没有动，但倒影里的我转了一下头。不是视觉残留，不是幻觉。我盯着那个倒影看了至少五分钟。它一直在看我。', hidden: false },
+  { id: 3, author: '老刀', date: '2002-10-16 14:08', content: 'CRT在低刷新率下确实会有视觉残留。你用的什么显示器？刷新率多少？晚上房间有光源吗？先回答这三个问题再谈鬼故事。别自己吓自己。', hidden: false },
+  { id: 4, author: '夜猫子', date: '2002-10-18 23:55', content: 'CRT，60Hz。但我不是开玩笑的。它现在不只是在屏幕黑的时候出现了。今天下午我的屏幕开着，Windows桌面，然后我看到它——就在窗口边框的反光里。它在看我。不只是看。它今天眨了一下眼睛。我没有眨眼。', hidden: false },
+  { id: 5, author: '小影', date: '2002-10-20 21:33', content: '大家好，我是通过朋友介绍来的。这个论坛的名字好有意思，镜面。我昨天晚上注册之后一直没关网页，然后……我也看到了。我不知道怎么形容。它在镜面里，但不是我的倒影。它像是一个……轮廓，一个人的轮廓，站在我身后。但我身后只有墙。它没有动。就是站在那里。我现在打字的时候还能在屏幕边缘看到它。', hidden: false },
+  { id: 6, author: '深海', date: '2002-10-22 01:44', content: '各位，我认真说一下。我查了一下服务器日志，过去两周，我们论坛的访问量出现了异常峰值。有一些请求来自无法追踪的IP段。它们的目标端口不是HTTP的80——是屏幕显示的底层协议端口。我不确定这和你们说的镜中人有没有关系，但请所有人暂时不要在任何反光面前长时间停留。尤其是深夜。这不是开玩笑的。', hidden: false },
+  { id: 7, author: '老刀', date: '2002-10-25 16:20', content: '我写了一个监控脚本放在服务器上。它会记录所有非标准的连接请求。你们说的镜中人，我在日志里看到了——不是IP的问题，是请求内容。有些请求的User-Agent字段是乱码，但如果你把乱码按GBK编码反解析……算了。这不应该是人看到的东西。脚本路径：/mirror/log。想看的自己去看。我退出讨论了。', hidden: false },
+  { id: 8, author: '夜猫子', date: '2002-11-01 04:11', content: '它开始说话了。不是真的说话。我是指它会在屏幕上留下文字。只有一行，每次都是同一行："让我过去"。我今天把电脑关了三个小时，然后打开，屏幕亮起来的那一刻，那行字还在。它不在操作系统里。它不在硬盘里。它在屏幕的像素里面。我没法重装系统解决这个问题。', hidden: false },
+  { id: 9, author: '小影', date: '2002-11-05 19:27', content: '我今天放学回家，发现我的小灵通屏幕上有水渍。我擦不掉。它不是水，是从屏幕里面渗出来的东西。有点像手的轮廓。深海，你在吗？我有点害怕。它现在不只在我的电脑里了。它跟着我。', hidden: false },
+  { id: 10, author: '深海', date: '2002-11-08 00:03', content: '论坛将于2002年11月15日关闭。所有数据保留但不公开。这不是开玩笑。我已经联系了老刀，他会确保服务器在关闭后仍然运行监控脚本。如果有人——任何人——在未来某一天读到这些帖子：不要长时间看屏幕里的反光。不要回应它。不要让它知道你能看见它。保重。', hidden: false },
+  { id: 11, author: '【自动存档】', date: '2002-11-15 23:59', content: '论坛已关闭。这是最后一次自动备份。所有帖子锁定为只读状态。镜面论坛，2002年10月3日 — 2002年11月15日。在线人数：0。', hidden: false },
+  { id: 12, author: '夜猫子', date: '2003-03-07 03:33', content: '它找到我了。别开屏幕。别开屏幕。别开——有东西在屏幕里面。它想出来。它不是坏人但它想出来。如果你看到这条帖子说明你看到它了。别怕。它是困——', hidden: true }
+];
 
-function deskIconClick(type) {
-  closeStart();
-  openWin(type);
+/* ====================
+   结局数据
+   ==================== */
+const ENDINGS = {
+  A: { title: '【结局A：断开连接】', text: '所有连接已终止。镜面论坛数据永久关闭。深海、夜猫子、老刀、小影的账号状态：离线。你成功切断了通道。但屏幕已经不再只是屏幕了。每次你关掉电脑，黑色屏幕上映出的——是你自己。', cls: 'ending-a' },
+  B: { title: '【结局B：接替者】', text: '你已成为镜面论坛服务器的新管理员。每日监控报告将发送到你的终端。如果有人——任何人——在未来某一天又看到了那个轮廓，你将是第一个知道的人。老刀的程序说：谢谢。有人得看着这面镜子。那个人是你。', cls: 'ending-b' },
+  C: { title: '【结局C：穿越】', text: '连接建立。正在迁移。屏幕亮了。你不在电脑前面了。你在屏幕里面。外面是你的房间，你的椅子，你的键盘。一个轮廓坐在你的椅子上。它转了一下头。它不是你。它是新的你。', cls: 'ending-c' },
+  D: { title: '【结局D：封印】', text: '老刀的隐藏协议已激活。镜面连接被永久切断。代价是——你已经忘记了。论坛是什么？深海是谁？你的浏览器显示about:blank。桌面上什么都没有。一个普通的Win98模拟器。什么都没有发生。但这感觉不太对，是不是？有人在镜子里喊你。你听不到。', cls: 'ending-d' }
+};
+
+/* ====================
+   浏览器页面渲染
+   ==================== */
+
+function browserHome() { GAME_STATE.browserPhase = 'warn'; renderWarnPage(); }
+
+// --- Readme ---
+function renderReadme() {
+  // Readme是静态内容，不需要重新渲染
+  // 只在首次打开时已经有正确内容
 }
 
-function openWin(type) {
-  const w = $('win-'+type);
-  if (!w) return;
-  w.classList.remove('hidden');
-  bringFront(w);
-  updTbar();
-  if (type==='browser' && state.phase==='desktop') {
-    state.phase = 'warning';
-    browserGo('index', renderWarning);
+// --- 警告页 ---
+function renderWarnPage() {
+  GAME_STATE.browserPhase = 'warn';
+  const c = $('browser-content');
+  c.innerHTML = `<div class="warn-page">
+    <div class="warn-icon">⚠️</div>
+    <div class="warn-title">注意：你即将访问的内容可能包含令人不安的历史记录</div>
+    <div class="warn-text">接下来的页面包含从2002年互联网存档中恢复的原始内容。这些内容涉及未解的心理现象报告。如果你在任何反射面中观察到异常，请立即关闭本页面并离开屏幕至少三十分钟。<br><br>你确定要继续吗？</div>
+    <div><input class="warn-input" id="warn-name" placeholder="输入你的名字..." onkeydown="if(event.key==='Enter')enterForum()"><button class="warn-btn" onclick="enterForum()">继续</button></div>
+  </div>`;
+  $('url-bar').value = 'about:blank';
+}
+
+// --- 进入论坛 ---
+function enterForum() {
+  const name = ($('warn-name')?.value || '').trim();
+  GAME_STATE.playerName = name || '访客';
+  GAME_STATE.browserPhase = 'forum';
+  $('url-bar').value = 'http://mirror-forum.bbs/';
+  renderForumPage();
+}
+
+function renderForumPage() {
+  const c = $('browser-content');
+  // 显示已阅读的帖子数
+  const visible = FORUM_POSTS.slice(0, GAME_STATE.postsRevealed + 1);
+  // 自动推进：每次渲染最多显示比上次多一条
+  if (GAME_STATE.postsRevealed < 10) {
+    // 确保显示到第 postsRevealed+1 条
   }
-  if (type==='terminal') focusTerm();
+  
+  let postsHTML = '';
+  for (let i = 0; i <= Math.min(GAME_STATE.postsRevealed, 11); i++) {
+    const p = FORUM_POSTS[i];
+    if (p.hidden && !GAME_STATE.hiddenPostClicked) continue;
+    const hiddenCls = p.hidden ? ' hidden-post' : '';
+    const onclick = p.hidden ? `onclick="revealHiddenPost()"` : '';
+    postsHTML += `<div class="forum-post${hiddenCls}" ${onclick}>
+      <div class="post-header">
+        <span class="post-author">${p.author}</span>
+        <span class="post-date">${p.date}</span>
+      </div>
+      <div class="post-body">${p.content}</div>
+    </div>`;
+  }
+  
+  let replySection = '';
+  if (GAME_STATE.postsRevealed >= 0 && GAME_STATE.postsRevealed < 10) {
+    replySection = `<div class="forum-reply" style="margin-top:12px">
+      <div class="reply-hint">回复帖子（建议：试试"时光机"）</div>
+      <textarea id="forum-reply-text" placeholder="写下你的回复..."></textarea>
+      <button class="reply-btn" onclick="submitForumReply()" style="margin-top:6px">发表回复</button>
+    </div>`;
+  } else if (GAME_STATE.postsRevealed >= 10 && !GAME_STATE.waybackClicked) {
+    replySection = `<div class="forum-reply" style="margin-top:12px; background:#ffeaa7;">
+      <div class="reply-hint" style="color:#8b6914;">你已读完所有历史帖子。论坛在2002年11月15日后关闭，但也许互联网时光机保存了更多快照……</div>
+      <textarea id="forum-reply-text" placeholder="写下你的回复..."></textarea>
+      <button class="reply-btn" onclick="submitForumReply()" style="margin-top:6px">发表回复</button>
+    </div>`;
+  } else if (GAME_STATE.waybackClicked) {
+    replySection = `<div class="forum-reply" style="margin-top:12px; background:#d5f5e3;">
+      <div class="reply-hint" style="color:#1a7a3a;">你找到了2003年的隐藏快照。</div>
+      <textarea id="forum-reply-text" placeholder="写下你的回复..."></textarea>
+      <button class="reply-btn" onclick="submitForumReply()" style="margin-top:6px">发表回复</button>
+    </div>`;
+  }
+  
+  c.innerHTML = `<div class="forum-page">
+    <div class="forum-header">🪞 镜面论坛 — Mirror BBS</div>
+    <div class="forum-nav">
+      <span>首页</span> <a onclick="openWayback()">📦 互联网时光机</a>
+    </div>
+    ${postsHTML}
+    ${replySection}
+  </div>`;
+  c.scrollTop = c.scrollHeight;
 }
 
-function winClose(type) {
-  const w = $('win-'+type);
-  if (w) w.classList.add('hidden');
-  updTbar();
-  if (type==='terminal' && state.phase==='terminal-ending') {
-    state.termClose++;
-    if (state.termClose >= 3) {
-      state.termClose = 0;
-      clearEnding();
-      openWin('browser');
-      state.phase = 'final';
-      browserGo('9cc://awakening', renderFinal);
-    } else {
-      const left = 3 - state.termClose;
-      appendTerm('\n[系统] 传输中断中……还需关闭终端 ' + left + ' 次。\n');
-    }
+function revealHiddenPost() {
+  GAME_STATE.hiddenPostClicked = true;
+  renderForumPage();
+}
+
+function submitForumReply() {
+  const text = ($('forum-reply-text')?.value || '').trim();
+  if (!text) return;
+  
+  const lower = text.toLowerCase();
+  if (lower.includes('时光机') || lower.includes('wayback') || lower.includes('archive') || lower.includes('存档')) {
+    openWayback();
+    return;
+  }
+  
+  // 推进帖子：每次回复显示2-3条新帖子
+  if (GAME_STATE.postsRevealed < 11) {
+    GAME_STATE.postsRevealed = Math.min(GAME_STATE.postsRevealed + 3, 11);
+    renderForumPage();
   }
 }
 
-function winMin(type) {
-  const w = $('win-'+type);
-  if (w) w.classList.add('hidden');
-  updTbar();
-}
-
-function bringFront(w) {
-  document.querySelectorAll('.win').forEach(x=>{
-    x.classList.remove('active');
-    x.querySelector('.win-titlebar').classList.add('inactive');
-  });
-  w.classList.add('active');
-  w.querySelector('.win-titlebar').classList.remove('inactive');
-  zSeed++;
-  w.style.zIndex = zSeed;
-}
-
-function updTbar() {
-  const slot = $('taskbar-slots');
-  slot.innerHTML = '';
-  WIN_ORDER.forEach(t=>{
-    const w = $('win-'+t);
-    if (w && !w.classList.contains('hidden')) {
-      const btn = document.createElement('button');
-      btn.className = 'tbar-item' + (w.classList.contains('active')?' active':'');
-      const labels = {browser:'网络浏览器',terminal:'命令提示符'};
-      btn.textContent = labels[t];
-      btn.onclick = ()=> { bringFront(w); if(w.classList.contains('hidden')) { w.classList.remove('hidden'); updTbar(); } };
-      slot.appendChild(btn);
-    }
-  });
-}
-
-// 窗口拖动
-(function initDrag(){
-  let g=null, ox=0, oy=0;
-  document.addEventListener('mousedown', (e)=>{
-    const tb = e.target.closest('.win-titlebar');
-    if (!tb) return;
-    g = tb.closest('.win');
-    const r = g.getBoundingClientRect();
-    ox = e.clientX - r.left;
-    oy = e.clientY - r.top;
-    g.style.opacity = '0.85';
-    bringFront(g);
-  });
-  document.addEventListener('mousemove', (e)=>{
-    if (!g) return;
-    let nx = e.clientX - ox, ny = e.clientY - oy;
-    nx = Math.max(0, Math.min(window.innerWidth-120, nx));
-    ny = Math.max(0, Math.min(window.innerHeight-70, ny));
-    g.style.left = nx+'px';
-    g.style.top  = ny+'px';
-  });
-  document.addEventListener('mouseup', ()=>{ if(g){ g.style.opacity=''; g=null; } });
-})();
-
-// 浏览器核心 (无 .html 后缀)
-function browserGo(url, renderFn) {
-  state.browserHist.push(state.browserUrl);
-  state.browserUrl = url;
-  $('browser-url').textContent = url;
+// --- 时光机 ---
+function openWayback() {
+  GAME_STATE.browserPhase = 'wayback';
+  $('url-bar').value = 'http://web.archive.org/';
   const c = $('browser-content');
-  c.innerHTML = '';
-  c.classList.remove('bg-black');
-  renderFn();
-  c.scrollTop = 0;
+  c.innerHTML = `<div class="wayback-page">
+    <div class="wb-logo">📦 Internet Archive Wayback Machine</div>
+    <p style="color:#666;margin-bottom:20px">浏览超过 8500 亿个存档网页</p>
+    <div>
+      <input class="wb-input" id="wb-url" value="http://mirror-forum.bbs/" readonly onkeydown="if(event.key==='Enter')searchWayback()">
+      <button class="wb-btn" onclick="searchWayback()">浏览历史</button>
+    </div>
+    <div class="wb-result" id="wb-result"></div>
+  </div>`;
 }
 
-function browserSet(url, renderFn) {
-  state.browserUrl = url;
-  $('browser-url').textContent = url;
-  const c = $('browser-content');
-  c.innerHTML = '';
-  c.classList.remove('bg-black');
-  renderFn();
-  c.scrollTop = 0;
-}
-
-function browserBack() {
-  if (state.browserHist.length===0) return;
-  const prev = state.browserHist.pop();
-  state.browserUrl = prev;
-  $('browser-url').textContent = prev;
-  $('browser-content').innerHTML = '';
-  $('browser-content').classList.remove('bg-black');
-  if (prev==='index') renderWarning();
-  else if (prev==='www.9cc.ch') renderForum();
-  else if (prev==='webtime.com') renderWayback();
-  else if (prev==='codehub.com/echo/9cc') renderSnapshot();
-  else if (prev==='9cc://awakening') renderFinal();
-  else if (prev==='9cc://aftermath') renderAftermath();
-}
-
-function browserRefresh() {
-  const url = state.browserUrl;
-  $('browser-content').innerHTML = '';
-  if (url==='index') renderWarning();
-  else if (url==='www.9cc.ch') renderForum();
-  else if (url==='webtime.com') renderWayback();
-  else if (url==='codehub.com/echo/9cc') renderSnapshot();
-  else if (url==='9cc://awakening') renderFinal();
-  else if (url==='9cc://aftermath') renderAftermath();
-}
-
-// 打字机效果
-function typewrite(el, text, speed, cb) {
-  speed = speed || 38;
-  el.textContent = '';
-  el.classList.add('typing');
-  let i=0;
-  const iv = setInterval(()=>{
-    if (i < text.length) {
-      el.textContent += text[i];
-      i++;
-      const bc = $('browser-content');
-      if (bc) bc.scrollTop = bc.scrollHeight;
-    } else {
-      clearInterval(iv);
-      el.classList.remove('typing');
-      if (cb) cb();
-    }
-  }, speed);
-  return ()=>clearInterval(iv);
-}
-
-// 渲染: 警告页
-function renderWarning() {
-  const c = $('browser-content');
-  c.innerHTML = `
-    <div class="warn-page">
-      <div class="warn-icon" style="color:#ffaa00;">⚠</div>
-      <div class="warn-line" style="font-size:21px; color:#ffaa00; font-weight:bold;">
-        ⚠ 警告：这是一个 ARG
-      </div>
-      <div class="warn-line" style="color:#ffcc00;">
-        所有人物、事件、网址均为虚构，与现实无关。
-      </div>
-      <hr style="border-color:#005500; margin:16px 40px;">
-      <div class="warn-notice">
-        本体验包含邪教、超自然、血腥等令人不适的虚构内容，请谨慎进入。
-      </div>
-      <div class="warn-notice" style="margin-top:10px;">
-        以下出现的所有网站、组织、人物纯属虚构。
-      </div>
-      <button class="arg-btn" id="btn-enter" style="margin-top:22px;">
-        输入你的名称并进入
-      </button>
-    </div>
-  `;
-  $('btn-enter').onclick = ()=> renderNameInput();
-}
-
-function renderNameInput() {
-  const c = $('browser-content');
-  c.innerHTML = `
-    <div style="text-align:center; padding:36px 10px;">
-      <div style="color:var(--arg-green); font-size:16px; margin-bottom:14px;">
-        请输入你在论坛中使用的名称（将作为你的用户名）：
-      </div>
-      <input type="text" id="name-input"
-        style="background:#000; color:var(--arg-green); border:1px solid #008800;
-               padding:7px 10px; font-size:15px; font-family:'Courier New',monospace;
-               width:240px; text-align:center; letter-spacing:1px;"
-        maxlength="18" placeholder="你的名字" autocomplete="off"
-      >
-      <br>
-      <div id="name-err" style="color:#ff4444; font-size:12px; margin-top:6px; min-height:16px;"></div>
-      <button class="arg-btn" id="btn-confirm-name" style="margin-top:14px;">
-        确认并进入论坛 ›
-      </button>
-    </div>
-  `;
-  const inp = $('name-input');
-  inp.focus();
-  inp.addEventListener('keydown', (e)=>{
-    if (e.key==='Enter') $('btn-confirm-name').click();
-  });
-  $('btn-confirm-name').onclick = ()=>{
-    const nm = inp.value.trim();
-    if (!nm) { $('name-err').textContent='⚠ 请输入一个名称。'; inp.style.borderColor='#ff0000'; return; }
-    state.playerName = nm;
-    const bw = $('win-browser');
-    if (bw.classList.contains('hidden')) bw.classList.remove('hidden');
-    bringFront(bw);
-    updTbar();
-    browserGo('www.9cc.ch', renderForum);
-  };
-}
-
-// 论坛 (扩展: 隐藏帖子)
-function renderForum() {
-  const c = $('browser-content');
-  c.innerHTML = `
-    <div style="color:#008800; font-size:11.5px; margin-bottom:6px;">
-      [9cc.ch 论坛] — 连接已建立 — 2009 年风格 — 页面加载完成
-    </div>
-    <div style="color:#004400; font-size:11px; margin-bottom:8px;">
-      &gt; 当前版面：「综合讨论」| 今日：3 篇 | 会员：1,205
-    </div>
-    <hr style="border-color:#004400;">
-    <br>
-
-    <div class="forum-post">
-      <div class="forum-author">
-        <span style="color:#00aaff;">作者：</span>runningfox123 &nbsp;|&nbsp;
-        <span style="color:#666666;">发布于 2009-04-12 23:41:08</span> &nbsp;|&nbsp;
-        <span style="color:#ffaa00;">🔥 0 回复</span> &nbsp;|&nbsp;
-        <span style="color:#888;">浏览 14</span>
-      </div>
-      <div class="forum-title">求助：2009 年的仓库打不开</div>
-      <div class="forum-body">
-        <br>
-        各位，我昨天在 Codehub 上闲逛时发现了一个 2009 年的仓库，<br>
-        名字好像叫 "9cc" 还是什么。<br>
-        <br>
-        但点进去的时候页面一片空白，仓库似乎被锁定了。<br>
-        <br>
-        有人知道怎么看到里面的内容吗？<br>
-        <br>
-        <span style="color:#006600;">—— runningfox123，2009-04-12 23:41</span>
-      </div>
-      <div class="forum-meta">
-        IP: 192.168.x.x | User-Agent: Mozilla/4.0 | 编辑
-      </div>
-    </div>
-
-    <!-- 隐藏帖子 (点击"综合讨论"文字触发) -->
-    <div id="hidden-post-area"></div>
-    <div style="color:#004400; font-size:10px; text-align:center; margin-top:8px;">
-      <span id="secret-trigger" style="cursor:pointer; text-decoration:underline;">综合讨论</span> — 最新主题
-    </div>
-
-    <hr style="border-color:#003300; margin:14px 0;">
-
-    <div id="reply-section">
-      <div class="reply-section">
-        <div style="color:#00aa00; font-size:12px; margin-bottom:5px;">
-          回复此帖（你将作为 <span style="color:#00ff88;">"${state.playerName}"</span> 回复）：
-        </div>
-        <textarea id="reply-ta" readonly>@runningfox123，你可以试试用网页时光机打开它。</textarea>
-        <br>
-        <button class="arg-btn" id="btn-reply" style="font-size:12px; padding:5px 14px;">
-          回复
-        </button>
-      </div>
-    </div>
-
-    <div id="reply-done" class="hidden" style="margin-top:12px;">
-      <div style="border:1px solid #004400; padding:8px; background:rgba(0,15,0,0.6);">
-        <div style="color:#00aaff; font-size:12px;">
-          ${state.playerName}
-          <span style="color:#555555; font-size:11px;">刚刚</span>
-        </div>
-        <div style="color:#00cc00; margin-top:5px; font-size:13px;" id="reply-display"></div>
-      </div>
-      <br>
-      <button class="arg-btn" id="btn-wayback" style="font-size:13px;">
-        ▶ 打开网页时光机
-      </button>
-    </div>
-  `;
-
-  // 隐藏帖子
-  $('secret-trigger').onclick = () => {
-    const area = $('#hidden-post-area');
-    if (area.innerHTML !== '') return;
-    area.innerHTML = `
-      <div class="forum-post" style="border-color:#880000;">
-        <div class="forum-author"><span style="color:#ff6666;">警告：管理员锁定的主题</span></div>
-        <div class="forum-title">██ 内部记录 ██</div>
-        <div class="forum-body">
-          频率 9.9 Hz 会导致不可逆的认知损伤。<br>
-          受试者 #9 在实验后第三天失踪。<br>
-          所有物理记录应于 2009-04-15 前销毁。<br>
-          <span style="color:#ff0000;">切勿尝试逆向 /the_truth.txt</span>
-        </div>
-        <div class="forum-meta">最后编辑: ████ 2009-04-14</div>
-      </div>
-    `;
-  };
-
-  $('btn-reply').onclick = ()=>{
-    const display = $('reply-display');
-    const text = '@runningfox123，你可以试试用网页时光机打开它。';
-    typewrite(display, text, 42, ()=>{
-      $('reply-section').classList.add('hidden');
-      $('reply-done').classList.remove('hidden');
-    });
-  };
-  $('btn-wayback').onclick = ()=>{
-    browserGo('webtime.com', renderWayback);
-  };
-}
-
-// 网页时光机
-function renderWayback() {
-  const c = $('browser-content');
-  c.innerHTML = `
-    <div class="wb-header">◆◆◆ 网页时光机 ◆◆◆<br><span style="font-size:12px; color:#008800;">Wayback Machine — 回溯网页快照</span></div>
-    <div style="color:#00aa00; font-size:12px; text-align:center; margin-bottom:10px;">
-      输入一个网址，查看它在过去某个时间的快照存档。
-    </div>
-    <div class="wb-search">
-      <input type="text" id="wb-input" value="http://codehub.com/echo/9cc" readonly
-        style="background:#001100; color:var(--arg-green);">
-      <button class="arg-btn" onclick="doWaybackSearch()" style="font-size:12px; padding:5px 12px;">🔍 搜索快照</button>
-    </div>
-    <div id="wb-results"></div>
-    <div style="color:#004400; font-size:11px; margin-top:12px;">
-      * 网页时光机由 Internet Archive 提供技术支持（虚构）<br>
-      * 部分快照可能不完整或包含被移除的内容
-    </div>
-  `;
-}
-
-function doWaybackSearch() {
-  const r = $('wb-results');
-  r.innerHTML = `
-    <div style="color:#00cc00; margin:6px 0; font-size:12.5px;">
-      &gt; 正在查询 http://codehub.com/echo/9cc 的存档记录……<br>
-      &gt; 正在连接归档服务器……<br>
-      &gt; 查询完成。
-    </div>
-    <div style="color:var(--arg-green); font-size:14px; margin:8px 0;">
-      ✔ 找到 <span style="color:#ffff00; font-weight:bold;">1</span> 个快照
-    </div>
-    <hr style="border-color:#004400;">
-    <div style="color:#00aa00; font-size:12px; margin:6px 0;">按年份查看：</div>
-    <div class="wb-timeline" id="wb-tl">
-      <div style="color:#00aa00; font-size:13px; font-weight:bold; padding:4px 8px;">2009 ▼</div>
-      <div class="wb-snapshot" onclick="openSnapshot()">
-        <div style="font-size:15px; font-weight:bold;">4月</div>
-        <div style="font-size:11px; color:#00aa00;">14 日</div>
-        <div style="font-size:10px; color:#004400; margin-top:3px;">03:27 UTC+8</div>
-        <div style="font-size:9px; color:#008800;">[查看快照]</div>
-      </div>
-    </div>
-    <div style="color:#555; font-size:11px; margin-top:8px;">
-      &gt; 提示：点击快照查看该时间点的页面存档内容。
-    </div>
+function searchWayback() {
+  const result = $('wb-result');
+  result.innerHTML = `
+    <p style="font-weight:bold;color:#2c3e50">mirror-forum.bbs 的快照存档：</p>
+    <p style="color:#888;font-size:12px">找到 3 个快照</p>
+    <a onclick="openSnapshot()" style="font-size:15px">📅 2002年11月15日 — 镜面论坛（最后一次公开快照）</a>
+    <a onclick="openSnapshot2003()" style="font-size:13px;color:#888">📅 2003年3月7日 — 单帖快照（来源未知）</a>
+    <p style="color:#aaa;font-size:11px;margin-top:8px">提示：老刀的监控脚本路径 /mirror/log 可能仍可通过终端访问。</p>
   `;
 }
 
 function openSnapshot() {
-  browserGo('codehub.com/echo/9cc', renderSnapshot);
-}
-
-// 快照页面 (扩展: 添加可点击的录音片段)
-function renderSnapshot() {
+  GAME_STATE.browserPhase = 'snapshot';
+  $('url-bar').value = 'http://web.archive.org/web/20021115/mirror-forum.bbs/';
   const c = $('browser-content');
-  const star = [
-    '           ✦     ',
-    '          ╱│╲    ',
-    '         ╱ │ ╲   ',
-    '        ╱  │  ╲  ',
-    '       ╱   │   ╲ ',
-    '      ╱    │    ╲',
-    '     ╱   ✦ │   ✦ ╲',
-    '    ✦───────+───────✦',
-    '     ╲   ✦ │   ✦ ╱',
-    '      ╲    │    ╱',
-    '       ╲   │   ╱ ',
-    '        ╲  │  ╱  ',
-    '         ╲ │ ╱   ',
-    '          ╲│╱    ',
-    '           ✦     ',
-  ].join('\n');
-
-  c.innerHTML = `
-    <div style="color:#008800; font-size:11px; margin-bottom:6px;">
-      [存档快照] 抓取时间：2009-04-14 03:27:11 UTC+8 &nbsp;|&nbsp; 原始网址：http://codehub.com/echo/9cc
-    </div>
-    <div style="color:#004400; font-size:11px; margin-bottom:8px;">
-      ⚠ 此页面为自动存档快照，可能与原始页面有差异。
-    </div>
-    <hr style="border-color:#005500;">
-    <br>
-    <div style="color:var(--arg-green); font-size:22px; font-weight:bold; text-align:center; text-shadow:0 0 8px rgba(0,204,0,0.5);">
-      ███ 第九频道（The Ninth Channel）███
-    </div>
-    <div style="color:#00aa00; font-size:13.5px; text-align:center; margin:5px 0 18px;">
-      —— 听觉认知实验记录 ——
-    </div>
-    <div style="color:#00cc00; font-size:13.5px; line-height:2; text-align:justify;">
-      &nbsp;&nbsp;我们通过特定频率（<span style="color:#ffff00; font-weight:bold;">9.9 Hz</span>）成功打开了受试者的"内在视觉"。<br>
-      <br>
-      &nbsp;&nbsp;但受试者开始报告看见"不存在的人"，并出现<span style="color:#ff4444; font-weight:bold; animation:flicker 3s infinite;">集体自残行为</span>。<br>
-      <br>
-      &nbsp;&nbsp;<span style="color:#ff4444; text-decoration:line-through;">████</span> 博士决定终止实验。<br>
-      &nbsp;&nbsp;第 9 号样本被销毁。<br>
-      &nbsp;&nbsp;所有记录被封存。<br>
-      <br>
-      &nbsp;&nbsp;<span style="color:#ffaa00; font-weight:bold;">记住：不要去看深网里的那个信号。</span><br>
-    </div>
-    <br>
-    <hr style="border-color:#005500;">
-    <br>
-    <div class="ascii-art" style="color:#00aa00; font-size:11px;" id="ascii-star">
-${star}</div>
-    <div class="ascii-art" style="color:#007700; font-size:16px; letter-spacing:12px; margin-top:-4px;">
-      ~~~ 9 ~~~ 9 ~~~ 9 ~~~
-    </div>
-    <br>
-    <hr style="border-color:#004400;">
-    <div id="truth-hint"
-      style="color:#333; font-size:11px; text-align:center; cursor:pointer; padding:6px;
-             transition:color 0.5s;"
-      onmouseover="this.style.color='#00aa00'"
-      onmouseout="this.style.color='#333'"
-      title="真相在 9cc 的根目录 /the_truth.txt，密码是受试者的编号。编号藏在……你的名字里。">
-      真相在 9cc 的根目录 /the_truth.txt，密码是受试者的编号。编号藏在……你的名字里。<br>
-      <span style="font-size:10px; color:#222;">（鼠标移到此处可看清文字）</span>
-    </div>
-
-    <!-- 扩展：旧录音片段 -->
-    <div id="audio-easter" style="margin:12px 0; text-align:center;">
-      <div class="arg-btn" id="play-reverse" style="display:inline-block; padding:5px 12px; font-size:12px;">📼 播放旧录音片段 (倒放)</div>
-    </div>
-
-    <br>
-    <div style="color:#006600; font-size:11.5px;">
-      <span style="color:#555555;">&gt;&gt;&gt; </span>页面可能包含被移除的内容。存档由网页时光机自动生成。<br>
-      <span style="color:#555555;">&gt;&gt;&gt; </span>原始仓库已被 <span style="color:#ff4444;">████</span> 于 2009-04-15 封禁。
-    </div>
-  `;
-
-  startStatusGlitch();
-  setTimeout(()=>{
-    if (state.browserUrl !== 'codehub.com/echo/9cc') return;
-    const hint = document.createElement('div');
-    hint.style.cssText='color:#ffaa00; margin-top:14px; border:1px solid #664400; padding:8px; background:rgba(30,20,0,0.8); font-size:12px;';
-    hint.innerHTML='💡 <span style="color:#ffcc00;">提示：你可能需要打开桌面上的"终端"来继续探索……<br>密码藏在你的名字里——试着计算一下字符数。</span>';
-    c.appendChild(hint);
-  }, 3500);
-
-  // 录音彩蛋
-  const playBtn = $('#play-reverse');
-  if (playBtn) {
-    playBtn.onclick = () => {
-      playReverseAudio();
-    };
+  
+  let postsHTML = '';
+  for (let i = 0; i <= 10; i++) {
+    const p = FORUM_POSTS[i];
+    postsHTML += `<div class="forum-post">
+      <div class="post-header">
+        <span class="post-author">${p.author}</span>
+        <span class="post-date">${p.date}</span>
+      </div>
+      <div class="post-body">${p.content}</div>
+    </div>`;
   }
+  
+  c.innerHTML = `<div class="snapshot-page">
+    <div class="snapshot-banner">⚠️ 你正在查看 2002年11月15日 的存档快照。此页面为只读。部分内容可能已损坏。</div>
+    <div class="snapshot-date">📅 存档日期：2002年11月15日 23:59 — 镜面论坛关闭前最后备份</div>
+    ${postsHTML}
+    <div class="snapshot-hint">
+      💡 老刀在帖子#7提到了一个监控脚本。<br>
+      路径是 /mirror/log。<br>
+      你的桌面上的命令提示符也许可以连接到那个老服务器。<br>
+      试试在终端中输入：<b>connect mirror-forum.bbs</b>
+    </div>
+  </div>`;
+  c.scrollTop = 0;
 }
 
-function playReverseAudio() {
-  // 模拟倒放音效 (Web Audio 锯齿波倒置效果)
-  try {
-    if (!state.audioCtx) state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-    if (state.audioCtx.state === 'suspended') state.audioCtx.resume();
-    const now = state.audioCtx.currentTime;
-    const osc = state.audioCtx.createOscillator();
-    const gain = state.audioCtx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.value = 880;
-    gain.gain.value = 0.05;
-    osc.connect(gain);
-    gain.connect(state.audioCtx.destination);
-    osc.start();
-    // 频率从高到低扫频 (模拟倒放)
-    osc.frequency.exponentialRampToValue(220, now + 2.5);
-    gain.gain.exponentialRampToValue(0.0001, now + 2.8);
-    setTimeout(() => { try { osc.stop(); } catch(e){} }, 3000);
-    appendTerm('\n[系统] 录音片段已播放: "他们来了..."\n');
-  } catch(e) {}
+function openSnapshot2003() {
+  GAME_STATE.waybackClicked = true;
+  GAME_STATE.browserPhase = 'snapshot2003';
+  $('url-bar').value = 'http://web.archive.org/web/20030307/mirror-forum.bbs/';
+  const c = $('browser-content');
+  const p = FORUM_POSTS[11];
+  c.innerHTML = `<div class="snapshot-page">
+    <div class="snapshot-banner" style="background:#fadbd8;border-color:#e74c3c">⚠️ 你正在查看 2003年3月7日 的快照。此页面可能包含损坏的数据。</div>
+    <div class="snapshot-date">📅 存档日期：2003年3月7日 03:33 — 单帖快照（来源IP：无法追踪）</div>
+    <div class="forum-post" style="background:#fdf2f2">
+      <div class="post-header">
+        <span class="post-author">${p.author}</span>
+        <span class="post-date">${p.date}</span>
+      </div>
+      <div class="post-body" style="color:#c0392b">${p.content}</div>
+    </div>
+    <div class="snapshot-hint" style="background:#fdf2f2;border-color:#e74c3c;color:#c0392b">
+      ⚠️ 这条帖子中的某些文字似乎被手动截断了。<br>
+      最后的词语是"它是困——"。困在什么里面？<br>
+      回到终端可能能找到更多答案。
+    </div>
+  </div>`;
 }
 
-// 状态栏闪烁
-const GLITCH_MSGS = [
-  '他们在看你','不要再深入了','第九频道在召唤',
-  '你已经被标记','不要打开它','◯◯◯◯◯◯◯',
-  '9.9 Hz','他们在阴影中','真相已被封存',
-  'echo 正在广播','受试者 9 号','不要回应',
-  '████ 博士在看着','信号未终止','9cc 在召唤你',
-  '终端已锁定','不要阅读 /the_truth.txt','频率正在升高',
-];
+// 浏览器导航
+function browserBack() { /* 简化：不做真正的后退栈 */ }
+function browserFwd() {}
+function browserGo() {}
 
-function startStatusGlitch() {
-  stopStatusGlitch();
-  const el = $('browser-status');
-  let gi=0;
-  state.statusIv = setInterval(()=>{
-    gi = (gi+1) % GLITCH_MSGS.length;
-    el.textContent = GLITCH_MSGS[gi];
-    el.className = 'status-glitch';
-    if (Math.random()>0.45) {
-      el.textContent += ' ' + garbage(randInt(3,8));
+/* ====================
+   终端渲染 & 交互
+   ==================== */
+
+function focusTerminal() {
+  const tb = $('terminal-body');
+  if (!tb) return;
+  tb.focus();
+}
+
+function renderTerminal() {
+  const tb = $('terminal-body');
+  if (GAME_STATE.dialogLocked || GAME_STATE.endingTriggered) {
+    // 结局已触发：恢复之前保存的终端内容
+    if (window._savedTerminalHTML) {
+      tb.innerHTML = window._savedTerminalHTML;
+      tb.scrollTop = tb.scrollHeight;
     }
-  }, 2200);
-}
-
-function stopStatusGlitch() {
-  if (state.statusIv) clearInterval(state.statusIv);
-  state.statusIv = null;
-  const el = $('browser-status');
-  if (el) { el.className=''; el.textContent='就绪'; }
-}
-
-// 终端
-function initTerm() {
-  const inp = $('term-input');
-  inp.addEventListener('keydown', (e)=>{
-    if (e.key==='Enter') {
-      const cmd = inp.value.trim();
-      inp.value = '';
-      handleCmd(cmd);
-    }
-  });
-}
-initTerm();
-
-function focusTerm() {
-  setTimeout(()=> { const el = $('term-input'); if(el) el.focus(); }, 120);
-}
-
-function appendTerm(text) {
-  const o = $('term-output');
-  o.textContent += text;
-  o.scrollTop = o.scrollHeight;
-}
-
-function handleCmd(cmd) {
-  if (!cmd) { appendTerm('\n'); return; }
-  appendTerm('C:\\9CC> ' + cmd + '\n');
-  const expectedPwd = state.playerName.length + '_9';
-  const altPwd = '9TH_SAMPLE_9';
-  if (cmd === expectedPwd || cmd === altPwd) {
-    triggerEnding();
     return;
   }
-  const lc = cmd.toLowerCase();
-  if (lc==='help') {
-    appendTerm('  help      — 显示此帮助信息\n');
-    appendTerm('  dir       — 列出当前目录内容\n');
-    appendTerm('  type      — 查看文件（需要密码）\n');
-    appendTerm('  cls       — 清屏\n');
-    appendTerm('  exit      — 退出终端（无效）\n');
-    appendTerm('  frequency — 9@@@@.9@@@@@9..@99999\n');
-    appendTerm('  signal    — ???????????????\n\n');
-  }
-  else if (lc==='dir') {
-    appendTerm('  目录 C:\\9CC\\ 的内容：\n\n');
-    appendTerm('  [DIR]          samples\\\n');
-    appendTerm('  [DIR]          records\\\n');
-    appendTerm('  [FILE]         the_truth.txt         [已加密 ✓]\n');
-    appendTerm('  [FILE]         experiment.log\n');
-    appendTerm('  [FILE]         frequency.dat\n');
-    appendTerm('  [FILE]         9cc_signal.wav\n');
-    appendTerm('\n');
-    appendTerm('   3 个文件         18,432 字节\n');
-    appendTerm('   2 个目录    5,242,880,000 字节可用\n\n');
-  }
-  else if (lc==='type') {
-    appendTerm('  type 命令需要指定文件名。\n');
-    appendTerm('  用法：type &lt;filename&gt;\n');
-    appendTerm('  提示：the_truth.txt 已加密，需要密码。\n');
-    appendTerm('  密码格式：&lt;你名字的字符数&gt;_9\n\n');
-    if (state.playerName) {
-      appendTerm('  （你的名字是 "' + state.playerName + '"，共 ' + state.playerName.length + ' 个字符……）\n\n');
+  
+  if (!GAME_STATE.terminalConnected) {
+    tb.innerHTML = `<div class="terminal-welcome">Microsoft(R) Windows 98
+   (C)Copyright Microsoft Corp 1981-1998.
+
+C:\\WINDOWS&gt;<span class="terminal-prompt">_</span></div>`;
+  } else {
+    // 已连接状态
+    let html = `<div class="terminal-dim">[mirror-forum.bbs] — 连接已建立</div>
+<div class="terminal-dim">欢迎。我是这个服务器的监控程序。</div>
+<div class="terminal-dim">老刀在2002年把我放在这里。他再也没有回来登录过。</div>
+<div class="terminal-dim">你想知道什么？</div>
+<div class="terminal-dim">命令：help | posts | status | mirror | talk | sever | watch | seal | clear</div>
+<div class="terminal-dim">---</div>`;
+    
+    // 渲染历史
+    for (const entry of GAME_STATE.commandHistory) {
+      html += `<div><span class="terminal-prompt">C:\\mirror&gt;</span> <span class="terminal-cmd">${entry.cmd}</span></div>`;
+      html += `<div class="${entry.cls || 'terminal-output'}">${entry.output}</div>`;
     }
+    
+    html += `<div><span class="terminal-prompt">C:\\mirror&gt;</span> <span id="terminal-input-area"><input id="terminal-input" style="background:transparent;border:none;color:#fff;font-family:inherit;font-size:13px;outline:none;width:60%;caret-color:#0f0" onkeydown="terminalKeydown(event)" autofocus></span></div>`;
+    tb.innerHTML = html;
+    setTimeout(() => { const inp = $('terminal-input'); if (inp) inp.focus(); }, 50);
   }
-  else if (lc.startsWith('type ')) {
-    const fname = cmd.slice(5).trim();
-    if (fname==='the_truth.txt' || fname==='the_truth' || fname==='truth') {
-      appendTerm('  [the_truth.txt] 文件已加密。\n');
-      appendTerm('  请输入密码来解密。\n');
-      appendTerm('  &gt; ');
-      appendTerm('\n  （提示：直接在提示符后输入密码并回车。）\n\n');
-    } else {
-      appendTerm('  type: ' + fname + ': 没有此文件\n\n');
-    }
+  
+  tb.scrollTop = tb.scrollHeight;
+  
+  // 如果没有连接，允许点击终端来输入
+  if (!GAME_STATE.terminalConnected) {
+    tb.onclick = function(e) {
+      // 已连接就不需要这个
+      if (!GAME_STATE.terminalConnected) {
+        tb.innerHTML = tb.innerHTML.replace('<span class="terminal-prompt">_</span>', 
+          '<span class="terminal-prompt"><input id="terminal-input-init" style="background:transparent;border:none;color:#0f0;font-family:inherit;font-size:13px;outline:none;width:60%;caret-color:#0f0" onkeydown="initTerminalKeydown(event)" autofocus></span>');
+        setTimeout(() => { const inp = $('terminal-input-init'); if (inp) inp.focus(); }, 50);
+      }
+    };
   }
-  else if (lc==='cls') {
-    $('term-output').textContent = '';
-  }
-  else if (lc==='exit') {
-    appendTerm('  会话无法终止。\n');
-    appendTerm('  第九频道仍在监听……\n\n');
-  }
-  else if (lc==='frequency' || lc==='freq') {
-    appendTerm('  ........\n');
-    appendTerm('  ████████████████████ 100%\n\n');
-    playBeep();
-  }
-  else if (lc==='signal') {
-    appendTerm('  -.... ..--- -.-. -.-.\n');
-    playMorse();
-  }
-  else {
-    appendTerm('  "' + cmd + '" 不是内部或外部命令，也不是可运行的程序。\n');
-    appendTerm('  输入 "help" 查看可用命令。\n\n');
-  }
+  window._savedTerminalHTML = tb.innerHTML;
 }
 
-function playMorse() {
-  try {
-    if (!state.audioCtx) state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-    if (state.audioCtx.state === 'suspended') state.audioCtx.resume();
-    const pattern = [0.2, 0.2, 0.2, 0.6, 0.2, 0.2, 0.2]; // 简化的 9 C C
-    let time = state.audioCtx.currentTime;
-    const osc = state.audioCtx.createOscillator();
-    const gain = state.audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = 880;
-    gain.gain.value = 0;
-    osc.connect(gain);
-    gain.connect(state.audioCtx.destination);
-    osc.start();
-    for (let i=0; i<pattern.length; i++) {
-      const dur = pattern[i];
-      gain.gain.setValueAtTime(0.08, time);
-      gain.gain.setValueAtTime(0.08, time + dur - 0.02);
-      gain.gain.setValueAtTime(0, time + dur);
-      time += dur + 0.05;
-    }
-    setTimeout(() => { try { osc.stop(); } catch(e){} }, time * 1000 + 500);
-  } catch(e) {}
-}
+function initTerminalKeydown(e) {
+  if (e.key !== 'Enter') return;
+  const inp = $('terminal-input-init');
+  if (!inp) return;
+  const cmd = inp.value.trim().toLowerCase();
+  
+  if (cmd === 'connect mirror-forum.bbs' || cmd === 'connect') {
+    GAME_STATE.terminalConnected = true;
+    GAME_STATE.terminalPhase = 'connected';
+    $('terminal-body').innerHTML = `<div class="terminal-welcome">Microsoft(R) Windows 98
+   (C)Copyright Microsoft Corp 1981-1998.
 
-function playBeep() {
-  try {
-    if (!state.audioCtx) state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-    if (state.audioCtx.state==='suspended') state.audioCtx.resume();
-    const osc = state.audioCtx.createOscillator();
-    const gain = state.audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = 9.9;
-    gain.gain.value = 0.08;
-    osc.connect(gain);
-    gain.connect(state.audioCtx.destination);
-    osc.start();
-    setTimeout(()=>{ try{osc.stop();}catch(e){} }, 3000);
-  } catch(e) {}
-}
+C:\\WINDOWS&gt;connect mirror-forum.bbs
+正在连接 mirror-forum.bbs ...
+连接已建立。
+远程主机：mirror-forum.bbs
+端口：23
+协议：Telnet (模拟)
 
-// 终局
-function triggerEnding() {
-  if (state.ending) return;
-  state.ending = true;
-  state.phase = 'terminal-ending';
-  const o = $('term-output');
-  o.textContent = '';
-  const lines = [
-    '正在验证密码……',
-    '',
-    '✔ 密码正确。',
-    '✔ 正在解密 the_truth.txt……',
-    '',
-    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
-    '',
-    '第九频道并未消失。',
-    '它仍在招募。',
-    '',
-    '你已被选为下一个接收者。',
-    '',
-    '关闭此终端三次可中断传输。',
-    '',
-    '正在建立永久连接……',
-    '信号频率：9.9 Hz',
-    '',
-    '受试者 #' + (state.playerName.length) + ' 已确认。',
-    '',
-    '████████████████████████████████',
-    '',
-    '勿忘频率。',
-    '勿忘第九频道。',
-    '',
-    '他们正在来的路上。',
-    '',
-  ];
-  let li = 0;
-  function printLine() {
-    if (li < lines.length) {
-      appendTerm(lines[li] + '\n');
-      li++;
-      setTimeout(printLine, 250 + Math.random()*350);
-    } else {
-      startEndingEffects();
-    }
-  }
-  printLine();
-}
-
-function startEndingEffects() {
-  const desk = $('desktop');
-  desk.classList.add('desk-distort');
-  $('red-flash').classList.remove('hidden');
-  $('ico-mycomp').textContent = '⛧';
-  $('lbl-mycomp').textContent = '第九频道';
-  const floatMsgs = ['👁️','◎','⛧','9','加入我们','9CC','███','受试者'];
-  function spawnEye() {
-    if (!state.ending) return;
-    const el = document.createElement('div');
-    el.className = 'float-eye';
-    el.textContent = floatMsgs[randInt(0, floatMsgs.length-1)];
-    el.style.left = randInt(2,96)+'%';
-    el.style.fontSize = (13+randInt(0,18))+'px';
-    const dur = 3.5 + Math.random()*4;
-    el.style.animationDuration = dur+'s';
-    desk.appendChild(el);
-    setTimeout(()=>el.remove(), dur*1000+200);
-  }
-  for (let i=0;i<6;i++) setTimeout(spawnEye, i*400);
-  const iv1 = setInterval(spawnEye, 1100);
-  state.endingIvs.push(iv1);
-  startBeep();
-  if (!$('win-browser').classList.contains('hidden')) {
-    const bc = $('browser-content');
-    const intruder = document.createElement('div');
-    intruder.style.cssText='color:#ff0000; font-size:13px; margin-top:12px; font-weight:bold;';
-    intruder.textContent='[警告] 检测到未授权访问。第九频道正在定位你的位置……';
-    bc.appendChild(intruder);
+</div><div class="terminal-output">[mirror/log] 监控程序 v2.1 — 老刀 2002</div>
+<div class="terminal-output">最后一次管理员登录：2002年11月15日 23:47 (深海)</div>
+<div class="terminal-output">监控持续运行中：已运行 24 年 7 个月 18 天</div>
+<div class="terminal-output">----------------------------------------</div>
+<div class="terminal-dim">检测到新连接。你是自2003年3月7日以来第一个连接此服务器的人。</div>
+<div class="terminal-dim">欢迎。我是这个服务器的监控程序。</div>
+<div class="terminal-dim">老刀在2002年把我放在这里。他再也没有回来登录过。</div>
+<div class="terminal-dim">你想知道什么？</div>
+<div class="terminal-dim">命令：help | posts | status | mirror | talk | sever | watch | seal | clear</div>
+<div class="terminal-dim">---</div>
+<div><span class="terminal-prompt">C:\\mirror&gt;</span> <span id="terminal-input-area"><input id="terminal-input" style="background:transparent;border:none;color:#fff;font-family:inherit;font-size:13px;outline:none;width:60%;caret-color:#0f0" onkeydown="terminalKeydown(event)" autofocus></span></div>`;
+    $('terminal-body').scrollTop = $('terminal-body').scrollHeight;
+    window._savedTerminalHTML = $('terminal-body').innerHTML;
+    setTimeout(() => { const inp2 = $('terminal-input'); if (inp2) inp2.focus(); }, 50);
+  } else if (cmd === 'help') {
+    $('terminal-body').innerHTML += `<div class="terminal-output">可用命令：connect [host] — 连接到远程服务器</div>
+<div class="terminal-output">示例：connect mirror-forum.bbs</div>`;
+    $('terminal-body').scrollTop = $('terminal-body').scrollHeight;
+  } else {
+    $('terminal-body').innerHTML += `<div class="terminal-error">'${cmd}' 不是内部或外部命令，也不是可运行的程序。</div>
+<div class="terminal-welcome">C:\\WINDOWS&gt;<span class="terminal-prompt">_</span></div>`;
+    $('terminal-body').scrollTop = $('terminal-body').scrollHeight;
   }
 }
 
-function startBeep() {
-  try {
-    if (!state.audioCtx) state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-    if (state.audioCtx.state==='suspended') state.audioCtx.resume();
-    const osc = state.audioCtx.createOscillator();
-    const gain = state.audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = 440;
-    gain.gain.value = 0.06;
-    osc.connect(gain);
-    gain.connect(state.audioCtx.destination);
-    osc.start();
-    state.oscillator = osc;
-    const iv2 = setInterval(()=>{
-      if (!state.ending) { clearInterval(iv2); return; }
-      osc.frequency.value = 440 + Math.sin(Date.now()/1000)*25;
-      gain.gain.value = 0.04 + Math.sin(Date.now()/800)*0.025;
-    }, 100);
-    state.endingIvs.push(iv2);
-  } catch(e) {}
+function terminalKeydown(e) {
+  if (e.key !== 'Enter') return;
+  const inp = $('terminal-input');
+  if (!inp) return;
+  const raw = inp.value.trim();
+  if (!raw) return;
+  
+  const cmd = raw.toLowerCase();
+  
+  // 如果在镜中人对话中，任何输入都推进对话
+  if (GAME_STATE.mirrorRound > 0 && GAME_STATE.mirrorRound < 5) {
+    advanceMirrorDialogue();
+    return;
+  }
+  
+  let output = '';
+  let cls = 'terminal-output';
+  
+  switch (cmd) {
+    case 'help':
+      output = `可用命令：
+  posts   — 读取被隐藏的论坛帖子
+  status  — 查看各角色当前状态
+  mirror  — 查看镜中人活动记录
+  talk    — 尝试与镜中人通信
+  sever   — 断开所有连接
+  watch   — 接手监控权限
+  seal    — [需要验证 — 先使用 posts 命令查看隐藏内容]
+  clear   — 清屏`;
+      break;
+      
+    case 'posts':
+      GAME_STATE.postsRead = true;
+      const hiddenPost = FORUM_POSTS[11];
+      output = `[被隐藏的帖子 — 仅管理员可见]
+作者：${hiddenPost.author} | ${hiddenPost.date}
+
+${hiddenPost.content}
+
+--- 帖子结束 ---
+[注] 这条帖子是在论坛关闭后发布的。发布IP地址不在任何已知网段内。
+夜猫子在那之后再无任何活动记录。`;
+      cls = 'terminal-mirror';
+      break;
+      
+    case 'status':
+      GAME_STATE.statusChecked = true;
+      output = `=== 镜面论坛成员状态 ===
+
+深海 | 最后登录：2003-02-28 | 状态：离线
+  最后日志："端口已被封锁。希望这有用。
+  如果有人读到这条——对不起，我没能阻止它。"
+
+夜猫子 | 最后登录：2003-03-07 | 状态：未知
+  最后位置无法追踪。IP不在任何已知网段内。
+  监控显示他的屏幕在没有任何电源连接的情况下亮了三天。
+
+老刀 | 最后登录：2002-11-15 | 状态：离线
+  他修改了监控脚本让它无限运行。
+  最后一次代码提交注释：
+  "如果封印启动，两边都会失去联系。
+  代价是你会忘记一切。谨慎使用。"
+
+小影 | 最后登录：2002-11-14 | 状态：离线
+  她在论坛关闭前一天发了一封电子邮件给自己。
+  邮件内容只有一个词："再见"。
+
+镜中人 | 活动状态：活跃
+  当前连接数：1（你）`;
+      cls = 'terminal-system';
+      break;
+      
+    case 'mirror':
+      output = `=== 镜中人活动记录 ===
+
+每周活动频率：
+2002-10: ████░░░░░░  4次/周
+2002-11: ██████████ 10次/周
+2003-01: ██████████████ 14次/周
+2003-03: ████████████████████ 22次/周
+[3月7日后无数据]
+2003-04至今: ████████████████████████████████ [频率超过监控上限]
+
+最近的请求内容（已解码）：
+
+[2026-07-03 04:11:07] "有人。在。看。"
+[2026-07-03 04:11:18] "新。的。人。"
+[2026-07-03 04:11:30] "你。看到我。"`;
+      cls = 'terminal-mirror';
+      break;
+      
+    case 'talk':
+      GAME_STATE.mirrorRound = 1;
+      output = `[建立通信通道……]
+[警告：你正在尝试与镜中人建立双向通信]
+
+镜中人：你。
+镜中人：看到我。
+镜中人：跟。他们。一样。
+---
+（继续输入任何内容来与镜中人对话）`;
+      cls = 'terminal-mirror';
+      break;
+      
+    case 'sever':
+      if (!GAME_STATE.endingTriggered) triggerEnding('A');
+      return;
+      
+    case 'watch':
+      if (!GAME_STATE.endingTriggered) triggerEnding('B');
+      return;
+      
+    case 'seal':
+      if (!GAME_STATE.postsRead) {
+        output = `[错误] seal 命令需要验证。请先使用 posts 命令查看隐藏内容。`;
+        cls = 'terminal-error';
+      } else if (!GAME_STATE.endingTriggered) {
+        output = `[执行 老刀 的隐藏协议……]
+[需要确认：你真的要这样做吗？]
+老刀程序的最后信息：
+"如果封印启动，两边都会失去联系。
+但镜中人不会被摧毁——
+它只是被限制在它的那一边，
+永远不会再找到这里。
+代价是：你会忘记这面镜子。
+忘记你读到的所有帖子。
+忘记深海、夜猫子、小影。
+忘记我。
+输入 confirm 确认执行。"`;
+        cls = 'terminal-system';
+      }
+      break;
+      
+    case 'confirm':
+      if (!GAME_STATE.endingTriggered && GAME_STATE.postsRead) {
+        triggerEnding('D');
+        return;
+      }
+      output = `[错误] 没有待确认的操作。`;
+      cls = 'terminal-error';
+      break;
+      
+    case 'clear':
+      GAME_STATE.commandHistory = [];
+      renderTerminal();
+      return;
+      
+    default:
+      output = `未知命令："${raw}"。输入 help 查看可用命令。`;
+      cls = 'terminal-error';
+  }
+  
+  // 记录历史
+  GAME_STATE.commandHistory.push({ cmd: raw, output, cls });
+  renderTerminal();
+  window._savedTerminalHTML = $('terminal-body')?.innerHTML || '';
 }
 
-function clearEnding() {
-  state.ending = false;
-  state.endingIvs.forEach(iv=>clearInterval(iv));
-  state.endingIvs = [];
-  if (state.oscillator) { try{state.oscillator.stop();}catch(e){} state.oscillator=null; }
-  $('red-flash').classList.add('hidden');
-  $('desktop').classList.remove('desk-distort');
-  // $('ico-mycomp').textContent = '💻';
-  // $('lbl-mycomp').textContent = '我的电脑';
-  document.querySelectorAll('.float-eye').forEach(el=>el.remove());
-  stopStatusGlitch();
+function advanceMirrorDialogue() {
+  const round = GAME_STATE.mirrorRound;
+  let output = '';
+  
+  if (round === 1) {
+    output = `镜中人：这。边。冷。
+镜中人：没有。屏幕。给我。
+镜中人：让我过去。
+镜中人：求。你。
+---
+（继续输入以回应镜中人）`;
+    GAME_STATE.mirrorRound = 2;
+  } else if (round === 2) {
+    output = `镜中人：他们。来过。
+镜中人：深海。没有。屏幕。
+镜中人：夜猫子。屏幕。关掉。
+镜中人：小影。差点。跟我。过来。
+镜中人：老刀。知道。怎么。关。门。
+---
+（继续输入以回应镜中人）`;
+    GAME_STATE.mirrorRound = 3;
+  } else if (round === 3) {
+    output = `镜中人：你。可以。
+镜中人：过来。
+镜中人：或者。让我。过去。
+镜中人：选。一个。
+---
+（继续输入以做出选择——这将触发结局）`;
+    GAME_STATE.mirrorRound = 4;
+  } else if (round === 4) {
+    // 最终选择 → 触发结局C
+    triggerEnding('C');
+    return;
+  }
+  
+  GAME_STATE.commandHistory.push({ cmd: '...', output, cls: 'terminal-mirror' });
+  renderTerminal();
+  window._savedTerminalHTML = $('terminal-body')?.innerHTML || '';
 }
 
-// 结局页面 (原有)
-function renderFinal() {
-  const c = $('browser-content');
-  c.classList.add('bg-black');
-  c.innerHTML = '';
-  const wrap = document.createElement('div');
-  wrap.className = 'final-page';
-  const line1 = document.createElement('div');
-  line1.className = 'final-line';
-  line1.style.opacity = '0';
-  line1.textContent = 'ARG 结束。但第九频道的信号永不终止。';
-  wrap.appendChild(line1);
-  const line2 = document.createElement('div');
-  line2.className = 'final-sub';
-  line2.style.opacity = '0';
-  line2.textContent = '感谢游玩，' + (state.playerName||'访客') + '。';
-  wrap.appendChild(line2);
-  const btn = document.createElement('button');
-  btn.className = 'arg-btn';
-  btn.textContent = '▶ 重新开始';
-  btn.style.marginTop = '30px';
-  btn.style.opacity = '0';
-  btn.onclick = resetAll;
-  wrap.appendChild(btn);
-  const btnAfter = document.createElement('button');
-  btnAfter.className = 'arg-btn';
-  btnAfter.textContent = '📡 信号余波 (彩蛋)';
-  btnAfter.style.marginTop = '15px';
-  btnAfter.style.opacity = '0';
-  btnAfter.onclick = () => { browserGo('9cc://aftermath', renderAftermath); };
-  wrap.appendChild(btnAfter);
-  c.appendChild(wrap);
-  setTimeout(()=>{ line1.style.transition='opacity 2.5s'; line1.style.opacity='1'; }, 600);
-  setTimeout(()=>{ line2.style.transition='opacity 3s'; line2.style.opacity='1'; }, 2800);
-  setTimeout(()=>{ btn.style.transition='opacity 2s'; btn.style.opacity='1'; btnAfter.style.transition='opacity 2s'; btnAfter.style.opacity='1'; }, 5500);
+function triggerEnding(endingKey) {
+  if (GAME_STATE.endingTriggered) return;
+  GAME_STATE.endingTriggered = endingKey;
+  GAME_STATE.dialogLocked = true;
+  
+  const ending = ENDINGS[endingKey];
+  const tb = $('terminal-body');
+  
+  // 在终端中显示结局
+  let html = tb.innerHTML;
+  html += `<div class="${ending.cls === 'ending-c' ? 'terminal-mirror' : 'terminal-system'}" style="margin-top:16px;font-size:18px;font-weight:bold;">${ending.title}</div>`;
+  html += `<div class="terminal-output" style="margin-top:12px;line-height:2;">${ending.text}</div>`;
+  html += `<div class="terminal-dim" style="margin-top:24px;">--- 游戏结束 ---</div>`;
+  html += `<div class="terminal-dim">刷新页面以重新开始。 | <a onclick="location.reload()" style="color:#0f0;cursor:pointer;text-decoration:underline">重新开始</a></div>`;
+  tb.innerHTML = html;
+  tb.scrollTop = tb.scrollHeight;
+  window._savedTerminalHTML = html;
+  
+  // 在桌面中央显示大结局画面
+  setTimeout(() => showEndingOverlay(endingKey), 2000);
 }
 
-// 新增彩蛋页: 信号余波
-function renderAftermath() {
-  const c = $('browser-content');
-  c.classList.remove('bg-black');
-  c.innerHTML = `
-    <div style="color:#aa0000; text-align:center; padding:20px;">
-      <div style="font-size:20px; font-weight:bold;">⚠ 信号余波 ⚠</div>
-      <hr style="border-color:#aa0000; margin:10px 0;">
-      <div style="color:#ff6666; margin:12px 0;">"他们在收听。你的名字已经被记录在第九频道的名单上。"</div>
-      <div style="color:#cc8888; font-size:12px;">&gt; 实验并未真正结束。每隔 9 天，你会再次收到来自 <span style="color:#ff0000;">9.9 Hz</span> 的回响。&lt;</div>
-      <div class="arg-btn" onclick="resetAll()" style="margin-top:25px;">返回开始</div>
-    </div>
-  `;
+function showEndingOverlay(endingKey) {
+  const ending = ENDINGS[endingKey];
+  const overlay = document.createElement('div');
+  overlay.className = 'ending-screen ' + ending.cls;
+  overlay.innerHTML = `<div class="ending-title">${ending.title}</div>
+    <div class="ending-text">${ending.text}</div>
+    <button class="ending-restart" onclick="location.reload()">重新开始</button>`;
+  overlay.id = 'ending-overlay';
+  document.body.appendChild(overlay);
 }
 
-// 重置
-function resetAll() {
-  clearEnding();
-  stopStatusGlitch();
-  state.playerName = '';
-  state.phase = 'desktop';
-  state.browserHist = [];
-  state.browserUrl = 'about:blank';
-  state.termClose = 0;
-  $('term-output').textContent = '';
-  $('term-input').value = '';
-  $('browser-url').textContent = 'about:blank';
-  $('browser-content').innerHTML = '';
-  $('browser-content').classList.remove('bg-black');
-  $('browser-status').textContent = '就绪';
-  $('browser-status').className = '';
-  ['browser','terminal','mycomputer','recycle'].forEach(t=>{
-    $('win-'+t).classList.add('hidden');
-  });
-  updTbar();
-}
-
-// 初始化
-document.addEventListener('DOMContentLoaded', ()=>{
-  updTbar();
-});
+/* ====================
+   初始化
+   ==================== */
+(function init() {
+  // 自动打开浏览器
+  setTimeout(() => openWindow('browser'), 500);
+  
+  // 桌面readme双击打开窗口
+  $('icon-txt').ondblclick = function() {
+    openWindow('readme');
+  };
+})();
 </script>
 </body>
 </html>
