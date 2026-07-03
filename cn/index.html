@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>历代诗人 · 中华诗词人物百科</title>
+<meta name="description" content="按朝代整理中国历代诗人及其代表作，涵盖从先秦到清代的著名诗人、词人及其传世名篇。">
+<link rel="icon" href="../fanv.ico">
+<style>
+/* ===== CSS Variables ===== */
+:root {
+    --mw-page-bg: #fff;
+    --mw-body-bg: #f6f5f0;
+    --mw-border: #a2a9b1;
+    --mw-light-border: #e8e4dc;
+    --mw-link: #8B4513;
+    --mw-link-visited: #6B3410;
+    --mw-text: #202122;
+    --mw-text-secondary: #5c5040;
+    --mw-header-bg: #fffdf8;
+    --mw-search-bg: #ffffff;
+    --accent: #B22222;
+    --accent-light: #D4A574;
+    --accent-dim: #f5ede0;
+    --card-hover: #fffaf2;
+    --tag-bg: #f0ebe0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    background: var(--mw-body-bg);
+    color: var(--mw-text);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* ===== Sticky Header ===== */
+.mw-header {
+    background: var(--mw-header-bg);
+    position: sticky; top: 0; z-index: 1000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border-bottom: 1px solid var(--mw-light-border);
+}
+.mw-header-inner {
+    display: flex; align-items: center; gap: 20px;
+    padding: 10px 20px; max-width: 1200px; margin: 0 auto;
+}
+.mw-header-logo {
+    font-size: 1.25rem; font-weight: 700;
+    color: var(--accent); text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    letter-spacing: 0.04em;
+}
+.mw-header-logo:hover { opacity: 0.85; }
+.mw-nav { display: flex; gap: 6px; align-items: center; flex: 1; }
+.mw-nav a {
+    color: var(--mw-text-secondary); text-decoration: none;
+    font-size: 0.88rem; padding: 5px 12px; border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+}
+.mw-nav a:hover { background: var(--accent-dim); color: var(--mw-link); }
+.mw-nav a.active { background: var(--accent); color: white; }
+
+/* ===== Page Header ===== */
+.page-header {
+    padding: 36px 0 0;
+    border-bottom: 1px solid var(--mw-light-border);
+    margin-bottom: 24px;
+}
+.page-header h1 {
+    font-size: 2rem; font-weight: 600;
+    color: var(--mw-text); margin-bottom: 6px;
+    letter-spacing: 0.03em;
+}
+.page-header p {
+    font-size: 0.9rem; color: var(--mw-text-secondary);
+    margin-bottom: 16px;
+}
+
+/* ===== Search ===== */
+.mw-search-wrap {
+    max-width: 520px; margin: 0 auto 28px; position: relative;
+}
+.mw-search-input {
+    width: 100%; padding: 12px 48px 12px 18px;
+    font-size: 0.92rem; border: 1px solid var(--mw-border);
+    border-radius: 6px; background: white;
+    color: var(--mw-text); outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.mw-search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(178,34,34,0.12);
+}
+.mw-search-btn {
+    position: absolute; right: 5px; top: 50%; transform: translateY(-50%);
+    width: 38px; height: 38px; border: none; border-radius: 5px;
+    background: var(--accent); color: white; font-size: 1rem; cursor: pointer;
+    transition: background 0.2s;
+}
+.mw-search-btn:hover { background: #8B1A1A; }
+
+/* ===== Dynasty Tabs ===== */
+.category-nav {
+    display: flex; gap: 4px; flex-wrap: wrap;
+    margin-bottom: 28px; padding: 0;
+    border-bottom: 1px solid var(--mw-light-border);
+}
+.category-btn {
+    padding: 7px 16px; font-size: 0.88rem; font-weight: 500;
+    background: transparent; border: none; border-radius: 4px 4px 0 0;
+    color: var(--mw-text-secondary); cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    border-bottom: 2px solid transparent;
+    position: relative; bottom: -1px;
+    white-space: nowrap;
+}
+.category-btn:hover { background: var(--accent-dim); color: var(--mw-text); }
+.category-btn.active {
+    color: var(--accent); font-weight: 600;
+    border-bottom-color: var(--accent);
+    background: rgba(178,34,34,0.04);
+}
+
+/* ===== Section Title ===== */
+.wiki-section-title {
+    font-size: 1.35rem; font-weight: 600;
+    color: var(--mw-text); margin-bottom: 20px;
+    padding-bottom: 6px; border-bottom: 1px solid var(--mw-light-border);
+    display: flex; align-items: baseline; gap: 8px;
+}
+.wiki-section-title .cat-count {
+    font-size: 0.85rem; font-weight: 400;
+    color: var(--mw-text-secondary);
+}
+
+/* ===== Poet Card Grid ===== */
+.poet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+    min-height: 200px;
+}
+
+/* ===== Poet Card ===== */
+.poet-card {
+    background: white;
+    border: 1px solid var(--mw-light-border);
+    border-radius: 6px;
+    padding: 20px 20px 18px;
+    transition: box-shadow 0.25s, border-color 0.25s, transform 0.2s;
+    position: relative; overflow: hidden;
+    cursor: default;
+}
+.poet-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.poet-card:hover {
+    box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+    border-color: #d4c5a9;
+    transform: translateY(-2px);
+}
+.poet-card:hover::before { opacity: 1; }
+
+/* --- 真实诗人卡片样式 --- */
+.poet-name {
+    font-size: 1.25rem; font-weight: 700;
+    color: var(--mw-link); margin-bottom: 4px;
+    letter-spacing: 0.04em;
+}
+.poet-years {
+    font-size: 0.8rem; color: var(--mw-text-secondary);
+    margin-bottom: 10px;
+}
+.poet-works-label {
+    font-size: 0.75rem; color: #999;
+    letter-spacing: 0.04em; margin-bottom: 4px;
+}
+.poet-works {
+    font-size: 0.88rem; color: var(--mw-text-secondary);
+    line-height: 1.5;
+    font-style: italic;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.poet-desc {
+    font-size: 0.82rem; color: var(--mw-text-secondary);
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px dashed var(--mw-light-border);
+    line-height: 1.5;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.poet-tags {
+    display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px;
+}
+.poet-tag {
+    padding: 1px 8px; font-size: 0.7rem;
+    color: #8B7D6B; background: var(--tag-bg);
+    border-radius: 3px;
+}
+.poet-dynasty-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    font-size: 0.75rem; font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+}
+
+/* --- 占位卡片样式 --- */
+.poet-card.placeholder {
+    border-style: dashed;
+    border-color: #d4c5a9;
+    background: #fdfcf8;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+}
+.poet-card.placeholder::before { display: none; }
+.poet-card.placeholder:hover {
+    opacity: 0.85;
+    border-color: var(--accent-light);
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.placeholder-text {
+    font-size: 0.85rem;
+    color: #b0a590;
+    text-align: center;
+    user-select: none;
+}
+.placeholder-text .icon { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+
+/* ===== Empty State ===== */
+.wiki-empty {
+    text-align: center; padding: 80px 20px;
+    color: var(--mw-text-secondary);
+    grid-column: 1 / -1;
+}
+.wiki-empty .empty-icon { font-size: 3rem; opacity: 0.25; margin-bottom: 12px; display: block; }
+.wiki-empty p { font-size: 0.9rem; }
+
+/* ===== Footer ===== */
+.mw-footer {
+    background: white; border-top: 1px solid var(--mw-light-border);
+    padding: 24px 0; margin-top: 40px;
+    text-align: center; font-size: 0.82rem; color: var(--mw-text-secondary);
+}
+.mw-footer a { color: var(--accent); text-decoration: none; }
+.mw-footer a:hover { text-decoration: underline; }
+
+/* ===== Back to Top ===== */
+.back-to-top {
+    position: fixed; bottom: 28px; right: 28px;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--accent); color: white;
+    border: none; cursor: pointer; font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 3px 10px rgba(178,34,34,0.25);
+    opacity: 0; transform: translateY(14px);
+    transition: all 0.3s; pointer-events: none; z-index: 100;
+}
+.back-to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.back-to-top:hover { background: #8B1A1A; transform: translateY(-2px); }
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .mw-header-inner { flex-wrap: wrap; gap: 10px; }
+    .mw-nav { flex-wrap: wrap; }
+    .page-header h1 { font-size: 1.5rem; }
+    .poet-grid { grid-template-columns: 1fr; gap: 12px; }
+    .category-nav { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+    .category-btn { flex-shrink: 0; }
+}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TR4FT7JPDZ');
+</script>
+<script src="../assets/js/gtag-config.js"></script>
+</head>
+<body>
+
+<!-- ===== 导航 ===== -->
+<header class="mw-header">
+    <div class="mw-header-inner">
+        <a href="index.html" class="mw-header-logo">📜 历代诗人</a>
+        <nav class="mw-nav">
+            <a href="../index.html"><span>🏠</span> 返回主站</a>
+            <a href="../wiki/index.html"><span>📖</span> 百科</a>
+            <a href="../wz.html"><span>📝</span> 文章</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- ===== 页面标题 ===== -->
+    <div class="page-header">
+        <h1>中华历代诗人</h1>
+        <p>按朝代整理中国历代诗人、词人及其代表作，数据陆续补充中。</p>
+    </div>
+
+    <!-- ===== 搜索框 ===== -->
+    <div class="mw-search-wrap">
+        <input type="text" class="mw-search-input" id="searchInput" placeholder="搜索诗人、作品或朝代…">
+        <button class="mw-search-btn" id="searchBtn" aria-label="搜索">🔍</button>
+    </div>
+
+    <!-- ===== 朝代选项卡 ===== -->
+    <div class="category-nav" id="categoryNav">
+        <button class="category-btn active" data-cat="all">全部</button>
+    </div>
+
+    <!-- ===== 诗人列表 ===== -->
+    <div class="wiki-main" id="wikiMain">
+        <div class="wiki-section-title" id="sectionTitle">
+            <span id="sectionTitleText">全部诗人</span>
+            <span class="cat-count" id="catCount"></span>
+        </div>
+        <div class="poet-grid" id="poetGrid"></div>
+    </div>
+
+</div>
+
+<!-- ===== 页脚 ===== -->
+<footer class="mw-footer">
+    <div class="container">
+        <p>
+            © 2026 ciallo0721-cmd ·
+            <a href="../index.html">主页</a> ·
+            <a href="../wiki/index.html">百科</a> ·
+            <a href="index.html">历代诗人</a>
+        </p>
+    </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="返回顶部" title="返回顶部">↑</button>
+
+<script>
+/* ================================================================
+   数据来源：cn/name.json（外部 JSON 文件，方便编辑）
+
+   JSON 结构：
+   {
+     "dynasties": [ { "id": "...", "name": "...", "years": "..." }, ... ],
+     "poets": [
+       // 占位符（只留这两个字段即可，页面显示虚线卡片）：
+       { "_placeholder": true, "dynasty": "tang", "name": "待补充 #1" },
+       // 真实诗人（填写完整字段）：
+       { "name": "李白", "dynasty": "tang", "years": "701—762",
+         "works": "〈静夜思〉〈将进酒〉", "desc": "诗仙。",
+         "tags": ["浪漫主义","乐府"] }
+     ]
+   }
+
+   朝代ID对照：
+   xianqin=先秦 | han=两汉 | weijin=魏晋南北朝 | tang=唐
+   wudai=五代十国 | song=宋 | jin=金 | yuan=元 | ming=明 | qing=清
+=============================================================== */
+
+var DYNASTY_ORDER = [];
+var POETS = [];
+
+// --- 从 name.json 加载数据 ---
+fetch('name.json')
+    .then(function(res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+    })
+    .then(function(data) {
+        DYNASTY_ORDER = data.dynasties || [];
+        POETS = data.poets || [];
+        initApp();
+    })
+    .catch(function(err) {
+        console.error('加载 name.json 失败:', err);
+        document.getElementById('poetGrid').innerHTML =
+            '<div class="wiki-empty"><span class="empty-icon">⚠️</span><p>数据加载失败，请检查 name.json 文件</p></div>';
+    });
+
+function initApp() {
+    buildTabs();
+    bindEvents();
+    renderByCategory('all');
+}
+
+// --- 生成朝代选项卡 ---
+function buildTabs() {
+    var nav = document.getElementById('categoryNav');
+    nav.innerHTML = '';
+    for (var i = 0; i < DYNASTY_ORDER.length; i++) {
+        var d = DYNASTY_ORDER[i];
+        var btn = document.createElement('button');
+        btn.className = 'category-btn' + (d.id === 'all' ? ' active' : '');
+        btn.setAttribute('data-cat', d.id);
+        btn.textContent = d.name;
+        btn.addEventListener('click', function(e) {
+            var cat = e.target.getAttribute('data-cat');
+            renderByCategory(cat);
+            var allBtns = nav.querySelectorAll('.category-btn');
+            for (var j = 0; j < allBtns.length; j++) allBtns[j].classList.remove('active');
+            e.target.classList.add('active');
+        });
+        nav.appendChild(btn);
+    }
+}
+
+// --- 构建一张诗人卡片 ---
+function buildCard(p) {
+    var card = document.createElement('div');
+
+    if (p._placeholder) {
+        card.className = 'poet-card placeholder';
+        card.innerHTML = '<div class="placeholder-text"><span class="icon">📜</span>' + p.name + '</div>';
+        return card;
+    }
+
+    card.className = 'poet-card';
+
+    var dynastyTag = document.createElement('span');
+    dynastyTag.className = 'poet-dynasty-tag';
+    var dynastyName = p.dynasty;
+    for (var i = 0; i < DYNASTY_ORDER.length; i++) {
+        if (DYNASTY_ORDER[i].id === p.dynasty) { dynastyName = DYNASTY_ORDER[i].name; break; }
+    }
+    dynastyTag.textContent = dynastyName;
+
+    var nameEl = document.createElement('div');
+    nameEl.className = 'poet-name';
+    nameEl.textContent = p.name;
+
+    var yearsEl = document.createElement('div');
+    yearsEl.className = 'poet-years';
+    yearsEl.textContent = p.years || '';
+
+    var worksLabel = document.createElement('div');
+    worksLabel.className = 'poet-works-label';
+    worksLabel.textContent = '代表作';
+
+    var worksEl = document.createElement('div');
+    worksEl.className = 'poet-works';
+    worksEl.textContent = p.works || '';
+
+    var descEl = document.createElement('div');
+    descEl.className = 'poet-desc';
+    descEl.textContent = p.desc || '';
+
+    var tagsEl = document.createElement('div');
+    tagsEl.className = 'poet-tags';
+    if (p.tags) {
+        for (var j = 0; j < p.tags.length; j++) {
+            var tag = document.createElement('span');
+            tag.className = 'poet-tag';
+            tag.textContent = p.tags[j];
+            tagsEl.appendChild(tag);
+        }
+    }
+
+    card.appendChild(dynastyTag);
+    card.appendChild(nameEl);
+    card.appendChild(yearsEl);
+    card.appendChild(worksLabel);
+    card.appendChild(worksEl);
+    card.appendChild(descEl);
+    card.appendChild(tagsEl);
+    return card;
+}
+
+// --- 渲染诗人列表 ---
+function renderPoets(poets) {
+    var grid = document.getElementById('poetGrid');
+    grid.innerHTML = '';
+    if (poets.length === 0) {
+        grid.innerHTML = '<div class="wiki-empty"><span class="empty-icon">📭</span><p>没有找到匹配的诗人</p></div>';
+        return;
+    }
+    for (var i = 0; i < poets.length; i++) {
+        grid.appendChild(buildCard(poets[i]));
+    }
+}
+
+// --- 按朝代筛选 ---
+function renderByCategory(cat) {
+    var filtered;
+    if (cat === 'all') {
+        filtered = POETS.slice();
+    } else {
+        filtered = [];
+        for (var i = 0; i < POETS.length; i++) {
+            if (POETS[i].dynasty === cat) filtered.push(POETS[i]);
+        }
+    }
+    var titleText = cat === 'all' ? '全部诗人' : '';
+    for (var j = 0; j < DYNASTY_ORDER.length; j++) {
+        if (DYNASTY_ORDER[j].id === cat) { titleText = DYNASTY_ORDER[j].name + ' · 诗人'; break; }
+    }
+    document.getElementById('sectionTitleText').textContent = titleText;
+    document.getElementById('catCount').textContent = filtered.length + ' 位';
+    renderPoets(filtered);
+}
+
+// --- 搜索 ---
+function searchPoets(query) {
+    if (!query || query.trim() === '') {
+        var activeBtn = document.getElementById('categoryNav').querySelector('.category-btn.active');
+        var cat = activeBtn ? activeBtn.getAttribute('data-cat') : 'all';
+        renderByCategory(cat);
+        return;
+    }
+    var q = query.trim().toLowerCase();
+    var results = [];
+    for (var i = 0; i < POETS.length; i++) {
+        var p = POETS[i];
+        if (p._placeholder) continue;
+        if (
+            (p.name && p.name.indexOf(q) !== -1) ||
+            (p.works && p.works.indexOf(q) !== -1) ||
+            (p.desc && p.desc.indexOf(q) !== -1) ||
+            (p.dynasty && p.dynasty.indexOf(q) !== -1)
+        ) {
+            results.push(p);
+        }
+    }
+    document.getElementById('sectionTitleText').textContent = '搜索结果: ' + query;
+    document.getElementById('catCount').textContent = results.length + ' 位';
+    renderPoets(results);
+}
+
+// --- 事件绑定 ---
+function bindEvents() {
+    document.getElementById('searchBtn').addEventListener('click', function() {
+        searchPoets(document.getElementById('searchInput').value);
+    });
+    document.getElementById('searchInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') searchPoets(document.getElementById('searchInput').value);
+    });
+    var btn = document.getElementById('backToTop');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 400) btn.classList.add('show');
+        else btn.classList.remove('show');
+    }, { passive: true });
+    btn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+</script>
+</body>
+</html>

@@ -5,6 +5,7 @@
 - **域名**：https://ciallo0721-cmd.top（原 91vip.xn--32v.ink，2026-06-19 更换）
 - **子域名**：status.wiki.baicai.taffy.ciallo0721-cmd.top（客户端路由方案，tname 配 CNAME）
 - **baicai 纪念站**：真白花音（Mashiro Kanon），2019-05-07 出道→2019-10-31 隐退→2020-12-01 复活→2026-05-01 毕业。白发红瞳，144cm，5/29 生日，P家/Chucolala，粉丝名帕清姬。页面含完整事业时间线、轶事、资料卡片
+- **ARG 游戏「镜中人」**：`arg/index.html`（38KB, Win98复古美学），叙事设计文档 `arg/design.md`。故事：2002年镜面论坛→时光机存档→终端连接→与镜中人对话→4结局（断开/接替/穿越/封印）。5个角色（深海、夜猫子、老刀、小影、镜中人）
 - **类型**：纯静态站（GitHub Pages），无服务端
 - **技术栈**：原生 HTML/CSS/JS，CodeMirror 5.65.2，Cloudflare Turnstile，Ren'Py 导出游戏
 - **部署平台**：GitHub Pages
