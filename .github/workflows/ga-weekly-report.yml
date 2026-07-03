@@ -1,0 +1,56 @@
+# ============================================================
+# GA4 每周数据报告
+# 每周一 8:00（北京时间）自动拉取 GA4 数据并生成周报
+# 欢迎语规则：数据好 → "good everyday"，数据差 → "hello everyone"
+# ============================================================
+name: GA4 每周数据报告
+
+on:
+  schedule:
+    # 每周一 0:00 UTC = 北京时间 8:00
+    - cron: "0 0 * * 1"
+  # 手动触发（可用于测试或补发）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  weekly-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安装依赖
+        run: pip install google-analytics-data
+
+      - name: 运行周报生成脚本
+        id: report
+        env:
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+          GA4_SERVICE_ACCOUNT_KEY: ${{ secrets.GA4_SERVICE_ACCOUNT_KEY }}
+        run: python .github/scripts/ga-weekly-report.py
+
+      - name: 提交并推送
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add weekly-report/report-data.js
+          if git diff --cached --quiet; then
+            echo "📋 无变更，本周报告已存在"
+          else
+            G="good everyday"; if [ "${{ steps.report.outputs.is_good }}" != "true" ]; then G="hello everyone"; fi
+            AU="${{ steps.report.outputs.active_users }}"
+            PV="${{ steps.report.outputs.page_views }}"
+            git commit -m "📊 每周数据报告：${G} | 活跃用户 ${AU} | PV ${PV}"
+            git push
+            echo "✅ 周报已提交：${G}"
+          fi
