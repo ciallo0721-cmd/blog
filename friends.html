@@ -321,7 +321,7 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* ===== 推广返佣板块 ===== */
+        /* ===== 域名推广板块 ===== */
         .promo-section {
             background: white;
             border-radius: 20px;
@@ -355,12 +355,10 @@
         .promo-header p strong {
             color: var(--bili-pink);
         }
-
         .promo-link-row {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 24px;
             flex-wrap: wrap;
         }
         .promo-label {
@@ -411,114 +409,13 @@
             background: #4CAF50;
         }
 
-        .promo-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 28px;
-        }
-        .promo-stat-card {
-            background: linear-gradient(135deg, rgba(51,102,255,0.04), rgba(37,117,252,0.04));
-            border: 1px solid rgba(51,102,255,0.12);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            transition: var(--transition);
-        }
-        .promo-stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-        .promo-stat-value {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
-        .promo-stat-label {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-        .promo-stat-label small {
-            font-size: 0.78rem;
-            opacity: 0.7;
-        }
-
-        .promo-records {
-            margin-top: 8px;
-        }
-        .promo-records-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        .promo-records-header i {
-            color: var(--bili-pink);
-            margin-right: 6px;
-        }
-        .promo-records-sub {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            background: rgba(51,102,255,0.08);
-            padding: 4px 12px;
-            border-radius: 12px;
-        }
-        .promo-table-wrapper {
-            overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid #eee;
-        }
-        .promo-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88rem;
-        }
-        .promo-table thead {
-            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
-            color: white;
-        }
-        .promo-table th {
-            padding: 12px 16px;
-            text-align: left;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        .promo-table td {
-            padding: 12px 16px;
-            border-bottom: 1px solid #f0f0f0;
-            color: var(--text-secondary);
-        }
-        .promo-table tbody tr:hover {
-            background: rgba(51,102,255,0.03);
-        }
-        .promo-empty {
-            text-align: center;
-            padding: 40px 16px !important;
-            color: #bbb !important;
-            font-size: 0.9rem;
-        }
-        .promo-empty i {
-            display: block;
-            font-size: 2rem;
-            margin-bottom: 8px;
-            color: #ddd;
-        }
-
         @media (max-width: 600px) {
             header h1 { font-size: 1.6rem; }
             .friends-grid { grid-template-columns: 1fr; }
             .apply-section { padding: 24px; }
             .promo-section { padding: 24px; }
-            .promo-stats { grid-template-columns: 1fr; }
             .promo-link-row { flex-direction: column; align-items: stretch; }
             .promo-link-box { min-width: 0; }
-            .promo-table { font-size: 0.8rem; }
-            .promo-table th, .promo-table td { padding: 8px 10px; }
         }
     </style>
 
@@ -611,16 +508,21 @@
         </div>
     </div>
 
-    <!-- ===== 域名推广返佣 ===== -->
+    <!-- 友链列表 -->
+    <h2 class="section-title"><i class="fas fa-heart"></i> 朋友们</h2>
+    <div class="friends-grid" id="friendsList">
+        <!-- 友链数据通过JS渲染 -->
+    </div>
+
+    <!-- 域名推广 -->
     <div class="promo-section">
         <div class="promo-header">
-            <i class="fas fa-gift"></i>
+            <i class="fas fa-globe"></i>
             <div>
                 <h3>🌐 想搞个自己的域名吗</h3>
-                <p>悄悄说，我域名都是在这里买的，比某里某讯便宜一截～<br>注册只要十几块，还不用实名等审核，懂的都懂喵～</p>
+                <p>悄悄说，我域名都是在这个站搞的，<strong>比某里某讯便宜一截</strong>～<br>注册只要十几块，还不用实名等审核，懂的都懂喵～</p>
             </div>
         </div>
-
         <div class="promo-link-row">
             <span class="promo-label">👇 点这里看看</span>
             <div class="promo-link-box">
@@ -628,55 +530,6 @@
                 <button class="promo-copy-btn" onclick="copyPromoLink()"><i class="fas fa-copy"></i> 复制</button>
             </div>
         </div>
-
-        <div class="promo-stats">
-            <div class="promo-stat-card">
-                <div class="promo-stat-value" style="color:#4CAF50;">¥3</div>
-                <div class="promo-stat-label">下级注册域名<br><small>单条返佣</small></div>
-            </div>
-            <div class="promo-stat-card">
-                <div class="promo-stat-value" style="color:#FF9800;">¥2</div>
-                <div class="promo-stat-label">下级购买域名<br><small>单条返佣</small></div>
-            </div>
-            <div class="promo-stat-card">
-                <div class="promo-stat-value" id="currentEarnings">¥0</div>
-                <div class="promo-stat-label">累计返佣金额<br><small>直接到账会员余额</small></div>
-            </div>
-        </div>
-
-        <!-- 返佣记录表格 -->
-        <div class="promo-records">
-            <div class="promo-records-header">
-                <span><i class="fas fa-list"></i> 返佣记录</span>
-                <span class="promo-records-sub">下级用户</span>
-            </div>
-            <div class="promo-table-wrapper">
-                <table class="promo-table">
-                    <thead>
-                        <tr>
-                            <th>用户ID</th>
-                            <th>消费详情</th>
-                            <th>消费余额</th>
-                            <th>返佣金额</th>
-                            <th>消费时间</th>
-                        </tr>
-                    </thead>
-                    <tbody id="commissionRecords">
-                        <tr>
-                            <td colspan="5" class="promo-empty">
-                                <i class="fas fa-inbox"></i> 暂无返佣记录，快去分享你的推广链接吧～
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- 友链列表 -->
-    <h2 class="section-title"><i class="fas fa-heart"></i> 朋友们</h2>
-    <div class="friends-grid" id="friendsList">
-        <!-- 友链数据通过JS渲染 -->
     </div>
 
     <!-- 申请友链 -->
@@ -729,29 +582,6 @@ const friends = [
     // { name: "站点名", url: "https://...", desc: "描述", tag: "标签" }
 ];
 
-// 复制推广链接
-function copyPromoLink() {
-    const input = document.getElementById('promoLink');
-    const btn = document.querySelector('.promo-copy-btn');
-    navigator.clipboard.writeText(input.value).then(() => {
-        btn.classList.add('copied');
-        btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
-        setTimeout(() => {
-            btn.classList.remove('copied');
-            btn.innerHTML = '<i class="fas fa-copy"></i> 复制';
-        }, 2500);
-    }).catch(() => {
-        input.select();
-        document.execCommand('copy');
-        btn.classList.add('copied');
-        btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
-        setTimeout(() => {
-            btn.classList.remove('copied');
-            btn.innerHTML = '<i class="fas fa-copy"></i> 复制';
-        }, 2500);
-    });
-}
-
 // 渲染友链
 function renderFriends() {
     const grid = document.getElementById('friendsList');
@@ -790,6 +620,29 @@ function renderFriends() {
             </div>
         </a>
     `).join('');
+}
+
+// 复制推广链接
+function copyPromoLink() {
+    const input = document.getElementById('promoLink');
+    const btn = document.querySelector('.promo-copy-btn');
+    navigator.clipboard.writeText(input.value).then(() => {
+        btn.classList.add('copied');
+        btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = '<i class="fas fa-copy"></i> 复制';
+        }, 2500);
+    }).catch(() => {
+        input.select();
+        document.execCommand('copy');
+        btn.classList.add('copied');
+        btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = '<i class="fas fa-copy"></i> 复制';
+        }, 2500);
+    });
 }
 
 // 提交申请
