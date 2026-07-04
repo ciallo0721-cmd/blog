@@ -256,6 +256,224 @@ body {
 .wiki-empty .empty-icon { font-size: 3rem; opacity: 0.25; margin-bottom: 12px; display: block; }
 .wiki-empty p { font-size: 0.9rem; }
 
+/* ===== 投稿&修复板块 ===== */
+.contribute-section {
+    margin-top: 48px;
+    border-top: 2px solid var(--accent-dim);
+    padding-top: 32px;
+}
+.contribute-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 24px;
+}
+.contribute-header h2 {
+    font-size: 1.35rem; font-weight: 600;
+    color: var(--mw-text);
+    letter-spacing: 0.03em;
+}
+.contribute-header .badge {
+    font-size: 0.75rem; font-weight: 500;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 2px 10px; border-radius: 10px;
+}
+
+/* Tabs */
+.contribute-tabs {
+    display: flex; gap: 0;
+    border-bottom: 2px solid var(--mw-light-border);
+    margin-bottom: 24px;
+}
+.contribute-tab-btn {
+    padding: 10px 24px;
+    font-size: 0.92rem; font-weight: 500;
+    background: transparent; border: none;
+    color: var(--mw-text-secondary);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s, border-color 0.2s;
+}
+.contribute-tab-btn:hover { color: var(--mw-text); }
+.contribute-tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+}
+.contribute-tab-content { display: none; }
+.contribute-tab-content.active { display: block; }
+
+/* 投稿表单 */
+.contribute-form {
+    background: white;
+    border: 1px solid var(--mw-light-border);
+    border-radius: 6px;
+    padding: 24px;
+}
+.contribute-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+@media (max-width: 600px) {
+    .contribute-form-grid { grid-template-columns: 1fr; }
+}
+.contribute-form-group {
+    display: flex; flex-direction: column; gap: 4px;
+}
+.contribute-form-group.full { grid-column: 1 / -1; }
+.contribute-form-group label {
+    font-size: 0.82rem; font-weight: 600;
+    color: var(--mw-text-secondary);
+}
+.contribute-form-group input,
+.contribute-form-group select,
+.contribute-form-group textarea {
+    padding: 8px 12px;
+    font-size: 0.88rem;
+    border: 1px solid var(--mw-light-border);
+    border-radius: 4px;
+    color: var(--mw-text);
+    background: white;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.contribute-form-group input:focus,
+.contribute-form-group select:focus,
+.contribute-form-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(178,34,34,0.08);
+}
+.contribute-form-group textarea {
+    resize: vertical; min-height: 80px;
+}
+.contribute-form-group .hint {
+    font-size: 0.72rem; color: #999;
+}
+.contribute-form-group .required::after {
+    content: ' *'; color: var(--accent);
+}
+.contribute-submit-row {
+    display: flex; gap: 10px; align-items: center;
+    margin-top: 8px;
+}
+.contribute-btn {
+    padding: 10px 28px;
+    font-size: 0.9rem; font-weight: 600;
+    background: var(--accent); color: white;
+    border: none; border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.contribute-btn:hover { background: #8B1A1A; }
+.contribute-btn-reset {
+    padding: 10px 20px;
+    font-size: 0.88rem;
+    background: transparent; color: var(--mw-text-secondary);
+    border: 1px solid var(--mw-light-border);
+    border-radius: 5px; cursor: pointer;
+    transition: background 0.2s;
+}
+.contribute-btn-reset:hover { background: #f5f0e8; }
+
+/* 预览区 */
+.contribute-preview {
+    margin-top: 20px;
+    background: #fdfcf8;
+    border: 1px solid var(--mw-light-border);
+    border-radius: 6px;
+    padding: 16px;
+    display: none;
+}
+.contribute-preview.show { display: block; }
+.contribute-preview h4 {
+    font-size: 0.85rem; color: var(--mw-text-secondary);
+    margin-bottom: 8px;
+}
+.contribute-preview pre {
+    background: white;
+    border: 1px solid var(--mw-light-border);
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-size: 0.82rem;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    color: var(--mw-text);
+    white-space: pre-wrap; word-break: break-all;
+    max-height: 300px; overflow-y: auto;
+}
+.contribute-preview-actions {
+    display: flex; gap: 8px; margin-top: 12px;
+    flex-wrap: wrap;
+}
+.contribute-copy-btn {
+    padding: 6px 16px;
+    font-size: 0.82rem;
+    background: var(--accent); color: white;
+    border: none; border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.contribute-copy-btn:hover { background: #8B1A1A; }
+.contribute-copy-btn.copied { background: #2E7D32; }
+.contribute-gh-link {
+    padding: 6px 16px;
+    font-size: 0.82rem;
+    background: #24292e; color: white;
+    border: none; border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: background 0.2s;
+}
+.contribute-gh-link:hover { background: #444d56; }
+
+/* 修复记录 */
+.fix-entry {
+    background: white;
+    border: 1px solid var(--mw-light-border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    display: flex; gap: 14px;
+    align-items: flex-start;
+    transition: box-shadow 0.2s;
+}
+.fix-entry:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.fix-entry-date {
+    font-size: 0.78rem; color: var(--accent);
+    font-weight: 600; white-space: nowrap;
+    min-width: 90px;
+    padding-top: 2px;
+}
+.fix-entry-content { flex: 1; }
+.fix-entry-content .fix-title {
+    font-size: 0.9rem; color: var(--mw-text);
+    font-weight: 500;
+}
+.fix-entry-content .fix-detail {
+    font-size: 0.82rem; color: var(--mw-text-secondary);
+    margin-top: 2px;
+}
+.fix-entry-content .fix-author {
+    font-size: 0.72rem; color: #aaa;
+    margin-top: 4px;
+}
+.fix-status {
+    display: inline-block;
+    padding: 1px 8px; font-size: 0.7rem;
+    border-radius: 8px;
+    font-weight: 500;
+    margin-left: 6px;
+}
+.fix-status.fixed { background: #e8f5e9; color: #2E7D32; }
+.fix-status.pending { background: #fff3e0; color: #E65100; }
+.fix-empty {
+    text-align: center; padding: 40px 20px;
+    color: var(--mw-text-secondary);
+}
+.fix-empty .empty-icon { font-size: 2.5rem; opacity: 0.2; display: block; margin-bottom: 8px; }
+
 /* ===== Footer ===== */
 .mw-footer {
     background: white; border-top: 1px solid var(--mw-light-border);
@@ -341,6 +559,74 @@ body {
         <div class="poet-grid" id="poetGrid"></div>
     </div>
 
+    <!-- ===== 投稿&修复板块 ===== -->
+    <div class="contribute-section">
+        <div class="contribute-header">
+            <h2>📬 投稿 & 修复</h2>
+            <span class="badge">欢迎贡献</span>
+        </div>
+
+        <div class="contribute-tabs">
+            <button class="contribute-tab-btn active" data-tab="submit">📝 投稿新诗人</button>
+            <button class="contribute-tab-btn" data-tab="fixes">🔧 修复记录</button>
+        </div>
+
+        <!-- 投稿表单 -->
+        <div class="contribute-tab-content active" id="tab-submit">
+            <p style="font-size:0.88rem;color:var(--mw-text-secondary);margin-bottom:20px;">
+                发现遗漏的诗人，或现有数据需要修正？填写下方表单后点击提交，将自动打开邮件客户端发送投稿喵～
+                支持<strong>新增诗人</strong>和<strong>修正已有数据</strong>。
+            </p>
+
+            <div class="contribute-form" id="contributeForm">
+                <div class="contribute-form-grid">
+                    <div class="contribute-form-group">
+                        <label class="required">诗人姓名</label>
+                        <input type="text" id="subName" placeholder="如：李白">
+                    </div>
+                    <div class="contribute-form-group">
+                        <label class="required">朝代</label>
+                        <select id="subDynasty"></select>
+                    </div>
+                    <div class="contribute-form-group">
+                        <label>生卒年</label>
+                        <input type="text" id="subYears" placeholder="如：701—762">
+                    </div>
+                    <div class="contribute-form-group">
+                        <label>投稿人昵称</label>
+                        <input type="text" id="subAuthor" placeholder="你的昵称（选填）">
+                    </div>
+                    <div class="contribute-form-group full">
+                        <label>代表作</label>
+                        <textarea id="subWorks" placeholder="如：〈静夜思〉〈将进酒〉〈蜀道难〉"></textarea>
+                        <span class="hint">多个作品用书名号括起来，空格或逗号分隔</span>
+                    </div>
+                    <div class="contribute-form-group full">
+                        <label>简介</label>
+                        <textarea id="subDesc" placeholder="诗人简介、风格特点、历史地位等…"></textarea>
+                    </div>
+                    <div class="contribute-form-group full">
+                        <label>标签</label>
+                        <input type="text" id="subTags" placeholder="如：浪漫主义、边塞、乐府（逗号分隔）">
+                    </div>
+                </div>
+                <div class="contribute-submit-row">
+                    <button class="contribute-btn" id="genSubmit">✉️ 通过邮件提交</button>
+                    <button class="contribute-btn-reset" id="resetForm">🔄 重置表单</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 修复记录 -->
+        <div class="contribute-tab-content" id="tab-fixes">
+            <p style="font-size:0.88rem;color:var(--mw-text-secondary);margin-bottom:20px;">
+                以下是诗人数据的修复与更新记录。发现错误也欢迎通过「投稿新诗人」Tab 提交修正喵～
+            </p>
+            <div class="fix-log" id="fixLog"></div>
+        </div>
+    </div>
+
 </div>
 
 <!-- ===== 页脚 ===== -->
@@ -357,52 +643,35 @@ body {
 
 <button class="back-to-top" id="backToTop" aria-label="返回顶部" title="返回顶部">↑</button>
 
+<script src="name.js"></script>
+<script src="contribute.js"></script>
 <script>
 /* ================================================================
-   数据来源：cn/name.json（外部 JSON 文件，方便编辑）
-
-   JSON 结构：
-   {
-     "dynasties": [ { "id": "...", "name": "...", "years": "..." }, ... ],
-     "poets": [
-       // 占位符（只留这两个字段即可，页面显示虚线卡片）：
-       { "_placeholder": true, "dynasty": "tang", "name": "待补充 #1" },
-       // 真实诗人（填写完整字段）：
-       { "name": "李白", "dynasty": "tang", "years": "701—762",
-         "works": "〈静夜思〉〈将进酒〉", "desc": "诗仙。",
-         "tags": ["浪漫主义","乐府"] }
-     ]
-   }
-
-   朝代ID对照：
-   xianqin=先秦 | han=两汉 | weijin=魏晋南北朝 | tang=唐
-   wudai=五代十国 | song=宋 | jin=金 | yuan=元 | ming=明 | qing=清
+   数据来源：cn/name.js（外部 JS 文件，直接编辑即可）
+   数据结构见 name.js 中的 POET_DATA 对象
 =============================================================== */
 
 var DYNASTY_ORDER = [];
 var POETS = [];
 
-// --- 从 name.json 加载数据 ---
-fetch('name.json')
-    .then(function(res) {
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.json();
-    })
-    .then(function(data) {
+// --- 从 name.js 全局变量加载数据 ---
+(function initData() {
+    var data = window.POET_DATA;
+    if (data) {
         DYNASTY_ORDER = data.dynasties || [];
         POETS = data.poets || [];
         initApp();
-    })
-    .catch(function(err) {
-        console.error('加载 name.json 失败:', err);
+    } else {
         document.getElementById('poetGrid').innerHTML =
-            '<div class="wiki-empty"><span class="empty-icon">⚠️</span><p>数据加载失败，请检查 name.json 文件</p></div>';
-    });
+            '<div class="wiki-empty"><span class="empty-icon">⚠️</span><p>数据加载失败，请检查 name.js 文件</p></div>';
+    }
+})();
 
 function initApp() {
     buildTabs();
     bindEvents();
     renderByCategory('all');
+    initContribute();
 }
 
 // --- 生成朝代选项卡 ---
@@ -564,6 +833,7 @@ function bindEvents() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 }
+
 </script>
 </body>
 </html>
