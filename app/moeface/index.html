@@ -479,6 +479,10 @@
                     <span class="status-dot"></span>
                     <span>加载中...</span>
                 </div>
+                <div class="status-item" id="statusNegDB" style="display:none;">
+                    <span class="status-dot"></span>
+                    <span>负面特征</span>
+                </div>
             </div>
 
             <div class="upload-zone" id="uploadZone">
@@ -526,7 +530,7 @@
         </div>
 
         <footer>
-            <p>基于 face-api.js + TensorFlow.js | 特征库: <span id="charCount">-</span> 个动漫角色</p>
+            <p>基于 face-api.js + TensorFlow.js | 特征库: <span id="charCount">-</span> 个动漫角色 <span id="negCountDisplay" style="color: var(--muted);"></span></p>
             <p style="margin-top: 8px;">
                 <a href="#" target="_blank">MoeFace · 专注动漫识别</a>
             </p>
@@ -546,6 +550,7 @@
 
         let modelsReady = false;
         let database = null;
+        let negativeDatabase = null;  // 负面特征库（非人脸样板）
         let currentImage = null;
         let detections = [];
         let activeAnimation = null;
@@ -724,10 +729,41 @@
 
                 database = data;
                 const charCount = Object.keys(database).length;
-                log(`特征库加载完成！共 ${charCount} 个动漫角色`, 'success');
-                updateStatus('statusDB', `特征库: ${charCount} 角色`, 'ready');
-                els.charCount.textContent = charCount;
-                setProgress(`就绪，共 ${charCount} 个角色`, 90);
+                log(`特征库加载完成！共 ${charCount} 个条目`, 'success');
+                
+                // ── 分离负面特征条目（"负面_"前缀） ──────────────────────
+                const NEG_PREFIX = '负面_';
+                const negEntries = {};
+                const posEntries = {};
+                for (const [name, vec] of Object.entries(database)) {
+                    if (name.startsWith(NEG_PREFIX)) {
+                        negEntries[name.slice(NEG_PREFIX.length)] = vec;
+                    } else {
+                        posEntries[name] = vec;
+                    }
+                }
+                database = posEntries;
+                negativeDatabase = Object.keys(negEntries).length > 0 ? negEntries : null;
+                
+                const posCount = Object.keys(database).length;
+                const negCount = negativeDatabase ? Object.keys(negativeDatabase).length : 0;
+                log(`🧑 角色特征: ${posCount} 个 | 🚫 负面特征: ${negCount} 个类别`, 'success');
+                updateStatus('statusDB', `特征库: ${posCount} 角色`, 'ready');
+                els.charCount.textContent = posCount;
+                
+                // 显示负面特征状态
+                const negStatusEl = document.getElementById('statusNegDB');
+                if (negStatusEl) {
+                    if (negativeDatabase) {
+                        negStatusEl.style.display = 'flex';
+                        negStatusEl.querySelector('span:last-child').textContent = `负面: ${negCount} 类`;
+                        negStatusEl.className = 'status-item ready';
+                    } else {
+                        negStatusEl.style.display = 'none';
+                    }
+                }
+                
+                setProgress(`就绪，共 ${posCount} 个角色`, 90);
                 return true;
             } catch (err) {
                 log(`特征库加载失败: ${err.message}`, 'error');
