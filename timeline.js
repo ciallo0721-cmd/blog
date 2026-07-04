@@ -1,6 +1,21 @@
 window.timelineData = [
             {
                 date: "2026年7月4日",
+                title: "全新 Admin 调试面板 v1.0 上线",
+                desc: "纯前端本地调试面板，四合一：①存储编辑器（localStorage/sessionStorage/Cookies 增删改查）②URL参数注入（一键模拟16个地区 from=us/uk/hk... + touch=true 移动端模式）③功能测试（地区访问控制测试、存储压力测试、配额测试）④导入导出（JSON备份还原、剪贴板操作）。深色主题、响应式布局，从此调试网站不用手敲 URL 参数啦喵～"
+            },
+            {
+                date: "2026年7月4日",
+                title: "根目录文档归档：17个 .md/.txt 移入 foragent/",
+                desc: "把博客语法、SEO策略、ArtiScript/BlockScript规范、网站重构计划等17个给agent看的文档全移到 ./foragent/ 目录，根目录清爽多了喵～搜索引擎验证文件和 robots.txt 保留原位不动。"
+            },
+            {
+                date: "2026年7月4日",
+                title: "项目大扫除：清理无用文件 37 个",
+                desc: "删除未引用的12MB视频、18个无CDN层的错误页（400~505/不含404）、失效Jekyll配置、过期的local_server和打包脚本、10.html谜之页面、admin后台、peizhi配置残骸等。共释放约13MB空间，项目目录干净多了的说喵～"
+            },
+            {
+                date: "2026年7月4日",
                 title: "移除推广返佣板块",
                 desc: "从首页和友链页移除域名推广返佣板块（含推广链接、返佣统计表格、相关CSS和JS），该信息属于个人返现数据不应对外展示的说喵～"
             },
