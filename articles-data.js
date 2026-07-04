@@ -618,6 +618,17 @@ window.articlesData = {
             readTime: 5,
             featured: true
         },
+        {
+            id: 57,
+            category: "生活",
+            fileName: "生活/57/",
+            title: "浪漫文案？那是词语废料——当朋友圈文案变成「1+1=2 uxdjdbskakdbs」",
+            excerpt: "现在的朋友圈浪漫文案全是词语废料——前言不搭后语，逻辑混乱像乱码。当「今天天气不错，我喜欢你」配上不露脸自拍成为标准模板，浪漫已经不是浪漫，是SEO。",
+            date: "2026-07-04",
+            tags: ["浪漫文案", "朋友圈", "批判", "词语废料", "逻辑", "社交媒体"],
+            readTime: 5,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
