@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/media-viewer.css">
     <link rel="icon" href="/fanv.ico" type="image/x-icon">
     <script src="/media-viewer.js"></script>
+    <script src="/articles-data.js"></script>
     <link rel="stylesheet" href="../../mus/audio-player.css">
     <script src="../../mus/audio-player.js"></script>
     <!-- PDF.js -->
@@ -503,6 +504,70 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
 ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius: 4px; }
 
+/* ── 推荐文章 ── */
+.related-articles {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.related-title {
+    font-size: 1.8rem;
+    color: var(--text-primary);
+    margin-bottom: 30px;
+    font-weight: 600;
+    text-align: center;
+}
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+.related-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+.related-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+.related-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: var(--bili-blue);
+}
+.related-card .related-meta {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+.related-card p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    flex: 1;
+}
+.related-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+}
+.related-tag {
+    background: rgba(251, 114, 153, 0.1);
+    color: var(--bili-pink);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+}
+
 /* ── 响应式 ── */
 @media (max-width: 768px) {
     .article-detail { padding: 30px; }
@@ -512,6 +577,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     .article-content h2 { font-size: 1.5rem; }
     .btn-row { gap: 8px; }
     .card-grid { grid-template-columns: 1fr 1fr; }
+    .related-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
     .article-detail { padding: 20px; }
@@ -1127,6 +1193,17 @@ jobs:
             </div>
 
         </article>
+
+        <!-- 推荐文章 -->
+        <div class="related-articles" id="relatedArticles">
+            <h3 class="related-title">📚 相关推荐</h3>
+            <div class="related-grid" id="relatedGrid">
+                <div class="related-card" style="text-align:center;padding:40px;">
+                    <p style="color:var(--text-secondary);">加载推荐中...</p>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- 广告位 -->
@@ -1412,6 +1489,78 @@ jobs:
 
     // 窗口 resize 重绘图表
     window.addEventListener('resize', function() { drawLineChart(); drawBarChart(); });
+
+    // ── 推荐文章自动加载 ──
+    (function loadRelatedArticles() {
+        var grid = document.getElementById('relatedGrid');
+        if (!grid || !window.articlesData) return;
+
+        // 尝试从 URL 路径提取文章 ID（路径格式: /blog/分类/ID/）
+        var pathParts = window.location.pathname.replace(/\/$/, '').split('/');
+        var articleId = null;
+        for (var i = pathParts.length - 1; i >= 0; i--) {
+            var id = parseInt(pathParts[i]);
+            if (!isNaN(id) && id > 0) { articleId = id; break; }
+        }
+
+        var currentArticle = null;
+        if (articleId) {
+            currentArticle = window.articlesData.getArticleById(articleId);
+        }
+
+        var recommended = [];
+
+        if (currentArticle && currentArticle.tags && currentArticle.tags.length > 0) {
+            // 按标签匹配度排序
+            var scored = window.articlesData.articles
+                .filter(function(a) { return a.id !== articleId; })
+                .map(function(a) {
+                    var score = 0;
+                    if (a.tags && currentArticle.tags) {
+                        a.tags.forEach(function(t) {
+                            if (currentArticle.tags.indexOf(t) !== -1) score++;
+                        });
+                    }
+                    // 同分类额外加分
+                    if (a.category === currentArticle.category) score += 0.5;
+                    return { article: a, score: score };
+                })
+                .filter(function(item) { return item.score > 0; })
+                .sort(function(a, b) { return b.score - a.score; });
+
+            recommended = scored.slice(0, 3).map(function(item) { return item.article; });
+        }
+
+        // 回退：显示精选文章（排除自己）
+        if (recommended.length === 0) {
+            recommended = window.articlesData.articles
+                .filter(function(a) { return a.id !== articleId && a.featured; })
+                .sort(function(a, b) { return b.id - a.id; })
+                .slice(0, 3);
+        }
+
+        if (recommended.length === 0) {
+            grid.innerHTML = '<div class="related-card" style="text-align:center;padding:40px;"><p style="color:var(--text-secondary);">暂无推荐文章~</p></div>';
+            return;
+        }
+
+        grid.innerHTML = '';
+        recommended.forEach(function(article) {
+            var card = document.createElement('a');
+            card.className = 'related-card';
+            card.href = '../../' + article.fileName.replace(/\/$/, '');
+            card.innerHTML =
+                '<h4>' + article.title + '</h4>' +
+                '<div class="related-meta"><i class="far fa-calendar"></i> ' + article.date + ' · ' + article.readTime + '分钟</div>' +
+                '<p>' + article.excerpt + '</p>' +
+                '<div class="related-tags">' +
+                    article.tags.slice(0, 4).map(function(t) {
+                        return '<span class="related-tag">' + t + '</span>';
+                    }).join('') +
+                '</div>';
+            grid.appendChild(card);
+        });
+    })();
     </script>
 
     <!-- ─── PDF 阅读器 JS ─── -->

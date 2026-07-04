@@ -607,6 +607,17 @@ window.articlesData = {
             readTime: 15,
             featured: true
         },
+        {
+            id: 56,
+            category: "教程",
+            fileName: "教程/22/",
+            title: "调色教程——复古蒸汽波",
+            excerpt: "Lightroom Classic复古蒸汽波调色教程：完整影调+HSL+校准+颗粒参数，附带3个调色板方案和霓虹街头拍摄选址指南，一键复刻赛博浪漫。",
+            date: "2026-07-04",
+            tags: ["Lightroom", "调色教程", "蒸汽波", "Vaporwave", "霓虹", "摄影"],
+            readTime: 5,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
