@@ -629,6 +629,17 @@ window.articlesData = {
             readTime: 5,
             featured: true
         },
+        {
+            id: 58,
+            category: "ACG",
+            fileName: "ACG/58/",
+            title: "永雏塔菲真的夹不动了吗？——六年声线演变全记录",
+            excerpt: "从2020到2026，横跨黑桃影时期和永雏塔菲时期，用三段音频切片+三张声纹图，科学分析塔菲的「夹子音」到底还在不在。答案可能和你想的不一样——不是她夹不动了，是你的塔语太好了。",
+            date: "2026-07-05",
+            tags: ["永雏塔菲", "VTuber", "声线分析", "夹子音", "塔语", "黑桃影", "声纹"],
+            readTime: 8,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
