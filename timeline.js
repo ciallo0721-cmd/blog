@@ -1,5 +1,10 @@
 window.timelineData = [
             {
+                date: "2026年7月5日",
+                title: "sitemap.xml 大更新：73→96个URL覆盖全站",
+                desc: "重新生成 sitemap.xml，从旧版73个URL扩展到96个。新增 friends.html、baicai 纪念站、cn 诗人百科、ARG 镜中人、app 工具页、10个 wiki 词条子页面、work 打工模拟器、cs2 等。同步更新 generate-sitemap.py 脚本，下次改结构一键重生成的说喵～"
+            },
+            {
                 date: "2026年7月4日",
                 title: "全新 Admin 调试面板 v1.0 上线",
                 desc: "纯前端本地调试面板，四合一：①存储编辑器（localStorage/sessionStorage/Cookies 增删改查）②URL参数注入（一键模拟16个地区 from=us/uk/hk... + touch=true 移动端模式）③功能测试（地区访问控制测试、存储压力测试、配额测试）④导入导出（JSON备份还原、剪贴板操作）。深色主题、响应式布局，从此调试网站不用手敲 URL 参数啦喵～"
