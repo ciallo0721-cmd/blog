@@ -110,6 +110,7 @@ urls.append((encode_url_path('/blog/'), get_file_lastmod('/blog/index.html') or 
 static_pages = [
     ('/aboutme.html', 'yearly', '0.7'),
     ('/adss.html', 'yearly', '0.6'),
+    ('/friends.html', 'monthly', '0.7'),
     ('/privacy.html', 'yearly', '0.5'),
     ('/help.html', 'yearly', '0.5'),
     ('/status.html', 'monthly', '0.6'),
@@ -126,6 +127,7 @@ games = [
     ('/zmdspp/indexzm.html', '0.6'),
     ('/91/index.html', '0.6'),
     ('/dkdfj/index.html', '0.6'),
+    ('/work/index.html', '0.6'),
 ]
 for path, pri in games:
     ld = get_file_lastmod(path) or '2026-06-01'
@@ -134,6 +136,41 @@ for path, pri in games:
 # 百科页面
 wiki_ld = get_file_lastmod('/wiki/index.html') or '2026-06-13'
 urls.append((encode_url_path('/wiki/index.html'), wiki_ld, 'weekly', '0.8'))
+
+# 百科词条子页面
+wiki_terms = [
+    'dashichang', 'mediapipe', 'openutau', 'paddleocr',
+    'python', 'renpy', 'tongshiting', 'unity', 'utau', 'vocaloid'
+]
+for term in wiki_terms:
+    path = f'/wiki/{term}/index.html'
+    ld = get_file_lastmod(path) or wiki_ld
+    urls.append((encode_url_path(path), ld, 'monthly', '0.5'))
+
+# 特色站点
+feature_sites = [
+    ('/baicai/index.html', 'monthly', '0.7'),   # 真白花音纪念站
+    ('/cn/index.html', 'monthly', '0.7'),         # 历代诗人百科
+    ('/arg/index.html', 'monthly', '0.6'),         # ARG游戏
+]
+for path, freq, pri in feature_sites:
+    ld = get_file_lastmod(path) or today
+    urls.append((encode_url_path(path), ld, freq, pri))
+
+# 工具/应用页面
+app_pages = [
+    ('/app/moeface/index.html', '0.6'),
+    ('/app/mood-tracker/index.html', '0.6'),
+    ('/app/tools/index.html', '0.7'),
+    ('/app/tools/anime-color-analyzer/index.html', '0.5'),
+    ('/app/tools/renpy-template-generator/index.html', '0.5'),
+    ('/app/tools/vtuber-name-generator/index.html', '0.5'),
+    ('/app/tools/vtuber-personality-test/index.html', '0.5'),
+    ('/cs2/index.html', '0.5'),
+]
+for path, pri in app_pages:
+    ld = get_file_lastmod(path) or today
+    urls.append((encode_url_path(path), ld, 'monthly', pri))
 
 # 所有博客文章
 for a in articles:
