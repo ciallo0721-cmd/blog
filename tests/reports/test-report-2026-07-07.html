@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>端测测 - ciallo0721-cmd.top 测试报告</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0d1117; color: #c9d1d9; line-height:1.6; }
+    .container { max-width: 900px; margin:0 auto; padding:40px 20px; }
+    h1 { font-size:2em; color:#58a6ff; border-bottom:2px solid #30363d; padding-bottom:16px; margin-bottom:24px; }
+    h2 { font-size:1.3em; color:#f0f6fc; margin:24px 0 16px; }
+    .meta { color:#8b949e; font-size:0.9em; margin-bottom:24px; }
+    
+    .scoreboard { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:32px; }
+    .score-card { flex:1; min-width:180px; background:#161b22; border:1px solid #30363d; border-radius:8px; padding:20px; text-align:center; }
+    .score-card .score { font-size:3em; font-weight:700; }
+    .score-card .label { color:#8b949e; font-size:0.85em; margin-top:4px; }
+    .score-card.green .score { color:#3fb950; }
+    .score-card.yellow .score { color:#d29922; }
+    .score-card.red .score { color:#f85149; }
+    
+    table { width:100%; border-collapse:collapse; margin:16px 0; }
+    th, td { padding:10px 14px; text-align:left; border-bottom:1px solid #21262d; }
+    th { background:#161b22; color:#8b949e; font-size:0.85em; text-transform:uppercase; }
+    tr:hover td { background:#1c2129; }
+    
+    .badge { display:inline-block; padding:2px 8px; border-radius:12px; font-size:0.75em; font-weight:600; }
+    .badge-fail { background:#f8514922; color:#f85149; }
+    .badge-warn { background:#d2992222; color:#d29922; }
+    .badge-pass { background:#3fb95022; color:#3fb950; }
+    
+    .issue { margin:8px 0; padding:8px 12px; border-left:3px solid; border-radius:0 4px 4px 0; }
+    .issue.fail { border-color:#f85149; background:#f8514911; }
+    .issue.warn { border-color:#d29922; background:#d2992211; }
+    .issue.info { border-color:#58a6ff; background:#58a6ff11; }
+    
+    .footer { margin-top:40px; padding-top:16px; border-top:1px solid #30363d; color:#484f58; font-size:0.8em; text-align:center; }
+    
+    @media (max-width:600px) {
+      .container { padding:16px; }
+      .scoreboard { flex-direction:column; }
+      h1 { font-size:1.5em; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🧪 端测测 — ciallo0721-cmd.top 测试报告</h1>
+  <div class="meta">
+    测试日期: 2026-07-07 | 
+    项目: ciallo0721-cmd.github.io |
+    环境: 本地 http://127.0.0.1:8080 |
+    模式: 完整 | 
+    浏览器: 跳过
+  </div>
+
+  <h2>📊 综合评分</h2>
+  <div class="scoreboard">
+    <div class="score-card green">
+      <div class="score">68</div>
+      <div class="label">综合评分 / 100</div>
+    </div>
+    <div class="score-card green">
+      <div class="score">70</div>
+      <div class="label">静态分析</div>
+    </div>
+    <div class="score-card yellow">
+      <div class="score">40</div>
+      <div class="label">链接健康</div>
+    </div>
+    <div class="score-card green">
+      <div class="score">94</div>
+      <div class="label">基础性能</div>
+    </div>
+  </div>
+
+  <h2>📋 模块状态</h2>
+  <table>
+    <tr><th>模块</th><th>状态</th><th>详情</th></tr>
+    
+    <tr>
+      <td>静态分析</td>
+      <td><span class="badge badge-pass">✅ 通过</span></td>
+      <td style="font-size:0.85em;color:#8b949e;">-</td>
+    </tr>
+    <tr>
+      <td>基础性能检测</td>
+      <td><span class="badge badge-pass">✅ 通过</span></td>
+      <td style="font-size:0.85em;color:#8b949e;">-</td>
+    </tr>
+    <tr>
+      <td>链接健康检测</td>
+      <td><span class="badge badge-pass">✅ 通过</span></td>
+      <td style="font-size:0.85em;color:#8b949e;">-</td>
+    </tr>
+  </table>
+
+  
+  <h2>🔍 静态分析详情</h2>
+  <p style="color:#8b949e;">文件数: 62 | 评分: 🟡 70/100</p>
+  
+  <p style="color:#3fb950;">✅ 无失败项</p>
+  
+  
+  <h3>⚠️ 需关注项 (156)</h3>
+  <div class="issue warn"><strong>内联CSS过多</strong>: 404.html: ~251 行内联 CSS (建议拆分外部文件)</div><div class="issue warn"><strong>ARIA 属性</strong>: 404.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)</div><div class="issue warn"><strong>viewport 缺失</strong>: index.html 缺少 viewport meta 标签</div><div class="issue warn"><strong>ARIA 属性</strong>: 91\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)</div><div class="issue warn"><strong>内联CSS过多</strong>: aboutme.html: ~325 行内联 CSS (建议拆分外部文件)</div><div class="issue warn"><strong>ARIA 属性</strong>: aboutme.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)</div><div class="issue warn"><strong>meta description 缺失</strong>: access-denied.html 缺少 description</div><div class="issue warn"><strong>ARIA 属性</strong>: access-denied.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)</div><div class="issue warn"><strong>meta description 缺失</strong>: index.html 缺少 description</div><div class="issue warn"><strong>内联 style 过多</strong>: admin\index.html: 55 个内联 style (建议<20)</div><div class="issue warn"><strong>px 字体</strong>: admin\index.html: 40 处 px 字体 (应改用 rem/em)</div><div class="issue warn"><strong>内联JS过多</strong>: admin\index.html: ~424 行内联 JS (建议拆分外部文件)</div><div class="issue warn"><strong>ARIA 属性</strong>: admin\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)</div><div class="issue warn"><strong>内联事件处理器</strong>: admin\index.html: 37 个 on* 属性</div><div class="issue warn"><strong>ARIA 属性</strong>: adss.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)</div><div class="issue warn"><strong>viewport 缺失</strong>: index.html 缺少 viewport meta 标签</div><div class="issue warn"><strong>ARIA 属性</strong>: app\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)</div><div class="issue warn"><strong>语义化标签偏少</strong>: index.html 仅使用了 header, footer</div><div class="issue warn"><strong>内联CSS过多</strong>: app\moeface\index.html: ~345 行内联 CSS (建议拆分外部文件)</div><div class="issue warn"><strong>内联JS过多</strong>: app\moeface\index.html: ~644 行内联 JS (建议拆分外部文件)</div>
+  <p style="color:#8b949e;">... 共 156 项</p>
+  
+  
+
+  
+  <h2>🔗 链接健康</h2>
+  <p style="color:#8b949e;">总链接: 555 | 断裂: 35 | 评分: 🔴 40/100</p>
+  <div class="issue fail">app\mood-tracker\index.html → ../fanv.ico: 文件不存在</div><div class="issue fail">app\tools\index.html → /scraper: 文件不存在</div><div class="issue fail">app\tools\index.html → ../fanv.ico: 文件不存在</div><div class="issue fail">baicai\index.html → ../wiki/hanamine/index.html: 文件不存在</div><div class="issue fail">cs2\index.html → ./fanv.ico: 文件不存在</div><div class="issue fail">index.html → /blog/兴趣/Music/1/?blog_id=1: 文件不存在</div><div class="issue fail">index.html → /blog/科技/Unity/2/?blog_id=2: 文件不存在</div><div class="issue fail">index.html → /blog/科技/python/21/?blog_id=21: 文件不存在</div><div class="issue fail">index.html → /blog/科技/算法/17/?blog_id=17: 文件不存在</div><div class="issue fail">index.html → /blog/兴趣/Vtuber/真白花音/13/?blog_id=13: 文件不存在</div><div class="issue fail">index.html → /blog/兴趣/另一个次元/22/?blog_id=22: 文件不存在</div><div class="issue fail">index.html → /blog/心理/巴纳姆效应/23/?blog_id=23: 文件不存在</div><div class="issue fail">index.html → /blog/兴趣/另一个次元/24/?blog_id=24: 文件不存在</div><div class="issue fail">index.html → /blog/科技/renpy/19/?blog_id=19: 文件不存在</div><div class="issue fail">index.html → /blog/科技/Github/16/?blog_id=16: 文件不存在</div><div class="issue fail">pages\aboutme.html → ./index.html: 文件不存在</div><div class="issue fail">pages\aboutme.html → ./zmdspp/indexzm.html: 文件不存在</div><div class="issue fail">pages\aboutme.html → ./LAIDB/index.html: 文件不存在</div><div class="issue fail">pages\aboutme.html → ./bjqy: 文件不存在</div><div class="issue fail">pages\aboutme.html → ./fanv.ico: 文件不存在</div><div class="issue fail">pages\friends.html → ./wz.html: 文件不存在</div><div class="issue fail">pages\friends.html → ./tools/vtuber-name-generator/: 文件不存在</div><div class="issue fail">pages\friends.html → ./fanv.ico: 文件不存在</div><div class="issue fail">pages\help.html → ./index.html: 文件不存在</div><div class="issue fail">pages\help.html → ./adss.html: 文件不存在</div><div class="issue fail">pages\help.html → ./fanv.ico: 文件不存在</div><div class="issue fail">pages\privacy-policy.html → ./index.html: 文件不存在</div><div class="issue fail">pages\privacy-policy.html → ./fanv.ico: 文件不存在</div><div class="issue fail">pages\privacy.html → index.html: 文件不存在</div><div class="issue fail">pages\privacy.html → ./fanv.ico: 文件不存在</div><div class="issue fail">pages\status.html → ./index.html: 文件不存在</div><div class="issue fail">pages\status.html → ./fanv.ico: 文件不存在</div><div class="issue fail">pages\status.html → status-data.js: 文件不存在</div><div class="issue fail">pages\user-agreement.html → ./index.html: 文件不存在</div><div class="issue fail">pages\user-agreement.html → ./fanv.ico: 文件不存在</div>
+  
+
+  
+  <h2>⚡ 性能指标</h2>
+  <table>
+    <tr><th>页面</th><th>TTFB</th><th>大小</th><th>评分</th></tr>
+    
+    <tr>
+      <td>首页 (/)</td>
+      <td>17ms</td>
+      <td>170.2KB</td>
+      <td><span class="badge badge-pass">90/100</span></td>
+    </tr>
+    <tr>
+      <td>关于我 (/aboutme.html)</td>
+      <td>7ms</td>
+      <td>29.9KB</td>
+      <td><span class="badge badge-pass">95/100</span></td>
+    </tr>
+    <tr>
+      <td>友情链接 (/friends.html)</td>
+      <td>3ms</td>
+      <td>23.9KB</td>
+      <td><span class="badge badge-pass">95/100</span></td>
+    </tr>
+    <tr>
+      <td>404页 (/404.html)</td>
+      <td>7ms</td>
+      <td>18.1KB</td>
+      <td><span class="badge badge-pass">95/100</span></td>
+    </tr>
+    <tr>
+      <td>博客首页 (/blog/)</td>
+      <td>3ms</td>
+      <td>23.8KB</td>
+      <td><span class="badge badge-pass">95/100</span></td>
+    </tr>
+    <tr>
+      <td>文章列表 (/wz.html)</td>
+      <td>2ms</td>
+      <td>1.1KB</td>
+      <td><span class="badge badge-pass">95/100</span></td>
+    </tr>
+    <tr>
+      <td>时间线 (/timeline.html)</td>
+      <td>8ms</td>
+      <td>7.2KB</td>
+      <td><span class="badge badge-pass">95/100</span></td>
+    </tr>
+    <tr>
+      <td>状态页 (/status.html)</td>
+      <td>3ms</td>
+      <td>20.5KB</td>
+      <td><span class="badge badge-pass">95/100</span></td>
+    </tr>
+  </table>
+  
+  
+  <h3>📦 大文件清单 (>500KB, 共41个)</h3>
+  <ul style="margin:12px 0; list-style:none;">
+    <li style="padding:4px 0;color:#8b949e;">📄 21425.6KB — 91\renpy.wasm</li><li style="padding:4px 0;color:#8b949e;">📄 21425.6KB — bjqy\renpy.wasm</li><li style="padding:4px 0;color:#8b949e;">📄 21425.6KB — LAIDB\renpy.wasm</li><li style="padding:4px 0;color:#8b949e;">📄 19046.5KB — fors\renpy.wasm</li><li style="padding:4px 0;color:#8b949e;">📄 19046.5KB — zmdspp\renpy.wasm</li><li style="padding:4px 0;color:#8b949e;">📄 15986.5KB — fors\renpy.data</li><li style="padding:4px 0;color:#8b949e;">📄 15986.5KB — zmdspp\renpy.data</li><li style="padding:4px 0;color:#8b949e;">📄 14749.5KB — 91\renpy.data</li><li style="padding:4px 0;color:#8b949e;">📄 14749.5KB — bjqy\renpy.data</li><li style="padding:4px 0;color:#8b949e;">📄 14749.5KB — LAIDB\renpy.data</li>
+    <li style="color:#484f58;">... 共 41 个</li>
+  </ul>
+  
+  
+
+  <div class="footer">
+    端测测 Web 应用测试专家 | 测试不是抓 bug，是让团队敢发布 🚀<br>
+    报告生成时间: 2026/7/7 11:27:07
+  </div>
+</div>
+</body>
+</html>

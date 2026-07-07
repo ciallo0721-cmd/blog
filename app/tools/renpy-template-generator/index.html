@@ -8,7 +8,6 @@
     <meta name="author" content="ciallo0721-cmd">
     <link rel="canonical" href="https://ciallo0721-cmd.top/tools/renpy-template-generator/">
     <link rel="icon" href="../../fanv.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Ren'Py 模板生成器 | ciallo0721-cmd</title>
     <script type="application/ld+json">
     {
@@ -419,7 +418,6 @@
         }
     </style>
 
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
     <script>
@@ -460,6 +458,7 @@
         })();
     </script>
 
+  <script src="/js/svg-icons.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -1003,7 +1002,6 @@ label ending:
 ## 以"##"开头的语句是注释，您不应该对其取消注释。以"#"开头的语句是注释掉的代码，
 ## 在适用的时候您可能需要对其取消注释。
 
-
 ## 基础 ##########################################################################
 
 ## 用户可读的游戏名称。此命令用来设置默认窗口标题，并且会在界面和错误报告中出
@@ -1013,16 +1011,13 @@ label ending:
 
 define config.name = _("${gameTitle}")
 
-
 ## 决定上面给出的标题是否显示在标题界面屏幕。设置为 False 来隐藏标题。
 
 define gui.show_name = True
 
-
 ## 游戏版本号。
 
 define config.version = "1.0"
-
 
 ## 放置在游戏内"关于"屏幕上的文本。将文本放在三个引号之间，并在段落之间留出空
 ## 行。
@@ -1030,12 +1025,10 @@ define config.version = "1.0"
 define gui.about = _p("""
 """)
 
-
 ## 在构建的发布版中，可执行文件和目录所使用的短名称。此处仅限使用 ASCII 字符，并
 ## 且不能包含空格、冒号或分号。
 
 define build.name = "${safeName}"
-
 
 ## 音效和音乐 #######################################################################
 
@@ -1046,19 +1039,16 @@ define config.has_sound = True
 define config.has_music = True
 define config.has_voice = True
 
-
 ## 为了让用户在音效或语音轨道上播放测试音频，请取消对下面一行的注释并设置播放的
 ## 样本声音。
 
 # define config.sample_sound = "sample-sound.ogg"
 # define config.sample_voice = "sample-voice.ogg"
 
-
 ## 将以下语句取消注释就可以设置标题界面播放的背景音乐文件。此文件将在整个游戏中
 ## 持续播放，直至音乐停止或其他文件开始播放。
 
 # define config.main_menu_music = "main-menu-theme.ogg"
-
 
 ## 转场 ##########################################################################
 ##
@@ -1070,25 +1060,20 @@ define config.has_voice = True
 define config.enter_transition = dissolve
 define config.exit_transition = dissolve
 
-
 ## 各个游戏菜单之间的转场。
 
 define config.intra_transition = dissolve
-
 
 ## 载入游戏后使用的转场。
 
 define config.after_load_transition = None
 
-
 ## 在游戏结束之后进入主菜单时使用的转场。
 
 define config.end_game_transition = None
 
-
 ## 用于控制在游戏开始标签不存在时转场的变量。作为替代，在显示初始化场景后使用
 ## with 语句。
-
 
 ## 窗口管理 ########################################################################
 ##
@@ -1101,12 +1086,10 @@ define config.end_game_transition = None
 
 define config.window = "auto"
 
-
 ## 用于显示和隐藏对话框窗口的转场
 
 define config.window_show_transition = Dissolve(.2)
 define config.window_hide_transition = Dissolve(.2)
-
 
 ## 默认设置 ########################################################################
 
@@ -1114,11 +1097,9 @@ define config.window_hide_transition = Dissolve(.2)
 
 default preferences.text_cps = 0
 
-
 ## 默认的自动前进延迟。数字越大，等待时间越长，有效范围为 0 - 30。
 
 default preferences.afm_time = 15
-
 
 ## 存档目录 ########################################################################
 ##
@@ -1134,13 +1115,11 @@ default preferences.afm_time = 15
 
 define config.save_directory = "${saveDir}"
 
-
 ## 图标 ##########################################################################
 ##
 ## 在任务栏或 Dock 上显示的图标。
 
 define config.window_icon = "gui/window_icon.png"
-
 
 ## 构建配置 ########################################################################
 ##
@@ -1181,12 +1160,10 @@ init python:
     build.documentation('*.html')
     build.documentation('*.txt')
 
-
 ## 执行应用内购需要一个 Google Play 许可密钥。许可密钥可以在 Google Play 开发者
 ## 控制台的"Monetize" > "Monetization Setup" > "Licensing"页面找到。
 
 # define build.google_play_key = "..."
-
 
 ## 与 itch.io 项目相关的用户名和项目名，以 / 分隔。
 

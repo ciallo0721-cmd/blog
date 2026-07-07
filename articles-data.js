@@ -640,6 +640,17 @@ window.articlesData = {
             readTime: 8,
             featured: true
         },
+        {
+            id: 59,
+            category: "公告",
+            fileName: "公告/web/",
+            title: "网站大更新！2026年7月7日更新日志",
+            excerpt: "测试基础设施上线、修复30+处路径错误、52处外链安全加固——断裂链接从35条降到12条，全站性能和安全性大幅提升。",
+            date: "2026-07-07",
+            tags: ["更新日志", "测试", "修复", "安全", "网站公告"],
+            readTime: 4,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),

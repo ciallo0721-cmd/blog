@@ -18,7 +18,6 @@
     <meta name="twitter:description" content="ciallo0721-cmd 的个人博客文章站，涵盖 VTuber、心理学、技术教程等领域的原创文章。">
     <link rel="canonical" href="https://ciallo0721-cmd.top/blog/">
     <link rel="icon" href="/fanv.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="/articles-data.js"></script>
     <!-- 百科词条系统 -->
     <script src="../wiki-data.js"></script>
@@ -116,7 +115,12 @@
         .search-button { background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue)); color:white; border:none;
             padding:15px 30px; border-radius:15px; font-size:1rem; font-weight:600; cursor:pointer; transition:var(--transition); display:flex; align-items:center; gap:10px; }
         .search-button:hover { transform:translateY(-3px); box-shadow:0 6px 20px rgba(251,114,153,0.4); }
-        .filter-tags { display:flex; flex-wrap:wrap; gap:10px; }
+        .filter-tags { display:flex; flex-wrap:wrap; gap:10px; max-height:82px; overflow:hidden; position:relative; transition:max-height .4s; }
+        .filter-tags.expanded { max-height:3000px; }
+        .filter-tags::after { content:''; position:absolute; bottom:0; left:0; right:0; height:40px; background:linear-gradient(transparent, #F5F5F7); pointer-events:none; transition:opacity .3s; }
+        .filter-tags.expanded::after { opacity:0; }
+        .tags-toggle { display:inline-flex; align-items:center; gap:6px; margin-top:10px; padding:6px 18px; background:none; border:1px solid rgba(0,161,214,.3); color:var(--bili-blue); border-radius:20px; cursor:pointer; font-size:.85rem; transition:all .3s; }
+        .tags-toggle:hover { background:rgba(0,161,214,.08); border-color:var(--bili-blue); }
         .filter-tag { background:rgba(251,114,153,0.1); color:var(--bili-pink); padding:8px 16px; border-radius:15px;
             font-size:0.9rem; font-weight:500; border:1px solid rgba(251,114,153,0.2); cursor:pointer; transition:var(--transition); }
         .filter-tag:hover, .filter-tag.active { background:var(--bili-pink); color:white; transform:translateY(-2px); }
@@ -200,6 +204,7 @@
             }
         })();
     </script>
+  <script src="/js/svg-icons.js" defer></script>
 </head>
 <body>
     <nav>
@@ -225,6 +230,9 @@
                 <button id="searchButton" class="search-button"><i class="fas fa-search"></i> 搜索</button>
             </div>
             <div class="filter-tags" id="filterTags"></div>
+            <button class="tags-toggle" id="tagsToggle" onclick="toggleTags()" style="display:none;">
+                <span id="tagsToggleText">展开全部标签 ▾</span>
+            </button>
         </div>
         <div class="articles-header">
             <h2>所有文章</h2>
@@ -314,7 +322,23 @@
                     });
                     filterTags.appendChild(tagElement);
                 });
+                // 标签超过 1 行时显示展开按钮
+                var btn = document.getElementById('tagsToggle');
+                if (btn && allTags.length > 4) {
+                    btn.style.display = 'inline-flex';
+                }
             }
+            window.toggleTags = function() {
+                var tags = document.getElementById('filterTags');
+                var btn = document.getElementById('tagsToggleText');
+                if (tags.classList.contains('expanded')) {
+                    tags.classList.remove('expanded');
+                    btn.textContent = '展开全部标签 ▾';
+                } else {
+                    tags.classList.add('expanded');
+                    btn.textContent = '收起标签 ▴';
+                }
+            };
             function displayArticles(articles) {
                 articlesGrid.innerHTML = '';
                 if (articles.length === 0) {

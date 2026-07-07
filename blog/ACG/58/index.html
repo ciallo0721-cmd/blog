@@ -42,7 +42,6 @@
 
     <title>永雏塔菲真的夹不动了吗？ | ciallo0721-cmd</title>
     <meta name="description" content="从2020到2026，用声纹图+音频切片全面分析永雏塔菲的声线变化——她真的「夹不动」了吗？还是你的塔语已经出神入化？">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../mus/audio-player.css">
     <script src="../../mus/audio-player.js"></script>
     <link rel="icon" href="/fanv.ico" type="image/x-icon">
@@ -123,8 +122,21 @@
 <!-- GA4 统一埋点模块 -->
 <script src="../assets/js/gtag-config.js"></script>
 
+  <script src="/js/svg-icons.js" defer></script>
 </head>
 <body>
+    <!-- 密码保护 -->
+    <div id="pwGate" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1a1a2e,#16213e);font-family:'MaokenAssortedSans',sans-serif;">
+        <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:40px;text-align:center;max-width:380px;width:90%;">
+            <div style="font-size:3rem;margin-bottom:16px;">🔒</div>
+            <h2 style="color:#e0e0e0;margin-bottom:8px;">此文章暂不可见</h2>
+            <p style="color:#888;font-size:0.9rem;margin-bottom:24px;">因特殊原因，本文内容暂时隐藏</p>
+            <input type="password" id="pwInput" placeholder="输入访问密码" style="width:100%;padding:12px 16px;border:1px solid rgba(255,255,255,0.2);border-radius:10px;background:rgba(255,255,255,0.08);color:#fff;font-size:1rem;outline:none;text-align:center;" onkeydown="if(event.key==='Enter')checkPw()">
+            <p id="pwMsg" style="color:#ff6b6b;font-size:0.85rem;margin-top:10px;display:none;">密码错误</p>
+            <a href="https://ciallo0721-cmd.top" style="display:inline-block;margin-top:20px;color:#888;text-decoration:none;font-size:0.85rem;">← 返回首页</a>
+        </div>
+    </div>
+    <div id="pwContent" style="display:none;">
     <nav>
         <div class="container nav-container">
             <a href="../../index.html" class="logo"><i class="fas fa-gamepad"></i> ciallo0721-cmd · ACG文化</a>
@@ -341,4 +353,19 @@
         </div>
     </footer>
 </body>
+<script>
+(function(){
+    var CORRECT = '21b7f3c8a4e6d9051f7a2c3b4e5d6f80'; // SHA256 随机值，无实际意义
+    function checkPw(){
+        var input = document.getElementById('pwInput').value;
+        if(input === CORRECT){
+            document.getElementById('pwGate').style.display='none';
+            document.getElementById('pwContent').style.display='block';
+        }else{
+            document.getElementById('pwMsg').style.display='block';
+        }
+    }
+    window.checkPw = checkPw;
+})();
+</script>
 </html>

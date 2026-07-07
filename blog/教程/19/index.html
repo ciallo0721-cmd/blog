@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,7 @@
     <title>Ren'Py 人物立绘怎么换？完整替换指南 - ciallo0721-cmd的文章</title>
     <meta name="description" content="详细教程：3种方法更换 Ren'Py 视觉小说的人物立绘，包括文件替换、代码修改和动态立绘切换，附常见问题排查。">
     <link rel="canonical" href="https://ciallo0721-cmd.top/blog/教程/19/">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="/media-viewer.css">
+    <link rel="stylesheet" href="/media-viewer.css">
     <link rel="icon" href="/fanv.ico" type="image/x-icon">
     <script src="/articles-data.js"></script>
     <!-- 百科词条系统 -->
@@ -26,7 +26,6 @@
     font-weight: normal;
     font-style: normal;
 }
-
 
 /* 全局样式 */
 :root {
@@ -606,7 +605,6 @@
             background: linear-gradient(135deg, var(--bili-pink), #ff2e63);
         }
 
-
 /* === share.css === */
         /* 分享按钮样式 */
         .share-btn {
@@ -803,6 +801,7 @@
             }
         })();
     </script>
+  <script src="/js/svg-icons.js" defer></script>
 </head>
 <!-- 在html中，我们保留静态的文章内容，然后修改JavaScript,不需要补充content字段 -->
 <body>
@@ -1591,8 +1590,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     <!-- 实际使用时, 请确保脚本路径正确并已加载所需的库。 -->
     <!-- ./css/wz/{文章id}/wzjsid{换成id}.js  -->
-
-
 
     <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;justify-content:center;align-items:center;" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button>
     <script>

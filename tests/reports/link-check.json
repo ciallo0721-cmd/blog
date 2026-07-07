@@ -1,0 +1,107 @@
+{
+  "timestamp": "2026-07-07T04:39:11.171Z",
+  "total": 555,
+  "ok": 214,
+  "broken": [
+    {
+      "url": "/scraper",
+      "type": "a",
+      "file": "app\\tools\\index.html",
+      "error": "文件不存在"
+    },
+    {
+      "url": "../wiki/hanamine/index.html",
+      "type": "a",
+      "file": "baicai\\index.html",
+      "error": "文件不存在"
+    },
+    {
+      "url": "/blog/兴趣/Music/1/?blog_id=1",
+      "type": "a",
+      "file": "index.html",
+      "error": "文件不存在"
+    },
+    {
+      "url": "/blog/科技/Unity/2/?blog_id=2",
+      "type": "a",
+      "file": "index.html",
+      "error": "文件不存在"
+    },
+    {
+      "url": "/blog/科技/python/21/?blog_id=21",
+      "type": "a",
+      "file": "index.html",
+      "error": "文件不存在"
+    },
+    {
+      "url": "/blog/科技/算法/17/?blog_id=17",
+      "type": "a",
+      "file": "index.html",
+      "error": "文件不存在"
+    },
+    {
+      "url": "/blog/兴趣/Vtuber/真白花音/13/?blog_id=13",
+      "type": "a",
+      "file": "index.html",
+      "error": "文件不存在"
+    },
+    {
+      "url": "/blog/兴趣/另一个次元/22/?blog_id=22",
+      "type": "a",
+      "file": "index.html",
+      "error": "文件不存在"
+    },
+    {
+      "url": "/blog/心理/巴纳姆效应/23/?blog_id=23",
+      "type": "a",
+      "file": "index.html",
+      "error": "文件不存在"
+    },
+    {
+      "url": "/blog/兴趣/另一个次元/24/?blog_id=24",
+      "type": "a",
+      "file": "index.html",
+      "error": "文件不存在"
+    },
+    {
+      "url": "/blog/科技/renpy/19/?blog_id=19",
+      "type": "a",
+      "file": "index.html",
+      "error": "文件不存在"
+    },
+    {
+      "url": "/blog/科技/Github/16/?blog_id=16",
+      "type": "a",
+      "file": "index.html",
+      "error": "文件不存在"
+    }
+  ],
+  "external": [],
+  "warnings": [
+    {
+      "url": "https://www.google.com",
+      "type": "a",
+      "file": "access-denied.html",
+      "error": "超时"
+    },
+    {
+      "url": "https://ciallo0721-cmd.top/app/mood-tracker/",
+      "type": "link",
+      "file": "app\\mood-tracker\\index.html",
+      "error": "超时"
+    },
+    {
+      "url": "https://www.youtube.com/channel/UCcmSo1FpQygmtT7GzHFRh8A",
+      "type": "a",
+      "file": "baicai\\index.html",
+      "error": "超时"
+    },
+    {
+      "url": "https://twitter.com/mashiro_kqnon",
+      "type": "a",
+      "file": "baicai\\index.html",
+      "error": "超时"
+    }
+  ],
+  "score": 64
+}

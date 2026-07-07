@@ -281,21 +281,21 @@ body {
 <!-- 开始菜单 -->
 <div id="start-menu">
   <div class="sm-banner">Windows 98</div>
-  <div class="sm-item" onclick="openWindow('browser');toggleStartMenu()"><span class="sm-icon">🌐</span> Internet Explorer</div>
-  <div class="sm-item" onclick="openWindow('terminal');toggleStartMenu()"><span class="sm-icon">🖥️</span> 命令提示符</div>
+  <div class="sm-item" onclick="openWindow('browser');toggleStartMenu()"><span class="sm-icon"><svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><ellipse cx="8" cy="8" rx="3" ry="6" fill="none" stroke="currentColor" stroke-width="0.8"/><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="0.8"/></svg></span> Internet Explorer</div>
+  <div class="sm-item" onclick="openWindow('terminal');toggleStartMenu()"><span class="sm-icon"><svg viewBox="0 0 16 16" width="16" height="16"><rect x="1" y="2" width="14" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="6" x2="7" y2="8" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="8" x2="4" y2="10" stroke="currentColor" stroke-width="1.2"/></svg></span> 命令提示符</div>
   <hr>
-  <div class="sm-item" onclick="location.reload()"><span class="sm-icon">🔄</span> 重启</div>
+  <div class="sm-item" onclick="location.reload()"><span class="sm-icon"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M13.5 2.5A6 6 0 008 2a6 6 0 00-5.2 9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 13.5A6 6 0 008 14a6 6 0 005.2-9" fill="none" stroke="currentColor" stroke-width="1.5"/><polygon points="7,1 10,5 7,5" fill="currentColor"/><polygon points="9,15 6,11 9,11" fill="currentColor"/></svg></span> 重启</div>
 </div>
 
 <!-- ==================== 浏览器窗口 ==================== -->
 <div class="window" id="win-browser" data-win="browser" style="width:700px;height:520px;left:40px;top:30px;">
   <div class="window-title" onmousedown="startDrag(event,'win-browser')">
-    <span class="wt-icon">🌐</span>
+    <span class="wt-icon"><svg viewBox="0 0 16 16" width="14" height="14"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><ellipse cx="8" cy="8" rx="3" ry="6" fill="none" stroke="currentColor" stroke-width="0.8"/><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="0.8"/></svg></span>
     <span class="wt-text">Internet Explorer</span>
     <span class="wt-btns">
-      <button onclick="minWindow('browser')">_</button>
-      <button onclick="maxWindow('browser')">□</button>
-      <button onclick="closeWindow('browser')">✕</button>
+      <button onclick="minWindow('browser')"><svg viewBox="0 0 10 10" width="10" height="10"><line x1="1" y1="8" x2="9" y2="8" stroke="currentColor" stroke-width="1.5"/></svg></button>
+      <button onclick="maxWindow('browser')"><svg viewBox="0 0 10 10" width="10" height="10"><rect x="1" y="1" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+      <button onclick="closeWindow('browser')"><svg viewBox="0 0 10 10" width="10" height="10"><line x1="2" y1="2" x2="8" y2="8" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="2" x2="2" y2="8" stroke="currentColor" stroke-width="1.5"/></svg></button>
     </span>
   </div>
   <div class="window-menu">
@@ -304,7 +304,7 @@ body {
   <div class="browser-toolbar">
     <button onclick="browserBack()" title="后退" id="btn-back" disabled>←</button>
     <button onclick="browserFwd()" title="前进" id="btn-fwd" disabled>→</button>
-    <button onclick="browserHome()">🏠</button>
+    <button onclick="browserHome()"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M2 7l6-5 6 5v7H2V7z" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="9" width="4" height="5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></button>
     <input class="url-bar" id="url-bar" value="about:blank" onkeydown="if(event.key==='Enter')browserGo()" readonly>
     <button onclick="browserGo()">转到</button>
   </div>
@@ -318,12 +318,12 @@ body {
 <!-- ==================== 终端窗口 ==================== -->
 <div class="window" id="win-terminal" data-win="terminal" style="width:540px;height:360px;left:200px;top:100px;">
   <div class="window-title" onmousedown="startDrag(event,'win-terminal')">
-    <span class="wt-icon">🖥️</span>
+    <span class="wt-icon"><svg viewBox="0 0 16 16" width="14" height="14"><rect x="1" y="2" width="14" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="6" x2="7" y2="8" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="8" x2="4" y2="10" stroke="currentColor" stroke-width="1.2"/></svg></span>
     <span class="wt-text">命令提示符 — CMD.EXE</span>
     <span class="wt-btns">
-      <button onclick="minWindow('terminal')">_</button>
-      <button onclick="maxWindow('terminal')">□</button>
-      <button onclick="closeWindow('terminal')">✕</button>
+      <button onclick="minWindow('terminal')"><svg viewBox="0 0 10 10" width="10" height="10"><line x1="1" y1="8" x2="9" y2="8" stroke="currentColor" stroke-width="1.5"/></svg></button>
+      <button onclick="maxWindow('terminal')"><svg viewBox="0 0 10 10" width="10" height="10"><rect x="1" y="1" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+      <button onclick="closeWindow('terminal')"><svg viewBox="0 0 10 10" width="10" height="10"><line x1="2" y1="2" x2="8" y2="8" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="2" x2="2" y2="8" stroke="currentColor" stroke-width="1.5"/></svg></button>
     </span>
   </div>
   <div class="terminal-body" id="terminal-body" onclick="focusTerminal()">
@@ -334,12 +334,12 @@ body {
 <!-- ==================== Readme 窗口 ==================== -->
 <div class="window" id="win-readme" data-win="readme" style="width:420px;height:320px;left:90px;top:70px;">
   <div class="window-title" onmousedown="startDrag(event,'win-readme')">
-    <span class="wt-icon">📄</span>
+    <span class="wt-icon"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M4 1h8l3 3v11H4V1z" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="6" y1="6" x2="12" y2="6" stroke="currentColor" stroke-width="1"/><line x1="6" y1="9" x2="12" y2="9" stroke="currentColor" stroke-width="1"/><line x1="6" y1="12" x2="10" y2="12" stroke="currentColor" stroke-width="1"/></svg></span>
     <span class="wt-text">readme.txt — 记事本</span>
     <span class="wt-btns">
-      <button onclick="minWindow('readme')">_</button>
-      <button onclick="maxWindow('readme')">□</button>
-      <button onclick="closeWindow('readme')">✕</button>
+      <button onclick="minWindow('readme')"><svg viewBox="0 0 10 10" width="10" height="10"><line x1="1" y1="8" x2="9" y2="8" stroke="currentColor" stroke-width="1.5"/></svg></button>
+      <button onclick="maxWindow('readme')"><svg viewBox="0 0 10 10" width="10" height="10"><rect x="1" y="1" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+      <button onclick="closeWindow('readme')"><svg viewBox="0 0 10 10" width="10" height="10"><line x1="2" y1="2" x2="8" y2="8" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="2" x2="2" y2="8" stroke="currentColor" stroke-width="1.5"/></svg></button>
     </span>
   </div>
   <div class="window-body">

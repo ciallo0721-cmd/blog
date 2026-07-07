@@ -10,7 +10,6 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://ciallo0721-cmd.top/wz/">
     <link rel="icon" href="../fanv.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="../articles-data.js"></script>
     <style>
 @font-face {
@@ -427,6 +426,43 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
+            max-height: 82px;
+            overflow: hidden;
+            position: relative;
+            transition: max-height 0.4s ease;
+        }
+        .filter-tags.expanded {
+            max-height: 3000px;
+        }
+        .filter-tags::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 40px;
+            background: linear-gradient(transparent, var(--bg-light));
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .filter-tags.expanded::after {
+            opacity: 0;
+        }
+        .tags-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            padding: 6px 18px;
+            background: none;
+            border: 1px solid rgba(0,161,214,0.3);
+            color: var(--bili-blue);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        .tags-toggle:hover {
+            background: rgba(0,161,214,0.08);
+            border-color: var(--bili-blue);
         }
 
         .filter-tag {
@@ -856,6 +892,7 @@
             }
         })();
     </script>
+  <script src="/js/svg-icons.js" defer></script>
 </head>
 <body>
     <!-- 导航栏 -->
@@ -903,6 +940,9 @@
             <div class="filter-tags" id="filterTags">
                 <!-- 标签将通过JavaScript动态生成 -->
             </div>
+            <button class="tags-toggle" id="tagsToggle" onclick="toggleTags()" style="display:none;">
+                <span id="tagsToggleText">展开全部标签 ▾</span>
+            </button>
         </div>
 
         <!-- 文章列表头部 -->
@@ -956,7 +996,34 @@
                 </div>
             </div>
             <div class="warning-gif">
-                <img src="../css/1.gif" alt="安全警告动画" onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23FB7299%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-size%3D%2220%22%3E⚠️%20GIF%3C%2Ftext%3E%3C%2Fsvg%3E';">
+                <svg viewBox="0 0 200 200" width="180" height="180" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="warnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#ff4757"/>
+                      <stop offset="50%" style="stop-color:#ff6b81"/>
+                      <stop offset="100%" style="stop-color:#ff4757"/>
+                      <animate attributeName="x1" values="0%;100%;0%" dur="3s" repeatCount="indefinite"/>
+                      <animate attributeName="x2" values="100%;0%;100%" dur="3s" repeatCount="indefinite"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="100" cy="95" r="75" fill="url(#warnGrad)" opacity="0.9">
+                    <animate attributeName="r" values="72;78;72" dur="2s" repeatCount="indefinite"/>
+                  </circle>
+                  <rect x="92" y="55" width="16" height="50" rx="8" fill="white">
+                    <animate attributeName="y" values="55;52;55" dur="1.5s" repeatCount="indefinite"/>
+                  </rect>
+                  <circle cx="100" cy="125" r="8" fill="white">
+                    <animate attributeName="cy" values="125;122;125" dur="1.5s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="100" cy="95" r="75" fill="none" stroke="#ff4757" stroke-width="3" opacity="0">
+                    <animate attributeName="r" values="75;110" dur="2s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0.6;0" dur="2s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="100" cy="95" r="75" fill="none" stroke="#ff4757" stroke-width="3" opacity="0">
+                    <animate attributeName="r" values="75;110" dur="2s" begin="1s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0.6;0" dur="2s" begin="1s" repeatCount="indefinite"/>
+                  </circle>
+                </svg>
             </div>
             <div class="modal-footer">
                 <button class="close-modal-btn" id="closeModalBtn"><i class="fas fa-check-circle"></i> 继续浏览</button>
@@ -1096,7 +1163,25 @@
                     });
                     filterTags.appendChild(tagElement);
                 });
+
+                // 标签超过 1 行时显示展开按钮
+                const btn = document.getElementById('tagsToggle');
+                if (btn && allTags.length > 4) {
+                    btn.style.display = 'inline-flex';
+                }
             }
+
+            window.toggleTags = function() {
+                const tags = document.getElementById('filterTags');
+                const btn = document.getElementById('tagsToggleText');
+                if (tags.classList.contains('expanded')) {
+                    tags.classList.remove('expanded');
+                    btn.textContent = '展开全部标签 ▾';
+                } else {
+                    tags.classList.add('expanded');
+                    btn.textContent = '收起标签 ▴';
+                }
+            };
             
             function displayArticles(articles) {
                 articlesGrid.innerHTML = '';

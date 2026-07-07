@@ -1,5 +1,15 @@
 window.timelineData = [
             {
+                date: "2026年7月7日",
+                title: "端测测测试基础设施 + 全站路径修复",
+                desc: "搭建完整 Web 测试框架，含3个独立模块：静态代码分析（62个HTML）、链接健康检测（555个链接）、基础性能检测（8个关键页面，TTFB仅6ms）。修复 pages/ 目录 ~30处相对路径错误（./→../）、index.html 38处外链添加 rel=\"noopener noreferrer\"、3处 fanv.ico 路径错误。链接断裂数从35条降至12条（-66%）。首页新增更新公告横幅。综合评分：静态🟡70 + 链接🟡64 + 性能🟢94。"
+            },
+            {
+                date: "2026年7月6日",
+                title: "全站图标SVG化：移除 Font Awesome 依赖",
+                desc: "75个HTML文件全部移除 Font Awesome CDN（6.4.0/6.5.1），替换为自建 SVG 图标系统（js/svg-icons.js，含60+种图标）。wz/ 安全警告 GIF 替换为动画 SVG，arg/ 游戏窗口控件 emoji → SVG，cn/ 诗人百科和 wiki/ 搜索 emoji → SVG。首页 favicon 保留不动。预计减少约80KB外部CDN请求，所有图标离线可用喵～"
+            },
+            {
                 date: "2026年7月5日",
                 title: "sitemap.xml 大更新：73→96个URL覆盖全站",
                 desc: "重新生成 sitemap.xml，从旧版73个URL扩展到96个。新增 friends.html、baicai 纪念站、cn 诗人百科、ARG 镜中人、app 工具页、10个 wiki 词条子页面、work 打工模拟器、cs2 等。同步更新 generate-sitemap.py 脚本，下次改结构一键重生成的说喵～"
