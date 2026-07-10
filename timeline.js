@@ -1,5 +1,10 @@
 window.timelineData = [
             {
+                date: "2026年7月10日",
+                title: "新文章 #60：git commit -m \"1\"——你的项目历史正在被一个字符毁掉",
+                desc: "发布Git教程文章，从GitHub入门讲起，犀利拆解为什么commit message写「1」短期能忍长期是灾难。git log变天书、bisect报废、三个月后自己都看不懂——不是Git在惩罚你，是你自己在毁掉项目历史的喵～"
+    },
+            {
                 date: "2026年7月9日",
                 title: "博客页视觉重设计：深绿色书架主题",
                 desc: "blog/index.html 全面视觉重构：①新增静态书架 SVG 背景（3层书架+书本几何图案，深绿色调）②配色从粉蓝 B站风 → 深绿+暖米色（#1A3C34/#F5F1E8），iOS 6/2017 简约高级感 ③动画系统升级：fadeInUp → cardReveal（16px微移+cubic-bezier缓动），卡片 hover 8px→4px 克制提升，header 标题呼吸发光 ④导航透明毛玻璃+方正圆角、卡片 20px→12px 圆角、按钮渐变→纯色。整体从活泼俏皮 → 沉稳知性书架风喵～"

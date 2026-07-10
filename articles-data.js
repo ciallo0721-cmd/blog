@@ -651,6 +651,17 @@ window.articlesData = {
             readTime: 4,
             featured: true
         },
+        {
+            id: 60,
+            category: "教程",
+            fileName: "教程/60/",
+            title: "git commit -m \"1\"——你的项目历史正在被一个字符毁掉",
+            excerpt: "犀利拆解为什么「git commit -m 1」短期能忍，长期是慢性自杀。一个人写的时候可以偷懒，但项目一旦认真起来，每一个'1'都是在给未来的自己挖坑。",
+            date: "2026-07-10",
+            tags: ["Git", "commit", "最佳实践", "版本控制", "GitHub", "教程"],
+            readTime: 5,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),

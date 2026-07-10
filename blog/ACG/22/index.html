@@ -765,12 +765,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const adj = window.articlesData.getAdjacentArticles(id);
         let html = '';
         if (adj.prev) {
-            html += `<a href="/blog/${adj.prev.id}/" class="nav-btn prev">&#8592;<div><div style="font-size:.8rem;opacity:.8">上一篇</div><div>${adj.prev.title}</div></div></a>`;
+            html += `<a href="/blog/${adj.prev.fileName}" class="nav-btn prev">&#8592;<div><div style="font-size:.8rem;opacity:.8">上一篇</div><div>${adj.prev.title}</div></div></a>`;
         } else {
             html += `<a href="javascript:void(0)" class="nav-btn prev disabled">&#8592;<div><div style="font-size:.8rem;opacity:.8">上一篇</div><div>已是第一篇</div></div></a>`;
         }
         if (adj.next) {
-            html += `<a href="/blog/${adj.next.id}/" class="nav-btn next"><div><div style="font-size:.8rem;opacity:.8">下一篇</div><div>${adj.next.title}</div></div>&#8594;</a>`;
+            html += `<a href="/blog/${adj.next.fileName}" class="nav-btn next"><div><div style="font-size:.8rem;opacity:.8">下一篇</div><div>${adj.next.title}</div></div>&#8594;</a>`;
         } else {
             html += `<a href="javascript:void(0)" class="nav-btn next disabled"><div><div style="font-size:.8rem;opacity:.8">下一篇</div><div>已是最后一篇</div></div>&#8594;</a>`;
         }
@@ -783,7 +783,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!grid) return;
         const articles = window.articlesData.getFeaturedArticles(id, 3);
         grid.innerHTML = articles.map(a => `
-            <a href="/blog/${a.id}/" class="related-card">
+            <a href="/blog/${a.fileName}" class="related-card">
                 <h4>${a.title}</h4>
                 <p>${a.excerpt}</p>
                 <div class="related-tags">${a.tags.slice(0,3).map(t=>`<span class="related-tag">${t}</span>`).join('')}</div>

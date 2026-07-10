@@ -3,34 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>浪漫文案？那是词语废料——当朋友圈文案变成「1+1=2 uxdjdbskakdbs」| ciallo0721-cmd</title>
-    <meta name="description" content="现在的朋友圈浪漫文案全是词语废料——前言不搭后语，逻辑混乱像乱码。当「今天天气不错，我喜欢你」配上不露脸自拍成为标准模板，浪漫已经不是浪漫，是SEO。">
+    <title>git commit -m "1"——你的项目历史正在被一个字符毁掉 | ciallo0721-cmd</title>
+    <meta name="description" content="从GitHub入门讲起，犀利拆解为什么「git commit -m 1」短期能忍，长期是慢性自杀。一个人写的时候可以偷懒，但项目一旦认真起来，每一个'1'都是在给未来的自己挖坑。">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://ciallo0721-cmd.top/blog/生活/57/">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/blog/教程/60/">
     <link rel="icon" href="/fanv.ico" type="image/x-icon">
     <link rel="stylesheet" href="../../pic/image-viewer.css">
 
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://ciallo0721-cmd.top/blog/生活/57/">
-    <meta property="og:title" content="浪漫文案？那是词语废料——当朋友圈文案变成「1+1=2 uxdjdbskakdbs」| ciallo0721-cmd">
-    <meta property="og:description" content="现在的朋友圈浪漫文案全是词语废料——前言不搭后语，逻辑混乱像乱码。">
+    <meta property="og:url" content="https://ciallo0721-cmd.top/blog/教程/60/">
+    <meta property="og:title" content="git commit -m "1"——你的项目历史正在被一个字符毁掉 | ciallo0721-cmd">
+    <meta property="og:description" content="犀利拆解为什么「git commit -m 1」短期能忍，长期是慢性自杀。一个人写的时候可以偷懒，但项目一旦认真起来，每一个'1'都是在给未来的自己挖坑。">
     <meta property="og:image" content="https://ciallo0721-cmd.top/fanv.ico">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="浪漫文案？那是词语废料——当朋友圈文案变成「1+1=2 uxdjdbskakdbs」| ciallo0721-cmd">
-    <meta name="twitter:description" content="现在的朋友圈浪漫文案全是词语废料——前言不搭后语，逻辑混乱像乱码。">
+    <meta name="twitter:title" content="git commit -m "1"——你的项目历史正在被一个字符毁掉 | ciallo0721-cmd">
+    <meta name="twitter:description" content="犀利拆解为什么「git commit -m 1」短期能忍，长期是慢性自杀。">
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Article",
-      "headline": "浪漫文案？那是词语废料——当朋友圈文案变成「1+1=2 uxdjdbskakdbs」",
-      "description": "现在的朋友圈浪漫文案全是词语废料——前言不搭后语，逻辑混乱像乱码。当「今天天气不错，我喜欢你」配上不露脸自拍成为标准模板，浪漫已经不是浪漫，是SEO。",
+      "headline": "git commit -m '1'——你的项目历史正在被一个字符毁掉",
+      "description": "犀利拆解为什么「git commit -m 1」短期能忍，长期是慢性自杀。一个人写的时候可以偷懒，但项目一旦认真起来，每一个'1'都是在给未来的自己挖坑。",
       "image": "https://ciallo0721-cmd.top/fanv.ico",
       "author": { "@type": "Person", "name": "ciallo0721-cmd", "url": "https://ciallo0721-cmd.top/aboutme.html" },
-      "datePublished": "2026-07-04", "dateModified": "2026-07-04",
-      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ciallo0721-cmd.top/blog/生活/57/" },
-      "keywords": ["浪漫文案", "朋友圈", "批判", "词语废料", "逻辑"],
-      "articleSection": ["生活"]
+      "datePublished": "2026-07-10", "dateModified": "2026-07-10",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ciallo0721-cmd.top/blog/教程/60/" },
+      "keywords": ["Git", "commit message", "最佳实践", "版本控制", "GitHub"],
+      "articleSection": ["教程"]
     }
     </script>
 
@@ -126,15 +126,18 @@ nav {
     color: var(--text-primary);
 }
 .article-content strong { color: var(--text-primary); font-weight: 700; }
+.article-content ul, .article-content ol { margin-left: 32px; margin-bottom: 1.8rem; }
+.article-content li { margin-bottom: 0.5rem; }
 
-/* 乱码模拟框 */
-.nonsense-box {
+/* 终端模拟 */
+.terminal-box {
     background: #1a1a2e; border-radius: 12px; padding: 18px 22px; margin: 20px 0;
     font-family: 'Courier New', monospace; color: #00ff88; font-size: 0.95rem;
     border: 1px solid #333; line-height: 1.8;
 }
-.nonsense-box .cursor { animation: blink 1s infinite; color: #00ff88; }
-@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+.terminal-box .prompt { color: #ff6b9d; }
+.terminal-box .comment { color: #888; font-style: italic; }
+.terminal-box .error { color: #ff4444; }
 
 /* 对比框 */
 .highlight-box {
@@ -142,6 +145,41 @@ nav {
     border-radius: 12px; padding: 20px 24px; margin: 25px 0;
 }
 .highlight-box.pink { background: rgba(251,114,153,0.08); border-color: rgba(251,114,153,0.2); }
+
+/* 代码块 */
+pre {
+    background: #1a1a2e; border-radius: 12px; padding: 18px 22px; margin: 20px 0;
+    font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.7;
+    overflow-x: auto; border: 1px solid #333;
+}
+pre code { color: #e0e0e0; }
+pre .keyword { color: #ff79c6; }
+pre .string { color: #f1fa8c; }
+pre .comment { color: #6272a4; }
+
+/* 大结论 */
+.big-conclusion {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 16px; padding: 40px; margin: 40px 0;
+    text-align: center; border: 1px solid rgba(255,255,255,0.1);
+}
+.big-conclusion h2 { color: #FB7299; font-size: 1.8rem; margin-bottom: 20px; }
+.big-conclusion h2::after { display: none; }
+.big-conclusion p { color: #c0c0d0; max-width: 700px; margin: 0 auto 15px; font-size: 1.1rem; }
+.big-conclusion .highlight { color: #ffd700; font-weight: 700; }
+
+/* 好vs坏对比表 */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 25px 0; }
+.compare-card {
+    border-radius: 12px; padding: 24px; border: 2px solid;
+}
+.compare-card.bad { background: rgba(255,68,68,0.05); border-color: rgba(255,68,68,0.2); }
+.compare-card.good { background: rgba(0,200,83,0.05); border-color: rgba(0,200,83,0.2); }
+.compare-card h4 { font-size: 1.2rem; margin-bottom: 15px; }
+.compare-card.bad h4 { color: #ff4444; }
+.compare-card.good h4 { color: #00c853; }
+.compare-card pre { margin: 0; font-size: 0.85rem; }
+@media (max-width: 768px) { .compare-grid { grid-template-columns: 1fr; } }
 
 .article-navigation { display: flex; justify-content: space-between; margin-top: 60px; gap: 20px; }
 .nav-btn {
@@ -219,11 +257,11 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     <main class="container article-detail-container">
         <article class="article-detail">
             <header class="article-header">
-                <div class="article-number" id="articleNumber">文章 #057</div>
-                <h1 class="article-title" id="articleTitle">浪漫文案？那是词语废料——当朋友圈文案变成「1+1=2 uxdjdbskakdbs」</h1>
-                <p class="article-intro" id="articleIntro">现在的朋友圈浪漫文案，前言不搭后语，逻辑混乱到像乱码。浪漫什么时候变成了SEO？感情什么时候需要算法排名？</p>
+                <div class="article-number" id="articleNumber">文章 #060</div>
+                <h1 class="article-title" id="articleTitle">git commit -m "1"——你的项目历史正在被一个字符毁掉</h1>
+                <p class="article-intro" id="articleIntro">一个人写的时候可以偷懒。但项目一旦认真起来，每一个"1"都是在给未来的自己挖坑——不是Git在惩罚你，是三个月后的你在诅咒现在的你。</p>
                 <div class="article-meta">
-                    <div class="article-date">发布日期：<span id="articleDate">2026-07-04</span></div>
+                    <div class="article-date">发布日期：<span id="articleDate">2026-07-10</span></div>
                     <div class="article-date">阅读时间：<span id="readTime">约5分钟</span></div>
                 </div>
                 <div class="article-tags" id="articleTags"></div>
@@ -231,138 +269,179 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 
             <div class="article-content" id="articleContent">
 
-                <p>我发现了一件事。</p>
+                <h2>从GitHub入门讲起</h2>
 
-                <p>现在的所谓"浪漫文案"，全是没有用的词语废料。</p>
+                <p>如果你看过本站的文章 <a href="/blog/教程/16/" style="color:var(--bili-blue);font-weight:600;text-decoration:none;">#16 从零开始注册GitHub并克隆仓库</a>，那你的Git之旅应该已经上路了——你学会了<code>git clone</code>把项目拉下来，学会了<code>git add .</code>把改动的文件扔进去，学会了<code>git commit -m "信息"</code>，然后<code>git push</code>推上去。</p>
 
-                <h2>朋友圈里到底在写什么</h2>
+                <p>一切顺利。直到某个时刻，你发现每次都要写"信息"太麻烦了。于是你开始写"1"。</p>
 
-                <p>你去翻一翻现在的朋友圈，那些被叫做"浪漫文案"的东西——</p>
-
-                <blockquote>
-                    "诶你知道吗，今天天气不错，我喜欢你"
-                </blockquote>
-
-                <p>然后配上一张不露脸的自拍。</p>
-
-                <p>再来一个：</p>
-
-                <blockquote>
-                    "今天星期几 好像天气晴"
-                </blockquote>
-
-                <p>也是。配上一张不露脸的自拍。</p>
-
-                <p>你仔细读读这两句话。它们之间，<strong>有逻辑吗？</strong></p>
-
-                <p>天气不错，跟你喜欢我，有什么关系？因为天气好所以你喜欢我？那下雨天就不喜欢了？星期几跟天气晴又有什么因果关系？</p>
-
-                <p>这就像在写：</p>
-
-                <div class="nonsense-box">
-                    "诶你知道吗，1+1=2 uxdjdbskakdbs"<br>
-                    "现在几点了 idbsmsoxdnrmdkdn"<span class="cursor">█</span>
+                <div class="terminal-box">
+                    <span class="prompt">$</span> git commit -m "1"<br>
+                    <span class="prompt">$</span> git push
                 </div>
 
-                <p>一样。<strong>混乱。</strong></p>
+                <p>代码能提交，能推送，GitHub上也能看到。看起来一切正常。而且确实——在某个特定的时间窗口内，它就是正常的。</p>
 
-                <p>把一句完整的话的前半句，和另一句完全不相关的乱码焊在一起——这就是现在的"浪漫文案"。</p>
+                <p>但这篇文章不是来跟你说"1"有多好用的。这篇文章是来告诉你，<strong>它为什么从根上就是烂的。</strong></p>
 
-                <h2>对小孩的伤害</h2>
+                <h2>首先把话说清楚：短期写"1"没什么大不了的</h2>
 
-                <p>你可能会觉得，朋友圈发什么是自己的事。确实。但问题在于，<strong>这种写法在传染。</strong></p>
+                <p>很多Git教程一上来就摆架子说"commit message必须用规范格式"、"不符合Conventional Commits的都是垃圾"——没必要，真的。如果满足以下全部条件：</p>
 
-                <p>尤其是对那些毛都没长齐的小孩来说。他们天天刷这些"浪漫文案"，潜意识里会觉得：写东西不需要逻辑，乱拼乱凑就是"有感觉"。</p>
+                <ul>
+                    <li><strong>你一个人写</strong>，没有协作者</li>
+                    <li><strong>项目还不稳定</strong>，一天改很多次</li>
+                    <li><strong>你记得每个改动</strong>，脑子比git log好用</li>
+                </ul>
 
-                <p>然后呢？考试的时候，写作文的时候——</p>
+                <p>那你写"1"完全OK。这时候项目还在原型阶段，最核心的任务是让东西跑起来。没人会在原型期去翻commit log找历史。</p>
 
-                <blockquote>
-                    "今天我吃饭了 我是人"
-                </blockquote>
+                <p>这就是所谓的<strong>"短期容忍区"</strong>。在这个区间内，commit message的质地根本不重要，因为唯一的读者就是你自己，而你当时全记得。</p>
 
-                <p>他们真的会这么写。因为没有人告诉过他们，<strong>文字是有逻辑的</strong>，句子和句子之间需要因果关系、需要转折、需要递进——而不是随机抓两个短句用空格连起来。</p>
+                <div class="callout callout-info" style="border-radius:12px;padding:20px 24px;margin:25px 0;background:#f0f7ff;border-left:6px solid #0a84ff;display:flex;gap:16px;align-items:flex-start;">
+                    <div>
+                        <strong>💡 这里的关键在于：</strong>"短期"和"长期"的界限在哪？<br>
+                        答案很简单——<strong>当你开始需要回头看</strong>的那一刻，"短期"就结束了。这个时刻可能是你第一次<code>git log</code>想找一个旧功能，也可能是你第一次把代码发给别人看。
+                    </div>
+                </div>
+
+                <h2>但当你开始认真做项目，"1"就是灾难</h2>
+
+                <p>长期项目的本质是：<strong>你一定会忘记自己写过什么。</strong>人脑不是数据库，三个月后的你回头看自己写的代码，和看一个陌生人写的东西基本没区别。而commit log就是你留给未来的自己的唯一指引。</p>
+
+                <p>现在来看一下，用"1"写commit log会发生什么：</p>
+
+                <h3>1. git log 变成了天书</h3>
+
+                <div class="terminal-box">
+                    <span class="prompt">$</span> git log --oneline<br>
+                    a1b2c3d 1<br>
+                    d4e5f6g 1<br>
+                    g7h8i9j 1<br>
+                    j0k1l2m 1<br>
+                    m3n4o5p 1<br>
+                    p6q7r8s 1
+                </div>
+
+                <p>全是"1"。你能分出哪个加了新功能，哪个修了bug，哪个只是改了README里的一个标点？不能。你只能一个一个commit去翻diff。</p>
+
+                <p>如果有12个commit全是"1"——恭喜你，你得看12次diff才能找到你想要的那次改动。而如果项目有100个commit……我建议你直接重写。</p>
+
+                <h3>2. git bisect 直接报废</h3>
+
+                <p><code>git bisect</code>是Git里最漂亮的调试工具之一：通过二分查找，帮你精准定位哪个commit引入了某个bug。但它的前提是——<strong>每一个commit都有一个清晰的标签</strong>，让你知道它在bisect的二分过程中该不该标记为good。</p>
+
+                <p>如果每个commit都是"1"，bisect工具本身还能用，但你的体验会变成：</p>
+
+                <div class="terminal-box">
+                    <span class="prompt">$</span> git bisect good<br>
+                    <span class="comment"># 这是好的吗？这个"1"改了啥来着……</span><br>
+                    <span class="prompt">$</span> git show --stat<br>
+                    <span class="comment"># 哦，改了登录页面……等下，bug是不是登录相关来着？</span>
+                </div>
+
+                <p>你每次都要手动<code>git show</code>来看这个"1"到底改了什么东西。本来几秒钟的bisect过程，被硬生生拖成几分钟的"猜谜游戏"。</p>
+
+                <h3>3. 三个月后的你，是最熟悉的陌生人</h3>
+
+                <p>这是最致命的问题。你现在觉得"反正我都记得"——但三个月后你绝对不记得。你甚至连"1"这个commit是在哪一天写的都记不清。</p>
+
+                <p>你的项目在成长。从10个文件到50个文件，从500行到5000行。到了某个节点，你突然需要一个两周前写的函数，但你不确定它在哪个文件里——你翻开git log：</p>
+
+                <div class="terminal-box">
+                    <span class="prompt">$</span> git log --oneline<br>
+                    a1b2c3d 1    <span class="comment"># 是这个吗？</span><br>
+                    d4e5f6g 1    <span class="comment"># 还是这个？</span><br>
+                    g7h8i9j 1    <span class="comment"># 或者这个？？</span>
+                </div>
+
+                <p>每一个"1"都是一扇上锁的门。你要一把一把钥匙去试。运气好试到第三把，运气不好——十把钥匙全试完也没找到，最后还是用<code>grep -r</code>全文搜索找代码。</p>
+
+                <p>那Git的版本控制意义在哪里？你明明有一个完整的历史记录，却因为每个commit都叫同一个名字，让这个记录变成了废物。</p>
 
                 <div class="highlight-box pink">
-                    <strong>当一个时代最有传播力的文字样本是词语废料时，下一代的语言能力就会从根部烂掉。</strong>
+                    <strong>一个不能用来搜索的commit log，就像一个没有目录的图书馆。</strong>书都在，但你找不到——等于没有。
                 </div>
 
-                <h2>"这是盲盒"？</h2>
+                <h2>好，那什么样的commit才是好的？</h2>
 
-                <p>或许有人会辩护："这是盲盒呀，你不懂浪漫。"</p>
+                <p>其实根本不用背什么Conventional Commits规范。在你学会那些花里胡哨的格式之前，先做到一条最基本的：</p>
 
-                <p>……盲盒在哪里？</p>
+                <p><strong>让你的commit message有意义。</strong></p>
 
-                <p>盲盒的意思是，你打开之前不知道里面是什么，但<strong>打开之后你一定知道</strong>。一个真正的盲盒，揭晓的那一刻是清晰明确的——你拿到的是一只兔子还是恐龙，一目了然。</p>
+                <p>就这么简单。"有意义"的意思是：别人（包括三个月后的你）看到这条信息，不用点开diff就知道这次commit干了什么。</p>
 
-                <p>但这些"浪漫文案"呢？读完了，<strong>你根本不知道它在说什么。</strong></p>
-
-                <p>它不是盲盒。它是一个空盒子。打开是空的，关上也是空的。你以为有东西因为盒子做得漂亮，但里面<strong>什么都没有。</strong></p>
-
-                <h2>"这是搜索引擎逻辑"？</h2>
-
-                <p>还有更离谱的辩护：</p>
-
-                <blockquote>
-                    "它遵循的是搜索引擎逻辑，不是人类语言逻辑。"
-                </blockquote>
-
-                <p>……把浪漫当 SEO 写呢？</p>
-
-                <p>还搜索引擎。有人看吗？都看不懂。连人都读不通的东西，还指望它在搜索结果里排前面？</p>
-
-                <p>更恶心的是，这背后暗含的逻辑是：</p>
-
-                <blockquote>
-                    "浪漫不靠前代表不爱"
-                </blockquote>
-
-                <p>不是。感情还需要算法看？还需要搜索引擎来证明你真的喜欢一个人？</p>
-
-                <p>那干脆别叫文案了。<strong>叫 SEO 得了。</strong></p>
-
-                <div class="highlight-box">
-                    <strong>感情是人类最不需要第三方背书的东西。</strong>你不需要用算法排名来证明你爱一个人，就像你不需要用银行流水来证明你吃过一顿好饭。
+                <div class="compare-grid">
+                    <div class="compare-card bad">
+                        <h4>❌ 反面教材</h4>
+                        <pre><code>1
+2
+a
+x
+fix
+update
+asdf
+111
+.</code></pre>
+                    </div>
+                    <div class="compare-card good">
+                        <h4>✅ 合格标准</h4>
+                        <pre><code>修复登录按钮在移动端不可点击
+添加用户头像上传功能
+删除过时的API路由
+重构数据库查询为异步
+更新README安装说明</code></pre>
+                    </div>
                 </div>
 
-                <h2>什么是正常的写法</h2>
+                <p>看到区别了吗？右侧每一条你都知道它在做什么，左侧你完全不知道。这就是"有意义"和"没意义"的差距。</p>
 
-                <p>其实，直接写就行。比如：</p>
+                <p>再进一步，如果你想让log更好用，可以加一点简单的约定：</p>
+
+                <div class="terminal-box">
+                    <span class="prompt">$</span> git commit -m "feat: 添加用户登录功能"    <span class="comment"># 新功能</span><br>
+                    <span class="prompt">$</span> git commit -m "fix: 修复登录按钮不可点击"  <span class="comment"># 修bug</span><br>
+                    <span class="prompt">$</span> git commit -m "refactor: 提取validateEmail" <span class="comment"># 重构</span><br>
+                    <span class="prompt">$</span> git commit -m "docs: 更新README"            <span class="comment"># 文档</span>
+                </div>
+
+                <p>这种做法叫"Conventional Commits"，但它不是强制规范——它只是把你已经在做的事情加上一个分类前缀，让log立刻变得可筛选、可搜索、一目了然。</p>
+
+                <h2>合作场景："1"等于在谋杀团队效率</h2>
+
+                <p>如果上面的内容还只是"个人开发者不痛不痒"的问题，那么多人协作时写"1"就是在犯罪了。</p>
+
+                <p>想象一下：你的队友A刚刚提交了一个commit，message写的是"1"。你想知道他改了什么地方——你只能去看diff。如果他也忘了，你们俩还得打开PR页面从头看到尾。</p>
+
+                <p>再来想象：你在review队友B的PR，里面5个commit分别是"1"、"2"、"3"、"fix"、"a"。你需要搞清楚每个commit改了什么，逐一对比。一个本来10分钟能搞定的review，硬生生拖了半小时。</p>
+
+                <p>在团队里，commit message就是你和队友之间的快照。你省掉的那几个字，乘以团队人数，就是浪费的总时间。</p>
+
+                <h2>总结：一条线</h2>
+
+                <p>总结一下，这条线其实很清楚：</p>
+
+                <ul>
+                    <li><strong>个人原型开发</strong>：写"1"可以。项目不稳定、改动频繁、根本没人看历史——这个阶段commit message的优先级是0。</li>
+                    <li><strong>认真开发 / 团队协作</strong>：必须写有意义的信息。这个"信息"不需要是长篇大论，一句话说清楚"干了什么"就够了。</li>
+                </ul>
+
+                <p><strong>commit message不是写给Git看的。是写给未来的自己（和你的队友）看的。</strong></p>
+
+                <div class="big-conclusion">
+                    <h2>Git 本身不关心你写了什么</h2>
+                    <p>你可以写"1"，可以写"a"，可以写"111"，甚至可以写空字符串。<br>
+                    Git照常工作——它只负责记录快照。</p>
+                    <p>但<strong>你</strong>不一样。你需要理解历史。<br>
+                    三个月后的你翻开 log，看到的是一片"1"——<br>
+                    那不是Git的错。<br>
+                    <span class="highlight">是你自己选择毁掉了自己的项目历史。</span></p>
+                    <p style="margin-top:25px;font-size:0.95rem;color:#888;"># git commit -m "一个有意义的描述"<br># 这不是规范，这是尊重——尊重未来的自己</p>
+                </div>
 
                 <blockquote>
-                    "许我有走南闯北的勇气，也许我有个陪我一起的知己"
+                    「我现在懂了——不是Git在惩罚我写'1'，是三个月后的我在诅咒现在的我。」
                 </blockquote>
-
-                <p>前后半句是<strong>对仗的</strong>。"走南闯北的勇气"对应"陪我一起的知己"，它们围绕同一个主题——"一个人在路上"。有结构，有意象，有情绪落点。</p>
-
-                <p>这些才是文案。<strong>有逻辑的文字才有资格被叫做文案。</strong></p>
-
-                <h2>本质问题：浪漫被异化了</h2>
-
-                <p>我仔细想想，问题的根源在于——</p>
-
-                <p>这代人在用"写小红书笔记"的方式谈恋爱。</p>
-
-                <p>她发朋友圈的目的不是为了表达感情，而是为了<strong>被看到</strong>。文案只是工具，自拍才是主体。只要自拍够好看，文案写什么都行——"asdfghjkl"都行，只要像是有情绪的样子。</p>
-
-                <p>所以才会出现"今天天气不错，我喜欢你"这种句子——它根本不承载任何实际信息，它只承载一个信号：<strong>"我发了自拍，快来看。"</strong></p>
-
-                <p>你不是在读一段话。你是在看一条推送通知。</p>
-
-                <p>而当"被看到"的需求压倒了一切，文字就成了纯粹的装饰物。逻辑？不需要。连贯性？不需要。就像一张没写字的白纸被塞进精致的相框里——看起来像是有内容，其实是空的。</p>
-
-                <h2>最后</h2>
-
-                <p>我不反对浪漫。恰恰相反，<strong>正是因为我尊重它，才受不了别人这么糟蹋它。</strong></p>
-
-                <p>浪漫应该是——</p>
-                <p>你认真想了很久，找到一个只有你们两个能懂的比喻，写在纸上，心跳加速地递过去。</p>
-
-                <p>不应该是——</p>
-                <p>在朋友圈复制粘贴一段不知道谁写的、不知道在说什么的模板，然后配上美颜滤镜。</p>
-
-                <p>如果文字可以没有逻辑，那它就不配承载感情。</p>
-
-                <p>好好写字，好吗？喵。</p>
 
             </div>
         </article>
@@ -385,14 +464,14 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     <footer>
         <div class="container footer-content">
             <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
-            <p>感谢阅读！期待与你交流心得喵～</p>
+            <p>写有用的commit，做靠谱的开发者喵～</p>
             <p>© 2026 ciallo0721-cmd · 专注技术教程与创作分享</p>
         </div>
     </footer>
 
     <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const currentArticleId = 57;
+    const currentArticleId = 60;
 
     function updateArticleInfo(id) {
         if (typeof window.articlesData === 'undefined') { setTimeout(() => updateArticleInfo(id), 100); return; }

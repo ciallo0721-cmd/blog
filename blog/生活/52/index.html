@@ -680,7 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!grid) return;
         var articles = window.articlesData.getFeaturedArticles ? window.articlesData.getFeaturedArticles(id, 3) : [];
         grid.innerHTML = articles.map(function(a) {
-            return '<a href="/blog/' + a.id + '/" class="related-card"><h4>' + a.title + '</h4><p>' + a.excerpt + '</p><div class="related-tags">' + a.tags.slice(0, 3).map(function(t) { return '<span class="related-tag">' + t + '</span>'; }).join('') + '</div></a>';
+            return '<a href="/blog/' + a.fileName + '" class="related-card"><h4>' + a.title + '</h4><p>' + a.excerpt + '</p><div class="related-tags">' + a.tags.slice(0, 3).map(function(t) { return '<span class="related-tag">' + t + '</span>'; }).join('') + '</div></a>';
         }).join('');
     }
 
