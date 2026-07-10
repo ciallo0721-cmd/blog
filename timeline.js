@@ -1,6 +1,12 @@
 window.timelineData = [
             {
                 date: "2026年7月10日",
+                title: "主页集成 Giscus 评论区（留言板）",
+                desc: "将 Giscus 评论区直接嵌入首页 footer 上方，无需单独页面。使用 GitHub Discussions 讨论系统，已配置 repo-id 和 category-id。首页 footer 和 friends.html 导航栏均添加「留言板」入口锚点。",
+                author: "ciallo0721-cmd"
+    },
+            {
+                date: "2026年7月10日",
                 title: "新文章 #60：git commit -m \"1\"——你的项目历史正在被一个字符毁掉",
                 desc: "发布Git教程文章，从GitHub入门讲起，犀利拆解为什么commit message写「1」短期能忍长期是灾难。git log变天书、bisect报废、三个月后自己都看不懂——不是Git在惩罚你，是你自己在毁掉项目历史的喵～"
     },
