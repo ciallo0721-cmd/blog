@@ -662,6 +662,17 @@ window.articlesData = {
             readTime: 5,
             featured: true
         },
+        {
+            id: 61,
+            category: "公告",
+            fileName: "公告/61/",
+            title: "暑期更新频率调整说明",
+            excerpt: "关于2026暑假期间更新频率降低的通知——学业繁忙，摸鱼旅游，偶尔码字，9月归来。",
+            date: "2026-07-10",
+            tags: ["网站公告", "更新计划", "暑假", "降频"],
+            readTime: 2,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
