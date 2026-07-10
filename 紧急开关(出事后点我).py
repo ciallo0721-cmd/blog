@@ -174,9 +174,9 @@ body {
         <p>任何了解其去向、近况或相关线索的人士，请通过以下方式联系。每一条信息都可能对调查有所帮助。</p>
 
         <div class="contact-box">
-            <p><strong>联系人：</strong>办案机关 / 家属</p>
+            <p><strong>失联人本人 QQ 号码（身份线索）：</strong></p>
             <p class="phone">3627742771</p>
-            <p class="hint">（QQ号码，可作为线索提供联系方式）</p>
+            <p class="hint">此号码为失联者本人的 QQ，提供给办案机关用于身份确认和线索追踪</p>
         </div>
 
         <div class="key-info">
@@ -209,7 +209,7 @@ ARTICLES_DATA_ENTRY = """
             category: "紧急",
             fileName: "emergency/",
             title: "【紧急公告】失联声明——ciallo0721-cmd 已失联，请速与办案机关联系",
-            excerpt: "如果你看到本文，说明 ciallo0721-cmd 已经失联。本文由家属/办案机关发布。有线索请联系：3627742771",
+            excerpt: "如果你看到本文，说明 ciallo0721-cmd 已经失联。本文由家属/办案机关发布。其本人QQ：3627742771（用于身份确认）",
             date: "2026-07-10",
             tags: ["紧急公告", "失联", "寻人", "安全"],
             readTime: 2,
