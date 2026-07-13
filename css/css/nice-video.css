@@ -1,0 +1,253 @@
+/**
+ * 自研视频播放器 - nice-video.css
+ * 简化版自定义视频播放器，修复时长显示问题
+ * 用法：给 .nice-video-container 的 div 加上 data-src="视频地址"
+ */
+
+:root {
+    --nv-pink: #FB7299;
+    --nv-blue: #00A1D6;
+    --nv-bg: rgba(0, 0, 0, 0.85);
+}
+
+.nice-video-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.nice-video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+    cursor: pointer;
+}
+
+/* 中央播放按钮 */
+.nice-video-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--nv-pink), var(--nv-blue));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 30px rgba(251, 114, 153, 0.5);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 10;
+    border: none;
+    outline: none;
+}
+
+.nice-video-play-btn:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 12px 40px rgba(251, 114, 153, 0.6);
+}
+
+.nice-video-play-btn i {
+    color: white;
+    font-size: 2rem;
+    margin-left: 4px;
+}
+
+.nice-video-container.playing .nice-video-play-btn {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.nice-video-container:hover .nice-video-play-btn {
+    opacity: 1;
+}
+
+/* 控制栏 */
+.nice-video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, var(--nv-bg), transparent);
+    padding: 40px 15px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+
+.nice-video-container:hover .nice-video-controls,
+.nice-video-container.controls-visible .nice-video-controls {
+    opacity: 1;
+}
+
+/* 控制按钮 */
+.nice-video-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+}
+
+.nice-video-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* 进度条容器 */
+.nice-video-progress {
+    flex: 1;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px 0;
+}
+
+.nice-video-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    position: relative;
+    overflow: visible;
+}
+
+.nice-video-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--nv-pink), var(--nv-blue));
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.1s linear;
+    position: relative;
+}
+
+.nice-video-progress-handle {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.nice-video-progress:hover .nice-video-progress-handle {
+    opacity: 1;
+}
+
+/* 时间显示 */
+.nice-video-time {
+    color: white;
+    font-size: 0.85rem;
+    font-family: 'MaokenAssortedSans', 'Monaco', 'Menlo', monospace;
+    min-width: 100px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* 音量控制 */
+.nice-video-volume {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nice-video-volume-slider {
+    width: 60px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+}
+
+.nice-video-volume-fill {
+    height: 100%;
+    background: white;
+    border-radius: 3px;
+    width: 70%;
+}
+
+/* 加载动画 */
+.nice-video-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: nv-spin 0.8s linear infinite;
+    z-index: 5;
+    display: none;
+}
+
+.nice-video-container.loading .nice-video-loading {
+    display: block;
+}
+
+@keyframes nv-spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 全屏样式 */
+.nice-video-container:fullscreen,
+.nice-video-container:-webkit-full-screen {
+    border-radius: 0;
+    max-width: 100%;
+}
+
+.nice-video-container:fullscreen video,
+.nice-video-container:-webkit-full-screen video {
+    border-radius: 0;
+}
+
+/* 断网提示覆盖层 */
+.nv-network-disconnected {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    font-size: 1rem;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.nv-network-disconnected i {
+    font-size: 2.5rem;
+    color: #f59e0b;
+    margin-bottom: 4px;
+}

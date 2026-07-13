@@ -1,0 +1,62 @@
+/* ============================================================
+   点击/长按/右键特效样式
+   - 鼠标移动无特效
+   - 左键 10s 冷却，右键随时触发
+   - 长按显示 Canvas 彩色环形进度条
+   ============================================================ */
+
+/* 鼠标追踪器 & 底部粒子 — 已禁用 */
+#mouseTracker, #bottomEffect {
+    display: none !important;
+}
+
+/* --- 进入动画（Canvas 进度条） --- */
+canvas[style*="z-index: 99998"] {
+    animation: prAppear 0.15s ease-out forwards;
+}
+
+@keyframes prAppear {
+    0%   { transform: scale(0.4); opacity: 0; }
+    100% { transform: scale(1);   opacity: 1; }
+}
+
+/* --- 粒子（点击爆裂用） --- */
+.particle {
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(135deg, #3366ff, #2575fc);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
+
+.particle.small { width: 4px; height: 4px; }
+
+/* --- 波纹 --- */
+.ripple {
+    position: fixed;
+    border-radius: 50%;
+    border: 1.5px solid rgba(51, 102, 255, 0.12);
+    background: rgba(51, 102, 255, 0.02);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: rippleEffect 0.8s ease-out forwards;
+}
+
+@keyframes rippleEffect {
+    0%   { width: 0;     height: 0;    opacity: 0.8; }
+    100% { width: 60px;  height: 60px; opacity: 0; }
+}
+
+/* --- 无障碍 --- */
+@media (prefers-reduced-motion: reduce) {
+    .ripple, .particle { display: none !important; animation: none !important; }
+}
+
+/* --- 触屏 --- */
+body.touch-device .ripple,
+body.touch-device .particle {
+    display: none !important;
+}

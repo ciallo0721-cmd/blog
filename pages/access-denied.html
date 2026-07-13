@@ -7,152 +7,20 @@
     <!-- 本页已废弃：站点无任何地区限制，自动跳转回首页 -->
     <meta name="robots" content="noindex, nofollow">
     <meta http-equiv="refresh" content="0; url=../index.html">
-    <script>window.location.replace('../index.html');</script>
+    
     <link rel="icon" href="../fanv.ico">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            color: #e0e0e0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 60px 40px;
-            text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .icon {
-            font-size: 5rem;
-            margin-bottom: 30px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #ff6b6b, #ffa500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .reason {
-            background: rgba(255, 107, 107, 0.1);
-            border-left: 4px solid #ff6b6b;
-            padding: 20px;
-            margin: 30px 0;
-            text-align: left;
-            border-radius: 10px;
-        }
-
-        .reason h3 {
-            color: #ff6b6b;
-            margin-bottom: 10px;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 12px 24px;
-            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            font-weight: 600;
-        }
-
-        .back-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 210, 255, 0.4);
-        }
-
-        .footer {
-            margin-top: 40px;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 40px 20px;
-            }
-            h1 {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+    
 
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-TR4FT7JPDZ');
-    </script>
+    
     <!-- IP 地理检测（美国用户拒绝访问） -->
     <script src="/geo-check.js"></script>
     <!-- HTTP 检测与提示 -->
-    <script>
-        (function() {
-            function checkHTTP() {
-                if (window.location.protocol === 'http:') {
-                    var urlSpan = document.getElementById('currentHttpUrl');
-                    if (urlSpan) urlSpan.textContent = window.location.href;
-                    var overlay = document.getElementById('httpWarningOverlay');
-                    if (overlay) overlay.style.display = 'flex';
-                }
-            }
-            function switchToHTTPS() {
-                var url = window.location.href;
-                url = url.replace(/^http:/i, 'https:');
-                window.location.href = url;
-            }
-            function continueHTTP() {
-                var overlay = document.getElementById('httpWarningOverlay');
-                if (overlay) overlay.style.display = 'none';
-            }
-            window.switchToHTTPS = switchToHTTPS;
-            window.continueHTTP = continueHTTP;
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', checkHTTP);
-            } else {
-                checkHTTP();
-            }
-        })();
-    </script>
+    
 
+    <link rel="stylesheet" href="../css/css/pages-access-denied.css">
 </head>
 <body>
     <div class="container">
@@ -178,24 +46,7 @@
         </div>
     </div>
 
-    <script>
-        // 检查是否为美国IP（通过 URL 参数或 localStorage）
-        window.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const fromUS = urlParams.get('from') === 'us';
-            
-            if (fromUS) {
-                console.log('用户来自美国，已拒绝访问');
-            }
-
-            // 提供"强制访问"链接（仅供测试）
-            const container = document.querySelector('.container');
-            const testLink = document.createElement('a');
-            testLink.href = '../index.html?bypass_geo=1';
-            testLink.textContent = '（测试）绕过地理限制';
-            testLink.style.cssText = 'display:block;margin-top:20px;font-size:0.8rem;color:rgba(255,255,255,0.3);text-decoration:none;';
-            container.appendChild(testLink);
-        });
-    </script>
+    
+    <script src="../js/js/pages-access-denied.js"></script>
 </body>
 </html>

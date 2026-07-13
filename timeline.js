@@ -1,6 +1,12 @@
 window.timelineData = [
             {
                 date: "2026年7月13日",
+                title: "大规模 CSS/JS 外置 + 鼠标特效性能优化",
+                desc: "①所有非文章 HTML 的内联 CSS/JS 全部提取为独立文件，存入 css/css/ 和 js/js/ 目录②移动 6 个独立 CSS 文件、17 个独立 JS 文件到对应目录③更新 59 个 HTML 文件的引用路径④重构鼠标特效引擎：FPS 自动检测降级（高/中/低三档），requestAnimationFrame 节流 mousemove，navigator.deviceMemory 检测低配设备，CSS will-change 提示 GPU 加速，粒子数量/频率按性能档位自适应⑤开放控制台 toggleLowPowerEffects() 手动切换低功耗模式⑥优化特效 CSS：缩短动画时长、降低复杂元素尺寸、减少 transition 范围",
+                author: "ciallo0721-cmd"
+    },
+            {
+                date: "2026年7月13日",
                 title: "动态广告系统 v1.0 上线：智能标签偏好算法",
                 desc: "①新增 15 种彩色 SVG 占位广告（对应 15 个标签：游戏/编程/AI/设计/音乐/影视等）②智能偏好算法：用户点击广告→该标签权重+10，点「不感兴趣」→权重-20+屏蔽该广告，加权随机选择推荐 ③ 4 个广告位分散在首页各处（顶部横幅、项目中、文章区下、底部）④localStorage 持久化偏好数据 ⑤测试面板：tests/ad-system-test.html 可查看权重/历史/模拟测试。",
                 author: "ciallo0721-cmd"

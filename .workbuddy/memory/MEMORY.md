@@ -8,18 +8,18 @@
 - **SEO**：geo-check.js 已中性化（no-op），ZERO 地理限制。robots.txt + sitemap.xml 已配置。验证流程对爬虫自动放行。
 
 ## 关键文件
-- `index.html`：主页，内联 JS/CSS，含验证、Python 编辑器、文章列表（articles-data.js）
-- `wz.html`：文章列表页，加载 articles-data.js
-- `articles-data.js` / `timeline.js`：JS 格式数据源
-- `dynamic-data.js`：GitHub Actions 每6h自动生成的伪动态数据
+- `index.html`：主页，引用 `css/css/index.css` 和 `js/js/index.js`，含验证、Python 编辑器、文章列表
+- `wz.html`：文章列表页，引用 `js/js/wz.js`
+- `articles-data.js` / `timeline.js` / `dynamic-data.js` 等：JS 格式数据源，全部在 `js/js/` 目录
 - `admin/index.html` + `admin.py`：后台管理 v2.0（本地 Python 后端，端口5555）
 - `blog/`：文章目录（1~16+），BlockScript 格式。解码器 `blog/_decoder/index.html`
-- `wiki/`：百科系统，wiki-data.js 数据源 + 每词条独立文件夹
+- `wiki/`：百科系统，`js/js/wiki-data.js` 数据源 + 每词条独立文件夹
 - `.github/workflows/`：dynamic-update.yml + scheduled-publish.yml + status-update.yml
 
 ## 子项目
 - **baicai 纪念站**：真白花音（2019-2026），含事业时间线、轶事、资料卡片
 - **ARG「镜中人」**：`arg/index.html`（Win98 复古美学），5角色4结局
+- **work/**：保留的工作游戏项目
 - **PHP 版**：`G:/2026年5月6日网站`（甲骨文服务器，PHP 8.2 + MySQL）
 
 ## 用户偏好
@@ -30,6 +30,9 @@
 - **可视化所有文字用中文**
 - 文章格式：BlockScript（`[Title]` `[Date]` `[Author]` `[Tag]` 头部 + `[H1]` `[H2]` `[Code]` `[Alert]` 等区块标签）
 - 心理学/医学文章必须加医疗免责声明，使用「可能」「部分研究表明」等限定词
+- **游戏生存周期**：网站发布的游戏存活不超过 2 个月，除非特别火爆或有人持续玩（2026-07-13 起执行）
+- **404.html** 已加 `<meta name="robots" content="noindex, nofollow">` 防搜索引擎索引
+- **已删除的游戏**（2026-07-13）：91, LAIDB, bjqy, fors, zmdspp
 
 ## 测试基础设施
 - 2026-07-07: 端测测 创建完整测试框架 v2.0，含 4 个独立测试模块：
@@ -50,3 +53,24 @@
 - 公告文章路径：`blog/公告/web/index.html`（勿改此路径）
 - 公告在 `index.html` 以横幅形式展示，简要说明更新内容，按钮指向公告文章
 - 如需大幅修改公告内容，更新该博客文章即可，不用改 index.html 的横幅文字
+
+## 动态广告系统
+- **核心文件**：`js/js/ad-system.js`（JS 系统）、`css/ads/ad-*.svg`（15个占位广告）
+- **测试面板**：`tests/ad-system-test.html`（查看权重/历史/模拟测试/重置）
+- **广告位**：index.html 中 4 个 `data-ad-slot` 容器，ad-system.js 自动初始化
+- **偏好算法**：加权随机选择，点击进入+10 权重，不感兴趣-20+屏蔽，localStorage 持久化
+- **标签体系**（15种）：游戏/工具/教育/设计/音乐/编程/AI/应用/影视/阅读/购物/健康/效率/社交/娱乐
+- **15种颜色**：#FF4757(红)/#FF6B35(橙)/#FFD93D(黄)/#2ED573(绿)/#1E90FF(蓝)/#3366FF(深蓝)/#7C3AED(紫)/#E040FB(粉紫)/#FF4081(粉)/#8D6E63(棕)/#FF6D00(琥珀)/#76FF03(青柠)/#00BCD4(青)/#FF6E6E(珊瑚)/#FF408C(品红)
+
+## 资产结构（2026-07-13 重构）
+- **CSS 统一目录**：`css/css/`（65 个文件，含 6 个独立 CSS + 59 个从 HTML 提取的页面级 CSS）
+- **JS 统一目录**：`js/js/`（75 个文件，含 17 个独立 JS + 59 个从 HTML 提取的页面级 JS）
+- **提取工具**：`foragent/extract_assets.py`（可复用脚本）
+- **路径规则**：所有非 blog HTML 文件的内联 `<style>` 和 `<script>` 已被提取为独立文件，HTML 中用 `<link>` 和 `<script src>` 引用，相对路径按文件深度自动计算
+
+## 鼠标特效引擎（优化版）
+- **核心文件**：`css/css/effects.css` + `js/js/index.js`（initEffects 函数）
+- **FPS 自动降级**：每2秒检测 FPS，<40→中画质，<24→低画质
+- **GPU 加速**：will-change、translateZ(0)
+- **低内存检测**：navigator.deviceMemory < 4GB 自动跳过
+- **手动切换**：控制台 `toggleLowPowerEffects(true/false)`，偏好存 localStorage('efx_lowpower')

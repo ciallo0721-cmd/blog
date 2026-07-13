@@ -6,165 +6,18 @@
     <title>隐私政策 | ciallo0721-cmd</title>
     <meta name="description" content="ciallo0721-cmd 网站隐私政策，说明我们如何收集、使用和保护您的个人信息">
     <link rel="icon" href="../fanv.ico">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            color: #e0e0e0;
-            line-height: 1.8;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .last-updated {
-            text-align: center;
-            color: #888;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-
-        h2 {
-            color: #00d2ff;
-            margin: 30px 0 15px 0;
-            padding-bottom: 10px;
-            border-bottom: 2px solid rgba(0, 210, 255, 0.3);
-        }
-
-        h3 {
-            color: #3a7bd5;
-            margin: 20px 0 10px 0;
-        }
-
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        ul, ol {
-            margin: 15px 0 15px 30px;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        .highlight {
-            background: rgba(0, 210, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #00d2ff;
-            margin: 20px 0;
-        }
-
-        .warning {
-            background: rgba(255, 193, 7, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #ffc107;
-            margin: 20px 0;
-        }
-
-        .contact-info {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 12px 24px;
-            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .back-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 210, 255, 0.4);
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            h1 {
-                font-size: 1.8em;
-            }
-        }
-    </style>
+    
 
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-TR4FT7JPDZ');
-    </script>
+    
     <!-- IP 地理检测（美国用户拒绝访问） -->
     <script src="/geo-check.js"></script>
     <!-- HTTP 检测与提示 -->
-    <script>
-        (function() {
-            function checkHTTP() {
-                if (window.location.protocol === 'http:') {
-                    var urlSpan = document.getElementById('currentHttpUrl');
-                    if (urlSpan) urlSpan.textContent = window.location.href;
-                    var overlay = document.getElementById('httpWarningOverlay');
-                    if (overlay) overlay.style.display = 'flex';
-                }
-            }
-            function switchToHTTPS() {
-                var url = window.location.href;
-                url = url.replace(/^http:/i, 'https:');
-                window.location.href = url;
-            }
-            function continueHTTP() {
-                var overlay = document.getElementById('httpWarningOverlay');
-                if (overlay) overlay.style.display = 'none';
-            }
-            window.switchToHTTPS = switchToHTTPS;
-            window.continueHTTP = continueHTTP;
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', checkHTTP);
-            } else {
-                checkHTTP();
-            }
-        })();
-    </script>
+    
 
+    <link rel="stylesheet" href="../css/css/pages-privacy-policy.css">
 </head>
 <body>
     <div class="container">
@@ -325,5 +178,6 @@
 
         <a href="../index.html" class="back-link">← 返回首页</a>
     </div>
+    <script src="../js/js/pages-privacy-policy.js"></script>
 </body>
 </html>

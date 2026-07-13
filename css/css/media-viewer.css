@@ -1,0 +1,364 @@
+/**
+ * Media Viewer Styles - 图片放大 & 自定义视频播放器样式
+ * 适用于 ciallo0721-cmd.top 文章页面
+ */
+
+/* ==================== 图片相关样式 ==================== */
+
+.article-image-container {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.article-img,
+.zoomable {
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;
+    cursor: zoom-in;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-img:hover,
+.zoomable:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.image-caption {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #515154;
+    margin-top: 15px;
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+/* 图片放大弹窗 */
+.image-zoom-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.92);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    cursor: zoom-out;
+    animation: fadeIn 0.3s ease;
+}
+
+.image-zoom-modal.active {
+    display: flex;
+}
+
+.image-zoom-modal img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: zoomIn 0.3s ease;
+}
+
+.image-zoom-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+    line-height: 1;
+}
+
+.image-zoom-close:hover {
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* ==================== 视频播放器样式 ==================== */
+
+.article-video-container {
+    margin: 40px 0;
+    text-align: center;
+}
+
+/* 自定义视频播放器 */
+.custom-video-player {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.custom-video-player video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+}
+
+.video-poster {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #FB7299, #00A1D6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 30px rgba(251, 114, 153, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.play-button:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 12px 40px rgba(251, 114, 153, 0.6);
+}
+
+.play-button i {
+    color: white;
+    font-size: 2rem;
+    margin-left: 5px;
+}
+
+.video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 20px 15px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+}
+
+.custom-video-player:hover .video-controls,
+.custom-video-player.playing .video-controls {
+    opacity: 1;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.progress-container {
+    flex: 1;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    position: relative;
+    overflow: visible;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #FB7299, #00A1D6);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.progress-handle {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.progress-container:hover .progress-handle {
+    opacity: 1;
+}
+
+.time-display {
+    color: white;
+    font-size: 0.85rem;
+    font-family: 'MaokenAssortedSans', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    min-width: 100px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.volume-slider {
+    width: 80px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.volume-fill {
+    height: 100%;
+    background: white;
+    border-radius: 3px;
+    width: 70%;
+}
+
+.custom-video-player.playing .video-poster {
+    display: none;
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+    .custom-video-player {
+        border-radius: 12px;
+    }
+    
+    .custom-video-player video {
+        border-radius: 12px;
+    }
+    
+    .video-poster img {
+        border-radius: 12px;
+    }
+    
+    .play-button {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .play-button i {
+        font-size: 1.5rem;
+    }
+    
+    .video-controls {
+        padding: 15px 10px 10px;
+        gap: 8px;
+    }
+    
+    .control-btn {
+        width: 32px;
+        height: 32px;
+        padding: 6px;
+    }
+    
+    .time-display {
+        font-size: 0.75rem;
+        min-width: 80px;
+    }
+    
+    .volume-slider {
+        width: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-controls {
+        flex-wrap: wrap;
+    }
+    
+    .progress-container {
+        order: -1;
+        width: 100%;
+        flex: none;
+    }
+    
+    .volume-slider {
+        display: none;
+    }
+}
+
+/* 断网提示覆盖层 */
+.mv-network-disconnected {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    font-size: 1rem;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.mv-network-disconnected i {
+    font-size: 2.5rem;
+    color: #f59e0b;
+    margin-bottom: 4px;
+}
