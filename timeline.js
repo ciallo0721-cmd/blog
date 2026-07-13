@@ -1,5 +1,11 @@
 window.timelineData = [
             {
+                date: "2026年7月13日",
+                title: "动态广告系统 v1.0 上线：智能标签偏好算法",
+                desc: "①新增 15 种彩色 SVG 占位广告（对应 15 个标签：游戏/编程/AI/设计/音乐/影视等）②智能偏好算法：用户点击广告→该标签权重+10，点「不感兴趣」→权重-20+屏蔽该广告，加权随机选择推荐 ③ 4 个广告位分散在首页各处（顶部横幅、项目中、文章区下、底部）④localStorage 持久化偏好数据 ⑤测试面板：tests/ad-system-test.html 可查看权重/历史/模拟测试。",
+                author: "ciallo0721-cmd"
+    },
+            {
                 date: "2026年7月10日",
                 title: "主页集成 Giscus 评论区（留言板）",
                 desc: "将 Giscus 评论区直接嵌入首页 footer 上方，无需单独页面。使用 GitHub Discussions 讨论系统，已配置 repo-id 和 category-id。首页 footer 和 friends.html 导航栏均添加「留言板」入口锚点。",

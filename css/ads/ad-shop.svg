@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 728 90" width="728" height="90">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6D00;stop-opacity:0.9"/>
+      <stop offset="100%" style="stop-color:#FFAB40;stop-opacity:0.9"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0)"/>
+      <stop offset="50%" style="stop-color:rgba(255,255,255,0.15)"/>
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0)"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="728" height="90" rx="10" fill="url(#bg)"/>
+  <!-- 网格装饰 -->
+  <g opacity="0.06" stroke="white" stroke-width="0.5">
+    <line x1="0" y1="18" x2="728" y2="18"/><line x1="0" y1="36" x2="728" y2="36"/>
+    <line x1="0" y1="54" x2="728" y2="54"/><line x1="0" y1="72" x2="728" y2="72"/>
+    <line x1="91" y1="0" x2="91" y2="90"/><line x1="182" y1="0" x2="182" y2="90"/>
+    <line x1="273" y1="0" x2="273" y2="90"/><line x1="364" y1="0" x2="364" y2="90"/>
+    <line x1="455" y1="0" x2="455" y2="90"/><line x1="546" y1="0" x2="546" y2="90"/>
+    <line x1="637" y1="0" x2="637" y2="90"/>
+  </g>
+  <!-- 扫光动画 -->
+  <rect x="-200" y="0" width="250" height="90" fill="url(#shine)">
+    <animate attributeName="x" from="-300" to="728" dur="4s" repeatCount="indefinite"/>
+  </rect>
+  <!-- 图标区域 -->
+  <g transform="translate(50,45)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="24" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+    <text x="0" y="8" font-size="22" text-anchor="middle" fill="white">🛒</text>
+  </g>
+  <!-- 主标题 -->
+  <text x="364" y="38" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="19" font-weight="700" fill="white" text-anchor="middle" letter-spacing="3">
+    购物 · 广告位招租
+  </text>
+  <!-- 副标题 -->
+  <text x="364" y="64" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="rgba(255,255,255,0.75)" text-anchor="middle" letter-spacing="1">
+    点击了解广告投放详情
+    <animate attributeName="opacity" values="1;0.5;1" dur="2.5s" repeatCount="indefinite"/>
+  </text>
+  <!-- 角标 -->
+  <rect x="620" y="8" width="100" height="22" rx="11" fill="rgba(255,255,255,0.2)"/>
+  <text x="670" y="23" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="10" fill="white" text-anchor="middle">SPONSOR</text>
+</svg>

@@ -1063,6 +1063,13 @@
     <!-- 动画分隔线 -->
     <div class="animation-divider"><span></span><span></span><span></span><span></span><span></span></div>
 
+    <!-- 广告位 #1：顶部横幅 -->
+    <div class="container" style="margin-bottom:18px;">
+      <div data-ad-slot style="max-width:728px;margin:0 auto;"></div>
+    </div>
+
+    <div class="animation-divider"><span></span><span></span><span></span><span></span><span></span></div>
+
         <!-- 优化首页：减少信息过载，按重要性排列 -->
         <main class="container">
 
@@ -1093,6 +1100,11 @@
             
             <!-- 右侧：更新记录（首页仅显示最近3条） -->
             <section id="changelog" class="section timeline-section" style="margin:0;"><div class="section-title"><h2>更新记录喵～</h2></div><div class="timeline-wrapper"><div class="timeline" id="timelineList"><!-- 时间线条目由 JS 动态渲染，CSS 控制首页显示前3条 --></div><div style="text-align:center;margin-top:16px;"><a href="./timeline.html" class="game-jump-btn" style="display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:0.85rem;padding:8px 20px;"><i class="fas fa-history"></i> 查看全部更新喵～</a></div></div></section>
+        </div>
+
+        <!-- 广告位 #2：项目中横幅 -->
+        <div style="max-width:728px;margin:24px auto;">
+          <div data-ad-slot></div>
         </div>
 
         <div class="animation-divider"><span></span><span></span><span></span><span></span><span></span></div>
@@ -1126,6 +1138,11 @@
         </noscript>
 
         </div></section>
+
+        <!-- 广告位 #3：文章区下方 -->
+        <div style="max-width:728px;margin:24px auto;">
+          <div data-ad-slot></div>
+        </div>
 
         <div class="animation-divider"><span></span><span></span><span></span><span></span><span></span></div>
 
@@ -1195,12 +1212,9 @@
 
         <div class="animation-divider"><span></span><span></span><span></span><span></span><span></span></div>
 
-        <!-- 广告位占位 -->
-        <div style="display:flex;justify-content:center;align-items:center;margin:24px auto;max-width:728px;">
-          <a href="./adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
-            <img src="./css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
-              style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
-          </a>
+        <!-- 广告位 #4：底部横幅（动态广告系统） -->
+        <div style="max-width:728px;margin:24px auto;">
+          <div data-ad-slot></div>
         </div>
 
         <div class="animation-divider"><span></span><span></span><span></span><span></span><span></span></div>
@@ -1290,6 +1304,9 @@
 
     <!-- ===== 伪动态数据（由 GitHub Actions 自动更新） ===== -->
     <script src="./dynamic-data.js"></script>
+
+    <!-- ===== 动态广告系统 v1.0 ===== -->
+    <script src="./assets/js/ad-system.js"></script>
 
         <script>
         // 折叠容器展开/收起
