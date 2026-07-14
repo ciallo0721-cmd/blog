@@ -252,10 +252,21 @@
     <h2>📜 操作历史（最近 20 条）</h2>
     <div id="historyPanel">暂无记录</div>
   </div>
+
+  <!-- 数据统计 -->
+  <div class="panel">
+    <h2>📈 数据统计（展现 / 点击 / 转化率）</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+      <button class="btn btn-primary" onclick="refreshStats()">🔄 刷新统计</button>
+      <button class="btn btn-danger" onclick="resetStats()">⚠️ 重置统计数据</button>
+    </div>
+    <div id="statsPanel">暂无数据</div>
+  </div>
 </div>
 
 <!-- 加载广告系统 -->
-<script src="../assets/js/ad-system.js?v=2"></script>
+<script src="../js/js/ad-data.js?v=2"></script>
+<script src="../js/js/ad-system.js?v=2"></script>
 
 <script>
   var registry = window.AdSystem.registry;
@@ -267,6 +278,7 @@
     renderAllAds();
     renderLiveSlots();
     renderHistory();
+    renderStats();
   }
 
   function renderPrefs() {
@@ -379,8 +391,8 @@
   }
 
   function resetAll() {
-    if (confirm('确定要重置所有广告偏好数据吗？此操作不可撤销！')) {
-      window.AdSystem.reset();
+    if (confirm('确定要重置所有广告数据吗？（偏好 + 统计，此操作不可撤销！）')) {
+      window.AdSystem.resetAll();
       loadData();
     }
   }
@@ -432,6 +444,72 @@
     });
 
     alert(report);
+  }
+
+  // ============ 统计模块 ============
+
+  function renderStats() {
+    var report = window.AdSystem.getStats();
+    var html = '';
+
+    // 总览卡片
+    html += '<div style="display:flex;gap:20px;margin-bottom:16px;flex-wrap:wrap;">';
+    html += '<div style="background:rgba(51,102,255,0.1);border-radius:12px;padding:14px 20px;flex:1;min-width:120px;text-align:center;">';
+    html += '<div style="font-size:1.6rem;font-weight:700;color:#3366ff;">' + report.totalImpressions + '</div>';
+    html += '<div style="font-size:0.8rem;color:#888;">总展现</div></div>';
+
+    html += '<div style="background:rgba(46,213,115,0.1);border-radius:12px;padding:14px 20px;flex:1;min-width:120px;text-align:center;">';
+    html += '<div style="font-size:1.6rem;font-weight:700;color:#2ed573;">' + report.totalClicks + '</div>';
+    html += '<div style="font-size:0.8rem;color:#888;">总点击</div></div>';
+
+    html += '<div style="background:rgba(255,217,61,0.1);border-radius:12px;padding:14px 20px;flex:1;min-width:120px;text-align:center;">';
+    html += '<div style="font-size:1.6rem;font-weight:700;color:#ffd93d;">' + report.overallCTR + '</div>';
+    html += '<div style="font-size:0.8rem;color:#888;">整体转化率 (CTR)</div></div>';
+
+    if (report.lastUpdated) {
+      html += '<div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:14px 20px;flex:1;min-width:140px;text-align:center;">';
+      html += '<div style="font-size:0.75rem;color:#666;">最后更新：' + new Date(report.lastUpdated).toLocaleString('zh-CN') + '</div></div>';
+    }
+    html += '</div>';
+
+    // 明细表
+    html += '<table class="pref-table"><thead><tr><th></th><th>标签</th><th>展现</th><th>点击</th><th>转化率</th><th>效果条</th></tr></thead><tbody>';
+
+    var maxClicks = 1;
+    report.ads.forEach(function(a) { if (a.clicks > maxClicks) maxClicks = a.clicks; });
+
+    report.ads.forEach(function(a) {
+      var barW = Math.max(5, (a.clicks / maxClicks) * 150);
+      var ctrNum = parseFloat(a.ctr);
+      var barColor = '#3366ff';
+      if (ctrNum > 20) barColor = '#2ed573';
+      else if (ctrNum > 5) barColor = '#ffd93d';
+      else if (ctrNum > 0) barColor = '#1e90ff';
+      else barColor = '#555';
+
+      html += '<tr>';
+      html += '<td>' + a.icon + '</td>';
+      html += '<td>' + a.tag + '</td>';
+      html += '<td>' + a.impressions + '</td>';
+      html += '<td>' + a.clicks + '</td>';
+      html += '<td><span class="tag-badge" style="background:rgba(51,102,255,0.15);color:#7094ff;">' + a.ctr + '</span></td>';
+      html += '<td><span class="weight-bar" style="width:' + barW + 'px;background:linear-gradient(90deg,' + barColor + ',' + barColor + '88);"></span></td>';
+      html += '</tr>';
+    });
+
+    html += '</tbody></table>';
+    document.getElementById('statsPanel').innerHTML = html;
+  }
+
+  function refreshStats() {
+    renderStats();
+  }
+
+  function resetStats() {
+    if (confirm('确定要重置所有广告统计数据吗？此操作不可撤销！')) {
+      window.AdSystem.resetStats();
+      renderStats();
+    }
   }
 
   function exportData() {

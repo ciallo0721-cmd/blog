@@ -1,79 +1,77 @@
-"""生成 15 种不同颜色/标签的 SVG 广告占位图"""
+"""生成 15 种精美 SVG 广告图（专业设计版 v3）"""
 import os
 
 ADS = [
-    {"id": "game",    "tag": "游戏",   "icon": "🎮", "color1": "#FF4757", "color2": "#FF6B81"},
-    {"id": "tool",    "tag": "工具",   "icon": "🛠️", "color1": "#FF6B35", "color2": "#FF9F6E"},
-    {"id": "edu",     "tag": "教育",   "icon": "📚", "color1": "#FFD93D", "color2": "#FFE97A"},
-    {"id": "design",  "tag": "设计",   "icon": "🎨", "color1": "#2ED573", "color2": "#7BED9F"},
-    {"id": "music",   "tag": "音乐",   "icon": "🎵", "color1": "#1E90FF", "color2": "#63B3FF"},
-    {"id": "code",    "tag": "编程",   "icon": "💻", "color1": "#3366FF", "color2": "#7094FF"},
-    {"id": "ai",      "tag": "AI智能", "icon": "🤖", "color1": "#7C3AED", "color2": "#A78BFA"},
-    {"id": "app",     "tag": "应用",   "icon": "📱", "color1": "#E040FB", "color2": "#F48FB1"},
-    {"id": "video",   "tag": "影视",   "icon": "🎬", "color1": "#FF4081", "color2": "#FF80AB"},
-    {"id": "read",    "tag": "阅读",   "icon": "📖", "color1": "#8D6E63", "color2": "#BCAAA4"},
-    {"id": "shop",    "tag": "购物",   "icon": "🛒", "color1": "#FF6D00", "color2": "#FFAB40"},
-    {"id": "health",  "tag": "健康",   "icon": "🏃", "color1": "#76FF03", "color2": "#B2FF59"},
-    {"id": "product", "tag": "效率",   "icon": "🎯", "color1": "#00BCD4", "color2": "#4DD0E1"},
-    {"id": "social",  "tag": "社交",   "icon": "🌍", "color1": "#FF6E6E", "color2": "#FF9E9E"},
-    {"id": "fun",     "tag": "娱乐",   "icon": "🎲", "color1": "#FF408C", "color2": "#FF79B0"},
+    {"id": "game",    "tag": "游戏",   "icon": "🎮", "c1": "#FF4757", "c2": "#FF6B81"},
+    {"id": "tool",    "tag": "工具",   "icon": "🛠️", "c1": "#FF6B35", "c2": "#FF9F6E"},
+    {"id": "edu",     "tag": "教育",   "icon": "📚", "c1": "#F39C12", "c2": "#F8C471"},
+    {"id": "design",  "tag": "设计",   "icon": "🎨", "c1": "#27AE60", "c2": "#7DCEA0"},
+    {"id": "music",   "tag": "音乐",   "icon": "🎵", "c1": "#2980B9", "c2": "#7FB3D5"},
+    {"id": "code",    "tag": "编程",   "icon": "💻", "c1": "#1E5FCC", "c2": "#5DADE2"},
+    {"id": "ai",      "tag": "AI智能", "icon": "🤖", "c1": "#6C3FC4", "c2": "#B39DDB"},
+    {"id": "app",     "tag": "应用",   "icon": "📱", "c1": "#C2185B", "c2": "#F48FB1"},
+    {"id": "video",   "tag": "影视",   "icon": "🎬", "c1": "#D81B60", "c2": "#F48FB1"},
+    {"id": "read",    "tag": "阅读",   "icon": "📖", "c1": "#6D4C41", "c2": "#A1887F"},
+    {"id": "shop",    "tag": "购物",   "icon": "🛒", "c1": "#E65100", "c2": "#FFB74D"},
+    {"id": "health",  "tag": "健康",   "icon": "🏃", "c1": "#4CAF50", "c2": "#A5D6A7"},
+    {"id": "product", "tag": "效率",   "icon": "🎯", "c1": "#00838F", "c2": "#4DD0E1"},
+    {"id": "social",  "tag": "社交",   "icon": "🌍", "c1": "#E74C3C", "c2": "#F1948A"},
+    {"id": "fun",     "tag": "娱乐",   "icon": "🎲", "c1": "#C2185B", "c2": "#F48FB1"},
 ]
 
-TEMPLATE = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 728 90" width="728" height="90">
+TEMPLATE = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 728 90" width="728" height="90" font-family="&#39;PingFang SC&#39;,&#39;Microsoft YaHei&#39;,sans-serif">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:{color1};stop-opacity:0.9"/>
-      <stop offset="100%" style="stop-color:{color2};stop-opacity:0.9"/>
+      <stop offset="0%" stop-color="{c1}"/>
+      <stop offset="100%" stop-color="{c2}"/>
     </linearGradient>
-    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:rgba(255,255,255,0)"/>
-      <stop offset="50%" style="stop-color:rgba(255,255,255,0.15)"/>
-      <stop offset="100%" style="stop-color:rgba(255,255,255,0)"/>
+    <linearGradient id="panel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.10)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.02)"/>
     </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <radialGradient id="halo" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.20)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dy="2"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.25"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
-  <rect width="728" height="90" rx="10" fill="url(#bg)"/>
-  <!-- 网格装饰 -->
-  <g opacity="0.06" stroke="white" stroke-width="0.5">
-    <line x1="0" y1="18" x2="728" y2="18"/><line x1="0" y1="36" x2="728" y2="36"/>
-    <line x1="0" y1="54" x2="728" y2="54"/><line x1="0" y1="72" x2="728" y2="72"/>
-    <line x1="91" y1="0" x2="91" y2="90"/><line x1="182" y1="0" x2="182" y2="90"/>
-    <line x1="273" y1="0" x2="273" y2="90"/><line x1="364" y1="0" x2="364" y2="90"/>
-    <line x1="455" y1="0" x2="455" y2="90"/><line x1="546" y1="0" x2="546" y2="90"/>
-    <line x1="637" y1="0" x2="637" y2="90"/>
+  <rect width="728" height="90" fill="url(#bg)"/>
+  <circle cx="100" cy="40" r="120" fill="url(#halo)"/>
+  <circle cx="600" cy="-30" r="100" fill="url(#halo)" opacity="0.5"/>
+  <circle cx="700" cy="100" r="80" fill="url(#halo)" opacity="0.4"/>
+  <rect x="0" y="0" width="130" height="90" fill="url(#panel)"/>
+  <rect x="130" y="0" width="1" height="90" fill="rgba(255,255,255,0.10)"/>
+  <g transform="translate(45,45)" filter="url(#shadow)">
+    <rect x="-26" y="-26" width="52" height="52" rx="14" fill="rgba(255,255,255,0.20)"/>
+    <rect x="-26" y="-26" width="52" height="52" rx="14" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+    <text x="0" y="10" font-size="24" text-anchor="middle" fill="white">{icon}</text>
   </g>
-  <!-- 扫光动画 -->
-  <rect x="-200" y="0" width="250" height="90" fill="url(#shine)">
-    <animate attributeName="x" from="-300" to="728" dur="4s" repeatCount="indefinite"/>
-  </rect>
-  <!-- 图标区域 -->
-  <g transform="translate(50,45)" filter="url(#glow)">
-    <circle cx="0" cy="0" r="24" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
-    <text x="0" y="8" font-size="22" text-anchor="middle" fill="white">{icon}</text>
+  <text x="90" y="38" font-size="16" font-weight="800" fill="white" letter-spacing="1">{tag}</text>
+  <text x="90" y="56" font-size="9" font-weight="500" fill="rgba(255,255,255,0.55)" letter-spacing="1.5">CATEGORY</text>
+  <text x="148" y="40" font-size="22" font-weight="800" fill="white" letter-spacing="0.5">精选{tag}内容</text>
+  <text x="148" y="58" font-size="11" font-weight="400" fill="rgba(255,255,255,0.75)">发现更多优质资源</text>
+  <text x="148" y="74" font-size="9" font-weight="600" fill="#FFD700">限时推荐 · 热度飙升中</text>
+  <g transform="translate(580,30)" filter="url(#shadow)">
+    <rect x="0" y="0" width="120" height="30" rx="15" fill="rgba(255,255,255,0.95)"/>
+    <text x="60" y="19" font-size="12" font-weight="700" fill="{c1}" text-anchor="middle" letter-spacing="0.5">查看详情 →</text>
   </g>
-  <!-- 主标题 -->
-  <text x="364" y="38" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="19" font-weight="700" fill="white" text-anchor="middle" letter-spacing="3">
-    {tag} · 广告位招租
-  </text>
-  <!-- 副标题 -->
-  <text x="364" y="64" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="12" fill="rgba(255,255,255,0.75)" text-anchor="middle" letter-spacing="1">
-    点击了解广告投放详情
-    <animate attributeName="opacity" values="1;0.5;1" dur="2.5s" repeatCount="indefinite"/>
-  </text>
-  <!-- 角标 -->
-  <rect x="620" y="8" width="100" height="22" rx="11" fill="rgba(255,255,255,0.2)"/>
-  <text x="670" y="23" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="10" fill="white" text-anchor="middle">SPONSOR</text>
+  <text x="708" y="14" font-size="8" fill="rgba(255,255,255,0.45)" text-anchor="end" letter-spacing="1">AD</text>
 </svg>'''
 
 out_dir = os.path.dirname(os.path.abspath(__file__))
 for ad in ADS:
+    # tname 广告是手写特制版，跳过自动生成
+    if ad['id'] == 'tname':
+        continue
     svg = TEMPLATE.format(**ad)
     path = os.path.join(out_dir, f"ad-{ad['id']}.svg")
     with open(path, "w", encoding="utf-8") as f:
         f.write(svg)
     print(f"✓ {ad['tag']}: {os.path.basename(path)}")
 
-print(f"\n生成完毕！共 {len(ADS)} 个 SVG 文件。")
+print(f"\n生成完毕！共 {len(ADS)} 个通用 SVG 文件（tname 手写）。")

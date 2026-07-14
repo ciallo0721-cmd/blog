@@ -1,5 +1,17 @@
 window.timelineData = [
             {
+                date: "2026年7月14日",
+                title: "广告系统 v1.2：点击统计 + tname 推广广告化",
+                desc: "①新增点击/展现/转化率统计系统：每次广告渲染记录展现，每次点击记录点击，自动计算 CTR ②存储于 localStorage('ciallo_ad_stats')，支持按广告维度汇总报表③测试面板新增「数据统计」板块，含总览卡片和每广告明细表④新增 tname.net 域名推广广告（第16种），紫色渐变 SVG，链接至 tname.net?sid=11078⑤暴露 AdSystem.getStats()/resetStats()/resetAll() API，控制台可直接调用的说喵～",
+                author: "ciallo0721-cmd"
+            },
+            {
+                date: "2026年7月14日",
+                title: "广告系统 v1.1：数据与逻辑分离 + 全站覆盖",
+                desc: "①抽离广告数据为独立文件 js/js/ad-data.js（格式：[类型, 图片链接, 跳转链接]），ad-system.js 改为从 ad-data.js 读取数据②重新生成 15 个 SVG 广告图，去掉「广告位招租」文字，改用简洁的分类名+AD角标③全站 71 个页面统一引用 ad-data.js + ad-system.js ④清理所有残留注释，统一为「广告系统 v1.1」的说明喵～",
+                author: "ciallo0721-cmd"
+            },
+            {
                 date: "2026年7月13日",
                 title: "大规模 CSS/JS 外置 + 鼠标特效性能优化",
                 desc: "①所有非文章 HTML 的内联 CSS/JS 全部提取为独立文件，存入 css/css/ 和 js/js/ 目录②移动 6 个独立 CSS 文件、17 个独立 JS 文件到对应目录③更新 59 个 HTML 文件的引用路径④重构鼠标特效引擎：FPS 自动检测降级（高/中/低三档），requestAnimationFrame 节流 mousemove，navigator.deviceMemory 检测低配设备，CSS will-change 提示 GPU 加速，粒子数量/频率按性能档位自适应⑤开放控制台 toggleLowPowerEffects() 手动切换低功耗模式⑥优化特效 CSS：缩短动画时长、降低复杂元素尺寸、减少 transition 范围",
