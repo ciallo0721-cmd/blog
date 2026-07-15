@@ -342,6 +342,44 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     .article-title { font-size: 1.6rem; }
     .article-meta { flex-direction: column; gap: 10px; }
 }
+/* 密码门禁样式 */
+.pw-gate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg,#1a1a2e,#16213e);
+    font-family: 'MaokenAssortedSans',sans-serif;
+}
+.pw-gate-inner {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    max-width: 380px;
+    width: 90%;
+}
+.pw-gate-icon { font-size: 3rem; margin-bottom: 16px; }
+.pw-gate h2 { color: #e0e0e0; margin-bottom: 8px; }
+.pw-gate p { color: #888; font-size: 0.9rem; margin-bottom: 24px; }
+.pw-gate input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    color: #e0e0e0;
+    font-size: 1rem;
+    outline: none;
+    text-align: center;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+.pw-gate input:focus { border-color: #2575fc; }
+.pw-gate .pw-msg { color: #ff6b6b; font-size: 0.85rem; margin-top: 10px; display: none; }
+.pw-gate a { display: inline-block; margin-top: 20px; color: #888; text-decoration: none; font-size: 0.85rem; }
+
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.05); }
 ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius: 4px; }
@@ -466,6 +504,18 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     </script>
 </head>
 <body>
+    <!-- 密码保护 -->
+    <div class="pw-gate" id="pwGate">
+        <div class="pw-gate-inner">
+            <div class="pw-gate-icon">🔒</div>
+            <h2>此文章暂不可见</h2>
+            <p>因特殊原因，本文内容暂时隐藏</p>
+            <input type="password" id="pwInput" placeholder="输入访问密码" onkeydown="if(event.key==='Enter')checkPw()">
+            <p class="pw-msg" id="pwMsg">密码错误</p>
+            <a href="https://ciallo0721-cmd.top">← 返回首页</a>
+        </div>
+    </div>
+    <div id="pwContent" style="display:none;">
     <nav>
         <div class="container nav-container">
             <a href="/index.html" class="logo"><i class="fas fa-gamepad"></i> 开发者空间</a>
@@ -945,5 +995,21 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
 
     <script src="../../pic/image-viewer.js"></script>
+    </div><!-- /pwContent -->
+    <script>
+    (function(){
+        var CORRECT = '8c4a6d9051f7a2c3b4e5d6f8021b7f3';
+        function checkPw(){
+            var input = document.getElementById('pwInput').value;
+            if(input === CORRECT){
+                document.getElementById('pwGate').style.display='none';
+                document.getElementById('pwContent').style.display='block';
+            }else{
+                document.getElementById('pwMsg').style.display='block';
+            }
+        }
+        window.checkPw = checkPw;
+    })();
+    </script>
 </body>
 </html>

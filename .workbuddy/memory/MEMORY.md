@@ -4,15 +4,15 @@
 - **项目**：ciallo0721-cmd.github.io 个人网站（纯静态站，GitHub Pages）
 - **域名**：https://ciallo0721-cmd.top（2026-06-19 更换，原 91vip.xn--32v.ink）
 - **子域名**：status.wiki.baicai.taffy.ciallo0721-cmd.top（客户端路由方案，tname 配 CNAME）
-- **技术栈**：原生 HTML/CSS/JS，CodeMirror 5.65.2，Ren'Py 导出游戏
-- **SEO**：geo-check.js 已中性化（no-op），ZERO 地理限制。robots.txt + sitemap.xml 已配置。验证流程对爬虫自动放行。
+- **技术栈**：原生 HTML/CSS/JS，Ren'Py 导出游戏
+- **SEO**：geo-check.js 已中性化（no-op），ZERO 地理限制。robots.txt + sitemap.xml 已配置
 
 ## 关键文件
-- `index.html`：主页，引用 `css/css/index.css` 和 `js/js/index.js`，含验证、Python 编辑器、文章列表
+- `index.html`：主页，引用 `css/css/index.css` 和 `js/js/index.js`，含文章列表、工具导航、社交媒体链接、域名推广、评论区（Giscus）
 - `wz.html`：文章列表页，引用 `js/js/wz.js`
 - `articles-data.js` / `timeline.js` / `dynamic-data.js` 等：JS 格式数据源，全部在 `js/js/` 目录
 - `admin/index.html` + `admin.py`：后台管理 v2.0（本地 Python 后端，端口5555）
-- `blog/`：文章目录（1~16+），BlockScript 格式。解码器 `blog/_decoder/index.html`
+- `blog/`：文章目录，每篇为独立 HTML 文件
 - `wiki/`：百科系统，`js/js/wiki-data.js` 数据源 + 每词条独立文件夹
 - `.github/workflows/`：dynamic-update.yml + scheduled-publish.yml + status-update.yml
 
@@ -28,11 +28,11 @@
 - **每次修改网站后，在 `timeline.js` 新增记录**
 - **文章作者统一写 `ciallo0721-cmd`**
 - **可视化所有文字用中文**
-- 文章格式：BlockScript（`[Title]` `[Date]` `[Author]` `[Tag]` 头部 + `[H1]` `[H2]` `[Code]` `[Alert]` 等区块标签）
 - 心理学/医学文章必须加医疗免责声明，使用「可能」「部分研究表明」等限定词
 - **游戏生存周期**：网站发布的游戏存活不超过 2 个月，除非特别火爆或有人持续玩（2026-07-13 起执行）
 - **404.html** 已加 `<meta name="robots" content="noindex, nofollow">` 防搜索引擎索引
-- **已删除的游戏**（2026-07-13）：91, LAIDB, bjqy, fors, zmdspp
+- **游戏目录**：仅剩 `arg/`（镜中人 ARG）和 `work/`（保留的工作游戏项目）。91、LAIDB、bjqy、fors、zmdspp 等目录已于 2026-07-13 删除
+- **隐藏文章机制**：通过前端密码门禁实现，`#pwGate`（显示遮罩+密码输入）和 `#pwContent`（隐藏正文）通过 JS 切换。文章 58（夹不动了）和文章 51（龙心事件）已启用此机制
 
 ## 测试基础设施
 - 2026-07-07: 端测测 创建完整测试框架 v2.0，含 4 个独立测试模块：
