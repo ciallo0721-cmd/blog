@@ -1,5 +1,11 @@
 window.timelineData = [
             {
+                date: "2026年7月15日",
+                title: "新开医学板块：文章模板（id 62）",
+                desc: "在 blog/医学/62/ 下新建医学文章。",
+                author: "ciallo0721-cmd"
+            },
+            {
                 date: "2026年7月14日",
                 title: "广告系统 v1.2：点击统计 + tname 推广广告化",
                 desc: "①新增点击/展现/转化率统计系统：每次广告渲染记录展现，每次点击记录点击，自动计算 CTR ②存储于 localStorage('ciallo_ad_stats')，支持按广告维度汇总报表③测试面板新增「数据统计」板块，含总览卡片和每广告明细表④新增 tname.net 域名推广广告（第16种），紫色渐变 SVG，链接至 tname.net?sid=11078⑤暴露 AdSystem.getStats()/resetStats()/resetAll() API，控制台可直接调用的说喵～",

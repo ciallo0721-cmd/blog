@@ -673,6 +673,17 @@ window.articlesData = {
             readTime: 2,
             featured: true
         },
+        {
+            id: 62,
+            category: "医学",
+            fileName: "医学/62/",
+            title: "阿斯伯格综合征 ",
+            excerpt: "什么是阿斯伯格综合征（AS）？阿斯伯格综合征的症状、诊断、治疗方法以及生活建议。了解AS的特征和应对策略，帮助患者及其家人更好地理解和支持。",
+            date: "2026-07-15",
+            tags: ["医学", "神经发育障碍", "孤独症"],
+            readTime: 5,
+            featured: false
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
