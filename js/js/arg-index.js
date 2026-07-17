@@ -24,6 +24,7 @@ const GAME_STATE = {
   // 结局
   endingTriggered: null,     // A | B | C | D 或 null
   dialogLocked: false,       // 结局触发后锁定
+  sealPending: false,        // FIX-2: seal 命令待确认状态
   
   // 全局
   terminalConnected: false   // 是否已连接终端服务器
@@ -597,6 +598,7 @@ ${hiddenPost.content}
         output = `[错误] seal 命令需要验证。请先使用 posts 命令查看隐藏内容。`;
         cls = 'terminal-error';
       } else if (!GAME_STATE.endingTriggered) {
+        GAME_STATE.sealPending = true; // FIX-2: 标记 seal 待确认
         output = `[执行 老刀 的隐藏协议……]
 [需要确认：你真的要这样做吗？]
 老刀程序的最后信息：
@@ -614,7 +616,8 @@ ${hiddenPost.content}
       break;
       
     case 'confirm':
-      if (!GAME_STATE.endingTriggered && GAME_STATE.postsRead) {
+      if (!GAME_STATE.endingTriggered && GAME_STATE.sealPending) { // FIX-2: 检查 sealPending 而非 postsRead
+        GAME_STATE.sealPending = false;
         triggerEnding('D');
         return;
       }
@@ -630,6 +633,11 @@ ${hiddenPost.content}
     default:
       output = `未知命令："${raw}"。输入 help 查看可用命令。`;
       cls = 'terminal-error';
+  }
+  
+  // FIX-2: 任何非 seal/confirm 命令都重置 sealPending
+  if (cmd !== 'seal' && cmd !== 'confirm') {
+    GAME_STATE.sealPending = false;
   }
   
   // 记录历史
