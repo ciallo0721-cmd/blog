@@ -28,7 +28,10 @@ const GAME_STATE = {
   sealPending: false,        // FIX-2: seal 命令待确认状态
   
   // 全局
-  terminalConnected: false   // 是否已连接终端服务器
+  terminalConnected: false,  // 是否已连接终端服务器
+  
+  // FIX-3: 论坛帖子自动推进定时器
+  autoAdvanceTimer: null
 };
 
 /* ====================
@@ -209,6 +212,19 @@ function enterForum() {
 }
 
 function renderForumPage() {
+  // FIX-3: 帖子自动推进（每 3 秒一条）
+  if (!GAME_STATE.autoAdvanceTimer && GAME_STATE.postsRevealed < 11) {
+    GAME_STATE.autoAdvanceTimer = setInterval(() => {
+      if (GAME_STATE.postsRevealed < 11) {
+        GAME_STATE.postsRevealed = Math.min(GAME_STATE.postsRevealed + 1, 11);
+        renderForumPage();
+      } else {
+        clearInterval(GAME_STATE.autoAdvanceTimer);
+        GAME_STATE.autoAdvanceTimer = null;
+      }
+    }, 3000);
+  }
+
   const c = $('browser-content');
   // 显示已阅读的帖子数
   const visible = FORUM_POSTS.slice(0, GAME_STATE.postsRevealed + 1);
@@ -235,13 +251,13 @@ function renderForumPage() {
   let replySection = '';
   if (GAME_STATE.postsRevealed >= 0 && GAME_STATE.postsRevealed < 10) {
     replySection = `<div class="forum-reply" style="margin-top:12px">
-      <div class="reply-hint">回复帖子（建议：试试"时光机"）</div>
+      <div class="reply-hint"></div>
       <textarea id="forum-reply-text" placeholder="写下你的回复..."></textarea>
       <button class="reply-btn" onclick="submitForumReply()" style="margin-top:6px">发表回复</button>
     </div>`;
   } else if (GAME_STATE.postsRevealed >= 10 && !GAME_STATE.waybackClicked) {
     replySection = `<div class="forum-reply" style="margin-top:12px; background:#ffeaa7;">
-      <div class="reply-hint" style="color:#8b6914;">你已读完所有历史帖子。论坛在2002年11月15日后关闭，但也许互联网时光机保存了更多快照……</div>
+      <div class="reply-hint" style="color:#8b6914;">你已读完所有历史帖子。论坛在2002年11月15日后关闭。</div>
       <textarea id="forum-reply-text" placeholder="写下你的回复..."></textarea>
       <button class="reply-btn" onclick="submitForumReply()" style="margin-top:6px">发表回复</button>
     </div>`;
@@ -289,6 +305,12 @@ function submitForumReply() {
 
 // --- 时光机 ---
 function openWayback() {
+  // FIX-3: 进入 wayback 后不需要自动推进
+  if (GAME_STATE.autoAdvanceTimer) {
+    clearInterval(GAME_STATE.autoAdvanceTimer);
+    GAME_STATE.autoAdvanceTimer = null;
+  }
+
   if (GAME_STATE.endingTriggered) return; // FIX-1
   GAME_STATE.browserPhase = 'wayback';
   $('url-bar').value = 'http://web.archive.org/';
@@ -312,7 +334,6 @@ function searchWayback() {
     <p style="color:#888;font-size:12px">找到 3 个快照</p>
     <a onclick="openSnapshot()" style="font-size:15px">📅 2002年11月15日 — 镜面论坛（最后一次公开快照）</a>
     <a onclick="openSnapshot2003()" style="font-size:13px;color:#888">📅 2003年3月7日 — 单帖快照（来源未知）</a>
-    <p style="color:#aaa;font-size:11px;margin-top:8px">提示：老刀的监控脚本路径 /mirror/log 可能仍可通过终端访问。</p>
   `;
 }
 
@@ -338,10 +359,7 @@ function openSnapshot() {
     <div class="snapshot-date">📅 存档日期：2002年11月15日 23:59 — 镜面论坛关闭前最后备份</div>
     ${postsHTML}
     <div class="snapshot-hint">
-      💡 老刀在帖子#7提到了一个监控脚本。<br>
-      路径是 /mirror/log。<br>
-      你的桌面上的命令提示符也许可以连接到那个老服务器。<br>
-      试试在终端中输入：<b>connect mirror-forum.bbs</b>
+      老刀在帖子#7中提到的那个脚本还活着。
     </div>
   </div>`;
   c.scrollTop = 0;
