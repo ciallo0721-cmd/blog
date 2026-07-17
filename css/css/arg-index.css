@@ -81,12 +81,15 @@ body {
   border-bottom:none; border-left:none; z-index:10000; display:none;
   box-shadow:2px 2px 6px rgba(0,0,0,0.4);
 }
-#start-menu.show { display:block; }
+#start-menu.show { display:flex; }
 #start-menu .sm-banner {
   background:linear-gradient(180deg, #245edb 0%, #245edb 80%, #1941a5 100%);
   color:#fff; font-weight:bold; font-size:16px; padding:12px 8px; letter-spacing:1px;
   font-family:"Tahoma",sans-serif; writing-mode:vertical-lr; transform:rotate(180deg);
-  float:left; height:100%; width:30px; text-align:center;
+  width:30px; min-height:100px; flex-shrink:0; text-align:center;
+}
+#start-menu .sm-items {
+  flex:1; display:flex; flex-direction:column;
 }
 #start-menu .sm-item {
   display:flex; align-items:center; gap:8px; padding:6px 12px;

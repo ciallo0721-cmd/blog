@@ -523,6 +523,8 @@ C:\\WINDOWS&gt;connect mirror-forum.bbs
 
 function terminalKeydown(e) {
   if (e.key !== 'Enter') return;
+  // 结局已触发时禁止任何终端输入
+  if (GAME_STATE.endingTriggered) return;
   const inp = $('terminal-input');
   if (!inp) return;
   const raw = inp.value.trim();

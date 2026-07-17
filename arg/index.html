@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Desktop</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='4' y='6' width='24' height='16' rx='2' fill='%23008080' stroke='%23fff' stroke-width='2'/><rect x='4' y='6' width='24' height='4' fill='%2300557f'/><text x='8' y='18' font-size='7' fill='%23fff' font-family='monospace'>98</text><rect x='12' y='22' width='8' height='4' fill='%23808080'/><rect x='10' y='26' width='12' height='2' rx='1' fill='%23666666'/></svg>">
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
@@ -13,12 +14,6 @@
     <link rel="stylesheet" href="../css/css/arg-index.css">
 </head>
 <body>
-    <!-- 广告位 #1：顶部横幅 -->
-    <div style="max-width:728px;margin:18px auto;">
-      <div data-ad-slot></div>
-    </div>
-
-
 <!-- 桌面 -->
 <div id="desktop">
   <div class="desk-icon" id="icon-browser" style="left:24px;top:20px" ondblclick="openWindow('browser')">
@@ -45,10 +40,12 @@
 <!-- 开始菜单 -->
 <div id="start-menu">
   <div class="sm-banner">Windows 98</div>
-  <div class="sm-item" onclick="openWindow('browser');toggleStartMenu()"><span class="sm-icon"><svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><ellipse cx="8" cy="8" rx="3" ry="6" fill="none" stroke="currentColor" stroke-width="0.8"/><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="0.8"/></svg></span> Internet Explorer</div>
-  <div class="sm-item" onclick="openWindow('terminal');toggleStartMenu()"><span class="sm-icon"><svg viewBox="0 0 16 16" width="16" height="16"><rect x="1" y="2" width="14" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="6" x2="7" y2="8" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="8" x2="4" y2="10" stroke="currentColor" stroke-width="1.2"/></svg></span> 命令提示符</div>
-  <hr>
-  <div class="sm-item" onclick="location.reload()"><span class="sm-icon"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M13.5 2.5A6 6 0 008 2a6 6 0 00-5.2 9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 13.5A6 6 0 008 14a6 6 0 005.2-9" fill="none" stroke="currentColor" stroke-width="1.5"/><polygon points="7,1 10,5 7,5" fill="currentColor"/><polygon points="9,15 6,11 9,11" fill="currentColor"/></svg></span> 重启</div>
+  <div class="sm-items">
+    <div class="sm-item" onclick="openWindow('browser');toggleStartMenu()"><span class="sm-icon"><svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><ellipse cx="8" cy="8" rx="3" ry="6" fill="none" stroke="currentColor" stroke-width="0.8"/><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="0.8"/></svg></span> Internet Explorer</div>
+    <div class="sm-item" onclick="openWindow('terminal');toggleStartMenu()"><span class="sm-icon"><svg viewBox="0 0 16 16" width="16" height="16"><rect x="1" y="2" width="14" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="6" x2="7" y2="8" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="8" x2="4" y2="10" stroke="currentColor" stroke-width="1.2"/></svg></span> 命令提示符</div>
+    <hr>
+    <div class="sm-item" onclick="location.reload()"><span class="sm-icon"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M13.5 2.5A6 6 0 008 2a6 6 0 00-5.2 9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 13.5A6 6 0 008 14a6 6 0 005.2-9" fill="none" stroke="currentColor" stroke-width="1.5"/><polygon points="7,1 10,5 7,5" fill="currentColor"/><polygon points="9,15 6,11 9,11" fill="currentColor"/></svg></span> 重启</div>
+  </div>
 </div>
 
 <!-- ==================== 浏览器窗口 ==================== -->
@@ -123,13 +120,5 @@
     <script src="../js/js/audio-engine.js"></script>
     <script src="../js/js/arg-index.js"></script>
 
-    <!-- 广告位 #2：底部横幅 -->
-    <div style="max-width:728px;margin:18px auto;">
-      <div data-ad-slot></div>
-    </div>
-
-        <!-- ===== 广告系统 v1.1 ===== -->
-    <script src="../js/js/ad-data.js?v=2"></script>
-    <script src="../js/js/ad-system.js?v=2"></script>
 </body>
 </html>
