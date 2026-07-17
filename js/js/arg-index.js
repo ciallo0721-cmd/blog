@@ -55,6 +55,7 @@ function openWindow(name) {
 }
 
 function renderBrowserContent() {
+  if (GAME_STATE.endingTriggered) return; // FIX-1: 结局后禁止浏览器渲染
   switch (GAME_STATE.browserPhase) {
     case 'warn': renderWarnPage(); break;
     case 'forum': renderForumPage(); break;
@@ -174,7 +175,7 @@ const ENDINGS = {
    浏览器页面渲染
    ==================== */
 
-function browserHome() { GAME_STATE.browserPhase = 'warn'; renderWarnPage(); }
+function browserHome() { if (GAME_STATE.endingTriggered) return; GAME_STATE.browserPhase = 'warn'; renderWarnPage(); }
 
 // --- Readme ---
 function renderReadme() {
@@ -197,6 +198,7 @@ function renderWarnPage() {
 
 // --- 进入论坛 ---
 function enterForum() {
+  if (GAME_STATE.endingTriggered) return; // FIX-1: 结局后禁止进入论坛
   const name = ($('warn-name')?.value || '').trim();
   GAME_STATE.playerName = name || '访客';
   GAME_STATE.browserPhase = 'forum';
@@ -266,6 +268,7 @@ function revealHiddenPost() {
 }
 
 function submitForumReply() {
+  if (GAME_STATE.endingTriggered) return; // FIX-1: 结局后禁止论坛回复
   const text = ($('forum-reply-text')?.value || '').trim();
   if (!text) return;
   
@@ -284,6 +287,7 @@ function submitForumReply() {
 
 // --- 时光机 ---
 function openWayback() {
+  if (GAME_STATE.endingTriggered) return; // FIX-1
   GAME_STATE.browserPhase = 'wayback';
   $('url-bar').value = 'http://web.archive.org/';
   const c = $('browser-content');
@@ -299,6 +303,7 @@ function openWayback() {
 }
 
 function searchWayback() {
+  if (GAME_STATE.endingTriggered) return; // FIX-1
   const result = $('wb-result');
   result.innerHTML = `
     <p style="font-weight:bold;color:#2c3e50">mirror-forum.bbs 的快照存档：</p>
@@ -677,6 +682,24 @@ function triggerEnding(endingKey) {
   if (GAME_STATE.endingTriggered) return;
   GAME_STATE.endingTriggered = endingKey;
   GAME_STATE.dialogLocked = true;
+  
+  // FIX-1: 锁定浏览器窗口 - 隐藏交互元素，禁用导航按钮
+  const browserC = $('browser-content');
+  if (browserC) {
+    browserC.querySelectorAll('.forum-reply, .warn-input, .warn-btn, .reply-btn, .forum-nav a').forEach(el => {
+      el.style.display = 'none';
+    });
+    // 覆盖整个浏览器内容区，阻止进一步交互
+    const overlay = document.createElement('div');
+    overlay.id = 'browser-lock-overlay';
+    overlay.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;z-index:10;pointer-events:all;';
+    browserC.style.position = 'relative';
+    browserC.appendChild(overlay);
+  }
+  ['btn-back', 'btn-fwd'].forEach(id => {
+    const btn = $(id);
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.4'; }
+  });
   
   const ending = ENDINGS[endingKey];
   const tb = $('terminal-body');
