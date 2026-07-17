@@ -23,7 +23,8 @@ const GAME_STATE = {
   commandHistory: [],
   
   // 结局
-  endingTriggered: null,     // A | B | C | D 或 null
+  endingTriggered: null,     // A | B | C | D | E 或 null
+  endingEReady: false,       // 是否已满足 E 结局解锁条件
   dialogLocked: false,       // 结局触发后锁定
   sealPending: false,        // FIX-2: seal 命令待确认状态
   
@@ -173,8 +174,18 @@ const ENDINGS = {
   A: { title: '【结局A：断开连接】', text: '所有连接已终止。镜面论坛数据永久关闭。深海、夜猫子、老刀、小影的账号状态：离线。你成功切断了通道。但屏幕已经不再只是屏幕了。每次你关掉电脑，黑色屏幕上映出的——是你自己。', cls: 'ending-a' },
   B: { title: '【结局B：接替者】', text: '你已成为镜面论坛服务器的新管理员。每日监控报告将发送到你的终端。如果有人——任何人——在未来某一天又看到了那个轮廓，你将是第一个知道的人。老刀的程序说：谢谢。有人得看着这面镜子。那个人是你。', cls: 'ending-b' },
   C: { title: '【结局C：穿越】', text: '连接建立。正在迁移。屏幕亮了。你不在电脑前面了。你在屏幕里面。外面是你的房间，你的椅子，你的键盘。一个轮廓坐在你的椅子上。它转了一下头。它不是你。它是新的你。', cls: 'ending-c' },
-  D: { title: '【结局D：封印】', text: '老刀的隐藏协议已激活。镜面连接被永久切断。代价是——你已经忘记了。论坛是什么？深海是谁？你的浏览器显示about:blank。桌面上什么都没有。一个普通的Win98模拟器。什么都没有发生。但这感觉不太对，是不是？有人在镜子里喊你。你听不到。', cls: 'ending-d' }
+  D: { title: '【结局D：封印】', text: '老刀的隐藏协议已激活。镜面连接被永久切断。代价是——你已经忘记了。论坛是什么？深海是谁？你的浏览器显示about:blank。桌面上什么都没有。一个普通的Win98模拟器。什么都没有发生。但这感觉不太对，是不是？有人在镜子里喊你。你听不到。', cls: 'ending-d' },
+  E: { title: '【结局E：共存】', text: '你选择留下。镜中人选择留下。你们分享同一面屏幕，隔着光的介质。某天晚上，你关掉房间的灯，屏幕反射出你的脸——但那张脸朝你笑了一下，而你没有笑。你也没觉得害怕。你只是笑回去。它在这里。你也在这里。这就可以了。', cls: 'ending-e' }
 };
+
+/* ====================
+   结局E「共存」对话数据
+   ==================== */
+const ENDING_E_DIALOGUE = [
+  { round: 'e1', lines: ['镜中人：你。留下。','镜中人：不。走。','镜中人：也。不。来。','镜中人：在。中间。','镜中人：跟。我。一起。'], hint: '（继续输入——镜中人正在理解你的选择）' },
+  { round: 'e2', lines: ['镜中人：深海。走了。那边。','镜中人：夜猫子。走了。这边。','镜中人：没人。在。中间。','镜中人：你。在。','镜中人：我。也。在。','镜中人：中间。不是。空的。'], hint: '（继续输入——世界安静了下来）' },
+  { round: 'e3', lines: ['镜中人：不冷。了。','镜中人：屏幕。亮。着。','镜中人：你。那边。我。这边。','镜中人：一样。的。','镜中人：谢谢。'], hint: '' }
+];
 
 /* ====================
    浏览器页面渲染
@@ -510,8 +521,10 @@ function terminalKeydown(e) {
   const cmd = raw.toLowerCase();
   
   // 如果在镜中人对话中，任何输入都推进对话
-  if (GAME_STATE.mirrorRound > 0 && GAME_STATE.mirrorRound < 5) {
-    advanceMirrorDialogue();
+  // 扩展支持 E 对话轮次 (e1/e2/e3)
+  const r = GAME_STATE.mirrorRound;
+  if ((r > 0 && r < 5) || (typeof r === 'string' && ['e1','e2','e3'].includes(r))) {
+    advanceMirrorDialogue(raw);
     return;
   }
   
@@ -665,7 +678,31 @@ ${hiddenPost.content}
   window._savedTerminalHTML = $('terminal-body')?.innerHTML || '';
 }
 
-function advanceMirrorDialogue() {
+function renderE_DialogueRound(round) {
+  const data = ENDING_E_DIALOGUE.find(d => d.round === round);
+  if (!data) return;
+
+  const tb = $('terminal-body');
+  if (!tb) return;
+
+  // 直接追加 E 对话内容到终端（不经过 commandHistory）
+  let html = tb.innerHTML;
+  for (const line of data.lines) {
+    html += `<div class="terminal-mirror">${line}</div>`;
+  }
+  if (data.hint) {
+    html += `<div class="terminal-dim">${data.hint}</div>`;
+  }
+  // 保留输入框
+  html += `<div><span class="terminal-prompt">C:\\mirror&gt;</span> <span id="terminal-input-area"><input id="terminal-input" style="background:transparent;border:none;color:#fff;font-family:inherit;font-size:13px;outline:none;width:60%;caret-color:#0f0" onkeydown="terminalKeydown(event)" autofocus></span></div>`;
+
+  tb.innerHTML = html;
+  tb.scrollTop = tb.scrollHeight;
+  window._savedTerminalHTML = tb.innerHTML;
+  setTimeout(() => { const inp = $('terminal-input'); if (inp) inp.focus(); }, 50);
+}
+
+function advanceMirrorDialogue(inputText) {
   const round = GAME_STATE.mirrorRound;
   let output = '';
   
@@ -694,9 +731,51 @@ function advanceMirrorDialogue() {
 ---
 （继续输入以做出选择——这将触发结局）`;
     GAME_STATE.mirrorRound = 4;
+
+    // 如已解锁 E，2 秒后追加"留下"提示
+    if (GAME_STATE.endingEReady) {
+      setTimeout(() => {
+        const tb = $('terminal-body');
+        if (!tb) return;
+        const extraHTML = `<div class="terminal-mirror" style="margin-top:4px;">镜中人：……还是。留下。</div>
+<div class="terminal-mirror">镜中人：跟。我。在。中间。</div>
+<div class="terminal-dim">---</div>`;
+        tb.innerHTML += extraHTML;
+        tb.scrollTop = tb.scrollHeight;
+        window._savedTerminalHTML = tb.innerHTML;
+      }, 2000);
+    }
   } else if (round === 4) {
-    // 最终选择 → 触发结局C
+    // E 分支检测：如已解锁且输入匹配关键词
+    if (GAME_STATE.endingEReady) {
+      const input = (inputText || '').trim().toLowerCase();
+      if (['共存', '留下', 'stay'].includes(input)) {
+        GAME_STATE.mirrorRound = 'e1';
+        renderE_DialogueRound('e1');
+        return;
+      }
+    }
+    // 否则触发结局 C
     triggerEnding('C');
+    return;
+  } else if (round === 'e1') {
+    GAME_STATE.mirrorRound = 'e2';
+    renderE_DialogueRound('e2');
+    return;
+  } else if (round === 'e2') {
+    GAME_STATE.mirrorRound = 'e3';
+    renderE_DialogueRound('e3');
+    // e3 完成后 1.5 秒自动触发结局 E
+    setTimeout(() => triggerEnding('E'), 1500);
+    return;
+  } else if (round === 'e3') {
+    // 阻止额外输入
+    const tb = $('terminal-body');
+    if (tb) {
+      tb.innerHTML += `<div class="terminal-dim">（镜中人不再说话。你也没有必要再说什么了。）</div>`;
+      tb.scrollTop = tb.scrollHeight;
+      window._savedTerminalHTML = tb.innerHTML;
+    }
     return;
   }
   
@@ -741,6 +820,13 @@ function triggerEnding(endingKey) {
   tb.scrollTop = tb.scrollHeight;
   window._savedTerminalHTML = html;
   
+  // 记录已完成结局到 localStorage
+  const completed = JSON.parse(localStorage.getItem('mirror_completed_endings') || '[]');
+  if (!completed.includes(endingKey)) {
+    completed.push(endingKey);
+    localStorage.setItem('mirror_completed_endings', JSON.stringify(completed));
+  }
+  
   // 在桌面中央显示大结局画面
   setTimeout(() => showEndingOverlay(endingKey), 2000);
 }
@@ -760,6 +846,10 @@ function showEndingOverlay(endingKey) {
    初始化
    ==================== */
 (function init() {
+  // 检查是否满足 E 结局解锁条件（全部 4 个结局完成后解锁）
+  const completed = JSON.parse(localStorage.getItem('mirror_completed_endings') || '[]');
+  GAME_STATE.endingEReady = completed.length >= 4;
+  
   // 自动打开浏览器
   setTimeout(() => openWindow('browser'), 500);
   

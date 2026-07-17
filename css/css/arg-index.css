@@ -234,3 +234,22 @@ body {
 .glitch { animation:glitch-text 0.3s infinite; }
 .crack { position:absolute; pointer-events:none; font-size:18px; opacity:0; color:var(--arg-red); z-index:100; }
 .crack.show { opacity:1; transition:opacity 0.1s; }
+
+/* ============================
+   结局E「共存」样式
+   ============================ */
+.ending-e {
+  background-color: #1e1a30;
+  color: #d4c5a9;
+}
+.ending-e .ending-title {
+  color: #e8dcc8;
+  font-size: 28px;
+  font-weight: bold;
+}
+.ending-e .ending-text {
+  color: #d4c5a9;
+  line-height: 2;
+  max-width: 520px;
+  font-size: 15px;
+}
