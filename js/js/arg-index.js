@@ -3,6 +3,7 @@ window.dataLayer = window.dataLayer || [];
   gtag('js', new Date());
   gtag('config', 'G-TR4FT7JPDZ');
 
+(function() {
 /* ====================
    游戏状态管理
    ==================== */
@@ -748,4 +749,33 @@ function showEndingOverlay(endingKey) {
   $('icon-txt').ondblclick = function() {
     openWindow('readme');
   };
+})();
+
+  /* ====================
+     REF-1: 暴露给 HTML onclick / innerHTML 的全局函数
+     这些函数被 index.html 或动态生成的 innerHTML 中的
+     onclick/onkeydown/ondblclick/onmousedown 引用，
+     必须在 window 上可用。
+     ==================== */
+  window.openWindow = openWindow;
+  window.toggleStartMenu = toggleStartMenu;
+  window.browserBack = browserBack;
+  window.browserFwd = browserFwd;
+  window.browserHome = browserHome;
+  window.browserGo = browserGo;
+  window.startDrag = startDrag;
+  window.minWindow = minWindow;
+  window.maxWindow = maxWindow;
+  window.closeWindow = closeWindow;
+  window.enterForum = enterForum;
+  window.focusTerminal = focusTerminal;
+  window.revealHiddenPost = revealHiddenPost;
+  window.submitForumReply = submitForumReply;
+  window.openWayback = openWayback;
+  window.searchWayback = searchWayback;
+  window.openSnapshot = openSnapshot;
+  window.openSnapshot2003 = openSnapshot2003;
+  window.terminalKeydown = terminalKeydown;
+  window.initTerminalKeydown = initTerminalKeydown;
+
 })();
