@@ -58,6 +58,8 @@ function openWindow(name) {
   if (name === 'browser') renderBrowserContent();
   if (name === 'terminal') renderTerminal();
   if (name === 'readme') renderReadme();
+  // 音效：窗口打开
+  if (window.AudioEngine) AudioEngine.play('windowOpen');
 }
 
 function renderBrowserContent() {
@@ -77,6 +79,8 @@ function closeWindow(name) {
   windows[name] = false;
   if (activeWin === name) activeWin = null;
   updateTaskItems();
+  // 音效：窗口关闭
+  if (window.AudioEngine) AudioEngine.play('windowClose');
 }
 
 function minWindow(name) {
@@ -220,6 +224,8 @@ function enterForum() {
   GAME_STATE.browserPhase = 'forum';
   $('url-bar').value = 'http://mirror-forum.bbs/';
   renderForumPage();
+  // 音效：Modem 拨号
+  if (window.AudioEngine) AudioEngine.play('modem');
 }
 
 function renderForumPage() {
@@ -335,6 +341,8 @@ function openWayback() {
     </div>
     <div class="wb-result" id="wb-result"></div>
   </div>`;
+  // 音效：Modem 拨号
+  if (window.AudioEngine) AudioEngine.play('modem');
 }
 
 function searchWayback() {
@@ -476,6 +484,8 @@ function initTerminalKeydown(e) {
   if (cmd === 'connect mirror-forum.bbs' || cmd === 'connect') {
     GAME_STATE.terminalConnected = true;
     GAME_STATE.terminalPhase = 'connected';
+    // 音效：连接成功
+    if (window.AudioEngine) AudioEngine.play('connect');
     $('terminal-body').innerHTML = `<div class="terminal-welcome">Microsoft(R) Windows 98
    (C)Copyright Microsoft Corp 1981-1998.
 
@@ -615,6 +625,8 @@ ${hiddenPost.content}
 ---
 （继续输入任何内容来与镜中人对话）`;
       cls = 'terminal-mirror';
+      // 音效：镜中人低频开始
+      if (window.AudioEngine) AudioEngine.play('deepDrone');
       break;
       
     case 'sever':
@@ -789,6 +801,18 @@ function triggerEnding(endingKey) {
   GAME_STATE.endingTriggered = endingKey;
   GAME_STATE.dialogLocked = true;
   
+  // 音效：停止持续音效，播放对应结局音效
+  if (window.AudioEngine) {
+    AudioEngine.stop('deepDrone');
+    AudioEngine.setBgIntensity(0);
+    var endingSound = 'ending' + endingKey;
+    AudioEngine.play(endingSound);
+    // 结局 D 和 E 不需要停止 CRT hum（D 需要缓慢减弱，已在音效内部处理）
+    if (endingKey !== 'D' && endingKey !== 'E') {
+      // 对其他结局，CRT hum 会在合成器内部处理
+    }
+  }
+  
   // FIX-1: 锁定浏览器窗口 - 隐藏交互元素，禁用导航按钮
   const browserC = $('browser-content');
   if (browserC) {
@@ -849,6 +873,12 @@ function showEndingOverlay(endingKey) {
   // 检查是否满足 E 结局解锁条件（全部 4 个结局完成后解锁）
   const completed = JSON.parse(localStorage.getItem('mirror_completed_endings') || '[]');
   GAME_STATE.endingEReady = completed.length >= 4;
+  
+  // 首次用户交互时初始化 AudioEngine（遵守 autoplay policy）
+  document.addEventListener('click', function _initAudio() {
+    if (window.AudioEngine) AudioEngine.init();
+    document.removeEventListener('click', _initAudio);
+  }, { once: true });
   
   // 自动打开浏览器
   setTimeout(() => openWindow('browser'), 500);
