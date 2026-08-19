@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我与AI | ciallo0721-cmd</title>
+    <meta name="description" content="我与AI在Minecraft里的日子——Numen mod × DeepSeek V4 Flash × NeoForge 1.21.8">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/blog/生活/76/">
+    <link rel="icon" href="/fanv.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../../pic/image-viewer.css">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://ciallo0721-cmd.top/blog/生活/76/">
+    <meta property="og:title" content="我与AI | ciallo0721-cmd">
+    <meta property="og:description" content="我与AI在Minecraft里的日子——Numen mod × DeepSeek V4 Flash × NeoForge 1.21.8">
+    <meta property="og:image" content="https://ciallo0721-cmd.top/fanv.ico">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="我与AI | ciallo0721-cmd">
+    <meta name="twitter:description" content="我与AI在Minecraft里的日子">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "我与AI",
+      "description": "我与AI在Minecraft里的日子——Numen mod × DeepSeek V4 Flash × NeoForge 1.21.8",
+      "image": "https://ciallo0721-cmd.top/fanv.ico",
+      "author": { "@type": "Person", "name": "ciallo0721-cmd", "url": "https://ciallo0721-cmd.top/aboutme.html" },
+      "datePublished": "2026-08-19", "dateModified": "2026-08-19",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ciallo0721-cmd.top/blog/生活/76/" },
+      "keywords": ["Minecraft", "Numen", "DeepSeek", "AI", "NeoForge", "我的世界", "我与AI"],
+      "articleSection": ["生活"]
+    }
+    </script>
+
+    <style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('../../css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+}
+
+:root {
+    --bili-pink: #FB7299; --bili-blue: #00A1D6;
+    --text-primary: #1D1D1F; --text-secondary: #515154;
+    --transition: all 0.3s ease;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6; color: var(--text-primary);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+nav {
+    background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
+    position: sticky; top: 0; z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1); border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.nav-container { display: flex; justify-content: space-between; align-items: center; padding: 8px 15px; }
+.logo { font-size: 1.6rem; font-weight: 700; color: var(--bili-pink); text-decoration: none; transition: var(--transition); }
+.logo:hover { transform: translateY(-2px); color: var(--bili-blue); }
+.back-btn {
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color: white; border: none; padding: 10px 25px; border-radius: 25px;
+    font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition);
+    text-decoration: none; box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+}
+.back-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(251, 114, 153, 0.4); }
+
+.gallery-container { padding: 50px 0; }
+.gallery {
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+    border-radius: 20px; box-shadow: var(--shadow); padding: 50px;
+    border: 1px solid rgba(255,255,255,0.3); position: relative; overflow: hidden;
+    animation: fadeIn 0.5s ease;
+}
+.gallery::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+}
+
+.gallery-header { text-align: center; margin-bottom: 35px; }
+.gallery-title { font-size: 2.8rem; color: var(--text-primary); margin-bottom: 10px; font-weight: 700; letter-spacing: 2px; }
+.gallery-sub { font-size: 1rem; color: var(--text-secondary); }
+.gallery-sub code {
+    background: rgba(0,161,214,0.12); color: var(--bili-blue);
+    padding: 2px 10px; border-radius: 10px; font-size: 0.85rem;
+    font-family: 'Courier New', monospace;
+}
+
+/* 音乐播放器居中 */
+.music-player { display: flex; justify-content: center; margin: 25px 0 40px; }
+
+/* 图片墙 */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+}
+.photo-item {
+    background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 14px; overflow: hidden; cursor: zoom-in;
+    transition: var(--transition); box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    aspect-ratio: 16 / 9;
+}
+.photo-item:hover { transform: translateY(-4px) scale(1.01); box-shadow: var(--shadow-hover); }
+.photo-item img { width: 100%; height: 100%; object-fit: cover; display: block; background: #0a0a0a; }
+
+footer {
+    background: linear-gradient(135deg, var(--text-primary), #2D2D2F); color: white;
+    text-align: center; padding: 50px 0 30px; margin-top: 80px; position: relative; overflow: hidden;
+}
+footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); }
+.footer-content { position: relative; z-index: 2; }
+.footer-logo { font-size: 1.8rem; font-weight: 700; margin-bottom: 20px; color: var(--bili-pink); }
+footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 768px) {
+    .gallery { padding: 30px; }
+    .gallery-title { font-size: 2rem; }
+}
+@media (max-width: 480px) {
+    .gallery { padding: 25px; }
+    .gallery-title { font-size: 1.7rem; }
+}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius: 4px; }
+    </style>
+    <script src="/articles-data.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+</head>
+<body>
+    <nav>
+        <div class="container nav-container">
+            <a href="/index.html" class="logo">开发者空间</a>
+            <a href="/index.html" class="back-btn">← 返回首页</a>
+        </div>
+    </nav>
+
+    <main class="container gallery-container">
+        <div class="gallery">
+            <header class="gallery-header">
+                <h1 class="gallery-title">我与AI</h1>
+                <p class="gallery-sub"><code>Numen</code> × <code>DeepSeek V4 Flash</code> · <code>Minecraft 1.21.8</code> · <code>NeoForge</code></p>
+            </header>
+
+            <div class="music-player">
+                <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1391726352&auto=1&height=66"></iframe>
+            </div>
+
+            <div class="photo-grid">
+                <div class="photo-item"><img src="./1.png" alt="我与AI 01" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./2.png" alt="我与AI 2" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./3.png" alt="我与AI 3" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./4.png" alt="我与AI 4" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./5.png" alt="我与AI 5" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./6.png" alt="我与AI 6" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./7.png" alt="我与AI 7" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./8.png" alt="我与AI 8" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./9.png" alt="我与AI 9" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./10.png" alt="我与AI 10" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./11.png" alt="我与AI 11" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./12.png" alt="我与AI 12" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./13.png" alt="我与AI 13" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./14.png" alt="我与AI 14" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./15.png" alt="我与AI 15" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./16.png" alt="我与AI 16" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./17.png" alt="我与AI 17" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./18.png" alt="我与AI 18" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+                <div class="photo-item"><img src="./19.png" alt="我与AI 19" loading="lazy" data-iv-zoom data-iv-group="mc"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
+            <p>感谢阅读！期待与你交流心得喵～</p>
+            <p>© 2026 ciallo0721-cmd · 专注技术教程与创作分享</p>
+        </div>
+    </footer>
+
+    <script src="../../../pic/image-viewer.js"></script>
+</body>
+</html>
