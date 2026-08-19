@@ -55,17 +55,6 @@
   }
   #fallback { display: none; padding: 24px; font-size: 13px; color: #f85149; }
 </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-TR4FT7JPDZ');
-</script>
-<!-- GA4 统一埋点模块 -->
-<script src="../assets/js/gtag-config.js"></script>
-
 </head>
 <body>
   <header>
@@ -136,7 +125,7 @@
             var ctx = canvas.getContext('2d', { willReadFrequently: true });
             ctx.drawImage(video, 0, 0, w, h);
             var img = ctx.getImageData(0, 0, w, h);
-            var code = jsQR(img.data, w, h, { inversionAttempts: 'dontInvert' });
+            var code = jsQR(img.data, w, h, { inversionAttempts: 'attemptBoth' });
             if (code && code.data && /^https?:\/\//i.test(code.data)) {
               setStatus('已识别: ' + code.data, 'ok');
               // 先显示 0.5 秒识别结果,再跳转
