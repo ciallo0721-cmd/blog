@@ -726,6 +726,16 @@ window.SITE_START = new Date('2025-10-20T00:00:00+08:00');
             if (el) el.textContent = diffDays + ' 天';
         }
 
+        // 计算三无天数（无显示错误、无错别字、无严重错误）
+        window.THREE_NONE_START = new Date('2026-08-19T21:49:00+08:00');
+        function updateThreeNoneDays() {
+            var now = new Date();
+            var diffMs = now.getTime() - window.THREE_NONE_START.getTime();
+            var diffDays = Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)));
+            var el = document.getElementById('threeNoneDays');
+            if (el) el.textContent = diffDays + ' 天';
+        }
+
         // 更新网站状态
         function updateSiteStatus() {
             var dot = document.getElementById('siteStatusDot');
@@ -751,12 +761,15 @@ window.SITE_START = new Date('2025-10-20T00:00:00+08:00');
         // 初始化
         updateCurrentTime();
         updateRunningDays();
+        updateThreeNoneDays();
         updateSiteStatus();
 
         // 每秒更新时间
         setInterval(updateCurrentTime, 1000);
         // 每小时更新运行天数
         setInterval(updateRunningDays, 3600000);
+        // 每分钟更新三无天数（跨天时及时刷新）
+        setInterval(updateThreeNoneDays, 60000);
     });
 
 document.addEventListener('DOMContentLoaded', function() {
