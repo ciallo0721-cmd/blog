@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VTuber 名字生成器 | ciallo0721-cmd</title>
+    <meta name="description" content="一键生成专属VTuber名字、人设和口头禅！支持可爱、帅气、神秘、搞笑多种风格，助你打造独一无二的虚拟主播形象。">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/tools/vtuber-name-generator/">
+    <link rel="icon" href="../../fanv.ico">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "VTuber 名字生成器",
+        "description": "一键生成专属VTuber名字、人设和口头禅，支持多种风格选择。",
+        "url": "https://ciallo0721-cmd.top/tools/vtuber-name-generator/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "author": {
+            "@type": "Organization",
+            "name": "ciallo0721-cmd"
+        }
+    }
+    </script>
+    
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    
+    <!-- IP 地理检测（美国用户拒绝访问） -->
+    <script src="/geo-check.js"></script>
+    <!-- HTTP 检测与提示 -->
+    
+
+  <script src="/js/js/svg-icons.js" defer></script>
+    <link rel="stylesheet" href="../../../css/css/app-tools-vtuber-name-generator-index.css">
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+</head>
+<body>
+    <!-- 广告位 #1：顶部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+
+<div class="toast" id="toast"></div>
+
+<div class="container">
+    <header class="header">
+        <h1><i class="fa-solid fa-wand-magic-sparkles"></i> VTuber 名字生成器</h1>
+        <p class="counter"><i class="fa-solid fa-users"></i> 已有 <span id="count">127</span> 人使用</p>
+    </header>
+
+    <div class="panel">
+        <p class="section-label"><i class="fa-solid fa-venus-mars"></i> 选择性别</p>
+        <div class="option-group" id="genderGroup">
+            <button class="option-btn active" data-value="female"><span class="icon"><i class="fa-solid fa-venus"></i></span>女性</button>
+            <button class="option-btn" data-value="male"><span class="icon"><i class="fa-solid fa-mars"></i></span>男性</button>
+            <button class="option-btn" data-value="neutral"><span class="icon"><i class="fa-solid fa-genderless"></i></span>中性</button>
+        </div>
+
+        <p class="section-label"><i class="fa-solid fa-palette"></i> 选择风格</p>
+        <div class="option-group" id="styleGroup">
+            <button class="option-btn active" data-value="cute"><span class="icon"><i class="fa-solid fa-heart"></i></span>可爱</button>
+            <button class="option-btn" data-value="cool"><span class="icon"><i class="fa-solid fa-bolt"></i></span>帅气</button>
+            <button class="option-btn" data-value="mysterious"><span class="icon"><i class="fa-solid fa-moon"></i></span>神秘</button>
+            <button class="option-btn" data-value="funny"><span class="icon"><i class="fa-solid fa-face-laugh-squint"></i></span>搞笑</button>
+        </div>
+
+        <button class="generate-btn" id="generateBtn"><i class="fa-solid fa-dice"></i> 随机生成 VTuber 名字</button>
+    </div>
+
+    <div class="results" id="results">
+        <div class="results-header">
+            <span class="results-title"><i class="fa-solid fa-sparkles"></i> 为你生成</span>
+            <div class="share-group">
+                <button class="share-btn" onclick="copyResults()"><i class="fa-solid fa-copy"></i>复制</button>
+                <button class="share-btn" onclick="shareQQ()"><i class="fa-brands fa-qq"></i>QQ空间</button>
+                <button class="share-btn" onclick="shareBili()"><i class="fa-solid fa-b"></i>B站</button>
+            </div>
+        </div>
+        <div class="result-cards" id="resultCards"></div>
+    </div>
+
+    <div class="cta">
+        <p>想要更多虚拟主播工具和资源？</p>
+        <a href="https://ciallo0721-cmd.top"><i class="fa-solid fa-rocket"></i> 探索更多</a>
+    </div>
+</div>
+
+
+
+    <script src="../../../js/js/app-tools-vtuber-name-generator-index.js"></script>
+
+    <!-- 广告位 #2：底部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+        <!-- ===== 广告系统 v1.1 ===== -->
+    <script src="../../../js/js/ad-data.js?v=2"></script>
+    <script src="../../../js/js/ad-system.js?v=2"></script>
+</body>
+</html>

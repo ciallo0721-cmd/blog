@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>广告系统测试面板 - ciallo0721-cmd</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif;
+    background: #0d0d1a;
+    color: #e0e0e0;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #00d4ff, #3366ff);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  .subtitle {
+    text-align: center;
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  .panel {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .panel h2 {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+    color: #3366ff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #3366ff, #2575fc);
+    color: white;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-danger {
+    background: rgba(255,71,87,0.2);
+    color: #ff4757;
+    border: 1px solid rgba(255,71,87,0.3);
+  }
+  .btn-danger:hover { background: rgba(255,71,87,0.35); }
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .pref-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .pref-table th {
+    text-align: left;
+    padding: 10px 14px;
+    background: rgba(51,102,255,0.1);
+    color: #3366ff;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(51,102,255,0.2);
+  }
+  .pref-table td {
+    padding: 8px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .pref-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+  .weight-bar {
+    display: inline-block;
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #ff4757, #ffd93d, #2ed573, #3366ff);
+    transition: width 0.3s;
+  }
+
+  .tag-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    background: rgba(51,102,255,0.15);
+    color: #7094ff;
+  }
+  .tag-badge.blocked {
+    background: rgba(255,71,87,0.15);
+    color: #ff6b81;
+  }
+
+  .history-item {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    margin-bottom: 4px;
+    background: rgba(255,255,255,0.03);
+  }
+  .history-item .time { color: #666; font-size: 0.75rem; }
+  .history-item.enter { border-left: 3px solid #2ed573; }
+  .history-item.dislike { border-left: 3px solid #ff4757; }
+
+  /* 广告竖排列表 - 每个独占一行，宽度自适应 */
+  .ad-vertical-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 728px;
+    margin: 0 auto;
+  }
+
+  /* 测试用的模拟广告卡片（与主页一致） */
+  .test-ad-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    transition: box-shadow 0.3s, opacity 0.3s, transform 0.3s;
+    background: #1a1a2e;
+  }
+  .test-ad-item:hover {
+    box-shadow: 0 4px 24px rgba(51,102,255,0.3);
+  }
+  .test-ad-item.blocked {
+    opacity: 0.35;
+  }
+  .test-ad-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .test-ad-item .ad-dislike-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s, background 0.2s;
+  }
+  .test-ad-item:hover .ad-dislike-btn { opacity: 1; }
+  .test-ad-item .ad-dislike-btn:hover { background: rgba(255,71,87,0.85); }
+  .test-ad-item .ad-tag-label {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    padding: 3px 10px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    font-size: 11px;
+    border-radius: 10px;
+  }
+
+  /* 模拟主页广告位展示区 */
+  .live-preview {
+    padding: 20px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .live-preview-label {
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .test-ad-item .ad-dislike-btn { opacity: 1; }
+    .ad-vertical-list { gap: 12px; }
+  }
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TR4FT7JPDZ');
+</script>
+<!-- GA4 统一埋点模块 -->
+<script src="../assets/js/gtag-config.js"></script>
+
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+</head>
+<body>
+
+<div class="container">
+  <h1>📢 广告系统测试面板</h1>
+  <p class="subtitle">ciallo0721-cmd 动态广告系统 v1.0 — 调试 & 测试工具</p>
+
+  <!-- 控制面板 -->
+  <div class="panel">
+    <h2>🔧 控制面板</h2>
+    <div class="controls">
+      <button class="btn btn-primary" onclick="refreshPage()">🔄 刷新页面（模拟重新进入）</button>
+      <button class="btn btn-primary" onclick="testAlgorithm()">🧪 算法测试：模拟50次选择</button>
+      <button class="btn btn-danger" onclick="resetAll()">⚠️ 重置所有偏好数据</button>
+      <button class="btn" style="background:rgba(255,255,255,0.08);color:#ccc;" onclick="exportData()">📋 导出偏好JSON</button>
+    </div>
+  </div>
+
+  <!-- 🔑 adkey 管理 -->
+  <div class="panel" id="adkeyPanel">
+    <h2>🔑 Adkey 管理 — 完全关闭广告</h2>
+    <p style="font-size:0.82rem;color:#888;margin-bottom:12px;">
+      如果你真的不想看到任何广告，可以提 <a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues" style="color:#3366ff;" target="_blank">GitHub Issues</a>，
+      站长会给你一个专属 adkey 值。在下面输入即可永久关闭所有广告。
+    </p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+      <input id="adkeyInput" type="text" placeholder="输入站长给你的 adkey…"
+        style="flex:1;min-width:200px;padding:10px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#e0e0e0;font-size:0.95rem;outline:none;" />
+      <button class="btn btn-danger" onclick="applyAdkey()">🔒 验证并关闭广告</button>
+      <button class="btn" style="background:rgba(46,213,115,0.15);color:#2ed573;border:1px solid rgba(46,213,115,0.3);" onclick="removeAdkey()">🔓 恢复广告显示</button>
+    </div>
+    <div id="adkeyStatus" style="margin-top:12px;padding:10px 14px;border-radius:8px;font-size:0.85rem;"></div>
+  </div>
+
+  <!-- 实时模拟：主页4个广告位的效果 -->
+  <div class="panel">
+    <h2>🖥️ 模拟主页广告位（4个位置，动态选择）</h2>
+    <div class="live-preview">
+      <div class="live-preview-label">👇 每次刷新都会重新选择广告（基于权重），跟主页行为完全一致</div>
+      <div class="ad-vertical-list" id="liveSlots">
+        <!-- 4个 data-ad-slot 广告位 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 偏好数据 -->
+  <div class="panel">
+    <h2>📊 标签权重（偏好算法）</h2>
+    <p style="font-size:0.8rem;color:#888;margin-bottom:12px;">初始权重均为 100，点击进入 +10，不感兴趣 -20</p>
+    <div id="prefPanel">加载中...</div>
+  </div>
+
+  <!-- 全部 15 个广告预览 -->
+  <div class="panel">
+    <h2>🎨 全部 15 种广告预览（竖排列表）<span style="font-size:0.75rem;color:#888;">（点广告图 = 喜欢 | 点 ✕ = 不感兴趣）</span></h2>
+    <div class="ad-vertical-list" id="allAdsGrid"></div>
+  </div>
+
+  <!-- 操作历史 -->
+  <div class="panel">
+    <h2>📜 操作历史（最近 20 条）</h2>
+    <div id="historyPanel">暂无记录</div>
+  </div>
+
+  <!-- 数据统计 -->
+  <div class="panel">
+    <h2>📈 数据统计（展现 / 点击 / 转化率）</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+      <button class="btn btn-primary" onclick="refreshStats()">🔄 刷新统计</button>
+      <button class="btn btn-danger" onclick="resetStats()">⚠️ 重置统计数据</button>
+    </div>
+    <div id="statsPanel">暂无数据</div>
+  </div>
+</div>
+
+<!-- 加载广告系统 -->
+<script src="../js/js/ad-data.js?v=3"></script>
+<script src="../js/js/ad-system.js?v=3"></script>
+
+<script>
+  var registry = window.AdSystem.registry;
+  var prefs;
+
+  function renderPrefs() {
+    var w = prefs.weights || {};
+    var html = '<table class="pref-table"><thead><tr><th>标签</th><th>图标</th><th>权重</th><th>强度条</th><th>推荐概率</th></tr></thead><tbody>';
+
+    var totalW = 0;
+    registry.forEach(function(ad) { totalW += w[ad.tag] || 100; });
+
+    registry.forEach(function(ad) {
+      var weight = w[ad.tag] || 100;
+      var barW = Math.max(5, (weight / 500) * 200);
+      var prob = ((weight / totalW) * 100).toFixed(1);
+      html += '<tr>';
+      html += '<td>' + ad.tag + '</td>';
+      html += '<td>' + ad.icon + '</td>';
+      html += '<td><strong>' + weight + '</strong></td>';
+      html += '<td><span class="weight-bar" style="width:' + barW + 'px;"></span></td>';
+      html += '<td><span class="tag-badge">' + prob + '%</span></td>';
+      html += '</tr>';
+    });
+
+    html += '</tbody></table>';
+    document.getElementById('prefPanel').innerHTML = html;
+  }
+
+  function renderAllAds() {
+    var grid = document.getElementById('allAdsGrid');
+    grid.innerHTML = '';
+
+    registry.forEach(function(ad) {
+      var wrapper = document.createElement('div');
+      wrapper.className = 'test-ad-item';
+
+      wrapper.innerHTML =
+        '<img src="' + ad.svg + '" alt="' + ad.tag + ' · 广告位招租" loading="lazy" style="cursor:pointer;" onclick="event.preventDefault();trackEnter(\'' + ad.id + '\');return false;" />' +
+        '<button class="ad-dislike-btn" onclick="event.preventDefault();event.stopPropagation();trackDislike(\'' + ad.id + '\')" title="不感兴趣">✕</button>' +
+        '<span class="ad-tag-label">' + ad.icon + ' ' + ad.tag + '</span>';
+
+      grid.appendChild(wrapper);
+    });
+  }
+
+  function renderLiveSlots() {
+    // 清空并手动创建4个 data-ad-slot 元素来模拟主页
+    var container = document.getElementById('liveSlots');
+    container.innerHTML = '';
+    for (var i = 0; i < 4; i++) {
+      var slot = document.createElement('div');
+      slot.setAttribute('data-ad-slot', '');
+      container.appendChild(slot);
+    }
+    // 手动调用 ad-system 初始化
+    if (window.AdSystem && window.AdSystem.init) {
+      window.AdSystem.init();
+    }
+    // 模拟区广告也不跳转
+    setTimeout(function() {
+      var liveLinks = document.querySelectorAll('#liveSlots .ad-card-link');
+      for (var i = 0; i < liveLinks.length; i++) {
+        liveLinks[i].href = 'javascript:void(0)';
+        liveLinks[i].setAttribute('target', '');
+        liveLinks[i].onclick = function(e) { e.preventDefault(); console.log('点击一次,进入adss'); return false; };
+      }
+    }, 300);
+  }
+
+  function renderHistory() {
+    var h = prefs.history || [];
+    var panel = document.getElementById('historyPanel');
+    if (h.length === 0) {
+      panel.innerHTML = '<p style="color:#666;">暂无操作记录</p>';
+      return;
+    }
+    var recent = h.slice(-20).reverse();
+    var html = '';
+    recent.forEach(function(item) {
+      var cls = item.action === 'enter' ? 'enter' : 'dislike';
+      var icon = item.action === 'enter' ? '✅ 喜欢' : '❌ 不感兴趣';
+      var d = new Date(item.time);
+      var timeStr = d.toLocaleString('zh-CN');
+      html += '<div class="history-item ' + cls + '">' + icon + ' 「' + item.tag + '」(' + item.adId + ') <span class="time">' + timeStr + '</span></div>';
+    });
+    panel.innerHTML = html || '<p style="color:#666;">暂无操作记录</p>';
+  }
+
+  function trackEnter(adId) {
+    var ad = registry.find(function(a) { return a.id === adId; });
+    if (!ad) return;
+    console.log('点击一次,进入adss');
+    var p = window.AdSystem.getPrefs();
+    var oldW = p.weights[ad.tag] || 100;
+    p.weights[ad.tag] = Math.min(500, oldW + 10);
+    p.history = p.history || [];
+    p.history.push({ action: 'enter', adId: adId, tag: ad.tag, time: Date.now() });
+    try { localStorage.setItem('ciallo_ad_prefs', JSON.stringify(p)); } catch(e) {}
+    setTimeout(loadData, 200);
+  }
+
+  function trackDislike(adId) {
+    var ad = registry.find(function(a) { return a.id === adId; });
+    if (!ad) return;
+    var p = window.AdSystem.getPrefs();
+    var oldW = p.weights[ad.tag] || 100;
+    p.weights[ad.tag] = Math.max(10, oldW - 40);
+    p.history = p.history || [];
+    p.history.push({ action: 'dislike', adId: adId, tag: ad.tag, time: Date.now() });
+    try { localStorage.setItem('ciallo_ad_prefs', JSON.stringify(p)); } catch(e) {}
+    setTimeout(loadData, 200);
+  }
+
+  function resetAll() {
+    if (confirm('确定要重置所有广告数据吗？（偏好 + 统计，此操作不可撤销！）')) {
+      window.AdSystem.resetAll();
+      loadData();
+    }
+  }
+
+  function refreshPage() {
+    loadData();
+  }
+
+  function testAlgorithm() {
+    var p = window.AdSystem.getPrefs();
+    var weights = p.weights || {};
+    var available = registry.slice(); // 所有广告都可选
+
+    var results = {};
+    registry.forEach(function(a) { results[a.id] = 0; });
+
+    for (var i = 0; i < 50; i++) {
+      var total = 0;
+      var weighted = available.map(function(ad) {
+        var w = weights[ad.tag] || 100;
+        total += w;
+        return { ad: ad, w: w };
+      });
+
+      var rand = Math.random() * total;
+      var cum = 0;
+      var picked = weighted[weighted.length - 1].ad;
+      for (var j = 0; j < weighted.length; j++) {
+        cum += weighted[j].w;
+        if (rand <= cum) { picked = weighted[j].ad; break; }
+      }
+      results[picked.id]++;
+    }
+
+    var report = '=== 算法测试：50次加权随机选择 ===\n\n';
+    registry.forEach(function(ad) {
+      var w = weights[ad.tag] || 100;
+      var count = results[ad.id] || 0;
+      var bar = '█'.repeat(count);
+      report += ad.icon + ' ' + ad.tag + ' (权重:' + w + '): ' + count + '次 ' + bar + '\n';
+    });
+
+    var totalW = available.reduce(function(s, a) { return s + (weights[a.tag] || 100); }, 0);
+    report += '\n预期分布（按权重比例）：\n';
+    available.forEach(function(ad) {
+      var w = weights[ad.tag] || 100;
+      var expected = ((w / totalW) * 50).toFixed(1);
+      report += ad.icon + ' ' + ad.tag + ': 预期 ' + expected + '次 | 实际 ' + results[ad.id] + '次\n';
+    });
+
+    alert(report);
+  }
+
+  // ============ Adkey 管理 ============
+
+  function renderAdkeyStatus() {
+    var statusEl = document.getElementById('adkeyStatus');
+    var disabled = window.AdSystem.isAdDisabled();
+    if (disabled) {
+      statusEl.innerHTML = '<span style="color:#2ed573;">✅ 广告已禁用 — 所有页面都不会显示广告了。</span>';
+      statusEl.style.background = 'rgba(46,213,115,0.1)';
+      statusEl.style.border = '1px solid rgba(46,213,115,0.2)';
+    } else {
+      statusEl.innerHTML = '<span style="color:#888;">⏸️ 广告处于正常显示状态。输入有效的 adkey 即可关闭。</span>';
+      statusEl.style.background = 'rgba(255,255,255,0.03)';
+      statusEl.style.border = '1px solid rgba(255,255,255,0.05)';
+    }
+  }
+
+  function applyAdkey() {
+    var key = document.getElementById('adkeyInput').value.trim();
+    if (!key) {
+      alert('请先输入 adkey 再验证～');
+      return;
+    }
+    var ok = window.AdSystem.applyAdkey(key);
+    if (ok) {
+      renderAdkeyStatus();
+      alert('✅ adkey 验证通过！所有广告已关闭。刷新页面后生效。');
+    } else {
+      alert('❌ adkey 不正确，请确认你输入的是站长给你的值。\n\n还没 adkey？提 Issues 找站长要一个吧～');
+    }
+  }
+
+  function removeAdkey() {
+    if (confirm('确定要恢复广告显示吗？')) {
+      window.AdSystem.removeAdkey();
+      renderAdkeyStatus();
+      alert('🔓 广告已恢复，刷新页面后生效。');
+    }
+  }
+
+
+
+  function loadData() {
+    prefs = window.AdSystem.getPrefs();
+    renderPrefs();
+    renderAllAds();
+    renderLiveSlots();
+    renderHistory();
+    renderStats();
+    renderAdkeyStatus();
+  }
+
+  function renderStats() {
+    var report = window.AdSystem.getStats();
+    var html = '';
+
+    // 总览卡片
+    html += '<div style="display:flex;gap:20px;margin-bottom:16px;flex-wrap:wrap;">';
+    html += '<div style="background:rgba(51,102,255,0.1);border-radius:12px;padding:14px 20px;flex:1;min-width:120px;text-align:center;">';
+    html += '<div style="font-size:1.6rem;font-weight:700;color:#3366ff;">' + report.totalImpressions + '</div>';
+    html += '<div style="font-size:0.8rem;color:#888;">总展现</div></div>';
+
+    html += '<div style="background:rgba(46,213,115,0.1);border-radius:12px;padding:14px 20px;flex:1;min-width:120px;text-align:center;">';
+    html += '<div style="font-size:1.6rem;font-weight:700;color:#2ed573;">' + report.totalClicks + '</div>';
+    html += '<div style="font-size:0.8rem;color:#888;">总点击</div></div>';
+
+    html += '<div style="background:rgba(255,217,61,0.1);border-radius:12px;padding:14px 20px;flex:1;min-width:120px;text-align:center;">';
+    html += '<div style="font-size:1.6rem;font-weight:700;color:#ffd93d;">' + report.overallCTR + '</div>';
+    html += '<div style="font-size:0.8rem;color:#888;">整体转化率 (CTR)</div></div>';
+
+    if (report.lastUpdated) {
+      html += '<div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:14px 20px;flex:1;min-width:140px;text-align:center;">';
+      html += '<div style="font-size:0.75rem;color:#666;">最后更新：' + new Date(report.lastUpdated).toLocaleString('zh-CN') + '</div></div>';
+    }
+    html += '</div>';
+
+    // 明细表
+    html += '<table class="pref-table"><thead><tr><th></th><th>标签</th><th>展现</th><th>点击</th><th>转化率</th><th>效果条</th></tr></thead><tbody>';
+
+    var maxClicks = 1;
+    report.ads.forEach(function(a) { if (a.clicks > maxClicks) maxClicks = a.clicks; });
+
+    report.ads.forEach(function(a) {
+      var barW = Math.max(5, (a.clicks / maxClicks) * 150);
+      var ctrNum = parseFloat(a.ctr);
+      var barColor = '#3366ff';
+      if (ctrNum > 20) barColor = '#2ed573';
+      else if (ctrNum > 5) barColor = '#ffd93d';
+      else if (ctrNum > 0) barColor = '#1e90ff';
+      else barColor = '#555';
+
+      html += '<tr>';
+      html += '<td>' + a.icon + '</td>';
+      html += '<td>' + a.tag + '</td>';
+      html += '<td>' + a.impressions + '</td>';
+      html += '<td>' + a.clicks + '</td>';
+      html += '<td><span class="tag-badge" style="background:rgba(51,102,255,0.15);color:#7094ff;">' + a.ctr + '</span></td>';
+      html += '<td><span class="weight-bar" style="width:' + barW + 'px;background:linear-gradient(90deg,' + barColor + ',' + barColor + '88);"></span></td>';
+      html += '</tr>';
+    });
+
+    html += '</tbody></table>';
+    document.getElementById('statsPanel').innerHTML = html;
+  }
+
+  function refreshStats() {
+    renderStats();
+  }
+
+  function resetStats() {
+    if (confirm('确定要重置所有广告统计数据吗？此操作不可撤销！')) {
+      window.AdSystem.resetStats();
+      renderStats();
+    }
+  }
+
+  function exportData() {
+    var data = JSON.stringify(prefs, null, 2);
+    var blob = new Blob([data], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'ad-preferences-' + new Date().toISOString().slice(0, 10) + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // 启动
+  window.addEventListener('load', function() {
+    setTimeout(loadData, 300);
+  });
+</script>
+</body>
+</html>

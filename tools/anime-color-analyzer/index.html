@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="免费在线二次元头像色彩分析工具，上传你的动漫头像或插画，AI 一键提取画面主色调与辅助色，分析冷暖倾向、饱和度分布和风格特征，自动生成专业配色方案与色卡。支持拖拽上传，纯前端 Canvas 分析，不上传服务器保障隐私安全。">
+    <meta name="keywords" content="二次元头像,色彩分析,配色方案,头像分析,动漫头像,色彩提取,主色调,风格分析">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/tools/anime-color-analyzer/">
+    <link rel="icon" href="../../fanv.ico" type="image/x-icon">
+    <title>二次元头像色彩分析器 | ciallo0721-cmd</title>
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "二次元头像色彩分析器",
+        "url": "https://ciallo0721-cmd.top/tools/anime-color-analyzer/",
+        "description": "免费在线二次元头像色彩分析工具，上传动漫头像一键提取主色调、分析风格倾向。",
+        "applicationCategory": "Multimedia",
+        "operatingSystem": "All",
+        "author": {
+            "@type": "Person",
+            "name": "ciallo0721-cmd"
+        }
+    }
+    </script>
+
+    
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    
+    <!-- IP 地理检测（美国用户拒绝访问） -->
+    <script src="/geo-check.js"></script>
+    <!-- HTTP 检测与提示 -->
+    
+
+  <script src="/js/js/svg-icons.js" defer></script>
+    <link rel="stylesheet" href="../../css/css/tools-anime-color-analyzer-index.css">
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+</head>
+<body>
+    <!-- 广告位 #1：顶部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+
+    <!-- Header -->
+    <header class="header">
+        <h1><i class="fa-solid fa-palette"></i> 二次元头像色彩分析器</h1>
+        <p class="subtitle">上传你的动漫头像，分析色彩风格与配色方案</p>
+        <div class="usage-counter">
+            <i class="fa-solid fa-fire"></i>
+            <span>已有</span>
+            <span class="count" id="usageCount">73</span>
+            <span>人使用</span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+
+        <!-- Upload Card -->
+        <section class="card" id="uploadCard">
+            <div class="upload-zone" id="uploadZone">
+                <i class="fa-solid fa-cloud-arrow-up icon"></i>
+                <p class="upload-text">拖拽图片到此处 或 点击上传</p>
+                <p class="upload-hint">支持 JPG / PNG / WebP，推荐 300x300 以上的头像</p>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <!-- Preview area (hidden by default) -->
+            <div class="preview-area" id="previewArea">
+                <div class="preview-image-wrap">
+                    <img id="previewImg" src="" alt="预览图片">
+                </div>
+                <div style="flex:1;min-width:180px;display:flex;align-items:center;">
+                    <button class="analyze-btn" id="analyzeBtn">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i> 开始分析
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading -->
+        <div class="loading" id="loadingSection">
+            <div class="spinner"></div>
+            <p>正在分析色彩，请稍候...</p>
+        </div>
+
+        <!-- Results -->
+        <section class="results" id="resultsSection">
+            <!-- Main Colors -->
+            <div class="card result-section">
+                <h3><i class="fa-solid fa-droplet"></i> 五个主色</h3>
+                <div class="color-swatches" id="colorSwatches"></div>
+            </div>
+
+            <!-- Style -->
+            <div class="card result-section">
+                <h3><i class="fa-solid fa-wand-magic-sparkles"></i> 风格倾向</h3>
+                <div id="styleResult"></div>
+            </div>
+
+            <!-- Color Schemes -->
+            <div class="card result-section">
+                <h3><i class="fa-solid fa-swatchbook"></i> 推荐配色方案</h3>
+                <div class="schemes" id="schemeResults"></div>
+            </div>
+
+            <!-- Share -->
+            <div class="card result-section">
+                <h3><i class="fa-solid fa-share-nodes"></i> 分享色板</h3>
+                <div class="share-btns">
+                    <button class="share-btn" id="copyBtn">
+                        <i class="fa-solid fa-copy"></i> 复制色板
+                    </button>
+                    <button class="share-btn" id="downloadBtn">
+                        <i class="fa-solid fa-download"></i> 下载色板图片
+                    </button>
+                </div>
+            </div>
+
+            <!-- Reset -->
+            <button class="reset-btn" id="resetBtn">
+                <i class="fa-solid fa-arrow-rotate-left"></i> 重新上传
+            </button>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section" id="ctaSection">
+            <h3><i class="fa-solid fa-star"></i> 想要更多二次元工具？</h3>
+            <p>探索更多免费在线工具，提升你的创作效率</p>
+            <a href="https://ciallo0721-cmd.top" class="cta-btn" target="_blank" rel="noopener">
+                立即探索 <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </section>
+
+    </main>
+
+    
+
+    <script src="../../js/js/tools-anime-color-analyzer-index.js"></script>
+
+    <!-- 广告位 #2：底部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+        <!-- ===== 广告系统 v1.1 ===== -->
+    <script src="../../js/js/ad-data.js?v=2"></script>
+    <script src="../../js/js/ad-system.js?v=2"></script>
+</body>
+</html>

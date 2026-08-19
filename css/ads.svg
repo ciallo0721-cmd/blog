@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 728 90" width="728" height="90">
+  <defs>
+    <!-- 渐变背景 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0f2e;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0d1b4b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a0f2e;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 扫光渐变 -->
+    <linearGradient id="scanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+      <stop offset="50%" style="stop-color:rgba(255,255,255,0.06);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+    </linearGradient>
+
+    <!-- 边框渐变 -->
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3366ff;stop-opacity:0.3" />
+      <stop offset="30%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#818cf8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3366ff;stop-opacity:0.3" />
+    </linearGradient>
+
+    <!-- 光晕滤镜 -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- 强光晕 -->
+    <filter id="glowStrong" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- 文字发光 -->
+    <filter id="textGlow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- 扫光遮罩 -->
+    <mask id="scanMask">
+      <rect width="728" height="90" fill="white" />
+    </mask>
+
+    <!-- 星星路径 clip -->
+    <clipPath id="mainClip">
+      <rect width="728" height="90" rx="8" ry="8" />
+    </clipPath>
+  </defs>
+
+  <!-- 主容器（圆角） -->
+  <g clip-path="url(#mainClip)">
+
+    <!-- 背景 -->
+    <rect width="728" height="90" fill="url(#bgGrad)" />
+
+    <!-- 网格线（装饰用） -->
+    <g opacity="0.07" stroke="#3366ff" stroke-width="0.5">
+      <line x1="0" y1="18" x2="728" y2="18" />
+      <line x1="0" y1="36" x2="728" y2="36" />
+      <line x1="0" y1="54" x2="728" y2="54" />
+      <line x1="0" y1="72" x2="728" y2="72" />
+      <line x1="91" y1="0" x2="91" y2="90" />
+      <line x1="182" y1="0" x2="182" y2="90" />
+      <line x1="273" y1="0" x2="273" y2="90" />
+      <line x1="364" y1="0" x2="364" y2="90" />
+      <line x1="455" y1="0" x2="455" y2="90" />
+      <line x1="546" y1="0" x2="546" y2="90" />
+      <line x1="637" y1="0" x2="637" y2="90" />
+    </g>
+
+    <!-- 扫光动画层 -->
+    <rect x="-200" y="0" width="300" height="90" fill="url(#scanGrad)">
+      <animate attributeName="x" from="-300" to="728" dur="3.5s" repeatCount="indefinite" />
+    </rect>
+
+    <!-- 左侧装饰图标区域 -->
+    <!-- 广播图标 (手绘SVG路径) -->
+    <g transform="translate(28, 45)" filter="url(#glowStrong)">
+      <!-- 圆形外圈 -->
+      <circle cx="0" cy="0" r="18" fill="none" stroke="#3366ff" stroke-width="1.5" opacity="0.6">
+        <animate attributeName="r" values="18;21;18" dur="2s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="0" cy="0" r="13" fill="none" stroke="#60a5fa" stroke-width="1.5" opacity="0.85">
+        <animate attributeName="r" values="13;15;13" dur="2s" repeatCount="indefinite" begin="0.3s" />
+        <animate attributeName="opacity" values="0.85;0.4;0.85" dur="2s" repeatCount="indefinite" begin="0.3s" />
+      </circle>
+      <!-- 麦克风图标 -->
+      <rect x="-5" y="-10" width="10" height="14" rx="5" fill="#818cf8" />
+      <path d="M-9,2 Q-9,10 0,10 Q9,10 9,2" fill="none" stroke="#818cf8" stroke-width="1.5" />
+      <line x1="0" y1="10" x2="0" y2="15" stroke="#818cf8" stroke-width="1.5" />
+      <line x1="-4" y1="15" x2="4" y2="15" stroke="#818cf8" stroke-width="1.5" />
+    </g>
+
+    <!-- 主标题文字 -->
+    <g filter="url(#textGlow)">
+      <text x="364" y="36"
+        font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif"
+        font-size="20"
+        font-weight="700"
+        fill="#e8f0ff"
+        text-anchor="middle"
+        letter-spacing="3">
+        广告位招租…
+        <animate attributeName="fill" values="#e8f0ff;#93c5fd;#c4b5fd;#93c5fd;#e8f0ff" dur="4s" repeatCount="indefinite" />
+      </text>
+    </g>
+
+    <!-- 副标题 -->
+    <text x="364" y="62"
+      font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif"
+      font-size="13"
+      fill="#7b96d4"
+      text-anchor="middle"
+      letter-spacing="1">
+      本位置暂无广告 · 欢迎联系合作
+      <animate attributeName="opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite" />
+    </text>
+
+    <!-- 右侧联系提示胶囊 -->
+
+    <!-- 装饰星星 (左) -->
+    <g filter="url(#glow)">
+      <circle cx="78" cy="20" r="2" fill="#60a5fa">
+        <animate attributeName="opacity" values="0;1;0" dur="2.1s" repeatCount="indefinite" begin="0s" />
+      </circle>
+      <circle cx="110" cy="70" r="1.5" fill="#818cf8">
+        <animate attributeName="opacity" values="0;1;0" dur="1.8s" repeatCount="indefinite" begin="0.4s" />
+      </circle>
+      <circle cx="150" cy="15" r="1.5" fill="#93c5fd">
+        <animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite" begin="0.9s" />
+      </circle>
+    </g>
+
+    <!-- 装饰星星 (右) -->
+    <g filter="url(#glow)">
+      <circle cx="560" cy="20" r="2" fill="#818cf8">
+        <animate attributeName="opacity" values="0;1;0" dur="1.9s" repeatCount="indefinite" begin="0.2s" />
+      </circle>
+      <circle cx="590" cy="72" r="1.5" fill="#60a5fa">
+        <animate attributeName="opacity" values="0;1;0" dur="2.3s" repeatCount="indefinite" begin="0.7s" />
+      </circle>
+      <circle cx="540" cy="15" r="1" fill="#c4b5fd">
+        <animate attributeName="opacity" values="0;1;0" dur="2.7s" repeatCount="indefinite" begin="1.1s" />
+      </circle>
+    </g>
+
+    <!-- 底部装饰线（脉冲） -->
+    <rect x="0" y="87" width="728" height="3" fill="url(#borderGrad)">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="2.5s" repeatCount="indefinite" />
+    </rect>
+
+  </g>
+
+  <!-- 外边框（圆角） -->
+  <rect x="0.75" y="0.75" width="726.5" height="88.5" rx="7.5" ry="7.5"
+    fill="none"
+    stroke="url(#borderGrad)"
+    stroke-width="1.5">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite" />
+  </rect>
+
+</svg>

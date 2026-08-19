@@ -1,0 +1,258 @@
+/**
+ * 音频播放器样式 - mus/audio-player.css
+ * 配套 mus/audio-player.js
+ * 使用 class: .audio-player-container
+ */
+
+:root {
+    --ap-pink: #FB7299;
+    --ap-blue: #00A1D6;
+    --ap-bg: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+.audio-player-container {
+    width: 100%;
+    max-width: 640px;
+    margin: 24px auto;
+    border-radius: 18px;
+    background: var(--ap-bg);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.28);
+    overflow: hidden;
+    font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif;
+}
+
+/* 整体容器行 */
+.ap-body {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+}
+
+/* 封面 */
+.ap-cover {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    position: relative;
+    background: rgba(255,255,255,0.08);
+    transition: transform 0.3s;
+}
+
+.audio-player-container.ap-playing .ap-cover {
+    animation: ap-spin 8s linear infinite;
+}
+
+@keyframes ap-spin {
+    to { transform: rotate(360deg); }
+}
+
+.ap-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+.ap-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ap-cover-placeholder i {
+    font-size: 1.6rem;
+    background: linear-gradient(135deg, var(--ap-pink), var(--ap-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 主体 */
+.ap-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 歌曲信息 */
+.ap-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    overflow: hidden;
+}
+
+.ap-title {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ap-artist {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.82rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 控制区 */
+.ap-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 按钮 */
+.ap-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    outline: none;
+    transition: transform 0.15s;
+}
+
+.ap-btn:hover {
+    transform: scale(1.12);
+}
+
+/* 播放按钮 */
+.ap-play-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ap-pink), var(--ap-blue));
+    box-shadow: 0 4px 14px rgba(251, 114, 153, 0.45);
+    flex-shrink: 0;
+}
+
+.ap-play-btn i {
+    color: #fff;
+    font-size: 1rem;
+    margin-left: 2px;
+}
+
+.ap-play-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 20px rgba(251, 114, 153, 0.6);
+}
+
+/* 进度条区 */
+.ap-progress-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.ap-time {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.75rem;
+    font-family: 'MaokenAssortedSans', 'Monaco', 'Menlo', monospace;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.ap-progress-bar {
+    flex: 1;
+    height: 5px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+    overflow: visible;
+}
+
+.ap-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--ap-pink), var(--ap-blue));
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.ap-progress-handle {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.ap-progress-bar:hover .ap-progress-handle,
+.audio-player-container.ap-playing .ap-progress-handle {
+    opacity: 1;
+}
+
+/* 音量 */
+.ap-vol-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.ap-vol-btn {
+    width: 28px;
+    height: 28px;
+}
+
+.ap-vol-btn i {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.ap-vol-btn:hover i {
+    color: #fff;
+}
+
+.ap-vol-bar {
+    width: 56px;
+    height: 5px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+}
+
+.ap-vol-fill {
+    height: 100%;
+    background: rgba(255,255,255,0.8);
+    border-radius: 3px;
+    width: 70%;
+    transition: width 0.1s;
+}
+
+/* 响应式 */
+@media (max-width: 480px) {
+    .ap-body { padding: 14px 14px; gap: 12px; }
+    .ap-cover { width: 50px; height: 50px; }
+    .ap-title { font-size: 0.9rem; }
+    .ap-vol-wrap { display: none; }
+    .ap-time { font-size: 0.7rem; }
+}

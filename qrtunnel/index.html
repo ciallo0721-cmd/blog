@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0d1117">
+<title>QR 穿透 - 手机扫码端</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0d1117; color: #e6edf3; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  header {
+    padding: 14px 18px; text-align: center; background: #161b22;
+    border-bottom: 1px solid #21262d;
+  }
+  header h1 { font-size: 17px; font-weight: 600; }
+  header p { font-size: 12px; color: #8b949e; margin-top: 4px; }
+  #stage { flex: 1; position: relative; background: #000; overflow: hidden; }
+  video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  #scanline {
+    position: absolute; left: 12%; right: 12%; top: 50%;
+    height: 3px; border-radius: 2px; margin-top: -1.5px;
+    background: linear-gradient(90deg, transparent, #2f81f7, transparent);
+    animation: scan 2.2s ease-in-out infinite;
+    box-shadow: 0 0 12px rgba(47,129,247,.8);
+  }
+  @keyframes scan {
+    0%   { transform: translateY(-35%); }
+    50%  { transform: translateY(35%); }
+    100% { transform: translateY(-35%); }
+  }
+  #corner { position: absolute; inset: 12%; border: 3px solid rgba(47,129,247,.85);
+            border-radius: 14px; pointer-events: none; }
+  #status {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 16px;
+    text-align: center; font-size: 14px; color: #e6edf3;
+    background: linear-gradient(transparent, rgba(0,0,0,.85));
+  }
+  #status .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+                 background: #3fb950; margin-right: 8px; animation: blink 1.2s infinite; }
+  @keyframes blink { 50% { opacity: .3; } }
+  #status.error .dot { background: #f85149; }
+  #status.ok .dot { background: #d29922; }
+  #status .sub { font-size: 12px; color: #8b949e; margin-top: 4px; }
+  footer {
+    padding: 10px; text-align: center; font-size: 11px; color: #484f58;
+    background: #161b22; border-top: 1px solid #21262d;
+  }
+  #fallback { display: none; padding: 24px; font-size: 13px; color: #f85149; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>📷 QR 穿透 · 手机扫码端</h1>
+    <p>对准电脑屏幕上的二维码,识别后自动打开对应页面</p>
+  </header>
+
+  <div id="stage">
+    <video id="video" playsinline muted autoplay></video>
+    <div id="corner"></div>
+    <div id="scanline"></div>
+    <div id="status">
+      <span class="dot"></span><span id="statusText">正在启动摄像头 ...</span>
+      <div class="sub">请将本机摄像头对准对方屏幕上的二维码</div>
+    </div>
+  </div>
+
+  <footer>无需安装 App · 需 HTTPS 环境 · 浏览器直接使用</footer>
+  <div id="fallback"></div>
+
+  <script src="jsqr.js"></script>
+  <script>
+    (function () {
+      var video = document.getElementById('video');
+      var statusEl = document.getElementById('status');
+      var statusText = document.getElementById('statusText');
+      var scanning = false;
+
+      function setStatus(text, cls) {
+        statusText.textContent = text;
+        statusEl.className = cls || '';
+      }
+
+      function main() {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          setStatus('当前浏览器不支持摄像头(需 HTTPS + getUserMedia)', 'error');
+          return;
+        }
+        var constraints = {
+          video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 } },
+          audio: false
+        };
+        navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+          video.srcObject = stream;
+          video.play().then(function () {
+            setStatus('正在扫描,请对准二维码 ...');
+            requestAnimationFrame(tick);
+          }).catch(function () {
+            setStatus('摄像头画面启动失败,请允许摄像头权限', 'error');
+          });
+        }).catch(function (err) {
+          setStatus('无法打开摄像头: ' + (err && err.message ? err.message : err), 'error');
+        });
+      }
+
+      var lastTime = 0;
+      function tick(now) {
+        if (now - lastTime < 100) {           // 约 10 FPS 解码
+          requestAnimationFrame(tick);
+          return;
+        }
+        lastTime = now;
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+          var w = video.videoWidth, h = video.videoHeight;
+          if (w > 0 && h > 0) {
+            var canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            var ctx = canvas.getContext('2d', { willReadFrequently: true });
+            ctx.drawImage(video, 0, 0, w, h);
+            var img = ctx.getImageData(0, 0, w, h);
+            var code = jsQR(img.data, w, h, { inversionAttempts: 'dontInvert' });
+            if (code && code.data && /^https?:\/\//i.test(code.data)) {
+              setStatus('已识别: ' + code.data, 'ok');
+              // 先显示 0.5 秒识别结果,再跳转
+              setTimeout(function () { location.href = code.data; }, 500);
+              return; // 停止继续扫描
+            }
+          }
+        }
+        requestAnimationFrame(tick);
+      }
+
+      main();
+    })();
+  </script>
+</body>
+</html>

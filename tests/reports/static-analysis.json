@@ -1,0 +1,1317 @@
+{
+  "timestamp": "2026-07-07T03:26:28.111Z",
+  "project": "ciallo0721-cmd.top",
+  "score": 70,
+  "summary": {
+    "pass": 365,
+    "warn": 156,
+    "fail": 0,
+    "info": 0
+  },
+  "files": [
+    {
+      "file": "index.html",
+      "size": 170.2,
+      "lines": 2156
+    },
+    {
+      "file": "blog\\muban\\index.html",
+      "size": 83.9,
+      "lines": 1672
+    },
+    {
+      "file": "pages\\privacy.html",
+      "size": 71.1,
+      "lines": 786
+    },
+    {
+      "file": "privacy.html",
+      "size": 71.1,
+      "lines": 786
+    },
+    {
+      "file": "arg\\index.html",
+      "size": 52.7,
+      "lines": 1077
+    },
+    {
+      "file": "wz\\index.html",
+      "size": 49,
+      "lines": 1360
+    },
+    {
+      "file": "tools\\vtuber-personality-test\\index.html",
+      "size": 48.9,
+      "lines": 1066
+    },
+    {
+      "file": "app\\moeface\\index.html",
+      "size": 48.3,
+      "lines": 1239
+    },
+    {
+      "file": "tools\\anime-color-analyzer\\index.html",
+      "size": 43.9,
+      "lines": 1245
+    },
+    {
+      "file": "tools\\renpy-template-generator\\index.html",
+      "size": 43.4,
+      "lines": 1214
+    },
+    {
+      "file": "admin\\index.html",
+      "size": 38.1,
+      "lines": 838
+    },
+    {
+      "file": "aboutme.html",
+      "size": 29.9,
+      "lines": 660
+    },
+    {
+      "file": "cn\\index.html",
+      "size": 29.9,
+      "lines": 840
+    },
+    {
+      "file": "pages\\aboutme.html",
+      "size": 29.9,
+      "lines": 660
+    },
+    {
+      "file": "tools\\vtuber-name-generator\\index.html",
+      "size": 24.8,
+      "lines": 636
+    },
+    {
+      "file": "friends.html",
+      "size": 23.9,
+      "lines": 691
+    },
+    {
+      "file": "blog\\index.html",
+      "size": 23.8,
+      "lines": 394
+    },
+    {
+      "file": "taffy\\index.html",
+      "size": 21.1,
+      "lines": 570
+    },
+    {
+      "file": "help.html",
+      "size": 20.6,
+      "lines": 496
+    },
+    {
+      "file": "pages\\help.html",
+      "size": 20.6,
+      "lines": 496
+    },
+    {
+      "file": "status.html",
+      "size": 20.5,
+      "lines": 602
+    },
+    {
+      "file": "pages\\status.html",
+      "size": 20.3,
+      "lines": 602
+    },
+    {
+      "file": "pages\\friends.html",
+      "size": 19.5,
+      "lines": 559
+    },
+    {
+      "file": "baicai\\index.html",
+      "size": 18.5,
+      "lines": 535
+    },
+    {
+      "file": "404.html",
+      "size": 18.1,
+      "lines": 518
+    },
+    {
+      "file": "app\\mood-tracker\\index.html",
+      "size": 17.8,
+      "lines": 622
+    },
+    {
+      "file": "tests\\reports\\comprehensive-report-2026-07-07.html",
+      "size": 17.1,
+      "lines": 421
+    },
+    {
+      "file": "cs2\\index.html",
+      "size": 17,
+      "lines": 509
+    },
+    {
+      "file": "privacyandpolicy\\index.html",
+      "size": 16.9,
+      "lines": 382
+    },
+    {
+      "file": "wiki\\index.html",
+      "size": 15.8,
+      "lines": 468
+    },
+    {
+      "file": "app\\tools\\index.html",
+      "size": 14.4,
+      "lines": 363
+    },
+    {
+      "file": "pages\\privacy-policy.html",
+      "size": 13.1,
+      "lines": 329
+    },
+    {
+      "file": "privacy-policy.html",
+      "size": 13.1,
+      "lines": 329
+    },
+    {
+      "file": "pages\\user-agreement.html",
+      "size": 11.7,
+      "lines": 286
+    },
+    {
+      "file": "user-agreement.html",
+      "size": 11.7,
+      "lines": 286
+    },
+    {
+      "file": "work\\index.html",
+      "size": 10.2,
+      "lines": 230
+    },
+    {
+      "file": "zmdspp\\indexzm.html",
+      "size": 7.9,
+      "lines": 278
+    },
+    {
+      "file": "oops\\link\\index.html",
+      "size": 7.8,
+      "lines": 233
+    },
+    {
+      "file": "timeline.html",
+      "size": 7.2,
+      "lines": 230
+    },
+    {
+      "file": "access-denied.html",
+      "size": 6.7,
+      "lines": 201
+    },
+    {
+      "file": "pages\\access-denied.html",
+      "size": 6.7,
+      "lines": 201
+    },
+    {
+      "file": "wiki\\utau\\index.html",
+      "size": 6.5,
+      "lines": 108
+    },
+    {
+      "file": "wiki\\vocaloid\\index.html",
+      "size": 6,
+      "lines": 101
+    },
+    {
+      "file": "wiki\\mediapipe\\index.html",
+      "size": 5.9,
+      "lines": 102
+    },
+    {
+      "file": "wiki\\python\\index.html",
+      "size": 5.8,
+      "lines": 103
+    },
+    {
+      "file": "wiki\\unity\\index.html",
+      "size": 5.7,
+      "lines": 103
+    },
+    {
+      "file": "wiki\\dashichang\\index.html",
+      "size": 5.6,
+      "lines": 100
+    },
+    {
+      "file": "wiki\\openutau\\index.html",
+      "size": 5.6,
+      "lines": 95
+    },
+    {
+      "file": "wiki\\paddleocr\\index.html",
+      "size": 5.6,
+      "lines": 102
+    },
+    {
+      "file": "wiki\\tongshiting\\index.html",
+      "size": 5.6,
+      "lines": 96
+    },
+    {
+      "file": "adss.html",
+      "size": 5.1,
+      "lines": 203
+    },
+    {
+      "file": "oops\\index.html",
+      "size": 4.9,
+      "lines": 144
+    },
+    {
+      "file": "91\\index.html",
+      "size": 1.2,
+      "lines": 35
+    },
+    {
+      "file": "fors\\index.html",
+      "size": 1.2,
+      "lines": 36
+    },
+    {
+      "file": "LAIDB\\index.html",
+      "size": 1.2,
+      "lines": 35
+    },
+    {
+      "file": "mood-tracker\\index.html",
+      "size": 1.2,
+      "lines": 35
+    },
+    {
+      "file": "app\\index.html",
+      "size": 1.1,
+      "lines": 35
+    },
+    {
+      "file": "bjqy\\index.html",
+      "size": 1.1,
+      "lines": 35
+    },
+    {
+      "file": "moeface\\index.html",
+      "size": 1.1,
+      "lines": 35
+    },
+    {
+      "file": "redirect-template.html",
+      "size": 1.1,
+      "lines": 35
+    },
+    {
+      "file": "tools\\index.html",
+      "size": 1.1,
+      "lines": 35
+    },
+    {
+      "file": "wz.html",
+      "size": 1.1,
+      "lines": 35
+    }
+  ],
+  "fails": [],
+  "warns": [
+    {
+      "check": "内联CSS过多",
+      "detail": "404.html: ~251 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "404.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "viewport 缺失",
+      "detail": "index.html 缺少 viewport meta 标签"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "91\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "aboutme.html: ~325 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "aboutme.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "access-denied.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "access-denied.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "内联 style 过多",
+      "detail": "admin\\index.html: 55 个内联 style (建议<20)"
+    },
+    {
+      "check": "px 字体",
+      "detail": "admin\\index.html: 40 处 px 字体 (应改用 rem/em)"
+    },
+    {
+      "check": "内联JS过多",
+      "detail": "admin\\index.html: ~424 行内联 JS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "admin\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联事件处理器",
+      "detail": "admin\\index.html: 37 个 on* 属性"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "adss.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "viewport 缺失",
+      "detail": "index.html 缺少 viewport meta 标签"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "app\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "语义化标签偏少",
+      "detail": "index.html 仅使用了 header, footer"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "app\\moeface\\index.html: ~345 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "内联JS过多",
+      "detail": "app\\moeface\\index.html: ~644 行内联 JS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "app\\moeface\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "app\\mood-tracker\\index.html: ~302 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "app\\mood-tracker\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "app\\tools\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "viewport 缺失",
+      "detail": "index.html 缺少 viewport meta 标签"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "内联 style 过多",
+      "detail": "arg\\index.html: 39 个内联 style (建议<20)"
+    },
+    {
+      "check": "px 字体",
+      "detail": "arg\\index.html: 50 处 px 字体 (应改用 rem/em)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "arg\\index.html: ~225 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "内联JS过多",
+      "detail": "arg\\index.html: ~632 行内联 JS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "arg\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联事件处理器",
+      "detail": "arg\\index.html: 40 个 on* 属性"
+    },
+    {
+      "check": "语义化标签偏少",
+      "detail": "index.html 仅使用了 section"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "baicai\\index.html: ~278 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "baicai\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "viewport 缺失",
+      "detail": "index.html 缺少 viewport meta 标签"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "bjqy\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "blog\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联事件处理器",
+      "detail": "blog\\index.html: 14 个 on* 属性"
+    },
+    {
+      "check": "内联 style 过多",
+      "detail": "blog\\muban\\index.html: 55 个内联 style (建议<20)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "blog\\muban\\index.html: ~530 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "内联JS过多",
+      "detail": "blog\\muban\\index.html: ~401 行内联 JS (建议拆分外部文件)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "cn\\index.html: ~478 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "cs2\\index.html: ~250 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "cs2\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "viewport 缺失",
+      "detail": "index.html 缺少 viewport meta 标签"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "fors\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "friends.html: ~395 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "friends.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "help.html: ~240 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "help.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联事件处理器",
+      "detail": "help.html: 11 个 on* 属性"
+    },
+    {
+      "check": "内联 style 过多",
+      "detail": "index.html: 271 个内联 style (建议<20)"
+    },
+    {
+      "check": "!important 过多",
+      "detail": "index.html: 50 处 !important (建议<10)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "index.html: ~658 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "console.log 遗留",
+      "detail": "index.html: 22 个 console.log (生产环境应清理)"
+    },
+    {
+      "check": "内联JS过多",
+      "detail": "index.html: ~918 行内联 JS (建议拆分外部文件)"
+    },
+    {
+      "check": "外链 rel 缺失",
+      "detail": "index.html: 34 个 target=\"_blank\" 外链缺少 rel=\"noopener noreferrer\""
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "跳过导航链接",
+      "detail": "index.html: 缺少 skip-to-content 链接"
+    },
+    {
+      "check": "内联事件处理器",
+      "detail": "index.html: 59 个 on* 属性"
+    },
+    {
+      "check": "viewport 缺失",
+      "detail": "index.html 缺少 viewport meta 标签"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "LAIDB\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "viewport 缺失",
+      "detail": "index.html 缺少 viewport meta 标签"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "moeface\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "viewport 缺失",
+      "detail": "index.html 缺少 viewport meta 标签"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "mood-tracker\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "oops\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "oops\\link\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "pages\\aboutme.html: ~325 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "pages\\aboutme.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "access-denied.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "pages\\access-denied.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "pages\\friends.html: ~305 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "pages\\friends.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "pages\\help.html: ~240 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "pages\\help.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联事件处理器",
+      "detail": "pages\\help.html: 11 个 on* 属性"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "pages\\privacy-policy.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "px 字体",
+      "detail": "pages\\privacy.html: 14 处 px 字体 (应改用 rem/em)"
+    },
+    {
+      "check": "内联JS过多",
+      "detail": "pages\\privacy.html: ~486 行内联 JS (建议拆分外部文件)"
+    },
+    {
+      "check": "外链 rel 缺失",
+      "detail": "pages\\privacy.html: 7 个 target=\"_blank\" 外链缺少 rel=\"noopener noreferrer\""
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "pages\\privacy.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "pages\\status.html: ~386 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "pages\\status.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "pages\\user-agreement.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "privacy-policy.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "px 字体",
+      "detail": "privacy.html: 14 处 px 字体 (应改用 rem/em)"
+    },
+    {
+      "check": "内联JS过多",
+      "detail": "privacy.html: ~486 行内联 JS (建议拆分外部文件)"
+    },
+    {
+      "check": "外链 rel 缺失",
+      "detail": "privacy.html: 7 个 target=\"_blank\" 外链缺少 rel=\"noopener noreferrer\""
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "privacy.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "privacyandpolicy\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "viewport 缺失",
+      "detail": "redirect-template.html 缺少 viewport meta 标签"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "redirect-template.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "redirect-template.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "status.html: ~386 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "status.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "语义化标签偏少",
+      "detail": "index.html 仅使用了 section"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "taffy\\index.html: ~255 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "taffy\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "comprehensive-report-2026-07-07.html 缺少 description"
+    },
+    {
+      "check": "语义化标签偏少",
+      "detail": "comprehensive-report-2026-07-07.html 仅使用了 header"
+    },
+    {
+      "check": "内联 style 过多",
+      "detail": "tests\\reports\\comprehensive-report-2026-07-07.html: 36 个内联 style (建议<20)"
+    },
+    {
+      "check": "eval 使用",
+      "detail": "tests\\reports\\comprehensive-report-2026-07-07.html 使用了 eval() (可能有安全风险)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "timeline.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "tools\\anime-color-analyzer\\index.html: ~463 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "内联JS过多",
+      "detail": "tools\\anime-color-analyzer\\index.html: ~514 行内联 JS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "tools\\anime-color-analyzer\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "viewport 缺失",
+      "detail": "index.html 缺少 viewport meta 标签"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "tools\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "语义化标签偏少",
+      "detail": "index.html 仅使用了 header, footer"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "tools\\renpy-template-generator\\index.html: ~339 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "内联JS过多",
+      "detail": "tools\\renpy-template-generator\\index.html: ~473 行内联 JS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "tools\\renpy-template-generator\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联事件处理器",
+      "detail": "tools\\renpy-template-generator\\index.html: 12 个 on* 属性"
+    },
+    {
+      "check": "语义化标签偏少",
+      "detail": "index.html 仅使用了 header"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "tools\\vtuber-name-generator\\index.html: ~243 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "tools\\vtuber-name-generator\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "语义化标签偏少",
+      "detail": "index.html 仅使用了 footer"
+    },
+    {
+      "check": "px 字体",
+      "detail": "tools\\vtuber-personality-test\\index.html: 38 处 px 字体 (应改用 rem/em)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "tools\\vtuber-personality-test\\index.html: ~538 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "tools\\vtuber-personality-test\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联事件处理器",
+      "detail": "tools\\vtuber-personality-test\\index.html: 25 个 on* 属性"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "user-agreement.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "wiki\\dashichang\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "wiki\\index.html: ~202 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "wiki\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "wiki\\mediapipe\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "wiki\\openutau\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "wiki\\paddleocr\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "wiki\\python\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "wiki\\tongshiting\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "wiki\\unity\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "wiki\\utau\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "wiki\\vocaloid\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "viewport 缺失",
+      "detail": "index.html 缺少 viewport meta 标签"
+    },
+    {
+      "check": "meta description 缺失",
+      "detail": "index.html 缺少 description"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "work\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "内联CSS过多",
+      "detail": "wz\\index.html: ~699 行内联 CSS (建议拆分外部文件)"
+    },
+    {
+      "check": "内联JS过多",
+      "detail": "wz\\index.html: ~316 行内联 JS (建议拆分外部文件)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "wz\\index.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "viewport 缺失",
+      "detail": "wz.html 缺少 viewport meta 标签"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "wz.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    },
+    {
+      "check": "ARIA 属性",
+      "detail": "zmdspp\\indexzm.html: 0 个 aria-* 属性 (屏幕阅读器支持不足)"
+    }
+  ],
+  "passes": [
+    "404.html 有 DOCTYPE",
+    "404.html 已声明语言",
+    "404.html 声明了 charset",
+    "404.html 正确配置 viewport",
+    "404.html: \"页面未找到 - 404 | ciallo0721-cmd\"",
+    "404.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html: \"页面已迁移 - ciallo0721-cmd\"",
+    "index.html 有 description",
+    "aboutme.html 有 DOCTYPE",
+    "aboutme.html 已声明语言",
+    "aboutme.html 声明了 charset",
+    "aboutme.html 正确配置 viewport",
+    "aboutme.html: \"关于我 | ciallo0721-cmd\"",
+    "aboutme.html 有 description",
+    "aboutme.html 使用了 footer, nav, section",
+    "access-denied.html 有 DOCTYPE",
+    "access-denied.html 已声明语言",
+    "access-denied.html 声明了 charset",
+    "access-denied.html 正确配置 viewport",
+    "access-denied.html: \"ciallo0721-cmd | 跳转中...\"",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"Admin Panel — ciallo0721-cmd.top\"",
+    "index.html 使用了 main, nav, section, aside",
+    "adss.html 有 DOCTYPE",
+    "adss.html 已声明语言",
+    "adss.html 声明了 charset",
+    "adss.html 正确配置 viewport",
+    "adss.html: \"广告投放 / Sponsor / 联系方式 - ciallo0721-cmd\"",
+    "adss.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html: \"应用中心 - ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"MoeFace Web - 动漫人脸识别\"",
+    "index.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"心情追踪 | Mood Tracker Dashboard\"",
+    "index.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"免费在线工具 | ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 使用了 header, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html: \"Desktop\"",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"真白花音 纪念站 | 白菜\"",
+    "index.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html: \"页面已迁移 - ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"文章站 - ciallo0721-cmd 的博客\"",
+    "index.html 有 description",
+    "index.html 使用了 header, main, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"样板文章·全机制展示 - ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 使用了 header, main, footer, nav, article",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"历代诗人 · 中华诗词人物百科\"",
+    "index.html 有 description",
+    "index.html 使用了 header, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"功能未实现 - 501 | ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html: \"页面已迁移 - ciallo0721-cmd\"",
+    "friends.html 有 DOCTYPE",
+    "friends.html 已声明语言",
+    "friends.html 声明了 charset",
+    "friends.html 正确配置 viewport",
+    "friends.html: \"友情链接 | ciallo0721-cmd\"",
+    "friends.html 有 description",
+    "friends.html 使用了 header, footer, nav",
+    "help.html 有 DOCTYPE",
+    "help.html 已声明语言",
+    "help.html 声明了 charset",
+    "help.html 正确配置 viewport",
+    "help.html: \"帮助中心 | ciallo0721-cmd\"",
+    "help.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"ciallo0721-cmd's blog\"",
+    "index.html 有 description",
+    "index.html 使用了 header, main, footer, nav, section",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html: \"页面已迁移 - ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html: \"页面已迁移 - ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html: \"页面已迁移 - ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"浏览器不支持 - ciallo0721-cmd's blog\"",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"外部链接提示 | ciallo0721-cmd\"",
+    "aboutme.html 有 DOCTYPE",
+    "aboutme.html 已声明语言",
+    "aboutme.html 声明了 charset",
+    "aboutme.html 正确配置 viewport",
+    "aboutme.html: \"关于我 | ciallo0721-cmd\"",
+    "aboutme.html 有 description",
+    "aboutme.html 使用了 footer, nav, section",
+    "access-denied.html 有 DOCTYPE",
+    "access-denied.html 已声明语言",
+    "access-denied.html 声明了 charset",
+    "access-denied.html 正确配置 viewport",
+    "access-denied.html: \"ciallo0721-cmd | 跳转中...\"",
+    "friends.html 有 DOCTYPE",
+    "friends.html 已声明语言",
+    "friends.html 声明了 charset",
+    "friends.html 正确配置 viewport",
+    "friends.html: \"友情链接 | ciallo0721-cmd\"",
+    "friends.html 有 description",
+    "friends.html 使用了 header, footer, nav",
+    "help.html 有 DOCTYPE",
+    "help.html 已声明语言",
+    "help.html 声明了 charset",
+    "help.html 正确配置 viewport",
+    "help.html: \"帮助中心 | ciallo0721-cmd\"",
+    "help.html 有 description",
+    "privacy-policy.html 有 DOCTYPE",
+    "privacy-policy.html 已声明语言",
+    "privacy-policy.html 声明了 charset",
+    "privacy-policy.html 正确配置 viewport",
+    "privacy-policy.html: \"隐私政策 | ciallo0721-cmd\"",
+    "privacy-policy.html 有 description",
+    "privacy.html 有 DOCTYPE",
+    "privacy.html 已声明语言",
+    "privacy.html 声明了 charset",
+    "privacy.html 正确配置 viewport",
+    "privacy.html: \"隐私政策 - ciallo0721-cmd\"",
+    "privacy.html 有 description",
+    "privacy.html 使用了 header, main, footer",
+    "status.html 有 DOCTYPE",
+    "status.html 已声明语言",
+    "status.html 声明了 charset",
+    "status.html 正确配置 viewport",
+    "status.html: \"网站状态 | ciallo0721-cmd\"",
+    "status.html 有 description",
+    "user-agreement.html 有 DOCTYPE",
+    "user-agreement.html 已声明语言",
+    "user-agreement.html 声明了 charset",
+    "user-agreement.html 正确配置 viewport",
+    "user-agreement.html: \"用户协议 | ciallo0721-cmd\"",
+    "user-agreement.html 有 description",
+    "privacy-policy.html 有 DOCTYPE",
+    "privacy-policy.html 已声明语言",
+    "privacy-policy.html 声明了 charset",
+    "privacy-policy.html 正确配置 viewport",
+    "privacy-policy.html: \"隐私政策 | ciallo0721-cmd\"",
+    "privacy-policy.html 有 description",
+    "privacy.html 有 DOCTYPE",
+    "privacy.html 已声明语言",
+    "privacy.html 声明了 charset",
+    "privacy.html 正确配置 viewport",
+    "privacy.html: \"隐私政策 - ciallo0721-cmd\"",
+    "privacy.html 有 description",
+    "privacy.html 使用了 header, main, footer",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"隐私政策 | ciallo0721-cmd\"",
+    "index.html 有 description",
+    "redirect-template.html 有 DOCTYPE",
+    "redirect-template.html 已声明语言",
+    "redirect-template.html 声明了 charset",
+    "redirect-template.html: \"页面已迁移 - ciallo0721-cmd\"",
+    "status.html 有 DOCTYPE",
+    "status.html 已声明语言",
+    "status.html 声明了 charset",
+    "status.html 正确配置 viewport",
+    "status.html: \"网站状态 | ciallo0721-cmd\"",
+    "status.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"永雏塔菲 · AI 人设档案 | AceTaffy\"",
+    "index.html 有 description",
+    "comprehensive-report-2026-07-07.html 有 DOCTYPE",
+    "comprehensive-report-2026-07-07.html 已声明语言",
+    "comprehensive-report-2026-07-07.html 声明了 charset",
+    "comprehensive-report-2026-07-07.html 正确配置 viewport",
+    "comprehensive-report-2026-07-07.html: \"🧪 ciallo0721-cmd.top 综合测试报告 — 端测测\"",
+    "timeline.html 有 DOCTYPE",
+    "timeline.html 已声明语言",
+    "timeline.html 声明了 charset",
+    "timeline.html 正确配置 viewport",
+    "timeline.html: \"更新记录 - ciallo0721-cmd\"",
+    "timeline.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"二次元头像色彩分析器 | ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 使用了 header, main, section",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html: \"页面已迁移 - ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"Ren'Py 模板生成器 | ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"VTuber 名字生成器 | ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"VTuber 人格测试 | ciallo0721-cmd\"",
+    "index.html 有 description",
+    "user-agreement.html 有 DOCTYPE",
+    "user-agreement.html 已声明语言",
+    "user-agreement.html 声明了 charset",
+    "user-agreement.html 正确配置 viewport",
+    "user-agreement.html: \"用户协议 | ciallo0721-cmd\"",
+    "user-agreement.html 有 description",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"大市唱（dashichang） - 百科 - ciallo0721-cmd\"",
+    "index.html 使用了 header, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"百科 - ciallo0721-cmd\"",
+    "index.html 有 description",
+    "index.html 使用了 header, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"MediaPipe - 百科 - ciallo0721-cmd\"",
+    "index.html 使用了 header, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"OpenUTAU - 百科 - ciallo0721-cmd\"",
+    "index.html 使用了 header, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"PaddleOCR - 百科 - ciallo0721-cmd\"",
+    "index.html 使用了 header, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"Python - 百科 - ciallo0721-cmd\"",
+    "index.html 使用了 header, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"同视听收录 - 百科 - ciallo0721-cmd\"",
+    "index.html 使用了 header, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"Unity - 百科 - ciallo0721-cmd\"",
+    "index.html 使用了 header, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"UTAU - 百科 - ciallo0721-cmd\"",
+    "index.html 使用了 header, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"VOCALOID - 百科 - ciallo0721-cmd\"",
+    "index.html 使用了 header, footer, nav",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html: \"打工模拟器 v4.0 - 坤城篇 (Web版)\"",
+    "index.html 有 DOCTYPE",
+    "index.html 已声明语言",
+    "index.html 声明了 charset",
+    "index.html 正确配置 viewport",
+    "index.html: \"技术文章 - ciallo0721-cmd 的博客 | Ren'Py开发、Python编程教程\"",
+    "index.html 有 description",
+    "index.html 使用了 header, main, footer, nav",
+    "wz.html 有 DOCTYPE",
+    "wz.html 已声明语言",
+    "wz.html 声明了 charset",
+    "wz.html: \"页面已迁移 - ciallo0721-cmd\"",
+    "wz.html 有 description",
+    "indexzm.html 有 DOCTYPE",
+    "indexzm.html 已声明语言",
+    "indexzm.html 声明了 charset",
+    "indexzm.html 正确配置 viewport",
+    "indexzm.html: \"周末的诗篇 | ciallo0721-cmd 的 Ren'Py 游戏\"",
+    "indexzm.html 有 description"
+  ]
+}

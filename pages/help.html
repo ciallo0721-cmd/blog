@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帮助中心 | ciallo0721-cmd</title>
+    <meta name="description" content="ciallo0721-cmd 网站帮助中心，解答 Cloudflare 错误码、访问验证、常见问题等">
+    <link rel="icon" href="../fanv.ico">
+    
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    
+    <!-- IP 地理检测（美国用户拒绝访问） -->
+    <script src="/geo-check.js"></script>
+    <!-- HTTP 检测与提示 -->
+    
+
+  <script src="/js/js/svg-icons.js" defer></script>
+    <link rel="stylesheet" href="../css/css/pages-help.css">
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+</head>
+<body>
+    <!-- 广告位 #1：顶部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+<div class="container">
+
+    <!-- 顶部导航 -->
+    <div class="back-bar">
+        <a href="../index.html" class="back-btn"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        <span class="page-badge">帮助中心</span>
+    </div>
+
+    <!-- 页面标题 -->
+    <div class="page-header">
+        <div class="icon"><i class="fas fa-life-ring"></i></div>
+        <h1>遇到问题了？</h1>
+        <p>以下整理了访问本站时常见的错误码和解决方法喵～<br>如果还是解决不了，欢迎联系站长。</p>
+    </div>
+
+    <!-- Cloudflare 概述 -->
+    <div class="section-label"><i class="fab fa-cloudflare"></i> 关于 Cloudflare 错误</div>
+    <div style="background:rgba(51,102,255,0.06);border:1px solid rgba(51,102,255,0.2);border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:0.85rem;color:#999;line-height:1.7;">
+        本站使用 <strong style="color:#7aa2ff;">Cloudflare</strong> 提供 CDN 加速和安全防护。当你访问本站时，如果遇到错误页面，通常是 Cloudflare 返回的。下面列出了最常见的 Cloudflare 错误码及其含义和解决方法喵～
+    </div>
+
+    <!-- Cloudflare 常见错误 -->
+    <div class="section-label"><i class="fas fa-list"></i> Cloudflare 常见错误码</div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-red">CF 1020</span>
+            <span class="error-title">Access Denied — 访问被拒绝</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">Cloudflare 防火墙拦截了您的请求。常见原因：IP 信誉评分过低、使用了代理/VPN、浏览器指纹异常，或请求头不正常。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>① 关闭 VPN/代理重试；② 清除浏览器 Cookie 后刷新；③ 换用无痕模式或另一个浏览器；④ 切换网络（如用流量代替 WiFi）。
+            </div>
+            <a class="doc-link" href="https://developers.cloudflare.com/support/troubleshooting/cloudflare-errors/troubleshooting-cloudflare-1xxx-errors/#error-1020-access-denied" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Cloudflare 官方文档</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-amber">CF 1015</span>
+            <span class="error-title">Too Many Requests — 请求过于频繁</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">您在短时间内发送了太多请求，触发了 Cloudflare 的速率限制（Rate Limiting）保护机制。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>等待 5–15 分钟后再访问，期间避免频繁刷新页面。正常操作不会触发此限制。
+            </div>
+            <a class="doc-link" href="https://developers.cloudflare.com/support/troubleshooting/cloudflare-errors/troubleshooting-cloudflare-1xxx-errors/" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Cloudflare 官方文档</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-red">CF 1010</span>
+            <span class="error-title">Access Denied — 浏览器特征异常</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">Cloudflare 检测到您的浏览器特征（User-Agent、JS 指纹等）与正常用户不符，判定为可疑请求。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>① 确保浏览器已启用 JavaScript 和 Cookie；② 不要使用过时或魔改版浏览器；③ 换用 Chrome/Firefox/Edge 最新版本重试。
+            </div>
+            <a class="doc-link" href="https://www.capsolver.com/zh/blog/reCAPTCHA/cloudflare-1010-error-fix" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> 参考解决方案</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-blue">CF 1000</span>
+            <span class="error-title">DNS 解析错误</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">Cloudflare 无法解析域名指向的源服务器，通常是 DNS 配置问题或源站 IP 变更导致。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>尝试刷新 DNS 缓存（Windows: <code style="background:rgba(255,255,255,0.1);padding:1px 5px;border-radius:4px;">ipconfig /flushdns</code>）后重试，或等待站长修复 DNS 配置。
+            </div>
+            <a class="doc-link" href="https://developers.cloudflare.com/support/troubleshooting/cloudflare-errors/troubleshooting-cloudflare-1xxx-errors/" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Cloudflare 官方文档</a>
+        </div>
+    </div>
+
+    <!-- HTTP 标准错误 -->
+    <div class="section-label"><i class="fas fa-server"></i> HTTP 标准错误</div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-red">500</span>
+            <span class="error-title">Internal Server Error — 服务器内部错误</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">服务器端程序出错，常见于代码 bug、服务器配置错误或临时资源耗尽。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>稍后刷新重试。若反复出现，请联系站长。
+            </div>
+            <a class="doc-link" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/500" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> MDN 文档</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-red">502</span>
+            <span class="error-title">Bad Gateway — 网关错误</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">反向代理（Cloudflare/CDN）无法从源服务器获取有效响应，源站可能离线或过载。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>等待几分钟后刷新重试，通常是临时性问题。
+            </div>
+            <a class="doc-link" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/502" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> MDN 文档</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-amber">503</span>
+            <span class="error-title">Service Unavailable — 服务暂时不可用</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">服务器暂时无法处理请求，通常是因为正在维护、过载，或正在遭受 DDoS 攻击。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>稍后重试。如果是 GitHub Pages 托管，可能平台正在维护。
+            </div>
+            <a class="doc-link" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/503" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> MDN 文档</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-amber">504</span>
+            <span class="error-title">Gateway Timeout — 网关超时</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">代理服务器等待源服务器响应时超时，通常是服务器处理请求耗时过长。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>刷新页面重试即可，通常为临时性问题，几秒后自动恢复。
+            </div>
+            <a class="doc-link" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/504" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> MDN 文档</a>
+        </div>
+    </div>
+
+    <div class="error-card" onclick="toggleCard(this)">
+        <div class="error-header">
+            <span class="error-code code-blue">404</span>
+            <span class="error-title">Not Found — 页面不存在</span>
+            <i class="fas fa-chevron-down error-toggle"></i>
+        </div>
+        <div class="error-body">
+            <p class="error-desc">请求的页面或资源不存在，可能是链接错误、页面已被删除或 URL 输入有误。</p>
+            <div class="solution-box">
+                <strong>💡 解决方法：</strong>检查 URL 是否正确，或从<a href="../index.html" style="color:#6bff6b;">首页</a>重新导航进入。
+            </div>
+            <a class="doc-link" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/404" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> MDN 文档</a>
+        </div>
+    </div>
+
+    <!-- 联系站长 -->
+    <div class="contact-card">
+        <h3>以上都解决不了？</h3>
+        <p>把错误码、出现时间和截图发给站长喵～<br>通常会在 24 小时内回复。</p>
+        <a href="../adss.html" class="contact-btn"><i class="fas fa-envelope"></i> 联系站长</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+        <a href="../doc/all.html"><i class="fas fa-shield-alt"></i> 用户协议与隐私政策</a>
+        <a href="../index.html"><i class="fas fa-home"></i> 首页</a>
+        <a href="../adss.html"><i class="fas fa-envelope"></i> 联系</a>
+        <br><br>
+        © ciallo0721-cmd · 本页面不收集任何数据
+    </div>
+
+</div>
+
+
+    <script src="../js/js/pages-help.js"></script>
+
+    <!-- 广告位 #2：底部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+        <!-- ===== 广告系统 v1.1 ===== -->
+    <script src="../js/js/ad-data.js?v=2"></script>
+    <script src="../js/js/ad-system.js?v=2"></script>
+</body>
+</html>

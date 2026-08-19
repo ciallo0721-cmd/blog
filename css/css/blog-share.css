@@ -1,0 +1,152 @@
+/* blog-share.css — 文章分享按钮与弹窗样式 */
+/* 浮动分享按钮（右下角） */
+.wb-share-fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3366ff, #2575fc);
+  color: #fff;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(51,102,255,0.4);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.wb-share-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(51,102,255,0.55);
+}
+
+/* 分享弹窗遮罩 */
+.wb-share-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+.wb-share-overlay.active {
+  display: flex;
+}
+
+/* 分享弹窗本体 */
+.wb-share-modal {
+  background: #fff;
+  border-radius: 18px;
+  padding: 32px 28px 24px;
+  max-width: 420px;
+  width: 88%;
+  position: relative;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+  animation: wbSharePop 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes wbSharePop {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.wb-share-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.wb-share-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+.wb-share-close {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #999;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.wb-share-close:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+/* 分享文本预览 */
+.wb-share-text {
+  background: #f5f7fa;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  word-break: break-all;
+}
+
+/* 分享按钮网格 */
+.wb-share-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.wb-share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #333;
+  text-decoration: none;
+}
+.wb-share-btn:hover {
+  border-color: #3366ff;
+  background: #f0f4ff;
+}
+.wb-share-btn:active {
+  transform: scale(0.96);
+}
+.wb-share-btn i {
+  font-size: 16px;
+}
+
+/* 特殊按钮颜色 */
+.wb-share-qq { color: #12B7F5; border-color: #b8e4fb; }
+.wb-share-qq:hover { background: #e8f7ff; border-color: #12B7F5; }
+.wb-share-twitter { color: #1DA1F2; border-color: #b3defa; }
+.wb-share-twitter:hover { background: #e8f5ff; border-color: #1DA1F2; }
+
+/* 操作按钮（宽按钮） */
+.wb-share-full {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #3366ff, #2575fc);
+  color: #fff;
+  border: none;
+}
+.wb-share-full:hover {
+  opacity: 0.9;
+  background: linear-gradient(135deg, #2575fc, #3366ff);
+  border: none;
+}
+.wb-share-full:active {
+  transform: scale(0.97);
+}
+.wb-share-full.copied {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}

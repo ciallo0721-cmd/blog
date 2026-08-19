@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>下载</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f7fa;
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #333;
+    }
+    .container {
+      width: 90%;
+      max-width: 520px;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .download-btn {
+      display: inline-block;
+      padding: 16px 48px;
+      font-size: 18px;
+      color: #fff;
+      background: linear-gradient(135deg, #1e90ff, #3366ff);
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(51, 102, 255, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(51, 102, 255, 0.45);
+    }
+    .download-btn:active { transform: translateY(0); }
+    .notes {
+      margin-top: 32px;
+      text-align: left;
+      background: #fff;
+      border: 1px solid #e3e8ef;
+      border-left: 4px solid #ff6b35;
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .notes h2 {
+      font-size: 15px;
+      color: #ff6b35;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .notes ol {
+      padding-left: 20px;
+    }
+    .notes li {
+      font-size: 14px;
+      line-height: 1.9;
+      color: #555;
+    }
+  </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TR4FT7JPDZ');
+</script>
+<!-- GA4 统一埋点模块 -->
+<script src="../assets/js/gtag-config.js"></script>
+
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+</head>
+<body>
+  <div class="container">
+    <a class="download-btn" href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/releases/download/verity-2026-07-17/verity_2.7z" download>点击下载</a>
+    <a class="download-btn" href="./verity_2.7z" download>备用1</a>
+    <div class="notes">
+      <h2>使用前请注意</h2>
+      <ol>
+        <li>不要在微信中直接打开，要不然会崩溃。</li>
+        <li>不要在手机上安装，除非你有一个 FCL（Fold Craft Launcher）。</li>
+        <li>本模组适用于 Forge 版的 1.20.1 的 Minecraft。</li>
+      </ol>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,307 @@
+window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+
+(function() {
+            function checkHTTP() {
+                if (window.location.protocol === 'http:') {
+                    var urlSpan = document.getElementById('currentHttpUrl');
+                    if (urlSpan) urlSpan.textContent = window.location.href;
+                    var overlay = document.getElementById('httpWarningOverlay');
+                    if (overlay) overlay.style.display = 'flex';
+                }
+            }
+            function switchToHTTPS() {
+                var url = window.location.href;
+                url = url.replace(/^http:/i, 'https:');
+                window.location.href = url;
+            }
+            function continueHTTP() {
+                var overlay = document.getElementById('httpWarningOverlay');
+                if (overlay) overlay.style.display = 'none';
+            }
+            window.switchToHTTPS = switchToHTTPS;
+            window.continueHTTP = continueHTTP;
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkHTTP);
+            } else {
+                checkHTTP();
+            }
+        })();
+
+(function() {
+    // ── NSFW state ──
+    let nsfwEnabled = false;
+    window.toggleNSFW = function() {
+        nsfwEnabled = !nsfwEnabled;
+        const el = document.querySelector('.nsfw-toggle');
+        el.classList.toggle('active', nsfwEnabled);
+    };
+
+    const refVtubersMap = {
+        cute: ["綾川千鶴", "伊莫可Imoko", "永雏塔菲"], //done
+        cool: ["早见物子monoko"],//done
+        heal: ["永雏塔菲", "綾川千鶴"],
+        chaos: ["伊莫可Imoko", "露比樣-kirakira-","永雏塔菲","奶油-cream-"],
+        troll: ["You"] //done
+    };
+    // chaos里面有塔菲吗?
+    //伊莫可Imoko是新V,搜不到正常,https://space.bilibili.com/3546663811549900?spm_id_from=333.1391.0.0
+    //cool里面我真的找不到了
+    //没算holo里面的v
+    //露比樣-kirakira-也是新V,https://space.bilibili.com/3706991757232677?spm_id_from=333.1387.follow.user_card.click
+    //早见物子monoko,https://space.bilibili.com/3691007539416009?spm_id_from=333.1387.follow.user_card.click
+    //奶油-cream- https://space.bilibili.com/3493124999482225?spm_id_from=333.337.0.0 ,大V,但小众??
+    // ── Question pools ──
+    const baseQuestions = [
+        { q: '直播时你最可能做什么？', opts: ['突然唱歌', '疯狂杂谈', '安静打游戏', '整活搞笑'] },
+        { q: '你的直播间招牌动作？', opts: ['歪头杀', '拍桌子', '推眼镜', '翻白眼'] },
+        { q: '粉丝叫你起床你会？', opts: ['撒娇再睡5分钟', '暴怒锤桌', '安静起床', '假装没听见继续睡'] },
+        { q: '被超管警告你会？', opts: ['装无辜', '据理力争', '默默改了', '下次还敢'] },
+        { q: '你的直播BGM风格？', opts: ['轻快可爱曲', '燃曲热血', '安静治愈', '混沌随机'] },
+        { q: '礼物感谢方式？', opts: ['超大声谢谢', '酷酷点头', '温柔微笑', '花式整活'] },
+        { q: '凌晨3点还在直播？', opts: ['和观众聊天', '冲击排名', '安静做手工', '开始混乱模式'] },
+        { q: '你的幸运物？', opts: ['星星⭐', '剑🗡️', '书本📖', '问号❓'] },
+        { q: '争议话题你的反应？', opts: ['萌混过关', '硬刚到底', '回避话题', '火上浇油'] },
+        { q: '10万粉纪念做什么？', opts: ['感动直播哭', '装酷说"这才开始"', '写感谢信', '10万粉整活企划'] },
+        { q: '你的口头禅类型？', opts: ['喵/的说~', '废物', '嗯...', '6/哈哈哈'] },
+        { q: '下播后你会？', opts: ['继续看粉丝留言', '复盘直播数据', '安静休息', '群里整活'] }
+    ];
+
+    const extraQuestions = [
+        { q: '粉丝送你奇怪的表情包你会？', opts: ['收藏下来反送', '说"什么鬼"', '微笑收藏', '转发到粉丝群'] },
+        { q: '你理想中的直播时长？', opts: ['1小时就好', '3小时标准', '随缘开播', '播到天亮'] },
+        { q: '联动时你通常的角色？', opts: ['社恐躲在后面', '主导话题', '安静配合', '疯狂搞气氛'] },
+        { q: '收到差评你会？', opts: ['哭给粉丝看', '不在乎', '认真反思', '公开回应'] },
+        { q: '你的直播间标题风格？', opts: ['今天也好可爱', '挑战xxx', '安静陪伴', '来了就别想走'] },
+        { q: '遇到弹幕节奏你会？', opts: ['装没看见', '直接回怼', '叫房管处理', '加入一起玩'] },
+        { q: '你想和什么品牌合作？', opts: ['可爱零食', '电竞外设', '文具手账', '奇葩周边'] },
+        { q: '直播中突然断网你会？', opts: ['发推特哭', '淡定重连', '提前录好的待机画面', '假装是整活'] },
+        { q: '你的粉丝群氛围？', opts: ['相亲相爱', '军训式管理', '佛系潜水', '天天整活'] },
+        { q: '如果可以选一个超能力直播用？', opts: ['变声卡不需要了', '隐身整活', '心灵感应读弹幕', '分身术多线操作'] },
+        { q: '你的表情包产出频率？', opts: ['每天都有新表情', '偶尔出一张', '不太出', '自己就是表情包'] },
+        { q: '粉丝做了你的二创你会？', opts: ['感动到哭转发', '点赞说不错', '默默收藏', '拿来做直播素材'] }
+    ];
+
+    const integrityPair = [
+        { q: '你的理想直播风格是？', opts: ['可爱治愈系', '帅气专业系', '安静陪伴系', '热闹互动系'], integrityKey: 'style_check' },
+        { q: '你的理想直播风格是？', opts: ['热闹互动系', '安静陪伴系', '帅气专业系', '可爱治愈系'], integrityKey: 'style_check' }
+    ];
+
+    const nsfwQuestions = [
+        { q: '*在直播中如果遇到政治问题（我不说了）你会怎么做？', opts: ['装没看见直接跳过', '用最离谱的方式绕开', '淡定地说"下一个问题"', '对着镜头说"你知道的太多了"'], multi: true },
+        { q: '*遇到弹幕疯狂讨论敏感话题你会？', opts: ['赶紧换个话题', '叫房管全员禁言', '装傻说"什么什么？听不到~"', '加入讨论然后被超管警告'], multi: true },
+        { q: '*你的直播间被夹了你最可能的反应？', opts: ['发动态哭诉', '淡定说"意料之中"', '疯狂重开', '以为是整活'], multi: false }
+    ];
+
+    function buildQuestions(mode) {
+        let pool = [];
+        if (mode === 'simple') {
+            pool = baseQuestions.slice(0, 6);
+        } else if (mode === 'normal') {
+            pool = baseQuestions.slice();
+        } else {
+            pool = baseQuestions.concat(extraQuestions);
+        }
+        if (nsfwEnabled) {
+            pool = pool.concat(nsfwQuestions);
+        }
+        window.displayTotal = pool.length;
+        const pos1 = Math.floor(pool.length * 0.33);
+        const pos2 = Math.floor(pool.length * 0.66) + 1;
+        pool.splice(pos2, 0, integrityPair[1]);
+        pool.splice(pos1, 0, integrityPair[0]);
+        pool.forEach(q => { q._isIntegrity = !!q.integrityKey; });
+        return pool;
+    }
+
+    const profiles = {
+        cute: { type: '可爱系', icon: '🌸', color: '#FF6B9D', colorName: '甜蜜粉 #FF6B9D', variants: [{ name: '草莓奶盖', desc: '甜美系小天使', catchphrase: '的说~给我点关注的说~', artstyle: 'Q版圆脸猫耳形象，粉色双马尾，大眼闪烁，蕾丝裙摆' }] },
+        cool: { type: '帅气系', icon: '⚡', color: '#2575FC', colorName: '深邃蓝 #2575FC', variants: [{ name: '暗夜星辰', desc: '冷酷帅气系', catchphrase: '废物，还不快点关注。', artstyle: '帅气冷艳立绘，银白短发，锐利眼神，黑色皮衣风衣' }] },
+        heal: { type: '治愈系', icon: '🍃', color: '#4CAF50', colorName: '治愈绿 #4CAF50', variants: [{ name: '温茶小筑', desc: '温柔治愈系', catchphrase: '嗯...慢慢来，不着急呢。', artstyle: '清新淡雅立绘，柔顺长发，素色长裙，手持书卷品茶' }] },
+        chaos: { type: '混沌系', icon: '🤪', color: '#FF6F00', colorName: '混乱橙 #FF6F00', variants: [{ name: '整活大王', desc: '混沌乐子人', catchphrase: '6啊兄弟们！哈哈哈整起来！', artstyle: '夸张搞怪风，五颜六色头发，表情包脸，弹性夸张动作' }] },
+        troll: { type: '整蛊小丑', icon: '🤡', color: '#FF1744', colorName: '小丑红 #FF1744', variants: [{ name: '整蛊小丑', desc: '乱选的产物', catchphrase: '你就不能认真选吗？！', artstyle: '夸张马戏团风，红鼻子，花里胡哨服装，彩色气球环绕' }] }
+    };
+
+    let currentMode = 'normal';
+    let questions = [];
+    let currentQuestion = 0;
+    let answers = [];
+    let currentSelections = [];
+    let isMultiSelect = false;
+    let displayTotal = 12;
+    let currentResult = null;
+
+    const screens = {
+        welcome: document.getElementById('screen-welcome'),
+        question: document.getElementById('screen-question'),
+        result: document.getElementById('screen-result')
+    };
+
+    function showScreen(name) {
+        Object.values(screens).forEach(s => s.classList.remove('active'));
+        screens[name].classList.add('active');
+    }
+
+    const COUNTER_KEY = 'vtuber_test_count';
+    function getAndIncrementCounter() { let count = parseInt(localStorage.getItem(COUNTER_KEY)) || 256; count++; localStorage.setItem(COUNTER_KEY, count); return count; }
+    function getCounter() { return parseInt(localStorage.getItem(COUNTER_KEY)) || 256; }
+    document.getElementById('counter-num').textContent = getCounter();
+
+    window.startTest = function(mode) {
+        currentMode = mode;
+        currentQuestion = 0;
+        answers = [];
+        currentSelections = [];
+        questions = buildQuestions(currentMode);
+        document.getElementById('q-total').textContent = displayTotal;
+        showScreen('question');
+        renderQuestion();
+    };
+
+    function renderQuestion() {
+        const q = questions[currentQuestion];
+        isMultiSelect = !!q.multi;
+        let displayNum = 0;
+        for (let i = 0; i <= currentQuestion; i++) if (!questions[i]._isIntegrity) displayNum++;
+        document.getElementById('q-current').textContent = displayNum;
+        document.getElementById('q-number').textContent = 'QUESTION ' + displayNum;
+        document.getElementById('progress-fill').style.width = ((displayNum - 1) / displayTotal * 100) + '%';
+        document.getElementById('q-text').textContent = q.q;
+        let hint = document.getElementById('multi-hint');
+        if (!hint) { hint = document.createElement('div'); hint.id = 'multi-hint'; hint.className = 'multi-hint'; document.getElementById('q-text').parentNode.insertBefore(hint, document.getElementById('options-grid')); }
+        hint.style.display = isMultiSelect ? 'block' : 'none';
+        hint.textContent = '此题为多选题，请选择所有符合条件的选项';
+        const letters = ['A', 'B', 'C', 'D'];
+        const grid = document.getElementById('options-grid');
+        grid.innerHTML = '';
+        currentSelections = [];
+        document.getElementById('next-btn-wrap').style.display = 'none';
+        q.opts.forEach((opt, i) => {
+            const card = document.createElement('div');
+            card.className = 'option-card';
+            card.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-text">${opt}</span>`;
+            card.addEventListener('click', () => selectOption(i, letters[i], card));
+            grid.appendChild(card);
+        });
+    }
+
+    function selectOption(index, letter, cardEl) {
+        if (isMultiSelect) {
+            const idx = currentSelections.findIndex(s => s.letter === letter);
+            if (idx >= 0) { currentSelections.splice(idx, 1); cardEl.classList.remove('selected'); } 
+            else { currentSelections.push({ index, letter }); cardEl.classList.add('selected'); }
+            document.getElementById('next-btn-wrap').style.display = currentSelections.length > 0 ? 'flex' : 'none';
+        } else {
+            document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+            cardEl.classList.add('selected');
+            currentSelections = [{ index, letter }];
+            document.getElementById('next-btn-wrap').style.display = 'flex';
+        }
+        const btn = document.getElementById('btn-next');
+        btn.innerHTML = (currentQuestion === questions.length - 1) ? '查看结果 <i class="fa-solid fa-sparkles"></i>' : '下一题 <i class="fa-solid fa-arrow-right"></i>';
+    }
+
+    window.nextQuestion = function() {
+        if (currentSelections.length === 0) return;
+        if (isMultiSelect) answers.push(currentSelections.map(s => s.letter));
+        else answers.push(currentSelections[0].letter);
+        if (currentQuestion < questions.length - 1) { currentQuestion++; renderQuestion(); document.getElementById('screen-question').scrollIntoView({ behavior: 'smooth' }); } 
+        else { showResult(); getAndIncrementCounter(); document.getElementById('counter-num').textContent = getCounter(); }
+    };
+
+    function showResult() {
+        const counts = { A: 0, B: 0, C: 0, D: 0 };
+        const totalQ = questions.length;
+        let integrityFailed = false;
+        const integrityAnswers = [];
+        questions.forEach((q, i) => { if (q._isIntegrity) integrityAnswers.push({ index: i, answer: answers[i] }); });
+        if (integrityAnswers.length === 2) {
+            const a1 = Array.isArray(integrityAnswers[0].answer) ? integrityAnswers[0].answer[0] : integrityAnswers[0].answer;
+            const a2 = Array.isArray(integrityAnswers[1].answer) ? integrityAnswers[1].answer[0] : integrityAnswers[1].answer;
+            const remap = { 'A': 'D', 'B': 'C', 'C': 'B', 'D': 'A' };
+            if (a1 !== (remap[a2] || a2)) integrityFailed = true;
+        }
+        answers.forEach(a => { if (Array.isArray(a)) a.forEach(l => counts[l] += 0.5); else counts[a]++; });
+        const typeMap = { A: 'cute', B: 'cool', C: 'heal', D: 'chaos' };
+        let maxKey = 'cute', maxCount = -1;
+        for (const [letter, key] of Object.entries(typeMap)) if (counts[letter] > maxCount) { maxCount = counts[letter]; maxKey = key; }
+        if (integrityFailed) maxKey = 'troll';
+        const profile = profiles[maxKey];
+        const variant = profile.variants[0];
+        currentResult = { typeKey: maxKey, type: profile.type, icon: profile.icon, color: profile.color, colorName: profile.colorName, name: variant.name, desc: variant.desc, catchphrase: variant.catchphrase, artstyle: variant.artstyle };
+        document.getElementById('result-icon').textContent = profile.icon;
+        document.getElementById('result-name').textContent = variant.name;
+        document.getElementById('result-name').style.color = profile.color;
+        const tag = document.getElementById('result-tag');
+        tag.textContent = profile.type + ' · ' + variant.desc;
+        tag.style.background = profile.color;
+        document.getElementById('result-catchphrase').textContent = variant.catchphrase;
+        document.getElementById('result-artstyle').textContent = variant.artstyle;
+        document.getElementById('result-color').textContent = profile.colorName;
+        document.getElementById('result-color').style.color = profile.color;
+        
+        // 参考vtuber 动态填充占位符，方便后续修改
+        const refList = refVtubersMap[maxKey] || ["VTUBER"];
+        const refContainer = document.getElementById('ref-vtuber-list');
+        refContainer.innerHTML = '';
+        refList.forEach(ref => {
+            const span = document.createElement('span');
+            span.className = 'ref-vtuber-item';
+            span.innerHTML = `<i class="fa-regular fa-user"></i> ${ref}`;
+            refContainer.appendChild(span);
+        });
+        
+        const sb = document.getElementById('score-breakdown');
+        const labels = { A: '可爱', B: '帅气', C: '治愈', D: '混沌' };
+        const colors = { A: profiles.cute.color, B: profiles.cool.color, C: profiles.heal.color, D: profiles.chaos.color };
+        sb.innerHTML = '';
+        ['A','B','C','D'].forEach(letter => { const pct = Math.round(counts[letter] / totalQ * 100); const displayCount = Number.isInteger(counts[letter]) ? counts[letter] : counts[letter].toFixed(1); const div = document.createElement('div'); div.className = 'score-item'; div.innerHTML = `<div style="color:${colors[letter]};font-weight:700;">${labels[letter]}</div><div style="font-size:18px;font-weight:700;">${displayCount}</div><div class="score-bar"><div class="score-bar-fill" style="width:${pct}%;background:${colors[letter]};"></div></div>`; sb.appendChild(div); });
+        showScreen('result');
+        setTimeout(generateCanvasCard, 100);
+        document.getElementById('screen-result').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function generateCanvasCard() {
+        const container = document.getElementById('canvas-container');
+        container.innerHTML = '';
+        const canvas = document.createElement('canvas');
+        canvas.width = 400; canvas.height = 520;
+        const ctx = canvas.getContext('2d');
+        const r = currentResult;
+        function roundRect(ctx, x, y, w, h, r_) { ctx.beginPath(); ctx.moveTo(x + r_, y); ctx.lineTo(x + w - r_, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r_); ctx.lineTo(x + w, y + h - r_); ctx.quadraticCurveTo(x + w, y + h, x + w - r_, y + h); ctx.lineTo(x + r_, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r_); ctx.lineTo(x, y + r_); ctx.quadraticCurveTo(x, y, x + r_, y); ctx.closePath(); }
+        const grad = ctx.createLinearGradient(0, 0, 400, 520);
+        grad.addColorStop(0, lightenColor(r.color, 0.4)); grad.addColorStop(0.5, r.color); grad.addColorStop(1, darkenColor(r.color, 0.3));
+        ctx.fillStyle = grad; roundRect(ctx, 0, 0, 400, 520, 16); ctx.fill();
+        ctx.fillStyle = 'rgba(255,255,255,0.92)'; roundRect(ctx, 20, 20, 360, 480, 12); ctx.fill();
+        ctx.fillStyle = '#666'; ctx.font = 'bold 14px "PingFang SC","Microsoft YaHei",sans-serif'; ctx.textAlign = 'center'; ctx.fillText('✦ 你的 VTuber 人格 ✦', 200, 60);
+        ctx.font = '52px sans-serif'; ctx.fillText(r.icon, 200, 115);
+        ctx.fillStyle = r.color; ctx.font = 'bold 28px "PingFang SC","Microsoft YaHei",sans-serif'; ctx.fillText(r.name, 200, 160);
+        const tagText = r.type + ' · ' + r.desc; const tagW = ctx.measureText(tagText).width + 24;
+        ctx.fillStyle = r.color; roundRect(ctx, 200 - tagW/2, 175, tagW, 26, 13); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.font = '12px "PingFang SC","Microsoft YaHei",sans-serif'; ctx.fillText(tagText, 200, 193);
+        ctx.strokeStyle = r.color + '44'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(60, 215); ctx.lineTo(340, 215); ctx.stroke();
+        let y = 245; ctx.textAlign = 'left';
+        ctx.fillStyle = '#888'; ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif'; ctx.fillText('💬 口头禅', 60, y); y += 18;
+        ctx.fillStyle = '#444'; ctx.font = 'italic 15px "PingFang SC","Microsoft YaHei",sans-serif'; wrapText(ctx, '『' + r.catchphrase + '』', 60, y, 280, 22); y += 42;
+        ctx.fillStyle = '#888'; ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif'; ctx.fillText('🎨 立绘风格', 60, y); y += 18;
+        ctx.fillStyle = '#444'; ctx.font = '14px "PingFang SC","Microsoft YaHei",sans-serif'; wrapText(ctx, r.artstyle, 60, y, 280, 20); y += 55;
+        ctx.fillStyle = '#888'; ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif'; ctx.fillText('🎨 代表色', 60, y); y += 18;
+        ctx.fillStyle = r.color; ctx.font = 'bold 15px "PingFang SC","Microsoft YaHei",sans-serif'; ctx.fillText(r.colorName, 60, y);
+        ctx.fillStyle = r.color; roundRect(ctx, 200, y - 14, 20, 20, 4); ctx.fill();
+        ctx.fillStyle = '#aaa'; ctx.font = '10px "PingFang SC","Microsoft YaHei",sans-serif'; ctx.textAlign = 'center'; ctx.fillText('ciallo0721-cmd 工具出品 | ciallo0721-cmd.top', 200, 475);
+        container.appendChild(canvas);
+        window._resultCanvas = canvas;
+    }
+    function wrapText(ctx, text, x, y, maxW, lineH) { let line = '', currentY = y; for (let i = 0; i < text.length; i++) { const testLine = line + text[i]; if (ctx.measureText(testLine).width > maxW && line.length > 0) { ctx.fillText(line, x, currentY); line = text[i]; currentY += lineH; } else line = testLine; } if (line) ctx.fillText(line, x, currentY); }
+    function hexToRgb(hex) { const res = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex); return res ? { r: parseInt(res[1],16), g: parseInt(res[2],16), b: parseInt(res[3],16) } : { r:0,g:0,b:0 }; }
+    function lightenColor(hex, amt) { const c = hexToRgb(hex); return `rgb(${Math.min(255,Math.round(c.r+(255-c.r)*amt))},${Math.min(255,Math.round(c.g+(255-c.g)*amt))},${Math.min(255,Math.round(c.b+(255-c.b)*amt))})`; }
+    function darkenColor(hex, amt) { const c = hexToRgb(hex); return `rgb(${Math.max(0,Math.round(c.r*(1-amt)))},${Math.max(0,Math.round(c.g*(1-amt)))},${Math.max(0,Math.round(c.b*(1-amt)))})`; }
+    window.saveImage = function() { if (window._resultCanvas) { const link = document.createElement('a'); link.download = 'vtuber-personality-' + currentResult.name + '.png'; link.href = window._resultCanvas.toDataURL('image/png'); link.click(); showToast('卡片已保存！'); } };
+    window.copyResult = function() { const r = currentResult; const text = `🎭 我的VTuber人格测试结果\n\n✨ 名字：${r.name}\n🏷 类型：${r.type} · ${r.desc}\n💬 口头禅：${r.catchphrase}\n🎨 立绘风格：${r.artstyle}\n🌈 代表色：${r.colorName}\n\n你也来测测👉 https://ciallo0721-cmd.top/tools/vtuber-personality-test/`; if (navigator.clipboard) navigator.clipboard.writeText(text).then(()=>showToast('结果已复制')).catch(()=>fallbackCopy(text)); else fallbackCopy(text); };
+    function fallbackCopy(t) { const ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.left = '-9999px'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); showToast('结果已复制'); } catch(e) { showToast('复制失败'); } document.body.removeChild(ta); }
+    window.shareQQ = function() { const r = currentResult; const url = encodeURIComponent('https://ciallo0721-cmd.top/tools/vtuber-personality-test/'); const title = encodeURIComponent(`我的VTuber人格：${r.name}（${r.type}·${r.desc}）`); const summary = encodeURIComponent(`口头禅：${r.catchphrase} | 你也来测测你的VTuber人格吧！`); window.open(`https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${url}&title=${title}&summary=${summary}&site=ciallo0721-cmd`, '_blank'); };
+    window.retryTest = function() { currentMode = 'normal'; currentQuestion = 0; questions = []; answers = []; currentSelections = []; currentResult = null; document.getElementById('canvas-container').innerHTML = ''; showScreen('welcome'); document.getElementById('counter-num').textContent = getCounter(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+    let toastTimer; function showToast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2000); }
+})();

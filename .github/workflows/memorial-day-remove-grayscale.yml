@@ -1,0 +1,88 @@
+name: 哀悼日灰度移除
+
+on:
+  schedule:
+    # 9月19日 00:00 UTC（北京时间 09月19日 08:00）
+    - cron: '0 0 19 9 *'
+    # 12月14日 00:00 UTC（北京时间 12月14日 08:00）
+    - cron: '0 0 14 12 *'
+  workflow_dispatch:  # 允许手动触发，方便测试
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  remove-grayscale:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 从所有 HTML 文件移除灰度样式
+        run: |
+          REMOVED=0
+          # 遍历所有 HTML 文件（排除 _site 目录）
+          while IFS= read -r -d '' file; do
+            # 跳过没有灰度标记的文件
+            if ! grep -q '<!-- MEMORIAL-DAY-GRAYSCALE -->' "$file"; then
+              continue
+            fi
+            # 删除灰度代码块（包括注释标记和脚本行）
+            sed -i '/<!-- MEMORIAL-DAY-GRAYSCALE -->/,/<!-- \/MEMORIAL-DAY-GRAYSCALE -->/d' "$file"
+            echo "已移除：$file"
+            REMOVED=$((REMOVED + 1))
+          done < <(find . -name "*.html" -not -path "./_site/*" -not -path "./.git/*" -print0)
+          echo "共移除 $REMOVED 个文件"
+
+      - name: 提交并推送
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "无变更，跳过提交"
+          else
+            git commit -m "✨ 哀悼日结束：移除全站灰度模式"
+            git push
+          fi
+
+  build:
+    needs: remove-grayscale
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

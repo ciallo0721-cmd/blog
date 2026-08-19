@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ren'Py 存档系统完全教程：自定义存档位置与多存档槽 - ciallo0721-cmd的文章</title>
+    <meta name="description" content="Ren'Py 存档系统完全教程，涵盖默认存档位置、自定义存档目录、多存档槽管理、缩略图定制、自动存档配置和常见问题排查，适合初学者和进阶开发者。">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/blog/教程/20/">
+    <link rel="stylesheet" href="/media-viewer.css">
+    <link rel="icon" href="/fanv.ico" type="image/x-icon">
+    <script src="/articles-data.js"></script>
+    <!-- 百科词条系统 -->
+    <script src="/wiki-data.js"></script>
+    <script src="/css/wiki-linker.js"></script>    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+<style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('../../css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 全局样式 */
+:root {
+    --bili-pink: #FB7299;
+    --bili-blue: #00A1D6;
+    --text-primary: #1D1D1F;
+    --text-secondary: #515154;
+    --bg-light: #F5F5F7;
+    --transition: all 0.3s ease;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 导航栏 */
+        nav {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 15px;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--bili-pink);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+            color: var(--bili-blue);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(251, 114, 153, 0.4);
+        }
+
+        /* 文章内容样式 */
+        .article-detail-container {
+            padding: 60px 0;
+        }
+
+        .article-detail {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .article-detail::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+        }
+
+        .article-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .article-number {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+        }
+
+        .article-title {
+            font-size: 2.4rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            line-height: 1.3;
+            font-weight: 700;
+        }
+
+        .article-intro {
+            font-size: 1.2rem;
+            color: var(--bili-blue);
+            font-weight: 500;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .article-date {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .article-date i {
+            color: var(--bili-pink);
+        }
+
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .article-tag {
+            background: rgba(251, 114, 153, 0.1);
+            color: var(--bili-pink);
+            padding: 6px 15px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(251, 114, 153, 0.2);
+            transition: var(--transition);
+        }
+
+        .article-tag:hover {
+            background: var(--bili-pink);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .article-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .article-content h2 {
+            color: var(--text-primary);
+            margin: 30px 0 15px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .article-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            border-radius: 3px;
+        }
+
+        .article-content h3 {
+            color: var(--text-primary);
+            margin: 25px 0 12px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .article-content li {
+            margin-bottom: 8px;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid var(--bili-pink);
+            padding: 20px 25px;
+            margin: 25px 0;
+            background: rgba(251, 114, 153, 0.05);
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        .article-content pre {
+            background: linear-gradient(135deg, #2D2D30, #1E1E1E);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .article-content :not(pre) > code {
+            font-family: 'MaokenAssortedSans', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: transparent;
+            font-size: 0.95rem;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: color 0.2s;
+        }
+        .article-content :not(pre) > code::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #111;
+            border-radius: 4px;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .article-content :not(pre) > code:hover {
+            color: #E8E8E8;
+        }
+        .article-content :not(pre) > code:hover::after {
+            opacity: 0;
+        }
+
+        .article-content .highlight {
+            background: rgba(251, 114, 153, 0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: var(--bili-pink);
+            font-weight: 500;
+        }
+
+        /* 图片容器 */
+        .article-image-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .article-content img,
+        .article-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .article-content .image-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 15px;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .article-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(251, 114, 153, 0.2);
+            color: var(--text-primary);
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(251, 114, 153, 0.3);
+        }
+
+        .nav-btn i {
+            font-size: 1.2rem;
+        }
+
+        .nav-btn.prev {
+            text-align: left;
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            flex-direction: row-reverse;
+        }
+
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .nav-btn.disabled:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-primary);
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 推荐文章区域 */
+        .related-articles {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .related-title {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .related-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .related-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--bili-blue);
+        }
+
+        .related-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .related-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .related-tag {
+            background: rgba(251, 114, 153, 0.1);
+            color: var(--bili-pink);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* 页脚 */
+        footer {
+            background: linear-gradient(135deg, var(--text-primary), #2D2D2F);
+            color: white;
+            text-align: center;
+            padding: 50px 0 30px;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--bili-pink);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        footer p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+            font-size: 1.05rem;
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 12px 20px;
+            }
+            
+            .logo {
+                font-size: 1.4rem;
+            }
+            
+            .article-detail {
+                padding: 30px;
+            }
+            
+            .article-title {
+                font-size: 1.8rem;
+            }
+            
+            .article-intro {
+                font-size: 1.1rem;
+            }
+            
+            .article-content {
+                font-size: 1rem;
+            }
+            
+            .article-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .article-content h3 {
+                font-size: 1.3rem;
+            }
+            
+            .article-navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                max-width: 100%;
+            }
+            
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .article-detail {
+                padding: 25px;
+            }
+            
+            .article-title {
+                font-size: 1.6rem;
+            }
+            
+            .article-intro {
+                font-size: 1rem;
+            }
+            
+            .article-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* 滚动条优化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--bili-pink), #ff2e63);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .article-content .tip { background:rgba(51,102,255,0.05); border-left:4px solid var(--bili-pink); padding:15px 20px; border-radius:0 12px 12px 0; margin:15px 0; }
+        .article-content .tip strong { color:var(--bili-pink); }
+        .article-content .warning { background:rgba(255,150,0,0.05); border-left:4px solid #ff9600; padding:15px 20px; border-radius:0 12px 12px 0; margin:15px 0; }
+        .article-content .warning strong { color:#ff9600; }
+        .cta-box { background:linear-gradient(135deg,rgba(51,102,255,0.1),rgba(37,117,252,0.1)); border:2px solid rgba(51,102,255,0.2); border-radius:16px; padding:24px; margin:30px 0; text-align:center; }
+        .cta-box a { display:inline-block; background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue)); color:white; text-decoration:none; padding:12px 28px; border-radius:25px; font-weight:600; transition:var(--transition); }
+        .cta-box a:hover { transform:translateY(-2px); box-shadow:0 4px 15px rgba(51,102,255,0.4); }
+</style>
+
+    <!-- IP 地理检测（美国用户拒绝访问） -->
+    <script src="/geo-check.js"></script>
+    <!-- HTTP 检测与提示 -->
+    <script>
+        (function() {
+            function checkHTTP() {
+                if (window.location.protocol === 'http:') {
+                    var urlSpan = document.getElementById('currentHttpUrl');
+                    if (urlSpan) urlSpan.textContent = window.location.href;
+                    var overlay = document.getElementById('httpWarningOverlay');
+                    if (overlay) overlay.style.display = 'flex';
+                }
+            }
+            function switchToHTTPS() {
+                var url = window.location.href;
+                url = url.replace(/^http:/i, 'https:');
+                window.location.href = url;
+            }
+            function continueHTTP() {
+                var overlay = document.getElementById('httpWarningOverlay');
+                if (overlay) overlay.style.display = 'none';
+            }
+            window.switchToHTTPS = switchToHTTPS;
+            window.continueHTTP = continueHTTP;
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkHTTP);
+            } else {
+                checkHTTP();
+            }
+        })();
+    </script>
+  <script src="/js/svg-icons.js" defer></script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+    <link rel="stylesheet" href="../../../css/css/blog-share.css">
+</head>
+<!-- 在html中，我们保留静态的文章内容，然后修改JavaScript,不需要补充content字段 -->
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="container nav-container">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-gamepad"></i> 开发者ciallo0721-cmd的空间
+            </a>
+            <a href="../../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </div>
+    </nav>
+
+    <!-- 文章内容 -->
+    <main class="container article-detail-container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="article-number" id="articleNumber">文章 #000</div>
+                <h1 class="article-title" id="articleTitle">文章标题</h1>
+                
+                <p class="article-intro" id="articleIntro">文章简介：这是一个文章简介的占位文本，实际使用时将通过JavaScript动态替换。</p>
+                
+                <div class="article-meta">
+                    <div class="article-date">
+                        <i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2025-12-30</span>
+                    </div>
+                    <div class="article-date">
+                        <i class="far fa-clock"></i> 阅读时间: <span id="readTime">约10分钟</span>
+                    </div>
+                </div>
+                
+                <div class="article-tags" id="articleTags">
+                    <!-- 标签将通过JavaScript动态生成 -->
+                    <span class="article-tag">示例标签1</span>
+                    <span class="article-tag">示例标签2</span>
+                    <span class="article-tag">示例标签3</span>
+                </div>
+            </header>
+            
+            <div class="article-content" id="articleContent">
+                        <p>存档系统是 Ren'Py 视觉小说引擎中最基础也最重要的功能模块之一。一个设计良好的存档系统不仅能让玩家安心地保存进度，还能通过自定义存档槽、缩略图和自动存档等功能提升用户体验。本文将全面解析 Ren'Py 存档系统的工作原理，从默认行为到高级自定义配置，帮助你打造专业级的存档体验。</p>
+
+            <h2>一、Ren'Py 存档系统概述</h2>
+            <p>Ren'Py 内置了一套完整的存档/读档机制，玩家可以随时保存游戏进度。存档系统默认提供以下功能：</p>
+            <ul>
+                <li><strong>多存档槽</strong>：默认支持多个存档页面，每个页面包含 6-12 个存档槽</li>
+                <li><strong>自动存档</strong>：在关键剧情节点自动保存进度</li>
+                <li><strong>快速存档</strong>：一键快速保存（默认快捷键 Q）</li>
+                <li><strong>存档预览</strong>：每个存档槽显示截图缩略图和时间信息</li>
+                <li><strong>持久化数据</strong>：通过 persistent 变量存储跨存档的全局数据</li>
+            </ul>
+
+            <p>Ren'Py 的存档文件本质上是 Python 的 pickle 序列化数据，包含了当前游戏的全部状态：显示的图片、变量值、对话历史、音乐播放位置等。存档文件默认使用 <code>.save</code> 扩展名，文件名格式为 <code>页面号-槽位号-LT1.save</code>。</p>
+
+            <pre><code># 存档文件命名示例
+# 第1页第1槽：1-1-LT1.save
+# 第1页第2槽：1-2-LT1.save
+# 第2页第5槽：2-5-LT1.save
+# 自动存档：auto-1-LT1.save
+# 快速存档：quick-1-LT1.save</code></pre>
+
+            <div class="tip">
+                <strong>知识点：</strong>LT1 是 Ren'Py 用于标识存档格式版本的标记。当存档格式发生变化时，旧版本存档可能无法兼容，Ren'Py 会自动处理格式升级。
+            </div>
+
+            <h2>二、默认存档位置与文件结构</h2>
+            <p>Ren'Py 的存档默认存储在系统的用户数据目录中，而非游戏安装目录。这样做的好处是即使更新或重新安装游戏，存档也不会丢失。</p>
+
+            <h3>各平台默认存档路径</h3>
+
+            <pre><code># Windows
+C:\Users\用户名\AppData\Roaming\RenPy\游戏名\
+
+# macOS
+~/Library/RenPy/游戏名/
+
+# Linux
+~/.renpy/游戏名/</code></pre>
+
+            <p>其中"游戏名"由 <code>options.rpy</code> 中的 <code>config.save_directory</code> 变量决定。默认情况下，Ren'Py 使用项目目录名作为存档目录名。</p>
+
+            <pre><code># options.rpy 中的存档目录配置
+define config.save_directory = "MyGame-1.0"</code></pre>
+
+            <p>存档目录内的典型文件结构：</p>
+            <pre><code>RenPy/
+└── MyGame-1.0/
+    ├── 1-1-LT1.save      # 第1页第1槽
+    ├── 1-2-LT1.save      # 第1页第2槽
+    ├── 2-1-LT1.save      # 第2页第1槽
+    ├── auto-1-LT1.save   # 自动存档
+    ├── quick-1-LT1.save  # 快速存档
+    ├── persistent        # 持久化数据文件
+    └── log.txt           # 游戏运行日志</code></pre>
+
+            <div class="warning">
+                <strong>注意：</strong>persistent 文件不是在存档目录下的 .save 文件，而是同级目录下的独立文件。它存储跨存档的全局数据，即使玩家删除所有存档，persistent 数据也不会丢失。
+            </div>
+
+            <h2>三、自定义存档位置</h2>
+            <p>如果你希望将存档放在游戏目录下（方便玩家备份或便携版），可以使用 <code>config.savedir</code> 变量自定义存档位置。</p>
+
+            <h3>将存档存储在游戏目录</h3>
+            <pre><code># options.rpy
+# 将存档目录设置为游戏文件夹下的 saves 子目录
+define config.savedir = config.basedir + "/saves"</code></pre>
+
+            <p>这样设置后，所有存档文件将存储在 <code>game/../saves/</code> 目录下，而不是系统用户目录。</p>
+
+            <h3>使用环境变量控制存档路径</h3>
+            <pre><code># options.rpy
+import os
+
+# 优先使用环境变量，其次使用默认路径
+define config.savedir = os.environ.get("MYGAME_SAVE_DIR", config.renpy_base + "/saves")</code></pre>
+
+            <h3>移动端存档适配</h3>
+            <pre><code># 根据平台自动调整存档路径
+init python:
+    import renpy
+    if renpy.android:
+        # Android 平台使用外部存储
+        config.savedir = "/sdcard/MyGame/saves"
+    elif renpy.ios:
+        # iOS 平台使用 Documents 目录
+        config.savedir = None  # 使用 Ren'Py 默认路径</code></pre>
+
+            <div class="tip">
+                <strong>最佳实践：</strong>对于 PC 平台的分发版本，建议使用 <code>config.savedir</code> 将存档放在游戏根目录下，方便玩家进行存档备份和迁移。开发期间则保持默认路径即可。
+            </div>
+
+            <div class="warning">
+                <strong>重要提醒：</strong>如果使用 <code>config.savedir</code> 指向游戏目录内，请确保该路径有写入权限。部分系统可能会限制程序在 Program Files 等目录下的写入操作。
+            </div>
+
+            <h2>四、多存档槽管理</h2>
+            <p>Ren'Py 提供了丰富的存档槽配置选项，允许你自定义存档页面的槽位数量、布局和命名规则。</p>
+
+            <h3>存档槽数量配置</h3>
+            <pre><code># screens.rpy
+screen save():
+    # 每行显示 3 个存档槽
+    use file_slots("save", columns=3)
+
+screen load():
+    # 每行显示 4 个存档槽
+    use file_slots("load", columns=4)</code></pre>
+
+            <h3>自定义存档槽名称</h3>
+            <pre><code># screens.rpy - 修改 file_slots 屏幕
+default page_name_value = FilePageNameInputValue(pattern=_("第 {} 页"), auto=_("自动存档"), quick=_("快速存档"))
+
+# 自定义存档槽标题
+textbutton _("存档槽 {}".format(number + 1)):
+    action FileAction(number)</code></pre>
+
+            <h3>精细控制存档槽数量</h3>
+            <pre><code># options.rpy
+# 设置每页存档槽数量
+define config.file_slots_per_page = 12  # 默认值，可改为 6、9、18 等
+
+# 设置存档页面数量
+define config.file_pages = 9  # 默认最多 9 页</code></pre>
+
+            <h3>存档页面导航定制</h3>
+            <pre><code># screens.rpy - 自定义页面切换按钮
+hbox:
+    style_prefix "page"
+    for p in range(1, config.file_pages + 1):
+        textbutton str(p):
+            action FilePage(p)
+            # 用按钮替代默认的左右箭头</code></pre>
+
+            <p>你也可以重命名存档页面，让玩家更容易管理不同章节的存档：</p>
+
+            <pre><code># screens.rpy - 为每个存档页面添加自定义名称
+init python:
+    def file_page_name(page):
+        page_names = {
+            1: "第一章",
+            2: "第二章",
+            3: "第三章",
+            4: "分支路线",
+            5: "EXTRA"
+        }
+        return page_names.get(page, "第{}页".format(page))
+
+# 在存档界面中使用
+text file_page_name(page)</code></pre>
+
+            <div class="tip">
+                <strong>用户体验建议：</strong>每页 9 个存档槽（3 列 3 行的网格布局）是大多数玩家最熟悉的存档界面布局，既不会显得拥挤也不会浪费空间。
+            </div>
+
+            <h2>五、存档缩略图自定义</h2>
+            <p>每个存档槽默认会显示保存时的游戏画面缩略图，帮助玩家快速回忆存档内容。你可以通过配置来优化缩略图的尺寸和质量。</p>
+
+            <h3>调整缩略图尺寸</h3>
+            <pre><code># options.rpy
+# 设置存档缩略图尺寸（默认 192x108）
+define config.thumbnail_width = 320
+define config.thumbnail_height = 180
+
+# 保持 16:9 比例的其他常用尺寸
+# 256x144 - 小巧精致
+# 384x216 - 大图预览</code></pre>
+
+            <h3>自定义存档槽的外观</h3>
+            <pre><code># screens.rpy - 自定义 file_slots 屏幕
+screen file_slots(title):
+    use game_menu(title):
+        grid config.file_slots_per_page // 3 3:
+            for i in range(config.file_slots_per_page):
+                button:
+                    action FileAction(i)
+                    # 存档截图
+                    add FileScreenshot(i) xsize 320 ysize 180
+                    # 存档时间
+                    text FileTime(i, format=_("{#file_time}%Y-%m-%d %H:%M"), empty=_("空槽位"))
+                    # 存档名称
+                    text FileSaveName(i)</code></pre>
+
+            <div class="tip">
+                <strong>性能提示：</strong>缩略图尺寸过大会增加存档文件体积和界面加载时间。192×108 是官方推荐的默认尺寸，在清晰度和性能之间取得了良好平衡。
+            </div>
+
+            <h2>六、存档加密与防篡改</h2>
+            <p>虽然 Ren'Py 的存档文件使用了 pickle 序列化，但默认情况下并不加密。如果你需要防止玩家直接修改存档数据，可以通过 persistent 变量进行校验。</p>
+
+            <h3>使用 persistent 进行存档校验</h3>
+            <pre><code># 在 script.rpy 中
+init python:
+    # 定义校验用的密钥
+    import hashlib
+    import json
+
+    def get_save_checksum(data_dict):
+        """生成存档数据的校验和"""
+        data_str = json.dumps(data_dict, sort_keys=True)
+        return hashlib.sha256(data_str.encode()).hexdigest()
+
+    def verify_save_integrity(data_dict, stored_checksum):
+        """验证存档数据完整性"""
+        return get_save_checksum(data_dict) == stored_checksum</code></pre>
+
+            <h3>在存档时写入校验信息</h3>
+            <pre><code># 利用 json 回调在存档时添加校验
+init python:
+    def on_save_callback(data):
+        checksum = get_save_checksum(data)
+        if not persistent.save_checksums:
+            persistent.save_checksums = {}
+        persistent.save_checksums[renpy.get_screen().scope.get("page", 1)] = checksum
+
+    config.after_load_transition = None
+
+    def on_load_callback():
+        # 在加载存档后进行校验
+        pass</code></pre>
+
+            <h3>简单的作弊检测</h3>
+            <pre><code># 使用 persistent 记录关键数值变化
+init python:
+    def track_value_change(variable_name, new_value):
+        """追踪变量变化，检测异常修改"""
+        prev = getattr(persistent, "_track_" + variable_name, None)
+        if prev is not None:
+            # 如果数值变化过大且不自然，标记为可疑
+            if abs(new_value - prev) > 1000:
+                persistent.suspicious_activity = True
+                renpy.notify("检测到异常数据变化")
+        setattr(persistent, "_track_" + variable_name, new_value)
+
+# 在 script.rpy 中使用
+label spend_money(amount):
+    $ money += amount
+    $ track_value_change("money", money)
+    "获得了 [amount] 金币。"</code></pre>
+
+            <div class="warning">
+                <strong>重要说明：</strong>以上方法仅提供基础的防篡改能力。Ren'Py 作为单机游戏引擎，存档文件始终在玩家可控范围内，完全的防作弊在技术上不可行。建议将精力放在游戏内容质量上，而非过度投入防篡改机制。
+            </div>
+
+            <h2>七、自动存档配置</h2>
+            <p>自动存档是保障玩家游戏进度的重要手段，Ren'Py 提供了灵活的自动存档配置选项。</p>
+
+            <h3>基本自动存档设置</h3>
+            <pre><code># options.rpy
+# 启用/禁用自动存档
+define config.has_autosave = True
+
+# 自动存档触发频率（单位：交互次数）
+define config.autosave_frequency = 200
+
+# 自动存档占用的槽位数量（滚动覆盖旧存档）
+define config.autosave_slots = 10
+
+# 在自动存档时是否显示通知
+define config.autosave_on_choice = True
+define config.autosave_on_quit = True</code></pre>
+
+            <h3>手动触发自动存档</h3>
+            <pre><code># 在关键剧情节点强制自动存档
+label important_choice:
+    $ renpy.force_autosave()
+    menu:
+        "选择路线A":
+            jump route_a
+        "选择路线B":
+            jump route_b</code></pre>
+
+            <h3>禁用特定场景的自动存档</h3>
+            <pre><code># 在需要禁用自动存档的场景中
+label minigame_start:
+    $ renpy.block_autosave()
+    # ... 小游戏逻辑 ...
+    $ renpy.unblock_autosave()</code></pre>
+
+            <p>你也可以通过回调函数自定义何时允许自动存档：</p>
+
+            <pre><code># options.rpy
+# 自定义自动存档条件
+init python:
+    def can_autosave():
+        """返回 True 时才允许自动存档"""
+        # 在特殊场景（如战斗、过场动画）中禁止自动存档
+        if hasattr(store, 'in_battle') and store.in_battle:
+            return False
+        return True
+
+    config.autosave_on_choice_callback = can_autosave</code></pre>
+
+            <div class="tip">
+                <strong>推荐设置：</strong>对于大部分视觉小说，<code>config.autosave_frequency = 200</code>（大约每 5-10 分钟自动保存一次）是最合适的频率。太频繁会影响性能，太久则会降低安全边际。
+            </div>
+
+            <h2>八、常见问题排查</h2>
+
+            <h3>1. 存档无法加载</h3>
+            <p>这是最常见的存档问题，可能由以下原因导致：</p>
+            <ul>
+                <li><strong>游戏版本变更</strong>：存档格式通常兼容小版本更新，但大幅改动可能导致不兼容</li>
+                <li><strong>图片资源缺失</strong>：存档引用的图片被删除或路径变更</li>
+                <li><strong>变量定义变更</strong>：存档中引用的变量在新版本中已被删除或重命名</li>
+            </ul>
+            <pre><code># 使用 try-except 安全加载存档
+init python:
+    def safe_load(filename):
+        try:
+            renpy.load(filename)
+        except Exception as e:
+            renpy.notify("存档加载失败：" + str(e))</code></pre>
+
+            <h3>2. 存档列表为空</h3>
+            <p>如果存档界面显示所有槽位都是空的：</p>
+            <ul>
+                <li>检查 <code>config.save_directory</code> 是否设置正确</li>
+                <li>确认存档目录存在且有读写权限</li>
+                <li>在 Ren'Py 启动器中点击"删除持久化数据"然后重新测试</li>
+                <li>检查是否有杀毒软件拦截了存档写入</li>
+            </ul>
+
+            <div class="tip">
+                <strong>调试技巧：</strong>按下 <code>Shift+O</code> 打开 Ren'Py 控制台，输入 <code>config.savedir</code> 可以查看当前存档路径。
+            </div>
+
+            <h3>3. 存档文件过大</h3>
+            <p>单个存档文件超过几十 MB 可能影响加载速度：</p>
+            <pre><code># options.rpy - 压缩存档文件
+define config.save_physical_size = False  # 使用逻辑大小
+define config.use_cpickle = False         # 使用标准 pickle</code></pre>
+
+            <p>主要优化方向是减少存档中引用的数据量，尤其是避免在存档中存储大段文本或大型数据结构。</p>
+
+            <h3>4. 跨平台存档迁移</h3>
+            <p>如果你需要将 Windows 存档迁移到 Android 或 Mac：</p>
+            <ol>
+                <li>找到源平台存档目录，复制所有 <code>.save</code> 文件和 <code>persistent</code> 文件</li>
+                <li>粘贴到目标平台的对应存档目录</li>
+                <li>确保两个平台的游戏版本号一致</li>
+                <li>启动游戏，存档应该可以正常加载</li>
+            </ol>
+
+            <div class="tip">
+                <strong>实用方案：</strong>在游戏内添加"导出存档"和"导入存档"功能，使用 <code>renpy.slot_json("slot_name")</code> 和 <code>renpy.load_json("slot_name", json_data)</code> 可以方便地实现存档的导入导出。
+            </div>
+
+            <h2>九、最佳实践总结</h2>
+            <ol>
+                <li><strong>明确存档目录</strong>：在 <code>options.rpy</code> 中显式设置 <code>config.save_directory</code>，避免使用默认的项目目录名导致存档混乱</li>
+                <li><strong>合理配置自动存档</strong>：在关键选项前使用 <code>renpy.force_autosave()</code>，让玩家可以回溯重要决策</li>
+                <li><strong>保持存档兼容</strong>：大版本更新时保留对旧存档的兼容性，或在更新说明中明确告知</li>
+                <li><strong>优化缩略图</strong>：使用默认 192×108 尺寸，在清晰度和文件大小间保持平衡</li>
+                <li><strong>提示自动存档</strong>：在存档界面用图标或文字区分自动存档和手动存档</li>
+                <li><strong>定期测试</strong>：每次更新关联 RPA 归档或修改图片资源后，务必测试存档的加载功能</li>
+                <li><strong>便携版优先</strong>：对于分发给玩家的版本，使用 <code>config.savedir</code> 将存档放在游戏目录下</li>
+            </ol>
+
+            <p>掌握以上 Ren'Py 存档系统的各项配置后，你就能为玩家提供一个安全可靠、使用便捷的存档体验。对于商业模式需要考虑存档位置和持久化数据的设计，而对于同人创作则更应关注存档界面的美观和易用性。无论哪种场景，一个设计良好的存档系统都是优秀视觉小说的基石。</p>
+
+            </div>
+            
+            <div style="text-align: center;">
+                
+            </div>
+        </article>
+        
+        <!-- 文章导航 -->
+        <div class="article-navigation" id="articleNavigation">
+            <!-- 将通过JavaScript动态生成 -->
+            <a href="javascript:void(0)" class="nav-btn prev disabled">
+                <i class="fas fa-chevron-left"></i>
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                    <div>已是第一篇</div>
+                </div>
+            </a>
+            <a href="javascript:void(0)" class="nav-btn next disabled">
+                <div>
+                    <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                    <div>已是最后一篇</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+        <!-- 推荐文章 -->
+        <div class="related-articles" id="relatedArticles">
+            <h3 class="related-title">推荐文章</h3>
+            <div class="related-grid" id="relatedGrid">
+                <!-- 将通过JavaScript动态生成 -->
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例1</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">111</span>
+                        <span class="related-tag">111</span>
+                    </div>
+                </a>
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例2</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">教程</span>
+                        <span class="related-tag">C#</span>
+                    </div>
+                </a>
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例3</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">游戏开发</span>
+                        <span class="related-tag">动画</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 图片放大弹窗 -->
+    <div class="image-zoom-modal" id="imageZoomModal">
+        <span class="image-zoom-close" id="imageZoomClose">&times;</span>
+        <img src="" alt="放大图片" id="zoomedImage">
+    </div>
+
+    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
+        <a href="../../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
+          <img src="../../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
+            style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
+        </a>
+      </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
+            <p>感谢阅读我的文章！期待与您交流开发心得</p>
+        </div>
+    </footer>
+
+    <script>
+
+// 文章特定的初始化
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('文章模板已加载完成');
+    
+    // 获取当前文章ID（直接在此处填写当前文章ID，如 16 或 -1）
+    const currentArticleId = 20; // ← 替换成真实ID，如 16 或 -1（灰度测试）
+    function getCurrentArticleId() {
+        return currentArticleId;
+    }
+
+    // 更新文章信息
+    function updateArticleInfo(articleId) {
+        // 确保articlesData已加载
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        
+        const articleData = window.articlesData.getArticleById(articleId);
+        
+        if (articleData) {
+            document.getElementById('articleNumber').textContent = `文章 #${String(articleData.id).padStart(3, '0')}`;
+            document.getElementById('articleTitle').textContent = articleData.title;
+            document.getElementById('articleIntro').textContent = articleData.excerpt;
+            document.getElementById('articleDate').textContent = articleData.date;
+            document.getElementById('readTime').textContent = `约${articleData.readTime}分钟`;
+            
+            // 更新标签
+            const tagsContainer = document.getElementById('articleTags');
+            tagsContainer.innerHTML = '';
+            if (articleData.tags && articleData.tags.length > 0) {
+                articleData.tags.forEach(tag => {
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'article-tag';
+                    tagElement.textContent = tag;
+                    tagsContainer.appendChild(tagElement);
+            }
+        } else {
+            console.warn(`未找到ID为${articleId}的文章数据`);
+        }
+    }
+    
+    // 生成文章导航（上一篇/下一篇）
+    function initArticleNavigation(articleId) {
+        const navigation = document.getElementById('articleNavigation');
+        if (!navigation) return;
+        
+        // 确保articlesData已加载
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        
+        const adjacent = window.articlesData.getAdjacentArticles(articleId);
+        let navigationHTML = '';
+        
+        // 上一篇按钮
+        if (adjacent.prev) {
+            navigationHTML += `
+                <a href="${adjacent.prev.fileName}" class="nav-btn prev">
+                    <i class="fas fa-chevron-left"></i>
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                        <div>${adjacent.prev.title}</div>
+                    </div>
+                </a>
+            `;
+        } else {
+            navigationHTML += `
+                <a href="javascript:void(0)" class="nav-btn prev disabled">
+                    <i class="fas fa-chevron-left"></i>
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                        <div>已是第一篇</div>
+                    </div>
+                </a>
+            `;
+        }
+        
+        // 下一篇按钮
+        if (adjacent.next) {
+            navigationHTML += `
+                <a href="${adjacent.next.fileName}" class="nav-btn next">
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                        <div>${adjacent.next.title}</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            `;
+        } else {
+            navigationHTML += `
+                <a href="javascript:void(0)" class="nav-btn next disabled">
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                        <div>已是最后一篇</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            `;
+        }
+        
+        navigation.innerHTML = navigationHTML;
+    }
+    
+    // 生成推荐文章
+    function initRelatedArticles(articleId) {
+        const grid = document.getElementById('relatedGrid');
+        if (!grid) return;
+        
+        // 确保articlesData已加载
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        
+        const relatedArticles = window.articlesData.getFeaturedArticles(articleId, 3);
+        grid.innerHTML = '';
+        
+        if (relatedArticles && relatedArticles.length > 0) {
+            relatedArticles.forEach(article => {
+                const card = document.createElement('a');
+                card.href = '/blog/' + article.fileName + '?blog=' + article.id;
+                card.className = 'related-card';
+                card.innerHTML = `
+                    <h4>${article.title}</h4>
+                    <p>${article.excerpt}</p>
+                    <div class="related-tags">
+                        ${article.tags.slice(0, 3).map(tag => `<span class="related-tag">${tag}</span>`).join('')}
+                    </div>
+                `;
+                grid.appendChild(card);
+        } else {
+            // 如果没有推荐文章，显示默认内容
+            grid.innerHTML = `
+                <a href="#" class="related-card">
+                    <h4>推荐文章标题示例1</h4>
+                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
+                    <div class="related-tags">
+                        <span class="related-tag">示例标签</span>
+                    </div>
+                </a>
+            `;
+        }
+    }
+    
+    // 图片点击放大功能
+    function initImageZoom() {
+        const modal = document.getElementById('imageZoomModal');
+        const modalImg = document.getElementById('zoomedImage');
+        const closeBtn = document.getElementById('imageZoomClose');
+        
+        if (!modal || !modalImg) return;
+        
+        // 为所有可放大的图片添加点击事件
+        document.querySelectorAll('.zoomable').forEach(img => {
+            img.addEventListener('click', function() {
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+        });
+        
+        // 关闭弹窗
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        // ESC键关闭
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+    }
+    
+    // 添加代码复制功能
+    function addCodeCopyFunction() {
+        document.querySelectorAll('pre code').forEach((codeBlock) => {
+            const pre = codeBlock.parentElement;
+            
+            // 避免重复添加复制按钮
+            if (pre.querySelector('.copy-button')) return;
+            
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+            copyButton.style.cssText = `
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: rgba(251, 114, 153, 0.2);
+                border: 1px solid rgba(251, 114, 153, 0.4);
+                color: white;
+                padding: 5px 12px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 0.8rem;
+                transition: all 0.3s ease;
+            `;
+            
+            pre.style.position = 'relative';
+            pre.appendChild(copyButton);
+            
+            copyButton.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                    copyButton.style.background = 'rgba(0, 161, 214, 0.5)';
+                    setTimeout(() => {
+                        copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+                        copyButton.style.background = 'rgba(251, 114, 153, 0.2)';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('复制失败:', err);
+            });
+    }
+    
+    // 添加阅读进度指示器
+    function addReadingProgressBar() {
+        // 避免重复添加进度条
+        if (document.getElementById('reading-progress-bar')) return;
+        
+        const progressBar = document.createElement('div');
+        progressBar.id = 'reading-progress-bar';
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s ease;
+        `;
+        document.body.appendChild(progressBar);
+        
+        // 更新阅读进度
+        window.addEventListener('scroll', function() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (documentHeight > 0) {
+                const scrollPercent = (scrollTop / documentHeight) * 100;
+                progressBar.style.width = scrollPercent + '%';
+            }
+    }
+
+        // 获取文章标题
+        let articleTitle = document.getElementById('articleTitle').textContent;
+        if (!articleTitle || articleTitle === '文章标题') {
+            articleTitle = '这篇文章';
+        }
+        
+        // 更新分享文本
+        );
+        
+        // 点击弹窗外部关闭
+            }
+        // 复制分享链接
+                
+                // 3秒后恢复按钮状态
+                setTimeout(() => {
+                }, 3000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                alert('复制失败，请手动复制链接');
+        });
+        
+        // ESC键关闭弹窗
+        document.addEventListener('keydown', function(e) {
+            }
+    }
+    
+    // 初始化页面
+    function initPage() {
+        // 等待articlesData加载完成
+        if (typeof window.articlesData === 'undefined') {
+            // 如果articlesData未定义，尝试等待
+            setTimeout(initPage, 100);
+            return;
+        }
+        
+        updateArticleInfo(currentArticleId);
+        initArticleNavigation(currentArticleId);
+        initRelatedArticles(currentArticleId);
+        addCodeCopyFunction();
+        addReadingProgressBar();
+        initImageZoom();
+    }
+    
+    // 初始化页面
+    initPage();
+    
+    // 键盘快捷键支持
+    document.addEventListener('keydown', function(e) {
+        // ESC键返回首页
+        if (e.key === 'Escape') {
+            window.location.href = '../../index.html';
+        } else if (e.key === 'h' && (e.ctrlKey || e.metaKey)) {
+            // Ctrl/Cmd+H 返回首页
+            e.preventDefault();
+            window.location.href = '../../index.html';
+        }
+    // 监听文章内容更新，重新添加代码复制按钮
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                addCodeCopyFunction();
+            }
+    });
+    
+    // 开始观察articleContent的变化
+    const articleContent = document.getElementById('articleContent');
+    if (articleContent) {
+        observer.observe(articleContent, { childList: true, subtree: true });
+    }
+</script>
+    
+    <!-- 媒体查看器 JS -->
+    <script src="/media-viewer.js"></script>
+    
+    <!-- 实际使用时, 请确保脚本路径正确并已加载所需的库。 -->
+    <!-- ./css/wz/{文章id}/wzjsid{换成id}.js  -->
+
+    <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;justify-content:center;align-items:center;" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button>
+    <script>
+    (function(){
+        var btn=document.getElementById('totop-btn');
+        if(!btn)return;
+        btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+        window.addEventListener('scroll',function(){btn.style.display=window.scrollY>300?'flex':'none';},{passive:true});
+        document.addEventListener('DOMContentLoaded',function(){btn.style.display=window.scrollY>300?'flex':'none';});
+    })();
+    </script>
+
+<script>
+(function(){
+    var blogId = new URLSearchParams(window.location.search).get("blog");
+    if (blogId) {
+        console.log("文章 ID:", blogId);
+    }
+})();
+</script>
+    <script src="../../../js/js/blog-share.js"></script>
+</body>
+</html>

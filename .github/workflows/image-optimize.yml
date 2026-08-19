@@ -1,0 +1,121 @@
+name: 图片自动压缩
+
+# 当有图片文件被推送时自动压缩
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.jpg'
+      - '**.jpeg'
+      - '**.png'
+      - '**.gif'
+      - '**.webp'
+      - '**.avif'
+  workflow_dispatch:  # 允许手动触发
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    name: 压缩新增/修改的图片
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取完整历史，用于判断文件是否为新增
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 安装图片压缩工具
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y imagemagick pngquant jpegoptim webp
+          # 验证安装
+          convert -version
+          pngquant --version
+          jpegoptim --version
+
+      - name: 找出需要压缩的图片并压缩
+        id: optimize
+        run: |
+          # 获取本次推送中新增或修改的图片文件
+          # 使用 git diff 比较 HEAD 和上一个 commit
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD -- '*.jpg' '*.jpeg' '*.png' '*.gif' '*.webp' '*.avif' || true)
+          
+          # 如果没有变化（例如首次推送），则检查所有图片
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "未检测到变更，检查所有图片..."
+            CHANGED_FILES=$(find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" -o -iname "*.avif" \) -not -path "./.git/*" -not -path "./_site/*" | head -20)
+          fi
+
+          echo "需要处理的文件："
+          echo "$CHANGED_FILES"
+
+          OPTIMIZED=0
+          TOTAL_SAVED=0
+
+          for file in $CHANGED_FILES; do
+            [ ! -f "$file" ] && continue
+            
+            BEFORE=$(stat -c%s "$file" 2>/dev/null || stat -f%z "$file")
+            EXT="${file##*.}"
+            EXT_LOWER=$(echo "$EXT" | tr '[:upper:]' '[:lower:]')
+
+            echo "处理: $file ($(($BEFORE / 1024)) KB)"
+
+            if [ "$EXT_LOWER" = "jpg" ] || [ "$EXT_LOWER" = "jpeg" ]; then
+              # JPEG: 用 jpegoptim 压缩，质量 85
+              jpegoptim --max=85 --strip-all "$file" 2>/dev/null || \
+              convert "$file" -quality 85 "$file"
+            elif [ "$EXT_LOWER" = "png" ]; then
+              # PNG: 用 pngquant 量化到 256 色，或用 convert
+              pngquant --force --ext .png --quality=80-95 "$file" 2>/dev/null || \
+              convert "$file" -strip -quality 85 "$file"
+            elif [ "$EXT_LOWER" = "gif" ]; then
+              # GIF: 用 convert 优化
+              convert "$file" -strip "$file" 2>/dev/null || true
+            elif [ "$EXT_LOWER" = "webp" ]; then
+              # WebP: 用 cwebp（imagemagick 自带）
+              convert "$file" -quality 85 "$file" 2>/dev/null || true
+            elif [ "$EXT_LOWER" = "avif" ]; then
+              # AVIF: 用 convert 重新编码
+              convert "$file" -quality 80 "$file" 2>/dev/null || true
+            fi
+
+            AFTER=$(stat -c%s "$file" 2>/dev/null || stat -f%z "$file")
+            SAVED=$((BEFORE - AFTER))
+            if [ $SAVED -gt 0 ]; then
+              TOTAL_SAVED=$((TOTAL_SAVED + SAVED))
+              echo "  ✓ 节省 $(($SAVED / 1024)) KB"
+            else
+              echo "  - 无需压缩"
+            fi
+            OPTIMIZED=$((OPTIMIZED + 1))
+          done
+
+          echo "optimized=$OPTIMIZED" >> $GITHUB_OUTPUT
+          echo "total_saved=$TOTAL_SAVED" >> $GITHUB_OUTPUT
+          echo "------------------------------------------------"
+          echo "处理完成：$OPTIMIZED 个文件，共节省 $((TOTAL_SAVED / 1024)) KB"
+
+      - name: 提交压缩后的图片
+        if: steps.optimize.outputs.optimized != '0'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          # 使用 [skip ci] 避免触发无限循环
+          git commit -m "🖼️ 自动压缩图片（节省 $((${{ steps.optimize.outputs.total_saved }} / 1024)) KB）[skip ci]" || echo "无变更需要提交"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 结果摘要
+        if: always()
+        run: |
+          echo "## 🖼️ 图片压缩结果" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- 处理文件数：${{ steps.optimize.outputs.optimized }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 节省空间：${{ steps.optimize.outputs.total_saved }} 字节（约 $((${{ steps.optimize.outputs.total_saved }} / 1024)) KB）" >> $GITHUB_STEP_SUMMARY

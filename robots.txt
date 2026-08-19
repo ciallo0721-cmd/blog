@@ -1,0 +1,62 @@
+# SEO优化配置 - 允许所有主流搜索引擎爬虫
+# 站点地图声明
+Sitemap: https://ciallo0721-cmd.top/sitemap.xml
+
+# 允许所有搜索引擎爬虫访问
+User-agent: *
+Allow: /
+
+# 禁止敏感/无用目录（节省爬虫配额）
+Disallow: /admin/
+Disallow: /functions/
+Disallow: /tests/
+Disallow: /oops/
+Disallow: /wz/
+Disallow: /cs2/
+Disallow: /pages/
+
+# 工具页面存在重复（/tools/ 和 /app/tools/ 内容相同），只保留一套
+Disallow: /app/tools/
+
+# 禁止博客模板子页面（非独立文章）
+Disallow: /blog/*/wenzhangyong/
+
+# 允许爬虫访问所有内容区域
+Allow: /blog/
+Allow: /wiki/
+Allow: /app/
+Allow: /exp/
+Allow: /pages/
+Allow: /images/
+
+# 特别配置主流搜索引擎
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Sogou Spider
+Allow: /
+Crawl-delay: 2
+
+User-agent: Bytespider
+Allow: /
+Crawl-delay: 2
+
+User-agent: ToutiaoSpider
+Allow: /
+Crawl-delay: 2

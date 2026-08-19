@@ -1,0 +1,143 @@
+# BlockScript 语法速查卡 v1.0
+# 用法：把下面内容保存为 {id}.blog，和 index.html（解码器）放同一文件夹
+
+# ========== 文章头部（必写） ==========
+[Title] 文章标题
+[Date] 2026-04-15
+[Author] 作者名
+[Tag] 标签1, 标签2, 标签3
+
+[正文开始]
+# ↑ 这行必须有，上面是头部，下面是正文
+
+
+# ========== 正文写法 ==========
+
+# --- 标题 ---
+[H1] 一级标题（最大）
+[H2] 二级标题
+[H3] 三级标题
+
+# --- 段落 ---
+直接写文字就是一段
+空一行再写就是新段落
+
+# --- 文字样式 ---
+**加粗文字**
+*斜体文字*
+`代码或文件名`
+
+# --- 链接 ---
+[链接文字](https://网址)
+
+# --- 列表 ---
+[ul]
+- 项目1
+- 项目2
+- 项目3
+[/ul]
+
+[ol]
+1. 第一步
+2. 第二步
+3. 第三步
+[/ol]
+
+# --- 引用 ---
+[quote]
+引用内容写这里
+可以多行
+[/quote]
+
+# --- 代码块 ---
+[Code lang=python]
+def hello():
+    print("Hello")
+[/Code]
+# lang= 后面可以写：python, javascript, html, css, bash 等
+
+# --- 提示框 ---
+[Alert type=info]
+普通提示信息
+[/Alert]
+
+[Alert type=success]
+成功提示
+[/Alert]
+
+[Alert type=warning]
+警告提示
+[/Alert]
+
+[Alert type=danger]
+危险提示
+[/Alert]
+
+# --- 按钮 ---
+[Btn href=https://网址 color=primary]按钮文字[/Btn]
+# color=primary  蓝色按钮
+# color=secondary  灰色按钮
+
+# --- 表格 ---
+[Table]
+列标题1|列标题2|列标题3
+内容1|内容2|内容3
+内容4|内容5|内容6
+[/Table]
+
+# --- 分割线 ---
+[HR]
+
+# --- 图片（新） ---
+[Image src=./pic.png alt=图片描述 width=80% caption=图片说明]
+# 或简写
+[Img src=./pic.png alt=图片描述]
+
+# --- 视频（新，使用自研播放器） ---
+[Video src=./video.mp4]
+
+# --- 音频（新，使用自研播放器） ---
+[Audio src=./music.mp3 title=歌曲标题 artist=歌手]
+
+# --- PDF（新） ---
+[PDF src=./document.pdf width=100% height=600px]
+
+# 说明：用 iframe 嵌入 PDF，需要浏览器支持 PDF 预览
+# 文件放在文章文件夹里，用相对路径 ./ 引用
+
+# --- 直接写 HTML（高级） ---
+[HTML]
+<img src="./screenshot.png" style="max-width:100%">
+[/HTML]
+[HTML]
+<img src="./screenshot.png" style="max-width:100%">
+[/HTML]
+
+
+# ========== 完整示例 ==========
+# 把下面内容复制保存为 99.blog 即可使用
+
+# [Title] 我的第一篇文章
+# [Date] 2026-06-15
+# [Author] 管哥
+# [Tag] 日记, 测试
+# 
+# [正文开始]
+# 
+# [H1] 今天天气真好
+# 
+# 今天是个好日子，**阳光明媚**！
+# 
+# [H2] 今天做了什么
+# 
+# [ul]
+# - 写了博客
+# - 喝了奶茶
+# - 看了动画
+# [/ul]
+# 
+# [Alert type=info]
+# 记得每天开心哦～
+# [/Alert]
+# 
+# 全文完！

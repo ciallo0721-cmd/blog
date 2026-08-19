@@ -1,0 +1,89 @@
+name: 哀悼日灰度启用
+
+on:
+  schedule:
+    # 9月18日 00:00 UTC（北京时间 09月18日 08:00）
+    - cron: '0 0 18 9 *'
+    # 12月13日 00:00 UTC（北京时间 12月13日 08:00）
+    - cron: '0 0 13 12 *'
+  workflow_dispatch:  # 允许手动触发，方便测试
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  add-grayscale:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 注入灰度样式到所有 HTML 文件
+        run: |
+          INJECTED=0
+          # 遍历所有 HTML 文件（排除 _site 目录）
+          while IFS= read -r -d '' file; do
+            # 跳过已注入过的文件
+            if grep -q '<!-- MEMORIAL-DAY-GRAYSCALE -->' "$file"; then
+              echo "已跳过（已注入）：$file"
+              continue
+            fi
+            # 在 </body> 前插入灰度脚本
+            sed -i 's|</body>|<!-- MEMORIAL-DAY-GRAYSCALE -->\n<script>document.documentElement.style.filter="grayscale(1)";<\/script>\n<!-- /MEMORIAL-DAY-GRAYSCALE -->\n</body>|' "$file"
+            echo "已注入：$file"
+            INJECTED=$((INJECTED + 1))
+          done < <(find . -name "*.html" -not -path "./_site/*" -not -path "./.git/*" -print0)
+          echo "共注入 $INJECTED 个文件"
+
+      - name: 提交并推送
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "无变更，跳过提交"
+          else
+            git commit -m "🕯️ 哀悼日：启用全站灰度模式"
+            git push
+          fi
+
+  build:
+    needs: add-grayscale
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

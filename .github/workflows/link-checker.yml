@@ -1,0 +1,103 @@
+name: 全站死链检查器
+
+on:
+  schedule:
+    # 每周一 08:00 北京时间（UTC 00:00）
+    - cron: '0 0 * * 1'
+  workflow_dispatch:  # 允许手动触发
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    name: 检查全站死链
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 设置 Lychee 链接检查器
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >
+            --base-url https://ciallo0721-cmd.top
+            --max-concurrency 64
+            --timeout 30
+            --retry-wait-time 5
+            --max-retries 3
+            --accept 200..=299,403,405
+            --exclude "localhost"
+            --exclude "127.0.0.1"
+            --exclude "file://"
+            --format markdown
+            "./**/*.html"
+            "./**/*.md"
+          output: ./lychee-report.md
+          fail: false
+          jobSummary: true
+
+      - name: 上传检查报告
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-check-report
+          path: lychee-report.md
+          retention-days: 30
+
+      - name: 检查报告是否有死链并创建 Issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "=== 报告内容预览（前 50 行）==="
+          head -50 lychee-report.md
+          echo "=== 结束预览 ==="
+
+          # 用 Python 解析报告，检测 [404] / ✗ / ❌ 等错误标记
+          HAS_ERRORS=$(python3 -c "
+          import sys
+          try:
+              with open('lychee-report.md', 'r', encoding='utf-8') as f:
+                  content = f.read()
+              # 简单字符串匹配（比正则更可靠）
+              has_errors = ('[404]' in content or
+                            '[500]' in content or
+                            '[502]' in content or
+                            '✗' in content or
+                            '❌' in content or
+                            '×' in content)
+              print('true' if has_errors else 'false')
+          except Exception as e:
+              print('false', file=sys.stderr)
+              print('false')
+          ")
+
+          echo "检测结果：HAS_ERRORS=$HAS_ERRORS"
+
+          if [ "$HAS_ERRORS" = "true" ]; then
+            echo "::notice::发现死链，创建 Issue..."
+
+            # 截取报告前 60000 字符（GitHub Issue body 上限 65536）
+            python3 -c "
+          import sys
+          try:
+              with open('lychee-report.md', 'r', encoding='utf-8') as f:
+                  content = f.read()
+              if len(content) > 60000:
+                  content = content[:60000] + '\n\n> ... 报告过长已截断，请下载完整报告查看'
+              print(content)
+          except Exception as e:
+              print('无法读取报告文件')
+          " > /tmp/issue-body.md
+
+            gh issue create \
+              --title "🔗 全站死链检测报告 - $(date +%Y-%m-%d)" \
+              --body-file /tmp/issue-body.md \
+              --label "bug" \
+              --label "dead-link"
+          else
+            echo "::notice::未发现死链，无需创建 Issue"
+          fi

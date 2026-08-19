@@ -1,0 +1,36 @@
+/**
+ * 图片查看器样式 - pic/image-viewer.css
+ * 配套 pic/image-viewer.js
+ * 提供可放大图片的基础样式（hover 效果）
+ */
+
+img.zoomable {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 20px auto;
+    cursor: zoom-in;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+img.zoomable:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+/* 图片容器（可选包裹层） */
+.pic-container {
+    text-align: center;
+    margin: 30px 0;
+}
+
+/* 图片说明文字（可选） */
+.pic-caption {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #515154;
+    margin-top: 10px;
+    font-style: italic;
+}

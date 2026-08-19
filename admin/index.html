@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — ciallo0721-cmd.top</title>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+
+<!-- GA4 统一埋点模块 -->
+<script src="../js/js/gtag-config.js"></script>
+
+    <link rel="stylesheet" href="../css/css/admin-index.css">
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+</head>
+<body>
+    <!-- 广告位 #1：顶部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+
+<aside class="sidebar">
+  <div class="logo"><span class="dot"></span>Admin Panel</div>
+  <nav>
+    <a href="#storage" class="active" data-panel="storage"><span class="icon">🗄️</span>存储编辑器</a>
+    <a href="#inject" data-panel="inject"><span class="icon">🔗</span>参数注入</a>
+    <a href="#test" data-panel="test"><span class="icon">🧪</span>功能测试</a>
+    <a href="#export" data-panel="export"><span class="icon">📦</span>导入导出</a>
+    <a href="#console" data-panel="console"><span class="icon">💻</span>控制台</a>
+  </nav>
+  <div class="info">ciallo0721-cmd.top<br>本地调试面板 v1.0</div>
+</aside>
+
+<main class="main">
+
+<!-- ====== Storage Editor ====== -->
+<section class="panel" id="panel-storage" style="display:block">
+  <h1>🗄️ 存储编辑器</h1>
+  <p class="subtitle">查看、编辑、删除 localStorage / sessionStorage / Cookies</p>
+
+  <div class="btn-group" style="margin-bottom:16px">
+    <button class="btn active store-tab" data-store="localStorage" style="border-color:var(--accent);background:rgba(59,130,246,.15)">📦 localStorage</button>
+    <button class="btn store-tab" data-store="sessionStorage">📋 sessionStorage</button>
+    <button class="btn store-tab" data-store="cookies">🍪 Cookies</button>
+  </div>
+
+  <div class="card" id="storage-add-form">
+    <h2>➕ 添加 / 修改条目</h2>
+    <div class="kv-row">
+      <input type="text" placeholder="键 (Key)" id="storage-key" class="kv-key">
+      <input type="text" placeholder="值 (Value)" id="storage-val" class="kv-val">
+      <button class="btn primary" onclick="addStorageItem()">保存</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="stats" id="storage-stats">
+      <div class="stat"><div class="num accent" id="stat-count">0</div><div class="label">条目数</div></div>
+      <div class="stat"><div class="num green" id="stat-total">0 B</div><div class="label">总大小</div></div>
+      <div class="stat"><div class="num" id="stat-max">5 MB</div><div class="label">上限</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h2 style="margin:0">📋 条目列表 <span class="badge" id="storage-table-badge">0</span></h2>
+      <input type="text" placeholder="🔍 搜索..." style="width:200px" id="storage-search" oninput="renderStorageTable()">
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>键</th><th>值</th><th style="width:140px">操作</th></tr></thead>
+        <tbody id="storage-table"><tr><td colspan="3" style="text-align:center;color:var(--dim);padding:40px">加载中...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ====== URL Param Injector ====== -->
+<section class="panel" id="panel-inject">
+  <h1>🔗 URL 参数注入</h1>
+  <p class="subtitle">模拟不同地区和设备模式，一键跳转到任意页面并带上测试参数</p>
+
+  <div class="card">
+    <h2>🌍 模拟地区 (<code>?from=</code>)</h2>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px">选择地区后点击下方按钮，即可带着 <code>?from=xx</code> 参数打开目标页面</p>
+    <div class="region-grid" id="region-grid"></div>
+  </div>
+
+  <div class="card">
+    <h2>📱 模拟触摸模式 (<code>?touch=true</code>)</h2>
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px">
+      <input type="checkbox" id="touch-toggle" style="width:18px;height:18px;cursor:pointer">
+      启用 <code>?touch=true</code> 参数
+    </label>
+  </div>
+
+  <div class="card">
+    <h2>⚙️ 自定义参数</h2>
+    <div class="kv-row">
+      <input type="text" placeholder="参数名" id="custom-key" class="kv-key">
+      <input type="text" placeholder="参数值" id="custom-val" class="kv-val">
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🚀 执行跳转</h2>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px">选择目标页面，参数会自动拼接</p>
+    <div class="form-row" style="margin-bottom:12px">
+      <select id="target-page">
+        <option value="/">主页 /index.html</option>
+        <option value="/aboutme.html">关于我</option>
+        <option value="/friends.html">友情链接</option>
+        <option value="/wz.html">文章列表</option>
+        <option value="/access-denied.html">访问拒绝页</option>
+        <option value="/blog/muban/">博客模板</option>
+        <option value="/wiki/">百科</option>
+        <option value="/tools/">工具</option>
+      </select>
+    </div>
+    <div style="background:var(--card2);border-radius:8px;padding:12px;margin-bottom:12px;font-size:13px">
+      <span style="color:var(--dim)">预览 URL：</span>
+      <code class="mono" id="url-preview" style="color:var(--accent2)">/</code>
+    </div>
+    <div class="btn-group">
+      <button class="btn primary" onclick="navigateWithParams()">🚀 跳转（当前标签）</button>
+      <button class="btn" onclick="navigateWithParams(true)">🔗 新标签打开</button>
+      <button class="btn" onclick="copyBuiltUrl()">📋 复制 URL</button>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Feature Tester ====== -->
+<section class="panel" id="panel-test">
+  <h1>🧪 功能测试</h1>
+  <p class="subtitle">快速测试站点核心功能在各条件下的表现</p>
+
+  <div class="card">
+    <h2>🌐 地区模拟测试</h2>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px">测试不同 <code>?from=</code> 值下页面的行为</p>
+    <div class="btn-group">
+      <button class="btn" onclick="testRedirect('access-denied.html','us')">🇺🇸 美国 → 拒绝页</button>
+      <button class="btn" onclick="testRedirect('access-denied.html','uk')">🇬🇧 英国 → 拒绝页</button>
+      <button class="btn" onclick="testRedirect('access-denied.html','hk')">🇭🇰 中国香港 → 拒绝页</button>
+      <button class="btn" onclick="testRedirect('access-denied.html','jp')">🇯🇵 日本 → 拒绝页</button>
+      <button class="btn" onclick="testRedirect('/','')">🏠 默认主页（无参数）</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📱 移动端模拟</h2>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px">模拟移动端触摸模式</p>
+    <div class="btn-group">
+      <button class="btn" onclick="testRedirect('/','touch')">📱 主页（touch=true）</button>
+      <button class="btn" onclick="testRedirect('/friends.html','touch')">📱 友链页（touch=true）</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🗑️ 存储压力测试</h2>
+    <div class="btn-group">
+      <button class="btn danger" onclick="clearAllStorage()">🧹 清除所有本地存储</button>
+      <button class="btn" onclick="fillDummyData()">🧪 填充测试数据（20条）</button>
+      <button class="btn" onclick="testStorageQuota()">📏 测试存储上限</button>
+    </div>
+  </div>
+
+  <div class="card" id="test-results" style="display:none">
+    <h2>📊 测试结果</h2>
+    <pre id="test-output" style="background:var(--bg);padding:16px;border-radius:8px;font-size:12px;overflow-x:auto;white-space:pre-wrap;max-height:300px;overflow-y:auto"></pre>
+  </div>
+</section>
+
+<!-- ====== Import/Export ====== -->
+<section class="panel" id="panel-export">
+  <h1>📦 导入导出</h1>
+  <p class="subtitle">备份和恢复本地存储数据</p>
+
+  <div class="card">
+    <h2>📤 导出</h2>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px">将 localStorage 和 sessionStorage 导出为 JSON 文件</p>
+    <div class="btn-group">
+      <button class="btn primary" onclick="exportStorage()">📥 下载 JSON</button>
+      <button class="btn" onclick="copyStorageToClipboard()">📋 复制到剪贴板</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📥 导入</h2>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px">从 JSON 文件还原存储数据</p>
+    <div class="form-row" style="margin-bottom:12px">
+      <input type="file" id="import-file" accept=".json" style="padding:6px">
+    </div>
+    <div class="btn-group">
+      <button class="btn primary" onclick="importStorage()">📂 导入并还原</button>
+      <button class="btn" onclick="pasteImport()">📋 从剪贴板导入</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📊 存储详情</h2>
+    <pre id="storage-detail" style="background:var(--bg);padding:16px;border-radius:8px;font-size:12px;overflow-x:auto;white-space:pre-wrap;max-height:400px;overflow-y:auto;color:var(--text)">点击上方按钮查看...</pre>
+  </div>
+</section>
+
+<!-- ====== Console ====== -->
+<section class="panel" id="panel-console">
+  <h1>💻 JS 控制台</h1>
+  <p class="subtitle">在当前页面上下文执行任意 JavaScript。也可通过 <code>?cmd=</code> URL 参数自动执行</p>
+
+  <div class="card">
+    <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
+      <h2 style="margin:0;flex:1">📝 输入</h2>
+      <span style="font-size:12px;color:var(--dim)">Ctrl+Enter 执行</span>
+    </div>
+    <textarea id="console-input" rows="6" placeholder="输入 JavaScript 代码..." style="min-height:100px;font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:13px;resize:vertical"></textarea>
+    <div class="btn-group" style="margin-top:8px">
+      <button class="btn primary" onclick="runConsole()">▶ 执行</button>
+      <button class="btn" onclick="document.getElementById('console-input').value=''">🗑️ 清空输入</button>
+      <button class="btn" onclick="shareConsoleCmd()">🔗 生成 ?cmd= 链接</button>
+      <select id="console-presets" onchange="applyPreset(this.value);this.value=''" style="width:auto;flex:0">
+        <option value="">📋 常用脚本...</option>
+        <option value="document.cookie">读取 Cookie</option>
+        <option value="Object.keys(localStorage).map(k=>k+': '+localStorage.getItem(k).slice(0,50)).join('\n')">列出 localStorage</option>
+        <option value="navigator.userAgent">UA 字符串</option>
+        <option value="JSON.stringify({w:innerWidth,h:innerHeight,px:devicePixelRatio},null,2)">屏幕信息</option>
+        <option value="document.querySelectorAll('style,link[rel=stylesheet]').length">样式表数量</option>
+        <option value="document.title = 'HACKED BY CIALLO'">改标题（测试）</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
+      <h2 style="margin:0;flex:1">📤 输出 <span class="badge" id="console-count">0</span></h2>
+      <button class="btn sm" onclick="document.getElementById('console-output').innerHTML='';document.getElementById('console-count').textContent='0'">清空</button>
+    </div>
+    <pre id="console-output" style="background:var(--bg);padding:16px;border-radius:8px;font-size:12px;overflow-x:auto;white-space:pre-wrap;max-height:400px;overflow-y:auto;color:var(--text);min-height:60px"></pre>
+  </div>
+
+  <div class="card">
+    <h2>🔗 ?cmd= 使用方式</h2>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:8px">直接在 URL 中传入要执行的 JS，页面加载时自动运行：</p>
+    <code class="mono" style="display:block;background:var(--bg);padding:12px;border-radius:8px;color:var(--accent2)">
+/admin/?cmd=alert('hello')
+/admin/?cmd=document.cookie
+/admin/?cmd=Object.keys(localStorage).join('%5Cn')
+    </code>
+    <p style="font-size:11px;color:var(--dim);margin-top:8px">⚠️ 仅本地调试用。恶意代码也只在你自己的浏览器执行，不影响别人。</p>
+  </div>
+</section>
+
+</main>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" style="display:none">
+  <div class="modal">
+    <h3 id="modal-title">编辑值</h3>
+    <textarea id="modal-value" rows="6" style="min-height:120px"></textarea>
+    <p style="font-size:11px;color:var(--dim);margin-top:6px">键：<code id="modal-key-label"></code> | 存储：<code id="modal-store-label"></code></p>
+    <div class="btn-group">
+      <button class="btn" onclick="closeModal()">取消</button>
+      <button class="btn primary" onclick="saveModalValue()">保存</button>
+    </div>
+  </div>
+</div>
+
+
+    <script src="../js/js/admin-index.js"></script>
+
+    <!-- 广告位 #2：底部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+        <!-- ===== 广告系统 v1.1 ===== -->
+    <script src="../js/js/ad-data.js?v=2"></script>
+    <script src="../js/js/ad-system.js?v=2"></script>
+</body>
+</html>

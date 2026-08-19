@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>userfrom 来源检测测试页</title>
+<script src="./js/js/gtag-config.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 40px;">
+<h2>userfrom 来源检测测试页</h2>
+<p>referrer: <b id="ref"></b></p>
+<p>window.getUserFrom() = <b id="uf" style="color:#d00;"></b></p>
+<script>
+  document.getElementById('ref').textContent = document.referrer || '(空)';
+  document.getElementById('uf').textContent = JSON.stringify(window.getUserFrom());
+</script>
+</body>
+</html>

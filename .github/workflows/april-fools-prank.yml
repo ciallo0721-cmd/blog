@@ -1,0 +1,81 @@
+# .github/workflows/april-fools-prank.yml
+# 愚人节恶作剧自动部署工作流
+# 每年 4 月 1 日 00:00 (UTC+8) 自动激活恶作剧脚本
+
+name: 🤡 愚人节恶作剧
+
+on:
+  schedule:
+    # 每年 4 月 1 日触发（UTC 时间 3 月 31 日 16:00 = 北京时间 4 月 1 日 00:00）
+    - cron: '0 16 31 3 *'
+  workflow_dispatch:  # 支持手动触发
+
+jobs:
+  activate-prank:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🔍 检查当前日期
+        run: |
+          echo "当前 UTC 时间: $(date)"
+          echo "当前北京时间: $(TZ='Asia/Shanghai' date)"
+
+      - name: 🦠 激活恶作剧脚本
+        run: |
+          echo "🤡 愚人节快乐！正在激活恶作剧..."
+
+          # 备份原始 index.html
+          cp index.html index.html.backup
+
+          # 在 index.html 的 </body> 前插入恶作剧脚本
+          sed -i '/<\/body>/i\    <!-- 🤡 愚人节恶作剧 🤡 -->\n    <script src="index41.js"></script>' index.html
+
+          # 提交更改
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add index.html
+          git commit -m "🤡 愚人节快乐！自动激活恶作剧脚本"
+          git push
+
+      - name: 🚀 部署到 GitHub Pages
+        run: |
+          echo "✅ 恶作剧脚本已激活！"
+          echo "📝 访问 https://ciallo0721-cmd.top 查看效果"
+
+  deactivate-prank:
+    runs-on: ubuntu-latest
+    # 4 月 2 日 00:00 (UTC+8) 自动关闭
+    if: always()
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🛑 关闭恶作剧脚本
+        run: |
+          echo "🛑 愚人节结束，正在关闭恶作剧..."
+
+          # 恢复原始 index.html
+          if [ -f index.html.backup ]; then
+            mv index.html.backup index.html
+          else
+            # 如果没有备份，手动移除脚本标签
+            sed -i '/<!-- 🤡 愚人节恶作剧 🤡 -->/d' index.html
+            sed -i '/<script src="index41.js"><\/script>/d' index.html
+          fi
+
+          # 提交更改
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add index.html
+          git commit -m "🛑 愚人节结束，关闭恶作剧脚本"
+          git push
+
+      - name: ✅ 完成
+        run: |
+          echo "✅ 恶作剧脚本已关闭！"

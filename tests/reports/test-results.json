@@ -1,0 +1,1062 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\nb666\\.workbuddy\\binaries\\node\\versions\\22.22.2\\node.exe",
+      "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--project=chromium"
+    ],
+    "configFile": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\playwright.config.ts",
+    "rootDir": "G:/EmoScan Pro/ciallo0721-cmd.github.io/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "G:/EmoScan Pro/ciallo0721-cmd.github.io/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "G:/EmoScan Pro/ciallo0721-cmd.github.io/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "G:/EmoScan Pro/ciallo0721-cmd.github.io/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "msedge",
+        "name": "msedge",
+        "testDir": "G:/EmoScan Pro/ciallo0721-cmd.github.io/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "tests/reports/playwright-report"
+        }
+      ],
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "tests/reports/test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.61.1",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "key-pages.spec.ts",
+      "file": "key-pages.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "首页 (index.html)",
+          "file": "key-pages.spec.ts",
+          "line": 10,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should load homepage with correct title",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 38249,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:46:52.120Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\test-results\\key-pages-首页-index-html-sh-0ae31-homepage-with-correct-title-chromium\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-5d5d1e19134f634123f4",
+              "file": "key-pages.spec.ts",
+              "line": 11,
+              "column": 7
+            },
+            {
+              "title": "should render main navigation links",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 32141,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:46:51.983Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-3d9fd3ed945ef13a58b1",
+              "file": "key-pages.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "should load without JavaScript console errors",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 24335,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:47:27.777Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-5edf5316e6e7ad5bfe07",
+              "file": "key-pages.spec.ts",
+              "line": 24,
+              "column": 7
+            },
+            {
+              "title": "should have valid HTML structure",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 37854,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:47:54.863Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\test-results\\key-pages-首页-index-html-should-have-valid-HTML-structure-chromium\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-131df6bcb2dc1da0246b",
+              "file": "key-pages.spec.ts",
+              "line": 36,
+              "column": 7
+            },
+            {
+              "title": "should have meta viewport for mobile responsiveness",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 31790,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:47:52.769Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-11f9978eb4b6a079258e",
+              "file": "key-pages.spec.ts",
+              "line": 49,
+              "column": 7
+            },
+            {
+              "title": "should have a valid favicon",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 26794,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:48:24.914Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-1135deec01fb1a8e6065",
+              "file": "key-pages.spec.ts",
+              "line": 57,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "关键子页面",
+          "file": "key-pages.spec.ts",
+          "line": 69,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should load \"关于我\" page (/aboutme.html) with HTTP 200",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 16374,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:48:52.001Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-1a696e8bdc45bad823b3",
+              "file": "key-pages.spec.ts",
+              "line": 79,
+              "column": 9
+            },
+            {
+              "title": "should not have JS errors on \"关于我\" page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 32783,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:49:10.066Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-e67cd3fa5ab7e9a4e8ba",
+              "file": "key-pages.spec.ts",
+              "line": 84,
+              "column": 9
+            },
+            {
+              "title": "should load \"友情链接\" page (/friends.html) with HTTP 200",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 5047,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:49:08.453Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-f6e419f97ea3c6b71d4d",
+              "file": "key-pages.spec.ts",
+              "line": 79,
+              "column": 9
+            },
+            {
+              "title": "should not have JS errors on \"友情链接\" page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 12193,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:49:13.560Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-9f619046e9cb7fa2f613",
+              "file": "key-pages.spec.ts",
+              "line": 84,
+              "column": 9
+            },
+            {
+              "title": "should load \"404页面\" page (/404.html) with HTTP 200",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 19972,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:49:25.866Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-1feee850e9dc6708aabb",
+              "file": "key-pages.spec.ts",
+              "line": 79,
+              "column": 9
+            },
+            {
+              "title": "should not have JS errors on \"404页面\" page",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 40063,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\tests\\e2e\\key-pages.spec.ts",
+                            "column": 18,
+                            "line": 87
+                          },
+                          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:8080/404.html\", waiting until \"load\"\u001b[22m\n\n\n  85 |       const errors: string[] = [];\n  86 |       page.on('pageerror', (err) => errors.push(err.message));\n> 87 |       await page.goto(`${BASE_URL}${path}`);\n     |                  ^\n  88 |       await page.waitForLoadState('networkidle');\n  89 |       const criticalErrors = errors.filter(\n  90 |         (e) => !e.includes('favicon') && !e.includes('net::ERR_')\n    at G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\tests\\e2e\\key-pages.spec.ts:87:18"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:49:44.131Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\test-results\\key-pages-关键子页面-should-not-have-JS-errors-on-404页面-page-chromium\\error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-6a4e0aeb4103b271d85f",
+              "file": "key-pages.spec.ts",
+              "line": 84,
+              "column": 9
+            },
+            {
+              "title": "should load \"博客首页\" page (/blog/) with HTTP 200",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 11178,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:49:46.806Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-77bad4ef4cd54ed0bf0d",
+              "file": "key-pages.spec.ts",
+              "line": 79,
+              "column": 9
+            },
+            {
+              "title": "should not have JS errors on \"博客首页\" page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2189,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:49:58.028Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-585528fef2a32b3a4eb2",
+              "file": "key-pages.spec.ts",
+              "line": 84,
+              "column": 9
+            },
+            {
+              "title": "should load \"管理后台\" page (/admin/) with HTTP 200",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 915,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:50:00.248Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-8bc414ed98946bc6e36c",
+              "file": "key-pages.spec.ts",
+              "line": 79,
+              "column": 9
+            },
+            {
+              "title": "should not have JS errors on \"管理后台\" page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1503,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:50:01.196Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-eaf29a95b2876bee00df",
+              "file": "key-pages.spec.ts",
+              "line": 84,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "404 错误处理",
+          "file": "key-pages.spec.ts",
+          "line": 98,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should return 404 for non-existent pages",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 286,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:50:02.729Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-612cb9c968efea8ae3c0",
+              "file": "key-pages.spec.ts",
+              "line": 99,
+              "column": 7
+            },
+            {
+              "title": "should display custom 404 content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 310,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:50:03.040Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-9959c4d21e242c17e9b4",
+              "file": "key-pages.spec.ts",
+              "line": 104,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "内部链接检测",
+          "file": "key-pages.spec.ts",
+          "line": 113,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should not have broken internal links on homepage",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 22689,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:50:03.379Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-bf165dfa61dc182a4712",
+              "file": "key-pages.spec.ts",
+              "line": 114,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "移动端响应式",
+          "file": "key-pages.spec.ts",
+          "line": 158,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should render homepage on mobile viewport without horizontal overflow",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 12493,
+                      "error": {
+                        "message": "Error: page.goto: Page crashed\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:8080/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: Page crashed\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:8080/\", waiting until \"load\"\u001b[22m\n\n    at G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\tests\\e2e\\key-pages.spec.ts:161:16",
+                        "location": {
+                          "file": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\tests\\e2e\\key-pages.spec.ts",
+                          "column": 16,
+                          "line": 161
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 159 |\u001b[39m   test(\u001b[32m'should render homepage on mobile viewport without horizontal overflow'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 160 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39msetViewportSize({ width\u001b[33m:\u001b[39m \u001b[35m375\u001b[39m\u001b[33m,\u001b[39m height\u001b[33m:\u001b[39m \u001b[35m812\u001b[39m })\u001b[33m;\u001b[39m \u001b[90m// iPhone X\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 161 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[33mBASE_URL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 162 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 163 |\u001b[39m\n \u001b[90m 164 |\u001b[39m     \u001b[36mconst\u001b[39m hasOverflow \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\tests\\e2e\\key-pages.spec.ts",
+                            "column": 16,
+                            "line": 161
+                          },
+                          "message": "Error: page.goto: Page crashed\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:8080/\", waiting until \"load\"\u001b[22m\n\n\n  159 |   test('should render homepage on mobile viewport without horizontal overflow', async ({ page }) => {\n  160 |     await page.setViewportSize({ width: 375, height: 812 }); // iPhone X\n> 161 |     await page.goto(BASE_URL);\n      |                ^\n  162 |     await page.waitForLoadState('networkidle');\n  163 |\n  164 |     const hasOverflow = await page.evaluate(() => {\n    at G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\tests\\e2e\\key-pages.spec.ts:161:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:50:26.096Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\test-results\\key-pages-移动端响应式-should-re-082cf-without-horizontal-overflow-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\tests\\e2e\\key-pages.spec.ts",
+                        "column": 16,
+                        "line": 161
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-f86601fb6da539f6a0d1",
+              "file": "key-pages.spec.ts",
+              "line": 159,
+              "column": 7
+            },
+            {
+              "title": "should render homepage on tablet viewport",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 19861,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:50:39.515Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-18d5a7af51c807121acd",
+              "file": "key-pages.spec.ts",
+              "line": 170,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "基础性能指标",
+          "file": "key-pages.spec.ts",
+          "line": 181,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should load homepage within reasonable time",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 20111,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m10000\u001b[39m\nReceived:   \u001b[31m17670\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m10000\u001b[39m\nReceived:   \u001b[31m17670\u001b[39m\n    at G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\tests\\e2e\\key-pages.spec.ts:190:22",
+                        "location": {
+                          "file": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\tests\\e2e\\key-pages.spec.ts",
+                          "column": 22,
+                          "line": 190
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 188 |\u001b[39m     console\u001b[33m.\u001b[39mlog(\u001b[32m`首页加载时间: ${loadTime}ms`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 189 |\u001b[39m     \u001b[90m// 静态站点的合理加载时间应该在 5 秒以内\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 190 |\u001b[39m     expect(loadTime)\u001b[33m.\u001b[39mtoBeLessThan(\u001b[35m10000\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 191 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 192 |\u001b[39m\n \u001b[90m 193 |\u001b[39m   test(\u001b[32m'should have reasonable DOM size'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\tests\\e2e\\key-pages.spec.ts",
+                            "column": 22,
+                            "line": 190
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m10000\u001b[39m\nReceived:   \u001b[31m17670\u001b[39m\n\n  188 |     console.log(`首页加载时间: ${loadTime}ms`);\n  189 |     // 静态站点的合理加载时间应该在 5 秒以内\n> 190 |     expect(loadTime).toBeLessThan(10000);\n      |                      ^\n  191 |   });\n  192 |\n  193 |   test('should have reasonable DOM size', async ({ page }) => {\n    at G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\tests\\e2e\\key-pages.spec.ts:190:22"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "首页加载时间: 17670ms\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:50:59.810Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\test-results\\key-pages-基础性能指标-should-load-homepage-within-reasonable-time-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\test-results\\key-pages-基础性能指标-should-load-homepage-within-reasonable-time-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "G:\\EmoScan Pro\\ciallo0721-cmd.github.io\\tests\\e2e\\key-pages.spec.ts",
+                        "column": 22,
+                        "line": 190
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-106930582297931fc6bc",
+              "file": "key-pages.spec.ts",
+              "line": 182,
+              "column": 7
+            },
+            {
+              "title": "should have reasonable DOM size",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 17769,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "首页 DOM 节点数: 1247\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T01:51:23.668Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "795b398ccc7044f6014f-869e0ea7e2e995a91fd6",
+              "file": "key-pages.spec.ts",
+              "line": 193,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-07-07T01:46:49.834Z",
+    "duration": 3590317.898,
+    "expected": 18,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  },
+  "name": "ciallo0721-cmd.github.io",
+  "version": "1.0.0",
+  "description": "- 你们好啊,我是**ciallo0721-cmd**",
+  "main": "articles-data.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node tests/run-all.js",
+    "test:static": "node tests/analysis/static-analysis.js",
+    "test:links": "node tests/analysis/link-checker.js",
+    "test:perf": "node tests/performance/perf-check.js",
+    "test:e2e": "npx playwright test --project=chromium",
+    "serve": "python -m http.server 8080",
+    "preview": "python -m http.server 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues"
+  },
+  "homepage": "https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "axe-core": "^4.12.1",
+    "lighthouse": "^13.4.0",
+    "playwright": "^1.61.1"
+  }
+}

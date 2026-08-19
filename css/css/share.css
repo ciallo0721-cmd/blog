@@ -1,0 +1,154 @@
+        /* 分享按钮样式 */
+        .share-btn {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 30px auto;
+            box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(251, 114, 153, 0.4);
+        }
+        
+        .share-btn i {
+            font-size: 1.2rem;
+        }
+        
+        /* 分享弹窗样式 */
+        .share-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .share-modal.active {
+            display: flex;
+        }
+        
+        .share-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .share-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .share-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .share-close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .share-close-btn:hover {
+            color: var(--bili-pink);
+        }
+        
+        .share-text {
+            background: rgba(251, 114, 153, 0.1);
+            border: 1px solid rgba(251, 114, 153, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            word-break: break-all;
+        }
+        
+        .share-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .share-copy-btn {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .share-copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+        }
+        
+        .share-copy-btn.copied {
+            background: linear-gradient(135deg, #00cc66, #00b359);
+        }
+        
+        .share-close-modal-btn {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-primary);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+        }
+        
+        .share-close-modal-btn:hover {
+            background: rgba(0, 0, 0, 0.15);
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }

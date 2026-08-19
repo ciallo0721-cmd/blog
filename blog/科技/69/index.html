@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMD —— 命令提示符，Windows 的灵魂之窗 | ciallo0721-cmd</title>
+    <meta name="description" content="CMD（命令提示符）是什么？从 MS-DOS 时代到 Windows 11，这个黑底白字的窗口为什么至今仍被开发者使用？">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/blog/科技/69/">
+    <link rel="icon" href="/fanv.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../pic/image-viewer.css">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://ciallo0721-cmd.top/blog/科技/69/">
+    <meta property="og:title" content="CMD —— 命令提示符，Windows 的灵魂之窗 | ciallo0721-cmd">
+    <meta property="og:description" content="CMD（命令提示符）是什么？从 MS-DOS 时代到 Windows 11，这个黑底白字的窗口为什么至今仍被开发者使用？">
+    <meta property="og:image" content="https://ciallo0721-cmd.top/fanv.ico">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CMD —— 命令提示符，Windows 的灵魂之窗 | ciallo0721-cmd">
+    <meta name="twitter:description" content="CMD（命令提示符）是什么？从 MS-DOS 时代到 Windows 11，这个黑底白字的窗口为什么至今仍被开发者使用？">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "CMD —— 命令提示符，Windows 的灵魂之窗",
+      "description": "CMD（命令提示符）是什么？从 MS-DOS 时代到 Windows 11，这个黑底白字的窗口为什么至今仍被开发者使用？",
+      "image": "https://ciallo0721-cmd.top/fanv.ico",
+      "author": { "@type": "Person", "name": "ciallo0721-cmd", "url": "https://ciallo0721-cmd.top/aboutme.html" },
+      "datePublished": "2026-07-28", "dateModified": "2026-07-28",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ciallo0721-cmd.top/blog/科技/69/" },
+      "keywords": ["CMD", "命令提示符", "Windows", "MS-DOS", "命令行", "电脑知识", "操作系统"],
+      "articleSection": ["科技"]
+    }
+    </script>
+
+    <style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('../../css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+}
+
+:root {
+    --bili-pink: #FB7299;
+    --bili-blue: #00A1D6;
+    --text-primary: #1D1D1F;
+    --text-secondary: #515154;
+    --bg-light: #F5F5F7;
+    --transition: all 0.3s ease;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6; color: var(--text-primary);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+nav {
+    background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
+    position: sticky; top: 0; z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1); border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.nav-container { display: flex; justify-content: space-between; align-items: center; padding: 8px 15px; }
+.logo { font-size: 1.6rem; font-weight: 700; color: var(--bili-pink); text-decoration: none; transition: var(--transition); }
+.logo:hover { transform: translateY(-2px); color: var(--bili-blue); }
+.back-btn {
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color: white; border: none; padding: 10px 25px; border-radius: 25px;
+    font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition);
+    text-decoration: none; box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+}
+.back-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(251, 114, 153, 0.4); }
+
+.article-detail-container { padding: 60px 0; }
+.article-detail {
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+    border-radius: 20px; box-shadow: var(--shadow); padding: 50px;
+    border: 1px solid rgba(255,255,255,0.3); position: relative; overflow: hidden;
+    animation: fadeIn 0.5s ease;
+}
+.article-detail::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+}
+
+.article-header { text-align: center; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid rgba(0,0,0,0.1); }
+.article-number {
+    display: inline-block; background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color: white; padding: 8px 20px; border-radius: 20px;
+    font-size: 0.9rem; font-weight: 600; margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(251,114,153,0.3);
+}
+.article-title { font-size: 2.4rem; color: var(--text-primary); margin-bottom: 20px; line-height: 1.3; font-weight: 700; }
+.article-intro { font-size: 1.2rem; color: var(--bili-blue); font-weight: 500; margin-bottom: 25px; line-height: 1.5; max-width: 800px; margin-left: auto; margin-right: auto; }
+.article-meta { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 25px; flex-wrap: wrap; }
+.article-date { color: var(--text-secondary); font-size: 1rem; }
+.article-tags { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px; }
+.article-tag {
+    background: rgba(251,114,153,0.1); color: var(--bili-pink);
+    padding: 6px 15px; border-radius: 15px; font-size: 0.85rem;
+    font-weight: 500; border: 1px solid rgba(251,114,153,0.2); transition: var(--transition);
+}
+.article-tag:hover { background: var(--bili-pink); color: white; transform: translateY(-2px); }
+
+.article-content { font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); }
+.article-content h2 {
+    color: var(--text-primary); margin: 35px 0 15px; font-size: 1.8rem; font-weight: 600;
+    position: relative; padding-bottom: 10px;
+}
+.article-content h2::after {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 60px; height: 3px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius: 3px;
+}
+.article-content h3 { color: var(--text-primary); margin: 25px 0 12px; font-size: 1.5rem; font-weight: 600; }
+.article-content p { margin-bottom: 20px; text-align: justify; }
+.article-content blockquote {
+    border-left: 4px solid var(--bili-pink);
+    padding: 20px 25px; margin: 25px 0;
+    background: rgba(251,114,153,0.05); border-radius: 0 12px 12px 0;
+    color: var(--text-primary);
+}
+.article-content strong { color: var(--text-primary); font-weight: 700; }
+.article-content ul, .article-content ol { margin: 15px 0 20px 25px; }
+.article-content li { margin-bottom: 10px; }
+.article-content .highlight-box {
+    background: linear-gradient(135deg, rgba(251,114,153,0.08), rgba(0,161,214,0.08));
+    border: 1px solid rgba(251,114,153,0.2);
+    border-radius: 12px; padding: 25px; margin: 25px 0;
+}
+.article-content .highlight-box p { margin-bottom: 8px; }
+.article-content .highlight-box p:last-child { margin-bottom: 0; }
+.article-content .code-block {
+    background: #1a1a2e; border-radius: 12px; padding: 16px 20px; margin: 20px 0;
+    font-family: 'Consolas', 'Courier New', monospace;
+    color: #00ff88; font-size: 0.9rem; line-height: 1.6;
+    border: 1px solid #333; overflow-x: auto;
+}
+.article-content .code-block .comment { color: #6a9955; }
+
+footer {
+    background: linear-gradient(135deg, var(--text-primary), #2D2D2F); color: white;
+    text-align: center; padding: 50px 0 30px; margin-top: 80px; position: relative; overflow: hidden;
+}
+footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); }
+.footer-content { position: relative; z-index: 2; }
+.footer-logo { font-size: 1.8rem; font-weight: 700; margin-bottom: 20px; color: var(--bili-pink); }
+footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 768px) {
+    .article-detail { padding: 30px; }
+    .article-title { font-size: 1.8rem; }
+    .article-content { font-size: 1rem; }
+}
+@media (max-width: 480px) {
+    .article-detail { padding: 25px; }
+    .article-title { font-size: 1.5rem; }
+    .article-meta { flex-direction: column; gap: 10px; }
+}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius: 4px; }
+    </style>
+    <script src="/articles-data.js"></script>
+    <script src="/wiki-data.js"></script>
+    <script src="/css/wiki-linker.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+    <link rel="stylesheet" href="../../../css/css/blog-share.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav-container">
+            <a href="/index.html" class="logo">开发者空间</a>
+            <a href="/index.html" class="back-btn">← 返回首页</a>
+        </div>
+    </nav>
+
+    <main class="container article-detail-container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="article-number" id="articleNumber">文章 #069</div>
+                <h1 class="article-title" id="articleTitle">CMD —— 命令提示符，Windows 的灵魂之窗</h1>
+                <p class="article-intro" id="articleIntro">那个黑底白字的窗口，见证了从 MS-DOS 到 Windows 11 的整个计算机发展史。它也恰好是我 GitHub ID 的最后一个组成部分。</p>
+                <div class="article-meta">
+                    <div class="article-date">发布日期：<span id="articleDate">2026-07-28</span></div>
+                    <div class="article-date">阅读时间：<span id="readTime">约8分钟</span></div>
+                </div>
+                <div class="article-tags" id="articleTags"></div>
+            </header>
+
+            <div class="article-content" id="articleContent">
+
+                <p>在 Windows 系统里，有一个从 1981 年活到现在的老古董。它没有华丽的界面，没有漂亮的图标，只有一个黑底白字的窗口和闪动的光标。</p>
+
+                <p>它就是 <strong>CMD</strong>（命令提示符，Command Prompt）。</p>
+
+                <p>你也许觉得它很古老、很落后——毕竟现在都有 Windows Terminal 了，谁还用那个黑框框？但 CMD 的历史地位和它的实用价值，远比你想象的要厚重。</p>
+
+                <h2>CMD 的前世今生</h2>
+
+                <h3>MS-DOS 时代（1981-2000）</h3>
+                <p>CMD 的"祖宗"是 <strong>MS-DOS</strong>（Microsoft Disk Operating System，微软磁盘操作系统）。在 Windows 出现之前，电脑的操作系统就是这个黑屏 + 命令行。没有鼠标，没有窗口，你要运行一个程序就得输入命令：</p>
+
+                <div class="code-block">
+                    C:\&gt; dir<br>
+                    C:\&gt; copy a.txt b.txt<br>
+                    C:\&gt; format a:
+                </div>
+
+                <p>在那个年代，会打命令就是会用电脑。Windows 95 出现后，图形界面开始普及，但 MS-DOS 仍然作为底层存在——你可以从 Windows 中"退出到 MS-DOS"。很多老游戏（比如仙剑奇侠传 DOS 版）就是在 DOS 下跑的。</p>
+
+                <h3>Windows NT 时代的 CMD.EXE</h3>
+                <p>到了 Windows NT（包括 XP、7、10、11 等），微软提供了一个名为 <strong>cmd.exe</strong> 的程序来模拟 DOS 的命令行环境。它并不是真正的 DOS，而是一个"命令行解释器"——这就是我们今天说的 CMD。</p>
+
+                <p>你可以在 Windows 的任何版本里按下 <kbd>Win + R</kbd>，输入 <code>cmd</code>，回车，召唤出这个黑窗口。它在今天仍然被大量使用：</p>
+
+                <ul>
+                    <li><strong>开发者</strong>用 CMD 运行 Git 命令、编译代码、执行脚本</li>
+                    <li><strong>系统管理员</strong>用 CMD 进行网络诊断（ping、ipconfig、tracert）</li>
+                    <li><strong>普通用户</strong>用 CMD 修复系统、清除 DNS 缓存、查看网络状态</li>
+                </ul>
+
+                <h2>几个常用的 CMD 命令</h2>
+
+                <p>这里介绍几个最实用的命令，就算你不是开发者，也可能会在某天用到：</p>
+
+                <div class="code-block">
+                    <span class="comment">:: 查看 IP 地址和网络配置</span><br>
+                    ipconfig<br>
+                    <br>
+                    <span class="comment">:: 测试网络连通性（ping 百度）</span><br>
+                    ping baidu.com<br>
+                    <br>
+                    <span class="comment">:: 查看目录下的文件</span><br>
+                    dir<br>
+                    <br>
+                    <span class="comment">:: 切换目录</span><br>
+                    cd 文件夹名<br>
+                    <br>
+                    <span class="comment">:: 清除 DNS 缓存（网站打不开时试一下）</span><br>
+                    ipconfig /flushdns<br>
+                    <br>
+                    <span class="comment">:: 查看路由追踪</span><br>
+                    tracert baidu.com
+                </div>
+
+                <p>你可能会发现，CMD 的命令语法和 Linux 的终端（bash）有很大的不同——Windows 用 <code>dir</code> 而 Linux 用 <code>ls</code>，Windows 用 <code>cd</code> 而 Linux 也用 <code>cd</code>（这个一样）。CMD 的反斜杠 <code>\</code> 路径分隔符和 Linux 的正斜杠 <code>/</code> 也经常让人混乱。</p>
+
+                <h2>CMD 的局限性</h2>
+
+                <p>说句公道话，CMD 确实有年代感了。和 PowerShell 或者 Linux 的 bash 相比，它缺乏很多现代 shell 的功能：</p>
+
+                <ul>
+                    <li><strong>管道处理能力弱</strong>——PowerShell 传递的是对象，CMD 传递的是文本</li>
+                    <li><strong>脚本语法古老</strong>——批处理（.bat）语法写起来很痛苦</li>
+                    <li><strong>不支持远程管理、不支持正则表达式</strong>等现代功能</li>
+                </ul>
+
+                <p>所以如果你深入做开发，大概率会转向 PowerShell 或 Windows Terminal。但 CMD 作为一个"最低门槛的命令行入口"，它的简单性和兼容性是无可替代的——几乎任何 Windows 电脑上都能用，不用装任何额外软件。</p>
+
+                <div class="highlight-box">
+                    <p><strong>💡 冷知识</strong></p>
+                    <p>· CMD 的完整路径是 <code>C:\Windows\System32\cmd.exe</code></p>
+                    <p>· CMD 可以通过按 <strong>F7</strong> 键调出历史命令列表</p>
+                    <p>· 在 CMD 中按 <strong>Tab</strong> 键可以自动补全文件名和路径</p>
+                    <p>· 用 <code>doskey /history</code> 可以导出当前会话的所有命令历史</p>
+                </div>
+
+                <h2>CMD 与我的域名</h2>
+
+                <p>本站域名 <strong>ciallo0721-cmd.top</strong> 中的 <strong>cmd</strong>，一方面代表了我的开发者身份——我作为一个 Windows 用户，日常开发离不开 CMD；另一方面也代表着一切从命令行开始的极客精神。</p>
+
+                <p>Ciallo（二次元问候） + 0721（柚子社暗号） + cmd（开发者身份）——这三个词拼在一起，就是我的完整的网络身份：一个喜欢柚子社、热爱技术的初中生开发者。</p>
+
+                <div class="highlight-box">
+                    <p><strong>📝 总结一下</strong></p>
+                    <p>CMD = Command Prompt（命令提示符），Windows 内置的命令行解释器</p>
+                    <p>起源于 1981 年的 MS-DOS，至今仍在所有 Windows 版本中可用</p>
+                    <p>主要用途：系统维护、网络诊断、开发者工具、日常脚本</p>
+                    <p>虽然老旧，但以其零门槛的兼容性至今无法被完全替代</p>
+                </div>
+
+            </div>
+        </article>
+
+        <div class="article-navigation" id="articleNavigation"></div>
+
+        <div class="related-articles" id="relatedArticles">
+            <h3 class="related-title">推荐文章</h3>
+            <div class="related-grid" id="relatedGrid"></div>
+        </div>
+    </main>
+
+    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
+        <a href="../../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
+            <img src="../../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
+                style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
+        </a>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">开发者ciallo0721-cmd的空间</div>
+            <p>感谢阅读！期待与你交流心得喵～</p>
+            <p>© 2026 ciallo0721-cmd · 专注技术教程与创作分享</p>
+        </div>
+    </footer>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const currentArticleId = 69;
+
+    function updateArticleInfo(id) {
+        if (typeof window.articlesData === 'undefined') { setTimeout(() => updateArticleInfo(id), 100); return; }
+        const data = window.articlesData.getArticleById(id);
+        if (!data) return;
+        document.getElementById('articleNumber').textContent = '文章 #' + String(data.id).padStart(3, '0');
+        document.getElementById('articleTitle').textContent = data.title;
+        document.getElementById('articleIntro').textContent = data.excerpt;
+        document.getElementById('articleDate').textContent = data.date;
+        document.getElementById('readTime').textContent = '约' + data.readTime + '分钟';
+        const tagsContainer = document.getElementById('articleTags');
+        tagsContainer.innerHTML = '';
+        (data.tags || []).forEach(function(tag) {
+            var el = document.createElement('span');
+            el.className = 'article-tag';
+            el.textContent = tag;
+            tagsContainer.appendChild(el);
+        });
+    }
+
+    function initNav(id) {
+        if (typeof window.articlesData === 'undefined') { setTimeout(function() { initNav(id); }, 100); return; }
+        var nav = document.getElementById('articleNavigation');
+        if (!nav) return;
+        var adj = window.articlesData.getAdjacentArticles(id);
+        var html = '';
+        if (adj.prev) {
+            html += '<a href="/blog/' + adj.prev.fileName + '" class="nav-btn prev">←<div><div style="font-size:.8rem;opacity:.8">上一篇</div><div>' + adj.prev.title + '</div></div></a>';
+        } else {
+            html += '<a href="javascript:void(0)" class="nav-btn prev disabled">←<div><div style="font-size:.8rem;opacity:.8">上一篇</div><div>已是第一篇</div></div></a>';
+        }
+        if (adj.next) {
+            html += '<a href="/blog/' + adj.next.fileName + '" class="nav-btn next"><div><div style="font-size:.8rem;opacity:.8">下一篇</div><div>' + adj.next.title + '</div></div>→</a>';
+        } else {
+            html += '<a href="javascript:void(0)" class="nav-btn next disabled"><div><div style="font-size:.8rem;opacity:.8">下一篇</div><div>已是最后一篇</div></div>→</a>';
+        }
+        nav.innerHTML = html;
+    }
+
+    function initRelated(id) {
+        if (typeof window.articlesData === 'undefined') { setTimeout(function() { initRelated(id); }, 100); return; }
+        var grid = document.getElementById('relatedGrid');
+        if (!grid) return;
+        var articles = window.articlesData.getFeaturedArticles ? window.articlesData.getFeaturedArticles(id, 3) : [];
+        grid.innerHTML = articles.map(function(a) {
+            return '<a href="/blog/' + a.fileName + '" class="related-card"><h4>' + a.title + '</h4><p>' + a.excerpt + '</p><div class="related-tags">' + a.tags.slice(0, 3).map(function(t) { return '<span class="related-tag">' + t + '</span>'; }).join('') + '</div></a>';
+        }).join('');
+    }
+
+    function addProgressBar() {
+        if (document.getElementById('reading-progress-bar')) return;
+        var bar = document.createElement('div');
+        bar.id = 'reading-progress-bar';
+        bar.style.cssText = 'position:fixed;top:0;left:0;height:3px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));width:0%;z-index:9999;transition:width .1s ease;';
+        document.body.appendChild(bar);
+        window.addEventListener('scroll', function() {
+            var h = document.documentElement.scrollHeight - window.innerHeight;
+            if (h > 0) bar.style.width = (window.pageYOffset / h * 100) + '%';
+        });
+    }
+
+    updateArticleInfo(currentArticleId);
+    initNav(currentArticleId);
+    initRelated(currentArticleId);
+    addProgressBar();
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') window.location.href = '/index.html';
+    });
+});
+    </script>
+
+    <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;justify-content:center;align-items:center;" aria-label="返回顶部">↑</button>
+    <script>
+    (function(){
+        var btn = document.getElementById('totop-btn');
+        if (!btn) return;
+        btn.addEventListener('click', function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+        window.addEventListener('scroll', function(){ btn.style.display = window.scrollY > 300 ? 'flex' : 'none'; }, {passive:true});
+    })();
+    </script>
+    <script src="../../pic/image-viewer.js"></script>
+    <script src="../../../js/js/blog-share.js"></script>
+</body>
+</html>

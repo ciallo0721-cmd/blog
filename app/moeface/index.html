@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MoeFace Web - 动漫人脸识别</title>
+
+    <!-- pageMeta 定义 -->
+    
+
+    <link rel="canonical" href="https://ciallo0721-cmd.top/app/moeface/">
+    <meta name="description" content="MoeFace Web - 在线动漫人脸识别工具，基于 face-api.js 的浏览器端AI，支持数百个动漫角色特征库匹配">
+    
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+
+<!-- GA4 统一埋点模块 -->
+<script src="../../js/js/gtag-config.js"></script>
+
+    <link rel="stylesheet" href="../../css/css/app-moeface-index.css">
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+</head>
+<body>
+    <!-- 广告位 #1：顶部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">正在加载模型...</div>
+        <div class="loading-progress">
+            <div class="loading-progress-bar" id="loadingProgress"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>MoeFace</h1>
+            <p class="subtitle">动漫角色识别 · 浏览器端AI · 特征库</p>
+        </header>
+
+        <div class="card">
+            <div class="notice">
+                <strong>📌 注意事项</strong>
+                <p>1. 本工具专为<strong>动漫/二次元角色</strong>人脸识别设计，特征库包含数百个动漫角色。</p>
+                <p>2. 因动漫脸与真实人脸差异较大，请尽量上传<strong>清晰、正面、光线均匀</strong>的动漫人物特写，避免侧脸、遮挡或模糊。</p>
+                <p>3. 识别阈值建议 <strong>0.35~0.55</strong>，若识别不到可适当降低阈值（最低0.25）。</p>
+                <p>4. 如果仍未识别，可尝试裁剪图片使人脸占比更大，或使用<strong>全身图转为半身</strong>后再试。</p>
+                <p>5. 特征库从 GitHub 仓库单文件加载，部分网络环境可能影响加载速度。</p>
+            </div>
+            <div class="notice">
+                <strong>✨ 新特性</strong>
+                <p>• 特征库从 GitHub 仓库自动加载合并文件，无需手动更新。</p>
+                <p>• 所有操作均在本地进行，不会上传任何图片数据。</p>
+            </div>
+            <div class="status-bar">
+                <div class="status-item" id="statusModels">
+                    <span class="status-dot"></span>
+                    <span>加载中...</span>
+                </div>
+                <div class="status-item" id="statusDB">
+                    <span class="status-dot"></span>
+                    <span>加载中...</span>
+                </div>
+                <div class="status-item" id="statusNegDB" style="display:none;">
+                    <span class="status-dot"></span>
+                    <span>负面特征</span>
+                </div>
+            </div>
+
+            <div class="upload-zone" id="uploadZone">
+                <input type="file" id="fileInput" accept="image/*">
+                <div class="upload-icon">📂</div>
+                <div class="upload-text">点击或拖拽上传动漫图片</div>
+                <div class="upload-hint">支持 JPG / PNG / WebP</div>
+            </div>
+
+            <div class="preview-container" id="previewContainer">
+                <div class="preview-wrapper">
+                    <img id="previewImage" class="preview-image" alt="预览">
+                    <canvas id="canvasOverlay" class="canvas-overlay"></canvas>
+                </div>
+            </div>
+
+            <div class="controls" id="controls" style="display: none;">
+                <div class="control-group">
+                    <label>识别阈值 (越低越敏感):</label>
+                    <input type="range" id="threshold" min="0.20" max="0.85" step="0.01" value="0.42">
+                    <span class="threshold-value" id="thresholdValue">0.42</span>
+                </div>
+                <div class="control-group">
+                    <button id="recognizeBtn" disabled>🔍 开始识别</button>
+                    <button id="clearBtn" class="secondary">🗑 清除</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card results" id="results">
+            <div class="results-header">
+                <span class="results-title">识别结果</span>
+                <span class="face-count" id="faceCount">0 张人脸</span>
+            </div>
+            <div class="result-list" id="resultList"></div>
+            <div class="no-result" id="noResult" style="display: none;">
+                <p>✨ 未匹配到已知角色 ✨</p>
+                <p style="font-size:0.85rem; margin-top:8px;">试试降低阈值、上传更清晰的正脸图</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom: 12px;">运行日志</h3>
+            <div class="log-container" id="logContainer"></div>
+        </div>
+
+        <footer>
+            <p>基于 face-api.js + TensorFlow.js | 特征库: <span id="charCount">-</span> 个动漫角色 <span id="negCountDisplay" style="color: var(--muted);"></span></p>
+            <p style="margin-top: 8px;">
+                <a href="#" target="_blank">MoeFace · 专注动漫识别</a>
+            </p>
+        </footer>
+    </div>
+
+    
+    <script src="../../js/js/app-moeface-index.js"></script>
+
+    <!-- 广告位 #2：底部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+        <!-- ===== 广告系统 v1.1 ===== -->
+    <script src="../../js/js/ad-data.js?v=2"></script>
+    <script src="../../js/js/ad-system.js?v=2"></script>
+</body>
+</html>

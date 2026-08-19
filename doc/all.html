@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/doc/all/">
+    <title>用户协议与隐私政策（合并版） - ciallo0721-cmd</title>
+    <meta name="description" content="ciallo0721-cmd 网站的用户协议与隐私政策合并版，涵盖用户协议、隐私政策、Cookie说明、DMCA合规、免责声明等全部法律条款">
+    <link rel="stylesheet" href="/media-viewer.css">
+    <link rel="icon" href="/fanv.ico" type="image/x-icon">
+    <script src="/media-viewer.js"></script>
+    <script src="/articles-data.js"></script>
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+<style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('../css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --bili-pink: #FB7299;
+    --bili-blue: #00A1D6;
+    --text-primary: #1D1D1F;
+    --text-secondary: #515154;
+    --bg-light: #F5F5F7;
+    --transition: all 0.3s ease;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+    --success: #34C759;
+    --warning: #FF9500;
+    --danger: #FF3B30;
+    --info: #007AFF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* ── 导航栏 ── */
+nav {
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(20px);
+    position: sticky; top: 0; z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.nav-container { display: flex; justify-content: space-between; align-items: center; padding: 8px 15px; }
+.logo {
+    font-size: 1.6rem; font-weight: 700; color: var(--bili-pink);
+    text-decoration: none; display: flex; align-items: center; gap: 10px; transition: var(--transition);
+}
+.logo:hover { transform: translateY(-2px); color: var(--bili-blue); }
+.back-btn {
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color: white; border: none; padding: 10px 25px; border-radius: 25px;
+    font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition);
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    box-shadow: 0 4px 15px rgba(251,114,153,0.3);
+}
+.back-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(251,114,153,0.4); }
+
+/* ── 目录 ── */
+.toc-box {
+    background: rgba(0,161,214,0.06);
+    border: 1px solid rgba(0,161,214,0.25);
+    border-radius: 14px; padding: 22px 28px; margin: 30px 0;
+}
+.toc-box h4 { color: var(--bili-blue); margin-bottom: 12px; font-size: 1rem; }
+.toc-box ol { padding-left: 20px; }
+.toc-box ol li { margin-bottom: 6px; }
+.toc-box ol li a { color: var(--bili-blue); text-decoration: none; font-size: 0.95rem; transition: var(--transition); }
+.toc-box ol li a:hover { color: var(--bili-pink); text-decoration: underline; }
+
+/* ── 文章框架 ── */
+.article-detail-container { padding: 60px 0; }
+.article-detail {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px; box-shadow: var(--shadow);
+    padding: 50px; border: 1px solid rgba(255,255,255,0.3);
+    position: relative; overflow: hidden; animation: fadeIn 0.5s ease;
+}
+.article-detail::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+}
+.article-header {
+    text-align: center; margin-bottom: 40px; padding-bottom: 30px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.article-number {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color: white; padding: 8px 20px; border-radius: 20px;
+    font-size: 0.9rem; font-weight: 600; margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(251,114,153,0.3);
+}
+.article-title { font-size: 2.4rem; color: var(--text-primary); margin-bottom: 20px; line-height: 1.3; font-weight: 700; }
+.article-intro {
+    font-size: 1.2rem; color: var(--bili-blue); font-weight: 500;
+    margin-bottom: 25px; line-height: 1.5;
+    max-width: 800px; margin-left: auto; margin-right: auto;
+}
+.article-meta { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 25px; flex-wrap: wrap; }
+.article-date { color: var(--text-secondary); font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+.article-date i { color: var(--bili-pink); }
+
+/* ── 正文内容 ── */
+.article-content { font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); }
+.article-content h2 {
+    color: var(--text-primary); margin: 40px 0 15px; font-size: 1.8rem; font-weight: 600;
+    position: relative; padding-bottom: 10px;
+}
+.article-content h2::after {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 60px; height: 3px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius: 3px;
+}
+.article-content h3 { color: var(--text-primary); margin: 25px 0 12px; font-size: 1.35rem; font-weight: 600; }
+.article-content p { margin-bottom: 20px; text-align: justify; }
+.article-content ul, .article-content ol { margin-left: 25px; margin-bottom: 20px; }
+.article-content li { margin-bottom: 8px; }
+.article-content hr { border: none; border-top: 2px solid rgba(251,114,153,0.25); margin: 35px 0; border-radius: 2px; }
+
+/* 引用块 */
+.article-content blockquote {
+    border-left: 4px solid var(--bili-pink);
+    padding: 18px 22px; margin: 25px 0;
+    background: rgba(251,114,153,0.05);
+    border-radius: 0 12px 12px 0;
+    color: var(--text-primary);
+}
+.article-content blockquote p { margin: 0; font-style: italic; }
+
+/* 代码块 */
+.article-content pre {
+    background: linear-gradient(135deg, #2D2D30, #1E1E1E);
+    border-radius: 12px; padding: 25px; margin: 25px 0;
+    overflow-x: auto; border: 1px solid rgba(255,255,255,0.1);
+}
+.article-content pre code {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    color: #E8E8E8; font-size: 0.95rem; white-space: pre;
+}
+
+/* 警告/提示框 */
+.callout {
+    border-radius: 12px; padding: 18px 22px; margin: 22px 0;
+    display: flex; gap: 14px; align-items: flex-start;
+}
+.callout .callout-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+.callout .callout-body { flex: 1; }
+.callout .callout-title { font-weight: 700; margin-bottom: 5px; font-size: 0.95rem; }
+.callout .callout-text { font-size: 0.93rem; line-height: 1.6; margin: 0; }
+.callout-info { background: rgba(0,122,255,0.08); border: 1px solid rgba(0,122,255,0.2); }
+.callout-info .callout-title, .callout-info .callout-icon { color: var(--info); }
+.callout-warning { background: rgba(255,149,0,0.08); border: 1px solid rgba(255,149,0,0.25); }
+.callout-warning .callout-title, .callout-warning .callout-icon { color: var(--warning); }
+.callout-danger { background: rgba(255,59,48,0.07); border: 1px solid rgba(255,59,48,0.2); }
+.callout-danger .callout-title, .callout-danger .callout-icon { color: var(--danger); }
+.callout-success { background: rgba(52,199,89,0.07); border: 1px solid rgba(52,199,89,0.2); }
+.callout-success .callout-title, .callout-success .callout-icon { color: var(--success); }
+.callout-pink { background: rgba(251,114,153,0.07); border: 1px solid rgba(251,114,153,0.25); }
+.callout-pink .callout-title, .callout-pink .callout-icon { color: var(--bili-pink); }
+
+/* 表格 */
+.article-content .table-wrap { overflow-x: auto; margin: 25px 0; border-radius: 14px; box-shadow: var(--shadow); }
+.article-content table { width: 100%; border-collapse: collapse; background: white; }
+.article-content thead th {
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color: white; padding: 14px 18px; text-align: left; font-size: 0.95rem;
+}
+.article-content tbody tr { transition: background 0.2s; }
+.article-content tbody tr:nth-child(even) { background: rgba(0,161,214,0.04); }
+.article-content tbody tr:hover { background: rgba(251,114,153,0.06); }
+.article-content tbody td { padding: 13px 18px; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 0.95rem; }
+
+/* ── 页脚 ── */
+footer {
+    background: linear-gradient(135deg, var(--text-primary), #2D2D2F);
+    color: white; text-align: center; padding: 50px 0 30px;
+    margin-top: 80px; position: relative; overflow: hidden;
+}
+footer::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+}
+.footer-content { position: relative; z-index: 2; }
+.footer-logo { font-size: 1.8rem; font-weight: 700; margin-bottom: 20px; color: var(--bili-pink); }
+footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
+
+/* ── 动画 ── */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── 滚动条 ── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius: 4px; }
+
+/* ── 响应式 ── */
+@media (max-width: 768px) {
+    .article-detail { padding: 30px; }
+    .article-title { font-size: 1.8rem; }
+    .article-content h2 { font-size: 1.5rem; }
+}
+@media (max-width: 480px) {
+    .article-detail { padding: 20px; }
+    .article-title { font-size: 1.5rem; }
+    .article-meta { flex-direction: column; gap: 8px; }
+}
+</style>
+
+    <!-- IP 地理检测 -->
+    <script src="/geo-check.js"></script>
+    <script>
+        (function() {
+            function checkHTTP() {
+                if (window.location.protocol === 'http:') {
+                    var urlSpan = document.getElementById('currentHttpUrl');
+                    if (urlSpan) urlSpan.textContent = window.location.href;
+                    var overlay = document.getElementById('httpWarningOverlay');
+                    if (overlay) overlay.style.display = 'flex';
+                }
+            }
+            function switchToHTTPS() {
+                var url = window.location.href;
+                url = url.replace(/^http:/i, 'https:');
+                window.location.href = url;
+            }
+            function continueHTTP() {
+                var overlay = document.getElementById('httpWarningOverlay');
+                if (overlay) overlay.style.display = 'none';
+            }
+            window.switchToHTTPS = switchToHTTPS;
+            window.continueHTTP = continueHTTP;
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkHTTP);
+            } else {
+                checkHTTP();
+            }
+        })();
+    </script>
+    <!-- 百科词条系统 -->
+    <script src="/wiki-data.js"></script>
+    <script src="/css/wiki-linker.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TR4FT7JPDZ');
+</script>
+<!-- GA4 统一埋点模块 -->
+<script src="../assets/js/gtag-config.js"></script>
+  <script src="/js/svg-icons.js" defer></script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+</head>
+<body>
+    <!-- 广告位 #1：顶部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav>
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-shield-alt"></i> 协议与政策中心
+            </a>
+            <a href="../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </div>
+    </nav>
+
+    <!-- 正文内容 -->
+    <main class="container article-detail-container">
+        <article class="article-detail">
+
+            <!-- ── 文章头 ── -->
+            <header class="article-header">
+                <div class="article-number">合并版 · 全部法律条款</div>
+                <h1 class="article-title">📜 用户协议与隐私政策（合并版）</h1>
+                <p class="article-intro">
+                    本页面整合了 ciallo0721-cmd 个人网站全部法律条款，包括用户协议、隐私政策、Cookie说明、DMCA合规声明、免责声明、知识产权条款及联系方式。访问或使用本网站即表示您同意本文件中的所有条款。
+                </p>
+                <div class="article-meta">
+                    <div class="article-date"><i class="far fa-calendar"></i> 最后更新：<span>2026年7月19日</span></div>
+                    <div class="article-date"><i class="far fa-clock"></i> 阅读时间：<span>约30分钟</span></div>
+                </div>
+            </header>
+
+            <!-- ── 目录 ── -->
+            <nav class="toc-box" aria-label="文章目录">
+                <h4><i class="fas fa-list-ul"></i> 目录</h4>
+                <ol>
+                    <li><a href="#sec-intro">引言与总则</a></li>
+                    <li><a href="#sec-definitions">定义与范围</a></li>
+                    <li><a href="#sec-user-agreement">用户协议</a></li>
+                    <li><a href="#sec-account">账号与行为规范</a></li>
+                    <li><a href="#sec-privacy">隐私政策</a></li>
+                    <li><a href="#sec-data">信息收集与使用</a></li>
+                    <li><a href="#sec-cookie">Cookie 与本地存储</a></li>
+                    <li><a href="#sec-ads">广告系统说明</a></li>
+                    <li><a href="#sec-thirdparty">第三方服务</a></li>
+                    <li><a href="#sec-storage">数据存储与安全</a></li>
+                    <li><a href="#sec-rights">用户权利</a></li>
+                    <li><a href="#sec-dmca">DMCA 合规声明</a></li>
+                    <li><a href="#sec-disclaimer">免责声明</a></li>
+                    <li><a href="#sec-ip">知识产权</a></li>
+                    <li><a href="#sec-changes">条款变更</a></li>
+                    <li><a href="#sec-contact">联系方式</a></li>
+                </ol>
+            </nav>
+
+            <div class="article-content">
+
+                <!-- ════════════════════════════════════ 1. 引言 ── -->
+                <h2 id="sec-intro">📌 1. 引言与总则</h2>
+                <p>欢迎访问 <strong>ciallo0721-cmd</strong> 的个人网站（以下简称"本网站""本站"或"我们"）。本网站托管于 GitHub Pages，由个人开发者运营，主要面向中文用户提供个人项目展示、技术博客、游戏作品发布等内容服务。</p>
+                <p>本文件整合了本网站的全部法律条款与政策，包括《用户协议》《隐私政策》《Cookie 政策》《DMCA 合规声明》《免责声明》及《知识产权条款》。为简化用户阅读体验，我们将所有条款合并为一份文档，您无需在多个页面之间来回切换。</p>
+                <p>在访问或使用本网站的任何功能之前，请您仔细阅读并理解本文件中的全部条款。您对本网站的访问、浏览或使用行为，即视为您已充分阅读、理解并同意接受本文件所有条款的约束。</p>
+
+                <div class="callout callout-warning">
+                    <span class="callout-icon">⚠️</span>
+                    <div class="callout-body">
+                        <p class="callout-title">重要提示</p>
+                        <p class="callout-text">本站为个人创作网站，部分内容可能包含不适合未成年人的元素（如心理惊悚题材的视觉小说、复杂情感关系描写等）。未满18周岁的用户应在监护人陪同下使用本网站。若您不同意本文件中的任何条款，请立即停止访问和使用本网站。</p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 2. 定义 ── -->
+                <h2 id="sec-definitions">📖 2. 定义与范围</h2>
+                <p>在本文件中，以下术语具有如下含义：</p>
+                <ul>
+                    <li><strong>"本网站""本站""我们"</strong>：指由 ciallo0721-cmd 运营的个人网站，域名为 ciallo0721-cmd.top（及其子域名），以及所有相关的子页面、工具、游戏、应用和内容。</li>
+                    <li><strong>"用户""您"</strong>：指访问、浏览或使用本网站任何功能的任何个人或实体。</li>
+                    <li><strong>"内容"</strong>：指本网站上所有文字、图片、音频、视频、代码、游戏、设计、数据及其他资料。</li>
+                    <li><strong>"个人信息"</strong>：指能够单独或与其他信息结合识别特定用户身份的信息，包括但不限于IP地址、浏览器指纹、电子邮箱地址等。</li>
+                    <li><strong>"服务"</strong>：指本网站提供的所有功能，包括但不限于文章阅读、游戏体验、工具使用、评论区互动等。</li>
+                    <li><strong>"协议"</strong>：指本《用户协议与隐私政策（合并版）》文件及其所有附件、补充条款和修订版本。</li>
+                </ul>
+
+                <p>本协议适用于您对本网站的所有访问和使用行为。如果您通过本网站访问或使用任何第三方服务（包括但不限于 GitHub Pages、Google Analytics、Cloudflare、Font Awesome、Giscus 评论系统等），该等第三方服务的使用还受其各自服务条款和隐私政策的约束。</p>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 3. 用户协议 ── -->
+                <h2 id="sec-user-agreement">📋 3. 用户协议</h2>
+
+                <h3>3.1 协议接受</h3>
+                <p>通过访问或使用本网站，您确认：</p>
+                <ul>
+                    <li>您已年满13周岁（或您所属司法管辖区规定的法定最低年龄），或者您已获得法定监护人的同意使用本网站；</li>
+                    <li>您具有完全民事行为能力，能够独立承担法律责任；</li>
+                    <li>您已阅读、理解并同意受本协议全部条款的约束；</li>
+                    <li>您同意遵守所有适用的法律法规，包括但不限于中国《网络安全法》《个人信息保护法》《数据安全法》《未成年人保护法》等。</li>
+                </ul>
+
+                <h3>3.2 服务内容</h3>
+                <p>本网站提供的服务包括但不限于：</p>
+                <ul>
+                    <li><strong>博客文章</strong>：发布技术教程、开发心得、生活记录、心理学/医学科普等原创文章；</li>
+                    <li><strong>游戏作品</strong>：展示和提供由 Ren'Py 等引擎开发的视觉小说和互动游戏；</li>
+                    <li><strong>免费工具</strong>：提供各种在线工具（如颜色分析器、文本工具等）；</li>
+                    <li><strong>百科系统</strong>：维护维基百科风格的词条库；</li>
+                    <li><strong>互动功能</strong>：评论区（基于 Giscus GitHub Discussions）、后台管理等；</li>
+                    <li><strong>内容下载</strong>：部分资源文件的下载服务。</li>
+                </ul>
+
+                <h3>3.3 用户行为规范</h3>
+                <p>使用本网站时，您同意不会：</p>
+                <ul>
+                    <li>违反任何适用的法律法规，包括但不限于中国的法律法规；</li>
+                    <li>侵犯他人的知识产权、隐私权、名誉权或其他合法权益；</li>
+                    <li>传播任何非法、威胁、诽谤、侮辱、猥亵、色情、仇恨、暴力或违背公序良俗的内容；</li>
+                    <li>进行任何形式的网络攻击，包括但不限于 DDoS 攻击、SQL 注入、XSS 攻击、爬虫滥用等；</li>
+                    <li>利用自动化工具（爬虫、机器人、脚本等）大量抓取本网站的内容；</li>
+                    <li>试图绕过本网站的安全验证机制（包括但不限于地理位置检测、验证码等）；</li>
+                    <li>删除、修改或掩盖本网站上的版权声明或其他权利标识；</li>
+                    <li>以任何方式干扰本网站的正常运行；</li>
+                    <li>收集或存储其他用户的个人信息；</li>
+                    <li>将本网站用于任何商业用途，除非获得明确的书面授权。</li>
+                </ul>
+
+                <h3>3.4 内容使用许可</h3>
+                <p>除非另有明确说明，本网站上的所有内容（包括但不限于文章、图片、代码、游戏、设计等）均受版权保护。用户可在以下范围内使用本网站内容：</p>
+                <ul>
+                    <li><strong>个人非商业用途</strong>：您可以出于个人学习、研究、欣赏的目的浏览、下载和打印本网站内容；</li>
+                    <li><strong>引用</strong>：在符合合理使用原则的前提下，您可以适当引用本网站内容，但必须注明出处并链接回原文；</li>
+                    <li><strong>代码使用</strong>：本网站公开的代码部分（如工具页面中的代码）可以在遵守相应开源许可协议的前提下使用；</li>
+                    <li><strong>禁止行为</strong>：未经明确授权，不得将本网站内容用于商业目的、不得大量复制或重新发布、不得将内容用于训练人工智能模型。</li>
+                </ul>
+
+                <h3>3.5 账号管理</h3>
+                <p>本网站本身不设独立的用户账号系统。您在使用评论区（Giscus）时需使用 GitHub 账号登录，该登录行为受 GitHub 服务条款和隐私政策的约束。本网站不会存储您的任何登录凭据。</p>
+
+                <h3>3.6 第三方链接</h3>
+                <p>本网站可能包含指向第三方网站的链接。这些链接仅为方便用户而提供，不代表我们对这些第三方网站的内容、产品或服务表示认可。访问第三方链接的风险由您自行承担，我们建议您查阅该等第三方网站的隐私政策和用户协议。</p>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 4. 账号与行为 ── -->
+                <h2 id="sec-account">🚫 4. 账号与行为规范</h2>
+
+                <h3>4.1 评论区使用规范</h3>
+                <p>本网站的评论区基于 Giscus（GitHub Discussions）系统。在评论区发言时，您同意遵守以下规范：</p>
+                <ul>
+                    <li>尊重他人，文明发言，不得进行人身攻击、辱骂、歧视或骚扰；</li>
+                    <li>不得发布垃圾广告、推广信息或无关链接；</li>
+                    <li>不得重复发布相同或相似的内容（刷屏）；</li>
+                    <li>不得泄露他人隐私信息（包括但不限于真实姓名、地址、电话、证件号码等）；</li>
+                    <li>不得发布违反中国法律法规的内容。</li>
+                </ul>
+                <p>站长保留在不通知的情况下删除违反上述规范的评论的权利。</p>
+
+                <h3>4.2 内容删除与封禁</h3>
+                <p>站长有权（但无义务）自行决定删除、屏蔽或修改任何违反本协议的内容。对于严重或多次违反本协议的用户，站长保留采取进一步措施的权利，包括但不限于屏蔽 IP 地址、限制访问等。</p>
+
+                <h3>4.3 举报机制</h3>
+                <p>如果您在本网站上发现任何涉嫌违规的内容，欢迎通过 <a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues/new" target="_blank" rel="noopener noreferrer">GitHub Issues</a> 向我们举报。我们将在合理时间内审查并采取适当措施。</p>
+
+                <div class="callout callout-info">
+                    <span class="callout-icon">ℹ️</span>
+                    <div class="callout-body">
+                        <p class="callout-title">说明</p>
+                        <p class="callout-text">由于本站为个人运营网站，可能无法做到7×24小时的内容审核。我们依赖社区自律和用户举报来维护良好的交流环境。对于评论区的内容，评论者本人对其言论承担全部法律责任。</p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 5. 隐私政策 ── -->
+                <h2 id="sec-privacy">🔒 5. 隐私政策</h2>
+
+                <h3>5.1 概述</h3>
+                <p>ciallo0721-cmd（以下简称"本站"）非常重视您的隐私和个人信息保护。本隐私政策部分旨在向您说明我们如何收集、使用、存储和保护您的信息，以及您享有的相关权利。我们将严格遵守中国《个人信息保护法》及适用的国际隐私法规（包括欧盟 GDPR 和美国 CCPA 等）的相关要求。</p>
+
+                <h3>5.2 我们收集的信息</h3>
+                <p>在您使用本网站过程中，我们可能会收集以下类别的信息：</p>
+
+                <h4>5.2.1 自动收集的技术信息</h4>
+                <p>当您访问本网站时，以下信息可能会被自动收集：</p>
+                <ul>
+                    <li><strong>IP 地址</strong>：用于判断用户地理位置及进行基础安全检测，拒绝来自高风险地区的自动化攻击；</li>
+                    <li><strong>浏览器 User-Agent</strong>：用于识别浏览器类型、版本及设备类型；</li>
+                    <li><strong>浏览器语言和时区设置</strong>：辅助判断用户所在地区；</li>
+                    <li><strong>屏幕分辨率</strong>：用于分析用户设备环境，优化显示效果；</li>
+                    <li><strong>访问时间、访问页面、停留时长</strong>：用于分析用户行为模式；</li>
+                    <li><strong>Referer（来源页面）</strong>：了解用户从何处访问本网站；</li>
+                    <li><strong>Cookie 和 sessionStorage 数据</strong>：用于记住验证状态和偏好设置。</li>
+                </ul>
+
+                <h4>5.2.2 用户主动提供的信息</h4>
+                <p>当您通过以下方式与我们互动时，可能会提供个人信息：</p>
+                <ul>
+                    <li><strong>发送电子邮件</strong>至 nb666mc26@outlook.com，我们可能会获得您的邮箱地址及邮件内容中的个人信息；</li>
+                    <li><strong>通过 QQ</strong>（3627742771）联系我们，我们可能会获得您的 QQ 号码及聊天记录中的个人信息；</li>
+                    <li><strong>提交 GitHub Issues</strong>，我们可能会获得您的 GitHub 用户名及您提交的内容；</li>
+                    <li><strong>在评论区留言</strong>（通过 Giscus），您的评论内容和 GitHub 用户名将对公众可见；</li>
+                    <li><strong>联系我们</strong>进行合作咨询或反馈意见。</li>
+                </ul>
+
+                <div class="callout callout-warning">
+                    <span class="callout-icon">⚠️</span>
+                    <div class="callout-body">
+                        <p class="callout-title">特别提示</p>
+                        <p class="callout-text">请勿通过上述渠道向我们发送敏感个人信息（如身份证号、银行卡号、医疗记录等）。我们不需要也不希望收集此类信息。如果您不小心发送了此类信息，请及时通知我们删除。</p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 6. 信息收集与使用 ── -->
+                <h2 id="sec-data">📊 6. 信息收集与使用</h2>
+
+                <h3>6.1 信息使用目的</h3>
+                <p>我们收集的信息仅用于以下目的：</p>
+                <ol>
+                    <li><strong>安全验证</strong>：识别并防范自动化攻击及恶意访问（通过 Cloudflare Turnstile 等验证机制）；</li>
+                    <li><strong>服务提供与维护</strong>：确保网站正常运行，向您提供所请求的服务；</li>
+                    <li><strong>服务改进</strong>：了解用户行为模式，优化网站体验和内容规划；</li>
+                    <li><strong>统计分析</strong>：生成匿名化的访问统计数据，用于内容策略调整；</li>
+                    <li><strong>内容适配</strong>：根据用户设备环境提供适宜的显示和访问策略；</li>
+                    <li><strong>沟通回复</strong>：回复您的咨询、反馈和投诉；</li>
+                    <li><strong>法律合规</strong>：遵守适用的法律法规要求。</li>
+                </ol>
+
+                <h3>6.2 信息共享</h3>
+                <p><strong>我们不会出售您的个人信息。</strong> 这是我们对您最基本的承诺。我们仅在以下情况下可能共享您的信息：</p>
+                <ul>
+                    <li><strong>法律要求</strong>：遵守法律法规要求（如法院命令、政府调查、传票等）；</li>
+                    <li><strong>权利保护</strong>：保护我们的权利、财产或安全，以及我们的用户或公众的权利、财产或安全；</li>
+                    <li><strong>第三方服务提供商</strong>：与为我们提供服务的第三方共享，仅限必要范围内（详见"第三方服务"章节）；</li>
+                    <li><strong>业务转让</strong>：在本站发生合并、收购或资产出售的情况下，您的信息可能作为转让资产的一部分。</li>
+                </ul>
+
+                <div class="callout callout-success">
+                    <span class="callout-icon">✅</span>
+                    <div class="callout-body">
+                        <p class="callout-title">我们的承诺</p>
+                        <p class="callout-text">我们不会将您的个人信息出售、出租或以其他方式提供给第三方用于营销目的。您的数据安全是我们最优先考虑的事项之一。</p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 7. Cookie ── -->
+                <h2 id="sec-cookie">🍪 7. Cookie 与本地存储</h2>
+
+                <h3>7.1 什么是 Cookie</h3>
+                <p>Cookie 是网站存储在您浏览器中的小型文本文件，用于记住您的偏好设置和访问状态。本网站还使用 sessionStorage（会话存储）和 localStorage（本地存储）来实现类似功能。</p>
+
+                <h3>7.2 我们使用的 Cookie 和存储技术</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>类型</th>
+                                <th>用途</th>
+                                <th>存储位置</th>
+                                <th>有效期</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>验证状态</td>
+                                <td>记住您已通过安全验证</td>
+                                <td>sessionStorage</td>
+                                <td>关闭浏览器即清除</td>
+                            </tr>
+                            <tr>
+                                <td>语言偏好</td>
+                                <td>记住您选择的语言设置</td>
+                                <td>localStorage</td>
+                                <td>持久保存</td>
+                            </tr>
+                            <tr>
+                                <td>广告偏好</td>
+                                <td>记录您的广告交互行为（点击、不感兴趣等）</td>
+                                <td>localStorage</td>
+                                <td>持久保存</td>
+                            </tr>
+                            <tr>
+                                <td>特效设置</td>
+                                <td>记住您对鼠标特效的偏好（低性能模式等）</td>
+                                <td>localStorage</td>
+                                <td>持久保存</td>
+                            </tr>
+                            <tr>
+                                <td>Google Analytics</td>
+                                <td>网站流量分析</td>
+                                <td>Cookie</td>
+                                <td>由 Google 设定</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>7.3 您的选择</h3>
+                <p>您可以通过浏览器设置控制 Cookie 和存储权限：</p>
+                <ul>
+                    <li>在 Chrome 中：设置 → 隐私和安全 → Cookie 及其他网站数据；</li>
+                    <li>在 Edge 中：设置 → Cookie 和站点权限；</li>
+                    <li>在 Firefox 中：选项 → 隐私与安全 → Cookie 和网站数据；</li>
+                    <li>在 Safari 中：偏好设置 → 隐私 → Cookie 和网站数据。</li>
+                </ul>
+                <p>本站未设置 Cookie 同意弹窗（未实现"同意/不同意"交互），Google Analytics 在页面加载时即开始标准数据收集。如果您不希望被追踪，可以通过安装浏览器插件（如 Google Analytics Opt-out 插件）或在浏览器设置中禁用 Cookie 来阻止 Google Analytics 的数据收集。关闭浏览器即可清除验证状态数据，因为该数据存储在 sessionStorage 中。</p>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 8. 广告系统 ── -->
+                <h2 id="sec-ads">📢 8. 广告系统说明</h2>
+
+                <h3>8.1 广告策略</h3>
+                <p>本网站设有广告位，作为站点运营的辅助手段。本站的广告策略遵循以下原则：</p>
+                <ul>
+                    <li>✅ 本站采用固定广告位，位于页面顶部和底部，不随滚动悬浮</li>
+                    <li>✅ 永不使用弹窗广告、悬浮广告、视频广告、音频广告</li>
+                    <li>✅ 永不追踪用户行为，永不贩卖浏览记录</li>
+                    <li>✅ 广告收入全部用于网站运营</li>
+                    <li>✅ 广告不会干扰正常的内容阅读体验</li>
+                </ul>
+
+                <h3>8.2 广告系统实现</h3>
+                <p>本站自 v1.1 起实现了数据与逻辑分离的动态广告系统：</p>
+                <ul>
+                    <li><strong>数据文件</strong>：<code>js/js/ad-data.js</code>，格式为 <code>[类型, 图片链接, 跳转链接]</code>，目前收录 15 条广告</li>
+                    <li><strong>核心引擎</strong>：<code>js/js/ad-system.js</code>，从数据文件读取广告内容，内置 15 种颜色和标签体系</li>
+                    <li><strong>覆盖范围</strong>：全站页面，每页顶部 + 底部各一个广告位</li>
+                    <li><strong>偏好算法</strong>：加权随机选择，点击进入 +10 权重，不感兴趣 -20 并屏蔽，通过 localStorage 持久化</li>
+                    <li><strong>标签体系</strong>：15 种标签（游戏/工具/教育/设计/音乐/编程/AI/应用/影视/阅读/购物/健康/效率/社交/娱乐），每种对应一种配色</li>
+                </ul>
+                <p>广告数据存储在您的浏览器 localStorage 中（用于记录偏好），本站不将您的广告交互数据上传至任何服务器。</p>
+
+                <h3>8.3 站长的承诺</h3>
+                <p>以下是站长对每位访客的公开承诺——引用自博客文章第12期《关于广告系统的一切》：</p>
+                <blockquote>
+                    <p>✅ 本站现有且仅有固定广告位（位于页面顶部和底部）<br>
+                    ✅ 永不使用弹窗广告、悬浮广告、视频广告、音频广告<br>
+                    ✅ 永不追踪用户行为，永不贩卖浏览记录<br>
+                    ✅ 广告收入全部用于网站运营，账目可公开（有必要的话）<br>
+                    ✅ 如果未来迫不得已要增加广告形式，会提前发公告征求意见<br>
+                    ✅ 你永远可以<strong>正常、完整、不受干扰地阅读所有内容</strong></p>
+                </blockquote>
+                <p>以上这些，本站永远不会做。我用自己开发者的名誉担保。这个网站的定位一直很清晰——一个分享开发经验、个人作品、虚拟偶像资讯的个人博客。广告最多只是"配角"，永远不会抢内容的戏。</p>
+                <p>如果未来有访客普遍反映"广告位就算不打扰我也看着碍眼"，我会认真考虑添加关闭按钮。但在那之前，希望你能理解这只是一个小小的生存手段，不是恶意。</p>
+
+                <!-- ════════════════════════════════════ 9. 第三方服务 ── -->
+                <h2 id="sec-thirdparty">🔗 9. 第三方服务</h2>
+
+                <h3>9.1 第三方服务列表</h3>
+                <p>本网站使用以下第三方服务。这些服务可能有自己的隐私政策和用户协议，建议您查阅其相关条款：</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>服务名称</th>
+                                <th>用途</th>
+                                <th>可能收集的数据</th>
+                                <th>隐私政策</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>GitHub Pages</td>
+                                <td>网站托管</td>
+                                <td>访问日志（IP、时间、页面）</td>
+                                <td><a href="https://docs.github.com/privacy" target="_blank" rel="noopener noreferrer">GitHub 隐私声明</a></td>
+                            </tr>
+                            <tr>
+                                <td>Google Analytics (GA4)</td>
+                                <td>流量分析（ID: G-TR4FT7JPDZ）</td>
+                                <td>访问页面、设备信息、地理位置（基于IP）</td>
+                                <td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google 隐私政策</a></td>
+                            </tr>
+                            <tr>
+                                <td>Cloudflare</td>
+                                <td>CDN 加速、安全防护、Turnstile 验证</td>
+                                <td>IP 地址、浏览器指纹</td>
+                                <td><a href="https://www.cloudflare.com/privacy/" target="_blank" rel="noopener noreferrer">Cloudflare 隐私政策</a></td>
+                            </tr>
+                            <tr>
+                                <td>Font Awesome</td>
+                                <td>图标字体库</td>
+                                <td>CDN 访问日志</td>
+                                <td><a href="https://fontawesome.com/privacy" target="_blank" rel="noopener noreferrer">Font Awesome 隐私</a></td>
+                            </tr>
+                            <tr>
+                                <td>Giscus</td>
+                                <td>评论区系统（GitHub Discussions）</td>
+                                <td>GitHub 用户名、评论内容</td>
+                                <td><a href="https://github.com/giscus/giscus" target="_blank" rel="noopener noreferrer">Giscus 项目</a></td>
+                            </tr>
+                            <tr>
+                                <td>Umami</td>
+                                <td>网站统计分析（自部署）</td>
+                                <td>匿名化访问数据</td>
+                                <td><a href="https://umami.is/privacy" target="_blank" rel="noopener noreferrer">Umami 隐私</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>9.2 第三方服务说明</h3>
+                <p>这些第三方服务各自拥有独立的隐私政策和服务条款，我们建议您查阅其相关文件以了解其数据处理实践。我们不对第三方服务的数据处理行为承担责任。</p>
+                <p>特别说明：</p>
+                <ul>
+                    <li><strong>Google Analytics</strong>：我们使用 GA4（ID: G-TR4FT7JPDZ）进行网站流量分析，页面加载时即开始标准数据收集，本站未设置 Cookie 同意弹窗。Google 可能会将您的地理位置信息（基于 IP）和其他浏览数据传输到美国。您可以通过 Google Analytics Opt-out 浏览器插件或浏览器 Cookie 设置选择退出。</li>
+                    <li><strong>Giscus 评论区</strong>：评论区内容通过 GitHub Discussions 存储，对 GitHub 用户公开可见。您的评论行为应遵守 GitHub 的服务条款和社区准则。</li>
+                    <li><strong>Umami</strong>：我们部署了自托管的 Umami 分析服务，其收集的数据不包含个人身份信息，且不使用 Cookie。</li>
+                </ul>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 10. 数据存储与安全 ── -->
+                <h2 id="sec-storage">🛡️ 10. 数据存储与安全</h2>
+
+                <h3>10.1 数据存储位置</h3>
+                <p>本网站托管于 GitHub Pages（服务器位于美国）。Google Analytics 数据由 Google 的服务器处理。如果您从中国或其他地区访问本网站，您的数据可能会被传输到美国。本网站不设服务器端数据库，所有本地存储数据均保存在您的浏览器中。</p>
+
+                <h3>10.2 数据存储期限</h3>
+                <p>不同类型的数据有不同的存储期限：</p>
+                <ul>
+                    <li><strong>sessionStorage 数据</strong>：仅在当前浏览器会话期间有效，关闭浏览器后自动清除；</li>
+                    <li><strong>localStorage 数据</strong>：持久保存于您的浏览器中，您可以通过浏览器设置手动清除；</li>
+                    <li><strong>Google Analytics 数据</strong>：由 Google 按照其数据保留政策处理，我们设置为 14 个月后自动过期；</li>
+                    <li><strong>您主动提供的信息</strong>：将在完成服务目的所必需的期限内保留，之后将安全删除或匿名化处理。</li>
+                </ul>
+
+                <h3>10.3 安全措施</h3>
+                <p>我们采取以下技术措施保护您的信息：</p>
+                <ul>
+                    <li>使用 HTTPS 加密传输所有数据；</li>
+                    <li>实施安全响应头（CSP、X-Frame-Options、X-Content-Type-Options 等）；</li>
+                    <li>验证状态数据仅存储在浏览器 sessionStorage 中，本站无法直接访问；</li>
+                    <li>不设服务器端数据库，降低数据泄露风险；</li>
+                    <li>定期更新依赖库以修补已知安全漏洞；</li>
+                    <li>实施基础 DDoS 防护（通过 Cloudflare）。</li>
+                </ul>
+
+                <h3>10.4 安全漏洞报告</h3>
+                <p>如果您发现了本网站的安全漏洞，请通过 <a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues/new" target="_blank" rel="noopener noreferrer">GitHub Issues</a> 或发送邮件至 nb666mc26@outlook.com 负责任地向我们披露。我们感谢您帮助我们一起维护网站安全。</p>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 10. 用户权利 ── -->
+                <h2 id="sec-rights">⚖️ 11. 用户权利</h2>
+
+                <h3>11.1 您的数据权利</h3>
+                <p>根据适用的隐私法律（包括中国《个人信息保护法》、欧盟 GDPR、美国 CCPA 等），您可能拥有以下权利：</p>
+                <ul>
+                    <li><strong>知情权</strong>：了解我们收集哪些数据及具体用途（本文件已详细说明）；</li>
+                    <li><strong>拒绝权</strong>：您可以通过浏览器设置或插件选择拒绝 Google Analytics 的数据收集；</li>
+                    <li><strong>清除权</strong>：关闭浏览器即可清除 sessionStorage 中的验证状态；</li>
+                    <li><strong>Cookie 控制权</strong>：您可在浏览器设置中管理 Cookie 及存储权限；</li>
+                    <li><strong>访问权</strong>：请求我们提供收集的关于您的个人信息副本；</li>
+                    <li><strong>更正权</strong>：请求更正不准确或不完整的个人信息；</li>
+                    <li><strong>删除权</strong>：请求删除您的个人信息（"被遗忘权"）；</li>
+                    <li><strong>数据携带权</strong>：请求以结构化、常用格式提供您的个人信息；</li>
+                    <li><strong>选择退出权</strong>：您可以通过浏览器设置控制 Cookie 和追踪，本文已充分披露了数据收集情况；</li>
+                    <li><strong>投诉权</strong>：向适用的数据保护监管机构提出投诉。</li>
+                </ul>
+
+                <h3>11.2 行使权利</h3>
+                <p>如需行使上述权利或有任何隐私相关问题，请通过第15章"联系方式"中提供的方式联系我们。我们将在收到请求后 30 天内回复。由于本站为个人网站，我们可能无法提供完整的法律响应，但会认真对待您的每一份反馈。</p>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 12. DMCA ── -->
+                <h2 id="sec-dmca">📄 12. DMCA 合规声明</h2>
+
+                <h3>12.1 版权尊重</h3>
+                <p>本网站尊重他人的知识产权。我们致力于遵守《数字千年版权法》（DMCA）和其他适用的版权法律。如果您认为本网站上的任何内容侵犯了您的版权，请按照以下流程提交投诉。</p>
+
+                <h3>12.2 DMCA 投诉通知</h3>
+                <p>如果您是版权所有者或授权代表，请向我们提交包含以下信息的 DMCA 投诉通知：</p>
+                <ol>
+                    <li><strong>签名</strong>：您的电子或物理签名（作为版权所有者或授权代表）；</li>
+                    <li><strong>版权作品</strong>：被侵犯的版权作品的识别信息；</li>
+                    <li><strong>侵权内容</strong>：您声称侵权的具体内容的 URL 地址或位置描述；</li>
+                    <li><strong>联系方式</strong>：您的地址、电话号码和电子邮件地址；</li>
+                    <li><strong>善意声明</strong>：您善意相信该有争议的使用未经版权所有者、其代理人或法律授权；</li>
+                    <li><strong>准确性声明</strong>：您声明通知中的信息准确无误，且您有权代表版权所有者行事，违反者将承担伪证处罚。</li>
+                </ol>
+
+                <h3>12.3 投诉提交方式</h3>
+                <p>请将 DMCA 投诉通知发送至：</p>
+                <ul>
+                    <li><strong>邮箱</strong>：nb666mc26@outlook.com</li>
+                    <li><strong>主题请注明</strong>："DMCA 投诉通知"</li>
+                </ul>
+
+                <h3>12.4 应对措施</h3>
+                <p>收到有效的 DMCA 投诉通知后，我们将：</p>
+                <ul>
+                    <li>尽快删除或禁用涉嫌侵权的内容；</li>
+                    <li>通知内容发布者（如有）；</li>
+                    <li>根据 DMCA 安全港条款采取适当措施；</li>
+                    <li>对反复侵权的用户采取终止服务的措施。</li>
+                </ul>
+
+                <div class="callout callout-danger">
+                    <span class="callout-icon">🚫</span>
+                    <div class="callout-body">
+                        <p class="callout-title">虚假投诉警告</p>
+                        <p class="callout-text">根据美国法律，故意提交虚假的 DMCA 投诉通知可能承担法律责任（包括损害赔偿责任）。请确保您的投诉基于善意且内容属实。</p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 12. 免责声明 ── -->
+                <h2 id="sec-disclaimer">⚠️ 13. 免责声明</h2>
+
+                <h3>13.1 内容免责</h3>
+                <p>本网站上的所有内容均以"现状"提供，不作任何明示或暗示的保证。在法律允许的最大范围内，我们否认所有保证，包括但不限于对适销性、特定用途适用性和不侵权的暗示保证。</p>
+                <ul>
+                    <li>博客文章中的观点仅代表作者个人，不构成任何专业建议（包括但不限于医疗、法律、投资建议）；</li>
+                    <li>涉及心理学、医学主题的文章仅为科普目的，不构成诊断或治疗建议。如有健康问题，请咨询专业医疗人员；</li>
+                    <li>本网站提供的工具和代码仅供学习和参考，不对其准确性、完整性和适用性作任何保证；</li>
+                    <li>游戏作品纯属虚构，如有雷同纯属巧合。</li>
+                </ul>
+
+                <h3>13.2 服务可用性</h3>
+                <p>虽然我们尽力保持网站的正常运行，但我们不对服务的持续可用性作任何保证。以下情况可能导致服务中断：</p>
+                <ul>
+                    <li>GitHub Pages 服务故障或维护；</li>
+                    <li>域名解析问题或 DNS 服务中断；</li>
+                    <li>大规模网络攻击；</li>
+                    <li>自然灾害或不可抗力事件；</li>
+                    <li>法律法规或政策要求；</li>
+                    <li>计划内维护或升级。</li>
+                </ul>
+
+                <h3>13.3 外部链接免责</h3>
+                <p>本网站可能包含指向第三方网站的链接。我们对这些第三方网站的内容、准确性、安全性、隐私实践等不承担任何责任。访问第三方链接的风险由您自行承担。</p>
+
+                <h3>13.4 损失限制</h3>
+                <p>在法律允许的最大范围内，我们不对因使用或无法使用本网站而产生的任何直接、间接、附带、特殊、惩罚性或后果性损害承担责任，包括但不限于利润损失、数据丢失、业务中断等。</p>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 13. 知识产权 ── -->
+                <h2 id="sec-ip">©️ 14. 知识产权</h2>
+
+                <h3>14.1 所有权</h3>
+                <p>除另有注明外，本网站上的所有内容（包括但不限于文章、游戏、代码、设计、图片、音频、视频、标志、界面设计等）的知识产权归 <strong>ciallo0721-cmd</strong> 所有。这些内容受中国著作权法、国际版权公约及其他知识产权法律的保护。</p>
+
+                <h3>14.2 商标</h3>
+                <p>本网站上使用的所有商标、服务标志、商号、商业装潢和产品名称均为其各自所有者的财产。未经相关权利人书面许可，不得使用任何商标。</p>
+
+                <h3>14.3 第三方素材</h3>
+                <p>本网站可能使用由第三方授权或遵循开放许可协议的素材（如开源字体、CC0 图片等）。这些素材的使用遵循其各自的许可条款。</p>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 15. 条款变更 ── -->
+                <h2 id="sec-changes">🔄 15. 条款变更</h2>
+                <p>我们可能会不时更新本文件。更新后的版本将发布在此页面上，并更新"最后更新"日期。</p>
+                <p>如果更改涉及重大变更（如收集新的个人信息类型、改变数据使用目的、变更用户权利等），我们会通过以下方式之一通知您：</p>
+                <ul>
+                    <li>在网站上发布显眼的公告；</li>
+                    <li>在首页或相关页面显示更新提示；</li>
+                    <li>通过文章列表页的"更新日志"说明。</li>
+                </ul>
+                <p>重大变更后您继续使用本网站，即视为您接受更新后的条款。如果您不同意更新后的条款，请停止使用本网站。</p>
+
+                <hr>
+
+                <!-- ════════════════════════════════════ 16. 联系方式 ── -->
+                <h2 id="sec-contact">📬 16. 联系方式</h2>
+                <p>如果您对本文件有任何疑问、建议或投诉，或者希望行使您的数据权利，请通过以下方式联系我们：</p>
+
+                <div class="callout callout-pink">
+                    <span class="callout-icon">📧</span>
+                    <div class="callout-body">
+                        <p class="callout-title">联系方式</p>
+                        <p class="callout-text">
+                            邮箱：<strong>nb666mc26@outlook.com</strong><br>
+                            QQ：<strong>3627742771</strong><br>
+                            GitHub Issues：<a href="https://github.com/ciallo0721-cmd/ciallo0721-cmd.github.io/issues/new" target="_blank" rel="noopener noreferrer">提交 Issue</a><br>
+                            网站：<strong>ciallo0721-cmd.top</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <p>我们将在合理时间内（通常在 7-30 个工作日内）回复您的咨询。由于本站为个人网站，我们可能无法提供完整的法律响应，但会认真对待您的每一份反馈。</p>
+
+                <blockquote>
+                    <p>感谢您花时间阅读这份协议。我深知法律条文通常枯燥乏味，但保护您的隐私和权益是我作为站长最基本也是最重要的承诺。无论您是开发者、玩家，还是偶然路过的访客，我都希望这里能给您带来愉快的体验喵～</p>
+                    <cite>— ciallo0721-cmd，写于某个调完 bug 的夜晚</cite>
+                </blockquote>
+
+            </div>
+        </article>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">ciallo0721-cmd</div>
+            <p>本页面整合了本站全部法律条款，访问即表示同意。</p>
+            <p><a href="../index.html" style="color:rgba(0,212,255,0.8);text-decoration:none;">返回首页</a></p>
+            <p style="font-size:0.85rem;opacity:0.6;">© 2025-2026 ciallo0721-cmd | 用代码书写故事，以游戏传递情感</p>
+        </div>
+    </footer>
+
+    <!-- 广告位 #2：底部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+    <!-- 广告系统 v1.1 -->
+    <script src="../js/js/ad-data.js?v=2"></script>
+    <script src="../js/js/ad-system.js?v=2"></script>
+</body>
+</html>

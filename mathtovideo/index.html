@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>塔珀自指公式 · 像素动画工坊</title>
+<meta name="description" content="基于塔珀自指公式的106×17像素画板与帧动画工具">
+<style>
+:root {
+    --primary: #3366ff;
+    --blue: #2575fc;
+    --dark: #1D1D1F;
+    --gray: #515154;
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --border: #e0e4e8;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --radius: 10px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: var(--dark);
+    min-height: 100vh;
+    padding: 16px;
+    overflow-x: hidden;
+}
+.container { max-width: 1500px; margin: 0 auto; }
+
+/* ===== Header ===== */
+header {
+    text-align: center;
+    padding: 16px 16px 12px;
+}
+header h1 {
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px;
+}
+.formula {
+    font-family: 'Times New Roman', serif;
+    font-size: 0.92rem;
+    color: var(--gray);
+    background: rgba(255,255,255,0.6);
+    display: inline-block;
+    padding: 5px 16px;
+    border-radius: var(--radius);
+    backdrop-filter: blur(4px);
+    line-height: 1.6;
+}
+
+/* ===== Grid ===== */
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 370px;
+    gap: 16px;
+    margin-top: 12px;
+}
+@media (max-width: 1100px) {
+    .main-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== Canvas Area ===== */
+.canvas-area {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.canvas-area .section-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--gray);
+}
+.canvas-area .section-title small {
+    font-weight: 400;
+    font-size: 0.76rem;
+    color: var(--gray);
+}
+
+/* Viewport */
+.viewport {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    background: #1a1a1a;
+    cursor: crosshair;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+.viewport .inner {
+    position: absolute;
+    top: 0; left: 0;
+    transform-origin: 0 0;
+}
+.viewport canvas {
+    display: block;
+    image-rendering: pixelated;
+}
+#gc { position: absolute; top: 0; left: 0; pointer-events: none; }
+/* grid is drawn on pc directly, no separate grid canvas needed */
+
+/* Zoom bar */
+.zoom-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 0;
+}
+.zoom-bar .lbl { font-size: 0.78rem; color: var(--gray); }
+#zoomDisp {
+    font-weight: 600;
+    font-family: monospace;
+    font-size: 0.82rem;
+    color: var(--primary);
+    min-width: 44px;
+    text-align: center;
+}
+#coordDisp {
+    font-family: monospace;
+    font-size: 0.78rem;
+    color: var(--gray);
+    margin-left: auto;
+}
+
+/* Toolbar */
+.tbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+}
+.tbar .lbl { font-size: 0.78rem; color: var(--gray); font-weight: 500; }
+.tbar .sep { width: 1px; height: 20px; background: var(--border); display: inline-block; margin: 0 3px; }
+
+/* ===== Buttons ===== */
+.btn {
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.12s;
+    color: var(--dark);
+    white-space: nowrap;
+    line-height: 1.4;
+}
+.btn:hover { border-color: var(--primary); color: var(--primary); }
+.btn.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+.btn-pri {
+    background: linear-gradient(135deg, var(--primary), var(--blue));
+    color: #fff;
+    border: none;
+}
+.btn-pri:hover { opacity: 0.88; }
+.btn-dng {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+}
+.btn-dng:hover { opacity: 0.88; }
+.btn-sm { padding: 3px 8px; font-size: 0.76rem; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ===== Right Panel ===== */
+.rpanel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.box {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 12px;
+}
+.box label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+}
+.box label small { font-weight: 400; color: var(--gray); }
+
+textarea {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.68rem;
+    resize: vertical;
+    min-height: 44px;
+    background: #f8f9fb;
+    color: var(--dark);
+}
+textarea:focus { outline: none; border-color: var(--primary); }
+
+.inrow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+}
+.inrow:last-child { margin-bottom: 0; }
+.inrow input[type="number"] {
+    flex: 1;
+    padding: 5px 8px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-size: 0.8rem;
+}
+.inrow input[type="number"]:focus { outline: none; border-color: var(--primary); }
+.inrow input[type="range"] {
+    flex: 1;
+    accent-color: var(--primary);
+}
+#fpsV { min-width: 24px; text-align: center; font-weight: 600; font-size: 0.82rem; }
+
+.brow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.brow .btn { flex: 1; min-width: 50px; }
+
+/* ===== Frame List ===== */
+#flist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 6px;
+    min-height: 30px;
+}
+.fitem {
+    position: relative;
+    width: 64px;
+    height: 16px;
+    border: 2px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.12s;
+}
+.fitem:hover { border-color: var(--primary); }
+.fitem canvas { width: 100%; height: 100%; image-rendering: pixelated; }
+.fitem .fdel {
+    position: absolute;
+    top: -5px; right: -5px;
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    background: #e74c3c; color: #fff;
+    border: none; font-size: 8px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.12s;
+}
+.fitem:hover .fdel { opacity: 1; }
+.fitem .fidx {
+    position: absolute;
+    bottom: 1px; left: 2px;
+    font-size: 7px;
+    color: rgba(255,255,255,0.7);
+    background: rgba(0,0,0,0.5);
+    padding: 0 2px;
+    border-radius: 2px;
+}
+.empty-frames { color: var(--gray); font-size: 0.78rem; padding: 5px 0; }
+
+/* ===== Progress ===== */
+#eprog { display: none; margin-top: 6px; }
+#eprog.show { display: block; }
+.pbar { width: 100%; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.pfill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--blue)); border-radius: 2px; transition: width 0.3s; }
+.ptxt { font-size: 0.74rem; color: var(--gray); margin-top: 3px; }
+
+/* ===== Misc ===== */
+.info { font-size: 0.72rem; color: var(--gray); line-height: 1.5; margin-top: 4px; }
+.sdot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; margin-right: 3px; }
+.sdot.grn { background: #2ed573; }
+.sdot.red { background: #e74c3c; }
+#fcnt { font-weight: 600; color: var(--primary); }
+.back {
+    display: inline-block;
+    margin-top: 16px;
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.82rem;
+    padding: 5px 12px;
+    border-radius: var(--radius);
+    background: rgba(255,255,255,0.6);
+    transition: background 0.12s;
+}
+.back:hover { background: rgba(255,255,255,0.9); }
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333; color: #fff;
+    padding: 7px 18px;
+    border-radius: 7px;
+    font-size: 0.8rem;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+.toast.show { opacity: 1; }
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TR4FT7JPDZ');
+</script>
+<!-- GA4 统一埋点模块 -->
+<script src="../assets/js/gtag-config.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+<header>
+    <h1>🧮 塔珀自指公式 · 像素动画工坊</h1>
+    <div class="formula">
+        ½ &lt; ⌊mod(⌊y/17⌋ · 2<sup>−17⌊x⌋ − mod(⌊y⌋,17)</sup>, 2)⌋
+    </div>
+</header>
+
+<div class="main-grid">
+    <!-- LEFT: Canvas -->
+    <div class="canvas-area">
+        <div class="section-title">
+            🎨 画板
+            <small>· 滚轮缩放 · 拖拽平移 · 点击绘制</small>
+        </div>
+
+        <div class="viewport" id="vp">
+            <div class="inner" id="inner">
+                <canvas id="pc" width="1060" height="170"></canvas>
+            </div>
+        </div>
+
+        <div class="zoom-bar">
+            <span class="lbl">缩放：</span>
+            <button class="btn btn-sm" id="zo">−</button>
+            <span id="zoomDisp">100%</span>
+            <button class="btn btn-sm" id="zi">+</button>
+            <button class="btn btn-sm" id="zf">适配</button>
+            <span id="coordDisp">( - , - )</span>
+        </div>
+
+        <div class="tbar">
+            <span class="lbl">工具：</span>
+            <button class="btn active" data-t="draw">✏️ 绘制</button>
+            <button class="btn" data-t="erase">🧹 擦除</button>
+            <button class="btn" data-t="toggle">🔄 翻转</button>
+            <span class="sep"></span>
+            <button class="btn" id="clearBtn">🗑️ 清空</button>
+            <button class="btn" id="invBtn">🔄 反色</button>
+            <button class="btn" id="fillBtn">⬜ 填充白</button>
+            <span class="sep"></span>
+            <button class="btn" id="panBtn">✋ 平移</button>
+        </div>
+    </div>
+
+    <!-- RIGHT: Controls -->
+    <div class="rpanel">
+
+        <div class="box">
+            <label>🔑 k 值 <small>(可编辑，Ctrl+Enter 渲染)</small></label>
+            <textarea id="kt" rows="2" placeholder="编辑后 Ctrl+Enter 或点渲染加载..."></textarea>
+            <div class="brow" style="margin-top:5px;">
+                <button class="btn btn-pri" id="rkBtn">▶ 渲染</button>
+                <button class="btn" id="cpBtn">📋 复制</button>
+            </div>
+            <div class="info">
+                状态：<span class="sdot grn" id="kDot"></span><span id="kTxt">已同步</span>
+                &nbsp;|&nbsp; 位数：<span id="kDgt">0</span>
+            </div>
+        </div>
+
+        <div class="box">
+            <label>🎲 种子随机</label>
+            <div class="inrow">
+                <input type="number" id="seed" value="42" min="0" step="1">
+                <button class="btn btn-pri" id="rndBtn">🎲 生成</button>
+            </div>
+            <div class="brow">
+                <button class="btn" id="rnd3Btn">×3</button>
+                <button class="btn" id="rnd10Btn">×10</button>
+            </div>
+        </div>
+
+        <div class="box">
+            <label>📂 预设</label>
+            <div class="brow">
+                <button class="btn" data-p="tupper">经典塔珀</button>
+                <button class="btn" data-p="checker">棋盘格</button>
+                <button class="btn" data-p="stripeH">横条纹</button>
+                <button class="btn" data-p="stripeV">竖条纹</button>
+                <button class="btn" data-p="diagonal">对角线</button>
+            </div>
+        </div>
+
+        <div class="box">
+            <label>🎞️ 帧系统 <span id="fcnt">0</span> 帧</label>
+            <div class="inrow">
+                <label style="margin:0;font-weight:400;font-size:0.78rem;">FPS：</label>
+                <input type="range" id="fps" min="1" max="30" value="10" step="1">
+                <span id="fpsV">10</span>
+            </div>
+            <div class="brow">
+                <button class="btn btn-pri" id="sfBtn">💾 保存帧</button>
+                <button class="btn" id="playBtn" disabled>▶ 播放</button>
+                <button class="btn btn-dng" id="cfBtn">🗑️ 清空</button>
+            </div>
+            <div id="flist">
+                <p class="empty-frames">还没有保存帧～</p>
+            </div>
+            <div class="brow" style="margin-top:6px;">
+                <button class="btn btn-pri" id="exGif" disabled>🎞️ GIF</button>
+                <button class="btn btn-pri" id="exMp4" disabled>📹 视频</button>
+            </div>
+            <div id="eprog">
+                <div class="pbar"><div class="pfill" id="pf"></div></div>
+                <div class="ptxt" id="pt">准备中...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="../index.html" class="back">← 返回首页</a>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.js"></script>
+
+<script>
+// ============================================================
+//  CONST
+// ============================================================
+const C = 106, R = 17, S = 10; // cols, rows, cell size
+const LW = C * S, LH = R * S;
+
+// ============================================================
+//  STATE
+// ============================================================
+let px = Array.from({length:R}, () => Array(C).fill(0));
+let frames = [];
+let tool = 'draw';
+let painting = false;
+let panMode = false;
+let lastCol = -1, lastRow = -1;
+let zoom = 1, panX = 0, panY = 0;
+let panning = false, pSX, pSY, pSPX, pSPY;
+
+// ============================================================
+//  DOM
+// ============================================================
+const vp = document.getElementById('vp');
+const inner = document.getElementById('inner');
+const pc = document.getElementById('pc');
+const gc = document.getElementById('gc');
+const cx = pc.getContext('2d');
+
+const $ = id => document.getElementById(id);
+const kt = $('kt');
+const toast = $('toast');
+
+// ============================================================
+//  VIEWPORT SIZING
+// ============================================================
+function szVP() {
+    const w = vp.clientWidth;
+    vp.style.height = Math.max(200, Math.min(480, w * LH / LW * 2.5)) + 'px';
+}
+window.addEventListener('resize', szVP);
+
+// ============================================================
+//  ZOOM / PAN
+// ============================================================
+function xf() {
+    inner.style.transform = `translate(${panX}px,${panY}px) scale(${zoom})`;
+    $('zoomDisp').textContent = Math.round(zoom * 100) + '%';
+}
+
+function zAt(d, cx, cy) {
+    const o = zoom;
+    zoom = Math.max(0.2, Math.min(10, zoom + d));
+    if (cx !== void 0) {
+        panX = cx - (cx - panX) * zoom / o;
+        panY = cy - (cy - panY) * zoom / o;
+    }
+    xf();
+}
+
+$('zi').onclick = () => zAt(0.5, vp.clientWidth/2, vp.clientHeight/2);
+$('zo').onclick = () => zAt(-0.5, vp.clientWidth/2, vp.clientHeight/2);
+$('zf').onclick = () => {
+    const vw = vp.clientWidth, vh = vp.clientHeight;
+    const z = Math.min(vw / LW, vh / LH) * 0.92;
+    zoom = z;
+    panX = (vw - LW * z) / 2;
+    panY = (vh - LH * z) / 2;
+    xf();
+};
+
+vp.onwheel = e => {
+    e.preventDefault();
+    const r = vp.getBoundingClientRect();
+    zAt(e.deltaY < 0 ? 0.4 : -0.4, e.clientX - r.left, e.clientY - r.top);
+};
+
+// ============================================================
+//  LOGICAL COORDS
+// ============================================================
+function lc(e) {
+    const r = vp.getBoundingClientRect();
+    const mx = e.clientX - r.left, my = e.clientY - r.top;
+    const lx = (mx - panX) / zoom, ly = (my - panY) / zoom;
+    return { col: Math.floor(lx / S), row: Math.floor(ly / S), lx, ly };
+}
+function inside(lx, ly) { return lx >= 0 && lx < LW && ly >= 0 && ly < LH; }
+
+// ============================================================
+//  BRESENHAM LINE — fill every cell between two points
+// ============================================================
+function linePixels(r0, c0, r1, c1, fn) {
+    let dr = r1 - r0, dc = c1 - c0;
+    const steps = Math.max(Math.abs(dr), Math.abs(dc));
+    if (steps === 0) { fn(r0, c0); return; }
+    const sR = dr / steps, sC = dc / steps;
+    let r = r0, c = c0;
+    for (let i = 0; i <= steps; i++) {
+        fn(Math.round(r), Math.round(c));
+        r += sR; c += sC;
+    }
+}
+
+function paint(r, c) {
+    if (r < 0 || r >= R || c < 0 || c >= C) return;
+    if (tool === 'draw') px[r][c] = 1;
+    else if (tool === 'erase') px[r][c] = 0;
+    else if (tool === 'toggle') px[r][c] = px[r][c] ? 0 : 1;
+    cx.fillStyle = px[r][c] === 1 ? '#fff' : '#000';
+    cx.fillRect(c * S, r * S, S, S);
+    // Redraw grid lines on this cell
+    cx.strokeStyle = 'rgba(200,200,200,0.25)';
+    cx.lineWidth = 0.5;
+    cx.beginPath(); cx.moveTo(c*S, r*S); cx.lineTo((c+1)*S, r*S); cx.stroke();
+    cx.beginPath(); cx.moveTo(c*S, (r+1)*S); cx.lineTo((c+1)*S, (r+1)*S); cx.stroke();
+    cx.beginPath(); cx.moveTo(c*S, r*S); cx.lineTo(c*S, (r+1)*S); cx.stroke();
+    cx.beginPath(); cx.moveTo((c+1)*S, r*S); cx.lineTo((c+1)*S, (r+1)*S); cx.stroke();
+}
+
+function drawTo(r, c) {
+    if (lastCol >= 0 && lastRow >= 0) {
+        linePixels(lastRow, lastCol, r, c, (rr, cc) => paint(rr, cc));
+    } else {
+        paint(r, c);
+    }
+    lastCol = c; lastRow = r;
+    updateK();
+}
+
+function handle(e) {
+    const { col, row, lx, ly } = lc(e);
+    $('coordDisp').textContent = inside(lx, ly) ? `(${col}, ${row})` : '( - , - )';
+    if (!inside(lx, ly)) return;
+    if (painting) drawTo(row, col);
+}
+
+// ============================================================
+//  MOUSE
+// ============================================================
+vp.onmousedown = e => {
+    if (e.button !== 0) return;
+    if (panMode) {
+        panning = true;
+        pSX = e.clientX; pSY = e.clientY;
+        pSPX = panX; pSPY = panY;
+        vp.style.cursor = 'grabbing';
+        return;
+    }
+    painting = true;
+    lastCol = -1; lastRow = -1;
+    handle(e);
+};
+vp.onmousemove = e => {
+    if (panning) {
+        panX = pSPX + (e.clientX - pSX);
+        panY = pSPY + (e.clientY - pSY);
+        xf(); return;
+    }
+    handle(e);
+};
+vp.onmouseup = () => { painting = false; panning = false; vp.style.cursor = panMode ? 'grab' : 'crosshair'; };
+vp.onmouseleave = () => { painting = false; panning = false; $('coordDisp').textContent = '( - , - )'; };
+
+// Touch
+vp.ontouchstart = e => {
+    if (e.touches.length !== 1 || panMode) return;
+    e.preventDefault();
+    painting = true; lastCol = -1; lastRow = -1;
+    handle(e.touches[0]);
+};
+vp.ontouchmove = e => {
+    e.preventDefault();
+    if (painting && !panMode && e.touches.length === 1) handle(e.touches[0]);
+};
+vp.ontouchend = () => { painting = false; };
+
+// ============================================================
+//  TOOL SELECTION
+// ============================================================
+document.querySelectorAll('[data-t]').forEach(b => {
+    b.onclick = () => {
+        document.querySelectorAll('[data-t]').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        tool = b.dataset.t;
+        if (panMode) { panMode = false; $('panBtn').classList.remove('active'); vp.style.cursor = 'crosshair'; }
+    };
+});
+$('panBtn').onclick = () => {
+    panMode = !panMode;
+    $('panBtn').classList.toggle('active', panMode);
+    vp.style.cursor = panMode ? 'grab' : 'crosshair';
+    if (panMode) painting = false;
+};
+
+// ============================================================
+//  TUPPER
+// ============================================================
+function enc(p) {
+    let n = 0n;
+    for (let x = 0; x < C; x++)
+        for (let r = 0; r < R; r++)
+            if (p[r][x] === 1) n |= (1n << BigInt(17 * x + (R - 1 - r)));
+    return n * 17n;
+}
+function dec(k) {
+    const p = Array.from({length:R}, () => Array(C).fill(0));
+    const n = k / 17n;
+    for (let x = 0; x < C; x++)
+        for (let r = 0; r < R; r++)
+            p[R - 1 - r][x] = Number((n >> BigInt(17 * x + r)) & 1n);
+    return p;
+}
+
+// ============================================================
+//  RENDER
+// ============================================================
+function render() {
+    for (let r = 0; r < R; r++)
+        for (let c = 0; c < C; c++) {
+            cx.fillStyle = px[r][c] === 1 ? '#fff' : '#000';
+            cx.fillRect(c * S, r * S, S, S);
+        }
+    drawGrid();
+    updateK();
+}
+function drawGrid() {
+    cx.strokeStyle = 'rgba(200,200,200,0.25)';
+    cx.lineWidth = 0.5;
+    for (let x = 0; x <= C; x++) { cx.beginPath(); cx.moveTo(x*S, 0); cx.lineTo(x*S, R*S); cx.stroke(); }
+    for (let y = 0; y <= R; y++) { cx.beginPath(); cx.moveTo(0, y*S); cx.lineTo(C*S, y*S); cx.stroke(); }
+}
+
+// ============================================================
+//  K VALUE
+// ============================================================
+function updateK() {
+    const s = enc(px).toString();
+    kt.value = s;
+    $('kDgt').textContent = s.length;
+    $('kDot').className = 'sdot grn';
+    $('kTxt').textContent = '已同步';
+}
+function loadK(str) {
+    try { px = dec(BigInt(str)); render(); toastMsg('✅ 已渲染'); }
+    catch(e) { toastMsg('❌ 格式错误'); }
+}
+$('rkBtn').onclick = () => { const v = kt.value.trim(); if (v) loadK(v); else toastMsg('❌ k 值为空'); };
+kt.onkeydown = e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); $('rkBtn').click(); } };
+$('cpBtn').onclick = async () => {
+    try { await navigator.clipboard.writeText(kt.value); toastMsg('📋 已复制'); }
+    catch { kt.select(); document.execCommand('copy'); toastMsg('📋 已复制'); }
+};
+
+// ============================================================
+//  CANVAS OPS
+// ============================================================
+function fill(v) { for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) px[r][c] = v; render(); }
+$('clearBtn').onclick = () => { fill(0); toastMsg('已清空'); };
+$('invBtn').onclick = () => { for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) px[r][c] = px[r][c] ? 0 : 1; render(); toastMsg('已反色'); };
+$('fillBtn').onclick = () => { fill(1); toastMsg('已填充白色'); };
+
+// ============================================================
+//  RANDOM
+// ============================================================
+function srand(s) { let x = s; return () => { x = (x * 1664525 + 1013904223) | 0; return ((x >>> 0) & 0x7FFFFFFF) / 0x7FFFFFFF; }; }
+function genRand(seed) {
+    const rng = srand(seed);
+    const p = Array.from({length:R}, () => Array(C).fill(0));
+    for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) p[r][c] = rng() > 0.5 ? 1 : 0;
+    return p;
+}
+$('rndBtn').onclick = () => { px = genRand(parseInt($('seed').value) || 42); render(); toastMsg('🎲 已生成'); };
+$('rnd3Btn').onclick = () => genMul(3);
+$('rnd10Btn').onclick = () => genMul(10);
+function genMul(n) {
+    let b = parseInt($('seed').value) || 42;
+    for (let i = 0; i < n; i++) sv(genRand(b + i));
+    toastMsg(`🎲 已生成 ${n} 帧`);
+}
+
+// ============================================================
+//  PRESETS
+// ============================================================
+const TUPPER_K = '96093937991895888497167296212785275471500433966012930665150551927170280239526642468964284217435071812126715378277062335599323728087414430789132596394133772348785773574982392662971551717371699516523289053822161240623866279618893489030995237744972951938588323242629336091331452066780365744606424747649500914361773811916914645624620904476489066015704567116702223617821846748491030230400179766618238359378738441558722272328532756715995031563732850349168881934811245024696927432535383214598076597069250640842966991151788577027948939132946578524952128672667457173684621532588550627363104310471488803635695378780994464394736190380522564735302423787425124582561809245668007186448539096291299428585126696475832084028294898661565873856804499439512193220313950293528999157938270653146750898848051196033594364807387631293708586668813742431581785306271566496341155858413431315351452223594637733259384963245596371999248132584850464058184522389152308766304893566616977198563837402040628945364039153928118228539840133326558644205112768308702868120107718609693349444696247077518510562158263044725741587874825417121931668711316832946561645431561052434806294129091963718512361325225243253665439836759721434870267657001615152139376659368136031016772732363985147844937028404124388838255911250343557640678967953064868366212482226642829467681685808665373276940792842865869918265296934548481655956814616272303306279085136740135718495497132888814678364575623436654332462159562131731148953889884484953534960152566514406607673871108642814445042872346074855797933166646820839152765209132619971229637674380044822683776352984954341959428308899975906352191898668039948712671569004815147963452756401651005539838060032637602214115269916256265463712739430087348295564430121613143725095099795890158185712952182618850473329857523085422380715255493372071365502029889968193254862682256904650421378405580528943869615202419367680974192488260454507125724906350035291213261979559239455375299795418120122002074364943011961922289903337327808844295926182389794417046830974876481894765247177730231338247073097485571744051917716413238452859627147138528226166084623125977957540411240598090651682914078987189370993341841966448477734711238573878373453224752377774650767875133692163041847010116606597916850691768812596033015729888269756253015687752229663899792760608284863465741232149582804986264023666703264030297067925694772087652091875891291791498094393007947137662766605173367321775763266708067192324000898989257803356048863620054437113238346570348352428660627525977038342471078200920350503198253127356999666315794392130949045051137133504870915404352434334483111864242191974039963364038055723577316156125095290358558376564382603824936704476817950209914692019497584388673781175145187949901386672328755308146524051118223107287904963457302763073807383562957174571744523655292834471449794815689662364471749350163125187861531332306592678538833012063005834170121988850505894823577766647983497440110779125704108189782979390820116699169532626158657276480650039294591146247757750647735837532494747270644991821832110752589977648020297528627215133787443688314615337951583966483873388070618469103349161341661116594140897518322600897724646644915516668344114131106597706303946532402372408731389847190034155552167953959425920651049941687579711310883641064867037472840481016186268327539964908060771222966479378938394940672027122447092568043611788511088133349221313205205384752407551802717306885649842788993346349827137141455884239597532957208767311098342401812626240764071468680452280231491018414886488510512694068806095701141168767436581053910695983441007211129636306231646332001693693964206776116313776233140664814332325878761140250884833555298356469586927448432259606028865343328055435637056028712576625106338214911210966704510963409749277581965407621536074033355898706094873729870321991869549095765196343503339194277056877916197849769198129680314785972228685123252629229690514475306031708793887294103407767687445050322773089343403401585571448912011867539532648119707914420797258934371034305240571044566516578243963928178638225182279458412310333804541664815039491923605865708943559083930364384549960413109435752691472390222308765211269460513233550119815912439964807949922816979210477669380532415794699329102319729536464758995518541348320792682039971017685471783712471642678160066330053832816923226577512676190221401330766795404574229349846603959080677608425232820282214962610460334955610868082075378848832246463804891066005928097884854059891584063618643347675108866947861805874150496983955484076071254177901772056572022184508616736343663869133797018647863287192572852584132463223307634417823859481569923780329062557999472061434483064043022338744733720930206070290567399828957505088774516024392161177303220971700661709151489956028476626914528302896081019834063769431808564930890674030253668836074036537875158866835190733450600322451945469418669619891453979700481336061242034208075685818942157560174584480014153341997047855227608963039247808832331218089375622428145197564890358843792857565437649805914130253436612190881197940854954821417647961714718963910885310331123870832575825822800348316914365089445758968009618485120520909841968154709999414408813298108753095521012728797886402974634289614533327208265402336558106450157182548266830882281956976807960135225164191304404170525515561341501932059489187260913972307890300168609326451195951591964415810818222859352801892449895748285156794200286189984132590049261162216073731996011759231065752101608908602275005878472384867586014786829868830189761080295678890529642386319227269343824620419916296995241744832788041654533413956636528370129298235781124109351780767992412802460477646055142095393964058633660804334430519479875927712901910397581208387496656137660865465963338708007105782669713372462059606281476235857564430065092139180881987059376090349891755715228362823781557806772354806177141996959955491745450153566756134827897232336608655403212401534959340322125202667470332563176824712167949297354509696735104348918171819864984584204570678341034284154482312643848959142396360436665181033661294873708280992027727692700314210669594812040406342463196789501771012892792506488562308408759838947640969832344873859392413224225016752405714410873193582561765001688399750759583077072271171415891086799615778686600161643858155041279168727677721491725131376488983880947354001731946017052781885553550718903220878250237383561170949709452833101489685675582031526806887652000181963095475992420741909365905379064812080635178609589048442697347114790137805689864029837915041973541200249175101123876863368572152361600957521970387245049058016707410576449808307639238394089526487822305351685073608930849525659123890855035975735216838921198890103888271127210335345627245724342421641132442939168168434121860723198983629406639593905635535754325343943956141042515582600098546622401049513888512782546952731726287999033499372611867756746539132256525454078338356845733446674409998496096758937801301562328551676099020276954023367765219667204231809687552111688957287933970263652052292430080632684285754921464505611766238235381061005023704510813963738495445866968362695117817719835575663213871935006595892219534251396423386397892292631801564367141658919580285329856730300309052893145843561723628684875099657096496641056695042880584020297085363761960035923478287828964174908250582050816852140052323675578956994748296404036910878918438857767569736162451300872996306429826046423453669629245975617545096947065806013211596064755829740681952511130206388691132454142509800219764169765372249179749254792785811758075361044369656282215266769071365666357450613198115490430142258055562527163594972207413116442637537417819466847974683018431032026754441088496479411682965103381158713042841499912772529694074501573623957611382513571700554829631631915797976293942452130467320193558138933016966081472966495031339436015054277494013508977962518404231268721123813190266099634389547831429501427064931986271481429718404131801678611609652662854939931664924502128174235570410223712201865951934136736234601915402495669951907932996399558394221761676716252522227864937021378029251034810159564729160646086170868035799015155067487355450230650484305633886762911331637253660528016671045667656265579316433230145164943849991249780149983248646950143665567416328903962141380728382265401844828446103003764212703354805682286869649994290681496320119996945700721550414792483915886289624805355632304926664900662398013847255570339358229965758451164515801312500559738784890314290574876920642280851327100129430171514109469494534558119576894651101785957490862026433924080316509832521897390962705801667988873734503467993851966917564640417147492732750136162918357150603913086196557182282765947342742551124790856554722015169493147206174684904633254354384197148657241826536297739569745719245450408023535266428201030431884352637236953270315668007993448202395796700578129513972928717998916954326062721172863701816106825316607276250572927943176411783054066997321143345191321333851112566489181595219938366649212171813959483483734495992975512906967537741072014474165963548866926963718146870323492499860247491291318949459123376917902390875754020113730931339957299163346857128986360051916575569003784464376268480650164280284054316130762892683934236588367817865678500332958394307928347329834297102614879892604090274468057793941061562134600938170897216503942946845646200041168350972263295919695843148775039668092214344964117927130763864142615394405730498469408237894628879762821595503374234876434550772826815179833525628618958130519890490847871360771814568460730859123976437801523760525341844610881662868817663971892814935722609015684967898818486694960740284519224947567511702174670342602685094749888888845396767883706771428292773320669943661343199900582435375323632169788177907000688923769952192694273502321277788500868416293719679834935025153957337316950421512565698894613207115521714354696865943695912178294774162409905899534690143555820272934210825292000337160754041241403583153772287975361371346543377473332239301431673338028901519821539866562844655745597801981901735917850369438734937466724189973189605983813135741563616901688473394001985984981789717491253748479522555844624879510498722441390532881511995962650093082930308734678774274253459189091666402649996401685576261352118319384361360310923832332141223159394665481411438676086588190307062528992083742250761019540108718823508828716967120987420942941264900796173129275019005243686519361831901775885728017815865408108626080403312017605503814804179515719804292652172325003018295421557530636650178441014607133041947900917063239826679812946475550725542731102552027317919150953404545498056969782384802202243121574331264015524615686872465835186976589288994498949311827454029509882911399847526514463612324421553535742437035947489327199537263954322995113133118092637980446363253810461031081327668362347934720083233550356467514679595665552702447517266918189588533158887109696928163043029570086258164385981380780772892414055962086019982883583842410854037492808825605908801359873090306044060059162559753171548293091746150075731370830264931417982953419229797226057403156113741026798378671223044783867839767462528622018969423836191803853114455060546210157220787197758850543540760816476498200061048075146822005119641738373951820768356059857106408237486221892845640465193424019898970638185217894451944481076977484640565483323495510536337448697612345553216177034289214915236758894123129142630772894419238579523446371760345158745362214309275932744754577364222103526212464929649938893293290400608079343450712323476069197011842128458605796533315558244754090663654503411466941654642714665414002835212935491244867025767198754172904705528919200086046286519909895262131388424815417000168881643533267200722542540893055950397241044142323402398822419741095099992396299365507940918475617945569544980882975959188610880390316425353057488188976416556372156412170334613702786438844761358291202110561441612569685158969364366414717974006244295504031461604479782231060398214053784324517439623151040835841233083508952175935184842654218546775771094733492655581589469431764439891236058828299360649456865989478756521972664162638721714975519264498745474949051322591755315079919019080931973348788229006321851602767232766435971307043526744561177545044300844514242853174499810869091691431711234958825190663835818638253512774974877589137138057172126061437706911367322391514694791347305174505141677144100421914425226821553286092603903890612091370384822916082545465581500873510022511829181253915083609073185920800665891348221733023861703763004625344671024290243620818312787973628216409958546772401290740838797070098401451504842091650042761303188262784748717448275193149131074160302033429077567495440510997741464078210964524355705596322694367649749047466924929066875731364343354870008643155512982062261680279043606722824891746864850918789587314896670206525601707482880148033768247086897803462056338567601527257293893445985077907296437209965478385849224350661904585988878589419461313242916026892549957846011804172508814796858483273313543064738151367163601993621303862074245165811580061386694794132831031528729613988459380820603661477688656748077886781106627202412594958295894701886825518911423236321753766431084247030081550999698333581204503146207485847203579021692272229552314632755809013082623106724277534968611011828633359289785453718356186377177240773106112894680613969663676780142926000242937088311484996589905084110861329649517509804343852095643972301946522931272265625';
+
+document.querySelectorAll('[data-p]').forEach(b => {
+    b.onclick = () => {
+        switch (b.dataset.p) {
+            case 'tupper': loadK(TUPPER_K); break;
+            case 'checker': for (let r=0; r<R; r++) for (let c=0; c<C; c++) px[r][c] = (r+c)%2; render(); toastMsg('棋盘格'); break;
+            case 'stripeH': for (let r=0; r<R; r++) for (let c=0; c<C; c++) px[r][c] = r%2; render(); toastMsg('横条纹'); break;
+            case 'stripeV': for (let r=0; r<R; r++) for (let c=0; c<C; c++) px[r][c] = c%2; render(); toastMsg('竖条纹'); break;
+            case 'diagonal': for (let r=0; r<R; r++) for (let c=0; c<C; c++) px[r][c] = (Math.floor(r/2)+Math.floor(c/4))%2; render(); toastMsg('对角线'); break;
+        }
+    };
+});
+
+// ============================================================
+//  FRAMES
+// ============================================================
+function sv(p) { frames.push({pixels: p.map(r => [...r])}); upFr(); }
+$('sfBtn').onclick = () => { sv(px); toastMsg(`💾 帧 #${frames.length}`); };
+$('playBtn').onclick = () => playAnimation();
+$('cfBtn').onclick = () => { frames = []; upFr(); toastMsg('🗑️ 已清空'); };
+function delFr(i) { frames.splice(i,1); upFr(); }
+
+function upFr() {
+    $('fcnt').textContent = frames.length;
+    const fl = $('flist');
+    fl.innerHTML = '';
+    if (!frames.length) {
+        fl.innerHTML = '<p class="empty-frames">还没有保存帧～</p>';
+        $('exGif').disabled = true; $('exMp4').disabled = true; $('playBtn').disabled = true;
+        return;
+    }
+    $('exGif').disabled = false; $('exMp4').disabled = false; $('playBtn').disabled = false;
+    frames.forEach((fr, i) => {
+        const d = document.createElement('div');
+        d.className = 'fitem'; d.title = `帧 #${i+1}`; d.draggable = true;
+        d.dataset.idx = i;
+        const cv = document.createElement('canvas');
+        cv.width = C; cv.height = R;
+        const c = cv.getContext('2d');
+        const id = c.createImageData(C, R);
+        for (let r=0; r<R; r++) for (let col=0; col<C; col++) {
+            const j = (r*C+col)*4, v = fr.pixels[r][col] ? 255 : 0;
+            id.data[j]=v; id.data[j+1]=v; id.data[j+2]=v; id.data[j+3]=255;
+        }
+        c.putImageData(id, 0, 0);
+        d.appendChild(cv);
+        const il = document.createElement('span');
+        il.className = 'fidx'; il.textContent = i+1; d.appendChild(il);
+        const dl = document.createElement('button');
+        dl.className = 'fdel'; dl.textContent = '×';
+        dl.onclick = e => { e.stopPropagation(); delFr(i); };
+        d.appendChild(dl);
+        d.onclick = () => { px = fr.pixels.map(r => [...r]); render(); toastMsg(`📂 已加载帧 #${i+1}`); };
+        d.ondragstart = () => d.classList.add('dragging');
+        d.ondragend = () => {
+            d.classList.remove('dragging');
+            // Reorder frames array based on DOM order
+            const items = [...fl.querySelectorAll('.fitem')];
+            frames = items.map(el => frames[parseInt(el.dataset.idx)]);
+            // Update dataset indices
+            items.forEach((el, idx) => el.dataset.idx = idx);
+            // Refresh index labels
+            items.forEach((el, idx) => el.querySelector('.fidx').textContent = idx + 1);
+        };
+        d.ondragover = e => {
+            e.preventDefault();
+            const dr = fl.querySelector('.dragging');
+            if (dr && dr !== d) {
+                const box = d.getBoundingClientRect();
+                const mid = box.top + box.height / 2;
+                fl.insertBefore(dr, e.clientY < mid ? d : d.nextSibling);
+            }
+        };
+        fl.appendChild(d);
+    });
+}
+
+// ============================================================
+//  PLAY ANIMATION (preview on canvas)
+// ============================================================
+let playing = false;
+let playTimer = null;
+
+function playAnimation() {
+    if (playing) { stopPlay(); return; }
+    if (frames.length < 2) { toastMsg('⚠️ 至少需要 2 帧才能播放'); return; }
+    playing = true;
+    $('playBtn').textContent = '⏹ 停止';
+    $('playBtn').classList.add('btn-dng');
+    toastMsg('▶ 播放中...');
+    let i = 0;
+    const fps = parseInt($('fps').value);
+    const step = () => {
+        if (!playing) return;
+        px = frames[i].pixels.map(r => [...r]);
+        render();
+        i = (i + 1) % frames.length;
+        playTimer = setTimeout(step, 1000 / fps);
+    };
+    step();
+}
+
+function stopPlay() {
+    playing = false;
+    clearTimeout(playTimer);
+    $('playBtn').textContent = '▶ 播放';
+    $('playBtn').classList.remove('btn-dng');
+}
+
+// ============================================================
+//  EXPORT
+// ============================================================
+function showP(pct, txt) { $('eprog').classList.add('show'); $('pf').style.width = pct + '%'; $('pt').textContent = txt; }
+function hideP() { $('eprog').classList.remove('show'); }
+
+function rndFr(fr, c, w, h) {
+    for (let r=0; r<R; r++) for (let col=0; col<C; col++) {
+        c.fillStyle = fr.pixels[r][col] ? '#fff' : '#000';
+        c.fillRect(col*(w/C), r*(h/R), Math.ceil(w/C), Math.ceil(h/R));
+    }
+}
+
+$('exGif').onclick = async () => {
+    if (!frames.length) return;
+    if (typeof GIF === 'undefined') { toastMsg('❌ gif.js 未加载'); return; }
+    const fps = parseInt($('fps').value), delay = Math.round(100 / fps);
+    const w = 848, h = 136;
+    showP(0, `编码 GIF (${frames.length}帧 @ ${fps}FPS)...`);
+    const gif = new GIF({workers:2, quality:10, width:w, height:h, workerScript:'https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.worker.js'});
+    const tc = document.createElement('canvas'); tc.width = w; tc.height = h; const tctx = tc.getContext('2d');
+    for (let i=0; i<frames.length; i++) { rndFr(frames[i], tctx, w, h); gif.addFrame(tctx, {copy:true, delay}); showP(Math.round((i+1)/frames.length*50), `帧 ${i+1}/${frames.length}`); }
+    showP(60, '合成中...');
+    gif.on('progress', p => showP(60+Math.round(p*35), `合成 ${Math.round(p*100)}%`));
+    gif.on('finished', blob => {
+        showP(100, '下载中...');
+        const u = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = u; a.download = `tupper_${frames.length}fps${fps}.gif`; a.click();
+        URL.revokeObjectURL(u);
+        setTimeout(hideP, 2000);
+        toastMsg(`✅ GIF (${(blob.size/1024).toFixed(1)} KB)`);
+    });
+    gif.render();
+};
+
+$('exMp4').onclick = async () => {
+    if (!frames.length) return;
+    const fps = parseInt($('fps').value), w = 848, h = 136;
+    const mts = ['video/mp4','video/webm;codecs=h264,opus','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'];
+    let mt = ''; for (const m of mts) { if (MediaRecorder.isTypeSupported(m)) { mt = m; break; } }
+    if (!mt) { toastMsg('❌ 不支持视频录制'); return; }
+    const ext = mt.includes('mp4') ? 'mp4' : 'webm';
+    showP(0, `录制视频 (${frames.length}帧 @ ${fps}FPS)...`);
+    const tc = document.createElement('canvas'); tc.width = w; tc.height = h; const tctx = tc.getContext('2d');
+    const stream = tc.captureStream(fps);
+    const rec = new MediaRecorder(stream, {mimeType: mt});
+    const chunks = [];
+    rec.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+    rec.onstop = () => {
+        const blob = new Blob(chunks, {type: mt});
+        const u = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = u; a.download = `tupper_${frames.length}fps${fps}.${ext}`; a.click();
+        URL.revokeObjectURL(u);
+        showP(100, '下载中...');
+        setTimeout(hideP, 2000);
+        toastMsg(`✅ 视频 (${(blob.size/1024).toFixed(1)} KB)`);
+    };
+    rec.start();
+    for (let i=0; i<frames.length; i++) { rndFr(frames[i], tctx, w, h); showP(Math.round((i+1)/frames.length*90), `帧 ${i+1}/${frames.length}`); await new Promise(r => setTimeout(r, 1000/fps)); }
+    showP(95, '合成中...'); await new Promise(r => setTimeout(r, 300)); rec.stop();
+};
+
+// ============================================================
+//  TOAST
+// ============================================================
+let tmr = null;
+function toastMsg(m) { toast.textContent = m; toast.classList.add('show'); clearTimeout(tmr); tmr = setTimeout(() => toast.classList.remove('show'), 2200); }
+
+// ============================================================
+//  FPS
+// ============================================================
+$('fps').oninput = () => { $('fpsV').textContent = $('fps').value; };
+
+// ============================================================
+//  INIT
+// ============================================================
+function init() {
+    szVP();
+    render();
+    drawGrid();
+    updateK();
+    // Fit on first load
+    setTimeout(() => $('zf').click(), 50);
+    toastMsg('🎨 欢迎～点击画板开始绘制！');
+}
+init();
+// Grid is drawn as part of render(), no separate resize handler needed
+</script>
+</body>
+</html>

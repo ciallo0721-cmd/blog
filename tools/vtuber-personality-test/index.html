@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="12道趣味心理测试题目，测测你的VTuber人格是可爱治愈系、帅气可靠系、神秘高冷系还是混沌混沌系？测试完成后可生成专属精美卡片分享给好友，看看谁是真正的虚拟主播人格！">
+    <meta name="keywords" content="VTuber,人格测试,虚拟主播,二次元,心理测试">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/tools/vtuber-personality-test/">
+    <link rel="icon" href="../../fanv.ico">
+    <title>VTuber 人格测试 | ciallo0721-cmd</title>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "VTuber 人格测试",
+        "description": "12道趣味题目测测你的VTuber人格",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "All",
+        "author": {
+            "@type": "Organization",
+            "name": "ciallo0721-cmd"
+        }
+    }
+    </script>
+
+    
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    
+    <!-- IP 地理检测（美国用户拒绝访问） -->
+    <script src="/geo-check.js"></script>
+    <!-- HTTP 检测与提示 -->
+    
+
+  <script src="/js/js/svg-icons.js" defer></script>
+    <link rel="stylesheet" href="../../css/css/tools-vtuber-personality-test-index.css">
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+</head>
+<body>
+    <!-- 广告位 #1：顶部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <span class="logo-icon">🎭</span>
+        <h1>VTuber 人格测试</h1>
+        <p class="subtitle">12道题，发现你的虚拟主播灵魂</p>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div class="screen active" id="screen-welcome">
+        <div class="card welcome-content">
+            <div class="icon-row">
+                <span>🐱‍💻</span><span>🎤</span><span>🎮</span><span>✨</span>
+            </div>
+            <p>每个主播都有独特的人格魅力<br>你的<strong>VTuber灵魂</strong>是什么样的？<br>选择难度开始测试吧！</p>
+            <div class="counter-badge" id="counter-badge">
+                <i class="fa-solid fa-users"></i> 已有 <strong id="counter-num">256</strong> 人完成测试
+            </div>
+            <!-- NSFW Toggle -->
+            <div class="nsfw-toggle" onclick="toggleNSFW()">
+                <div class="nsfw-switch">
+                    <div class="nsfw-knob" id="nsfw-knob"></div>
+                </div>
+                <div class="nsfw-label">
+                    <span class="nsfw-title">NSFW 模式</span>
+                    <span class="nsfw-desc">开启后可能会问政治 / RSQ方面的内容</span>
+                </div>
+            </div>
+            <div class="mode-grid">
+                <div class="mode-card" onclick="startTest('simple')">
+                    <div class="mode-icon simple"><i class="fa-solid fa-feather"></i></div>
+                    <div class="mode-info">
+                        <div class="mode-title">简单</div>
+                        <div class="mode-desc">题少，但是可能不准</div>
+                    </div>
+                    <span class="mode-badge">6题</span>
+                </div>
+                <div class="mode-card" onclick="startTest('normal')">
+                    <div class="mode-icon normal"><i class="fa-solid fa-star"></i></div>
+                    <div class="mode-info">
+                        <div class="mode-title">正常（推荐）</div>
+                        <div class="mode-desc">多角度分析</div>
+                    </div>
+                    <span class="mode-badge">推荐</span>
+                </div>
+                <div class="mode-card" onclick="startTest('complex')">
+                    <div class="mode-icon complex"><i class="fa-solid fa-fire"></i></div>
+                    <div class="mode-info">
+                        <div class="mode-title">复杂</div>
+                        <div class="mode-desc">题多（90道）但是准确</div>
+                    </div>
+                    <span class="mode-badge">90题</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Screen -->
+    <div class="screen" id="screen-question">
+        <div class="card">
+            <div class="progress-label">
+                题目 <span id="q-current">1</span> / <span id="q-total">12</span>
+            </div>
+            <div class="progress-wrap">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="question-number" id="q-number">QUESTION 1</div>
+            <div class="question-text" id="q-text"></div>
+            <div class="options-grid" id="options-grid"></div>
+            <div class="btn-center" id="next-btn-wrap" style="display:none;">
+                <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()">
+                    下一题 <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div class="screen" id="screen-result">
+        <div class="card" id="result-card">
+            <div class="result-header">
+                <span class="result-type-icon" id="result-icon"></span>
+                <div class="result-name" id="result-name"></div>
+                <span class="result-type-tag" id="result-tag"></span>
+            </div>
+            <div class="score-breakdown" id="score-breakdown"></div>
+            <div class="detail-item">
+                <div class="detail-icon"><i class="fa-solid fa-quote-right"></i></div>
+                <div>
+                    <div class="detail-label">口头禅</div>
+                    <div class="detail-value catchphrase" id="result-catchphrase"></div>
+                </div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-icon"><i class="fa-solid fa-palette"></i></div>
+                <div>
+                    <div class="detail-label">立绘风格</div>
+                    <div class="detail-value" id="result-artstyle"></div>
+                </div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-icon"><i class="fa-solid fa-droplet"></i></div>
+                <div>
+                    <div class="detail-label">代表色</div>
+                    <div class="detail-value" id="result-color"></div>
+                </div>
+            </div>
+            <!-- 新增参考vtuber区域 -->
+            <div class="detail-item" id="ref-vtuber-container" style="display: flex;">
+                <div class="detail-icon"><i class="fa-solid fa-users-viewfinder"></i></div>
+                <div style="flex:1">
+                    <div class="detail-label">参考VTuber</div>
+                    <div class="ref-vtuber-wrapper" id="ref-vtuber-list">
+                        <!-- 动态填充占位符 方便修改 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Canvas preview -->
+        <div class="canvas-container" id="canvas-container"></div>
+
+        <!-- Share buttons -->
+        <div class="share-buttons">
+            <button class="share-btn share-save" onclick="saveImage()">
+                <i class="fa-solid fa-download"></i> 保存卡片
+            </button>
+            <button class="share-btn share-copy" onclick="copyResult()">
+                <i class="fa-solid fa-copy"></i> 复制结果
+            </button>
+            <button class="share-btn share-qq" onclick="shareQQ()">
+                <i class="fa-brands fa-qq"></i> QQ空间
+            </button>
+            <button class="share-btn share-retry" onclick="retryTest()">
+                <i class="fa-solid fa-rotate-right"></i> 再测一次
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer CTA -->
+<footer class="cta-section">
+    <a href="https://ciallo0721-cmd.top" target="_blank" rel="noopener">
+        <i class="fa-solid fa-star"></i> 探索更多精彩工具
+    </a>
+    <p class="cta-sub">ciallo0721-cmd 工具出品 | ciallo0721-cmd.top</p>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+
+
+    <script src="../../js/js/tools-vtuber-personality-test-index.js"></script>
+
+    <!-- 广告位 #2：底部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+        <!-- ===== 广告系统 v1.1 ===== -->
+    <script src="../../js/js/ad-data.js?v=2"></script>
+    <script src="../../js/js/ad-system.js?v=2"></script>
+</body>
+</html>

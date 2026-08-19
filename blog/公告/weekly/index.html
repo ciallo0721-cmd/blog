@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站每周数据报告 - ciallo0721-cmd 的公告</title>
+    <meta name="description" content="ciallo0721-cmd 网站的每周数据报告，每周一自动更新，展示网站访问数据与趋势">
+    <link rel="canonical" href="https://ciallo0721-cmd.top/blog/公告/weekly/">
+    <link rel="icon" href="/fanv.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/media-viewer.css">
+    <script src="/articles-data.js"></script>
+    <script src="/wiki-data.js"></script>
+    <script src="/css/wiki-linker.js"></script>
+    <!-- GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+    <!-- 周报数据 -->
+    <script src="/weekly-report/report-data.js"></script>
+<style>
+/* ========== 字体 ========== */
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('../../css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* ========== CSS 变量 ========== */
+:root {
+    --bili-pink: #FB7299;
+    --bili-blue: #00A1D6;
+    --text-primary: #1D1D1F;
+    --text-secondary: #515154;
+    --bg-light: #F5F5F7;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 25px rgba(0,0,0,0.15);
+    --green: #52C41A;
+    --red: #FF4D4F;
+    --gold: #FAAD14;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+/* ========== 导航栏 ========== */
+nav {
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(20px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 15px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--bili-pink);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+.logo:hover { transform: translateY(-2px); color: var(--bili-blue); }
+.back-btn {
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(251,114,153,0.3);
+}
+.back-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(251,114,153,0.4);
+}
+
+/* ========== 文章容器 ========== */
+.article-detail-container { padding: 60px 0; }
+.article-detail {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: 50px;
+    border: 1px solid rgba(255,255,255,0.3);
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease;
+}
+.article-detail::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ========== 文章头部 ========== */
+.article-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.article-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+    color: white;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+.article-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+.article-meta {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+.article-meta i { margin-right: 4px; }
+.article-meta span { margin: 0 12px; }
+
+/* ========== 欢迎语 ========== */
+.greeting-box {
+    text-align: center;
+    padding: 30px;
+    margin: 30px 0;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+.greeting-box.good {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    border: 2px solid #a5d6a7;
+}
+.greeting-box.bad {
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    border: 2px solid #ffcc80;
+}
+.greeting-box .big-greeting {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    display: block;
+}
+.good .big-greeting { color: #2E7D32; }
+.bad .big-greeting { color: #E65100; }
+.greeting-box .sub-greeting {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    display: block;
+}
+
+/* ========== 数据卡片网格 ========== */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 30px 0;
+}
+.metric-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+.metric-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.metric-card .metric-icon {
+    font-size: 1.5rem;
+    color: var(--bili-blue);
+    margin-bottom: 10px;
+}
+.metric-card .metric-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+.metric-card .metric-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+.metric-card .metric-change {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 12px;
+    display: inline-block;
+}
+.metric-change.up {
+    color: var(--green);
+    background: #f6ffed;
+}
+.metric-change.down {
+    color: var(--red);
+    background: #fff2f0;
+}
+.metric-change.flat {
+    color: var(--text-secondary);
+    background: var(--bg-light);
+}
+
+/* ========== 可视化对比图 ========== */
+.viz-section {
+    margin: 40px 0;
+}
+.viz-section h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+}
+.viz-section h3 i { color: var(--bili-blue); margin-right: 8px; }
+.compare-chart { width: 100%; overflow-x: auto; }
+
+/* ========== 趋势图 ========== */
+.trend-section { margin: 40px 0; }
+.trend-section h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+}
+.trend-section h3 i { color: var(--bili-pink); margin-right: 8px; }
+
+/* ========== 历史记录表 ========== */
+.history-section { margin: 40px 0; }
+.history-section h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+}
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+.history-table th {
+    background: var(--bg-light);
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 700;
+    color: var(--text-secondary);
+    border-bottom: 2px solid #e0e0e0;
+}
+.history-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.history-table tr:hover td { background: #fafafa; }
+.history-table .greeting-tag {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+.greeting-tag.good { background: #e8f5e9; color: #2E7D32; }
+.greeting-tag.bad { background: #fff3e0; color: #E65100; }
+
+/* ========== 空状态 ========== */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+.empty-state i {
+    font-size: 4rem;
+    color: #ddd;
+    margin-bottom: 16px;
+    display: block;
+}
+.empty-state p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* ========== 响应式 ========== */
+@media (max-width: 768px) {
+    .article-detail { padding: 30px 20px; }
+    .article-title { font-size: 1.6rem; }
+    .greeting-box .big-greeting { font-size: 1.4rem; }
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .metric-card { padding: 14px; }
+    .metric-card .metric-value { font-size: 1.4rem; }
+    .history-table { font-size: 0.8rem; }
+}
+
+/* ========== 页脚 ========== */
+.site-footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-top: 40px;
+}
+.site-footer a { color: var(--bili-blue); text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; }
+</style>
+  <script src="/js/svg-icons.js" defer></script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+    <link rel="stylesheet" href="../../../css/css/blog-share.css">
+</head>
+<body>
+    <!-- 广告位 #1：顶部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+
+<!-- 导航栏 -->
+<nav>
+    <div class="nav-container">
+        <a href="/" class="logo">&larr; ciallo0721-cmd</a>
+        <a href="/blog/公告/web/index.html" class="back-btn"><i class="fas fa-bullhorn"></i> 返回公告</a>
+    </div>
+</nav>
+
+<!-- 主内容 -->
+<div class="article-detail-container container">
+    <div class="article-detail">
+        <!-- 文章头部 -->
+        <div class="article-header">
+            <div class="article-tag"><i class="fas fa-chart-line"></i> 每周数据报告</div>
+            <h1 class="article-title" id="reportTitle">网站每周数据报告</h1>
+            <div class="article-meta" id="reportMeta">
+                <i class="far fa-calendar-alt"></i> 加载中...
+            </div>
+        </div>
+
+        <!-- 欢迎语 -->
+        <div id="greetingArea"></div>
+
+        <!-- 数据总结 -->
+        <div id="summaryArea" style="margin: 30px 0; padding: 20px; background: var(--bg-light); border-radius: 12px; font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8;">
+            <i class="fas fa-spinner fa-pulse"></i> 正在加载数据...
+        </div>
+
+        <!-- 核心指标卡片 -->
+        <div id="metricsCards" class="metrics-grid"></div>
+
+        <!-- 本周 vs 上周对比图 -->
+        <div id="vizArea" class="viz-section"></div>
+
+        <!-- 活跃用户趋势 -->
+        <div id="trendArea" class="trend-section"></div>
+
+        <!-- 历史记录 -->
+        <div id="historyArea" class="history-section"></div>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<footer class="site-footer">
+    <p>数据来源：Google Analytics (GA4) | 每周一自动更新</p>
+    <p>由 GitHub Actions 自动生成 &bull; <a href="https://ciallo0721-cmd.top">ciallo0721-cmd.top</a></p>
+</footer>
+
+<script>
+(function() {
+    // ========== 数据加载 ==========
+    var reports = window.weeklyReports || [];
+
+    var summaryArea = document.getElementById('summaryArea');
+    var greetingArea = document.getElementById('greetingArea');
+    var metricsCards = document.getElementById('metricsCards');
+    var vizArea = document.getElementById('vizArea');
+    var trendArea = document.getElementById('trendArea');
+    var historyArea = document.getElementById('historyArea');
+    var reportTitle = document.getElementById('reportTitle');
+    var reportMeta = document.getElementById('reportMeta');
+
+    // 空数据处理
+    if (!reports || reports.length === 0) {
+        renderEmpty();
+        return;
+    }
+
+    var latest = reports[0];
+
+    // 更新标题和元信息
+    reportTitle.textContent = '网站数据周报 #' + latest.weekEnding;
+    reportMeta.innerHTML = '<i class="far fa-calendar-alt"></i> ' +
+        latest.weekStart + ' ~ ' + latest.weekEnding +
+        '<span>|</span><i class="far fa-clock"></i> ' + latest.generatedAt + ' 更新';
+
+    // ========== 渲染 ==========
+    renderGreeting(latest);
+    renderSummary(latest);
+    renderMetricsCards(latest);
+    renderCompareChart(latest);
+    renderTrendChart(reports);
+    renderHistoryTable(reports);
+
+    // ========== 1. 欢迎语 ==========
+    function renderGreeting(r) {
+        var cls = r.isGood ? 'good' : 'bad';
+        var icon = r.isGood ? '🎉' : '😴';
+        greetingArea.innerHTML =
+            '<div class="greeting-box ' + cls + '">' +
+            '<span class="big-greeting">' + icon + ' ' + r.greeting + '</span>' +
+            '<span class="sub-greeting">' + r.greetingCn + '</span>' +
+            '</div>';
+    }
+
+    // ========== 2. 数据总结 ==========
+    function renderSummary(r) {
+        summaryArea.innerHTML = '<i class="fas fa-info-circle" style="color:var(--bili-blue);margin-right:8px;"></i>' +
+            r.summary;
+    }
+
+    // ========== 3. 指标卡片 ==========
+    function renderMetricsCards(r) {
+        var tw = r.metrics.thisWeek;
+        var ch = r.metrics.changes;
+        var cards = [
+            { key: 'activeUsers', label: '活跃用户', icon: 'fa-users' },
+            { key: 'newUsers', label: '新增用户', icon: 'fa-user-plus' },
+            { key: 'screenPageViews', label: '页面浏览', icon: 'fa-eye' },
+            { key: 'sessions', label: '会话数', icon: 'fa-comments' },
+            { key: 'averageSessionDuration', label: '平均停留', icon: 'fa-clock', fmt: fmtDuration },
+            { key: 'bounceRate', label: '跳出率', icon: 'fa-door-open', fmt: function(v) { return v + '%'; } },
+            { key: 'eventCount', label: '事件数', icon: 'fa-bolt' },
+            { key: 'engagedSessions', label: '互动会话', icon: 'fa-hand-pointer' },
+        ];
+
+        var html = '';
+        cards.forEach(function(c) {
+            var val = tw[c.key] !== undefined ? tw[c.key] : 0;
+            var change = ch[c.key] !== undefined ? ch[c.key] : 0;
+            var changeCls = change > 0 ? 'up' : (change < 0 ? 'down' : 'flat');
+            var arrow = change > 0 ? '&#9650;' : (change < 0 ? '&#9660;' : '&#9644;');
+            var displayVal = c.fmt ? c.fmt(val) : fmtNum(val);
+            var changeText = change !== 0 ? (arrow + ' ' + Math.abs(change) + '%') : '持平';
+
+            html +=
+                '<div class="metric-card">' +
+                '<div class="metric-icon"><i class="fas ' + c.icon + '"></i></div>' +
+                '<div class="metric-value">' + displayVal + '</div>' +
+                '<div class="metric-label">' + c.label + '</div>' +
+                '<div class="metric-change ' + changeCls + '">' + changeText + '</div>' +
+                '</div>';
+        });
+        metricsCards.innerHTML = html;
+    }
+
+    // ========== 4. 本周 vs 上周对比图（SVG） ==========
+    function renderCompareChart(r) {
+        var tw = r.metrics.thisWeek;
+        var lw = r.metrics.lastWeek;
+        var labels = ['活跃用户', '新增用户', '页面浏览'];
+        var keys = ['activeUsers', 'newUsers', 'screenPageViews'];
+        var thisVals = keys.map(function(k) { return tw[k] || 0; });
+        var lastVals = keys.map(function(k) { return lw[k] || 0; });
+
+        var colors = ['#FB7299', '#00A1D6', '#52C41A'];
+        var maxVal = Math.max.apply(null, thisVals.concat(lastVals)) || 1;
+        var barH = 40;
+        var gap = 20;
+        var chartW = 600;
+        var chartH = labels.length * (barH * 2 + gap) + 60;
+
+        var svg = '<svg viewBox="0 0 ' + chartW + ' ' + chartH + '" style="width:100%;max-width:600px;display:block;margin:0 auto;">';
+        // 图例
+        svg += '<text x="10" y="22" font-size="14" font-weight="700" fill="#1D1D1F">本周 vs 上周核心指标对比</text>';
+        svg += '<rect x="380" y="8" width="16" height="16" rx="4" fill="#FB7299"/>';
+        svg += '<text x="400" y="22" font-size="12" fill="#515154">本周</text>';
+        svg += '<rect x="440" y="8" width="16" height="16" rx="4" fill="#ddd"/>';
+        svg += '<text x="460" y="22" font-size="12" fill="#515154">上周</text>';
+
+        labels.forEach(function(label, i) {
+            var yOff = 50 + i * (barH * 2 + gap);
+            var thisW = Math.max((thisVals[i] / maxVal) * 350, 4);
+            var lastW = Math.max((lastVals[i] / maxVal) * 350, 4);
+
+            // 标签
+            svg += '<text x="0" y="' + (yOff + barH + 6) + '" font-size="13" font-weight="600" fill="#1D1D1F">' + label + '</text>';
+
+            // 本周条
+            svg += '<rect x="80" y="' + yOff + '" width="' + thisW + '" height="' + barH + '" rx="6" fill="' + colors[i] + '" opacity="0.85">';
+            svg += '<animate attributeName="width" from="0" to="' + thisW + '" dur="0.6s" fill="freeze"/>';
+            svg += '</rect>';
+            svg += '<text x="' + (80 + thisW + 8) + '" y="' + (yOff + barH/2 + 5) + '" font-size="13" font-weight="700" fill="#1D1D1F">' + fmtNum(thisVals[i]) + '</text>';
+
+            // 上周条
+            svg += '<rect x="80" y="' + (yOff + barH + 4) + '" width="' + lastW + '" height="' + barH + '" rx="6" fill="#bbb">';
+            svg += '<animate attributeName="width" from="0" to="' + lastW + '" dur="0.6s" fill="freeze"/>';
+            svg += '</rect>';
+            svg += '<text x="' + (80 + lastW + 8) + '" y="' + (yOff + barH + barH/2 + 9) + '" font-size="13" font-weight="700" fill="#999">' + fmtNum(lastVals[i]) + '</text>';
+        });
+
+        svg += '</svg>';
+
+        vizArea.innerHTML =
+            '<h3><i class="fas fa-chart-bar"></i> 核心指标对比</h3>' +
+            '<div class="compare-chart">' + svg + '</div>';
+    }
+
+    // ========== 5. 活跃用户趋势 ==========
+    function renderTrendChart(all) {
+        if (all.length < 2) {
+            trendArea.innerHTML = '';
+            return;
+        }
+
+        var recent = all.slice(0, 12).reverse();  // 最近 12 周，按时间升序
+        var vals = recent.map(function(r) { return r.metrics.thisWeek.activeUsers || 0; });
+        var dates = recent.map(function(r) { return r.weekEnding.slice(5); });  // MM-DD
+
+        var maxVal = Math.max.apply(null, vals) || 1;
+        var chartW = 580;
+        var chartH = 220;
+        var padL = 50, padR = 20, padT = 30, padB = 40;
+        var plotW = chartW - padL - padR;
+        var plotH = chartH - padT - padB;
+
+        // 折线路径
+        var points = vals.map(function(v, i) {
+            var x = padL + (i / Math.max(vals.length - 1, 1)) * plotW;
+            var y = padT + plotH - (v / maxVal) * plotH;
+            return x.toFixed(1) + ',' + y.toFixed(1);
+        });
+
+        var svg = '<svg viewBox="0 0 ' + chartW + ' ' + chartH + '" style="width:100%;max-width:580px;display:block;margin:0 auto;">';
+
+        // 网格线
+        for (var g = 0; g <= 4; g++) {
+            var gy = padT + (plotH / 4) * g;
+            var gval = Math.round(maxVal * (1 - g/4));
+            svg += '<line x1="' + padL + '" y1="' + gy + '" x2="' + (chartW - padR) + '" y2="' + gy + '" stroke="#e8e8e8" stroke-width="1"/>';
+            svg += '<text x="' + (padL - 8) + '" y="' + (gy + 4) + '" font-size="11" fill="#999" text-anchor="end">' + gval + '</text>';
+        }
+
+        // 面积填充
+        var areaPath = 'M' + points[0] + ' L' + points.join(' L') +
+            ' L' + (padL + plotW).toFixed(1) + ',' + (padT + plotH).toFixed(1) +
+            ' L' + padL + ',' + (padT + plotH).toFixed(1) + ' Z';
+        svg += '<path d="' + areaPath + '" fill="url(#trendGrad)" opacity="0.3"/>';
+
+        // 渐变
+        svg += '<defs><linearGradient id="trendGrad" x1="0" y1="0" x2="0" y2="1">';
+        svg += '<stop offset="0%" stop-color="#FB7299"/>';
+        svg += '<stop offset="100%" stop-color="#FB7299" stop-opacity="0"/>';
+        svg += '</linearGradient></defs>';
+
+        // 折线
+        svg += '<polyline points="' + points.join(' ') + '" fill="none" stroke="#FB7299" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+
+        // 数据点
+        vals.forEach(function(v, i) {
+            var xy = points[i].split(',');
+            svg += '<circle cx="' + xy[0] + '" cy="' + xy[1] + '" r="5" fill="white" stroke="#FB7299" stroke-width="2.5"/>';
+        });
+
+        // X 轴标签
+        var showEvery = Math.max(1, Math.floor(dates.length / 6));
+        dates.forEach(function(d, i) {
+            if (i % showEvery === 0 || i === dates.length - 1) {
+                var x = padL + (i / Math.max(vals.length - 1, 1)) * plotW;
+                svg += '<text x="' + x.toFixed(1) + '" y="' + (chartH - 8) + '" font-size="11" fill="#999" text-anchor="middle">' + d + '</text>';
+            }
+        });
+
+        svg += '</svg>';
+
+        trendArea.innerHTML =
+            '<h3><i class="fas fa-chart-line"></i> 活跃用户趋势（近12周）</h3>' +
+            '<div class="compare-chart">' + svg + '</div>';
+    }
+
+    // ========== 6. 历史记录表 ==========
+    function renderHistoryTable(all) {
+        if (all.length <= 1) { historyArea.innerHTML = ''; return; }
+
+        var html = '<h3><i class="fas fa-history"></i> 历史周报</h3>';
+        html += '<div style="overflow-x:auto;"><table class="history-table">';
+        html += '<thead><tr>' +
+            '<th>周期</th><th>欢迎语</th><th>活跃用户</th><th>页面浏览</th><th>新增用户</th><th>跳出率</th>' +
+            '</tr></thead><tbody>';
+
+        all.forEach(function(r) {
+            var tw = r.metrics.thisWeek;
+            var cls = r.isGood ? 'good' : 'bad';
+            html += '<tr>' +
+                '<td>' + r.weekStart + '<br><small style="color:#999">~ ' + r.weekEnding + '</small></td>' +
+                '<td><span class="greeting-tag ' + cls + '">' + r.greeting + '</span></td>' +
+                '<td>' + fmtNum(tw.activeUsers) + '</td>' +
+                '<td>' + fmtNum(tw.screenPageViews) + '</td>' +
+                '<td>' + fmtNum(tw.newUsers) + '</td>' +
+                '<td>' + (tw.bounceRate !== undefined ? tw.bounceRate + '%' : '-') + '</td>' +
+                '</tr>';
+        });
+
+        html += '</tbody></table></div>';
+        historyArea.innerHTML = html;
+    }
+
+    // ========== 空状态 ==========
+    function renderEmpty() {
+        greetingArea.innerHTML = '';
+        summaryArea.innerHTML = '';
+        metricsCards.innerHTML = '';
+        vizArea.innerHTML = '';
+        trendArea.innerHTML = '';
+        historyArea.innerHTML =
+            '<div class="empty-state">' +
+            '<i class="fas fa-chart-bar"></i>' +
+            '<p>暂无数据报告</p>' +
+            '<small style="color:#ccc;">每周一 8:00 自动更新，请稍后再来看看喵～</small>' +
+            '</div>';
+        reportTitle.textContent = '网站每周数据报告';
+        reportMeta.innerHTML = '<i class="far fa-calendar-alt"></i> 等待首次报告生成...';
+    }
+
+    // ========== 工具函数 ==========
+    function fmtNum(n) {
+        if (typeof n !== 'number') return n;
+        return n.toLocaleString('zh-CN');
+    }
+    function fmtDuration(s) {
+        if (!s || s === 0) return '0秒';
+        if (s < 60) return Math.floor(s) + '秒';
+        var m = Math.floor(s / 60);
+        var sec = Math.floor(s % 60);
+        if (m < 60) return m + '分' + sec + '秒';
+        var h = Math.floor(m / 60);
+        m = m % 60;
+        return h + '时' + m + '分';
+    }
+
+    // ========== wiki-linker 初始化 ==========
+    if (typeof window.initWikiLinker === 'function') {
+        window.initWikiLinker();
+    }
+})();
+</script>
+
+
+    <!-- 广告位 #2：底部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+        <!-- ===== 广告系统 v1.1 ===== -->
+    <script src="../../../js/js/ad-data.js?v=2"></script>
+    <script src="../../../js/js/ad-system.js?v=2"></script>
+    <script src="../../../js/js/blog-share.js"></script>
+</body>
+</html>

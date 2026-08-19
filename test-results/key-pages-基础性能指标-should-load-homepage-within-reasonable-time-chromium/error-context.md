@@ -1,0 +1,1457 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: key-pages.spec.ts >> 基础性能指标 >> should load homepage within reasonable time
+- Location: tests\e2e\key-pages.spec.ts:182:7
+
+# Error details
+
+```
+Error: expect(received).toBeLessThan(expected)
+
+Expected: < 10000
+Received:   17670
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - img [ref=e5]
+    - heading "不安全连接警告" [level=2] [ref=e8]
+    - paragraph [ref=e9]:
+      - text: 您正在通过
+      - strong [ref=e10]: HTTP
+      - text: 不安全连接访问此网站。
+      - text: 建议您切换到
+      - strong [ref=e11]: HTTPS
+      - text: 安全连接以保护您的数据安全。
+    - generic [ref=e12]:
+      - button "进入 HTTPS 安全连接" [ref=e13] [cursor=pointer]:
+        - img [ref=e14]
+        - text: 进入 HTTPS 安全连接
+      - button "继续访问（不安全）" [ref=e17] [cursor=pointer]
+    - paragraph [ref=e18]: 当前地址：http://127.0.0.1:8080/?from=cn&touch=false
+  - generic [ref=e25]:
+    - generic [ref=e27]:
+      - generic [ref=e28]: ciallo0721-cmd
+      - generic [ref=e29]: Ren'Py 视觉小说创作者
+    - list [ref=e30]:
+      - listitem [ref=e31]:
+        - link "文章喵～" [ref=e32] [cursor=pointer]:
+          - /url: "#articles"
+          - img [ref=e33]
+          - text: 文章喵～
+      - listitem [ref=e36]:
+        - link "游戏预览喵～" [ref=e37] [cursor=pointer]:
+          - /url: "#iframes"
+          - img [ref=e38]
+          - text: 游戏预览喵～
+      - listitem [ref=e41]:
+        - link "更新记录喵～" [ref=e42] [cursor=pointer]:
+          - /url: "#changelog"
+          - text: 更新记录喵～
+      - listitem [ref=e43]:
+        - link "Bilibili" [ref=e44] [cursor=pointer]:
+          - /url: https://space.bilibili.com/478967440
+          - img [ref=e45]
+          - text: Bilibili
+      - listitem [ref=e48]:
+        - link "抖音的说～" [ref=e49] [cursor=pointer]:
+          - /url: https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k
+          - img [ref=e50]
+          - text: 抖音的说～
+      - listitem [ref=e53]:
+        - link "爱发电" [ref=e54] [cursor=pointer]:
+          - /url: https://ifdian.net/a/ciallo0721-cmd
+          - img [ref=e55]
+          - text: 爱发电
+      - listitem [ref=e58]:
+        - link "在线编辑器" [ref=e59] [cursor=pointer]:
+          - /url: "#code-editor"
+          - img [ref=e60]
+          - text: 在线编辑器
+      - listitem [ref=e63]:
+        - link "🎬 新番数据库" [ref=e64] [cursor=pointer]:
+          - /url: https://ciallo0721-cmd.top/scraper
+      - listitem [ref=e65]:
+        - link "😊 人脸识别" [ref=e66] [cursor=pointer]:
+          - /url: https://ciallo0721-cmd.top/moeface
+  - banner [ref=e67]:
+    - generic [ref=e69]:
+      - heading "ciallo0721-cmd" [level=1] [ref=e70]
+      - paragraph [ref=e71]: Ren'Py视觉小说创作者 | 文化爱好者喵～
+  - navigation [ref=e72]:
+    - generic [ref=e73]:
+      - link "关于我的说～" [ref=e74] [cursor=pointer]:
+        - /url: index.html
+        - img [ref=e75]
+        - text: 关于我的说～
+      - list [ref=e78]:
+        - listitem [ref=e79]:
+          - link "文章喵～" [ref=e80] [cursor=pointer]:
+            - /url: "#articles"
+            - img [ref=e81]
+            - text: 文章喵～
+          - text: •
+        - listitem [ref=e84]:
+          - link "游戏预览喵～" [ref=e85] [cursor=pointer]:
+            - /url: "#iframes"
+            - img [ref=e86]
+            - text: 游戏预览喵～
+          - text: •
+        - listitem [ref=e89]:
+          - link "更新记录喵～" [ref=e90] [cursor=pointer]:
+            - /url: "#changelog"
+            - text: 更新记录喵～
+          - text: •
+        - listitem [ref=e91]:
+          - link "Bilibili" [ref=e92] [cursor=pointer]:
+            - /url: https://space.bilibili.com/478967440
+            - img [ref=e93]
+            - text: Bilibili
+          - text: •
+        - listitem [ref=e96]:
+          - link "抖音的说～" [ref=e97] [cursor=pointer]:
+            - /url: https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k
+            - img [ref=e98]
+            - text: 抖音的说～
+          - text: •
+        - listitem [ref=e101]:
+          - link "爱发电" [ref=e102] [cursor=pointer]:
+            - /url: https://ifdian.net/a/ciallo0721-cmd
+            - img [ref=e103]
+            - text: 爱发电
+          - text: •
+        - listitem [ref=e106]:
+          - link "在线编辑器" [ref=e107] [cursor=pointer]:
+            - /url: "#code-editor"
+            - img [ref=e108]
+            - text: 在线编辑器
+          - text: •
+        - listitem [ref=e111]:
+          - link "工具" [ref=e112] [cursor=pointer]:
+            - /url: "#tools"
+            - img [ref=e113]
+            - text: 工具
+          - text: •
+        - listitem [ref=e116]:
+          - link "心情" [ref=e117] [cursor=pointer]:
+            - /url: "#mood-tracker"
+            - img [ref=e118]
+            - text: 心情
+          - text: •
+        - listitem [ref=e121]:
+          - link "友链" [ref=e122] [cursor=pointer]:
+            - /url: ./friends.html
+            - img [ref=e123]
+            - text: 友链
+          - text: •
+        - listitem [ref=e126]:
+          - link "联系方式" [ref=e127] [cursor=pointer]:
+            - /url: adss.html
+            - text: 联系方式
+  - generic [ref=e129]:
+    - generic [ref=e130]:
+      - img [ref=e131]
+      - generic [ref=e134]: 网站状态：
+      - generic [ref=e135]: 正常
+    - generic [ref=e137]:
+      - img [ref=e138]
+      - generic [ref=e141]: 当前时间：
+      - generic [ref=e142]: 2026/07/07 09:51:18
+    - generic [ref=e143]:
+      - generic [ref=e144]: 已运行：
+      - generic [ref=e145]: 260 天
+  - main [ref=e152]:
+    - generic [ref=e153]:
+      - generic [ref=e154]:
+        - heading "联系我的说～" [level=2] [ref=e156]
+        - generic [ref=e157]:
+          - paragraph [ref=e158]: 如果对我的作品感兴趣，欢迎通过以下方式联系人家哦～ (｡･ω･｡)ﾉ♡
+          - table [ref=e160]:
+            - rowgroup [ref=e161]:
+              - row "平台 账号" [ref=e162]:
+                - columnheader "平台" [ref=e163]
+                - columnheader "账号" [ref=e164]
+            - rowgroup [ref=e165]:
+              - row "QQ 3627742771" [ref=e166]:
+                - cell "QQ" [ref=e167]
+                - cell "3627742771" [ref=e168]:
+                  - link "3627742771" [ref=e169] [cursor=pointer]:
+                    - /url: https://qm.qq.com/cgi-bin/qm/qr?k=ciallo
+              - row "邮箱 ciallo0721cmd@gmail.com 3627742771@qq.com nb666mc26@outlook.com" [ref=e170]:
+                - cell "邮箱" [ref=e171]
+                - cell "ciallo0721cmd@gmail.com 3627742771@qq.com nb666mc26@outlook.com" [ref=e172]:
+                  - text: ciallo0721cmd@gmail.com
+                  - text: 3627742771@qq.com
+                  - text: nb666mc26@outlook.com
+              - row "GitHub @ciallo0721-cmd" [ref=e173]:
+                - cell "GitHub" [ref=e174]
+                - cell "@ciallo0721-cmd" [ref=e175]:
+                  - link "@ciallo0721-cmd" [ref=e176] [cursor=pointer]:
+                    - /url: https://github.com/ciallo0721-cmd
+              - row "Bilibili 丛雨丸-" [ref=e177]:
+                - cell "Bilibili" [ref=e178]
+                - cell "丛雨丸-" [ref=e179]:
+                  - link "丛雨丸-" [ref=e180] [cursor=pointer]:
+                    - /url: https://space.bilibili.com/478967440
+              - row "X / Twitter @ciallo0721cmd" [ref=e181]:
+                - cell "X / Twitter" [ref=e182]
+                - cell "@ciallo0721cmd" [ref=e183]:
+                  - link "@ciallo0721cmd" [ref=e184] [cursor=pointer]:
+                    - /url: https://x.com/ciallo0721cmd?s=21
+              - row "YouTube Ciallo0721-cmd" [ref=e185]:
+                - cell "YouTube" [ref=e186]
+                - cell "Ciallo0721-cmd" [ref=e187]:
+                  - link "Ciallo0721-cmd" [ref=e188] [cursor=pointer]:
+                    - /url: https://www.youtube.com/@ciallo0721-cmd
+              - row "Discord Ciallo0721" [ref=e189]:
+                - cell "Discord" [ref=e190]
+                - cell "Ciallo0721" [ref=e191]:
+                  - link "Ciallo0721" [ref=e192] [cursor=pointer]:
+                    - /url: https://discord.gg/fx4N3jg6
+              - row "Steam aaa关注塔菲喵" [ref=e193]:
+                - cell "Steam" [ref=e194]
+                - cell "aaa关注塔菲喵" [ref=e195]:
+                  - link "aaa关注塔菲喵" [ref=e196] [cursor=pointer]:
+                    - /url: https://steamcommunity.com/profiles/76561199473709076/
+              - row "Facebook moyucmd" [ref=e197]:
+                - cell "Facebook" [ref=e198]
+                - cell "moyucmd" [ref=e199]:
+                  - link "moyucmd" [ref=e200] [cursor=pointer]:
+                    - /url: https://www.facebook.com/profile.php?id=61590168321280
+              - row "Instagram @moyu0721cmd" [ref=e201]:
+                - cell "Instagram" [ref=e202]
+                - cell "@moyu0721cmd" [ref=e203]:
+                  - link "@moyu0721cmd" [ref=e204] [cursor=pointer]:
+                    - /url: https://www.instagram.com/moyu0721cmd/
+          - generic [ref=e205]:
+            - generic [ref=e206]: 在线给我发消息喵～
+            - generic [ref=e207]:
+              - textbox "你的名字（可选）" [ref=e208]
+              - textbox "你的邮箱（可选）" [ref=e209]
+              - textbox "你想说的消息..." [ref=e210]
+              - button "发送消息喵～" [ref=e211] [cursor=pointer]: 发送消息喵～
+            - paragraph [ref=e212]: 点击发送后会在你的邮件客户端打开新邮件，手动发送即可喵～
+          - generic [ref=e213]:
+            - link [ref=e214] [cursor=pointer]:
+              - /url: https://space.bilibili.com/478967440
+              - img [ref=e215]
+            - link [ref=e218] [cursor=pointer]:
+              - /url: https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k?from_tab_name=main
+              - img [ref=e219]
+      - paragraph [ref=e223]:
+        - strong [ref=e224]: 代码能写出什么？
+        - text: 这里有答案——人家是 ciallo0721-cmd，用 Ren'Py 引擎把故事变成游戏、把创意变成代码的创作者喵～
+        - text: 视觉小说 · 二次元 · 创作分享 · 每一行代码都在讲一个故事！
+        - text: 看完记得分享给你的小伙伴——也许他正在等这个！(๑>ᴗ<๑)
+    - generic [ref=e231]:
+      - generic [ref=e232]:
+        - heading "关于我的说～" [level=2] [ref=e234]
+        - generic [ref=e236]:
+          - paragraph [ref=e237]:
+            - text: Ciallo～(∠・ω＜ )⌒★
+            - strong [ref=e238]: 你们好呀！
+            - text: 人家是
+            - strong [ref=e239]: ciallo0721-cmd
+            - text: ——一个爱折腾代码的脆皮初中生喵！
+            - text: 弗雷尔卓德人 · 嘉豪(bushi) ·
+            - strong [ref=e240]: INFP
+            - text: · 雏草姬 · VTuber 文化重度爱好者
+          - paragraph [ref=e241]:
+            - text: 我是
+            - strong [ref=e242]: 全栈野路子开发者
+            - text: ，喜欢做一些
+            - strong [ref=e243]: 没人做、但有人需要
+            - text: 的小工具！项目里 taffy 出没率 120%～
+            - text: 代码风格：能跑就行，能跑得好更好喵 (๑•̀ㅂ•́)و✧
+          - paragraph [ref=e244]:
+            - strong [ref=e245]: 🌟 主要项目展示：
+            - text: • 🔍
+            - strong [ref=e246]: MoeFace
+            - text: — 动漫人脸识别系统（3⭐），支持图片/视频/摄像头实时识别
+            - text: • 🌐
+            - strong [ref=e247]: ciallo0721-cmd.top
+            - text: — 个人站点 & 博客，20+ 篇技术文章
+            - text: • 🧩
+            - strong [ref=e248]: taffyineverything
+            - text: — 浏览器插件，让塔菲出现在任何地方喵
+            - text: • 🎵
+            - strong [ref=e249]: dashichang-to-UTAU
+            - text: — 大市唱转 UTAU 工具（开发中）
+            - text: • 🧠
+            - strong [ref=e250]: acetaffy-prompt
+            - text: — 永雏塔菲的提示词（2⭐）
+            - text: • 🔒
+            - strong [ref=e251]: url-masker
+            - text: — 独立密钥、无历史记录的 URL 加密工具
+          - paragraph [ref=e252]:
+            - strong [ref=e253]: 💻 技术栈：
+            - text: Python · JavaScript · HTML/CSS · MediaPipe · FaceNet · PyTorch · OpenCV · 原生 JS（无框架洁癖）
+          - generic [ref=e254]:
+            - strong [ref=e255]: 喜欢这里？
+            - text: 把网址发给朋友，一起来玩游戏、聊技术吧！分享才是最好的支持！
+          - generic [ref=e256]:
+            - generic [ref=e257]: Python
+            - generic [ref=e258]: JavaScript
+            - generic [ref=e259]: AI/ML
+            - generic [ref=e260]: VTuber 文化
+            - generic [ref=e261]: 全栈开发
+            - generic [ref=e262]: 开源爱好者
+      - generic [ref=e263]:
+        - heading "更新记录喵～" [level=2] [ref=e265]
+        - generic [ref=e266]:
+          - generic [ref=e267]:
+            - generic [ref=e268]:
+              - generic [ref=e269]: 2026年7月6日
+              - generic [ref=e270]:
+                - generic [ref=e271]: 全站图标SVG化：移除 Font Awesome 依赖
+                - paragraph [ref=e272]: 75个HTML文件全部移除 Font Awesome CDN（6.4.0/6.5.1），替换为自建 SVG 图标系统（js/svg-icons.js，含60+种图标）。wz/ 安全警告 GIF 替换为动画 SVG，arg/ 游戏窗口控件 emoji → SVG，cn/ 诗人百科和 wiki/ 搜索 emoji → SVG。首页 favicon 保留不动。预计减少约80KB外部CDN请求，所有图标离线可用喵～
+            - generic [ref=e273]:
+              - generic [ref=e274]: 2026年7月5日
+              - generic [ref=e275]:
+                - generic [ref=e276]: sitemap.xml 大更新：73→96个URL覆盖全站
+                - paragraph [ref=e277]: 重新生成 sitemap.xml，从旧版73个URL扩展到96个。新增 friends.html、baicai 纪念站、cn 诗人百科、ARG 镜中人、app 工具页、10个 wiki 词条子页面、work 打工模拟器、cs2 等。同步更新 generate-sitemap.py 脚本，下次改结构一键重生成的说喵～
+            - generic [ref=e278]:
+              - generic [ref=e279]: 2026年7月4日
+              - generic [ref=e280]:
+                - generic [ref=e281]: 全新 Admin 调试面板 v1.0 上线
+                - paragraph [ref=e282]: 纯前端本地调试面板，四合一：①存储编辑器（localStorage/sessionStorage/Cookies 增删改查）②URL参数注入（一键模拟16个地区 from=us/uk/hk... + touch=true 移动端模式）③功能测试（地区访问控制测试、存储压力测试、配额测试）④导入导出（JSON备份还原、剪贴板操作）。深色主题、响应式布局，从此调试网站不用手敲 URL 参数啦喵～
+          - link "查看全部更新喵～" [ref=e284] [cursor=pointer]:
+            - /url: ./timeline.html
+            - text: 查看全部更新喵～
+    - generic [ref=e291]:
+      - heading "Pinned 项目喵～" [level=2] [ref=e293]
+      - generic [ref=e294]:
+        - generic [ref=e295]:
+          - generic [ref=e296]:
+            - heading "MoeFace" [level=3] [ref=e297]
+            - generic [ref=e298]: 3 ⭐
+          - paragraph [ref=e299]: 基于人脸识别的动漫角色识别系统，支持视频文件和摄像头实时识别，可显示中文角色名和置信度。
+          - generic [ref=e301]: Python
+          - link "查看项目" [ref=e302] [cursor=pointer]:
+            - /url: https://github.com/ciallo0721-cmd/MoeFace
+            - text: 查看项目
+            - img [ref=e303]
+        - generic [ref=e306]:
+          - generic [ref=e307]:
+            - img [ref=e308]
+            - heading "url-masker" [level=3] [ref=e311]
+            - generic [ref=e312]: 1 ⭐
+          - paragraph [ref=e313]: 一个独立密钥、无历史记录的URL加密工具
+          - generic [ref=e315]: Python
+          - link "查看项目" [ref=e316] [cursor=pointer]:
+            - /url: https://github.com/ciallo0721-cmd/url-masker
+            - text: 查看项目
+            - img [ref=e317]
+        - generic [ref=e320]:
+          - generic [ref=e321]:
+            - img [ref=e322]
+            - heading "Work-Simulator" [level=3] [ref=e325]
+            - generic [ref=e326]: 1 ⭐
+          - paragraph [ref=e327]: 无聊写的
+          - generic [ref=e329]: C++
+          - link "查看项目" [ref=e330] [cursor=pointer]:
+            - /url: https://github.com/ciallo0721-cmd/Work-Simulator
+            - text: 查看项目
+            - img [ref=e331]
+        - generic [ref=e334]:
+          - generic [ref=e335]:
+            - img [ref=e336]
+            - heading "dashichang-to-UTAU" [level=3] [ref=e339]
+            - generic [ref=e340]: 2 ⭐
+          - paragraph [ref=e341]: Convert Dashichang project files (.dsc/.ufdata) to UTAU formats (MID/UST)
+          - generic [ref=e343]: Python
+          - link "查看项目" [ref=e344] [cursor=pointer]:
+            - /url: https://github.com/ciallo0721-cmd/dashichang-to-UTAU
+            - text: 查看项目
+            - img [ref=e345]
+        - generic [ref=e348]:
+          - generic [ref=e349]:
+            - img [ref=e350]
+            - heading "acetaffy-prompt" [level=3] [ref=e353]
+            - generic [ref=e354]: 2 ⭐
+          - paragraph [ref=e355]: 一个永雏塔菲的提示词
+          - link "查看项目" [ref=e356] [cursor=pointer]:
+            - /url: https://github.com/ciallo0721-cmd/acetaffy-prompt
+            - text: 查看项目
+            - img [ref=e357]
+        - generic [ref=e360]:
+          - generic [ref=e361]:
+            - heading "project-reviewer-skills" [level=3] [ref=e362]
+            - generic [ref=e363]: 1 ⭐
+          - paragraph [ref=e364]: 多维度项目审查专家
+          - link "查看项目" [ref=e365] [cursor=pointer]:
+            - /url: https://github.com/ciallo0721-cmd/project-reviewer-skills
+            - text: 查看项目
+            - img [ref=e366]
+    - generic [ref=e375]:
+      - heading "技术文章喵～" [level=2] [ref=e377]
+      - generic [ref=e378]:
+        - generic [ref=e379]:
+          - link "文章 58 2026-07-05 永雏塔菲真的夹不动了吗？——六年声线演变全记录 从2020到2026，横跨黑桃影时期和永雏塔菲时期，用三段音频切片+三张声纹图，科学分析塔菲的「夹子音」到底还在不在。答案可能和你想的不一样——不是她夹不动了，是你的塔语太好了。 阅读全文喵～ 永雏塔菲 VTuber 声线分析 夹子音 塔语 黑桃影 声纹" [ref=e380] [cursor=pointer]:
+            - /url: blog/ACG/58/?blog_id=58
+            - generic [ref=e381]:
+              - generic [ref=e382]:
+                - generic [ref=e383]: 文章 58
+                - generic [ref=e384]: 2026-07-05
+              - heading "永雏塔菲真的夹不动了吗？——六年声线演变全记录" [level=3] [ref=e385]
+              - paragraph [ref=e386]: 从2020到2026，横跨黑桃影时期和永雏塔菲时期，用三段音频切片+三张声纹图，科学分析塔菲的「夹子音」到底还在不在。答案可能和你想的不一样——不是她夹不动了，是你的塔语太好了。
+              - generic [ref=e387]:
+                - text: 阅读全文喵～
+                - img [ref=e388]
+              - generic [ref=e391]:
+                - generic [ref=e392]: 永雏塔菲
+                - generic [ref=e393]: VTuber
+                - generic [ref=e394]: 声线分析
+                - generic [ref=e395]: 夹子音
+                - generic [ref=e396]: 塔语
+                - generic [ref=e397]: 黑桃影
+                - generic [ref=e398]: 声纹
+          - link "文章 57 2026-07-04 浪漫文案？那是词语废料——当朋友圈文案变成「1+1=2 uxdjdbskakdbs」 现在的朋友圈浪漫文案全是词语废料——前言不搭后语，逻辑混乱像乱码。当「今天天气不错，我喜欢你」配上不露脸自拍成为标准模板，浪漫已经不是浪漫，是SEO。 阅读全文喵～ 浪漫文案 朋友圈 批判 词语废料 逻辑 社交媒体" [ref=e399] [cursor=pointer]:
+            - /url: blog/生活/57/?blog_id=57
+            - generic [ref=e400]:
+              - generic [ref=e401]:
+                - generic [ref=e402]: 文章 57
+                - generic [ref=e403]: 2026-07-04
+              - heading "浪漫文案？那是词语废料——当朋友圈文案变成「1+1=2 uxdjdbskakdbs」" [level=3] [ref=e404]
+              - paragraph [ref=e405]: 现在的朋友圈浪漫文案全是词语废料——前言不搭后语，逻辑混乱像乱码。当「今天天气不错，我喜欢你」配上不露脸自拍成为标准模板，浪漫已经不是浪漫，是SEO。
+              - generic [ref=e406]:
+                - text: 阅读全文喵～
+                - img [ref=e407]
+              - generic [ref=e410]:
+                - generic [ref=e411]: 浪漫文案
+                - generic [ref=e412]: 朋友圈
+                - generic [ref=e413]: 批判
+                - generic [ref=e414]: 词语废料
+                - generic [ref=e415]: 逻辑
+                - generic [ref=e416]: 社交媒体
+          - link "文章 56 2026-07-04 调色教程——复古蒸汽波 Lightroom Classic复古蒸汽波调色教程：完整影调+HSL+校准+颗粒参数，附带3个调色板方案和霓虹街头拍摄选址指南，一键复刻赛博浪漫。 阅读全文喵～ Lightroom 调色教程 蒸汽波 Vaporwave 霓虹 摄影" [ref=e417] [cursor=pointer]:
+            - /url: blog/教程/22/?blog_id=56
+            - generic [ref=e418]:
+              - generic [ref=e419]:
+                - generic [ref=e420]: 文章 56
+                - generic [ref=e421]: 2026-07-04
+              - heading "调色教程——复古蒸汽波" [level=3] [ref=e422]
+              - paragraph [ref=e423]: Lightroom Classic复古蒸汽波调色教程：完整影调+HSL+校准+颗粒参数，附带3个调色板方案和霓虹街头拍摄选址指南，一键复刻赛博浪漫。
+              - generic [ref=e424]:
+                - text: 阅读全文喵～
+                - img [ref=e425]
+              - generic [ref=e428]:
+                - generic [ref=e429]: Lightroom
+                - generic [ref=e430]: 调色教程
+                - generic [ref=e431]: 蒸汽波
+                - generic [ref=e432]: Vaporwave
+                - generic [ref=e433]: 霓虹
+                - generic [ref=e434]: 摄影
+        - generic [ref=e435]:
+          - link "查看全部文章的说～" [ref=e436] [cursor=pointer]:
+            - /url: wz/
+            - img [ref=e437]
+            - text: 查看全部文章的说～
+          - link "百科知识库喵～" [ref=e440] [cursor=pointer]:
+            - /url: wiki/
+            - text: 百科知识库喵～
+    - generic [ref=e447]:
+      - heading "游戏预览喵～" [level=2] [ref=e449]
+      - generic [ref=e452]:
+        - generic [ref=e453]:
+          - generic [ref=e454]:
+            - img [ref=e455]
+            - heading "周末的诗篇" [level=3] [ref=e458]
+            - generic [ref=e459]: 全年龄
+          - link "在新标签页打开：周末的诗篇" [ref=e461] [cursor=pointer]:
+            - /url: ./zmdspp/indexzm.html
+            - img [ref=e462]
+            - text: 在新标签页打开：周末的诗篇
+          - paragraph [ref=e465]: 一款关于文学的温馨视觉小说
+        - generic [ref=e466]:
+          - generic [ref=e467]:
+            - img [ref=e468]
+            - heading "来东北指定没有你好果子吃" [level=3] [ref=e471]
+            - generic [ref=e472]: R12+
+          - link "在新标签页打开：来东北指定没有你好果子吃" [ref=e474] [cursor=pointer]:
+            - /url: ./LAIDB
+            - img [ref=e475]
+            - text: 在新标签页打开：来东北指定没有你好果子吃
+          - paragraph [ref=e478]: 一款视觉小说
+        - generic [ref=e479]:
+          - generic [ref=e480]:
+            - heading "病娇契约(demo)" [level=3] [ref=e481]
+            - generic [ref=e482]: R14+
+          - link "在新标签页打开" [ref=e484] [cursor=pointer]:
+            - /url: ./bjqy
+            - img [ref=e485]
+            - text: 在新标签页打开
+          - paragraph
+          - text: 一款视觉小说
+        - generic [ref=e488]:
+          - generic [ref=e489]:
+            - img [ref=e490]
+            - heading "兄弟你不要看91了!!!!" [level=3] [ref=e493]
+            - generic [ref=e494]: R16+
+          - link "在新标签页打开：来东北指定没有你好果子吃" [ref=e496] [cursor=pointer]:
+            - /url: ./91/
+            - img [ref=e497]
+            - text: 在新标签页打开：来东北指定没有你好果子吃
+          - paragraph [ref=e500]: 一款讽刺向视觉小说
+        - generic [ref=e501]:
+          - generic [ref=e502]:
+            - img [ref=e503]
+            - heading "CS2(ai辅助)" [level=3] [ref=e506]
+            - generic [ref=e507]: 全年龄
+          - link "在新标签页打开：CS2" [ref=e509] [cursor=pointer]:
+            - /url: ./cs2/
+            - img [ref=e510]
+            - text: 在新标签页打开：CS2
+          - paragraph [ref=e513]: 纯手写的3dcsgo
+        - generic [ref=e514]:
+          - generic [ref=e515]:
+            - img [ref=e516]
+            - heading "打工模拟器" [level=3] [ref=e519]
+            - generic [ref=e520]: 全年龄
+          - link "在新标签页打开：打工模拟器" [ref=e522] [cursor=pointer]:
+            - /url: ./work/
+            - img [ref=e523]
+            - text: 在新标签页打开：打工模拟器
+          - paragraph [ref=e526]: C语言编译的WebAssembly文字经营模拟游戏，打工赚钱走上人生巅峰
+        - generic [ref=e527]:
+          - generic [ref=e528]:
+            - img [ref=e529]
+            - heading "镜中人" [level=3] [ref=e532]
+            - generic [ref=e533]: 全年龄
+          - link "在新标签页打开：镜中人" [ref=e535] [cursor=pointer]:
+            - /url: ./arg/
+            - img [ref=e536]
+            - text: 在新标签页打开：镜中人
+          - paragraph [ref=e539]: Win98复古美学ARG解谜游戏 — 探索2002年神秘论坛「镜面论坛」，与"镜中人"对话，四种结局等你发现
+    - heading "更多功能喵～" [level=2] [ref=e548] [cursor=pointer]:
+      - text: 更多功能喵～
+      - img [ref=e549]
+    - generic [ref=e558]:
+      - generic [ref=e559]:
+        - generic [ref=e560]:
+          - heading "我的Bilibili空间喵～" [level=2] [ref=e561]
+          - paragraph [ref=e562]: 点击下方iframe直接访问我的B站主页 (๑>ᴗ<๑)
+        - iframe [ref=e564]:
+          - generic [active] [ref=f2e1]:
+            - banner [ref=f2e2]:
+              - generic [ref=f2e4]:
+                - list [ref=f2e5]:
+                  - listitem [ref=f2e6]:
+                    - link "首页" [ref=f2e7] [cursor=pointer]:
+                      - /url: //www.bilibili.com
+                      - img [ref=f2e8]
+                      - generic [ref=f2e10]:
+                        - generic [ref=f2e11]: 首页
+                        - img [ref=f2e12]
+                  - listitem [ref=f2e15]:
+                    - link "番剧" [ref=f2e16] [cursor=pointer]:
+                      - /url: //www.bilibili.com/anime/
+                  - listitem [ref=f2e17]:
+                    - link "直播" [ref=f2e18] [cursor=pointer]:
+                      - /url: //live.bilibili.com
+                  - listitem [ref=f2e19]:
+                    - link "游戏中心" [ref=f2e20] [cursor=pointer]:
+                      - /url: //game.bilibili.com/platform
+                  - listitem [ref=f2e21]:
+                    - link "会员购" [ref=f2e22] [cursor=pointer]:
+                      - /url: //show.bilibili.com/platform/home.html?msource=pc_web
+                  - listitem [ref=f2e23]:
+                    - link "漫画" [ref=f2e24] [cursor=pointer]:
+                      - /url: //manga.bilibili.com?from=bill_top_mnav
+                  - listitem [ref=f2e25]:
+                    - link "赛事" [ref=f2e26] [cursor=pointer]:
+                      - /url: //www.bilibili.com/match/home/
+                  - listitem [ref=f2e27]:
+                    - link "下载客户端" [ref=f2e28] [cursor=pointer]:
+                      - /url: //app.bilibili.com
+                      - img [ref=f2e29]
+                      - generic [ref=f2e32]: 下载客户端
+                - generic [ref=f2e36]:
+                  - textbox "突然的陀螺2.0" [ref=f2e38]
+                  - img [ref=f2e40] [cursor=pointer]
+                - list [ref=f2e42]:
+                  - listitem [ref=f2e43] [cursor=pointer]:
+                    - listitem [ref=f2e44]:
+                      - generic [ref=f2e46]: 登录
+                      - generic [ref=f2e49]:
+                        - paragraph [ref=f2e50]: 登录后你可以：
+                        - generic [ref=f2e51]:
+                          - generic [ref=f2e52]:
+                            - img [ref=f2e53]
+                            - generic [ref=f2e57]: 免费看高清视频
+                          - generic [ref=f2e58]:
+                            - img [ref=f2e59]
+                            - generic [ref=f2e62]: 多端同步播放记录
+                          - generic [ref=f2e63]:
+                            - img [ref=f2e64]
+                            - generic [ref=f2e70]: 发表弹幕/评论
+                          - generic [ref=f2e71]:
+                            - img [ref=f2e72]
+                            - generic [ref=f2e75]: 热门番剧影视看不停
+                        - generic [ref=f2e76]: 立即登录
+                        - generic [ref=f2e77]: 首次使用？ 点我注册
+                  - listitem [ref=f2e78] [cursor=pointer]:
+                    - listitem [ref=f2e80]:
+                      - link [ref=f2e81]:
+                        - /url: //account.bilibili.com/big
+                        - img [ref=f2e82]
+                  - listitem [ref=f2e86] [cursor=pointer]:
+                    - img [ref=f2e88]
+                  - listitem [ref=f2e91] [cursor=pointer]:
+                    - img [ref=f2e93]
+                  - listitem [ref=f2e99] [cursor=pointer]:
+                    - img [ref=f2e101]
+                  - listitem [ref=f2e104] [cursor=pointer]:
+                    - img [ref=f2e106]
+                  - listitem [ref=f2e108] [cursor=pointer]:
+                    - img [ref=f2e110]
+                  - listitem [ref=f2e114] [cursor=pointer]:
+                    - listitem [ref=f2e115]:
+                      - img [ref=f2e118]
+            - generic [ref=f2e121]:
+              - generic [ref=f2e123]:
+                - generic [ref=f2e124]:
+                  - generic [ref=f2e127]:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - img
+                  - generic [ref=f2e128]:
+                    - generic [ref=f2e129]:
+                      - generic [ref=f2e130]: 丛雨丸-
+                      - link "" [ref=f2e131] [cursor=pointer]:
+                        - /url: //www.bilibili.com/blackboard/help.html/?spm_id_from=333.1387.0.0#/?qid=59e2cffdaa69465486497bb35a5ac295
+                        - generic [ref=f2e132]: 
+                      - generic [ref=f2e136] [cursor=pointer]:
+                        - generic [ref=f2e137]: warma
+                        - generic [ref=f2e138]: "9"
+                    - generic "Ciallo 个人网站：https://ciallo0721-cmd.top 雏草姬喵" [ref=f2e141]
+                - generic [ref=f2e143]:
+                  - generic [ref=f2e148] [cursor=pointer]:
+                    - generic [ref=f2e149]: 
+                    - text: 关注
+                  - link "发消息" [ref=f2e150] [cursor=pointer]:
+                    - /url: //message.bilibili.com/#/whisper/mid478967440
+                  - generic [ref=f2e154]: 
+              - generic [ref=f2e156]:
+                - generic [ref=f2e157]:
+                  - generic [ref=f2e158]:
+                    - link " 主页" [ref=f2e159] [cursor=pointer]:
+                      - /url: /478967440
+                      - generic [ref=f2e160]: 
+                      - generic [ref=f2e161]: 主页
+                    - link " 动态" [ref=f2e162] [cursor=pointer]:
+                      - /url: /478967440/dynamic
+                      - generic [ref=f2e163]: 
+                      - generic [ref=f2e164]: 动态
+                    - link " 投稿" [ref=f2e165] [cursor=pointer]:
+                      - /url: /478967440/upload
+                      - generic [ref=f2e166]: 
+                      - generic [ref=f2e167]: 投稿
+                    - link " 合集和系列" [ref=f2e168] [cursor=pointer]:
+                      - /url: /478967440/lists
+                      - generic [ref=f2e169]: 
+                      - generic [ref=f2e170]: 合集和系列
+                    - link " 收藏" [ref=f2e171] [cursor=pointer]:
+                      - /url: /478967440/favlist
+                      - generic [ref=f2e172]: 
+                      - generic [ref=f2e173]: 收藏
+                    - link " 追番追剧" [ref=f2e174] [cursor=pointer]:
+                      - /url: /478967440/bangumi
+                      - generic [ref=f2e175]: 
+                      - generic [ref=f2e176]: 追番追剧
+                  - generic [ref=f2e177]:
+                    - textbox "" [ref=f2e178]:
+                      - /placeholder: 搜索视频、动态
+                    - generic [ref=f2e179]:
+                      - text: 
+                      - generic [ref=f2e180] [cursor=pointer]: 
+                - generic [ref=f2e182]:
+                  - link "关注数 3542" [ref=f2e183] [cursor=pointer]:
+                    - /url: /478967440/relation/follow
+                    - generic [ref=f2e184]: 关注数
+                    - generic "3,542" [ref=f2e185]: "3542"
+                  - generic [ref=f2e186] [cursor=pointer]:
+                    - generic [ref=f2e187]: 粉丝数
+                    - generic "58" [ref=f2e188]
+              - main [ref=f2e189]:
+                - generic [ref=f2e190]:
+                  - generic [ref=f2e191]:
+                    - generic [ref=f2e193]:
+                      - generic [ref=f2e195]: 代表作
+                      - generic [ref=f2e199]:
+                        - generic [ref=f2e202]:
+                          - generic [ref=f2e203]:
+                            - link "度假岛发现神秘打野点  162  0 00:10" [ref=f2e204] [cursor=pointer]:
+                              - /url: https://www.bilibili.com/video/BV1oM4y1n7RC?spm_id_from=333.1387.homepage.video_card.click
+                              - img "度假岛发现神秘打野点" [ref=f2e206]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: "162"
+                                - generic:
+                                  - generic: 
+                                  - generic: "0"
+                                - generic:
+                                  - generic: 00:10
+                            - generic [ref=f2e207] [cursor=pointer]:
+                              - generic: 
+                          - generic "度假岛发现神秘打野点" [ref=f2e209]:
+                            - link "度假岛发现神秘打野点" [ref=f2e210] [cursor=pointer]:
+                              - /url: https://www.bilibili.com/video/BV1oM4y1n7RC?spm_id_from=333.1387.homepage.video_card.click
+                        - generic [ref=f2e214]:
+                          - generic [ref=f2e215]:
+                            - link "谢谢塔菲喵  55  0 01:15" [ref=f2e216] [cursor=pointer]:
+                              - /url: https://www.bilibili.com/video/BV1h8GH6LETF?spm_id_from=333.1387.homepage.video_card.click
+                              - img "谢谢塔菲喵" [ref=f2e218]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: "55"
+                                - generic:
+                                  - generic: 
+                                  - generic: "0"
+                                - generic:
+                                  - generic: 01:15
+                            - generic [ref=f2e219] [cursor=pointer]:
+                              - generic: 
+                          - generic "谢谢塔菲喵" [ref=f2e221]:
+                            - link "谢谢塔菲喵" [ref=f2e222] [cursor=pointer]:
+                              - /url: https://www.bilibili.com/video/BV1h8GH6LETF?spm_id_from=333.1387.homepage.video_card.click
+                    - generic: 
+                    - generic [ref=f2e225]:
+                      - generic [ref=f2e226]:
+                        - generic [ref=f2e227]: 收藏夹
+                        - generic [ref=f2e228]:
+                          - generic [ref=f2e229]: ·
+                          - text: "10"
+                        - button "查看更多 " [ref=f2e231] [cursor=pointer]:
+                          - text: 查看更多
+                          - generic [ref=f2e232]: 
+                      - generic [ref=f2e235]:
+                        - generic [ref=f2e236]:
+                          - generic [ref=f2e240] [cursor=pointer]:
+                            - img "默认收藏夹" [ref=f2e242]
+                            - generic:
+                              - generic:
+                                - generic: 10209个视频
+                          - generic [ref=f2e246] [cursor=pointer]: 默认收藏夹
+                        - generic [ref=f2e247]:
+                          - generic [ref=f2e251] [cursor=pointer]:
+                            - img "important" [ref=f2e253]
+                            - generic:
+                              - generic:
+                                - generic: 7个视频
+                          - generic [ref=f2e257] [cursor=pointer]: important
+                        - generic [ref=f2e258]:
+                          - generic [ref=f2e262] [cursor=pointer]:
+                            - img "心理" [ref=f2e264]
+                            - generic:
+                              - generic:
+                                - generic: 13个视频
+                          - generic [ref=f2e268] [cursor=pointer]: 心理
+                        - generic [ref=f2e269]:
+                          - generic [ref=f2e273] [cursor=pointer]:
+                            - img "你牛大了" [ref=f2e275]
+                            - generic:
+                              - generic:
+                                - generic: 510个视频
+                          - generic [ref=f2e279] [cursor=pointer]: 你牛大了
+                        - generic [ref=f2e280]:
+                          - generic [ref=f2e284] [cursor=pointer]:
+                            - img "毕业" [ref=f2e286]
+                            - generic:
+                              - generic:
+                                - generic: 24个视频
+                          - generic [ref=f2e290] [cursor=pointer]: 毕业
+                        - generic [ref=f2e291]:
+                          - generic [ref=f2e295] [cursor=pointer]:
+                            - img "C-PTSD" [ref=f2e297]
+                            - generic:
+                              - generic:
+                                - generic: 5个视频
+                          - generic [ref=f2e301] [cursor=pointer]: C-PTSD
+                        - generic [ref=f2e302]:
+                          - generic [ref=f2e306] [cursor=pointer]:
+                            - img "一年一度的万圣节" [ref=f2e308]
+                            - generic:
+                              - generic:
+                                - generic: 1个视频
+                          - generic [ref=f2e312] [cursor=pointer]: 一年一度的万圣节
+                        - generic [ref=f2e313]:
+                          - generic [ref=f2e317] [cursor=pointer]:
+                            - img "一年一度的圣诞节" [ref=f2e319]
+                            - generic:
+                              - generic:
+                                - generic: 9个视频
+                          - generic [ref=f2e323] [cursor=pointer]: 一年一度的圣诞节
+                    - generic [ref=f2e325]:
+                      - generic [ref=f2e326]:
+                        - generic [ref=f2e327]: 订阅追番
+                        - generic [ref=f2e328]:
+                          - generic [ref=f2e329]: ·
+                          - text: "13"
+                        - button "查看更多 " [ref=f2e331] [cursor=pointer]:
+                          - generic [ref=f2e332]: 查看更多
+                          - generic [ref=f2e333]: 
+                      - generic [ref=f2e335]:
+                        - generic [ref=f2e337]:
+                          - link "我是不白吃" [ref=f2e339] [cursor=pointer]:
+                            - /url: //www.bilibili.com/bangumi/play/ss34149
+                            - img "我是不白吃" [ref=f2e341]
+                          - generic [ref=f2e342]:
+                            - link "我是不白吃" [ref=f2e343] [cursor=pointer]:
+                              - /url: //www.bilibili.com/bangumi/play/ss34149
+                            - link "宇宙第一吃货不白吃，带你演绎美食传说，细数美食冷姿势！" [ref=f2e344] [cursor=pointer]:
+                              - /url: //www.bilibili.com/bangumi/play/ss34149
+                            - generic [ref=f2e345]: 国创 · 中国大陆
+                            - generic [ref=f2e346]: 更新至第1048话
+                        - generic [ref=f2e348]:
+                          - generic [ref=f2e349]:
+                            - link "宝可梦 地平线（中配）" [ref=f2e350] [cursor=pointer]:
+                              - /url: //www.bilibili.com/bangumi/play/ss92458
+                              - img "宝可梦 地平线（中配）" [ref=f2e352]
+                            - img "bangumi card" [ref=f2e354]
+                          - generic [ref=f2e355]:
+                            - link "宝可梦 地平线（中配）" [ref=f2e356] [cursor=pointer]:
+                              - /url: //www.bilibili.com/bangumi/play/ss92458
+                            - link "在广大的宝可梦世界舞台上，莉可与罗伊的全新冒险即将开启！ 持有神秘坠饰，来自帕底亚的少女——莉可。持有谜之精灵球，来自关都的少年——罗伊。 等待他们的邂逅将会是什么？他们的命运又会如何？ 这是一个通过冒险去“寻找”某些重要东西的故事。" [ref=f2e357] [cursor=pointer]:
+                              - /url: //www.bilibili.com/bangumi/play/ss92458
+                            - generic [ref=f2e358]: 番剧 · 日本
+                            - generic [ref=f2e359]: 更新至第45话
+                        - generic [ref=f2e361]:
+                          - generic [ref=f2e362]:
+                            - link "魔法少女小圆" [ref=f2e363] [cursor=pointer]:
+                              - /url: //www.bilibili.com/bangumi/play/ss2539
+                              - img "魔法少女小圆" [ref=f2e365]
+                            - img "bangumi card" [ref=f2e367]
+                          - generic [ref=f2e368]:
+                            - link "魔法少女小圆" [ref=f2e369] [cursor=pointer]:
+                              - /url: //www.bilibili.com/bangumi/play/ss2539
+                            - link "就读初中二年级的鹿目圆，过着平凡幸福的生活。神秘转学生晓美焰的出现，开始让小圆的命运有了巨大转变。某日一只名为丘比的神秘生物，希望小圆能够与它签订魔法契约，成为“魔法少女”以对抗邪恶的魔女保护世界。正当小圆犹豫烦恼之时，好友沙耶香先一步成为“魔法少女”后，两人才发现原来签订契约后，需付出的代价远比想象中巨大甚至残酷，这一切真相都再次冲击小圆想成为“魔法少女”的想法……" [ref=f2e370] [cursor=pointer]:
+                              - /url: //www.bilibili.com/bangumi/play/ss2539
+                            - generic [ref=f2e371]: 番剧 · 日本
+                            - generic [ref=f2e372]: 全12话
+                        - generic [ref=f2e374]:
+                          - link "幸运星" [ref=f2e376] [cursor=pointer]:
+                            - /url: //www.bilibili.com/bangumi/play/ss1293
+                            - img "幸运星" [ref=f2e378]
+                          - generic [ref=f2e379]:
+                            - link "幸运星" [ref=f2e380] [cursor=pointer]:
+                              - /url: //www.bilibili.com/bangumi/play/ss1293
+                            - link "本片讲述的是一群喜爱动漫的高中女生们的日常生活。其中主角泉此方更是为了喜欢的东西会不惜一切的女孩子，整天出入OTAKU们的的圣地秋叶原、到女仆沏茶店打工、天天都有COSPLAY。这样一名标准的AKIBA系OTAKU的她，和相对平常的柊姐妹、みゆき等好朋友一起演绎着一幕幕欢快喧嚣的、令人意外却很日常化的故事。总之，原作就是那种平常到很无聊，但是闲暇时看着却很有趣的泡沫4格。" [ref=f2e381] [cursor=pointer]:
+                              - /url: //www.bilibili.com/bangumi/play/ss1293
+                            - generic [ref=f2e382]: 番剧 · 日本
+                            - generic [ref=f2e383]: 全25话
+                    - generic [ref=f2e385]:
+                      - generic [ref=f2e387]: 最近投币的视频
+                      - generic [ref=f2e390]:
+                        - generic [ref=f2e392]:
+                          - generic [ref=f2e393]:
+                            - link "远离负能量，拒绝沉沦！  17.4万  81 00:31" [ref=f2e394] [cursor=pointer]:
+                              - /url: //www.bilibili.com/video/BV1vajR6oESH/?spm_id_from=333.1387.homepage.video_card.click
+                              - img "远离负能量，拒绝沉沦！" [ref=f2e396]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: 17.4万
+                                - generic:
+                                  - generic: 
+                                  - generic: "81"
+                                - generic:
+                                  - generic: 00:31
+                            - generic [ref=f2e397] [cursor=pointer]:
+                              - generic: 
+                          - generic [ref=f2e398]:
+                            - generic "远离负能量，拒绝沉沦！" [ref=f2e399]:
+                              - link "远离负能量，拒绝沉沦！" [ref=f2e400] [cursor=pointer]:
+                                - /url: //www.bilibili.com/video/BV1vajR6oESH/?spm_id_from=333.1387.homepage.video_card.click
+                            - link " 大表姐爱画画" [ref=f2e402] [cursor=pointer]:
+                              - /url: https://space.bilibili.com/3546912363907904?spm_id_from=333.1387.homepage.video_card.click
+                              - generic [ref=f2e404]: 
+                              - generic "大表姐爱画画" [ref=f2e406]
+                        - generic [ref=f2e408]:
+                          - generic [ref=f2e409]:
+                            - link "这种情况一般是在等发手机的时候  32.2万  2 00:10" [ref=f2e410] [cursor=pointer]:
+                              - /url: //www.bilibili.com/video/BV1T47A6PERG/?spm_id_from=333.1387.homepage.video_card.click
+                              - img "这种情况一般是在等发手机的时候" [ref=f2e412]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: 32.2万
+                                - generic:
+                                  - generic: 
+                                  - generic: "2"
+                                - generic:
+                                  - generic: 00:10
+                            - generic [ref=f2e413] [cursor=pointer]:
+                              - generic: 
+                          - generic [ref=f2e414]:
+                            - generic "这种情况一般是在等发手机的时候" [ref=f2e415]:
+                              - link "这种情况一般是在等发手机的时候" [ref=f2e416] [cursor=pointer]:
+                                - /url: //www.bilibili.com/video/BV1T47A6PERG/?spm_id_from=333.1387.homepage.video_card.click
+                            - link " 伞十四哭咯我" [ref=f2e418] [cursor=pointer]:
+                              - /url: https://space.bilibili.com/3706963846236761?spm_id_from=333.1387.homepage.video_card.click
+                              - generic [ref=f2e420]: 
+                              - generic "伞十四哭咯我" [ref=f2e422]
+                        - generic [ref=f2e424]:
+                          - generic [ref=f2e425]:
+                            - link "今天新学了一首日文歌！  15.3万  449 00:17" [ref=f2e426] [cursor=pointer]:
+                              - /url: //www.bilibili.com/video/BV1NpJ36dEAj/?spm_id_from=333.1387.homepage.video_card.click
+                              - img "今天新学了一首日文歌！" [ref=f2e428]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: 15.3万
+                                - generic:
+                                  - generic: 
+                                  - generic: "449"
+                                - generic:
+                                  - generic: 00:17
+                            - generic [ref=f2e429] [cursor=pointer]:
+                              - generic: 
+                          - generic [ref=f2e430]:
+                            - generic "今天新学了一首日文歌！" [ref=f2e431]:
+                              - link "今天新学了一首日文歌！" [ref=f2e432] [cursor=pointer]:
+                                - /url: //www.bilibili.com/video/BV1NpJ36dEAj/?spm_id_from=333.1387.homepage.video_card.click
+                            - link " Yett秋则" [ref=f2e434] [cursor=pointer]:
+                              - /url: https://space.bilibili.com/3493094490114779?spm_id_from=333.1387.homepage.video_card.click
+                              - generic [ref=f2e436]: 
+                              - generic "Yett秋则" [ref=f2e438]
+                    - generic: 
+                    - generic [ref=f2e440]:
+                      - generic [ref=f2e442]: 最近点赞的视频
+                      - generic [ref=f2e445]:
+                        - generic [ref=f2e447]:
+                          - generic [ref=f2e448]:
+                            - link "这条视频全网求转发！广西洪灾实况，绝非 AI、绝非旧闻！  2.1万  15 00:44" [ref=f2e449] [cursor=pointer]:
+                              - /url: //www.bilibili.com/video/BV1JtT96uEbW/?spm_id_from=333.1387.homepage.video_card.click
+                              - img "这条视频全网求转发！广西洪灾实况，绝非 AI、绝非旧闻！" [ref=f2e451]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: 2.1万
+                                - generic:
+                                  - generic: 
+                                  - generic: "15"
+                                - generic:
+                                  - generic: 00:44
+                            - generic [ref=f2e452] [cursor=pointer]:
+                              - generic: 
+                          - generic [ref=f2e453]:
+                            - generic "这条视频全网求转发！广西洪灾实况，绝非 AI、绝非旧闻！" [ref=f2e454]:
+                              - link "这条视频全网求转发！广西洪灾实况，绝非 AI、绝非旧闻！" [ref=f2e455] [cursor=pointer]:
+                                - /url: //www.bilibili.com/video/BV1JtT96uEbW/?spm_id_from=333.1387.homepage.video_card.click
+                            - link " 嵇余詹" [ref=f2e457] [cursor=pointer]:
+                              - /url: https://space.bilibili.com/3537119320475720?spm_id_from=333.1387.homepage.video_card.click
+                              - generic [ref=f2e459]: 
+                              - generic "嵇余詹" [ref=f2e461]
+                        - generic [ref=f2e463]:
+                          - generic [ref=f2e464]:
+                            - link "臆测10月解放军\"收复台湾\" 美军大肆囤积弹药  19.6万  192 00:25" [ref=f2e465] [cursor=pointer]:
+                              - /url: //www.bilibili.com/video/BV16HMc6xE8F/?spm_id_from=333.1387.homepage.video_card.click
+                              - img "臆测10月解放军\"收复台湾\" 美军大肆囤积弹药" [ref=f2e467]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: 19.6万
+                                - generic:
+                                  - generic: 
+                                  - generic: "192"
+                                - generic:
+                                  - generic: 00:25
+                            - generic [ref=f2e468] [cursor=pointer]:
+                              - generic: 
+                          - generic [ref=f2e469]:
+                            - generic "臆测10月解放军\"收复台湾\" 美军大肆囤积弹药" [ref=f2e470]:
+                              - link "臆测10月解放军\"收复台湾\" 美军大肆囤积弹药" [ref=f2e471] [cursor=pointer]:
+                                - /url: //www.bilibili.com/video/BV16HMc6xE8F/?spm_id_from=333.1387.homepage.video_card.click
+                            - link " 看看新闻Knews" [ref=f2e473] [cursor=pointer]:
+                              - /url: https://space.bilibili.com/6250993?spm_id_from=333.1387.homepage.video_card.click
+                              - generic [ref=f2e475]: 
+                              - generic "看看新闻Knews" [ref=f2e477]
+                        - generic [ref=f2e479]:
+                          - generic [ref=f2e480]:
+                            - link "远离负能量，拒绝沉沦！  17.4万  81 00:31" [ref=f2e481] [cursor=pointer]:
+                              - /url: //www.bilibili.com/video/BV1vajR6oESH/?spm_id_from=333.1387.homepage.video_card.click
+                              - img "远离负能量，拒绝沉沦！" [ref=f2e483]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: 17.4万
+                                - generic:
+                                  - generic: 
+                                  - generic: "81"
+                                - generic:
+                                  - generic: 00:31
+                            - generic [ref=f2e484] [cursor=pointer]:
+                              - generic: 
+                          - generic [ref=f2e485]:
+                            - generic "远离负能量，拒绝沉沦！" [ref=f2e486]:
+                              - link "远离负能量，拒绝沉沦！" [ref=f2e487] [cursor=pointer]:
+                                - /url: //www.bilibili.com/video/BV1vajR6oESH/?spm_id_from=333.1387.homepage.video_card.click
+                            - link " 大表姐爱画画" [ref=f2e489] [cursor=pointer]:
+                              - /url: https://space.bilibili.com/3546912363907904?spm_id_from=333.1387.homepage.video_card.click
+                              - generic [ref=f2e491]: 
+                              - generic "大表姐爱画画" [ref=f2e493]
+                        - generic [ref=f2e495]:
+                          - generic [ref=f2e496]:
+                            - link "失踪八年的女儿，到底去哪了？  135.0万  1.1万 44:59" [ref=f2e497] [cursor=pointer]:
+                              - /url: //www.bilibili.com/video/BV18dMu6NE6R/?spm_id_from=333.1387.homepage.video_card.click
+                              - img "失踪八年的女儿，到底去哪了？" [ref=f2e499]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: 135.0万
+                                - generic:
+                                  - generic: 
+                                  - generic: 1.1万
+                                - generic:
+                                  - generic: 44:59
+                            - generic [ref=f2e500] [cursor=pointer]:
+                              - generic: 
+                          - generic [ref=f2e501]:
+                            - generic "失踪八年的女儿，到底去哪了？" [ref=f2e502]:
+                              - link "失踪八年的女儿，到底去哪了？" [ref=f2e503] [cursor=pointer]:
+                                - /url: //www.bilibili.com/video/BV18dMu6NE6R/?spm_id_from=333.1387.homepage.video_card.click
+                            - link " 某幻君" [ref=f2e505] [cursor=pointer]:
+                              - /url: https://space.bilibili.com/1577804?spm_id_from=333.1387.homepage.video_card.click
+                              - generic [ref=f2e507]: 
+                              - generic "某幻君" [ref=f2e509]
+                        - generic [ref=f2e511]:
+                          - generic [ref=f2e512]:
+                            - link "闭眼7秒拆包挑战  2.8万  8 00:16" [ref=f2e513] [cursor=pointer]:
+                              - /url: //www.bilibili.com/video/BV19RMw6QEGt/?spm_id_from=333.1387.homepage.video_card.click
+                              - img "闭眼7秒拆包挑战" [ref=f2e515]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: 2.8万
+                                - generic:
+                                  - generic: 
+                                  - generic: "8"
+                                - generic:
+                                  - generic: 00:16
+                            - generic [ref=f2e516] [cursor=pointer]:
+                              - generic: 
+                          - generic [ref=f2e517]:
+                            - generic "闭眼7秒拆包挑战" [ref=f2e518]:
+                              - link "闭眼7秒拆包挑战" [ref=f2e519] [cursor=pointer]:
+                                - /url: //www.bilibili.com/video/BV19RMw6QEGt/?spm_id_from=333.1387.homepage.video_card.click
+                            - link " EWC电竞世俱杯官方账号" [ref=f2e521] [cursor=pointer]:
+                              - /url: https://space.bilibili.com/3546635007167111?spm_id_from=333.1387.homepage.video_card.click
+                              - generic [ref=f2e523]: 
+                              - generic "EWC电竞世俱杯官方账号" [ref=f2e525]
+                        - generic [ref=f2e527]:
+                          - generic [ref=f2e528]:
+                            - link "小飞象冲出马戏团，飞到这里，直接赖着不走了  58.2万  5342 00:57" [ref=f2e529] [cursor=pointer]:
+                              - /url: //www.bilibili.com/video/BV1zjTi6XELR/?spm_id_from=333.1387.homepage.video_card.click
+                              - img "小飞象冲出马戏团，飞到这里，直接赖着不走了" [ref=f2e531]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: 58.2万
+                                - generic:
+                                  - generic: 
+                                  - generic: "5342"
+                                - generic:
+                                  - generic: 00:57
+                            - generic [ref=f2e532] [cursor=pointer]:
+                              - generic: 
+                          - generic [ref=f2e533]:
+                            - generic "小飞象冲出马戏团，飞到这里，直接赖着不走了" [ref=f2e534]:
+                              - link "小飞象冲出马戏团，飞到这里，直接赖着不走了" [ref=f2e535] [cursor=pointer]:
+                                - /url: //www.bilibili.com/video/BV1zjTi6XELR/?spm_id_from=333.1387.homepage.video_card.click
+                            - link " 端子插壳设备专家" [ref=f2e537] [cursor=pointer]:
+                              - /url: https://space.bilibili.com/3707018229582644?spm_id_from=333.1387.homepage.video_card.click
+                              - generic [ref=f2e539]: 
+                              - generic "端子插壳设备专家" [ref=f2e541]
+                        - generic [ref=f2e543]:
+                          - generic [ref=f2e544]:
+                            - link "笑点自寻  2.4万  9 00:12" [ref=f2e545] [cursor=pointer]:
+                              - /url: //www.bilibili.com/video/BV1fBTq64EU8/?spm_id_from=333.1387.homepage.video_card.click
+                              - img "笑点自寻" [ref=f2e547]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: 2.4万
+                                - generic:
+                                  - generic: 
+                                  - generic: "9"
+                                - generic:
+                                  - generic: 00:12
+                            - generic [ref=f2e548] [cursor=pointer]:
+                              - generic: 
+                          - generic [ref=f2e549]:
+                            - generic "笑点自寻" [ref=f2e550]:
+                              - link "笑点自寻" [ref=f2e551] [cursor=pointer]:
+                                - /url: //www.bilibili.com/video/BV1fBTq64EU8/?spm_id_from=333.1387.homepage.video_card.click
+                            - link " 败者为王qaq" [ref=f2e553] [cursor=pointer]:
+                              - /url: https://space.bilibili.com/548277944?spm_id_from=333.1387.homepage.video_card.click
+                              - generic [ref=f2e555]: 
+                              - generic "败者为王qaq" [ref=f2e557]
+                        - generic [ref=f2e559]:
+                          - generic [ref=f2e560]:
+                            - link "我用SONY在罗弗敦群岛拍下的恶魔之牙Tungeneset  1.2万  5 00:23" [ref=f2e561] [cursor=pointer]:
+                              - /url: //www.bilibili.com/video/BV1TuTb6LEiB/?spm_id_from=333.1387.homepage.video_card.click
+                              - img "我用SONY在罗弗敦群岛拍下的恶魔之牙Tungeneset" [ref=f2e563]
+                              - generic:
+                                - generic:
+                                  - generic: 
+                                  - generic: 1.2万
+                                - generic:
+                                  - generic: 
+                                  - generic: "5"
+                                - generic:
+                                  - generic: 00:23
+                            - generic [ref=f2e564] [cursor=pointer]:
+                              - generic: 
+                          - generic [ref=f2e565]:
+                            - generic "我用SONY在罗弗敦群岛拍下的恶魔之牙Tungeneset" [ref=f2e566]:
+                              - link "我用SONY在罗弗敦群岛拍下的恶魔之牙Tungeneset" [ref=f2e567] [cursor=pointer]:
+                                - /url: //www.bilibili.com/video/BV1TuTb6LEiB/?spm_id_from=333.1387.homepage.video_card.click
+                            - link " 绝地遣兵涂沙贵联宇宙" [ref=f2e569] [cursor=pointer]:
+                              - /url: https://space.bilibili.com/2844752?spm_id_from=333.1387.homepage.video_card.click
+                              - generic [ref=f2e571]: 
+                              - generic "绝地遣兵涂沙贵联宇宙" [ref=f2e573]
+                        - text:        
+                  - generic [ref=f2e574]:
+                    - generic [ref=f2e576]:
+                      - generic [ref=f2e577]: 公告
+                      - paragraph [ref=f2e581]: 直播开不了麦喵
+                    - generic [ref=f2e583]:
+                      - generic [ref=f2e584]:
+                        - generic [ref=f2e585]: 直播间
+                        - generic [ref=f2e586] [cursor=pointer]:
+                          - generic [ref=f2e587]: 
+                          - generic [ref=f2e588]: 关注
+                      - generic [ref=f2e591]:
+                        - generic [ref=f2e592]: 主播不在，关注后就能在动态收到开播的通知哦~
+                        - link "前往TA的直播间 " [ref=f2e593] [cursor=pointer]:
+                          - /url: https://live.bilibili.com/1968149454?broadcast_type=0&is_room_feed=0&spm_id_from=333.1387.to_liveroom.0.click&live_from=86002
+                          - text: 前往TA的直播间
+                          - generic [ref=f2e594]: 
+                    - generic [ref=f2e596]:
+                      - generic [ref=f2e598]: 个人资料
+                      - generic [ref=f2e599]:
+                        - generic [ref=f2e600]:
+                          - generic [ref=f2e601]: 
+                          - generic [ref=f2e602]: "478967440"
+                        - generic [ref=f2e603]:
+                          - generic [ref=f2e604]: 
+                          - generic [ref=f2e605]: 05-24
+                    - generic [ref=f2e607]:
+                      - generic [ref=f2e609]: 最近玩过的游戏
+                      - generic [ref=f2e610]:
+                        - link "蔚蓝档案 蔚蓝档案 7.9分 公告 限时活动【异饼危机~甜美的奇迹】现已开启！ 下载" [ref=f2e611] [cursor=pointer]:
+                          - /url: https://www.biligame.com/detail/?id=109864&sourceFrom=2000310011
+                          - generic [ref=f2e612]:
+                            - img "蔚蓝档案" [ref=f2e614]
+                            - generic [ref=f2e615]:
+                              - generic [ref=f2e616]: 蔚蓝档案
+                              - generic [ref=f2e617]:
+                                - generic [ref=f2e618]:
+                                  - img [ref=f2e620]
+                                  - img [ref=f2e623]
+                                  - img [ref=f2e626]
+                                  - img [ref=f2e629]
+                                  - img [ref=f2e633]
+                                - generic [ref=f2e635]: 7.9分
+                              - generic [ref=f2e636]:
+                                - paragraph [ref=f2e637]: 公告
+                                - generic [ref=f2e638]: 限时活动【异饼危机~甜美的奇迹】现已开启！
+                          - button "下载" [ref=f2e639]
+                        - link "初音未来：缤纷舞台 初音未来：缤纷舞台 8.2分 公告 风靡全球的角色养成音乐手游 下载" [ref=f2e640] [cursor=pointer]:
+                          - /url: https://www.biligame.com/detail/?id=111995&sourceFrom=2000310011
+                          - generic [ref=f2e641]:
+                            - img "初音未来：缤纷舞台" [ref=f2e643]
+                            - generic [ref=f2e644]:
+                              - generic [ref=f2e645]: 初音未来：缤纷舞台
+                              - generic [ref=f2e646]:
+                                - generic [ref=f2e647]:
+                                  - img [ref=f2e649]
+                                  - img [ref=f2e652]
+                                  - img [ref=f2e655]
+                                  - img [ref=f2e658]
+                                  - img [ref=f2e661]
+                                - generic [ref=f2e663]: 8.2分
+                              - generic [ref=f2e664]:
+                                - paragraph [ref=f2e665]: 公告
+                                - generic [ref=f2e666]: 风靡全球的角色养成音乐手游
+                          - button "下载" [ref=f2e667]
+                        - link "辐射：避难所 辐射：避难所 6.3分 公告 一款辐射主题策略单机手游 下载" [ref=f2e668] [cursor=pointer]:
+                          - /url: https://www.biligame.com/detail/?id=110563&sourceFrom=2000310011
+                          - generic [ref=f2e669]:
+                            - img "辐射：避难所" [ref=f2e671]
+                            - generic [ref=f2e672]:
+                              - generic [ref=f2e673]: 辐射：避难所
+                              - generic [ref=f2e674]:
+                                - generic [ref=f2e675]:
+                                  - img [ref=f2e677]
+                                  - img [ref=f2e680]
+                                  - img [ref=f2e683]
+                                  - img [ref=f2e686]
+                                  - img [ref=f2e689]
+                                - generic [ref=f2e691]: 6.3分
+                              - generic [ref=f2e692]:
+                                - paragraph [ref=f2e693]: 公告
+                                - generic [ref=f2e694]: 一款辐射主题策略单机手游
+                          - button "下载" [ref=f2e695]
+                        - link "原神 原神 6.4分 公告 跨越尘世的探索之旅 下载" [ref=f2e696] [cursor=pointer]:
+                          - /url: https://www.biligame.com/detail/?id=103496&sourceFrom=2000310011
+                          - generic [ref=f2e697]:
+                            - img "原神" [ref=f2e699]
+                            - generic [ref=f2e700]:
+                              - generic [ref=f2e701]: 原神
+                              - generic [ref=f2e702]:
+                                - generic [ref=f2e703]:
+                                  - img [ref=f2e705]
+                                  - img [ref=f2e708]
+                                  - img [ref=f2e711]
+                                  - img [ref=f2e714]
+                                  - img [ref=f2e717]
+                                - generic [ref=f2e719]: 6.4分
+                              - generic [ref=f2e720]:
+                                - paragraph [ref=f2e721]: 公告
+                                - generic [ref=f2e722]: 跨越尘世的探索之旅
+                          - button "下载" [ref=f2e723]
+                    - generic:  
+                - generic [ref=f2e724]: 
+        - link "直接打开B站空间" [ref=e566] [cursor=pointer]:
+          - /url: https://space.bilibili.com/478967440
+          - img [ref=e567]
+          - text: 直接打开B站空间
+      - generic [ref=e570]:
+        - generic [ref=e571]:
+          - heading "我的抖音空间喵～" [level=2] [ref=e572]
+          - paragraph [ref=e573]: 点击下方按钮直接访问我的抖音主页 (๑>ᴗ<๑)
+        - link "直接打开" [ref=e575] [cursor=pointer]:
+          - /url: https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k?from_tab_name=main
+          - img [ref=e576]
+          - text: 直接打开
+    - generic [ref=e585]:
+      - heading "实用工具喵～" [level=2] [ref=e587]
+      - generic [ref=e588]:
+        - link "VTuber 名字生成器 随机生成 VTuber 风格的名字，支持多种风格" [ref=e589] [cursor=pointer]:
+          - /url: ./tools/vtuber-name-generator/
+          - generic [ref=e590]:
+            - img [ref=e591]
+            - heading "VTuber 名字生成器" [level=3] [ref=e594]
+            - paragraph [ref=e595]: 随机生成 VTuber 风格的名字，支持多种风格
+        - link "Ren'Py 模板生成器 一键生成 script.rpy + options.rpy 完整项目文件" [ref=e596] [cursor=pointer]:
+          - /url: ./tools/renpy-template-generator/
+          - generic [ref=e597]:
+            - img [ref=e598]
+            - heading "Ren'Py 模板生成器" [level=3] [ref=e601]
+            - paragraph [ref=e602]: 一键生成 script.rpy + options.rpy 完整项目文件
+        - link "VTuber 人格测试 测测你适合什么样的 VTuber 人设" [ref=e603] [cursor=pointer]:
+          - /url: ./tools/vtuber-personality-test/
+          - generic [ref=e604]:
+            - heading "VTuber 人格测试" [level=3] [ref=e605]
+            - paragraph [ref=e606]: 测测你适合什么样的 VTuber 人设
+        - link "二次元色彩分析器 上传图片分析配色方案，生成调色板" [ref=e607] [cursor=pointer]:
+          - /url: ./tools/anime-color-analyzer/
+          - generic [ref=e608]:
+            - img [ref=e609]
+            - heading "二次元色彩分析器" [level=3] [ref=e612]
+            - paragraph [ref=e613]: 上传图片分析配色方案，生成调色板
+        - link "新番数据库 实时查询当季新番动画信息，追番必备喵～" [ref=e614] [cursor=pointer]:
+          - /url: https://ciallo0721-cmd.top/scraper
+          - generic [ref=e615]:
+            - heading "新番数据库" [level=3] [ref=e616]
+            - paragraph [ref=e617]: 实时查询当季新番动画信息，追番必备喵～
+        - link "人脸识别 上传图片识别动漫角色，纯浏览器端 AI 处理喵～" [ref=e618] [cursor=pointer]:
+          - /url: https://ciallo0721-cmd.top/moeface
+          - generic [ref=e619]:
+            - heading "人脸识别" [level=3] [ref=e620]
+            - paragraph [ref=e621]: 上传图片识别动漫角色，纯浏览器端 AI 处理喵～
+      - link "查看全部工具的说～" [ref=e623] [cursor=pointer]:
+        - /url: ./tools/
+        - img [ref=e624]
+        - text: 查看全部工具的说～
+    - generic [ref=e627]:
+      - heading "🌐 想搞个自己的域名吗" [level=2] [ref=e629]
+      - paragraph [ref=e630]:
+        - text: 悄悄说，我域名都是在这个站搞的，
+        - strong [ref=e631]: 比某里某讯便宜一截
+        - text: ～
+        - text: 注册只要十几块，还不用实名等审核，懂的都懂喵～
+      - generic [ref=e632]:
+        - generic [ref=e633]: 👇 点这里看看
+        - generic [ref=e634]:
+          - textbox [ref=e635]: https://tname.net?sid=11078
+          - button "复制" [ref=e636] [cursor=pointer]:
+            - img [ref=e637]
+            - text: 复制
+    - link "广告位招租 - 联系站长" [ref=e647] [cursor=pointer]:
+      - /url: ./adss.html
+      - img "广告位招租 - 联系站长" [ref=e648]
+  - contentinfo [ref=e655]:
+    - generic [ref=e656]:
+      - generic [ref=e657]: ciallo0721-cmd
+      - paragraph [ref=e658]: 感谢访问我的个人博客！期待与您交流游戏开发心得哦～ (๑˃̵ᴗ˂̵)و
+      - paragraph [ref=e659]: © 2026 ciallo0721-cmd. 保留所有权利喵～
+      - paragraph [ref=e660]: "已运行 260 天 | 数据更新: 2026-05-07 16:31:31"
+      - generic [ref=e661]:
+        - link "查看网站状态" [ref=e662] [cursor=pointer]:
+          - /url: ./status.html
+          - text: 查看网站状态
+        - link "👤 关于作者" [ref=e664] [cursor=pointer]:
+          - /url: ./aboutme.html
+        - link "🔧 免费工具" [ref=e665] [cursor=pointer]:
+          - /url: ./tools/
+        - link "🔗 友情链接" [ref=e666] [cursor=pointer]:
+          - /url: ./friends.html
+        - link "❤️ 爱发电支持" [ref=e667] [cursor=pointer]:
+          - /url: https://ifdian.net/a/ciallo0721-cmd
+        - link "📜 隐私政策和用户协议" [ref=e668] [cursor=pointer]:
+          - /url: ./privacy-policy.html
+        - button "管理后台" [ref=e669] [cursor=pointer]
+  - generic [ref=e671]:
+    - button "×" [ref=e673] [cursor=pointer]
+    - generic [ref=e674]:
+      - generic [ref=e675]: 📢
+      - heading "站点公告" [level=2] [ref=e676]
+    - paragraph [ref=e678]:
+      - text: 网站正在持续更新中，如果发现问题或有建议，欢迎在
+      - link "联系页面" [ref=e679] [cursor=pointer]:
+        - /url: ./adss.html
+      - text: 告诉我的说～
+    - generic [ref=e680]:
+      - generic [ref=e681] [cursor=pointer]:
+        - checkbox "今天不再显示" [ref=e682]
+        - text: 今天不再显示
+      - button "我知道了 ✓" [ref=e683] [cursor=pointer]
+  - button "停止音乐" [ref=e684] [cursor=pointer]:
+    - generic [ref=e685]: 停止音乐
+```
+
+# Test source
+
+```ts
+  90  |         (e) => !e.includes('favicon') && !e.includes('net::ERR_')
+  91  |       );
+  92  |       expect(criticalErrors).toEqual([]);
+  93  |     });
+  94  |   }
+  95  | });
+  96  | 
+  97  | // ==================== 404 页面测试 ====================
+  98  | test.describe('404 错误处理', () => {
+  99  |   test('should return 404 for non-existent pages', async ({ page }) => {
+  100 |     const response = await page.goto(`${BASE_URL}/this-page-does-not-exist-12345.html`);
+  101 |     expect(response?.status()).toBe(404);
+  102 |   });
+  103 | 
+  104 |   test('should display custom 404 content', async ({ page }) => {
+  105 |     await page.goto(`${BASE_URL}/this-page-does-not-exist-12345.html`);
+  106 |     // 检查页面是否有内容（不是空白）
+  107 |     const bodyText = await page.textContent('body');
+  108 |     expect(bodyText?.trim().length).toBeGreaterThan(0);
+  109 |   });
+  110 | });
+  111 | 
+  112 | // ==================== 链接健康检测 ====================
+  113 | test.describe('内部链接检测', () => {
+  114 |   test('should not have broken internal links on homepage', async ({ page }) => {
+  115 |     await page.goto(BASE_URL);
+  116 |     await page.waitForLoadState('networkidle');
+  117 | 
+  118 |     // 获取所有内部链接
+  119 |     const links = await page.evaluate(() => {
+  120 |       const baseOrigin = window.location.origin;
+  121 |       return Array.from(document.querySelectorAll('a[href]'))
+  122 |         .map((a) => (a as HTMLAnchorElement).href)
+  123 |         .filter((href) => href.startsWith(baseOrigin) || href.startsWith('/') || href.startsWith('./'));
+  124 |     });
+  125 | 
+  126 |     // 抽样检查前 30 个链接
+  127 |     const sampleLinks = [...new Set(links)].slice(0, 30);
+  128 |     const brokenLinks: string[] = [];
+  129 | 
+  130 |     for (const link of sampleLinks) {
+  131 |       try {
+  132 |         const response = await page.request.head(link, { timeout: 5000 });
+  133 |         if (response.status() >= 400) {
+  134 |           brokenLinks.push(`${link} -> ${response.status()}`);
+  135 |         }
+  136 |       } catch {
+  137 |         // GET fallback for servers that don't support HEAD
+  138 |         try {
+  139 |           const response = await page.request.get(link, { timeout: 5000 });
+  140 |           if (response.status() >= 400) {
+  141 |             brokenLinks.push(`${link} -> ${response.status()}`);
+  142 |           }
+  143 |         } catch {
+  144 |           brokenLinks.push(`${link} -> 连接失败`);
+  145 |         }
+  146 |       }
+  147 |     }
+  148 | 
+  149 |     if (brokenLinks.length > 0) {
+  150 |       console.log('发现断链:', brokenLinks);
+  151 |     }
+  152 |     // 允许少量外链失败（外链不受我们控制），但内链不应大量失败
+  153 |     expect(brokenLinks.length).toBeLessThan(5);
+  154 |   });
+  155 | });
+  156 | 
+  157 | // ==================== 移动端响应式测试 ====================
+  158 | test.describe('移动端响应式', () => {
+  159 |   test('should render homepage on mobile viewport without horizontal overflow', async ({ page }) => {
+  160 |     await page.setViewportSize({ width: 375, height: 812 }); // iPhone X
+  161 |     await page.goto(BASE_URL);
+  162 |     await page.waitForLoadState('networkidle');
+  163 | 
+  164 |     const hasOverflow = await page.evaluate(() => {
+  165 |       return document.documentElement.scrollWidth > window.innerWidth;
+  166 |     });
+  167 |     expect(hasOverflow).toBe(false);
+  168 |   });
+  169 | 
+  170 |   test('should render homepage on tablet viewport', async ({ page }) => {
+  171 |     await page.setViewportSize({ width: 768, height: 1024 }); // iPad
+  172 |     await page.goto(BASE_URL);
+  173 |     await page.waitForLoadState('networkidle');
+  174 | 
+  175 |     const bodyVisible = await page.locator('body').isVisible();
+  176 |     expect(bodyVisible).toBe(true);
+  177 |   });
+  178 | });
+  179 | 
+  180 | // ==================== 性能基础测试 ====================
+  181 | test.describe('基础性能指标', () => {
+  182 |   test('should load homepage within reasonable time', async ({ page }) => {
+  183 |     const start = Date.now();
+  184 |     await page.goto(BASE_URL);
+  185 |     await page.waitForLoadState('networkidle');
+  186 |     const loadTime = Date.now() - start;
+  187 | 
+  188 |     console.log(`首页加载时间: ${loadTime}ms`);
+  189 |     // 静态站点的合理加载时间应该在 5 秒以内
+> 190 |     expect(loadTime).toBeLessThan(10000);
+      |                      ^ Error: expect(received).toBeLessThan(expected)
+  191 |   });
+  192 | 
+  193 |   test('should have reasonable DOM size', async ({ page }) => {
+  194 |     await page.goto(BASE_URL);
+  195 |     const domNodes = await page.evaluate(() => document.querySelectorAll('*').length);
+  196 |     console.log(`首页 DOM 节点数: ${domNodes}`);
+  197 |     // 超过 1500 个 DOM 节点建议优化
+  198 |     expect(domNodes).toBeLessThan(5000);
+  199 |   });
+  200 | });
+  201 | 
+```

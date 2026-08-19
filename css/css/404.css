@@ -1,0 +1,391 @@
+/* ===== 404 页面——ASCII 艺术风格 ===== */
+/* 用 "4" 拼出 4，用 "0" 拼出 0      */
+/* 理念：数据丢失 · 信号中断 · 赛博美学 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', 'Consolas', 'MaokenAssortedSans', monospace;
+    background: #08080e;
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ---- 背景动效 ---- */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+        radial-gradient(ellipse at 50% 40%, rgba(0, 180, 255, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 60%, rgba(106, 17, 203, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ---- 扫描线 ---- */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 180, 255, 0.015) 2px,
+        rgba(0, 180, 255, 0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ---- 数据粒子背景 ---- */
+#dataBG {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: rgba(0, 180, 255, 0.06);
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+/* ---- 容器 ---- */
+.container {
+    max-width: 860px;
+    width: 100%;
+    text-align: center;
+    animation: fadeIn 1s ease;
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- ASCII Art "404" ---- */
+.ascii-404 {
+    display: inline-block;
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 20px;
+    line-height: 1.25;
+    letter-spacing: 0;
+    color: #00b4ff;
+    text-shadow:
+        0 0 8px rgba(0, 180, 255, 0.6),
+        0 0 20px rgba(0, 180, 255, 0.3),
+        0 0 40px rgba(0, 180, 255, 0.15);
+    padding: 20px 30px;
+    background: rgba(0, 180, 255, 0.03);
+    border: 1px solid rgba(0, 180, 255, 0.1);
+    border-radius: 8px;
+    position: relative;
+    white-space: pre;
+    user-select: none;
+    animation: asciiGlow 3s ease-in-out infinite alternate;
+}
+
+/* 霓虹光晕呼吸动画 */
+@keyframes asciiGlow {
+    0%   { text-shadow: 0 0 8px rgba(0, 180, 255, 0.5), 0 0 20px rgba(0, 180, 255, 0.2); }
+    50%  { text-shadow: 0 0 12px rgba(0, 180, 255, 0.8), 0 0 30px rgba(0, 180, 255, 0.4), 0 0 60px rgba(0, 180, 255, 0.15); }
+    100% { text-shadow: 0 0 8px rgba(0, 180, 255, 0.5), 0 0 20px rgba(0, 180, 255, 0.2); }
+}
+
+/* 边框呼吸 */
+.ascii-404::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 180, 255, 0.15);
+    animation: borderPulse 3s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes borderPulse {
+    0%   { border-color: rgba(0, 180, 255, 0.1); box-shadow: 0 0 10px rgba(0, 180, 255, 0.05); }
+    100% { border-color: rgba(0, 180, 255, 0.35); box-shadow: 0 0 25px rgba(0, 180, 255, 0.1); }
+}
+
+/* ---- Glitch 故障特效 ---- */
+.ascii-404.glitch {
+    animation: glitchSkew 4s infinite linear alternate-reverse, asciiGlow 3s ease-in-out infinite alternate;
+}
+
+.ascii-404.glitch .glitch-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: rgba(0, 180, 255, 0.3);
+    opacity: 0;
+}
+
+.ascii-404.glitch .glitch-line:nth-child(1) { top: 20%; animation: glitchLine1 6s infinite; }
+.ascii-404.glitch .glitch-line:nth-child(2) { top: 50%; animation: glitchLine2 7s infinite 0.5s; }
+.ascii-404.glitch .glitch-line:nth-child(3) { top: 75%; animation: glitchLine3 5s infinite 1s; }
+
+@keyframes glitchLine1 {
+    0%, 86%, 100% { opacity: 0; }
+    87% { opacity: 1; transform: translateX(-8px); }
+    88% { opacity: 1; transform: translateX(5px); }
+    89% { opacity: 0; }
+}
+@keyframes glitchLine2 {
+    0%, 90%, 100% { opacity: 0; }
+    91% { opacity: 1; transform: translateX(6px); }
+    92% { opacity: 1; transform: translateX(-3px); }
+    93% { opacity: 0; }
+}
+@keyframes glitchLine3 {
+    0%, 82%, 100% { opacity: 0; }
+    83% { opacity: 1; transform: translateX(-5px); }
+    84% { opacity: 0; }
+}
+
+@keyframes glitchSkew {
+    0%, 86%, 100% { transform: skew(0deg); }
+    87% { transform: skew(0.3deg); }
+    88% { transform: skew(-0.2deg); }
+    89% { transform: skew(0deg); }
+}
+
+/* ---- 标题消息 ---- */
+.error-title {
+    margin-top: 30px;
+    font-size: 1.6rem;
+    font-weight: normal;
+    color: #c0d8ff;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    font-family: 'Courier New', 'Consolas', monospace;
+}
+
+.error-title .cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.2em;
+    background: #00b4ff;
+    margin-left: 4px;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* ---- 副标题 ---- */
+.error-subtitle {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #6080a0;
+    line-height: 1.7;
+    font-family: 'Courier New', 'Consolas', monospace;
+}
+
+/* ---- 按钮 ---- */
+.action-buttons {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 14px 32px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 180, 255, 0.3);
+}
+
+.btn-primary {
+    background: transparent;
+    color: #00b4ff;
+    border-color: #00b4ff;
+    box-shadow: 0 0 10px rgba(0, 180, 255, 0.1);
+}
+
+.btn-primary:hover {
+    background: rgba(0, 180, 255, 0.08);
+    box-shadow: 0 0 20px rgba(0, 180, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+.btn-primary:active {
+    transform: translateY(0px);
+}
+
+/* ---- 错误信息区块（可选显示） ---- */
+.error-details {
+    margin-top: 30px;
+    font-size: 0.8rem;
+    color: #405060;
+    font-family: 'Courier New', 'Consolas', monospace;
+    line-height: 1.8;
+}
+
+.error-details code {
+    background: rgba(0, 180, 255, 0.05);
+    padding: 2px 6px;
+    border-radius: 2px;
+    color: #5080a0;
+}
+
+/* ---- Footer ---- */
+.footer-note {
+    margin-top: 50px;
+    color: #304050;
+    font-size: 0.75rem;
+    font-family: 'Courier New', 'Consolas', monospace;
+    border-top: 1px solid rgba(0, 180, 255, 0.06);
+    padding-top: 18px;
+}
+
+.footer-note a {
+    color: #4070a0;
+    text-decoration: none;
+}
+.footer-note a:hover {
+    color: #60a0d0;
+}
+
+/* ---- 帮助弹窗（与原有逻辑一致，只需CSS） ---- */
+.help-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(4, 4, 10, 0.92);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+.help-dialog {
+    background: #0c0c16;
+    border: 1px solid rgba(0, 180, 255, 0.2);
+    border-radius: 8px;
+    padding: 30px;
+    max-width: 440px;
+    width: 90%;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    font-family: 'Courier New', 'Consolas', monospace;
+    text-align: left;
+}
+
+.help-dialog h3 {
+    color: #00b4ff;
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+}
+
+.help-dialog p {
+    color: #80a0b8;
+    margin-bottom: 18px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+.help-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.help-links a {
+    padding: 8px 16px;
+    border: 1px solid rgba(0, 180, 255, 0.2);
+    border-radius: 4px;
+    color: #00b4ff;
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+}
+.help-links a:hover {
+    background: rgba(0, 180, 255, 0.08);
+    border-color: #00b4ff;
+}
+
+.help-close {
+    background: transparent;
+    color: #6080a0;
+    border: 1px solid rgba(0, 180, 255, 0.15);
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+}
+.help-close:hover {
+    color: #ff6b6b;
+    border-color: rgba(255, 107, 107, 0.3);
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 640px) {
+    .ascii-404 {
+        font-size: 12px;
+        padding: 12px 14px;
+    }
+    .error-title {
+        font-size: 1.1rem;
+        letter-spacing: 4px;
+    }
+    .error-subtitle {
+        font-size: 0.8rem;
+    }
+    .btn {
+        padding: 12px 24px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .ascii-404 {
+        font-size: 8px;
+        padding: 8px 8px;
+    }
+    .error-title {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+    }
+}

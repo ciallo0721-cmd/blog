@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adkey 管理</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #0d0d1a;
+    color: #e0e0e0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 520px;
+    width: 100%;
+  }
+  h1 {
+    font-size: 1.4rem;
+    color: #888;
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
+  .desc {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  .key-box {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 16px;
+    margin: 16px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    color: #2ed573;
+    word-break: break-all;
+    text-align: center;
+    min-height: 50px;
+    line-height: 50px;
+    position: relative;
+  }
+  .key-box.placeholder {
+    color: #555;
+    font-family: 'PingFang SC', sans-serif;
+    font-size: 0.9rem;
+  }
+  .key-box .copy-badge {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #aaa;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: all 0.2s;
+  }
+  .key-box .copy-badge:hover { background: rgba(255,255,255,0.2); color: #fff; }
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    background: linear-gradient(135deg, #3366ff, #2575fc);
+    color: white;
+    width: 100%;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn:active { transform: scale(0.97); }
+  .steps {
+    margin-top: 20px;
+    padding: 16px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: #888;
+    line-height: 1.8;
+  }
+  .steps code {
+    display: inline-block;
+    background: rgba(255,255,255,0.08);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: #ccc;
+    font-size: 0.82rem;
+  }
+  .steps .green {
+    color: #2ed573;
+    font-weight: 600;
+  }
+  .footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #444;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>⚙️ Adkey 生成工具</h1>
+  <p class="desc">生成后直接复制，发给访客就行。不用改任何代码。</p>
+
+  <button class="btn" onclick="generate()">🎲 生成 adkey</button>
+
+  <div class="key-box placeholder" id="keyDisplay">点击按钮生成</div>
+
+  <div class="steps">
+    <strong>📮 使用方式：</strong><br>
+    1. 点击上方按钮生成 adkey<br>
+    2. 复制后直接回复给提 Issues 的访客<br>
+    3. 对方在调试面板输入即可关闭广告<br><br>
+    → <span class="green">完全不需要改代码，不需要部署</span>
+  </div>
+
+  <div class="footer">仅站长可见 · 请勿公开此页面路径</div>
+</div>
+
+<script>
+// 和 ad-system.js 中的签名算法保持一致
+function adkeySign(plain, salt) {
+  var h = 0;
+  for (var i = 0; i < plain.length; i++) {
+    h = ((h << 5) - h) + plain.charCodeAt(i);
+    h |= 0;
+  }
+  for (var i = 0; i < salt.length; i++) {
+    h = ((h << 5) - h) + salt.charCodeAt(i);
+    h |= 0;
+  }
+  return Math.abs(h).toString(36);
+}
+
+function generate() {
+  var plain = 'ak-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+  var sig = adkeySign(plain, 'ciallo-adkey-v1');
+  var fullKey = plain + '-' + sig;
+
+  var el = document.getElementById('keyDisplay');
+  el.textContent = fullKey;
+  el.className = 'key-box';
+
+  // 移除旧复制按钮
+  var old = el.querySelector('.copy-badge');
+  if (old) old.remove();
+
+  // 添加复制按钮
+  var badge = document.createElement('button');
+  badge.className = 'copy-badge';
+  badge.textContent = '📋 复制';
+  badge.onclick = function(e) {
+    e.stopPropagation();
+    navigator.clipboard.writeText(fullKey).then(function() {
+      badge.textContent = '✅ 已复制';
+      setTimeout(function() { badge.textContent = '📋 复制'; }, 2000);
+    });
+  };
+  el.appendChild(badge);
+}
+</script>
+</body>
+</html>

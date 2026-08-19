@@ -1,0 +1,277 @@
+{
+  "timestamp": "2026-07-07T03:26:28.585Z",
+  "avgScore": 94,
+  "avgTTFB": 6,
+  "totalSize": 301881,
+  "largeFileCount": 41,
+  "pages": [
+    {
+      "path": "/",
+      "name": "首页",
+      "status": 200,
+      "ttfb": 17,
+      "size": 170.2,
+      "score": 90,
+      "issues": [
+        {
+          "severity": "warn",
+          "msg": "大小 170.2KB (中等)"
+        },
+        {
+          "severity": "warn",
+          "msg": "缺少 Cache-Control 响应头"
+        }
+      ]
+    },
+    {
+      "path": "/aboutme.html",
+      "name": "关于我",
+      "status": 200,
+      "ttfb": 7,
+      "size": 29.9,
+      "score": 95,
+      "issues": [
+        {
+          "severity": "warn",
+          "msg": "缺少 Cache-Control 响应头"
+        }
+      ]
+    },
+    {
+      "path": "/friends.html",
+      "name": "友情链接",
+      "status": 200,
+      "ttfb": 3,
+      "size": 23.9,
+      "score": 95,
+      "issues": [
+        {
+          "severity": "warn",
+          "msg": "缺少 Cache-Control 响应头"
+        }
+      ]
+    },
+    {
+      "path": "/404.html",
+      "name": "404页",
+      "status": 200,
+      "ttfb": 7,
+      "size": 18.1,
+      "score": 95,
+      "issues": [
+        {
+          "severity": "warn",
+          "msg": "缺少 Cache-Control 响应头"
+        }
+      ]
+    },
+    {
+      "path": "/blog/",
+      "name": "博客首页",
+      "status": 200,
+      "ttfb": 3,
+      "size": 23.8,
+      "score": 95,
+      "issues": [
+        {
+          "severity": "warn",
+          "msg": "缺少 Cache-Control 响应头"
+        }
+      ]
+    },
+    {
+      "path": "/wz.html",
+      "name": "文章列表",
+      "status": 200,
+      "ttfb": 2,
+      "size": 1.1,
+      "score": 95,
+      "issues": [
+        {
+          "severity": "warn",
+          "msg": "缺少 Cache-Control 响应头"
+        }
+      ]
+    },
+    {
+      "path": "/timeline.html",
+      "name": "时间线",
+      "status": 200,
+      "ttfb": 8,
+      "size": 7.2,
+      "score": 95,
+      "issues": [
+        {
+          "severity": "warn",
+          "msg": "缺少 Cache-Control 响应头"
+        }
+      ]
+    },
+    {
+      "path": "/status.html",
+      "name": "状态页",
+      "status": 200,
+      "ttfb": 3,
+      "size": 20.5,
+      "score": 95,
+      "issues": [
+        {
+          "severity": "warn",
+          "msg": "缺少 Cache-Control 响应头"
+        }
+      ]
+    }
+  ],
+  "largeFiles": [
+    {
+      "file": "91\\renpy.wasm",
+      "sizeKB": "21425.6",
+      "type": ".wasm"
+    },
+    {
+      "file": "bjqy\\renpy.wasm",
+      "sizeKB": "21425.6",
+      "type": ".wasm"
+    },
+    {
+      "file": "LAIDB\\renpy.wasm",
+      "sizeKB": "21425.6",
+      "type": ".wasm"
+    },
+    {
+      "file": "fors\\renpy.wasm",
+      "sizeKB": "19046.5",
+      "type": ".wasm"
+    },
+    {
+      "file": "zmdspp\\renpy.wasm",
+      "sizeKB": "19046.5",
+      "type": ".wasm"
+    },
+    {
+      "file": "fors\\renpy.data",
+      "sizeKB": "15986.5",
+      "type": ".data"
+    },
+    {
+      "file": "zmdspp\\renpy.data",
+      "sizeKB": "15986.5",
+      "type": ".data"
+    },
+    {
+      "file": "91\\renpy.data",
+      "sizeKB": "14749.5",
+      "type": ".data"
+    },
+    {
+      "file": "bjqy\\renpy.data",
+      "sizeKB": "14749.5",
+      "type": ".data"
+    },
+    {
+      "file": "LAIDB\\renpy.data",
+      "sizeKB": "14749.5",
+      "type": ".data"
+    },
+    {
+      "file": "app\\moeface\\2026-04-13 20-23-15.mp4",
+      "sizeKB": "13994.9",
+      "type": ".mp4"
+    },
+    {
+      "file": "moeface\\2026-04-13 20-23-15.mp4",
+      "sizeKB": "13994.9",
+      "type": ".mp4"
+    },
+    {
+      "file": "css\\MaokenAssortedSans.ttf",
+      "sizeKB": "11993.4",
+      "type": ".ttf"
+    },
+    {
+      "file": "LAIDB\\game.zip",
+      "sizeKB": "11787.1",
+      "type": ".zip"
+    },
+    {
+      "file": "zmdspp\\game.zip",
+      "sizeKB": "10747.3",
+      "type": ".zip"
+    },
+    {
+      "file": "app\\moeface\\2026年4月13日.mp4",
+      "sizeKB": "9912.7",
+      "type": ".mp4"
+    },
+    {
+      "file": "moeface\\2026年4月13日.mp4",
+      "sizeKB": "9912.7",
+      "type": ".mp4"
+    },
+    {
+      "file": "css\\NyanCat.mp3",
+      "sizeKB": "9557.8",
+      "type": ".mp3"
+    },
+    {
+      "file": "fors\\game.zip",
+      "sizeKB": "6806.3",
+      "type": ".zip"
+    },
+    {
+      "file": "bjqy\\game.zip",
+      "sizeKB": "6695.1",
+      "type": ".zip"
+    },
+    {
+      "file": "91\\game.zip",
+      "sizeKB": "6554.3",
+      "type": ".zip"
+    },
+    {
+      "file": "blog\\muban\\video.mp4",
+      "sizeKB": "5613.9",
+      "type": ".mp4"
+    },
+    {
+      "file": "css\\戸高一生 - 似顔絵広場 (似顔絵チャンネル).mp3",
+      "sizeKB": "5004.0",
+      "type": ".mp3"
+    },
+    {
+      "file": "css\\we are the world.mp3",
+      "sizeKB": "4308.5",
+      "type": ".mp3"
+    },
+    {
+      "file": "blog\\muban\\3.png",
+      "sizeKB": "2548.5",
+      "type": ".png"
+    },
+    {
+      "file": "images\\3.gif",
+      "sizeKB": "1693.4",
+      "type": ".gif"
+    },
+    {
+      "file": "91\\index.html.symbols",
+      "sizeKB": "1598.5",
+      "type": ".symbols"
+    },
+    {
+      "file": "bjqy\\index.html.symbols",
+      "sizeKB": "1598.5",
+      "type": ".symbols"
+    },
+    {
+      "file": "LAIDB\\index.html.symbols",
+      "sizeKB": "1598.5",
+      "type": ".symbols"
+    },
+    {
+      "file": "zmdspp\\web-presplash.jpg",
+      "sizeKB": "1376.6",
+      "type": ".jpg"
+    }
+  ]
+}

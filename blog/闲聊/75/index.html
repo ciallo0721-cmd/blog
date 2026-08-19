@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="canonical" href="https://ciallo0721-cmd.top/blog/闲聊/75/">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【付费测试】测试付费文章功能 - ciallo0721-cmd的文章</title>
+    <meta name="description" content="付费文章功能测试。本文为系统测试文章，请勿付费。">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="/fanv.ico" type="image/x-icon">
+    <script src="/articles-data.js"></script>
+    <!-- 百科词条系统 -->
+    <script src="/wiki-data.js"></script>
+    <script src="/css/wiki-linker.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TR4FT7JPDZ');
+    </script>
+<style>
+@font-face {
+    font-family: 'MaokenAssortedSans';
+    src: url('../../css/MaokenAssortedSans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 全局样式 */
+:root {
+    --bili-pink: #FB7299;
+    --bili-blue: #00A1D6;
+    --text-primary: #1D1D1F;
+    --text-secondary: #515154;
+    --bg-light: #F5F5F7;
+    --transition: all 0.3s ease;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'MaokenAssortedSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 导航栏 */
+        nav {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 15px;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--bili-pink);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+            color: var(--bili-blue);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(251, 114, 153, 0.4);
+        }
+
+        /* 文章内容样式 */
+        .article-detail-container {
+            padding: 60px 0;
+        }
+
+        .article-detail {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .article-detail::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+        }
+
+        .article-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .article-number {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(251, 114, 153, 0.3);
+        }
+
+        .article-title {
+            font-size: 2.4rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            line-height: 1.3;
+            font-weight: 700;
+        }
+
+        .article-intro {
+            font-size: 1.2rem;
+            color: var(--bili-blue);
+            font-weight: 500;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .article-date {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .article-date i {
+            color: var(--bili-pink);
+        }
+
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .article-tag {
+            background: rgba(251, 114, 153, 0.1);
+            color: var(--bili-pink);
+            padding: 6px 15px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(251, 114, 153, 0.2);
+            transition: var(--transition);
+        }
+
+        .article-tag:hover {
+            background: var(--bili-pink);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .article-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .article-content h2 {
+            color: var(--text-primary);
+            margin: 30px 0 15px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .article-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            border-radius: 3px;
+        }
+
+        .article-content h3 {
+            color: var(--text-primary);
+            margin: 25px 0 12px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .article-content li {
+            margin-bottom: 8px;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid var(--bili-pink);
+            padding: 20px 25px;
+            margin: 25px 0;
+            background: rgba(251, 114, 153, 0.05);
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        .article-content .highlight {
+            background: rgba(251, 114, 153, 0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: var(--bili-pink);
+            font-weight: 500;
+        }
+
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
+
+        .article-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(251, 114, 153, 0.2);
+            color: var(--text-primary);
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(251, 114, 153, 0.3);
+        }
+
+        .nav-btn i {
+            font-size: 1.2rem;
+        }
+
+        .nav-btn.prev {
+            text-align: left;
+        }
+
+        .nav-btn.next {
+            text-align: right;
+            flex-direction: row-reverse;
+        }
+
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .nav-btn.disabled:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-primary);
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 推荐文章区域 */
+        .related-articles {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .related-title {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .related-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .related-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--bili-blue);
+        }
+
+        .related-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .related-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .related-tag {
+            background: rgba(251, 114, 153, 0.1);
+            color: var(--bili-pink);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* 页脚 */
+        footer {
+            background: linear-gradient(135deg, var(--text-primary), #2D2D2F);
+            color: white;
+            text-align: center;
+            padding: 50px 0 30px;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--bili-pink);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        footer p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+            font-size: 1.05rem;
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-container { padding: 12px 20px; }
+            .logo { font-size: 1.4rem; }
+            .article-detail { padding: 30px; }
+            .article-title { font-size: 1.8rem; }
+            .article-intro { font-size: 1.1rem; }
+            .article-content { font-size: 1rem; }
+            .article-content h2 { font-size: 1.5rem; }
+            .article-content h3 { font-size: 1.3rem; }
+            .article-navigation { flex-direction: column; }
+            .nav-btn { max-width: 100%; }
+            .related-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .article-detail { padding: 25px; }
+            .article-title { font-size: 1.6rem; }
+            .article-intro { font-size: 1rem; }
+            .article-meta { flex-direction: column; gap: 10px; }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.05); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius: 4px; }
+
+        /* 分享按钮样式 */
+
+</style>
+
+    <!-- IP 地理检测 -->
+    <script src="/geo-check.js"></script>
+    <!-- HTTP 检测与提示 -->
+    <script>
+        (function() {
+            function checkHTTP() {
+                if (window.location.protocol === 'http:') {
+                    var urlSpan = document.getElementById('currentHttpUrl');
+                    if (urlSpan) urlSpan.textContent = window.location.href;
+                    var overlay = document.getElementById('httpWarningOverlay');
+                    if (overlay) overlay.style.display = 'flex';
+                }
+            }
+            function switchToHTTPS() {
+                var url = window.location.href;
+                url = url.replace(/^http:/i, 'https:');
+                window.location.href = url;
+            }
+            function continueHTTP() {
+                var overlay = document.getElementById('httpWarningOverlay');
+                if (overlay) overlay.style.display = 'none';
+            }
+            window.switchToHTTPS = switchToHTTPS;
+            window.continueHTTP = continueHTTP;
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkHTTP);
+            } else {
+                checkHTTP();
+            }
+        })();
+    </script>
+  <script src="/js/svg-icons.js" defer></script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+    <link rel="stylesheet" href="../../../css/css/blog-share.css">
+</head>
+<body>
+    <!-- 广告位 #1：顶部横幅 -->
+    <div style="max-width:728px;margin:18px auto;">
+      <div data-ad-slot></div>
+    </div>
+
+    <!-- ⚠️ 付费墙：未解锁时仅显示此部分 -->
+    <div id="payGate" style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:40px 16px;font-family:'MaokenAssortedSans',-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;">
+        <div style="background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,0.08);border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,0.12);padding:44px 36px;text-align:center;max-width:460px;width:100%;">
+            <div style="font-size:3.2rem;margin-bottom:12px;">🔒</div>
+            <h1 style="color:var(--text-primary);font-size:1.5rem;margin-bottom:6px;">付费文章</h1>
+            <p style="color:var(--bili-pink);font-size:0.95rem;font-weight:600;margin-bottom:18px;">文章 #075 · 测试付费文章功能</p>
+            <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:24px;line-height:1.8;">本文为<strong>付费文章</strong>，需要解锁 key 才能查看正文。<br>测试期间请<strong>不要付费</strong>，直接找站长要测试 key。</p>
+
+            <div style="background:rgba(251,114,153,0.08);border:1px dashed rgba(251,114,153,0.4);border-radius:12px;padding:14px 16px;margin-bottom:22px;text-align:left;font-size:0.88rem;color:var(--text-secondary);line-height:1.9;">
+                <strong style="color:var(--bili-pink);">📮 解锁流程：</strong><br>
+                ① QQ 私信站长（3627742771）→ ② 付钱 → ③ 站长发 key → ④ 下方输入 key 解锁
+            </div>
+
+            <input type="text" id="payKeyInput" placeholder="输入付费 key（如 paid-75-...）" style="width:100%;padding:14px 18px;border:1px solid rgba(0,0,0,0.15);border-radius:12px;background:#fff;color:var(--text-primary);font-size:1rem;outline:none;text-align:center;font-family:'Courier New',monospace;box-sizing:border-box;" onkeydown="if(event.key==='Enter')unlockArticle()">
+            <button onclick="unlockArticle()" style="width:100%;margin-top:12px;padding:14px 0;border:none;border-radius:999px;background:linear-gradient(135deg,#3366ff,#2575fc);color:#fff;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.2s;">🔑 解锁文章</button>
+            <p id="payMsg" style="color:#ff4d4f;font-size:0.85rem;margin-top:12px;display:none;">key 无效，请检查后重试</p>
+
+            <a href="https://ciallo0721-cmd.top" style="display:inline-block;margin-top:22px;color:#888;text-decoration:none;font-size:0.85rem;">← 返回首页</a>
+        </div>
+    </div>
+
+    <!-- ✅ 正文内容：仅解锁后显示 -->
+    <div id="payContent" style="display:none;">
+    <nav>
+        <div class="container nav-container">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-gamepad"></i> 开发者ciallo0721-cmd的空间
+            </a>
+            <a href="../../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </div>
+    </nav>
+
+    <main class="container article-detail-container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="article-number" id="articleNumber">文章 #075</div>
+                <h1 class="article-title" id="articleTitle">测试付费文章功能</h1>
+                <p class="article-intro" id="articleIntro">这是一篇用于测试付费文章功能的测试文章。</p>
+                <div class="article-meta">
+                    <div class="article-date"><i class="far fa-calendar"></i> 发布日期: <span id="articleDate">2026-08-02</span></div>
+                    <div class="article-date"><i class="far fa-clock"></i> 阅读时间: <span id="readTime">约1分钟</span></div>
+                </div>
+                <div class="article-tags" id="articleTags">
+                    <span class="article-tag">测试</span>
+                    <span class="article-tag">付费文章</span>
+                    <span class="article-tag">新功能</span>
+                </div>
+            </header>
+            
+            <div class="article-content" id="articleContent">
+                <blockquote>
+                    <p>⚠️ <strong>重要：如果你付钱了，一定要找我退！</strong></p>
+                    <p>这篇文章只是功能测试，测试期间任何人都不需要付费。如果你误付款了，请立即通过 QQ 联系我退款。</p>
+                </blockquote>
+
+                <h2>这篇文章是什么？</h2>
+                <p>这是一篇<strong>付费文章</strong>——网站新功能的测试样例。正常情况下，读者需要：</p>
+                <ul>
+                    <li><strong>QQ 私信站长</strong>（3627742771）</li>
+                    <li><strong>付钱</strong>给站长</li>
+                    <li>站长核对后，发给你一把专属的<strong>解锁 key</strong></li>
+                    <li>你在文章页输入 key，即可解锁查看全文</li>
+                </ul>
+
+                <h2>测试期间怎么操作？</h2>
+                <p>现在还在测试阶段，<strong>不要付钱</strong>。想看效果的话，直接找站长要一把测试 key，输入后就能看到这篇正文。</p>
+
+                <h2>能解锁成功，说明什么？</h2>
+                <p>说明付费文章系统已经跑通：key 由站长本地工具生成（包含文章 id + 专属 uuid + 签名），文章页自动校验签名、匹配文章、记录解锁状态。同一台设备解锁一次后，下次访问无需再次输入。</p>
+
+                <h2>写在最后</h2>
+                <p>如果你已经付了钱——<strong>一定要找我退！</strong>这是测试，测试期间不收任何人的钱。</p>
+
+                <p style="text-align: right; margin-top: 40px;">—— ciallo0721-cmd，2026 年 8 月 2 日</p>
+            </div><div style="text-align: center;">
+                
+            </div>
+            
+        </article>
+        
+        <div class="article-navigation" id="articleNavigation">
+            <a href="javascript:void(0)" class="nav-btn prev disabled">
+                <i class="fas fa-chevron-left"></i>
+                <div><div style="font-size: 0.8rem; opacity: 0.8;">上一篇</div><div>加载中...</div></div>
+            </a>
+            <a href="javascript:void(0)" class="nav-btn next disabled">
+                <div><div style="font-size: 0.8rem; opacity: 0.8;">下一篇</div><div>加载中...</div></div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+        <div class="related-articles">
+            <h3 class="related-title">推荐文章</h3>
+            <div class="related-grid" id="relatedGrid">
+                <div style="text-align: center; grid-column: 1/-1;">加载中...</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 广告位区域 -->
+    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
+        <a href="../../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
+          <img src="../../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
+            style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
+        </a>
+    </div>
+    <div style="text-align: center; font-size: 0.75rem; color: #888; margin-top: -20px; margin-bottom: 20px;">
+        📢 本站仅此一个广告位，无弹窗、无悬浮、无追踪，感谢理解与支持
+    </div>
+    <script src="../../../js/js/blog-share.js"></script>
+    </div>
+
+<!-- ============ 付费 key 验证逻辑 ============ -->
+<script>
+(function(){
+    // ---- 本篇文章的付费配置（站长预设，勿外传 uuid）----
+    // 注意：页面只保存 uuid 的校验哈希（UUID_CHECK），不保存 uuid 明文，
+    // 防止有人通过查看源码自行伪造 key。
+    var ARTICLE_ID = 75;
+    var SALT_UUID = 'ciallo-paykey-uuid-v1';   // uuid 哈希用盐
+    var SALT_KEY  = 'ciallo-paykey-v1';        // key 签名用盐
+    var UUID_CHECK = 'k9z8ub';                 // adkeySign(uuid, SALT_UUID)
+    var STORE_KEY  = 'paid_key_75';            // 解锁状态 localStorage key
+
+    // 与 ad-system.js 保持一致的签名算法
+    function adkeySign(plain, salt) {
+        var h = 0;
+        for (var i = 0; i < plain.length; i++) {
+            h = ((h << 5) - h) + plain.charCodeAt(i);
+            h |= 0;
+        }
+        for (var i = 0; i < salt.length; i++) {
+            h = ((h << 5) - h) + salt.charCodeAt(i);
+            h |= 0;
+        }
+        return Math.abs(h).toString(36);
+    }
+
+    // 验证 key：paid-<id>-<uuid>-<sig>
+    function verifyKey(key) {
+        if (!key) return false;
+        key = key.trim();
+        var lastDash = key.lastIndexOf('-');
+        if (lastDash < 1) return false;
+        var plain = key.slice(0, lastDash);   // paid-75-<uuid>
+        var sig = key.slice(lastDash + 1);
+        if (!plain || !sig) return false;
+
+        // 拆分 plain：paid / <id> / <uuid>
+        var firstDash = plain.indexOf('-');
+        if (firstDash < 1) return false;
+        var secondDash = plain.indexOf('-', firstDash + 1);
+        if (secondDash < 0) return false;
+        var prefix = plain.slice(0, firstDash);
+        var id = plain.slice(firstDash + 1, secondDash);
+        var uuid = plain.slice(secondDash + 1);
+        if (!uuid) return false;
+
+        // 1. 前缀必须是 paid
+        if (prefix !== 'paid') return false;
+        // 2. 文章 id 必须匹配
+        if (id !== String(ARTICLE_ID)) return false;
+        // 3. uuid 校验：哈希必须等于预设值（防止伪造）
+        if (adkeySign(uuid, SALT_UUID) !== UUID_CHECK) return false;
+        // 4. 整体签名校验
+        if (adkeySign(plain, SALT_KEY) !== sig) return false;
+
+        return true;
+    }
+
+    function unlockArticle() {
+        var input = document.getElementById('payKeyInput');
+        var msg = document.getElementById('payMsg');
+        var key = input ? input.value : '';
+        if (verifyKey(key)) {
+            try { localStorage.setItem(STORE_KEY, key); } catch(e) {}
+            showContent();
+        } else {
+            if (msg) msg.style.display = 'block';
+            if (input) { input.focus(); input.select(); }
+        }
+    }
+
+    function showContent() {
+        document.getElementById('payGate').style.display = 'none';
+        document.getElementById('payContent').style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
+    // 启动时检测是否已解锁（localStorage 中有合法 key）
+    (function init() {
+        var saved = null;
+        try { saved = localStorage.getItem(STORE_KEY); } catch(e) {}
+        if (saved && verifyKey(saved)) {
+            showContent();
+        }
+    })();
+
+    window.unlockArticle = unlockArticle;
+    window.verifyPayKey = verifyKey; // 调试用
+})();
+</script>
+</body>
+</html>

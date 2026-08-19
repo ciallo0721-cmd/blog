@@ -1,0 +1,11 @@
+node_modules/
+package-lock.json
+/.workbuddy
+nul
+verity/verity_2.7z
+build/
+# 付费文章站长工具（含 uuid，严禁提交）
+paykey.htm
+
+# Playwright CLI 残留日志
+.playwright-cli/
