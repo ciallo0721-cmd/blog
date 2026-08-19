@@ -816,6 +816,17 @@ window.articlesData = {
             readTime: 1,
             featured: false
         },
+        {
+            id: 76,
+            category: "生活",
+            fileName: "生活/76/",
+            title: "我与AI",
+            excerpt: "我与AI在Minecraft里的日子——Numen mod × DeepSeek V4 Flash × NeoForge 1.21.8，19张截图记录taffy从怕苦力怕到会道晚安。",
+            date: "2026-08-19",
+            tags: ["Minecraft", "Numen", "DeepSeek", "AI", "NeoForge", "我的世界", "我与AI"],
+            readTime: 2,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
