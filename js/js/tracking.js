@@ -30,7 +30,8 @@
   'use strict';
 
   var CONFIG = {
-    storeKey: 'cb_userid',          // localStorage 存储键
+    storeKey: 'cb_userid',          // localStorage 存储键（与 cookie 同名，双写兜底）
+    cookieDays: 3650,               // cookie 过期天数（10 年，固定 userid）
     salt: 'ciallo-blog-salt-v1',    // IP 哈希固定盐（服务端版请替换为私密盐）
     publicIPAPI: 'https://api.ip.sb/geoip', // 公网 IP 查询接口（免费 + CORS 全开）
     ipTimeout: 5000,                // 公网 IP 查询超时（毫秒）
@@ -60,6 +61,25 @@
     try {
       return new URLSearchParams(location.search).get(name) || '';
     } catch (e) { return ''; }
+  }
+
+  // cookie 读写（userid 持久化兜底，与 localStorage 双写）
+  function getCookie(name) {
+    try {
+      var m = document.cookie.match(
+        new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()\[\]\\\/+^])/g, '\\$1') + '=([^;]*)')
+      );
+      return m ? decodeURIComponent(m[1] || '') : '';
+    } catch (e) { return ''; }
+  }
+
+  function setCookie(name, value, days) {
+    try {
+      var d = new Date();
+      d.setTime(d.getTime() + days * 864e5);
+      document.cookie = name + '=' + encodeURIComponent(value) +
+        '; expires=' + d.toUTCString() + '; path=/; SameSite=Lax';
+    } catch (e) {}
   }
 
   function sha256Hex(str) {
@@ -212,20 +232,30 @@
     return !!id && USERID_RE.test(id);
   }
 
-  // 优先级：URL ?userid= 参数 > localStorage > 新建
+  // 双写：localStorage + cookie（10 年）同步持久化，保证 userid 固定
+  function persistID(id) {
+    try { localStorage.setItem(CONFIG.storeKey, id); } catch (e) {}
+    setCookie(CONFIG.storeKey, id, CONFIG.cookieDays);
+  }
+
+  // 优先级：URL ?userid= 参数 > localStorage > cookie > 新建
   function loadOrCreateUserID(code) {
     var fresh = false;
     var urlId = getParam('userid');
     if (validID(urlId)) {
-      try { localStorage.setItem(CONFIG.storeKey, urlId); } catch (e) {}
+      persistID(urlId);
       return { id: urlId, fresh: false };
     }
     var saved = '';
     try { saved = localStorage.getItem(CONFIG.storeKey) || ''; } catch (e) {}
-    if (validID(saved)) return { id: saved, fresh: false };
+    if (!validID(saved)) saved = getCookie(CONFIG.storeKey);
+    if (validID(saved)) {
+      persistID(saved); // 读到任一处就同步到另一处，保证一致
+      return { id: saved, fresh: false };
+    }
 
     var id = 'cialloblog-' + code + '-' + randHex(4) + '-' + new Date().getFullYear();
-    try { localStorage.setItem(CONFIG.storeKey, id); } catch (e) {}
+    persistID(id);
     return { id: id, fresh: true };
   }
 
@@ -369,7 +399,7 @@
           // 仅本次新建的 id 才更新 OS 段；历史 id 保持稳定不动
           osCodeStr = c2;
           currentUserID = 'cialloblog-' + osCodeStr + '-' + randHex(4) + '-' + new Date().getFullYear();
-          try { localStorage.setItem(CONFIG.storeKey, currentUserID); } catch (e) {}
+          persistID(currentUserID);
         } else {
           osCodeStr = c2;
         }
