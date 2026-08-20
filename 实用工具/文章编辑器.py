@@ -86,6 +86,21 @@ def estimate_read_time(text: str) -> int:
     return max(1, round(len(plain_text(text)) / 300))
 
 
+def txt_to_md(text: str) -> str:
+    """ 纯文本 → Markdown 草稿：去掉开头空行；首行若是短标题（无标点结尾、≤40字）
+    自动加 `# ` 前缀，配合「第一个 # 是文章标题」的约定 """
+    lines = [ln.rstrip() for ln in text.split("\n")]
+    while lines and not lines[0].strip():
+        lines.pop(0)
+    if lines:
+        first = lines[0].strip()
+        if (not first.startswith("#")
+                and len(first) <= 40
+                and first[-1] not in "。！？.!?"):
+            lines[0] = "# " + first
+    return "\n".join(lines)
+
+
 def extract_title(md_text: str):
     """ 提取第一个 `# 标题` 作为文章标题（跳过代码块内的 # 注释），并从正文移除。
     返回 (标题或None, 剩余正文) """
@@ -606,12 +621,17 @@ class App:
     # ── 文件 ──
     def open_md(self):
         path = filedialog.askopenfilename(
-            title="打开 Markdown", filetypes=[("Markdown", "*.md"), ("所有文件", "*.*")])
+            title="打开文件",
+            filetypes=[("Markdown", "*.md"), ("文本文件", "*.txt"), ("所有文件", "*.*")])
         if not path:
             return
         try:
+            content = Path(path).read_text(encoding="utf-8")
+            # txt 自动转 markdown 草稿（首行短句 → # 标题）
+            if path.lower().endswith(".txt"):
+                content = txt_to_md(content)
             self.editor.delete("1.0", "end")
-            self.editor.insert("1.0", Path(path).read_text(encoding="utf-8"))
+            self.editor.insert("1.0", content)
             self.meta["title"] = Path(path).stem
             self._write_live(force=True)   # 打开文件后强制刷新预览
         except Exception as e:

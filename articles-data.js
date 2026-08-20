@@ -838,6 +838,17 @@ window.articlesData = {
             readTime: 6,
             featured: true
         },
+        {
+            id: 78,
+            category: "教程",
+            fileName: "教程/78/",
+            title: "13天赚到1000万坤币,成为坤城首付(打工模拟器秘籍)",
+            excerpt: "不聊虚的,不用任何修改器,13个游戏天,赚到1000万",
+            date: "2026-08-20",
+            tags: ["打工模拟器", "教程", "赚钱"],
+            readTime: 7,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
