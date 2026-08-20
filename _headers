@@ -31,7 +31,7 @@
   #   注意: 'unsafe-inline' 对 Googlebot 的渲染管线至关重要，因为 decoder 使用内联 JS 加载文章。
   #   如果没有 unsafe-inline，Googlebot 的 headless Chrome 将无法执行任何脚本，
   #   导致页面被判定为无内容（"Crawled but not indexed"）。
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; font-src 'self' cdnjs.cloudflare.com data:; img-src 'self' data: blob:; media-src 'self'; frame-src 'self'; connect-src 'self' https://www.google-analytics.com https://api.ip.sb; object-src 'none'; base-uri 'self'; form-action 'self';
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; font-src 'self' cdnjs.cloudflare.com data:; img-src 'self' data: blob:; media-src 'self'; frame-src 'self'; connect-src 'self' https://www.google-analytics.com https://api.ip.sb https://v1.hitokoto.cn; object-src 'none'; base-uri 'self'; form-action 'self';
 
   # 性能优化：缓存策略
   # 静态资源缓存1年

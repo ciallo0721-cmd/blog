@@ -235,9 +235,6 @@
         </div>
     </noscript>
     
-    <!-- Cloudflare Turnstile 验证 -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    
     <!-- 动画分隔线 -->
     <div class="animation-divider"><span></span><span></span><span></span><span></span><span></span></div>
 
@@ -636,9 +633,9 @@
   var fallback={hitokoto:'Ciallo～(∠・ω< )⌒★',from:'魔女的夜宴',from_who:'因幡巡'};
   var d=fallback;
   try{
-    var r=await fetch('https://api.senvinn.cn/api/quote?type=d');
+    var r=await fetch('https://v1.hitokoto.cn/?c=d');
     var j=await r.json();
-    if(j.code===200)d=j.data;
+    if(j.hitokoto)d=j;
   }catch(e){console.warn('一言拉取失败:',e);}
   typewrite(t,d.hitokoto,120,function(){
     var cur=t.querySelector('.cursor');

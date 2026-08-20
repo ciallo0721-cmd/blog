@@ -914,7 +914,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window
         })();
 
         // ===== 主页一言(打字机效果) =====
-        // 通过同源 Pages Function /api/quote 代理 senvinn.cn，绕过 CORS/CSP 限制
+        // 直连 hitokoto 官方 API（支持 CORS），站点为 GitHub Pages 无法运行 Pages Function 代理
         (function () {
             var tagline = document.getElementById('tagline');
             if (!tagline) return;
@@ -932,11 +932,11 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window
                 }, speed);
             }
 
-            fetch('/api/quote')
+            fetch('https://v1.hitokoto.cn/?c=d')
                 .then(function (r) { return r.json(); })
                 .then(function (res) {
-                    if (!res || res.code !== 200 || !res.data) throw new Error('bad quote response');
-                    var q = res.data;
+                    if (!res || !res.hitokoto) throw new Error('bad quote response');
+                    var q = res;
                     var full = q.hitokoto + (q.from ? ' —— ' + (q.from_who || q.from) : '');
                     typeWriter(tagline, full, 90, function () {
                         setTimeout(function () { tagline.classList.remove('type-cursor'); }, 4000);
