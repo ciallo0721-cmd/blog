@@ -215,8 +215,9 @@ def build_article_html(meta: dict, content_html: str, toc_html: str = "",
     # 正文（兼容有/无注释锚点的模板）
     tpl = _replace_article_content(tpl, content_html)
 
-    # 分享链接 & 页脚
-    tpl = re.sub(r"https://91vip\.xn--32v\.ink/blog/[^\"<]*", article_url, tpl)
+    # 分享链接 & 页脚（覆盖旧域名 91vip 与新域名 ciallo0721-cmd.top/blog/muban/）
+    tpl = re.sub(r"https://(?:91vip\.xn--32v\.ink|ciallo0721-cmd\.top)/blog/[^\"<]*",
+                 article_url, tpl)
     tpl = tpl.replace("© 2026 ciallo0721-cmd · 全机制样板文章",
                       f"© 2026 ciallo0721-cmd · {title_e}")
     tpl = tpl.replace("感谢阅读！这篇文章展示了网站所有内容机制喵～", "感谢阅读喵～")

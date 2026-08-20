@@ -828,7 +828,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
                 <h3 class="share-modal-title"><i class="fas fa-share-alt"></i> 分享这篇文章</h3>
                 <button class="share-close-btn" id="closeShareModal"><i class="fas fa-times"></i></button>
             </div>
-            <div class="share-text" id="shareText">快来看看这篇文章: https://ciallo0721-cmd.top/blog/闲聊/77/</div>
+            <div class="share-text" id="shareText">快来看看这篇文章: https://ciallo0721-cmd.top/blog/生活/77/</div>
             <div class="share-actions">
                 <button class="share-copy-btn" id="copyShareText"><i class="far fa-copy"></i> 复制分享链接</button>
                 <button class="share-close-modal-btn" id="closeShareModalBtn">关闭</button>
@@ -1045,14 +1045,31 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
         document.getElementById('closeShareModalBtn').addEventListener('click', closeShare);
         shareModal.addEventListener('click', function(e) { if (e.target === shareModal) closeShare(); });
         copyBtn.addEventListener('click', function() {
-            navigator.clipboard.writeText(document.getElementById('shareText').textContent.trim()).then(function() {
+            var text = document.getElementById('shareText').textContent.trim();
+            function fallbackCopy() {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed'; ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); } catch(e) {}
+                document.body.removeChild(ta);
+                copied();
+            }
+            function copied() {
                 copyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制到剪贴板';
                 copyBtn.classList.add('copied');
                 setTimeout(function() {
                     copyBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
                     copyBtn.classList.remove('copied');
                 }, 3000);
-            });
+            }
+            // 非安全上下文（http）下 navigator.clipboard 不可用，走降级方案
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(copied).catch(fallbackCopy);
+            } else {
+                fallbackCopy();
+            }
         });
 
         // ESC 处理
@@ -1140,7 +1157,8 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
         recommended.forEach(function(article) {
             var card = document.createElement('a');
             card.className = 'related-card';
-            card.href = '../../' + article.fileName.replace(/\/$/, '');
+            // 绝对路径，muban（/blog/muban/）与文章页（/blog/分类/ID/）都正确
+            card.href = '/blog/' + article.fileName.replace(/\/$/, '');
             card.innerHTML =
                 '<h4>' + article.title + '</h4>' +
                 '<div class="related-meta"><i class="far fa-calendar"></i> ' + article.date + ' · ' + article.readTime + '分钟</div>' +
