@@ -609,11 +609,9 @@
   var t=document.getElementById('hitokoto-text');
   var m=document.getElementById('tagline');
   t.style.cursor='pointer';
-  t.addEventListener('click',function(){
-    var a=new Audio('https://ciallo.cc/ciallo.aac');
-    a.play().catch(function(){});
-  });
+  var typeTimer=null;
   function typewrite(el,text,s,cb){
+    if(typeTimer){clearTimeout(typeTimer);typeTimer=null;}
     el.textContent='';
     var cur=document.createElement('span');
     cur.className='cursor';
@@ -623,31 +621,41 @@
       if(i<text.length){
         el.insertBefore(document.createTextNode(text[i]),cur);
         i++;
-        setTimeout(go,s);
+        typeTimer=setTimeout(go,s);
       }else{
+        typeTimer=null;
         if(cb)cb();
       }
     }
     go();
   }
+  function render(d){
+    typewrite(t,d.hitokoto,120,function(){
+      var cur=t.querySelector('.cursor');
+      if(cur)cur.remove();
+      var meta='';
+      if(d.from_who)meta+='<span class="hk-author">'+d.from_who+'</span>';
+      if(d.from){
+        if(meta)meta+=' ';
+        meta+='《'+d.from+'》';
+      }
+      m.innerHTML=meta;
+    });
+  }
   var fallback={hitokoto:'Ciallo～(∠・ω< )⌒★',from:'魔女的夜宴',from_who:'因幡巡'};
-  var d=fallback;
-  try{
-    var r=await fetch('https://v1.hitokoto.cn/?c=d');
-    var j=await r.json();
-    if(j.hitokoto)d=j;
-  }catch(e){console.warn('一言拉取失败:',e);}
-  typewrite(t,d.hitokoto,120,function(){
-    var cur=t.querySelector('.cursor');
-    if(cur)cur.remove();
-    var meta='';
-    if(d.from_who)meta+='<span class="hk-author">'+d.from_who+'</span>';
-    if(d.from){
-      if(meta)meta+=' ';
-      meta+='《'+d.from+'》';
-    }
-    m.innerHTML=meta;
-  });
+  var TOO_FAST={hitokoto:'(╬▔皿▔)╯点的太快了!!!!!!!!!!',from:'',from_who:'一言'};
+  async function loadQuote(){
+    var d=fallback;
+    try{
+      var r=await fetch('https://v1.hitokoto.cn/?c=d');
+      if(r.status===429){render(TOO_FAST);return;}
+      var j=await r.json();
+      if(j.hitokoto)d=j;
+    }catch(e){console.warn('一言拉取失败:',e);}
+    render(d);
+  }
+  t.addEventListener('click',function(){loadQuote();});
+  loadQuote();
 })();
 </script>
     <!-- 访客追踪水印模块（userid + 隐形水印，详见 privacy.html） -->

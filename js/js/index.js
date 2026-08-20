@@ -913,36 +913,5 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window
             })();
         })();
 
-        // ===== 主页一言(打字机效果) =====
-        // 直连 hitokoto 官方 API（支持 CORS），站点为 GitHub Pages 无法运行 Pages Function 代理
-        (function () {
-            var tagline = document.getElementById('tagline');
-            if (!tagline) return;
-
-            function typeWriter(el, text, speed, done) {
-                var i = 0;
-                el.textContent = '';
-                el.classList.add('type-cursor');
-                var timer = setInterval(function () {
-                    el.textContent = text.substring(0, ++i);
-                    if (i >= text.length) {
-                        clearInterval(timer);
-                        if (done) done();
-                    }
-                }, speed);
-            }
-
-            fetch('https://v1.hitokoto.cn/?c=d')
-                .then(function (r) { return r.json(); })
-                .then(function (res) {
-                    if (!res || !res.hitokoto) throw new Error('bad quote response');
-                    var q = res;
-                    var full = q.hitokoto + (q.from ? ' —— ' + (q.from_who || q.from) : '');
-                    typeWriter(tagline, full, 90, function () {
-                        setTimeout(function () { tagline.classList.remove('type-cursor'); }, 4000);
-                    });
-                })
-                .catch(function () {
-                    // 接口不可用时保留 HTML 中的原始 tagline 文案
-                });
-        })();
+        // ===== 主页一言(打字机效果)已迁移至 index.html 内联脚本 =====
+        // 原逻辑在 index.html 内联脚本中统一管理（含点击切换 + 429 处理），此处删除避免重复渲染 tagline
