@@ -827,6 +827,17 @@ window.articlesData = {
             readTime: 2,
             featured: true
         },
+        {
+            id: 77,
+            category: "生活",
+            fileName: "生活/77/",
+            title: "【个人记录】关于B站用户“雪ing江西省郑丽婷”的发现与追踪",
+            excerpt: "【个人记录】关于B站用户“雪ing江西省郑丽婷”的发现与追踪 记录开始于2025年12月12日，随发现持续更新 一、我是怎么注意到这个人的？ 前几天我在B站闲逛的时候，偶然点进了一…",
+            date: "2026-08-20",
+            tags: ["bilibili", "lost media", "精神疾病"],
+            readTime: 6,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),

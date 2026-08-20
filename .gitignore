@@ -9,3 +9,11 @@ paykey.htm
 
 # Playwright CLI 残留日志
 .playwright-cli/
+
+# 文章编辑器实时预览临时文件
+/.md_preview
+
+# Python 缓存 & 备份
+__pycache__/
+*.pyc
+*.bak
