@@ -71,6 +71,35 @@
     
     <!-- 引入 Turnstile 脚本 -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+    <!-- 机器人检测：UA 命中疑似机器人关键词且未通过验证 → 跳独立验证页过 Turnstile -->
+    <script>
+    (function () {
+        'use strict';
+        // 24 小时内已验证通过 → 直接放行
+        try {
+            var tp = localStorage.getItem('turnstile_pass');
+            if (tp && (Date.now() - Number(tp)) < 86400000) return;
+            if (sessionStorage.getItem('auth_passed') === 'true') return;
+        } catch (e) { /* ignore */ }
+
+        var ua = navigator.userAgent.toLowerCase();
+        var bots = ['bot', 'crawler', 'spider', 'scraper', 'curl', 'wget',
+            'python-requests', 'httpclient', 'okhttp', 'go-http', 'axios', 'node-fetch',
+            'headless', 'phantom', 'selenium', 'puppeteer', 'playwright', 'scrapy',
+            'gptbot', 'claudebot', 'anthropic-ai', 'ccbot', 'diffbot',
+            'semrush', 'ahrefs'];
+        var hit = false;
+        for (var i = 0; i < bots.length; i++) {
+            if (ua.indexOf(bots[i]) !== -1) { hit = true; break; }
+        }
+        if (!hit) return; // 真人 → 放行（body 默认带 auth-passed，直接看内容）
+
+        // 疑似机器人 → 去独立验证页，通过后跳回当前页面
+        var target = encodeURIComponent(location.pathname + location.search);
+        location.replace('/oops/turnstile/index.html?next=' + target);
+    })();
+    </script>
     
     <!-- 结构化数据 - Person -->
     <script type="application/ld+json">
