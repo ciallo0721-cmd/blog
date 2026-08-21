@@ -4,8 +4,14 @@ package-lock.json
 nul
 verity/verity_2.7z
 build/
-# 付费文章站长工具（含 uuid，严禁提交）
+# 站长本地工具（严禁提交，仅本地使用）
 paykey.htm
+adkey.htm
+admin/
+
+# 本地测试产物（严禁提交）
+test-results/
+playwright-report/
 
 # Playwright CLI 残留日志
 .playwright-cli/

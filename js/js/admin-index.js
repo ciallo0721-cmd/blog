@@ -441,10 +441,8 @@ function runConsole(code) {
   output.scrollTop = output.scrollHeight;
 }
 function shareConsoleCmd() {
-  const code = document.getElementById('console-input').value;
-  if (!code.trim()) return toast('请先输入代码', 'error');
-  const url = location.origin + location.pathname + '?cmd=' + encodeURIComponent(code);
-  navigator.clipboard.writeText(url).then(() => toast('?cmd= 链接已复制！', 'success'));
+  // 安全加固：不再生成可自动执行代码的 ?cmd= 链接（防止驱动型 XSS / 钓鱼）
+  toast('🔒 安全限制：?cmd= 自动执行已禁用，无法生成分享链接', 'error');
 }
 function applyPreset(code) {
   document.getElementById('console-input').value = code;
@@ -461,13 +459,10 @@ document.addEventListener('keydown', e => {
 initRegions();
 refreshStorage();
 
-// ?cmd= auto-execute
-const cmdParam = new URLSearchParams(location.search).get('cmd');
-if (cmdParam) {
-  switchPanel('console');
-  document.getElementById('console-input').value = cmdParam;
-  setTimeout(() => runConsole(cmdParam), 100);
-}
+// 🔒 安全加固：?cmd= URL 自动执行已移除
+// 原因：该面板曾公开部署，?cmd= 允许任意访客构造链接诱导他人执行任意 JS
+// （驱动型 XSS 向量，可窃取本域名下 cookies / localStorage）
+// 现在代码只能手动输入执行，URL 参数不再触发任何脚本。
 
 console.log('%c🔧 Admin Panel Ready %c| ciallo0721-cmd.top',
   'color:#60a5fa;font-size:14px','color:#94a3b8');

@@ -1,4 +1,12 @@
 /*
+  # ⚠️ 重要说明（安全审计 2026-08-21 修正）：
+  #   _headers 是 Cloudflare Pages / Cloudflare CDN 的功能，
+  #   当前部署在 GitHub Pages，此文件不会被读取，以下安全头在线上全部未生效！
+  #   GitHub Pages 无法自定义响应头，如需让这些头真正生效，请：
+  #     方案A：迁移到 Cloudflare Pages（CNAME + _headers + _worker_cf.js 直接可用）
+  #     方案B：域名接入 Cloudflare 免费 CDN 代理（DNS 托管到 CF，在转化规则里加头）
+  #     方案C：接受 GitHub Pages 现状，仅靠页面内 meta 标签做缓解（能力有限）
+  #
   # 防点击劫持：禁止本站被嵌入 iframe
   X-Frame-Options: SAMEORIGIN
 
@@ -14,10 +22,15 @@
   # 权限策略：禁用不必要的浏览器特性
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
 
+  # HTTP 严格传输安全（需站点全站 HTTPS，Cloudflare 部署时生效）
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
   # Content Security Policy (SEO-安全平衡版)
   # 说明：
   #   - default-src 'self'                                   默认仅允许同源资源
-  #   - script-src 'self' 'unsafe-inline' 'unsafe-eval'      保留内联脚本和动态加载（decoder.js、GA 等需要）
+  #   - script-src 'self' 'unsafe-inline'                    保留内联脚本（decoder.js、GA 等需要）
+  #     ★ 已移除 'unsafe-eval'（安全审计修正）：admin 控制台用 <script> 注入执行，
+  #       不依赖 eval/new Function，移除后 XSS 场景下 eval 类攻击会被 CSP 拦截。
   #   - style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com
   #   - font-src 'self' cdnjs.cloudflare.com data:
   #   - img-src 'self' data: blob:
@@ -39,7 +52,6 @@
   # 性能优化：缓存策略
   # 静态资源缓存1年
   Cache-Control: public, max-age=31536000, immutable
-  X-Content-Type-Options: nosniff
 
 # 媒体文件
 *.png, *.jpg, *.jpeg, *.gif, *.webp, *.svg, *.ico
