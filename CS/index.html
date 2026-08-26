@@ -66,6 +66,17 @@
   .cheats{font-size:12px;color:#ffd86a;margin:6px 0 0;max-width:90vw;}
   .hide{display:none!important;}
   body.phone #keyhelp{display:none;}
+  /* 秘籍指示全部隐藏（仅 README 记录，不在游戏内透露） */
+  #cheats,#god,#cheatsPause{display:none!important;}
+  /* 手机视角：全屏拖拽看视角层（位于画布之上、摇杆与按钮之下） */
+  #look{display:none;}
+  body.phone #look{display:block;position:fixed;top:48px;left:0;right:0;bottom:0;z-index:11;touch-action:none;}
+  /* 手机飞天按钮（仅开启飞天秘籍且手机模式显示） */
+  .flybtn{font-size:22px;font-weight:bold;width:60px;height:60px;display:none;
+    background:rgba(40,80,130,.55);border-color:#9fe0ff;}
+  body.phone.flyon #btnUp,body.phone.flyon #btnDown{display:flex;}
+  #btnUp{right:96px;bottom:188px;}
+  #btnDown{right:18px;bottom:188px;}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
@@ -95,7 +106,6 @@
   <div id="keyhelp">
     WASD 移动 · 鼠标 视角<br>
     左键 射击/投掷 · R 换弹 · F 换枪<br>
-    = 上升 · - 下降（飞天）· 0 核弹<br>
     目标：击杀敌方 AI，团队死斗
   </div>
   <div id="bottomleft">
@@ -111,10 +121,13 @@
 </div>
 
 <div id="touch">
+  <div id="look"></div>
   <div id="joystick"><div id="joybase"></div><div id="stick"></div></div>
   <div id="btnFire" class="tbtn">开枪</div>
   <div id="btnReload" class="tbtn">换弹</div>
   <div id="btnSwitch" class="tbtn">换枪</div>
+  <div id="btnUp" class="tbtn flybtn">飞↑</div>
+  <div id="btnDown" class="tbtn flybtn">飞↓</div>
 </div>
 
 <!-- 开始界面 -->
@@ -122,8 +135,7 @@
   <h1>fy_iceworld · 5v5 团队死斗</h1>
   <p>你属于<b style="color:#5aa6ff">蓝队</b>（我方），对手是<b style="color:#ff6a6a">红队</b> AI。
      地图为蓝白做旧风的小型快节奏竞技场，柱子作掩体。<br>
-     桌面：WASD+鼠标，点击锁定指针。手机：左摇杆移动，右侧三键操作。<br>
-     秘籍用 URL 参数，例：<b style="color:#ffd86a">?imagod=1</b>（详见 README）。</p>
+      桌面：WASD+鼠标，点击锁定指针。手机：左摇杆移动，右侧三键操作。</p>
   <div id="modeRow">当前设备模式：<span id="modeLabel">桌面</span>
     <button id="modeBtn">切换为手机</button></div>
   <div class="start" id="startBtn">点击开始</div>
@@ -176,6 +188,7 @@ function applyMode(){
   const lbl=document.getElementById('modeLabel'), btn=document.getElementById('modeBtn');
   if(lbl) lbl.textContent = isPhone?'手机':'桌面';
   if(btn) btn.textContent = isPhone?'切换为桌面':'切换为手机';
+  if(flyEnabled && isPhone) document.body.classList.add('flyon'); else document.body.classList.remove('flyon');
 }
 applyMode();
 document.getElementById('modeBtn').addEventListener('click', e=>{ e.stopPropagation(); isPhone=!isPhone; applyMode(); });
@@ -415,7 +428,7 @@ function updatePlayer(dt){
   if(!player.alive){ player.respawn-=dt; if(player.respawn<=0)respawnChar(player); return; }
   if(player.reloading){ player.reloadT-=dt; if(player.reloadT<=0)finishReload(player); }
   // 飞天
-  if(flyEnabled){ if(keys['='])player.flyY+=7*dt; if(keys['-'])player.flyY-=7*dt; player.flyY=Math.max(-1,Math.min(45,player.flyY)); }
+  if(flyEnabled){ if(keys['=']||flyUp)player.flyY+=7*dt; if(keys['-']||flyDown)player.flyY-=7*dt; player.flyY=Math.max(-1,Math.min(45,player.flyY)); }
   let fx=0,fz=0;
   if(!isPhone){ fx=(keys['w']?1:0)-(keys['s']?1:0); fz=(keys['d']?1:0)-(keys['a']?1:0); }
   else { fx=-joy.y; fz=joy.x; }
@@ -460,12 +473,7 @@ function updateHUD(){
   else el('ammo').textContent = infiniteAmmo?'∞':(player.ammo[curWeapon]+' / '+w.mag);
   el('nade').textContent = '雷 '+(infiniteAmmo?'∞':('x'+player.ammo.grenade));
   el('blueScore').textContent='蓝 '+blueScore; el('redScore').textContent='红 '+redScore;
-  el('god').style.display = imagod?'block':'none';
-  // 秘籍状态条
-  const list=[];
-  if(imagod)list.push('imagod外挂全开'); if(fireinthehole)list.push('无限子弹'); if(chinesecanfly)list.push('飞天');
-  if(hospitalVal>0)list.push('无敌血量'+hospitalVal); if(pvp)list.push('1v5'); if(tryMode)list.push('5v1'); if(gztfxxm)list.push('核弹(按0)');
-  el('cheats').textContent = list.length?('秘籍: '+list.join(' · ')):'';
+  // 秘籍状态条已隐藏（仅 README 记录，不在游戏内透露）
 }
 
 /* ============================================================
@@ -513,11 +521,27 @@ function bindBtn(id,onDown,onUp){ const b=el(id); b.addEventListener('touchstart
 bindBtn('btnFire', ()=>{ if(curWeapon==='grenade')throwGrenade(player); else if(curWeapon==='pistol')playerFire(); else {firing=true;playerFire();} }, ()=>{firing=false;});
 bindBtn('btnReload', ()=>startReload(player));
 bindBtn('btnSwitch', ()=>switchWeapon());
+// 手机飞天（仅秘籍开启时显示）
+let flyUp=false, flyDown=false;
+bindBtn('btnUp', ()=>{flyUp=true;}, ()=>{flyUp=false;});
+bindBtn('btnDown', ()=>{flyDown=true;}, ()=>{flyDown=false;});
+
+// 手机视角（在 #look 层拖拽看视角；摇杆与按钮在其上层，互不干扰）
+const lookEl=el('look'), look={id:null,lx:0,ly:0};
+lookEl.addEventListener('touchstart', e=>{ if(!running||paused)return; e.preventDefault(); const t=e.changedTouches[0]; look.id=t.identifier; look.lx=t.clientX; look.ly=t.clientY; }, {passive:false});
+lookEl.addEventListener('touchmove', e=>{ if(look.id===null)return; e.preventDefault();
+  for(const t of e.changedTouches){ if(t.identifier===look.id){
+    const dx=t.clientX-look.lx, dy=t.clientY-look.ly; look.lx=t.clientX; look.ly=t.clientY;
+    player.yaw-=dx*sensitivity*2; player.pitch-=dy*sensitivity*2; player.pitch=Math.max(-1.45,Math.min(1.45,player.pitch)); } }
+}, {passive:false});
+function lookEnd(e){ for(const t of e.changedTouches) if(t.identifier===look.id) look.id=null; }
+lookEl.addEventListener('touchend', lookEnd, {passive:false});
+lookEl.addEventListener('touchcancel', lookEnd, {passive:false});
 
 // 暂停 / 分享 按钮
 function togglePause(){
   paused=!paused;
-  if(paused){ el('pause').classList.remove('hide'); el('cheatsPause').textContent=el('cheats').textContent;
+  if(paused){ el('pause').classList.remove('hide');
     if(document.pointerLockElement===cv) document.exitPointerLock(); }
   else { el('pause').classList.add('hide'); if(!isPhone) cv.requestPointerLock(); }
 }
