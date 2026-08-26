@@ -849,6 +849,17 @@ window.articlesData = {
             readTime: 7,
             featured: true
         },
+        {
+            id: 79,
+            category: "教程",
+            fileName: "教程/79/",
+            title: "怎么写好文章",
+            excerpt: "怎么写好文章",
+            date: "2026-08-26",
+            tags: ["文章", "写作"],
+            readTime: 9,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
