@@ -31,18 +31,6 @@
 
 window.statusHistory = [
     {
-        date: "2026年8月26日",
-        status: "green",
-        title: "一切正常喵～",
-        desc: ""
-    },
-    {
-        date: "2026年8月21日",
-        status: "green",
-        title: "一切正常喵～",
-        desc: ""
-    },
-    {
         date: "2026年8月20日",
         status: "green",
         title: "一切正常喵～",

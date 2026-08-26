@@ -671,6 +671,35 @@
       m.innerHTML=meta;
     });
   }
+  // 本地白名单语录：不再请求外部一言 API（v1.hitokoto.cn 开放投稿，内容不可控）
+  // 需要增删语录直接改这个数组即可，格式：{hitokoto:'正文',from:'出处',from_who:'作者'}
+  var QUOTES=[
+    {hitokoto:'Ciallo～(∠・ω< )⌒★',from:'魔女的夜宴',from_who:'因幡巡'},
+    {hitokoto:'生命不止，奋斗不息。',from:'托马斯·卡莱尔经典语录',from_who:''},
+    {hitokoto:'世界上只有一种真正的英雄主义，那就是认清生活的真相之后依然热爱生活。',from:'《米开朗琪罗传》',from_who:'罗曼·罗兰'},
+    {hitokoto:'长风破浪会有时，直挂云帆济沧海。',from:'《行路难》',from_who:'李白'},
+    {hitokoto:'心之所向，素履以往。',from:'《温一壶月光下酒》',from_who:'林清玄'},
+    {hitokoto:'努力不一定成功，但放弃一定失败。',from:'网络',from_who:''},
+    {hitokoto:'此刻打盹，你将做梦；此刻学习，你将圆梦。',from:'哈佛图书馆训言',from_who:''},
+    {hitokoto:'愿你出走半生，归来仍是少年。',from:'网络',from_who:''},
+    {hitokoto:'勇敢的人，不是不落泪的人，而是含着泪水继续奔跑的人。',from:'《朗读者》',from_who:''},
+    {hitokoto:'你若盛开，蝴蝶自来。',from:'网络',from_who:''}
+  ];
+  var lastIdx=-1;
+  function loadQuote(){
+    var i;
+    do{i=Math.floor(Math.random()*QUOTES.length);}while(QUOTES.length>1&&i===lastIdx);
+    lastIdx=i;
+    render(QUOTES[i]);
+  }
+  /*
+  ==================== 旧版一言（v1.hitokoto.cn）代码，暂存备用 ====================
+  说明：v1.hitokoto.cn 为开放投稿接口，内容不可控（2026-08-26 曾刷出
+  黑暗/自伤引导/历史虚无类语句），已改用上方本地白名单 QUOTES。
+  未来若想重新启用远程一言：
+    1) 取消下方整段注释
+    2) 注释或删除上方的 loadQuote()（本地白名单版本）
+  --------------------------------------------------------------------------------
   var fallback={hitokoto:'Ciallo～(∠・ω< )⌒★',from:'魔女的夜宴',from_who:'因幡巡'};
   var TOO_FAST={hitokoto:'(╬▔皿▔)╯点的太快了!!!!!!!!!!',from:'',from_who:'一言'};
   async function loadQuote(){
@@ -683,6 +712,8 @@
     }catch(e){console.warn('一言拉取失败:',e);}
     render(d);
   }
+  ==================== 旧版一言代码结束 ====================
+  */
   t.addEventListener('click',function(){loadQuote();});
   loadQuote();
 })();
