@@ -235,7 +235,6 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 
                 <p>宁宁也因此被粉丝调侃为"0721 大师"、"宁宁天下第一"——这些梗即便没玩过游戏的人，在二次元圈子里也或多或少见过。</p>
 
-
                 <h2>0721 的扩散与演变</h2>
 
                 <p>最初 0721 只是《魔女的夜宴》中绫地宁宁一个人的专属梗。但随着柚子社作品受众的扩大，这个梗逐渐溢出到整个柚子社粉丝圈，最终成为一种通用的"圈内暗号"。</p>
@@ -262,18 +261,8 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 
         <div class="article-navigation" id="articleNavigation"></div>
 
-        <div class="related-articles" id="relatedArticles">
-            <h3 class="related-title">推荐文章</h3>
-            <div class="related-grid" id="relatedGrid"></div>
-        </div>
+        
     </main>
-
-    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
-        <a href="../../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
-            <img src="../../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
-                style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
-        </a>
-    </div>
 
     <footer>
         <div class="container footer-content">
@@ -325,15 +314,7 @@ document.addEventListener('DOMContentLoaded', function() {
         nav.innerHTML = html;
     }
 
-    function initRelated(id) {
-        if (typeof window.articlesData === 'undefined') { setTimeout(function() { initRelated(id); }, 100); return; }
-        var grid = document.getElementById('relatedGrid');
-        if (!grid) return;
-        var articles = window.articlesData.getFeaturedArticles ? window.articlesData.getFeaturedArticles(id, 3) : [];
-        grid.innerHTML = articles.map(function(a) {
-            return '<a href="/blog/' + a.fileName + '" class="related-card"><h4>' + a.title + '</h4><p>' + a.excerpt + '</p><div class="related-tags">' + a.tags.slice(0, 3).map(function(t) { return '<span class="related-tag">' + t + '</span>'; }).join('') + '</div></a>';
-        }).join('');
-    }
+    
 
     function addProgressBar() {
         if (document.getElementById('reading-progress-bar')) return;
@@ -349,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updateArticleInfo(currentArticleId);
     initNav(currentArticleId);
-    initRelated(currentArticleId);
+    
     addProgressBar();
 
     document.addEventListener('keydown', function(e) {

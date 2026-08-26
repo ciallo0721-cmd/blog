@@ -23,3 +23,9 @@ playwright-report/
 __pycache__/
 *.pyc
 *.bak
+
+# 排除误入的用户目录(系统/软链,禁止入库)
+用户的/
+
+# 排除本地备份目录(不入库)
+blog_backup_20260822/

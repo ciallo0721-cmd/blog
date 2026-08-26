@@ -503,70 +503,6 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
 ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius: 4px; }
 
-/* ── 推荐文章 ── */
-.related-articles {
-    margin-top: 80px;
-    padding-top: 40px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-.related-title {
-    font-size: 1.8rem;
-    color: var(--text-primary);
-    margin-bottom: 30px;
-    font-weight: 600;
-    text-align: center;
-}
-.related-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-}
-.related-card {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    text-decoration: none;
-    color: inherit;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    display: flex;
-    flex-direction: column;
-}
-.related-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-}
-.related-card h4 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: var(--bili-blue);
-}
-.related-card .related-meta {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-}
-.related-card p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    margin-bottom: 15px;
-    flex: 1;
-}
-.related-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: auto;
-}
-.related-tag {
-    background: rgba(251, 114, 153, 0.1);
-    color: var(--bili-pink);
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-}
-
 /* ── 响应式 ── */
 @media (max-width: 768px) {
     .article-detail { padding: 30px; }
@@ -576,7 +512,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     .article-content h2 { font-size: 1.5rem; }
     .btn-row { gap: 8px; }
     .card-grid { grid-template-columns: 1fr 1fr; }
-    .related-grid { grid-template-columns: 1fr; }
+    
 }
 @media (max-width: 480px) {
     .article-detail { padding: 20px; }
@@ -633,15 +569,11 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 
   <script src="/js/svg-icons.js" defer></script>
     <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+    <link rel="stylesheet" href="../../../css/css/blog-share.css">
 </head>
 
 <body>
-    <!-- 广告位 #1：顶部横幅 -->
-    <div style="max-width:728px;margin:18px auto;">
-      <div data-ad-slot></div>
-    </div>
-
-    <!-- 导航栏 -->
+<!-- 导航栏 -->
     <nav>
         <div class="container nav-container">
             <a href="../../index.html" class="logo">
@@ -869,15 +801,6 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 
             </div>
         </article>
-    </main>
-
-    <!-- 广告位 #2：底部横幅 -->
-    <div style="max-width:728px;margin:18px auto;">
-      <div data-ad-slot></div>
-    </div>
-
-        <!-- ===== 广告系统 v1.1 ===== -->
-    <script src="../../js/js/ad-data.js?v=2"></script>
-    <script src="../../js/js/ad-system.js?v=2"></script>
+    </main>    <script src="../../../js/js/blog-share.js"></script>
 </body>
 </html>

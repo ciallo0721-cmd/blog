@@ -428,48 +428,6 @@ kbd {
 }
 
 /* ── 分享 & 图片放大弹窗（继承） ── */
-.share-btn {
-    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
-    color: white; border: none; padding: 12px 25px; border-radius: 25px;
-    font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition);
-    display: inline-flex; align-items: center; gap: 10px; margin: 30px auto;
-    box-shadow: 0 4px 15px rgba(251,114,153,0.3);
-}
-.share-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(251,114,153,0.4); }
-.share-modal {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7); display: none; justify-content: center;
-    align-items: center; z-index: 10000;
-}
-.share-modal.active { display: flex; }
-.share-modal-content {
-    background: white; border-radius: 20px; padding: 40px; max-width: 500px; width: 90%;
-    position: relative; animation: slideUp 0.3s ease; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-}
-.share-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-.share-modal-title { font-size: 1.5rem; font-weight: 600; color: var(--text-primary); }
-.share-close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary); transition: var(--transition); }
-.share-close-btn:hover { color: var(--bili-pink); }
-.share-text {
-    background: rgba(251,114,153,0.1); border: 1px solid rgba(251,114,153,0.3);
-    border-radius: 12px; padding: 15px; margin-bottom: 25px;
-    font-size: 1rem; line-height: 1.6; color: var(--text-primary); word-break: break-all;
-}
-.share-actions { display: flex; gap: 15px; flex-wrap: wrap; }
-.share-copy-btn {
-    background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
-    color: white; border: none; padding: 12px 25px; border-radius: 12px;
-    font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition);
-    flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.share-copy-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(251,114,153,0.3); }
-.share-copy-btn.copied { background: linear-gradient(135deg, #00cc66, #00b359); }
-.share-close-modal-btn {
-    background: rgba(0,0,0,0.1); color: var(--text-primary); border: none;
-    padding: 12px 25px; border-radius: 12px; font-size: 1rem; font-weight: 600;
-    cursor: pointer; transition: var(--transition); flex: 1;
-}
-.share-close-modal-btn:hover { background: rgba(0,0,0,0.15); }
 .image-zoom-modal {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.9); display: none; justify-content: center;
@@ -503,70 +461,6 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
 ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius: 4px; }
 
-/* ── 推荐文章 ── */
-.related-articles {
-    margin-top: 80px;
-    padding-top: 40px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-.related-title {
-    font-size: 1.8rem;
-    color: var(--text-primary);
-    margin-bottom: 30px;
-    font-weight: 600;
-    text-align: center;
-}
-.related-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-}
-.related-card {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    text-decoration: none;
-    color: inherit;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    display: flex;
-    flex-direction: column;
-}
-.related-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-}
-.related-card h4 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: var(--bili-blue);
-}
-.related-card .related-meta {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-}
-.related-card p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    margin-bottom: 15px;
-    flex: 1;
-}
-.related-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: auto;
-}
-.related-tag {
-    background: rgba(251, 114, 153, 0.1);
-    color: var(--bili-pink);
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-}
-
 /* ── 响应式 ── */
 @media (max-width: 768px) {
     .article-detail { padding: 30px; }
@@ -576,7 +470,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     .article-content h2 { font-size: 1.5rem; }
     .btn-row { gap: 8px; }
     .card-grid { grid-template-columns: 1fr 1fr; }
-    .related-grid { grid-template-columns: 1fr; }
+    
 }
 @media (max-width: 480px) {
     .article-detail { padding: 20px; }
@@ -633,14 +527,10 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 
   <script src="/js/svg-icons.js" defer></script>
     <script defer src="https://cloud.umami.is/script.js" data-website-id="7c64c1b7-5571-40ec-9a62-576686340c0b"></script>
+    <link rel="stylesheet" href="../../../css/css/blog-share.css">
 </head>
 <body>
-    <!-- 广告位 #1：顶部横幅 -->
-    <div style="max-width:728px;margin:18px auto;">
-      <div data-ad-slot></div>
-    </div>
-
-    <!-- 导航栏 -->
+<!-- 导航栏 -->
     <nav>
         <div class="container nav-container">
             <a href="../../index.html" class="logo">
@@ -734,34 +624,11 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 <p>不保证你也一定13天,毕竟股票和彩票吃运气,但路线就是这么个路线:先打工攒本,再炒股滚雪球,彩票白嫖,别踩我踩过的坑。运气不差的话,15天内1000万问题不大。</p>
             </div><!-- /article-content -->
 
-            <!-- ── 分享按钮 ── -->
-            <div style="text-align:center;margin-top:20px;">
-                <button class="share-btn" id="shareButton2">
-                    <i class="fas fa-share-alt"></i> 分享这篇文章
-                </button>
-            </div>
 
         </article>
-
-        <!-- 推荐文章 -->
-        <div class="related-articles" id="relatedArticles">
-            <h3 class="related-title">📚 相关推荐</h3>
-            <div class="related-grid" id="relatedGrid">
-                <div class="related-card" style="text-align:center;padding:40px;">
-                    <p style="color:var(--text-secondary);">加载推荐中...</p>
-                </div>
-            </div>
-        </div>
+        
 
     </main>
-
-    <!-- 广告位 -->
-    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
-        <a href="../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
-            <img src="../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
-                style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
-        </a>
-    </div>
 
     <!-- 页脚 -->
     <footer>
@@ -778,20 +645,6 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
         <img src="" alt="放大图片" id="zoomedImage">
     </div>
 
-    <!-- 分享弹窗 -->
-    <div class="share-modal" id="shareModal">
-        <div class="share-modal-content">
-            <div class="share-modal-header">
-                <h3 class="share-modal-title"><i class="fas fa-share-alt"></i> 分享这篇文章</h3>
-                <button class="share-close-btn" id="closeShareModal"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="share-text" id="shareText">快来看看这篇文章: https://ciallo0721-cmd.top/blog/教程/78/</div>
-            <div class="share-actions">
-                <button class="share-copy-btn" id="copyShareText"><i class="far fa-copy"></i> 复制分享链接</button>
-                <button class="share-close-modal-btn" id="closeShareModalBtn">关闭</button>
-            </div>
-        </div>
-    </div>
 
     <!-- 返回顶部按钮 -->
     <button id="totop-btn" aria-label="返回顶部"
@@ -985,55 +838,10 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
             modal.addEventListener('click', function(e) { if (e.target === modal) closeZoom(); });
         }
 
-        // 分享功能
-        var shareModal = document.getElementById('shareModal');
-        var copyBtn = document.getElementById('copyShareText');
-        function openShare() { shareModal.classList.add('active'); }
-        function closeShare() {
-            shareModal.classList.remove('active');
-            copyBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
-            copyBtn.classList.remove('copied');
-        }
-        ['shareButton','shareButton2'].forEach(function(id) {
-            var el = document.getElementById(id);
-            if (el) el.addEventListener('click', openShare);
-        });
-        document.getElementById('closeShareModal').addEventListener('click', closeShare);
-        document.getElementById('closeShareModalBtn').addEventListener('click', closeShare);
-        shareModal.addEventListener('click', function(e) { if (e.target === shareModal) closeShare(); });
-        copyBtn.addEventListener('click', function() {
-            var text = document.getElementById('shareText').textContent.trim();
-            function fallbackCopy() {
-                var ta = document.createElement('textarea');
-                ta.value = text;
-                ta.style.position = 'fixed'; ta.style.opacity = '0';
-                document.body.appendChild(ta);
-                ta.select();
-                try { document.execCommand('copy'); } catch(e) {}
-                document.body.removeChild(ta);
-                copied();
-            }
-            function copied() {
-                copyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制到剪贴板';
-                copyBtn.classList.add('copied');
-                setTimeout(function() {
-                    copyBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
-                    copyBtn.classList.remove('copied');
-                }, 3000);
-            }
-            // 非安全上下文（http）下 navigator.clipboard 不可用，走降级方案
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(copied).catch(fallbackCopy);
-            } else {
-                fallbackCopy();
-            }
-        });
-
         // ESC 处理
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 if (modal && modal.classList.contains('active')) { modal.classList.remove('active'); document.body.style.overflow = ''; return; }
-                if (shareModal && shareModal.classList.contains('active')) { closeShare(); return; }
                 window.location.href = '../../index.html';
             }
         });
@@ -1057,77 +865,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     window.addEventListener('resize', function() { drawLineChart(); drawBarChart(); });
 
     // ── 推荐文章自动加载 ──
-    (function loadRelatedArticles() {
-        var grid = document.getElementById('relatedGrid');
-        if (!grid || !window.articlesData) return;
-
-        // 尝试从 URL 路径提取文章 ID（路径格式: /blog/分类/ID/）
-        var pathParts = window.location.pathname.replace(/\/$/, '').split('/');
-        var articleId = null;
-        for (var i = pathParts.length - 1; i >= 0; i--) {
-            var id = parseInt(pathParts[i]);
-            if (!isNaN(id) && id > 0) { articleId = id; break; }
-        }
-
-        var currentArticle = null;
-        if (articleId) {
-            currentArticle = window.articlesData.getArticleById(articleId);
-        }
-
-        var recommended = [];
-
-        if (currentArticle && currentArticle.tags && currentArticle.tags.length > 0) {
-            // 按标签匹配度排序
-            var scored = window.articlesData.articles
-                .filter(function(a) { return a.id !== articleId; })
-                .map(function(a) {
-                    var score = 0;
-                    if (a.tags && currentArticle.tags) {
-                        a.tags.forEach(function(t) {
-                            if (currentArticle.tags.indexOf(t) !== -1) score++;
-                        });
-                    }
-                    // 同分类额外加分
-                    if (a.category === currentArticle.category) score += 0.5;
-                    return { article: a, score: score };
-                })
-                .filter(function(item) { return item.score > 0; })
-                .sort(function(a, b) { return b.score - a.score; });
-
-            recommended = scored.slice(0, 3).map(function(item) { return item.article; });
-        }
-
-        // 回退：显示精选文章（排除自己）
-        if (recommended.length === 0) {
-            recommended = window.articlesData.articles
-                .filter(function(a) { return a.id !== articleId && a.featured; })
-                .sort(function(a, b) { return b.id - a.id; })
-                .slice(0, 3);
-        }
-
-        if (recommended.length === 0) {
-            grid.innerHTML = '<div class="related-card" style="text-align:center;padding:40px;"><p style="color:var(--text-secondary);">暂无推荐文章~</p></div>';
-            return;
-        }
-
-        grid.innerHTML = '';
-        recommended.forEach(function(article) {
-            var card = document.createElement('a');
-            card.className = 'related-card';
-            // 绝对路径，muban（/blog/muban/）与文章页（/blog/分类/ID/）都正确
-            card.href = '/blog/' + article.fileName.replace(/\/$/, '');
-            card.innerHTML =
-                '<h4>' + article.title + '</h4>' +
-                '<div class="related-meta"><i class="far fa-calendar"></i> ' + article.date + ' · ' + article.readTime + '分钟</div>' +
-                '<p>' + article.excerpt + '</p>' +
-                '<div class="related-tags">' +
-                    article.tags.slice(0, 4).map(function(t) {
-                        return '<span class="related-tag">' + t + '</span>';
-                    }).join('') +
-                '</div>';
-            grid.appendChild(card);
-        });
-    })();
+    ;
     </script>
 
     <!-- ─── PDF 阅读器 JS ─── -->
@@ -1233,15 +971,6 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 
         updateUI();
     })();
-    </script>
-
-    <!-- 广告位 #2：底部横幅 -->
-    <div style="max-width:728px;margin:18px auto;">
-      <div data-ad-slot></div>
-    </div>
-
-        <!-- ===== 广告系统 v1.1 ===== -->
-    <script src="../../js/js/ad-data.js?v=2"></script>
-    <script src="../../js/js/ad-system.js?v=2"></script>
+    </script>    <script src="../../../js/js/blog-share.js"></script>
 </body>
 </html>

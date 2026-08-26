@@ -457,64 +457,13 @@
             box-shadow: none;
         }
 
-        /* 推荐文章区域 */
-        .related-articles {
-            margin-top: 80px;
-            padding-top: 40px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-        }
+        
 
-        .related-title {
-            font-size: 1.8rem;
-            color: var(--text-primary);
-            margin-bottom: 30px;
-            font-weight: 600;
-            text-align: center;
-        }
+        
 
-        .related-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
+        
 
-        .related-card {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-decoration: none;
-            color: inherit;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .related-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .related-card h4 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: var(--bili-blue);
-        }
-
-        .related-card p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-        }
-
-        .related-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-
-        .related-tag {
-            background: rgba(251, 114, 153, 0.1);
-            color: var(--bili-pink);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-        }
+        
 
         /* 页脚 */
         footer {
@@ -568,7 +517,7 @@
             .article-content { font-size: 1rem; }
             .article-navigation { flex-direction: column; }
             .nav-btn { max-width: 100%; }
-            .related-grid { grid-template-columns: 1fr; }
+            
         }
 
         @media (max-width: 480px) {
@@ -813,26 +762,8 @@
                 <i class="fas fa-chevron-right"></i>
             </a>
         </div>
-
-        <!-- 推荐文章 -->
-        <div class="related-articles" id="relatedArticles">
-            <h3 class="related-title">推荐文章</h3>
-            <div class="related-grid" id="relatedGrid">
-                <a href="#" class="related-card">
-                    <h4>推荐文章加载中…</h4>
-                    <p>动态加载中，请稍候。</p>
-                </a>
-            </div>
-        </div>
+        
     </main>
-
-    <!-- 广告位 -->
-    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
-        <a href="/adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
-          <img src="/css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
-            style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
-        </a>
-    </div>
 
     <!-- 页脚 -->
     <footer>
@@ -864,32 +795,8 @@ document.addEventListener('DOMContentLoaded', function() {
         navigation.innerHTML = html;
     }
 
-    function initRelatedArticles(articleId) {
-        const grid = document.getElementById('relatedGrid');
-        if (!grid || typeof window.articlesData === 'undefined') return;
-        const related = window.articlesData.getFeaturedArticles(articleId, 3);
-        grid.innerHTML = '';
-        related.forEach(article => {
-            const card = document.createElement('a');
-            card.href = '/blog/' + article.fileName + '?blog=' + article.id;
-            card.className = 'related-card';
-            card.innerHTML = `<h4>${article.title}</h4><p>${article.excerpt}</p><div class="related-tags">${article.tags.slice(0, 3).map(t => `<span class="related-tag">${t}</span>`).join('')}</div>`;
-            grid.appendChild(card);
-        });
-    }
+    
 
-        const copyBtn = document.getElementById('copyShareText');
-        const articleTitle = document.getElementById('articleTitle').textContent;
-
-        closeBtn1.addEventListener('click', close);
-        closeBtn2.addEventListener('click', close);
-        copyBtn.addEventListener('click', () => {
-                copyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制到剪贴板';
-                copyBtn.classList.add('copied');
-                setTimeout(() => { copyBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接'; copyBtn.classList.remove('copied'); }, 3000);
-            }).catch(() => alert('复制失败，请手动复制'));
-        });
-    }
 
     function addReadingProgressBar() {
         if (document.getElementById('reading-progress-bar')) return;
@@ -906,7 +813,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function initPage() {
         if (typeof window.articlesData === 'undefined') { setTimeout(initPage, 100); return; }
         initArticleNavigation(currentArticleId);
-        initRelatedArticles(currentArticleId);
+        
         addReadingProgressBar();
     }
 

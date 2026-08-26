@@ -395,68 +395,13 @@
             box-shadow: none;
         }
 
-        /* 推荐文章区域 */
-        .related-articles {
-            margin-top: 80px;
-            padding-top: 40px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-        }
+        
 
-        .related-title {
-            font-size: 1.8rem;
-            color: var(--text-primary);
-            margin-bottom: 30px;
-            font-weight: 600;
-            text-align: center;
-        }
+        
 
-        .related-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
+        
 
-        .related-card {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-decoration: none;
-            color: inherit;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .related-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .related-card h4 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: var(--bili-blue);
-        }
-
-        .related-card p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-        }
-
-        .related-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .related-tag {
-            background: rgba(251, 114, 153, 0.1);
-            color: var(--bili-pink);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-        }
+        
 
         /* 页脚 */
         footer {
@@ -546,9 +491,7 @@
                 max-width: 100%;
             }
             
-            .related-grid {
-                grid-template-columns: 1fr;
-            }
+            
         }
 
         @media (max-width: 480px) {
@@ -1024,22 +967,7 @@ private void AirControl()
             <!-- 将通过JavaScript动态生成 -->
         </div>
         
-        <!-- 推荐文章 -->
-        <div class="related-articles" id="relatedArticles">
-            <h3 class="related-title">推荐文章</h3>
-            <div class="related-grid" id="relatedGrid">
-                <!-- 将通过JavaScript动态生成 -->
-            </div>
-        </div>
     </main>
-    <!-- 广告位占位 -->
-    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
-      <a href="../../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
-        <img src="../../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
-          style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
-      </a>
-    </div>
-
     <!-- 页脚 -->
     <footer>
         <div class="container footer-content">
@@ -1048,31 +976,29 @@ private void AirControl()
         </div>
     </footer>
 
-    <script>
-
-// 文章特定的初始化
+    <script>// 文章特定的初始化
 document.addEventListener('DOMContentLoaded', function() {
     console.log('文章模板已加载完成');
-    
-    // 当前文章ID
+
+    // 获取当前文章ID
     const currentArticleId = 2;
-    
+    function getCurrentArticleId() {
+        return currentArticleId;
+    }
+
     // 更新文章信息
     function updateArticleInfo(articleId) {
         if (typeof window.articlesData === 'undefined') {
             console.error('articlesData未加载');
             return;
         }
-        
         const articleData = window.articlesData.getArticleById(articleId);
-        
         if (articleData) {
             document.getElementById('articleNumber').textContent = `文章 #${String(articleData.id).padStart(3, '0')}`;
             document.getElementById('articleTitle').textContent = articleData.title;
             document.getElementById('articleIntro').textContent = articleData.excerpt;
             document.getElementById('articleDate').textContent = articleData.date;
             document.getElementById('readTime').textContent = `约${articleData.readTime}分钟`;
-            
             const tagsContainer = document.getElementById('articleTags');
             tagsContainer.innerHTML = '';
             if (articleData.tags && articleData.tags.length > 0) {
@@ -1087,19 +1013,17 @@ document.addEventListener('DOMContentLoaded', function() {
             console.warn(`未找到ID为${articleId}的文章数据`);
         }
     }
-    
+
+    // 生成文章导航（上一篇/下一篇）
     function initArticleNavigation(articleId) {
         const navigation = document.getElementById('articleNavigation');
         if (!navigation) return;
-        
         if (typeof window.articlesData === 'undefined') {
             console.error('articlesData未加载');
             return;
         }
-        
         const adjacent = window.articlesData.getAdjacentArticles(articleId);
         let navigationHTML = '';
-        
         if (adjacent.prev) {
             navigationHTML += `
                 <a href="/blog/${adjacent.prev.fileName}" class="nav-btn prev">
@@ -1108,8 +1032,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
                         <div>${adjacent.prev.title}</div>
                     </div>
-                </a>
-            `;
+                </a>`;
         } else {
             navigationHTML += `
                 <a href="javascript:void(0)" class="nav-btn prev disabled">
@@ -1118,10 +1041,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
                         <div>已是第一篇</div>
                     </div>
-                </a>
-            `;
+                </a>`;
         }
-        
         if (adjacent.next) {
             navigationHTML += `
                 <a href="/blog/${adjacent.next.fileName}" class="nav-btn next">
@@ -1130,8 +1051,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div>${adjacent.next.title}</div>
                     </div>
                     <i class="fas fa-chevron-right"></i>
-                </a>
-            `;
+                </a>`;
         } else {
             navigationHTML += `
                 <a href="javascript:void(0)" class="nav-btn next disabled">
@@ -1140,57 +1060,45 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div>已是最后一篇</div>
                     </div>
                     <i class="fas fa-chevron-right"></i>
-                </a>
-            `;
+                </a>`;
         }
-        
         navigation.innerHTML = navigationHTML;
     }
-    
-    function initRelatedArticles(articleId) {
-        const grid = document.getElementById('relatedGrid');
-        if (!grid) return;
-        
-        if (typeof window.articlesData === 'undefined') {
-            console.error('articlesData未加载');
-            return;
-        }
-        
-        const relatedArticles = window.articlesData.getFeaturedArticles(articleId, 3);
-        grid.innerHTML = '';
-        
-        if (relatedArticles && relatedArticles.length > 0) {
-            relatedArticles.forEach(article => {
-                const card = document.createElement('a');
-                card.href = '/blog/' + article.fileName + '?blog=' + article.id;
-                card.className = 'related-card';
-                card.innerHTML = `
-                    <h4>${article.title}</h4>
-                    <p>${article.excerpt}</p>
-                    <div class="related-tags">
-                        ${article.tags.slice(0, 3).map(tag => `<span class="related-tag">${tag}</span>`).join('')}
-                    </div>
-                `;
-                grid.appendChild(card);
+
+    // 图片点击放大功能
+    function initImageZoom() {
+        const modal = document.getElementById('imageZoomModal');
+        const modalImg = document.getElementById('zoomedImage');
+        const closeBtn = document.getElementById('imageZoomClose');
+        if (!modal || !modalImg) return;
+        document.querySelectorAll('.zoomable').forEach(img => {
+            img.addEventListener('click', function() {
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
             });
-        } else {
-            grid.innerHTML = `
-                <a href="#" class="related-card">
-                    <h4>推荐文章标题示例1</h4>
-                    <p>这是一个推荐文章的简介示例，实际内容将通过JavaScript动态生成。</p>
-                    <div class="related-tags">
-                        <span class="related-tag">示例标签</span>
-                    </div>
-                </a>
-            `;
+        });
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
         }
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
     }
-    
+
+    // 添加代码复制功能
     function addCodeCopyFunction() {
         document.querySelectorAll('pre code').forEach((codeBlock) => {
             const pre = codeBlock.parentElement;
             if (pre.querySelector('.copy-button')) return;
-            
             const copyButton = document.createElement('button');
             copyButton.className = 'copy-button';
             copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
@@ -1207,10 +1115,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 font-size: 0.8rem;
                 transition: all 0.3s ease;
             `;
-            
             pre.style.position = 'relative';
             pre.appendChild(copyButton);
-            
             copyButton.addEventListener('click', () => {
                 navigator.clipboard.writeText(codeBlock.textContent).then(() => {
                     copyButton.innerHTML = '<i class="fas fa-check"></i> 已复制';
@@ -1225,10 +1131,10 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-    
+
+    // 添加阅读进度指示器
     function addReadingProgressBar() {
         if (document.getElementById('reading-progress-bar')) return;
-        
         const progressBar = document.createElement('div');
         progressBar.id = 'reading-progress-bar';
         progressBar.style.cssText = `
@@ -1242,12 +1148,10 @@ document.addEventListener('DOMContentLoaded', function() {
             transition: width 0.1s ease;
         `;
         document.body.appendChild(progressBar);
-        
         window.addEventListener('scroll', function() {
             const windowHeight = window.innerHeight;
             const documentHeight = document.documentElement.scrollHeight - windowHeight;
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
             if (documentHeight > 0) {
                 const scrollPercent = (scrollTop / documentHeight) * 100;
                 progressBar.style.width = scrollPercent + '%';
@@ -1255,60 +1159,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-            console.error('分享功能元素未找到');
-            return;
-        }
-        
-        let articleTitle = document.getElementById('articleTitle').textContent;
-        if (!articleTitle || articleTitle === '文章标题') {
-            articleTitle = '这篇文章';
-        }
-
-        }
-        
-        );
-        );
-        
-            }
-        });
-
-                setTimeout(() => {
-                }, 3000);
-            }).catch(err => {
-                console.error('复制失败:', err);
-                alert('复制失败，请手动复制链接');
-            });
-        });
-        
-        document.addEventListener('keydown', function(e) {
-            }
-        });
-    }
-    
+    // 初始化页面
     function initPage() {
         if (typeof window.articlesData === 'undefined') {
             setTimeout(initPage, 100);
             return;
         }
-        
         updateArticleInfo(currentArticleId);
         initArticleNavigation(currentArticleId);
-        initRelatedArticles(currentArticleId);
         addCodeCopyFunction();
         addReadingProgressBar();
+        initImageZoom();
     }
-    
+
     initPage();
-    
+
+    // 键盘快捷键支持
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            window.location.href = '/index.html';
+            window.location.href = '../../index.html';
         } else if (e.key === 'h' && (e.ctrlKey || e.metaKey)) {
             e.preventDefault();
-            window.location.href = '/index.html';
+            window.location.href = '../../index.html';
         }
     });
-    
+
+    // 监听文章内容更新，重新添加代码复制按钮
     const observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             if (mutation.type === 'childList') {
@@ -1316,13 +1192,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
     const articleContent = document.getElementById('articleContent');
     if (articleContent) {
         observer.observe(articleContent, { childList: true, subtree: true });
     }
 });
-
 </script>
 
     <button id="totop-btn" style="position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:linear-gradient(135deg,var(--bili-pink),var(--bili-blue));color:white;border:none;border-radius:50%;cursor:pointer;font-size:1.2rem;box-shadow:0 4px 15px rgba(251,114,153,0.3);display:none;z-index:9999;transition:all 0.3s;opacity:0.85;justify-content:center;align-items:center;" aria-label="返回顶部"><i class="fas fa-arrow-up"></i></button>

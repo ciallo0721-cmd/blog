@@ -193,19 +193,9 @@ pre .comment { color: #6272a4; }
 .nav-btn.disabled { opacity: 0.5; cursor: not-allowed; }
 .nav-btn.disabled:hover { background: rgba(255,255,255,0.9); color: var(--text-primary); transform: none; box-shadow: none; }
 
-.related-articles { margin-top: 80px; padding-top: 40px; border-top: 1px solid rgba(0,0,0,0.1); }
-.related-title { font-size: 1.8rem; color: var(--text-primary); margin-bottom: 30px; font-weight: 600; text-align: center; }
-.related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-.related-card {
-    background: rgba(255,255,255,0.9); border-radius: 15px; padding: 25px;
-    box-shadow: var(--shadow); transition: var(--transition);
-    text-decoration: none; color: inherit; border: 1px solid rgba(255,255,255,0.2);
-}
-.related-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
-.related-card h4 { font-size: 1.2rem; margin-bottom: 10px; color: var(--bili-blue); }
-.related-card p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 15px; }
-.related-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-.related-tag { background: rgba(251,114,153,0.1); color: var(--bili-pink); padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; }
+
+
+
 
 footer {
     background: linear-gradient(135deg, var(--text-primary), #2D2D2F); color: white;
@@ -224,7 +214,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     .article-content { font-size: 1rem; }
     .article-navigation { flex-direction: column; }
     .nav-btn { max-width: 100%; }
-    .related-grid { grid-template-columns: 1fr; }
+    
 }
 @media (max-width: 480px) {
     .article-detail { padding: 25px; }
@@ -450,18 +440,8 @@ asdf
 
         <div class="article-navigation" id="articleNavigation"></div>
 
-        <div class="related-articles" id="relatedArticles">
-            <h3 class="related-title">推荐文章</h3>
-            <div class="related-grid" id="relatedGrid"></div>
-        </div>
+        
     </main>
-
-    <div style="display:flex;justify-content:center;align-items:center;margin:32px auto;max-width:728px;padding:0 20px;">
-        <a href="../../../adss.html" title="广告位招租，联系站长" style="display:block;width:100%;line-height:0;">
-            <img src="../../../css/ads.svg" alt="广告位招租 - 联系站长" width="728" height="90"
-                style="width:100%;height:auto;border-radius:8px;display:block;" loading="lazy" />
-        </a>
-    </div>
 
     <footer>
         <div class="container footer-content">
@@ -513,15 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
         nav.innerHTML = html;
     }
 
-    function initRelated(id) {
-        if (typeof window.articlesData === 'undefined') { setTimeout(function() { initRelated(id); }, 100); return; }
-        var grid = document.getElementById('relatedGrid');
-        if (!grid) return;
-        var articles = window.articlesData.getFeaturedArticles ? window.articlesData.getFeaturedArticles(id, 3) : [];
-        grid.innerHTML = articles.map(function(a) {
-            return '<a href="/blog/' + a.fileName + '" class="related-card"><h4>' + a.title + '</h4><p>' + a.excerpt + '</p><div class="related-tags">' + a.tags.slice(0, 3).map(function(t) { return '<span class="related-tag">' + t + '</span>'; }).join('') + '</div></a>';
-        }).join('');
-    }
+    
 
     function addProgressBar() {
         if (document.getElementById('reading-progress-bar')) return;
@@ -537,7 +509,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updateArticleInfo(currentArticleId);
     initNav(currentArticleId);
-    initRelated(currentArticleId);
+    
     addProgressBar();
 
     document.addEventListener('keydown', function(e) {

@@ -413,68 +413,13 @@
             box-shadow: none;
         }
 
-        /* 推荐文章区域 */
-        .related-articles {
-            margin-top: 80px;
-            padding-top: 40px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-        }
+        
 
-        .related-title {
-            font-size: 1.8rem;
-            color: var(--text-primary);
-            margin-bottom: 30px;
-            font-weight: 600;
-            text-align: center;
-        }
+        
 
-        .related-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
+        
 
-        .related-card {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-decoration: none;
-            color: inherit;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .related-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .related-card h4 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: var(--bili-blue);
-        }
-
-        .related-card p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-        }
-
-        .related-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .related-tag {
-            background: rgba(251, 114, 153, 0.1);
-            color: var(--bili-pink);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-        }
+        
 
         /* 页脚 */
         footer {
@@ -564,9 +509,7 @@
                 max-width: 100%;
             }
             
-            .related-grid {
-                grid-template-columns: 1fr;
-            }
+            
         }
 
         @media (max-width: 480px) {
@@ -1035,30 +978,7 @@
             </div>
 
         </article>
-
-        <!-- 推荐文章 -->
-        <div class="related-articles">
-            <h3 class="related-title">📚 相关推荐</h3>
-            <div class="related-grid">
-                <a href="#" class="related-card" style="opacity:0.6;">  <!-- 已归档 -->
-                    <h4>Python 截图识别文字完全教程</h4>
-                    <p>从 Tesseract 到 PaddleOCR，完整 OCR 实战指南</p>
-                    <div class="related-tags">
-                        <span class="related-tag">Python</span>
-                        <span class="related-tag">OCR</span>
-                        <span class="related-tag">教程</span>
-                    </div>
-                </a>
-                <a href="../../index.html" class="related-card">
-                    <h4>更多教程与文章</h4>
-                    <p>回到首页查看完整文章列表</p>
-                    <div class="related-tags">
-                        <span class="related-tag">首页</span>
-                        <span class="related-tag">All</span>
-                    </div>
-                </a>
-            </div>
-        </div>
+        
     </main>
 
     <!-- 页脚 -->
@@ -1075,29 +995,236 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script>
-        // ── 分享功能 ──
-        
-            copyBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
-            copyBtn.classList.remove('copied');
+    <script>// 文章特定的初始化
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('文章模板已加载完成');
+
+    // 获取当前文章ID
+    const currentArticleId = 22;
+    function getCurrentArticleId() {
+        return currentArticleId;
+    }
+
+    // 更新文章信息
+    function updateArticleInfo(articleId) {
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
         }
-        
-        copyBtn.addEventListener('click', function() {
-                copyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制到剪贴板';
-                copyBtn.classList.add('copied');
-                setTimeout(function() {
-                    copyBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
-                    copyBtn.classList.remove('copied');
-                }, 3000);
+        const articleData = window.articlesData.getArticleById(articleId);
+        if (articleData) {
+            document.getElementById('articleNumber').textContent = `文章 #${String(articleData.id).padStart(3, '0')}`;
+            document.getElementById('articleTitle').textContent = articleData.title;
+            document.getElementById('articleIntro').textContent = articleData.excerpt;
+            document.getElementById('articleDate').textContent = articleData.date;
+            document.getElementById('readTime').textContent = `约${articleData.readTime}分钟`;
+            const tagsContainer = document.getElementById('articleTags');
+            tagsContainer.innerHTML = '';
+            if (articleData.tags && articleData.tags.length > 0) {
+                articleData.tags.forEach(tag => {
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'article-tag';
+                    tagElement.textContent = tag;
+                    tagsContainer.appendChild(tagElement);
+                });
+            }
+        } else {
+            console.warn(`未找到ID为${articleId}的文章数据`);
+        }
+    }
+
+    // 生成文章导航（上一篇/下一篇）
+    function initArticleNavigation(articleId) {
+        const navigation = document.getElementById('articleNavigation');
+        if (!navigation) return;
+        if (typeof window.articlesData === 'undefined') {
+            console.error('articlesData未加载');
+            return;
+        }
+        const adjacent = window.articlesData.getAdjacentArticles(articleId);
+        let navigationHTML = '';
+        if (adjacent.prev) {
+            navigationHTML += `
+                <a href="/blog/${adjacent.prev.fileName}" class="nav-btn prev">
+                    <i class="fas fa-chevron-left"></i>
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                        <div>${adjacent.prev.title}</div>
+                    </div>
+                </a>`;
+        } else {
+            navigationHTML += `
+                <a href="javascript:void(0)" class="nav-btn prev disabled">
+                    <i class="fas fa-chevron-left"></i>
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">上一篇</div>
+                        <div>已是第一篇</div>
+                    </div>
+                </a>`;
+        }
+        if (adjacent.next) {
+            navigationHTML += `
+                <a href="/blog/${adjacent.next.fileName}" class="nav-btn next">
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                        <div>${adjacent.next.title}</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>`;
+        } else {
+            navigationHTML += `
+                <a href="javascript:void(0)" class="nav-btn next disabled">
+                    <div>
+                        <div style="font-size: 0.8rem; color: inherit; opacity: 0.8;">下一篇</div>
+                        <div>已是最后一篇</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </a>`;
+        }
+        navigation.innerHTML = navigationHTML;
+    }
+
+    // 图片点击放大功能
+    function initImageZoom() {
+        const modal = document.getElementById('imageZoomModal');
+        const modalImg = document.getElementById('zoomedImage');
+        const closeBtn = document.getElementById('imageZoomClose');
+        if (!modal || !modalImg) return;
+        document.querySelectorAll('.zoomable').forEach(img => {
+            img.addEventListener('click', function() {
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
         });
         document.addEventListener('keydown', function(e) {
-        // ── 返回顶部 ──
-        (function() {
-            var btn = document.getElementById('totop-btn');
-            btn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
-            window.addEventListener('scroll', function() { btn.style.display = window.scrollY > 300 ? 'flex' : 'none'; }, { passive: true });
-        })();
-    </script>
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
+
+    // 添加代码复制功能
+    function addCodeCopyFunction() {
+        document.querySelectorAll('pre code').forEach((codeBlock) => {
+            const pre = codeBlock.parentElement;
+            if (pre.querySelector('.copy-button')) return;
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+            copyButton.style.cssText = `
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: rgba(251, 114, 153, 0.2);
+                border: 1px solid rgba(251, 114, 153, 0.4);
+                color: white;
+                padding: 5px 12px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 0.8rem;
+                transition: all 0.3s ease;
+            `;
+            pre.style.position = 'relative';
+            pre.appendChild(copyButton);
+            copyButton.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                    copyButton.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                    copyButton.style.background = 'rgba(0, 161, 214, 0.5)';
+                    setTimeout(() => {
+                        copyButton.innerHTML = '<i class="far fa-copy"></i> 复制';
+                        copyButton.style.background = 'rgba(251, 114, 153, 0.2)';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('复制失败:', err);
+                });
+            });
+        });
+    }
+
+    // 添加阅读进度指示器
+    function addReadingProgressBar() {
+        if (document.getElementById('reading-progress-bar')) return;
+        const progressBar = document.createElement('div');
+        progressBar.id = 'reading-progress-bar';
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue));
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s ease;
+        `;
+        document.body.appendChild(progressBar);
+        window.addEventListener('scroll', function() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (documentHeight > 0) {
+                const scrollPercent = (scrollTop / documentHeight) * 100;
+                progressBar.style.width = scrollPercent + '%';
+            }
+        });
+    }
+
+    // 初始化页面
+    function initPage() {
+        if (typeof window.articlesData === 'undefined') {
+            setTimeout(initPage, 100);
+            return;
+        }
+        updateArticleInfo(currentArticleId);
+        initArticleNavigation(currentArticleId);
+        addCodeCopyFunction();
+        addReadingProgressBar();
+        initImageZoom();
+    }
+
+    initPage();
+
+    // 返回顶部
+    (function() {
+        var btn = document.getElementById('totop-btn');
+        if (!btn) return;
+        btn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        window.addEventListener('scroll', function() { btn.style.display = window.scrollY > 300 ? 'flex' : 'none'; }, { passive: true });
+    })();
+
+    // 键盘快捷键支持
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            window.location.href = '../../index.html';
+        } else if (e.key === 'h' && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            window.location.href = '../../index.html';
+        }
+    });
+
+    // 监听文章内容更新，重新添加代码复制按钮
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                addCodeCopyFunction();
+            }
+        });
+    });
+    const articleContent = document.getElementById('articleContent');
+    if (articleContent) {
+        observer.observe(articleContent, { childList: true, subtree: true });
+    }
+});
+</script>
     <script src="../../../js/js/blog-share.js"></script>
 </body>
 </html>

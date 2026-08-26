@@ -460,69 +460,10 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
 ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--bili-pink), var(--bili-blue)); border-radius: 4px; }
 
-/* ── 推荐文章 ── */
-.related-articles {
-    margin-top: 80px;
-    padding-top: 40px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-.related-title {
-    font-size: 1.8rem;
-    color: var(--text-primary);
-    margin-bottom: 30px;
-    font-weight: 600;
-    text-align: center;
-}
-.related-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-}
-.related-card {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    text-decoration: none;
-    color: inherit;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    display: flex;
-    flex-direction: column;
-}
-.related-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-}
-.related-card h4 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: var(--bili-blue);
-}
-.related-card .related-meta {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-}
-.related-card p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    margin-bottom: 15px;
-    flex: 1;
-}
-.related-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: auto;
-}
-.related-tag {
-    background: rgba(251, 114, 153, 0.1);
-    color: var(--bili-pink);
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-}
+
+
+
+
 
 /* ── 响应式 ── */
 @media (max-width: 768px) {
@@ -533,7 +474,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     .article-content h2 { font-size: 1.5rem; }
     .btn-row { gap: 8px; }
     .card-grid { grid-template-columns: 1fr 1fr; }
-    .related-grid { grid-template-columns: 1fr; }
+    
 }
 @media (max-width: 480px) {
     .article-detail { padding: 20px; }
@@ -593,12 +534,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     <link rel="stylesheet" href="../../../css/css/blog-share.css">
 </head>
 <body>
-    <!-- 广告位 #1：顶部横幅 -->
-    <div style="max-width:728px;margin:18px auto;">
-      <div data-ad-slot></div>
-    </div>
-
-    <!-- 导航栏 -->
+<!-- 导航栏 -->
     <nav>
         <div class="container nav-container">
             <a href="../../index.html" class="logo">
@@ -754,12 +690,13 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     function animateProgressBars() {
         document.querySelectorAll('.progress-fill[data-target]').forEach(function(el) {
             el.style.width = el.getAttribute('data-target') + '%';
-    }
+    });
     var progressObserver = new IntersectionObserver(function(entries) {
         entries.forEach(function(e) { if (e.isIntersecting) { animateProgressBars(); progressObserver.disconnect(); } });
     }, { threshold: 0.3 });
     var pl = document.getElementById('progressList');
     if (pl) progressObserver.observe(pl);
+    }
 
     // ── Canvas 折线图 ──
     function drawLineChart() {
@@ -811,6 +748,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
             ctx.strokeStyle = 'white'; ctx.lineWidth = 2; ctx.stroke();
             ctx.fillStyle = '#515154'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
             ctx.fillText(data[i].toLocaleString(), p[0], p[1] - 12);
+    });
     }
 
     // ── Canvas 柱状图 ──
@@ -856,6 +794,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
             ctx.fillText(labels[i], x + barW / 2, h - 8);
             ctx.fillStyle = 'white'; ctx.font = 'bold 10px sans-serif';
             if (barH > 22) ctx.fillText(v.toLocaleString(), x + barW / 2, y + 15);
+    });
     }
 
     // ── SVG 饼图 ──
@@ -895,6 +834,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
                 + '<span style="color:#515154">'+d.label+'</span>'
                 + '<span style="font-weight:700;color:#1D1D1F">'+d.value+'%</span>';
             legend.appendChild(item);
+    });
     }
 
     // ── 灰度预览按钮 ──
@@ -903,12 +843,12 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
         document.documentElement.style.filter = 'grayscale(1)';
         isGrayscale = true;
         this.style.display = 'none';
-        document.getElementById('removeGrayscale').style.display = '';
+        document.getElementById('removeGrayscale').style.display = ''; });
     document.getElementById('removeGrayscale').addEventListener('click', function() {
         document.documentElement.style.filter = '';
         isGrayscale = false;
         this.style.display = 'none';
-        document.getElementById('previewGrayscale').style.display = '';
+        document.getElementById('previewGrayscale').style.display = ''; });
     // ── DOMContentLoaded ──
     document.addEventListener('DOMContentLoaded', function() {
         // 图片放大
@@ -922,6 +862,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
                     modalImg.src = this.src; modalImg.alt = this.alt;
                     modal.classList.add('active'); document.body.style.overflow = 'hidden';
             });
+    });
             function closeZoom() { modal.classList.remove('active'); document.body.style.overflow = ''; }
             closeBtn.addEventListener('click', closeZoom);
             modal.addEventListener('click', function(e) { if (e.target === modal) closeZoom(); });
@@ -929,17 +870,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
 
         // 分享功能
         
-            copyBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
-            copyBtn.classList.remove('copied');
-        }
-        copyBtn.addEventListener('click', function() {
-                copyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制到剪贴板';
-                copyBtn.classList.add('copied');
-                setTimeout(function() {
-                    copyBtn.innerHTML = '<i class="far fa-copy"></i> 复制分享链接';
-                    copyBtn.classList.remove('copied');
-                }, 3000);
-        });
+
 
         // ESC 处理
         document.addEventListener('keydown', function(e) {
@@ -947,6 +878,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
                 if (modal && modal.classList.contains('active')) { modal.classList.remove('active'); document.body.style.overflow = ''; return; }
                 window.location.href = '../../index.html';
             }
+        });
         // 视频播放器（自研播放器已停用，改用浏览器原生播放器）
         // if (window.NiceVideo) NiceVideo.initAll();
 
@@ -964,7 +896,7 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
     window.addEventListener('resize', function() { drawLineChart(); drawBarChart(); });
 
     // ── 推荐文章自动加载 ──
-    (function loadRelatedArticles() {
+    (function() {
         var grid = document.getElementById('relatedGrid');
         if (!grid || !window.articlesData) return;
 
@@ -992,7 +924,8 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
                     if (a.tags && currentArticle.tags) {
                         a.tags.forEach(function(t) {
                             if (currentArticle.tags.indexOf(t) !== -1) score++;
-                    }
+                    });
+                }
                     // 同分类额外加分
                     if (a.category === currentArticle.category) score += 0.5;
                     return { article: a, score: score };
@@ -1031,7 +964,9 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
                     }).join('') +
                 '</div>';
             grid.appendChild(card);
+    });
     })();
+    });
     </script>
 
     <!-- ─── PDF 阅读器 JS ─── -->
@@ -1068,7 +1003,8 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
                     updateUI();
                     setErr('');
             }).catch(function(e) { setErr('渲染失败：' + e.message); });
-        }
+        });
+    }
 
         function loadPDF(src) {
             setErr('');
@@ -1084,7 +1020,8 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
             }).catch(function(e) {
                 setErr('加载失败：' + e.message);
                 el('pdfPlaceholder').style.display = '';
-        }
+        });
+    }
 
         // 本地文件上传
         el('pdfFileInput').addEventListener('change', function(e) {
@@ -1097,14 +1034,17 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
                 loadPDF({ data: typedArray });
             };
             reader.readAsArrayBuffer(file);
+        });
         // URL 加载
         el('pdfUrlLoadBtn').addEventListener('click', function() {
             var url = el('pdfUrlInput').value.trim();
             if (!url) return;
             el('pdfFileName').textContent = url;
             loadPDF(url);
+        });
         el('pdfUrlInput').addEventListener('keydown', function(e) {
             if (e.key === 'Enter') el('pdfUrlLoadBtn').click();
+        });
         // 翻页
         el('pdfPrevBtn').addEventListener('click', function() { if (curPage > 1) renderPage(curPage - 1); });
         el('pdfNextBtn').addEventListener('click', function() { if (curPage < totalPages) renderPage(curPage + 1); });
@@ -1114,27 +1054,20 @@ footer p { margin-bottom: 15px; opacity: 0.9; font-size: 1.05rem; }
             if (scale >= 3.0) return;
             scale = Math.round((scale + 0.25) * 100) / 100;
             renderPage(curPage);
+        });
         el('pdfZoomOut').addEventListener('click', function() {
             if (scale <= 0.5) return;
             scale = Math.round((scale - 0.25) * 100) / 100;
             renderPage(curPage);
+        });
         // 键盘左右翻页（仅 PDF 区域聚焦时）
         el('pdfCanvasArea').setAttribute('tabindex', '0');
         el('pdfCanvasArea').addEventListener('keydown', function(e) {
             if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); if (curPage > 1) renderPage(curPage - 1); }
             if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); if (curPage < totalPages) renderPage(curPage + 1); }
         updateUI();
+    });
     })();
-    </script>
-
-    <!-- 广告位 #2：底部横幅 -->
-    <div style="max-width:728px;margin:18px auto;">
-      <div data-ad-slot></div>
-    </div>
-
-        <!-- ===== 广告系统 v1.1 ===== -->
-    <script src="../../js/js/ad-data.js?v=2"></script>
-    <script src="../../js/js/ad-system.js?v=2"></script>
-    <script src="../../../js/js/blog-share.js"></script>
+    </script><script src="../../../js/js/blog-share.js"></script>
 </body>
 </html>
