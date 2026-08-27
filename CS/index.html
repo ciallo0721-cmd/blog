@@ -77,6 +77,22 @@
   body.phone.flyon #btnUp,body.phone.flyon #btnDown{display:flex;}
   #btnUp{right:96px;bottom:188px;}
   #btnDown{right:18px;bottom:188px;}
+  /* 右下角第一人称枪贴图（随开枪后座） */
+  #viewgun{position:absolute;right:22px;bottom:0;pointer-events:none;z-index:9;transition:transform .07s;opacity:1;
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));}
+  #viewgun svg{display:block;}
+  #viewgunName{position:absolute;right:6px;bottom:2px;font-size:11px;color:#9fe0ff;background:rgba(10,20,40,.55);
+    border:1px solid #2a4a7a;padding:1px 8px;border-radius:4px;letter-spacing:1px;}
+  /* DEBUG 沙盒控制面板 */
+  #dbgHud{position:fixed;left:10px;top:122px;z-index:30;display:flex;flex-direction:column;gap:5px;
+    background:rgba(10,18,34,.82);border:1px solid #5aa6ff;border-radius:8px;padding:8px 8px 10px;
+    max-height:76vh;overflow:auto;pointer-events:auto;width:148px;}
+  #dbgHud h3{font-size:13px;color:#ffd86a;margin:0 0 2px;}
+  #dbgHud .hint{font-size:10px;color:#7fa8d8;line-height:1.45;margin-bottom:5px;}
+  #dbgHud button{font-family:inherit;font-size:12px;padding:6px 8px;border-radius:6px;cursor:pointer;text-align:left;
+    background:rgba(20,40,70,.7);color:#cfe3ff;border:1px solid #3a5a8a;}
+  #dbgHud button:hover{background:rgba(40,70,110,.85);}
+  #dbgHud .exit{border-color:#ff8a8a;color:#ffb0b0;margin-top:3px;}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
@@ -105,8 +121,9 @@
   </div>
   <div id="keyhelp">
     WASD 移动 · 鼠标 视角<br>
-    左键 射击/投掷 · R 换弹 · F 换枪<br>
-    目标：击杀敌方 AI，团队死斗
+    左键 射击/投掷 · R 换弹 · F 换枪 · E 救队友<br>
+    击倒≠死亡：倒地爬向队友等救援，一方全员倒地即分胜负<br>
+    场地有医疗箱（绿十字）可回血
   </div>
   <div id="bottomleft">
     血量 <span id="hp">100</span>
@@ -118,6 +135,33 @@
     <div id="nade">雷 x2</div>
   </div>
   <div id="toast"></div>
+  <!-- DEBUG 沙盒控制面板（默认隐藏，进 DEBUG 后显示；手机/桌面均可点） -->
+  <div id="dbgHud" class="hide">
+    <h3>🐞 DEBUG 沙盒</h3>
+    <div class="hint">键：;红方 '队友 .红倒 ,蓝倒 -外挂 Y胜 N败 H急救包<br>按钮同功能，手机端可用</div>
+    <button id="dbgSpawnRed">召唤红方（敌）</button>
+    <button id="dbgSpawnBlue">召唤队友（蓝）</button>
+    <button id="dbgDownRed">红方击倒</button>
+    <button id="dbgDownBlue">队友/我击倒</button>
+    <button id="dbgGod">飞天+无限弹+100血</button>
+    <button id="dbgMed">面前生成急救包</button>
+    <button id="dbgWin">直接胜利</button>
+    <button id="dbgLose">直接失败</button>
+    <button id="dbgExit" class="exit">退出 DEBUG</button>
+  </div>
+  <div id="viewgun">
+    <svg viewBox="0 0 140 70" width="170" height="85">
+      <g stroke="#14141f" stroke-width="1.5">
+        <rect x="30" y="34" width="100" height="13" rx="3" fill="#41415a"/>
+        <rect x="22" y="24" width="26" height="13" rx="2" fill="#4d4d66"/>
+        <rect x="8" y="30" width="18" height="19" rx="2" fill="#2b2b3d"/>
+        <rect x="52" y="47" width="36" height="15" rx="2" fill="#3a3a52"/>
+        <rect x="96" y="27" width="13" height="7" rx="2" fill="#6a6a88"/>
+        <rect x="118" y="30" width="8" height="20" rx="2" fill="#33334a"/>
+      </g>
+    </svg>
+    <div id="viewgunName">AK47</div>
+  </div>
 </div>
 
 <div id="touch">
@@ -132,10 +176,11 @@
 
 <!-- 开始界面 -->
 <div id="overlay" class="overlay">
-  <h1>fy_iceworld · 5v5 团队死斗</h1>
+  <h1>fy_iceworld · <span id="eggDot" title="点我 10 下进入 DEBUG 沙盒" style="cursor:pointer;text-decoration:underline dotted #ff8a3a;">.</span><span id="egg5v5" title="点我 5 下有惊喜" style="cursor:pointer;text-decoration:underline dotted #5aa6ff;">5v5</span> 团队死斗</h1>
   <p>你属于<b style="color:#5aa6ff">蓝队</b>（我方），对手是<b style="color:#ff6a6a">红队</b> AI。
      地图为蓝白做旧风的小型快节奏竞技场，柱子作掩体。<br>
-      桌面：WASD+鼠标，点击锁定指针。手机：左摇杆移动，右侧三键操作。</p>
+      桌面：WASD+鼠标，点击锁定指针。手机：左摇杆移动，右侧三键操作。<br>
+      击倒≠死亡：倒地可爬行等队友救（按住 E 救队友，救人时不能开枪），一方全员倒地即分胜负；场地有医疗箱可回血。</p>
   <div id="modeRow">当前设备模式：<span id="modeLabel">桌面</span>
     <button id="modeBtn">切换为手机</button></div>
   <div class="start" id="startBtn">点击开始</div>
@@ -153,449 +198,14 @@
   <div class="start" id="shareBtn2" style="border-color:#5aa6ff;color:#5aa6ff;">分享链接</div>
 </div>
 
+<!-- 胜负结算 -->
+<div id="victory" class="overlay hide">
+  <h1 id="victoryTitle">🎉 胜利！</h1>
+  <p id="victorySub">红方获胜 · 对方全员倒地</p>
+  <div class="start" id="againBtn">再来一局</div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
-"use strict";
-/* ============================================================
-   0. 配置 & 秘籍参数
-   ============================================================ */
-const MAP = 60, HALF = MAP/2;
-const RES_SCALE = 0.6;
-const EYE = 1.6;
-const SPAWN = { enemy:{z:-22,xr:16}, mid:{z:0,xr:24}, ally:{z:22,xr:16} };
-
-const params = new URLSearchParams(location.search);
-// —— 秘籍 ——
-const imagod        = params.get('imagod') === '1';          // 外挂全开：无敌+无限子弹+飞天
-const fireinthehole = params.get('fireinthehole') === '1';   // 无限子弹
-const chinesecanfly = params.get('chinesecanfly') === '1';   // 飞天
-const pvp           = params.get('pvp') === '1';             // 1v5（无队友）
-const tryMode       = params.get('try') === '1';             // 5v1（敌仅1）
-const gztfxxm       = params.get('gztfxxm') === '1';          // 核弹（按 0），慎用
-const hospitalParam = params.get('hospital');
-const hospitalVal   = (hospitalParam!==null && !isNaN(Number(hospitalParam))) ? Number(hospitalParam) : 0; // 无敌血量
-
-const infiniteAmmo = fireinthehole || imagod;
-const flyEnabled   = chinesecanfly || imagod;
-
-let isPhone;
-if (params.get('isphone') === 'T') isPhone = true;
-else if (params.get('isphone') === 'F') isPhone = false;
-else isPhone = /Mobi|Android|iPhone|iPad|iPod|touch/i.test(navigator.userAgent)
-              || ('ontouchstart' in window && navigator.maxTouchPoints > 0);
-function applyMode(){
-  if (isPhone) document.body.classList.add('phone'); else document.body.classList.remove('phone');
-  const lbl=document.getElementById('modeLabel'), btn=document.getElementById('modeBtn');
-  if(lbl) lbl.textContent = isPhone?'手机':'桌面';
-  if(btn) btn.textContent = isPhone?'切换为桌面':'切换为手机';
-  if(flyEnabled && isPhone) document.body.classList.add('flyon'); else document.body.classList.remove('flyon');
-}
-applyMode();
-document.getElementById('modeBtn').addEventListener('click', e=>{ e.stopPropagation(); isPhone=!isPhone; applyMode(); });
-
-let sensitivity = 0.0024;   // 由暂停菜单滑块调节
-let paused = false;
-
-const WEAPONS = {
-  ak:     {name:'AK47',  interval:0.11, mag:30, dmg:24, reload:1.8, auto:true,  range:60},
-  pistol: {name:'手枪',  interval:0.34, mag:12, dmg:18, reload:1.3, auto:false, range:45},
-  grenade:{name:'手雷',  interval:0.9,  mag:2,  dmg:0,  reload:0,   auto:false, range:0}
-};
-const GRENADE_RADIUS = 6, GRENADE_MAXDMG = 65;
-const BOT_DMG = {ak:18, pistol:14};
-
-/* ============================================================
-   1. 场景 / 相机 / 渲染器
-   ============================================================ */
-const container = document.getElementById('game');
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x9fb8d8);
-scene.fog = new THREE.Fog(0x9fb8d8, 30, 70);
-const camera = new THREE.PerspectiveCamera(78, window.innerWidth/window.innerHeight, 0.1, 200);
-camera.rotation.order = 'YXZ';
-const renderer = new THREE.WebGLRenderer({antialias:false});
-renderer.setPixelRatio(1);
-renderer.setSize(Math.floor(window.innerWidth*RES_SCALE), Math.floor(window.innerHeight*RES_SCALE), false);
-container.appendChild(renderer.domElement);
-scene.add(new THREE.AmbientLight(0xffffff, 0.85));
-const dirLight = new THREE.DirectionalLight(0xffffff, 0.6); dirLight.position.set(20,40,10); scene.add(dirLight);
-
-/* ============================================================
-   2. 蓝白马赛克纹理（Canvas 生成）
-   ============================================================ */
-function makeMosaicTexture(base, tint, cells){
-  const c=document.createElement('canvas'); c.width=c.height=64; const ctx=c.getContext('2d');
-  const step=Math.floor(64/cells);
-  for(let y=0;y<cells;y++)for(let x=0;x<cells;x++){
-    const r=Math.random(); let col = r<0.5?base : (r<0.85?'#e8f2ff':tint);
-    ctx.fillStyle=col; ctx.fillRect(x*step,y*step,step,step);
-  }
-  const tex=new THREE.CanvasTexture(c);
-  tex.magFilter=THREE.NearestFilter; tex.minFilter=THREE.NearestFilter;
-  tex.wrapS=tex.wrapT=THREE.RepeatWrapping; return tex;
-}
-const texMid=makeMosaicTexture('#7fa8d8','#cfe3ff',8);
-const texAlly=makeMosaicTexture('#6f9fd0','#3a6fc8',8);
-const texEnemy=makeMosaicTexture('#9fb0c8','#c84a4a',8);
-const texPillar=makeMosaicTexture('#bcd0ec','#ffffff',6);
-
-/* ============================================================
-   3. 地图
-   ============================================================ */
-function addGround(z,len,tex,tint){ tex.repeat.set(6,2);
-  const m=new THREE.Mesh(new THREE.PlaneGeometry(MAP,len),new THREE.MeshLambertMaterial({map:tex,color:new THREE.Color(tint)}));
-  m.rotation.x=-Math.PI/2; m.position.set(0,0,z); scene.add(m);
-}
-addGround(-20,20,texEnemy,0xd8c0c0); addGround(0,20,texMid,0xffffff); addGround(20,20,texAlly,0xc0d0ff);
-const wallMat=new THREE.MeshLambertMaterial({color:0xbcd0ec,map:texPillar});
-function addWall(x,z,w,d){const m=new THREE.Mesh(new THREE.BoxGeometry(w,3,d),wallMat);m.position.set(x,1.5,z);scene.add(m);}
-addWall(0,-HALF,MAP,1);addWall(0,HALF,MAP,1);addWall(-HALF,0,1,MAP);addWall(HALF,0,1,MAP);
-const pillars=[];
-const pillarPos=[[-28,-28],[0,-28],[28,-28],[-28,0],[28,0],[-28,28],[0,28],[28,28],
-  [-15,-10],[0,-10],[15,-10],[-15,10],[0,10],[15,10],[-10,0],[10,0]];
-const pillarMat=new THREE.MeshLambertMaterial({color:0xcfe0f5,map:texPillar});
-for(const [x,z] of pillarPos){const m=new THREE.Mesh(new THREE.CylinderGeometry(1.2,1.2,6,8),pillarMat);m.position.set(x,3,z);scene.add(m);pillars.push({x,z,r:1.7});}
-
-/* ============================================================
-   4. 角色系统
-   ============================================================ */
-const characters=[], hitMeshes=[], grenades=[];
-function makeCharMesh(team){
-  const g=new THREE.Group();
-  const col=team==='blue'?0x3a7bd5:0xd53a3a;
-  const body=new THREE.Mesh(new THREE.BoxGeometry(0.8,1.0,0.5),new THREE.MeshLambertMaterial({color:col})); body.position.y=1.0;
-  const head=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.5,0.5),new THREE.MeshLambertMaterial({color:0xf0d8b0})); head.position.y=1.8;
-  const tag=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.16,0.7),new THREE.MeshLambertMaterial({color:col})); tag.position.y=2.2;
-  g.add(body,head,tag); return {group:g,body,head};
-}
-function spawnCharacter(team,isPlayer){
-  const m=makeCharMesh(team); scene.add(m.group);
-  const ch={team,isPlayer,alive:true,hp:100,respawn:0,group:m.group,meshes:[m.body,m.head],
-    yaw:team==='blue'?Math.PI:0,pitch:0,recoil:0,flyY:0,weapon:'ak',
-    ammo:{ak:WEAPONS.ak.mag,pistol:WEAPONS.pistol.mag,grenade:WEAPONS.grenade.mag},
-    reloading:false,reloadT:0,lastFire:0,aiState:'patrol',aiTarget:null,aiTimer:0,moveTarget:null};
-  m.body.userData.char=ch; m.head.userData.char=ch;
-  characters.push(ch); hitMeshes.push(m.body,m.head); return ch;
-}
-const player=spawnCharacter('blue',true);
-const blueAI = pvp ? 0 : 4;     // 1v5 模式无队友
-const redAI  = tryMode ? 1 : 5; // 5v1 模式敌仅1
-for(let i=0;i<blueAI;i++) spawnCharacter('blue',false);
-for(let i=0;i<redAI;i++) spawnCharacter('red',false);
-
-function placeAtSpawn(ch){
-  const s=ch.team==='blue'?SPAWN.ally:SPAWN.enemy;
-  ch.group.position.set((Math.random()-0.5)*2*s.xr,0,s.z+(Math.random()-0.5)*6);
-  ch.group.rotation.y=ch.yaw;
-}
-characters.forEach(placeAtSpawn);
-
-// 玩家：隐身（只剩摄像机在打）+ 应用 hospital 血量
-player.group.visible=false;
-if(hospitalVal>0) player.hp=hospitalVal;
-
-let blueScore=0, redScore=0;
-
-function damage(ch,amt,attacker){
-  if(!ch.alive) return;
-  if(imagod && ch.isPlayer){ ch.hp=Math.min(200,ch.hp+amt); if(ch.isPlayer)updateHUD(); return; }
-  ch.hp-=amt;
-  if(ch.hp<=0){
-    ch.alive=false; ch.group.visible=false; ch.respawn=3;
-    if(attacker&&attacker.team==='blue') blueScore++; else if(attacker&&attacker.team==='red') redScore++;
-    if(ch.isPlayer) toast('你被击倒了！等待重生…');
-    else if(attacker&&attacker.isPlayer) toast('击杀 '+(ch.team==='red'?'敌方':'友军')+' +1');
-    updateHUD();
-  } else if(ch.isPlayer) updateHUD();
-}
-function respawnChar(ch){
-  ch.alive=true; ch.hp = (ch.isPlayer && hospitalVal>0)?hospitalVal:100; ch.group.visible=!ch.isPlayer;
-  ch.ammo={ak:WEAPONS.ak.mag,pistol:WEAPONS.pistol.mag,grenade:WEAPONS.grenade.mag};
-  ch.reloading=false; ch.reloadT=0; ch.flyY=0; placeAtSpawn(ch); if(ch.isPlayer)updateHUD();
-}
-function resolveCollision(pos){
-  pos.x=Math.max(-HALF+1.5,Math.min(HALF-1.5,pos.x));
-  pos.z=Math.max(-HALF+1.5,Math.min(HALF-1.5,pos.z));
-  for(const p of pillars){const dx=pos.x-p.x,dz=pos.z-p.z,d=Math.hypot(dx,dz);
-    if(d<p.r&&d>0.0001){const push=p.r-d; pos.x+=dx/d*push; pos.z+=dz/d*push;}}
-}
-
-/* ============================================================
-   5. 武器 / 射击 / 手雷
-   ============================================================ */
-let curWeapon='ak', firing=false;
-function recoilKick(){ player.recoil+=0.03; }
-const raycaster=new THREE.Raycaster(), _dir=new THREE.Vector3();
-
-function playerFire(){
-  const w=WEAPONS[curWeapon];
-  if(curWeapon==='grenade'){ throwGrenade(player); return; }
-  if(player.reloading) return;
-  if(performance.now()-player.lastFire < w.interval*1000) return;
-  if(player.ammo[curWeapon]<=0){ toast('弹匣空 · 按 R 换弹'); return; }
-  player.lastFire=performance.now();
-  if(!(curWeapon!=='grenade' && infiniteAmmo)) player.ammo[curWeapon]--;  // 无限子弹
-  playShoot(curWeapon); recoilKick();
-  camera.getWorldDirection(_dir); raycaster.set(camera.position,_dir); raycaster.far=w.range;
-  const hits=raycaster.intersectObjects(hitMeshes,false);
-  if(hits.length){ const ch=hits[0].object.userData.char; if(ch&&ch.alive&&ch.team==='red') damage(ch,w.dmg,player); }
-  updateHUD();
-}
-function botFire(b,target){
-  const w=WEAPONS[b.weapon];
-  const origin=b.group.position.clone(); origin.y=1.5;
-  const d=target.group.position.clone().sub(origin); d.y=0; d.normalize();
-  const spread=(Math.random()-0.5)*0.32; const a=Math.atan2(d.x,d.z)+spread;
-  _dir.set(Math.sin(a),0,Math.cos(a));
-  const rc=new THREE.Raycaster(origin,_dir,0,w.range);
-  const hits=rc.intersectObjects(hitMeshes,false);
-  if(hits.length){ const ch=hits[0].object.userData.char; if(ch&&ch.alive&&ch.team!==b.team) damage(ch,BOT_DMG[b.weapon]||18,b); }
-}
-function startReload(ch){
-  const w=WEAPONS[ch.weapon];
-  if(ch.weapon==='grenade'||ch.reloading) return;
-  if(ch.ammo[ch.weapon]>=w.mag) return;
-  ch.reloading=true; ch.reloadT=w.reload; if(ch.isPlayer){toast('换弹中…');playReload();}
-}
-function finishReload(ch){ ch.ammo[ch.weapon]=WEAPONS[ch.weapon].mag; ch.reloading=false; if(ch.isPlayer)updateHUD(); }
-function switchWeapon(){ const o=['ak','pistol','grenade']; curWeapon=o[(o.indexOf(curWeapon)+1)%o.length]; firing=false; updateHUD(); }
-function throwGrenade(ch){
-  if(ch.ammo.grenade<=0){ if(ch.isPlayer)toast('手雷已用完'); return; }
-  if(!(ch.isPlayer && infiniteAmmo)) ch.ammo.grenade--;   // 无限子弹也覆盖手雷
-  const origin=ch.isPlayer?camera.position.clone():ch.group.position.clone().setY(1.5);
-  let gdir;
-  if(ch.isPlayer) gdir=camera.getWorldDirection(new THREE.Vector3());
-  else { const t=ch.aiTarget; gdir=t?t.group.position.clone().sub(origin).normalize():new THREE.Vector3(Math.sin(ch.yaw),0,Math.cos(ch.yaw)); }
-  const mesh=new THREE.Mesh(new THREE.SphereGeometry(0.25,8,8),new THREE.MeshLambertMaterial({color:0xff8a3a}));
-  mesh.position.copy(origin); scene.add(mesh);
-  grenades.push({mesh,pos:origin.clone(),vel:gdir.multiplyScalar(16).add(new THREE.Vector3(0,5,0)),fuse:2.0,owner:ch.team});
-  if(ch.isPlayer){ toast('手雷已投掷'); updateHUD(); }
-}
-function explode(pos,ownerTeam){
-  playExplosion();
-  const flash=new THREE.Mesh(new THREE.SphereGeometry(0.6,8,8),new THREE.MeshBasicMaterial({color:0xffd86a,transparent:true,opacity:0.9}));
-  flash.position.copy(pos); flash.position.y=1; scene.add(flash);
-  let f=1; const anim=()=>{f-=0.08;flash.scale.setScalar(1+(1-f)*6);flash.material.opacity=f; if(f<=0)scene.remove(flash);else requestAnimationFrame(anim);}; anim();
-  for(const c of characters){ if(!c.alive)continue; const d=c.group.position.distanceTo(pos);
-    if(d<GRENADE_RADIUS){ const dmg=GRENADE_MAXDMG*(1-d/GRENADE_RADIUS); const before=c.alive; c.hp-=dmg;
-      if(c.hp<=0&&before){ c.alive=false;c.group.visible=false;c.respawn=3;
-        if(ownerTeam==='blue')blueScore++; else if(ownerTeam==='red')redScore++;
-        if(c.isPlayer)toast('你被炸倒了！等待重生…'); updateHUD(); } } }
-}
-function callNuke(){   // 秘籍 gztfxxm：核弹，我方 +1000
-  if(!gztfxxm) return;
-  blueScore+=1000;
-  for(const c of characters){ if(c.team==='red'&&c.alive) damage(c,9999,player); }
-  playExplosion(); toast('☢ 核弹已召唤！我方 +1000'); updateHUD();
-}
-
-/* ============================================================
-   6. AI 状态机
-   ============================================================ */
-function updateBot(b,dt){
-  if(!b.alive){ b.respawn-=dt; if(b.respawn<=0)respawnChar(b); return; }
-  if(b.reloading){ b.reloadT-=dt; if(b.reloadT<=0)finishReload(b); }
-  let near=null,nd=1e9;
-  for(const c of characters){ if(c===b||!c.alive||c.team===b.team)continue; const d=b.group.position.distanceTo(c.group.position); if(d<nd){nd=d;near=c;} }
-  b.aiTarget=near;
-  if(near&&nd<34){
-    b.aiState='chase';
-    const tx=near.group.position.x-b.group.position.x, tz=near.group.position.z-b.group.position.z, ang=Math.atan2(tx,tz);
-    b.yaw=ang; let mv=0; if(nd>12)mv=1; else if(nd<6)mv=-1;
-    b.group.position.x+=Math.sin(ang)*mv*5*dt; b.group.position.z+=Math.cos(ang)*mv*5*dt;
-    if(!b.reloading){
-      b.aiTimer-=dt;
-      if(b.ammo[b.weapon]<=0)startReload(b);
-      else if(b.aiTimer<=0){ b.aiTimer=(b.weapon==='ak')?0.22:0.5; botFire(b,near); }
-      if(nd<9&&b.ammo.grenade>0&&Math.random()<0.012) throwGrenade(b);
-    }
-  } else {
-    b.aiState='patrol';
-    if(!b.moveTarget||b.group.position.distanceTo(b.moveTarget)<2) b.moveTarget=new THREE.Vector3((Math.random()-0.5)*50,0,(Math.random()-0.5)*50);
-    const tx=b.moveTarget.x-b.group.position.x, tz=b.moveTarget.z-b.group.position.z, ang=Math.atan2(tx,tz);
-    b.yaw=ang; b.group.position.x+=Math.sin(ang)*4*dt; b.group.position.z+=Math.cos(ang)*4*dt;
-  }
-  resolveCollision(b.group.position); b.group.position.y=0; b.group.rotation.y=b.yaw;
-}
-
-/* ============================================================
-   7. 玩家控制（含飞天）
-   ============================================================ */
-const keys={};
-const joy={active:false,id:null,baseX:0,baseY:0,x:0,y:0};
-let running=false;
-function updatePlayer(dt){
-  if(!player.alive){ player.respawn-=dt; if(player.respawn<=0)respawnChar(player); return; }
-  if(player.reloading){ player.reloadT-=dt; if(player.reloadT<=0)finishReload(player); }
-  // 飞天
-  if(flyEnabled){ if(keys['=']||flyUp)player.flyY+=7*dt; if(keys['-']||flyDown)player.flyY-=7*dt; player.flyY=Math.max(-1,Math.min(45,player.flyY)); }
-  let fx=0,fz=0;
-  if(!isPhone){ fx=(keys['w']?1:0)-(keys['s']?1:0); fz=(keys['d']?1:0)-(keys['a']?1:0); }
-  else { fx=-joy.y; fz=joy.x; }
-  const sin=Math.sin(player.yaw),cos=Math.cos(player.yaw);
-  const fwdX=-sin,fwdZ=-cos, rgtX=cos,rgtZ=-sin;
-  let vx=fwdX*fx+rgtX*fz, vz=fwdZ*fx+rgtZ*fz; const len=Math.hypot(vx,vz); if(len>0){vx/=len;vz/=len;}
-  const sp=7; player.group.position.x+=vx*sp*dt; player.group.position.z+=vz*sp*dt;
-  resolveCollision(player.group.position);
-  player.group.position.y=player.flyY;   // 隐身，高度由 flyY 决定
-  camera.position.set(player.group.position.x, EYE+player.flyY, player.group.position.z);
-  player.recoil*=0.85; camera.rotation.y=player.yaw; camera.rotation.x=player.pitch+player.recoil;
-  if(firing&&curWeapon==='ak') playerFire();
-}
-
-/* ============================================================
-   8. 音效（WebAudio）
-   ============================================================ */
-let actx=null;
-function initAudio(){ if(!actx){ try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){actx=null;} } }
-function noiseBuf(dur){ const len=Math.floor(actx.sampleRate*dur); const buf=actx.createBuffer(1,len,actx.sampleRate); const d=buf.getChannelData(0); for(let i=0;i<len;i++)d[i]=Math.random()*2-1; return buf; }
-function playShoot(type){ if(!actx)return; const t=actx.currentTime; const src=actx.createBufferSource(); src.buffer=noiseBuf(type==='ak'?0.08:0.12);
-  const g=actx.createGain(); g.gain.setValueAtTime(type==='ak'?0.5:0.35,t); g.gain.exponentialRampToValueAtTime(0.001,t+(type==='ak'?0.08:0.12));
-  const lp=actx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=2200; src.connect(lp);lp.connect(g);g.connect(actx.destination); src.start(t); }
-function playReload(){ if(!actx)return; const t=actx.currentTime; const o=actx.createOscillator(); o.type='square'; o.frequency.value=180;
-  const g=actx.createGain(); g.gain.setValueAtTime(0.15,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.12); o.connect(g);g.connect(actx.destination); o.start(t);o.stop(t+0.13); }
-function playExplosion(){ if(!actx)return; const t=actx.currentTime; const src=actx.createBufferSource(); src.buffer=noiseBuf(0.5);
-  const g=actx.createGain(); g.gain.setValueAtTime(0.7,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.5);
-  const lp=actx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=600; src.connect(lp);lp.connect(g);g.connect(actx.destination); src.start(t); }
-
-/* ============================================================
-   9. HUD
-   ============================================================ */
-const el=id=>document.getElementById(id);
-let toastTimer=null;
-function toast(msg){ const t=el('toast'); t.textContent=msg; t.style.opacity=1; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{t.style.opacity=0;},1400); }
-function updateHUD(){
-  const hp=Math.max(0,Math.min(200,player.hp));
-  el('hp').textContent=Math.round(hp); el('hpfill').style.width=Math.min(100,hp)+'%';
-  const w=WEAPONS[curWeapon];
-  el('weapon').textContent=w.name;
-  if(curWeapon==='grenade') el('ammo').textContent = infiniteAmmo?'∞':('x'+player.ammo.grenade);
-  else el('ammo').textContent = infiniteAmmo?'∞':(player.ammo[curWeapon]+' / '+w.mag);
-  el('nade').textContent = '雷 '+(infiniteAmmo?'∞':('x'+player.ammo.grenade));
-  el('blueScore').textContent='蓝 '+blueScore; el('redScore').textContent='红 '+redScore;
-  // 秘籍状态条已隐藏（仅 README 记录，不在游戏内透露）
-}
-
-/* ============================================================
-   10. 输入（桌面键鼠 + 手机触控，全部注册；模式走 isPhone）
-   ============================================================ */
-const cv=renderer.domElement;
-document.addEventListener('keydown', e=>{
-  const k=e.key.toLowerCase(); keys[k]=true;
-  if(k==='r') startReload(player);
-  if(k==='f') switchWeapon();
-  if(k==='escape') togglePause();
-  if(k==='0') callNuke();
-});
-document.addEventListener('keyup', e=>{ keys[e.key.toLowerCase()]=false; });
-cv.addEventListener('mousedown', e=>{
-  if(!running||!player.alive) return;
-  if(e.button===0){ if(curWeapon==='grenade')throwGrenade(player); else if(curWeapon==='pistol')playerFire(); else firing=true; }
-});
-window.addEventListener('mouseup', e=>{ if(e.button===0)firing=false; });
-cv.addEventListener('contextmenu', e=>e.preventDefault());
-document.addEventListener('contextmenu', e=>e.preventDefault());
-document.addEventListener('mousemove', e=>{
-  if(!running||document.pointerLockElement!==cv) return;
-  player.yaw-=e.movementX*sensitivity; player.pitch-=e.movementY*sensitivity;
-  player.pitch=Math.max(-1.45,Math.min(1.45,player.pitch));
-});
-document.addEventListener('pointerlockchange', ()=>{
-  if(document.pointerLockElement!==cv && running && !paused){
-    running=false; el('overlay').classList.remove('hide'); el('startBtn').textContent='点击继续';
-  }
-});
-
-// 手机触控
-const joyEl=el('joystick'), stickEl=el('stick'), JMAX=42;
-function stickMove(t){ let dx=t.clientX-joy.baseX, dy=t.clientY-joy.baseY; const d=Math.hypot(dx,dy);
-  if(d>JMAX){dx=dx/d*JMAX;dy=dy/d*JMAX;} stickEl.style.transform=`translate(${dx}px,${dy}px)`; joy.x=dx/JMAX; joy.y=dy/JMAX; }
-joyEl.addEventListener('touchstart', e=>{ e.preventDefault(); const t=e.changedTouches[0]; joy.id=t.identifier; joy.active=true;
-  const r=joyEl.getBoundingClientRect(); joy.baseX=r.left+r.width/2; joy.baseY=r.top+r.height/2; stickMove(t); },{passive:false});
-joyEl.addEventListener('touchmove', e=>{ e.preventDefault(); for(const t of e.changedTouches) if(t.identifier===joy.id)stickMove(t); },{passive:false});
-function joyEnd(e){ for(const t of e.changedTouches) if(t.identifier===joy.id){ joy.active=false;joy.id=null;joy.x=0;joy.y=0;stickEl.style.transform='translate(0,0)'; } }
-joyEl.addEventListener('touchend', e=>{e.preventDefault();joyEnd(e);},{passive:false});
-joyEl.addEventListener('touchcancel', e=>{e.preventDefault();joyEnd(e);},{passive:false});
-function bindBtn(id,onDown,onUp){ const b=el(id); b.addEventListener('touchstart',e=>{e.preventDefault();if(!running)return;onDown();},{passive:false});
-  if(onUp)b.addEventListener('touchend',e=>{e.preventDefault();onUp();},{passive:false}); }
-bindBtn('btnFire', ()=>{ if(curWeapon==='grenade')throwGrenade(player); else if(curWeapon==='pistol')playerFire(); else {firing=true;playerFire();} }, ()=>{firing=false;});
-bindBtn('btnReload', ()=>startReload(player));
-bindBtn('btnSwitch', ()=>switchWeapon());
-// 手机飞天（仅秘籍开启时显示）
-let flyUp=false, flyDown=false;
-bindBtn('btnUp', ()=>{flyUp=true;}, ()=>{flyUp=false;});
-bindBtn('btnDown', ()=>{flyDown=true;}, ()=>{flyDown=false;});
-
-// 手机视角（在 #look 层拖拽看视角；摇杆与按钮在其上层，互不干扰）
-const lookEl=el('look'), look={id:null,lx:0,ly:0};
-lookEl.addEventListener('touchstart', e=>{ if(!running||paused)return; e.preventDefault(); const t=e.changedTouches[0]; look.id=t.identifier; look.lx=t.clientX; look.ly=t.clientY; }, {passive:false});
-lookEl.addEventListener('touchmove', e=>{ if(look.id===null)return; e.preventDefault();
-  for(const t of e.changedTouches){ if(t.identifier===look.id){
-    const dx=t.clientX-look.lx, dy=t.clientY-look.ly; look.lx=t.clientX; look.ly=t.clientY;
-    player.yaw-=dx*sensitivity*2; player.pitch-=dy*sensitivity*2; player.pitch=Math.max(-1.45,Math.min(1.45,player.pitch)); } }
-}, {passive:false});
-function lookEnd(e){ for(const t of e.changedTouches) if(t.identifier===look.id) look.id=null; }
-lookEl.addEventListener('touchend', lookEnd, {passive:false});
-lookEl.addEventListener('touchcancel', lookEnd, {passive:false});
-
-// 暂停 / 分享 按钮
-function togglePause(){
-  paused=!paused;
-  if(paused){ el('pause').classList.remove('hide');
-    if(document.pointerLockElement===cv) document.exitPointerLock(); }
-  else { el('pause').classList.add('hide'); if(!isPhone) cv.requestPointerLock(); }
-}
-function shareGame(){
-  const url=location.href;
-  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(()=>toast('已复制分享链接'),()=>toast('复制失败：'+url)); }
-  else toast('链接：'+url);
-}
-el('pauseBtn').addEventListener('click', togglePause);
-el('shareBtn').addEventListener('click', shareGame);
-el('resumeBtn').addEventListener('click', togglePause);
-el('shareBtn2').addEventListener('click', shareGame);
-
-/* ============================================================
-   11. 开始 / 主循环
-   ============================================================ */
-function startGame(){
-  if(typeof THREE==='undefined'){ toast('引擎未加载，请检查网络后刷新'); return; }
-  initAudio(); if(actx&&actx.state==='suspended')actx.resume();
-  el('overlay').classList.add('hide'); running=true;
-  if(!isPhone) cv.requestPointerLock(); else toast('左摇杆移动 · 右侧开枪/换弹/换枪');
-  if(imagod) toast('外挂全开：无敌+无限子弹+飞天');
-  updateHUD();
-}
-el('overlay').addEventListener('click', startGame);
-
-// 灵敏度旋钮
-const sensInput=el('sens'), sensVal=el('sensVal');
-function applySens(){ const mul=parseFloat(sensInput.value); sensitivity=0.001*mul; sensVal.textContent=mul.toFixed(1); }
-sensInput.addEventListener('input', applySens); applySens();
-
-window.addEventListener('resize', ()=>{
-  camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix();
-  renderer.setSize(Math.floor(window.innerWidth*RES_SCALE),Math.floor(window.innerHeight*RES_SCALE),false);
-});
-
-const clock=new THREE.Clock();
-function animate(){
-  requestAnimationFrame(animate);
-  let dt=clock.getDelta(); if(dt>0.05)dt=0.05;
-  if(running&&!paused){
-    updatePlayer(dt);
-    for(const c of characters) if(!c.isPlayer) updateBot(c,dt);
-    for(let i=grenades.length-1;i>=0;i--){ const g=grenades[i]; g.vel.y-=14*dt; g.pos.addScaledVector(g.vel,dt);
-      if(g.pos.y<0.3){ g.pos.y=0.3; g.vel.y*=-0.42; g.vel.x*=0.6; g.vel.z*=0.6; if(Math.abs(g.vel.y)<1)g.vel.y=0; }
-      g.mesh.position.copy(g.pos); g.fuse-=dt;
-      if(g.fuse<=0){ explode(g.pos,g.owner); scene.remove(g.mesh); grenades.splice(i,1); } }
-    updateHUD();
-  }
-  renderer.render(scene,camera);
-}
-camera.position.set(player.group.position.x, EYE, player.group.position.z);
-animate();
-updateHUD();
-</script>
+<script src="../js/js/CS.js"></script>
 </body>
 </html>
