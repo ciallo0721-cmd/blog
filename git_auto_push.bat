@@ -33,7 +33,7 @@ echo [INFO] Checking for staged changes...
 git diff --cached --quiet
 if not errorlevel 1 (
     echo [INFO] Nothing staged to commit. Working tree is clean.
-    goto :PUSH
+    goto :PULL
 )
 
 REM Commit with a pure-English message
@@ -46,7 +46,17 @@ if errorlevel 1 (
     exit /b 1
 )
 
-:PUSH
+:PULL
+REM Integrate remote work before pushing so the push can fast-forward.
+REM If a conflict occurs, rebase stops and the script aborts for manual fixing.
+echo [INFO] Pulling remote changes with rebase...
+git pull --rebase
+if errorlevel 1 (
+    echo [ERROR] git pull --rebase failed. Resolve conflicts manually, then run again.
+    popd
+    exit /b 1
+)
+
 REM Push to the remote repository
 echo [INFO] Pushing to remote repository...
 git push
