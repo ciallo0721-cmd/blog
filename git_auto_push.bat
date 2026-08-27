@@ -18,25 +18,6 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM Detect any changes in the working tree
-echo [INFO] Scanning repository for changes...
-git status --porcelain > "%~dp0_git_status_tmp.txt" 2>&1
-if errorlevel 1 (
-    echo [ERROR] Failed to read git status.
-    if exist "%~dp0_git_status_tmp.txt" del /f /q "%~dp0_git_status_tmp.txt" >nul 2>&1
-    popd
-    exit /b 1
-)
-
-set /p CHANGES=<"%~dp0_git_status_tmp.txt"
-if not defined CHANGES (
-    echo [INFO] No changes detected. Nothing to commit.
-    if exist "%~dp0_git_status_tmp.txt" del /f /q "%~dp0_git_status_tmp.txt" >nul 2>&1
-    popd
-    exit /b 0
-)
-if exist "%~dp0_git_status_tmp.txt" del /f /q "%~dp0_git_status_tmp.txt" >nul 2>&1
-
 REM Stage all changes (modified, new, and deleted files)
 echo [INFO] Staging all changed files...
 git add -A
@@ -44,6 +25,15 @@ if errorlevel 1 (
     echo [ERROR] git add failed. Aborting.
     popd
     exit /b 1
+)
+
+REM Decide whether a commit is actually needed.
+REM git diff --cached --quiet returns 0 when nothing is staged, 1 when something is staged.
+echo [INFO] Checking for staged changes...
+git diff --cached --quiet
+if not errorlevel 1 (
+    echo [INFO] Nothing staged to commit. Working tree is clean.
+    goto :PUSH
 )
 
 REM Commit with a pure-English message
@@ -56,6 +46,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
+:PUSH
 REM Push to the remote repository
 echo [INFO] Pushing to remote repository...
 git push
