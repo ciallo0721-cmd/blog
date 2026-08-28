@@ -29,3 +29,7 @@ __pycache__/
 
 # 排除本地备份目录(不入库)
 blog_backup_20260822/
+
+# CS 游戏：本地测试副本 & 调试脚本（临时，严禁入库）
+CS_test/
+CS/debug-*.js

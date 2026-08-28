@@ -1,0 +1,93 @@
+/* ============================================================
+   CS · css.css — 全部样式（由 index.html 内联样式外置）
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a1020;
+  font-family:"Courier New",monospace;color:#cfe3ff;
+  -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;}
+#game{position:fixed;inset:0;}
+#game canvas{display:block;width:100%!important;height:100%!important;
+  image-rendering:pixelated;image-rendering:crisp-edges;
+  filter:contrast(1.08) saturate(0.85) blur(0.4px);}
+#grain{position:fixed;inset:0;pointer-events:none;opacity:.10;mix-blend-mode:overlay;z-index:5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+#hud{position:fixed;inset:0;pointer-events:none;z-index:10;}
+#crosshair{position:absolute;left:50%;top:50%;width:26px;height:26px;transform:translate(-50%,-50%);}
+#crosshair::before,#crosshair::after{content:"";position:absolute;background:#9fe0ff;box-shadow:0 0 2px #003;}
+#crosshair::before{left:50%;top:0;width:2px;height:100%;transform:translateX(-50%);}
+#crosshair::after{top:50%;left:0;height:2px;width:100%;transform:translateY(-50%);}
+#topbar{position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  background:rgba(10,20,40,.55);border:1px solid #2a4a7a;padding:4px 14px;border-radius:4px;font-size:16px;letter-spacing:1px;}
+#topbar .b{color:#5aa6ff;font-weight:bold;} #topbar .r{color:#ff6a6a;font-weight:bold;}
+#cheats{position:absolute;top:46px;left:50%;transform:translateX(-50%);font-size:12px;color:#ffd86a;
+  background:rgba(10,20,40,.5);border:1px solid #5a4a2a;padding:2px 10px;border-radius:4px;max-width:90vw;text-align:center;}
+#god{position:absolute;left:50%;top:74px;transform:translateX(-50%);color:#ffd86a;font-size:13px;display:none;}
+#bottomleft{position:absolute;left:14px;bottom:14px;font-size:14px;line-height:1.5;text-shadow:0 0 3px #000;}
+#hpbar{width:160px;height:14px;background:#222a3a;border:1px solid #3a5a8a;margin-top:3px;}
+#hpfill{height:100%;background:linear-gradient(90deg,#2bd06a,#9be86a);width:100%;transition:width .15s;}
+#bottomright{position:absolute;right:14px;bottom:14px;text-align:right;font-size:13px;line-height:1.5;text-shadow:0 0 3px #000;}
+#weapon{font-size:22px;font-weight:bold;color:#9fe0ff;}
+#ammo{font-size:30px;font-weight:bold;}
+#nade{color:#ffcf6a;}
+#keyhelp{position:absolute;left:14px;top:54px;font-size:12px;color:#7fa8d8;line-height:1.6;text-shadow:0 0 3px #000;}
+#topbtns{position:absolute;right:12px;top:10px;display:flex;gap:8px;pointer-events:auto;}
+#topbtns button{font-family:inherit;font-size:16px;width:36px;height:36px;border-radius:8px;cursor:pointer;
+  background:rgba(20,40,70,.6);color:#cfe3ff;border:1px solid #5aa6ff;}
+#toast{position:absolute;left:50%;top:62%;transform:translateX(-50%);
+  background:rgba(10,20,40,.7);border:1px solid #3a5a8a;padding:6px 16px;border-radius:4px;font-size:15px;opacity:0;transition:opacity .2s;white-space:nowrap;}
+/* 触控 UI（默认隐藏，手机模式显示） */
+#touch{display:none;}
+body.phone #touch{display:block;}
+body.phone #keyhelp{display:none;}
+#joystick{position:fixed;left:0;bottom:0;width:42%;height:46%;z-index:20;touch-action:none;}
+#joybase{position:absolute;left:50%;top:50%;width:120px;height:120px;transform:translate(-50%,-50%);
+  border:2px solid rgba(120,170,230,.5);border-radius:50%;background:rgba(20,40,70,.25);}
+#stick{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:rgba(120,180,255,.6);border:2px solid #cfe3ff;}
+.tbtn{position:fixed;z-index:21;border:2px solid #5aa6ff;border-radius:12px;background:rgba(20,40,70,.55);color:#cfe3ff;
+  font-size:15px;font-weight:bold;display:flex;align-items:center;justify-content:center;touch-action:none;user-select:none;}
+#btnFire{right:18px;bottom:90px;width:84px;height:84px;border-radius:50%;background:rgba(200,60,60,.5);border-color:#ff8a8a;}
+#btnReload{right:118px;bottom:30px;width:70px;height:70px;border-radius:50%;}
+#btnSwitch{right:18px;bottom:14px;width:70px;height:70px;border-radius:50%;}
+/* 遮罩（开始 / 暂停，无加载进度条） */
+.overlay{position:fixed;inset:0;background:rgba(8,14,30,.93);z-index:50;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;}
+#overlay{cursor:pointer;}
+.overlay h1{font-size:30px;color:#9fe0ff;letter-spacing:2px;margin-bottom:10px;text-shadow:0 0 8px #1a3a6a;}
+.overlay p{font-size:14px;color:#9ab4d8;line-height:1.8;max-width:480px;}
+#modeRow{margin-top:16px;font-size:14px;color:#9ab4d8;}
+#modeBtn{font-family:inherit;color:#ffd86a;background:transparent;border:1px solid #ffd86a;border-radius:6px;font-size:13px;padding:5px 10px;margin-left:8px;cursor:pointer;}
+.start{margin-top:22px;font-size:20px;color:#ffd86a;border:1px solid #ffd86a;padding:10px 26px;border-radius:6px;cursor:pointer;font-family:inherit;}
+.row{margin:16px 0;font-size:15px;color:#cfe3ff;}
+.row input[type=range]{vertical-align:middle;width:180px;margin:0 10px;}
+.cheats{font-size:12px;color:#ffd86a;margin:6px 0 0;max-width:90vw;}
+.hide{display:none!important;}
+body.phone #keyhelp{display:none;}
+/* 秘籍指示全部隐藏（仅 README 记录，不在游戏内透露） */
+#cheats,#god,#cheatsPause{display:none!important;}
+/* 手机视角：全屏拖拽看视角层（位于画布之上、摇杆与按钮之下） */
+#look{display:none;}
+body.phone #look{display:block;position:fixed;top:48px;left:0;right:0;bottom:0;z-index:11;touch-action:none;}
+/* 手机飞天按钮（仅开启飞天秘籍且手机模式显示） */
+.flybtn{font-size:22px;font-weight:bold;width:60px;height:60px;display:none;
+  background:rgba(40,80,130,.55);border-color:#9fe0ff;}
+body.phone.flyon #btnUp,body.phone.flyon #btnDown{display:flex;}
+#btnUp{right:96px;bottom:188px;}
+#btnDown{right:18px;bottom:188px;}
+#btnJump{right:118px;bottom:120px;background:rgba(90,166,255,.5);border-color:#9ec5ff;}
+#btnCrouch{right:18px;bottom:184px;background:rgba(120,200,120,.45);border-color:#9be09b;}
+/* 右下角第一人称枪贴图（随开枪后座） */
+#viewgun{position:absolute;right:22px;bottom:0;pointer-events:none;z-index:9;transition:transform .07s;opacity:1;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));}
+#viewgun svg{display:block;}
+#viewgunName{position:absolute;right:6px;bottom:2px;font-size:11px;color:#9fe0ff;background:rgba(10,20,40,.55);
+  border:1px solid #2a4a7a;padding:1px 8px;border-radius:4px;letter-spacing:1px;}
+/* DEBUG 沙盒控制面板 */
+#dbgHud{position:fixed;left:10px;top:122px;z-index:30;display:flex;flex-direction:column;gap:5px;
+  background:rgba(10,18,34,.82);border:1px solid #5aa6ff;border-radius:8px;padding:8px 8px 10px;
+  max-height:76vh;overflow:auto;pointer-events:auto;width:148px;}
+#dbgHud h3{font-size:13px;color:#ffd86a;margin:0 0 2px;}
+#dbgHud .hint{font-size:10px;color:#7fa8d8;line-height:1.45;margin-bottom:5px;}
+#dbgHud button{font-family:inherit;font-size:12px;padding:6px 8px;border-radius:6px;cursor:pointer;text-align:left;
+  background:rgba(20,40,70,.7);color:#cfe3ff;border:1px solid #3a5a8a;}
+#dbgHud button:hover{background:rgba(40,70,110,.85);}
+#dbgHud .exit{border-color:#ff8a8a;color:#ffb0b0;margin-top:3px;}

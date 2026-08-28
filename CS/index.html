@@ -4,208 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>fy_iceworld · 5v5 团队死斗</title>
-<style>
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html,body{width:100%;height:100%;overflow:hidden;background:#0a1020;
-    font-family:"Courier New",monospace;color:#cfe3ff;
-    -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;}
-  #game{position:fixed;inset:0;}
-  #game canvas{display:block;width:100%!important;height:100%!important;
-    image-rendering:pixelated;image-rendering:crisp-edges;
-    filter:contrast(1.08) saturate(0.85) blur(0.4px);}
-  #grain{position:fixed;inset:0;pointer-events:none;opacity:.10;mix-blend-mode:overlay;z-index:5;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
-  #hud{position:fixed;inset:0;pointer-events:none;z-index:10;}
-  #crosshair{position:absolute;left:50%;top:50%;width:26px;height:26px;transform:translate(-50%,-50%);}
-  #crosshair::before,#crosshair::after{content:"";position:absolute;background:#9fe0ff;box-shadow:0 0 2px #003;}
-  #crosshair::before{left:50%;top:0;width:2px;height:100%;transform:translateX(-50%);}
-  #crosshair::after{top:50%;left:0;height:2px;width:100%;transform:translateY(-50%);}
-  #topbar{position:absolute;top:10px;left:50%;transform:translateX(-50%);
-    background:rgba(10,20,40,.55);border:1px solid #2a4a7a;padding:4px 14px;border-radius:4px;font-size:16px;letter-spacing:1px;}
-  #topbar .b{color:#5aa6ff;font-weight:bold;} #topbar .r{color:#ff6a6a;font-weight:bold;}
-  #cheats{position:absolute;top:46px;left:50%;transform:translateX(-50%);font-size:12px;color:#ffd86a;
-    background:rgba(10,20,40,.5);border:1px solid #5a4a2a;padding:2px 10px;border-radius:4px;max-width:90vw;text-align:center;}
-  #god{position:absolute;left:50%;top:74px;transform:translateX(-50%);color:#ffd86a;font-size:13px;display:none;}
-  #bottomleft{position:absolute;left:14px;bottom:14px;font-size:14px;line-height:1.5;text-shadow:0 0 3px #000;}
-  #hpbar{width:160px;height:14px;background:#222a3a;border:1px solid #3a5a8a;margin-top:3px;}
-  #hpfill{height:100%;background:linear-gradient(90deg,#2bd06a,#9be86a);width:100%;transition:width .15s;}
-  #bottomright{position:absolute;right:14px;bottom:14px;text-align:right;font-size:13px;line-height:1.5;text-shadow:0 0 3px #000;}
-  #weapon{font-size:22px;font-weight:bold;color:#9fe0ff;}
-  #ammo{font-size:30px;font-weight:bold;}
-  #nade{color:#ffcf6a;}
-  #keyhelp{position:absolute;left:14px;top:54px;font-size:12px;color:#7fa8d8;line-height:1.6;text-shadow:0 0 3px #000;}
-  #topbtns{position:absolute;right:12px;top:10px;display:flex;gap:8px;pointer-events:auto;}
-  #topbtns button{font-family:inherit;font-size:16px;width:36px;height:36px;border-radius:8px;cursor:pointer;
-    background:rgba(20,40,70,.6);color:#cfe3ff;border:1px solid #5aa6ff;}
-  #toast{position:absolute;left:50%;top:62%;transform:translateX(-50%);
-    background:rgba(10,20,40,.7);border:1px solid #3a5a8a;padding:6px 16px;border-radius:4px;font-size:15px;opacity:0;transition:opacity .2s;white-space:nowrap;}
-  /* 触控 UI（默认隐藏，手机模式显示） */
-  #touch{display:none;}
-  body.phone #touch{display:block;}
-  body.phone #keyhelp{display:none;}
-  #joystick{position:fixed;left:0;bottom:0;width:42%;height:46%;z-index:20;touch-action:none;}
-  #joybase{position:absolute;left:50%;top:50%;width:120px;height:120px;transform:translate(-50%,-50%);
-    border:2px solid rgba(120,170,230,.5);border-radius:50%;background:rgba(20,40,70,.25);}
-  #stick{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:rgba(120,180,255,.6);border:2px solid #cfe3ff;}
-  .tbtn{position:fixed;z-index:21;border:2px solid #5aa6ff;border-radius:12px;background:rgba(20,40,70,.55);color:#cfe3ff;
-    font-size:15px;font-weight:bold;display:flex;align-items:center;justify-content:center;touch-action:none;user-select:none;}
-  #btnFire{right:18px;bottom:90px;width:84px;height:84px;border-radius:50%;background:rgba(200,60,60,.5);border-color:#ff8a8a;}
-  #btnReload{right:118px;bottom:30px;width:70px;height:70px;border-radius:50%;}
-  #btnSwitch{right:18px;bottom:14px;width:70px;height:70px;border-radius:50%;}
-  /* 遮罩（开始 / 暂停，无加载进度条） */
-  .overlay{position:fixed;inset:0;background:rgba(8,14,30,.93);z-index:50;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;}
-  #overlay{cursor:pointer;}
-  .overlay h1{font-size:30px;color:#9fe0ff;letter-spacing:2px;margin-bottom:10px;text-shadow:0 0 8px #1a3a6a;}
-  .overlay p{font-size:14px;color:#9ab4d8;line-height:1.8;max-width:480px;}
-  #modeRow{margin-top:16px;font-size:14px;color:#9ab4d8;}
-  #modeBtn{font-family:inherit;color:#ffd86a;background:transparent;border:1px solid #ffd86a;border-radius:6px;font-size:13px;padding:5px 10px;margin-left:8px;cursor:pointer;}
-  .start{margin-top:22px;font-size:20px;color:#ffd86a;border:1px solid #ffd86a;padding:10px 26px;border-radius:6px;cursor:pointer;font-family:inherit;}
-  .row{margin:16px 0;font-size:15px;color:#cfe3ff;}
-  .row input[type=range]{vertical-align:middle;width:180px;margin:0 10px;}
-  .cheats{font-size:12px;color:#ffd86a;margin:6px 0 0;max-width:90vw;}
-  .hide{display:none!important;}
-  body.phone #keyhelp{display:none;}
-  /* 秘籍指示全部隐藏（仅 README 记录，不在游戏内透露） */
-  #cheats,#god,#cheatsPause{display:none!important;}
-  /* 手机视角：全屏拖拽看视角层（位于画布之上、摇杆与按钮之下） */
-  #look{display:none;}
-  body.phone #look{display:block;position:fixed;top:48px;left:0;right:0;bottom:0;z-index:11;touch-action:none;}
-  /* 手机飞天按钮（仅开启飞天秘籍且手机模式显示） */
-  .flybtn{font-size:22px;font-weight:bold;width:60px;height:60px;display:none;
-    background:rgba(40,80,130,.55);border-color:#9fe0ff;}
-  body.phone.flyon #btnUp,body.phone.flyon #btnDown{display:flex;}
-  #btnUp{right:96px;bottom:188px;}
-  #btnDown{right:18px;bottom:188px;}
-  /* 右下角第一人称枪贴图（随开枪后座） */
-  #viewgun{position:absolute;right:22px;bottom:0;pointer-events:none;z-index:9;transition:transform .07s;opacity:1;
-    filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));}
-  #viewgun svg{display:block;}
-  #viewgunName{position:absolute;right:6px;bottom:2px;font-size:11px;color:#9fe0ff;background:rgba(10,20,40,.55);
-    border:1px solid #2a4a7a;padding:1px 8px;border-radius:4px;letter-spacing:1px;}
-  /* DEBUG 沙盒控制面板 */
-  #dbgHud{position:fixed;left:10px;top:122px;z-index:30;display:flex;flex-direction:column;gap:5px;
-    background:rgba(10,18,34,.82);border:1px solid #5aa6ff;border-radius:8px;padding:8px 8px 10px;
-    max-height:76vh;overflow:auto;pointer-events:auto;width:148px;}
-  #dbgHud h3{font-size:13px;color:#ffd86a;margin:0 0 2px;}
-  #dbgHud .hint{font-size:10px;color:#7fa8d8;line-height:1.45;margin-bottom:5px;}
-  #dbgHud button{font-family:inherit;font-size:12px;padding:6px 8px;border-radius:6px;cursor:pointer;text-align:left;
-    background:rgba(20,40,70,.7);color:#cfe3ff;border:1px solid #3a5a8a;}
-  #dbgHud button:hover{background:rgba(40,70,110,.85);}
-  #dbgHud .exit{border-color:#ff8a8a;color:#ffb0b0;margin-top:3px;}
-</style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-TR4FT7JPDZ');
-</script>
-<!-- GA4 统一埋点模块 -->
-<script src="../assets/js/gtag-config.js"></script>
-
+<link rel="stylesheet" href="assets/code/css.css">
 </head>
 <body>
 <div id="game"></div>
-<div id="grain"></div>
 
-<div id="hud">
-  <div id="crosshair"></div>
-  <div id="topbar"><span class="b" id="blueScore">蓝 0</span> &nbsp;:&nbsp; <span class="r" id="redScore">红 0</span></div>
-  <div id="cheats"></div>
-  <div id="god">★ 无敌模式 ★</div>
-  <div id="topbtns">
-    <button id="shareBtn" title="分享">🔗</button>
-    <button id="pauseBtn" title="暂停(Esc)">⏸</button>
-  </div>
-  <div id="keyhelp">
-    Power by ciallo0721-cmd<br>
-    未经许可,请勿转载或用于商业用途<br>
-    键盘：WASD 移动，鼠标看视角，左键开枪，R 换弹，F 换枪，E 救队友，Esc 结束<br>
-    手机：左摇杆移动，右侧三键操作，拖拽屏幕看视角
-  </div>
-  <div id="bottomleft">
-    血量 <span id="hp">100</span>
-    <div id="hpbar"><div id="hpfill"></div></div>
-  </div>
-  <div id="bottomright">
-    <div id="weapon">AK47</div>
-    <div id="ammo">30 / 30</div>
-    <div id="nade">雷 x2</div>
-  </div>
-  <div id="toast"></div>
-  <!-- DEBUG 沙盒控制面板（默认隐藏，进 DEBUG 后显示；手机/桌面均可点） -->
-  <div id="dbgHud" class="hide">
-    <h3>🐞 DEBUG 沙盒</h3>
-    <div class="hint">键：;红方 '队友 .红倒 ,蓝倒 -外挂 Y胜 N败 H急救包<br>按钮同功能，手机端可用</div>
-    <button id="dbgSpawnRed">召唤红方（敌）</button>
-    <button id="dbgSpawnBlue">召唤队友（蓝）</button>
-    <button id="dbgDownRed">红方击倒</button>
-    <button id="dbgDownBlue">队友/我击倒</button>
-    <button id="dbgGod">飞天+无限弹+100血</button>
-    <button id="dbgMed">面前生成急救包</button>
-    <button id="dbgWin">直接胜利</button>
-    <button id="dbgLose">直接失败</button>
-    <button id="dbgExit" class="exit">退出 DEBUG</button>
-  </div>
-  <div id="viewgun">
-    <svg viewBox="0 0 140 70" width="170" height="85">
-      <g stroke="#14141f" stroke-width="1.5">
-        <rect x="30" y="34" width="100" height="13" rx="3" fill="#41415a"/>
-        <rect x="22" y="24" width="26" height="13" rx="2" fill="#4d4d66"/>
-        <rect x="8" y="30" width="18" height="19" rx="2" fill="#2b2b3d"/>
-        <rect x="52" y="47" width="36" height="15" rx="2" fill="#3a3a52"/>
-        <rect x="96" y="27" width="13" height="7" rx="2" fill="#6a6a88"/>
-        <rect x="118" y="30" width="8" height="20" rx="2" fill="#33334a"/>
-      </g>
-    </svg>
-    <div id="viewgunName">AK47</div>
-  </div>
-</div>
-
-<div id="touch">
-  <div id="look"></div>
-  <div id="joystick"><div id="joybase"></div><div id="stick"></div></div>
-  <div id="btnFire" class="tbtn">开枪</div>
-  <div id="btnReload" class="tbtn">换弹</div>
-  <div id="btnSwitch" class="tbtn">换枪</div>
-  <div id="btnUp" class="tbtn flybtn">飞↑</div>
-  <div id="btnDown" class="tbtn flybtn">飞↓</div>
-</div>
-
-<!-- 开始界面 -->
-<div id="overlay" class="overlay">
-  <h1>fy_iceworld · <span id="eggDot" title="点我 10 下进入 DEBUG 沙盒" style="cursor:pointer;text-decoration:underline dotted #ff8a3a;">.</span><span id="egg5v5" title="点我 5 下有惊喜" style="cursor:pointer;text-decoration:underline dotted #5aa6ff;">5v5</span> 团队死斗</h1>
-  <p>你属于<b style="color:#5aa6ff">蓝队</b>（我方），对手是<b style="color:#ff6a6a">红队</b> AI。
-     地图为蓝白做旧风的小型快节奏竞技场，柱子作掩体。<br>
-      桌面：WASD+鼠标，点击锁定指针。手机：左摇杆移动，右侧三键操作。<br>
-      击倒≠死亡：倒地可爬行等队友救（按住 E 救队友，救人时不能开枪），一方全员倒地即分胜负；场地有医疗箱可回血。</p>
-  <div id="modeRow">当前设备模式：<span id="modeLabel">桌面</span>
-    <button id="modeBtn">切换为手机</button></div>
-  <div class="start" id="startBtn">点击开始</div>
-</div>
-
-<!-- 暂停界面 -->
-<div id="pause" class="overlay hide">
-  <h1>暂停</h1>
-  <div class="row">鼠标灵敏度
-    <input type="range" id="sens" min="0.5" max="5" step="0.1" value="2.4">
-    <span id="sensVal">2.4</span>
-  </div>
-  <div class="cheats" id="cheatsPause"></div>
-  <div class="start" id="resumeBtn">继续</div>
-  <div class="start" id="shareBtn2" style="border-color:#5aa6ff;color:#5aa6ff;">分享链接</div>
-</div>
-
-<!-- 胜负结算 -->
-<div id="victory" class="overlay hide">
-  <h1 id="victoryTitle">🎉 胜利！</h1>
-  <p id="victorySub">红方获胜 · 对方全员倒地</p>
-  <div class="start" id="againBtn">再来一局</div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="../js/js/CS.js"></script>
+<!-- 引擎 -->
+<script src="assets/code/three.js"></script>
+<!-- GA4 埋点 -->
+<script src="assets/code/GA.js"></script>
+<!-- 武器逻辑 + 音效 -->
+<script src="assets/code/gun.js"></script>
+<!-- 着色器（GLSL / ShaderMaterial） -->
+<script src="assets/Shader/Shader.js"></script>
+<!-- JS 实时纹理（Canvas 生成，清晰模式） -->
+<script src="assets/screen/all.js"></script>
+<!-- 提示 / UI HTML / HUD -->
+<script src="assets/code/another.js"></script>
+<!-- 游戏主逻辑 -->
+<script src="CS.js"></script>
+<!-- 敌人 AI -->
+<script src="assets/code/ai.js"></script>
+<!-- 暂停 / 灵敏度 / 分享 -->
+<script src="assets/code/stop.js"></script>
+<!-- 手机端 / 触控 -->
+<script src="assets/code/phone.js"></script>
 </body>
 </html>
