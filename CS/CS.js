@@ -154,7 +154,7 @@ function spawnCharacter(team,isPlayer){
 // 弹药模型：每把枪 {m:弹匣内, r:备用弹}；手雷单独计数
 function initAmmo(ch){
   ch.ammo = { grenade: WEAPONS.grenade.mag };
-  for(const w of ['ak','pistol','sniper','shotgun','rpg'])
+  for(const w of ['ak','pistol','shotgun','rpg'])
     ch.ammo[w] = { m: WEAPONS[w].mag, r: WEAPONS[w].reserve };
 }
 // bot 随机分配武器（ak/pistol 多，新枪少）
@@ -162,7 +162,8 @@ function pickBotWeapon(){
   const r=Math.random();
   if(r<0.5) return 'ak';
   if(r<0.72) return 'pistol';
-  if(r<0.82) return 'sniper';
+  // 狙击枪暂时隐藏：恢复时解开下一行，并把下方 shotgun 阈值改回 0.92
+  // if(r<0.82) return 'sniper';
   if(r<0.92) return 'shotgun';
   return 'rpg';
 }

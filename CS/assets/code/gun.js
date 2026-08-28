@@ -25,7 +25,7 @@ const WEAPONS = {
   rpg:    {name:'RPG',    interval:1.4,  mag:1,  reserve:1,   dmg:0,  reload:2.0, auto:false, range:90,  rays:1, ammoPerShot:1, spread:0.0,   explosive:true},
   grenade:{name:'手雷',   interval:0.9,  mag:2,  reserve:0,    dmg:0,  reload:0,   auto:false, range:0,   rays:1, ammoPerShot:1, spread:0.0,   explosive:true}
 };
-const ALL_WEAPONS = ['ak','pistol','sniper','shotgun','rpg','grenade'];
+const ALL_WEAPONS = ['ak','pistol','shotgun','rpg','grenade']; // 狙击枪暂时隐藏：恢复时把 'sniper' 加回数组即可
 const GRENADE_RADIUS = 6, GRENADE_MAXDMG = 65;
 const BOT_DMG = {ak:18, pistol:14, sniper:30, shotgun:12, rpg:0};
 
