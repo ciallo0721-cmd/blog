@@ -12,11 +12,30 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a1020;
 #grain{position:fixed;inset:0;pointer-events:none;opacity:.10;mix-blend-mode:overlay;z-index:5;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 #hud{position:fixed;inset:0;pointer-events:none;z-index:10;}
-#crosshair{position:absolute;left:50%;top:50%;width:40px;height:40px;transform:translate(-50%,-50%);z-index:41;pointer-events:none;
-  background:radial-gradient(circle, #fff 0 2.2px, #000 2.2px 3.6px, transparent 3.6px);}
-#crosshair::before,#crosshair::after{content:"";position:absolute;background:#fff;box-shadow:0 0 0 2px #000,0 0 4px rgba(0,0,0,.85);}
-#crosshair::before{left:50%;top:0;width:3px;height:100%;transform:translateX(-50%);}
-#crosshair::after{top:50%;left:0;height:3px;width:100%;transform:translateY(-50%);}
+#crosshair{position:absolute;left:50%;top:50%;width:44px;height:44px;transform:translate(-50%,-50%);z-index:41;pointer-events:none;color:#fff;font-family:inherit;}
+#crosshair::after{content:"";position:absolute;display:none;}
+/* 默认 / 十：汉字「十」 */
+#crosshair::before{content:"十";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:32px;line-height:1;font-weight:bold;
+  text-shadow:0 0 0 1px #000,0 0 3px #000,0 0 2px #000;}
+/* Ⅹ：对角线交叉 */
+#crosshair[data-cross="x"]::before{content:"";left:50%;top:50%;width:3px;height:36px;background:#fff;
+  transform:translate(-50%,-50%) rotate(45deg);box-shadow:0 0 0 1px #000,0 0 3px #000;}
+#crosshair[data-cross="x"]::after{content:"";display:block;left:50%;top:50%;width:3px;height:36px;background:#fff;
+  transform:translate(-50%,-50%) rotate(-45deg);box-shadow:0 0 0 1px #000,0 0 3px #000;}
+/* ><：两尖角相对 */
+#crosshair[data-cross="angle"]::before{content:"";position:absolute;left:9px;top:50%;width:0;height:0;transform:translateY(-50%);
+  border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:13px solid #fff;filter:drop-shadow(0 0 2px #000);}
+#crosshair[data-cross="angle"]::after{content:"";display:block;position:absolute;right:9px;top:50%;width:0;height:0;transform:translateY(-50%);
+  border-top:9px solid transparent;border-bottom:9px solid transparent;border-right:13px solid #fff;filter:drop-shadow(0 0 2px #000);}
+/* []：方框 */
+#crosshair[data-cross="box"]::before{content:"";position:absolute;inset:8px;border:3px solid #fff;border-radius:3px;
+  box-shadow:0 0 0 1px #000,0 0 3px #000;}
+#crosshair[data-cross="box"]::after{content:"";display:none;}
+/* ·：小圆点 */
+#crosshair[data-cross="dot"]::before{content:"";left:50%;top:50%;width:8px;height:8px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);
+  box-shadow:0 0 0 1px #000,0 0 3px #000;}
+#crosshair[data-cross="dot"]::after{content:"";display:none;}
 /* 狙击枪瞄准镜：圆形暗角 + 十字准星（仅装备狙击时由 JS 显示） */
 #scope{position:fixed;inset:0;display:none;pointer-events:none;z-index:40;
   background:radial-gradient(circle at center, transparent 0 27%, rgba(0,0,0,.97) 30%);}
@@ -77,12 +96,14 @@ body.phone #keyhelp{display:none;}
 /* 手机视角：全屏拖拽看视角层（位于画布之上、摇杆与按钮之下） */
 #look{display:none;}
 body.phone #look{display:block;position:fixed;top:48px;left:0;right:0;bottom:0;z-index:11;touch-action:none;}
-/* 手机飞天按钮（仅开启飞天秘籍且手机模式显示） */
-.flybtn{font-size:22px;font-weight:bold;width:60px;height:60px;display:none;
+/* 手机飞天按钮（仅开启飞天秘籍且手机模式显示）
+   位置放在「跳」右侧竖排：避开 蹲(right18~112/bottom184~278)、跳(right118~212)
+   以及右上角 topbtns(right12~84)，修复飞↑飞↓被蹲盖住的遮挡 bug */
+.flybtn{font-size:20px;font-weight:bold;width:56px;height:56px;display:none;z-index:23;
   background:rgba(40,80,130,.55);border-color:#9fe0ff;}
 body.phone.flyon #btnUp,body.phone.flyon #btnDown{display:flex;}
-#btnUp{right:96px;bottom:188px;}
-#btnDown{right:18px;bottom:188px;}
+#btnUp{right:222px;bottom:178px;}
+#btnDown{right:222px;bottom:116px;}
 #btnJump{right:118px;bottom:120px;width:94px;height:94px;font-size:28px;background:rgba(90,166,255,.5);border-color:#9ec5ff;}
 #btnCrouch{right:18px;bottom:184px;width:94px;height:94px;font-size:28px;background:rgba(120,200,120,.45);border-color:#9be09b;}
 #btnRecon{left:14px;bottom:200px;width:78px;height:78px;font-size:20px;background:rgba(90,200,255,.45);border-color:#9fe0ff;}
@@ -94,6 +115,43 @@ body.phone.flyon #btnUp,body.phone.flyon #btnDown{display:flex;}
 #viewgun svg{display:block;}
 #viewgunName{position:absolute;right:6px;bottom:2px;font-size:11px;color:#9fe0ff;background:rgba(10,20,40,.55);
   border:1px solid #2a4a7a;padding:1px 8px;border-radius:4px;letter-spacing:1px;}
+/* ---------- 操作自定义：设置界面入口按钮 ---------- */
+.setbtn{font-family:inherit;font-size:13px;padding:5px 12px;margin-left:8px;cursor:pointer;
+  background:rgba(20,40,70,.7);color:#cfe3ff;border:1px solid #5aa6ff;border-radius:6px;}
+.setbtn:hover{background:rgba(40,70,110,.9);}
+.setbtn.sel{background:#5aa6ff;color:#06121f;border-color:#9fe0ff;}
+/* ---------- 键盘键位面板 ---------- */
+#keyPanel{z-index:55;}
+#keyPanel .tip{font-size:12px;color:#7fa8d8;line-height:1.7;margin:2px 0 10px;}
+#keyList{width:min(430px,92vw);max-height:54vh;overflow:auto;padding:2px 4px;}
+.krow{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:rgba(20,40,70,.5);border:1px solid #2a4a7a;border-radius:6px;padding:7px 10px;margin:6px 0;}
+.kname{font-size:14px;color:#cfe3ff;}
+.kkey{font-family:inherit;min-width:104px;font-size:14px;padding:6px 10px;border-radius:6px;cursor:pointer;
+  background:#0a1430;color:#9fe0ff;border:1px solid #3a5a8a;}
+.kkey:hover{background:#12224a;}
+.kkey.wait{background:#3a2a08;color:#ffd86a;border-color:#ffd86a;animation:kblink .7s infinite alternate;}
+@keyframes kblink{from{opacity:1;}to{opacity:.45;}}
+.panelBtns{display:flex;gap:10px;margin-top:14px;}
+.pbtn{font-family:inherit;font-size:14px;padding:9px 20px;border-radius:8px;cursor:pointer;
+  background:rgba(20,40,70,.7);color:#cfe3ff;border:1px solid #5aa6ff;}
+.pbtn:hover{background:rgba(40,70,110,.9);}
+.pbtn.warn{border-color:#ff8a8a;color:#ffb0b0;}
+/* ---------- 手指键位（触屏布局）编辑态 ---------- */
+body.layoutedit #touch{display:block;}          /* 桌面端也能编辑触屏布局 */
+body.layoutedit .flybtn{display:flex;}          /* 编辑时飞↑飞↓强制可见（不需开飞天秘籍） */
+body.layoutedit #look{display:none!important;}  /* 编辑时不转视角 */
+body.layoutedit #dbgHud{display:none;}          /* 让出左上角，避免挡按键 */
+body.layoutedit .tbtn,body.layoutedit #joystick{outline:1px dashed rgba(255,216,106,.7);outline-offset:3px;}
+.tbtn.dragging,#joystick.dragging{outline:2px solid #ffd86a!important;background:rgba(60,100,150,.85);}
+#layoutBar{position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:56;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;
+  padding:8px 12px;border-radius:10px;font-size:13px;color:#ffd86a;
+  background:rgba(10,18,34,.94);border:1px solid #ffd86a;max-width:94vw;}
+#layoutBar .lbtn{font-family:inherit;font-size:13px;padding:6px 12px;border-radius:6px;cursor:pointer;
+  background:rgba(20,40,70,.8);color:#cfe3ff;border:1px solid #5aa6ff;}
+#layoutBar .lbtn.ok{background:#1d5fb0;border-color:#9fe0ff;color:#fff;font-weight:bold;}
+
 /* DEBUG 沙盒控制面板 */
 #dbgHud{position:fixed;left:10px;top:122px;z-index:30;display:flex;flex-direction:column;gap:5px;
   background:rgba(10,18,34,.82);border:1px solid #5aa6ff;border-radius:8px;padding:8px 8px 10px;
@@ -104,3 +162,21 @@ body.phone.flyon #btnUp,body.phone.flyon #btnDown{display:flex;}
   background:rgba(20,40,70,.7);color:#cfe3ff;border:1px solid #3a5a8a;}
 #dbgHud button:hover{background:rgba(40,70,110,.85);}
 #dbgHud .exit{border-color:#ff8a8a;color:#ffb0b0;margin-top:3px;}
+
+/* 排行榜面板（「/」唤醒） */
+#scoreboard{position:fixed;right:12px;top:54px;z-index:32;width:212px;
+  background:rgba(12,16,28,.82);border:1px solid rgba(122,176,255,.45);border-radius:10px;
+  padding:8px 10px;color:#dfe7f5;font-size:12px;backdrop-filter:blur(3px);}
+#scoreboard .sbHead{font-size:13px;font-weight:bold;color:#ffd86a;margin-bottom:6px;
+  display:flex;justify-content:space-between;align-items:center;}
+#scoreboard .sbHint{font-size:9px;color:#7fa8d8;font-weight:normal;}
+#scoreboard .sbEmpty{padding:8px 0;text-align:center;color:#7fa8d8;}
+#scoreboard .sbRow{display:flex;align-items:center;gap:6px;padding:3px 4px;border-radius:5px;}
+#scoreboard .sbRow:nth-child(even){background:rgba(255,255,255,.04);}
+#scoreboard .sbMe{background:rgba(90,166,255,.22)!important;}
+#scoreboard .sbRank{width:18px;text-align:center;color:#9fb4d8;font-weight:bold;}
+#scoreboard .sbName{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#scoreboard .sbBlue{color:#7fd0ff;}
+#scoreboard .sbRed{color:#ff8a8a;}
+#scoreboard .sbKD{width:44px;text-align:center;color:#aebdd8;font-size:11px;}
+#scoreboard .sbScore{width:34px;text-align:right;color:#ffd86a;font-weight:bold;}

@@ -24,7 +24,7 @@ document.getElementById('modeBtn').addEventListener('click', e=>{ e.stopPropagat
 const joyEl=el('joystick'), stickEl=el('stick'), JMAX=42;
 function stickMove(t){ let dx=t.clientX-joy.baseX, dy=t.clientY-joy.baseY; const d=Math.hypot(dx,dy);
   if(d>JMAX){dx=dx/d*JMAX;dy=dy/d*JMAX;} stickEl.style.transform=`translate(${dx}px,${dy}px)`; joy.x=dx/JMAX; joy.y=dy/JMAX; }
-joyEl.addEventListener('touchstart', e=>{ e.preventDefault(); const t=e.changedTouches[0]; joy.id=t.identifier; joy.active=true;
+joyEl.addEventListener('touchstart', e=>{ e.preventDefault(); if(layoutEditing) return; const t=e.changedTouches[0]; joy.id=t.identifier; joy.active=true;
   const r=joyEl.getBoundingClientRect(); joy.baseX=r.left+r.width/2; joy.baseY=r.top+r.height/2; stickMove(t); },{passive:false});
 joyEl.addEventListener('touchmove', e=>{ e.preventDefault(); for(const t of e.changedTouches) if(t.identifier===joy.id)stickMove(t); },{passive:false});
 function joyEnd(e){ for(const t of e.changedTouches) if(t.identifier===joy.id){ joy.active=false;joy.id=null;joy.x=0;joy.y=0;stickEl.style.transform='translate(0,0)'; } }
@@ -32,7 +32,8 @@ joyEl.addEventListener('touchend', e=>{e.preventDefault();joyEnd(e);},{passive:f
 joyEl.addEventListener('touchcancel', e=>{e.preventDefault();joyEnd(e);},{passive:false});
 
 /* ---------- 2. 右侧操作按钮 ---------- */
-function bindBtn(id,onDown,onUp){ const b=el(id); b.addEventListener('touchstart',e=>{e.preventDefault();if(!running)return;onDown();},{passive:false});
+// 编辑手指键位时（layoutEditing）只处理拖拽，不触发游戏动作
+function bindBtn(id,onDown,onUp){ const b=el(id); b.addEventListener('touchstart',e=>{e.preventDefault();if(!running||layoutEditing)return;onDown();},{passive:false});
   if(onUp)b.addEventListener('touchend',e=>{e.preventDefault();onUp();},{passive:false}); }
 bindBtn('btnFire', ()=>{ if(curWeapon==='grenade')throwGrenade(player); else if(curWeapon==='pistol')playerFire(); else {firing=true;playerFire();} }, ()=>{firing=false;});
 bindBtn('btnReload', ()=>startReload(player));
@@ -50,7 +51,7 @@ bindBtn('btnKami', ()=>{ useKamikaze(); });
 
 /* ---------- 4. 手机视角（#look 层拖拽；摇杆与按钮在其上层，互不干扰） ---------- */
 const lookEl=el('look'), look={id:null,lx:0,ly:0};
-lookEl.addEventListener('touchstart', e=>{ if(!running||paused)return; e.preventDefault(); const t=e.changedTouches[0]; look.id=t.identifier; look.lx=t.clientX; look.ly=t.clientY; }, {passive:false});
+lookEl.addEventListener('touchstart', e=>{ if(!running||paused||layoutEditing)return; e.preventDefault(); const t=e.changedTouches[0]; look.id=t.identifier; look.lx=t.clientX; look.ly=t.clientY; }, {passive:false});
 lookEl.addEventListener('touchmove', e=>{ if(look.id===null)return; e.preventDefault();
   for(const t of e.changedTouches){ if(t.identifier===look.id){
     const dx=t.clientX-look.lx, dy=t.clientY-look.ly; look.lx=t.clientX; look.ly=t.clientY;

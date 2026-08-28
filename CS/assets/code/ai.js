@@ -212,8 +212,9 @@ function followPath(b, dt, speed){
   if(d < AI_CFG.WP_REACH) b.pathIdx++;
   let vx = 0, vz = 0;
   if(d > 0.001){ vx = dx / d; vz = dz / d; }
-  b.group.position.x += vx * speed * dt;
-  b.group.position.z += vz * speed * dt;
+  const sp = speed * slowMul(b);   // 被 cold 凝固命中 → 移速减半
+  b.group.position.x += vx * sp * dt;
+  b.group.position.z += vz * sp * dt;
   return b.pathIdx >= b.path.length;
 }
 
@@ -553,8 +554,9 @@ function updateBot(b, dt){
   const vl = Math.hypot(mvx, mvz);
   if(vl > 0.001){
     mvx /= vl; mvz /= vl;
-    b.group.position.x += mvx * speed * dt;
-    b.group.position.z += mvz * speed * dt;
+    const sp = speed * slowMul(b);   // 被 cold 凝固命中 → 移速减半
+    b.group.position.x += mvx * sp * dt;
+    b.group.position.z += mvz * sp * dt;
   }
 
   /* —— 5.6 卡死自救 —— */

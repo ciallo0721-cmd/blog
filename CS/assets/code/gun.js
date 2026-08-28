@@ -16,20 +16,104 @@
    ============================================================ */
 
 /* ---------- 武器配置 ---------- */
-const WEAPONS = {
+// 正常以 assets/Guns/all.json 为准；下面这份仅在 JSON 读不到时（例如 file:// 直开被 CORS 拦）兜底
+const WEAPONS_FALLBACK = {
   // mag = 弹匣容量, reserve = 备用弹(总弹量 = mag+reserve)
-  ak:     {name:'AK47',   interval:0.10, mag:30, reserve:330, dmg:24, reload:1.8, auto:true,  range:60,  rays:1, ammoPerShot:1, spread:0.0,   explosive:false},
-  pistol: {name:'手枪',   interval:0.30, mag:12, reserve:18,  dmg:18, reload:1.3, auto:false, range:45,  rays:1, ammoPerShot:1, spread:0.0,   explosive:false},
-  sniper: {name:'狙击枪', interval:1.0,  mag:5,  reserve:25,  dmg:30, reload:2.5, auto:false, range:140, rays:5, ammoPerShot:1, spread:0.015, explosive:false},
-  shotgun:{name:'霰弹枪', interval:0.75, mag:5,  reserve:15,  dmg:12, reload:2.2, auto:false, range:32,  rays:5, ammoPerShot:1, spread:0.22,  explosive:false},
-  rpg:    {name:'RPG',    interval:1.4,  mag:1,  reserve:1,   dmg:0,  reload:2.0, auto:false, range:90,  rays:1, ammoPerShot:1, spread:0.0,   explosive:true},
-  grenade:{name:'手雷',   interval:0.9,  mag:2,  reserve:0,    dmg:0,  reload:0,   auto:false, range:0,   rays:1, ammoPerShot:1, spread:0.0,   explosive:true}
+  ak:     {name:'AK47',   interval:0.10, mag:30, reserve:330, dmg:24,  reload:1.8, auto:true,  range:60,  rays:1, ammoPerShot:1, spread:0.0,   explosive:false, special:'',            sound:'shoot_ak.wav',     bot:18,  hidden:false},
+  pistol: {name:'手枪',   interval:0.30, mag:12, reserve:18,  dmg:18,  reload:1.3, auto:false, range:45,  rays:1, ammoPerShot:1, spread:0.0,   explosive:false, special:'',            sound:'shoot_pistol.wav', bot:14,  hidden:false},
+  sniper: {name:'狙击枪', interval:1.0,  mag:5,  reserve:25,  dmg:30,  reload:2.5, auto:false, range:140, rays:5, ammoPerShot:1, spread:0.015, explosive:false, special:'perspective', sound:'shoot_ak.wav',     bot:30,  hidden:true},
+  shotgun:{name:'霰弹枪', interval:0.75, mag:5,  reserve:15,  dmg:12,  reload:2.2, auto:false, range:32,  rays:5, ammoPerShot:1, spread:0.22,  explosive:false, special:'cold',        sound:'shoot_ak.wav',     bot:12,  hidden:false},
+  rpg:    {name:'RPG',    interval:1.4,  mag:1,  reserve:4,   dmg:120, reload:2.0, auto:false, range:90,  rays:1, ammoPerShot:1, spread:0.0,   explosive:true,  special:'boom,track', sound:'explosion.wav',    bot:120, hidden:false},
+  grenade:{name:'手雷',   interval:0.9,  mag:2,  reserve:0,   dmg:65,  reload:0,   auto:false, range:0,   rays:1, ammoPerShot:1, spread:0.0,   explosive:true,  special:'boom',       sound:'explosion.wav',    bot:65,  hidden:false}
 };
-const ALL_WEAPONS = ['ak','pistol','shotgun','rpg','grenade']; // 狙击枪暂时隐藏：恢复时把 'sniper' 加回数组即可
+let WEAPONS = Object.assign({}, WEAPONS_FALLBACK);
+let ALL_WEAPONS = Object.keys(WEAPONS).filter(k=>!WEAPONS[k].hidden);
 const GRENADE_RADIUS = 6, GRENADE_MAXDMG = 65;
-const BOT_DMG = {ak:18, pistol:14, sniper:30, shotgun:12, rpg:0};
+const BOT_DMG = {ak:18, pistol:14, sniper:30, shotgun:12, rpg:0};   // 旧引用保留，新逻辑一律用 w.bot
+const COLD_TIME = 3, MARK_TIME = 5, COLD_MUL = 0.5;   // special 效果时长 / 减速系数
 
 let curWeapon='ak', firing=false;
+
+/* ---------- 从 assets/Guns/all.json 载入枪械列表 ----------
+   必填：id / name / bullets(总弹量) / initial(弹匣容量) / hit(伤害 1~200) / sound(音效文件名) / special
+   special："" 无 | boom 爆炸 | cold 凝固减速 | perspective 透视标记 | track 追踪（可逗号组合，如 "boom,track"）
+   可选：interval(射击间隔秒) reload(换弹秒) auto(连发) range(射程) rays(弹丸数) spread(散射弧度)
+        radius(爆炸半径) bot(AI 伤害) hidden(true 则不出场，不进换枪循环)
+   备注：数组或对象两种写法都认；对象写法用 key 当 id。缺字段自动按默认值补齐。      */
+function gunSpecialList(s){
+  return String(s||'').split(',').map(x=>x.trim().toLowerCase()).filter(Boolean);
+}
+function normalizeGun(id, g){
+  const initial = Math.max(1, parseInt(g.initial,10) || 1);
+  const bullets = Math.max(initial, parseInt(g.bullets,10) || initial);
+  const hit     = parseInt(g.hit,10);
+  const spec    = gunSpecialList(g.special);
+  return {
+    id,
+    name: String(g.name || id),
+    interval: parseFloat(g.interval) || 0.3,
+    mag: initial,                                   // initial → 弹匣容量
+    reserve: Math.max(0, bullets - initial),        // bullets → 总弹量，扣掉弹匣即备用弹
+    dmg: Math.max(1, Math.min(200, isNaN(hit)?1:hit)),
+    reload: parseFloat(g.reload) || 1.5,
+    auto: !!g.auto,
+    range: parseFloat(g.range) || 60,
+    rays: Math.max(1, parseInt(g.rays,10) || 1),
+    ammoPerShot: Math.max(1, parseInt(g.ammoPerShot,10) || 1),
+    spread: parseFloat(g.spread) || 0,
+    explosive: spec.indexOf('boom')>=0 || !!g.explosive,
+    radius: parseFloat(g.radius) || 0,
+    homing: spec.indexOf('track')>=0,
+    special: spec.join(','),
+    sound: String(g.sound || 'shoot_ak.wav'),
+    bot: Math.max(1, Math.min(200, parseInt(g.bot,10) || (isNaN(hit)?1:hit))),
+    hidden: !!g.hidden,
+    melee: !!g.melee    // 近战武器（如刀）：不耗弹，贴脸命中即伤害
+  };
+}
+function applyGunJSON(data){
+  let list = null;
+  if(Array.isArray(data)) list = data;
+  else if(data && typeof data==='object') list = Object.keys(data).map(k=>Object.assign({id:k}, data[k]));
+  if(!list || !list.length) return false;
+  const next = {};
+  for(const raw of list){
+    const id = String(raw.id || raw.name || '').trim();
+    if(!id) continue;
+    next[id] = normalizeGun(id, raw);
+  }
+  if(!Object.keys(next).length) return false;
+  WEAPONS = next;
+  ALL_WEAPONS = Object.keys(next).filter(k=>!next[k].hidden);
+  if(ALL_WEAPONS.indexOf(curWeapon) < 0) curWeapon = ALL_WEAPONS[0] || 'ak';
+  for(const k in WEAPONS) SND_FILES[k] = String(WEAPONS[k].sound).replace(/\.wav$/i, '');
+  return true;
+}
+// 异步读取（3s 超时兜底，绝不让游戏卡在加载上）；失败就用内置兜底表
+const GUN_JSON_URL = 'assets/Guns/all.json';
+let gunsFromJSON = false;
+const gunsReady = new Promise(res=>{
+  let done=false;
+  const fin = ok=>{ if(!done){ done=true; gunsFromJSON=ok; res(ok); } };
+  setTimeout(()=>fin(false), 3000);
+  try{
+    fetch(GUN_JSON_URL).then(r=> r.ok ? r.json() : null)
+      .then(d=> fin(d ? applyGunJSON(d) : false))
+      .catch(()=> fin(false));
+  }catch(e){ fin(false); }
+});
+function whenGunsReady(fn){ gunsReady.then(()=>{ try{ fn(); }catch(e){ console.error(e); } }); }
+
+/* ---------- special 特殊效果 ---------- */
+function slowMul(ch){ return (ch && ch.slowT > 0) ? COLD_MUL : 1; }   // cold 凝固：移速减半
+function applyGunSpecial(ch, w){                                     // 命中后生效
+  if(!ch || !w || !w.special) return;
+  if(w.special.indexOf('cold')>=0)        ch.slowT = Math.max(ch.slowT||0, COLD_TIME);
+  if(w.special.indexOf('perspective')>=0) ch.markT = Math.max(ch.markT||0, MARK_TIME);
+}
+function tickGunSpecial(dt){                                         // 每帧倒计时（CS.js 主循环调用）
+  for(const c of characters){ if(c.slowT>0) c.slowT-=dt; if(c.markT>0) c.markT-=dt; }
+}
 
 /* ---------- 音效（加载 assets/sound 下的 WAV） ---------- */
 const SND = {};
@@ -63,6 +147,7 @@ function viewKick(){ const vg=el('viewgun'); if(!vg)return; vg.style.transform='
 /* ---------- 射击（玩家） ---------- */
 function playerFire(){
   const w=WEAPONS[curWeapon];
+  if(!w || !player.ammo[curWeapon]) return;
   if(curWeapon==='grenade'){ throwGrenade(player); return; }
   if(revivingNow) return;      // 救人时不能开枪
   if(player.downed || !player.alive) return;
@@ -70,9 +155,10 @@ function playerFire(){
   if(performance.now()-player.lastFire < w.interval*1000) return;
   const need = w.ammoPerShot || 1;   // 每次射击只消耗 1 发弹匣（霰弹/狙击虽射 5 颗弹丸，但每扣一次扳机只耗 1 发）
   const a = player.ammo[curWeapon];
-  if(a.m < need){ if(!infiniteAmmo) toast('弹匣空 · 按 R 换弹'); return; }
+  const melee = !!w.melee;            // 近战武器（如刀）：不耗弹，贴脸命中即伤害
+  if(!melee && a.m < need){ if(!infiniteAmmo) toast('弹匣空 · 按 R 换弹'); return; }
   player.lastFire=performance.now();
-  if(!infiniteAmmo) a.m = Math.max(0, a.m - need);   // 无限子弹秘籍跳过消耗
+  if(!infiniteAmmo && !melee) a.m = Math.max(0, a.m - need);   // 无限子弹 / 近战 跳过消耗
   playShoot(curWeapon); recoilKick(); viewKick();
   if(w.explosive){
     fireRocket(player, w);
@@ -86,7 +172,10 @@ function playerFire(){
       const hits=raycaster.intersectObjects(hitMeshes,false);
       if(hits.length){
         const ch=hits[0].object.userData.char;
-        if(ch && ch.alive && (ch.team!==player.team || (sorry&&ch.team===player.team))) damage(ch, w.dmg, player);
+        if(ch && ch.alive && (ch.team!==player.team || (sorry&&ch.team===player.team))){
+          damage(ch, w.dmg, player);
+          applyGunSpecial(ch, w);   // special：cold 减速 / perspective 透视标记
+        }
       }
     }
   }
@@ -96,17 +185,14 @@ function playerFire(){
 
 /* ---------- 射击（AI） ---------- */
 function botFire(b,target){
-  const w=WEAPONS[b.weapon];
+  const w=WEAPONS[b.weapon] || WEAPONS.ak;   // JSON 里删掉某把枪时兜底，避免 AI 拿着空武器崩掉
   if(w.explosive){ fireRocket(b, w); return; }   // RPG / 手雷走火箭弹道
   const origin=b.group.position.clone(); origin.y=1.5;
   const d=target.group.position.clone().sub(origin); d.y=0; d.normalize();
   // 削弱红方：红队散布更大（更不准）
   const baseSpread = (b.team==='red') ? 0.42 : 0.30;
-  // 伤害：ak/pistol 用 BOT_DMG（偏弱，平衡）；新枪用武器自带 dmg
-  let dmgFor;
-  if(b.weapon==='ak') dmgFor=BOT_DMG.ak;
-  else if(b.weapon==='pistol') dmgFor=BOT_DMG.pistol;
-  else dmgFor = w.dmg || (BOT_DMG[b.weapon]||18);
+  // 伤害：优先用 JSON 的 bot 字段（AI 专用伤害），没配就用 hit
+  const dmgFor = w.bot || w.dmg || (BOT_DMG[b.weapon]||18);
   const rays = w.rays || 1;
   for(let i=0;i<rays;i++){
     const sp = (i===0) ? baseSpread : (w.spread || baseSpread);
@@ -119,6 +205,7 @@ function botFire(b,target){
       if(ch && ch.alive && ch.team!==b.team){
         // 削弱红方：红队伤害略低
         damage(ch, dmgFor * (b.team==='red'?0.85:1), b);
+        applyGunSpecial(ch, w);
       }
     }
   }
@@ -134,18 +221,32 @@ function fireRocket(ch, w){
   dir.normalize();
   const mesh=new THREE.Mesh(new THREE.SphereGeometry(0.3,10,10), new THREE.MeshBasicMaterial({color:0xff5522}));
   mesh.position.copy(origin); scene.add(mesh);
-  rockets.push({mesh, pos:origin.clone(), vel:dir.multiplyScalar(30), owner:ch, team:ch.team, life:4});
+  rockets.push({mesh, pos:origin.clone(), vel:dir.multiplyScalar(30), owner:ch, team:ch.team, life:4,
+    dmg:w.dmg||GRENADE_MAXDMG, radius:w.radius||8, homing:!!w.homing});
 }
 function updateRockets(dt){
   for(let i=rockets.length-1;i>=0;i--){
     const r=rockets[i];
+    if(r.homing){   // special=track：锁定 40m 内最近的敌方，缓慢修正航向
+      let best=null, bd=40;
+      for(const c of characters){
+        if(!c.alive||c.downed||c.team===r.team) continue;
+        const d=c.group.position.distanceTo(r.pos);
+        if(d<bd){ bd=d; best=c; }
+      }
+      if(best){
+        const sp=r.vel.length()||30;
+        const want=best.group.position.clone(); want.y+=1.2; want.sub(r.pos).normalize().multiplyScalar(sp);
+        r.vel.lerp(want, Math.min(1, 3.0*dt)); r.vel.setLength(sp);
+      }
+    }
     r.vel.y-=6*dt; r.pos.addScaledVector(r.vel,dt); r.mesh.position.copy(r.pos); r.life-=dt;
     let hit=false;
     if(r.pos.y<=0.3) hit=true;
     for(const c of characters){ if(c.team===r.team||!c.alive||c.downed) continue; if(c.group.position.distanceTo(r.pos)<1.2){ hit=true; break; } }
     for(const p of pillars){ if(Math.hypot(r.pos.x-p.x,r.pos.z-p.z)<p.r+0.3){ hit=true; break; } }
     for(const wl of walls){ if(Math.abs(r.pos.x-wl.x)<wl.w/2+0.3 && Math.abs(r.pos.z-wl.z)<wl.d/2+0.3){ hit=true; break; } }
-    if(hit||r.life<=0){ explode(r.pos, r.owner, 8, 120); scene.remove(r.mesh); rockets.splice(i,1); }
+    if(hit||r.life<=0){ explode(r.pos, r.owner, r.radius, r.dmg); scene.remove(r.mesh); rockets.splice(i,1); }
   }
 }
 
@@ -186,7 +287,10 @@ function throwGrenade(ch){
   if(ch.isPlayer){ toast('手雷已投掷'); updateHUD(); }
 }
 function explode(pos,owner,radius,maxdmg){
-  const R=radius||GRENADE_RADIUS, M=maxdmg||GRENADE_MAXDMG;
+  // 不传参数时按 JSON 里手雷的 hit / radius 走
+  const gw = WEAPONS.grenade || {};
+  const R = radius || gw.radius || GRENADE_RADIUS;
+  const M = maxdmg || gw.dmg || GRENADE_MAXDMG;
   playExplosion();
   const flash=new THREE.Mesh(new THREE.SphereGeometry(0.6,8,8),new THREE.MeshBasicMaterial({color:0xffd86a,transparent:true,opacity:0.9}));
   flash.position.copy(pos); flash.position.y=1; scene.add(flash);

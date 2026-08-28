@@ -21,7 +21,7 @@ const UI_HTML = `
   <div id="keyhelp">
     Power by ciallo0721-cmd<br>
     未经许可,请勿转载或用于商业用途<br>
-    键盘：WASD 移动，鼠标看视角，空格 跳，C 蹲，左键开枪，R 换弹，F 换枪，E 救队友/下包/拆包，1 侦查 2 自爆，Esc/\` 暂停设置<br>
+    键盘：WASD 移动，鼠标看视角，空格 跳，C 蹲，左键开枪，R 换弹，F 换枪，E 救队友/下包/拆包，1 侦查 2 自爆，/ 排行榜，Esc/\` 暂停设置<br>
     手机：左摇杆移动，右侧三键操作，拖拽屏幕看视角，下方有侦查/自爆按钮
   </div>
   <div id="bottomleft">
@@ -45,6 +45,7 @@ const UI_HTML = `
     <button id="dbgDownRed">红方击倒</button>
     <button id="dbgDownBlue">队友/我击倒</button>
     <button id="dbgGod">飞天+无限弹+100血</button>
+    <button id="dbgSwitch">换枪（AK47）</button>
     <button id="dbgMed">面前生成急救包</button>
     <button id="dbgWin">直接胜利</button>
     <button id="dbgLose">直接失败</button>
@@ -63,6 +64,7 @@ const UI_HTML = `
     </svg>
     <div id="viewgunName">AK47</div>
   </div>
+  <div id="scoreboard" class="hide"></div>
 </div>
 
 <div id="touch">
@@ -81,7 +83,7 @@ const UI_HTML = `
 
 <!-- 开始界面 -->
 <div id="overlay" class="overlay">
-  <h1>fy_iceworld · <span id="eggDot" title="点我 10 下进入 DEBUG 沙盒" style="cursor:pointer;text-decoration:underline dotted #ff8a3a;">.</span><span id="egg5v5" title="点我 5 下有惊喜" style="cursor:pointer;text-decoration:underline dotted #5aa6ff;">5v5</span> 团队死斗</h1>
+  <h1>fy_iceworld · <span id="eggDot" style="cursor:pointer;text-decoration:underline dotted #ff8a3a;">.</span><span id="egg5v5" style="cursor:pointer;text-decoration:underline dotted #5aa6ff;">5v5</span> 团队死斗</h1>
   <p>你属于<b style="color:#5aa6ff">蓝队</b>（我方），对手是<b style="color:#ff6a6a">红队</b> AI。
      地图为蓝白做旧风的小型快节奏竞技场，柱子作掩体。<br>
       桌面：WASD+鼠标+空格跳+C蹲，点击锁定指针。手机：左摇杆移动，右侧三键操作。<br>
@@ -106,6 +108,17 @@ const UI_HTML = `
     <button id="shaderModeBtn" style="background:none;border:1px solid #5aa6ff;color:#5aa6ff;border-radius:6px;padding:2px 10px;cursor:pointer;"></button>
     <span style="opacity:.65;font-size:12px;margin-left:6px;">webgl=程序化 / three.js=标准光</span>
   </div>
+  <div class="row">操作自定义
+    <button id="keyMapBtn" class="setbtn" title="改键盘键位">⌨ 键盘键位</button>
+    <button id="layoutBtn" class="setbtn" title="拖动摆放触屏按键">👆 手指键位</button>
+  </div>
+  <div class="row">瞄准格式
+    <button id="crossTen"   class="setbtn crossbtn">十</button>
+    <button id="crossX"     class="setbtn crossbtn">Ⅹ</button>
+    <button id="crossAngle" class="setbtn crossbtn">&gt;&lt;</button>
+    <button id="crossBox"   class="setbtn crossbtn">[]</button>
+    <button id="crossDot"   class="setbtn crossbtn">·</button>
+  </div>
   <div class="cheats" id="cheatsPause"></div>
   <div class="start" id="resumeBtn">继续</div>
   <div class="start" id="shareBtn2" style="border-color:#5aa6ff;color:#5aa6ff;">分享链接</div>
@@ -117,6 +130,25 @@ const UI_HTML = `
   <h1 id="victoryTitle">🎉 胜利！</h1>
   <p id="victorySub">红方获胜 · 对方全员倒地</p>
   <div class="start" id="againBtn">再来一局</div>
+</div>
+
+<!-- 键盘键位设置面板 -->
+<div id="keyPanel" class="overlay hide">
+  <h1>⌨ 键盘键位</h1>
+  <p class="tip">点右侧按键 → 再按下想绑定的新键（Esc 取消）<br>与已有键位冲突时会自动交换 · 保存在本机浏览器</p>
+  <div id="keyList"></div>
+  <div class="panelBtns">
+    <button id="keyReset" class="pbtn warn">恢复默认</button>
+    <button id="keyClose" class="pbtn">完成</button>
+  </div>
+</div>
+
+<!-- 手指键位（触屏布局）编辑工具条 -->
+<div id="layoutBar" class="hide">
+  <span>👆 拖动按键到任意位置</span>
+  <button id="layoutSave" class="lbtn ok">💾 保存</button>
+  <button id="layoutReset" class="lbtn">↺ 恢复默认</button>
+  <button id="layoutDone" class="lbtn">✔ 完成</button>
 </div>
 
 <!-- 竖屏提示：手机端未横屏时强制提示（点击无操作，需物理旋转） -->
@@ -136,8 +168,11 @@ function updateHUD(){
   const hp=Math.max(0,Math.min(200,player.hp));
   el('hp').textContent=Math.round(hp); el('hpfill').style.width=Math.min(100,hp)+'%';
   const w=WEAPONS[curWeapon];
+  if(!w || !player.ammo[curWeapon]) return;   // 武器表被热替换时弹药可能对不上，别把 HUD 搞崩
   el('weapon').textContent=w.name;
+  const ds=el('dbgSwitch'); if(ds) ds.textContent='换枪（'+w.name+'）';
   if(curWeapon==='grenade') el('ammo').textContent = infiniteAmmo?'∞':('x'+player.ammo.grenade);
+  else if(w.melee) el('ammo').textContent = '近战';
   else el('ammo').textContent = infiniteAmmo?'∞':(player.ammo[curWeapon].m+'/'+player.ammo[curWeapon].r);
   el('nade').textContent = '雷 '+(infiniteAmmo?'∞':('x'+player.ammo.grenade));
   const role = bombRoleOf(player.team);
@@ -153,4 +188,22 @@ function updateHUD(){
   el('blueScore').textContent='蓝 '+blueScore; el('redScore').textContent='红 '+redScore;
   const vg=el('viewgun'); if(vg){ vg.style.opacity=(player.downed||!player.alive)?0:1; const vn=el('viewgunName'); if(vn)vn.textContent=w.name; }
   // 秘籍状态条已隐藏（仅 README 记录，不在游戏内透露）
+}
+function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+// 对局内排行榜：按 score 降序，显示名次 / 英文名 / 击杀-死亡 / 得分；头部带「第 X 把」（roundNum 持续累加）
+function renderScoreboard(){
+  const sb=el('scoreboard'); if(!sb) return;
+  const rows=characters.slice().sort((a,b)=>(b.score||0)-(a.score||0));
+  if(!rows.length){ sb.innerHTML='<div class="sbHead">🏆 排行榜</div><div class="sbEmpty">暂无数据</div>'; return; }
+  let h='<div class="sbHead">🏆 排行榜 · 第 '+roundNum+' 把 <span class="sbHint">按 / 关闭</span></div>';
+  rows.forEach((c,i)=>{
+    const me=c.isPlayer?' sbMe':'';
+    const tc=c.team==='blue'?'sbBlue':'sbRed';
+    h+='<div class="sbRow'+me+'">'
+      +'<span class="sbRank">'+(i+1)+'</span>'
+      +'<span class="sbName '+tc+'">'+escapeHtml(c.name)+'</span>'
+      +'<span class="sbKD">'+(c.kills||0)+' / '+(c.deaths||0)+'</span>'
+      +'<span class="sbScore">'+(c.score||0)+'</span></div>';
+  });
+  sb.innerHTML=h;
 }

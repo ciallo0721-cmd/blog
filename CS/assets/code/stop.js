@@ -7,6 +7,8 @@ let paused = false;
 
 function togglePause(){
   if(matchOver||!running) return;   // 结算/开始界面不响应 Esc、`、暂停按钮
+  if(layoutEditing) return;         // 手指键位编辑态：保持界面干净，Esc 不弹设置
+  const _kp=el('keyPanel'); if(_kp && !_kp.classList.contains('hide')) return;  // 键位面板开着时 Esc 只关面板
   paused=!paused;
   if(paused){ el('pause').classList.remove('hide');
     if(document.pointerLockElement===cv) document.exitPointerLock(); }
@@ -14,6 +16,7 @@ function togglePause(){
 }
 // 从暂停设置返回开始界面（清空残局）
 function quitToMenu(){
+  if(layoutEditing) return;   // 编辑手指键位时不允许退回开始界面（会盖住触控层）
   if(document.pointerLockElement===cv) document.exitPointerLock();
   paused=false; running=false; matchOver=false;
   el('pause').classList.add('hide');

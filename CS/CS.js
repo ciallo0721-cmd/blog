@@ -138,34 +138,72 @@ function makeMarkSprite(){
   const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));
   sp.scale.set(1.4,0.45,1); sp.visible=false; return sp;
 }
+/* ---------- 2b. 名字 / 计分（排行榜用） ---------- */
+const AI_NAMES = ['Alex','Ben','Carl','Dan','Eve','Finn','Grace','Hugo','Ivy','Jack','Kai','Leo','Mia','Nash','Owen','Pam','Quinn','Rex','Sara','Tom','Uma','Vic','Will','Xena','Yara','Zoe','Blaze','Cody','Drew','Eli','Fox','Gus','Hana','Iris','Jude','Kira','Liam','Milo','Nina','Otto','Pia','Rune','Sage','Tess','Ugo','Vera','Wade','Xander','Yuki','Zane'];
+const usedNames = new Set();
+function pickAIName(){
+  const free = AI_NAMES.filter(n=>!usedNames.has(n));
+  const pool = free.length ? free : AI_NAMES;
+  const n = pool[Math.floor(Math.random()*pool.length)];
+  usedNames.add(n); return n;
+}
+function freeName(n){ if(n) usedNames.delete(n); }
+function makeNameSprite(text, team){
+  const c=document.createElement('canvas'); c.width=256; c.height=64;
+  const ctx=c.getContext('2d');
+  ctx.font='bold 34px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.lineWidth=5; ctx.strokeStyle='rgba(0,0,0,0.85)'; ctx.strokeText(text,128,34);
+  ctx.fillStyle = team==='blue' ? '#7fd0ff' : '#ff8a8a';
+  ctx.fillText(text,128,34);
+  const tex=new THREE.CanvasTexture(c);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));
+  sp.scale.set(2.6,0.65,1); sp.visible=true; return sp;
+}
+function setCharName(ch, name){
+  if(!ch || !name) return;
+  freeName(ch.name);
+  ch.name = name; usedNames.add(name);
+  if(ch.nameTag) scene.remove(ch.nameTag);
+  ch.nameTag = makeNameSprite(name, ch.team); scene.add(ch.nameTag);
+}
 function spawnCharacter(team,isPlayer){
   const m=makeCharMesh(team); scene.add(m.group);
   const ch={team,isPlayer,alive:true,hp:(team==='red'&&!isPlayer)?82:100,respawn:0,group:m.group,meshes:[m.body,m.head],
     yaw:team==='blue'?Math.PI:0,pitch:0,recoil:0,flyY:0,weapon:isPlayer?'ak':pickBotWeapon(),gun:m.gun,
     ammo:{},
     reloading:false,reloadT:0,lastFire:0,aiState:'patrol',aiTarget:null,aiTimer:0,moveTarget:null,role:null,
-    downed:false,downedT:0,reviveProg:0,reviveT:0,jumpQueued:false,vy:0,jumpY:0,grounded:true};
+    downed:false,downedT:0,reviveProg:0,reviveT:0,jumpQueued:false,vy:0,jumpY:0,grounded:true,
+    slowT:0,markT:0,
+    name: isPlayer?'你':pickAIName(), kills:0, deaths:0, score:0};   // 名字/击杀/死亡/得分（排行榜用）
   initAmmo(ch);
   ch.reviveBar=makeReviveSprite(); scene.add(ch.reviveBar);
   ch.mark=makeMarkSprite(); scene.add(ch.mark);
+  ch.nameTag=makeNameSprite(ch.name, team); scene.add(ch.nameTag);
   m.body.userData.char=ch; m.head.userData.char=ch;
   characters.push(ch); hitMeshes.push(m.body,m.head); return ch;
 }
 // 弹药模型：每把枪 {m:弹匣内, r:备用弹}；手雷单独计数
 function initAmmo(ch){
-  ch.ammo = { grenade: WEAPONS.grenade.mag };
-  for(const w of ['ak','pistol','shotgun','rpg'])
-    ch.ammo[w] = { m: WEAPONS[w].mag, r: WEAPONS[w].reserve };
+  // 按 assets/Guns/all.json 里实际列出来的枪逐把初始化，增删枪不用改代码
+  ch.ammo = {};
+  for(const w in WEAPONS){
+    if(w==='grenade'){ ch.ammo.grenade = WEAPONS.grenade.mag; continue; }  // 手雷按个数计
+    if(WEAPONS[w].melee) ch.ammo[w] = { m:1, r:0 };   // 近战武器（如刀）不耗弹，占位避免 HUD 出错
+    else ch.ammo[w] = { m: WEAPONS[w].mag, r: WEAPONS[w].reserve };
+  }
 }
-// bot 随机分配武器（ak/pistol 多，新枪少）
+// bot 随机分配武器（按 all.json 里实际存在的枪来，ak/pistol 多，霰弹/RPG 少）
 function pickBotWeapon(){
+  const pool = ALL_WEAPONS.filter(k=>k!=='grenade' && WEAPONS[k]);
+  if(!pool.length) return 'ak';
+  const has = k=>pool.indexOf(k)>=0;
   const r=Math.random();
-  if(r<0.5) return 'ak';
-  if(r<0.72) return 'pistol';
-  // 狙击枪暂时隐藏：恢复时解开下一行，并把下方 shotgun 阈值改回 0.92
-  // if(r<0.82) return 'sniper';
-  if(r<0.92) return 'shotgun';
-  return 'rpg';
+  if(has('ak')      && r<0.5)  return 'ak';
+  if(has('pistol')  && r<0.72) return 'pistol';
+  // 狙击枪默认 hidden：把它在 all.json 里的 "hidden" 删掉就会自动进入随机池
+  if(has('shotgun') && r<0.92) return 'shotgun';
+  if(has('rpg'))               return 'rpg';
+  return pool[pool.length-1];
 }
 function placeAtSpawn(ch){
   const s=ch.team==='blue'?SPAWN.ally:SPAWN.enemy;
@@ -198,10 +236,12 @@ function downChar(ch,attacker,boom){
   ch.group.rotation.x=Math.PI/2.1; ch.group.position.y=0.35;
   if(ch.gun) ch.gun.visible=false;
   if(ch.reviveBar){ ch.reviveBar.visible=false; }
-  if(attacker&&attacker.team!==ch.team){ if(attacker.team==='blue')blueScore++; else if(attacker.team==='red')redScore++; }
+  if(attacker&&attacker.team!==ch.team){ if(attacker.team==='blue')blueScore++; else if(attacker.team==='red')redScore++;
+    attacker.kills=(attacker.kills||0)+1; attacker.score=(attacker.score||0)+100; }
+  ch.deaths=(ch.deaths||0)+1;
   if(ch.isPlayer) toast(boom?'你被炸倒了！爬向队友或等队友救援':'你被击倒了！爬向队友或等队友救援（被救前无法战斗）');
   else if(attacker&&attacker.isPlayer) toast('击倒 '+((ch.team!==attacker.team)?'敌方':'友军')+' +1');
-  updateHUD();
+  updateHUD(); renderScoreboard();
   checkWin();
 }
 // 救援
@@ -252,7 +292,7 @@ function checkWin(){
 }
 function resetMatch(){
   if(debugMode){ enterDebug(); return; }   // DEBUG 下「再来一局」= 清空重开沙盒
-  roundNum = (roundNum % ROUND_MAX) + 1;   // 回合循环：红CT蓝T ↔ 红T蓝CT
+  roundNum = roundNum + 1;   // 对局计数持续累加（不再用 % 回到第1把）；角色交替由 roundNum%2 决定，不受影响
   blueScore=0; redScore=0; matchOver=false;
   bomb.planted=false; bomb.pos=null; bomb.timer=0; bomb.plantT=0; bomb.defuseT=0; bomb.site=null;
   for(const c of characters) respawnChar(c);
@@ -348,7 +388,7 @@ function updatePlayer(dt){
   if(player.downed){
     player.downedT+=dt;
     let fx=0,fz=0;
-    if(!isPhone){ fx=(keys['w']?1:0)-(keys['s']?1:0); fz=(keys['d']?1:0)-(keys['a']?1:0); }
+    if(!isPhone){ fx=(kdown('forward')?1:0)-(kdown('back')?1:0); fz=(kdown('right')?1:0)-(kdown('left')?1:0); }
     else { fx=-joy.y; fz=joy.x; }
     const sin=Math.sin(player.yaw),cos=Math.cos(player.yaw);
     const fwdX=-sin,fwdZ=-cos, rgtX=cos,rgtZ=-sin;
@@ -370,7 +410,7 @@ function updatePlayer(dt){
   let revTarget=null, rd=1e9;
   for(const c of characters){ if(c.team===player.team&&c.downed){ const d=c.group.position.distanceTo(player.group.position); if(d<rd){rd=d;revTarget=c;} } }
   const nearRev = revTarget && rd<=REVIVE_RANGE;
-  const wantRev = isPhone ? nearRev : (keys['e'] && nearRev);
+  const wantRev = isPhone ? nearRev : (kdown('use') && nearRev);
   if(wantRev){
     revivingNow=true;
     if(revTarget.reviveProg<=0.001) toast(isPhone?'正在救援…':'正在救援…保持按住 E');
@@ -382,7 +422,7 @@ function updatePlayer(dt){
   if(role==='T' && !bomb.planted){ const st=nearestSite(player.group.position); if(st){ nearSite=st.site; siteD=st.d; } }
   const nearBomb = role==='CT' && bomb.planted && bomb.pos && player.group.position.distanceTo(bomb.pos) < BOMB_DEFUSE_R;
   const wantPlant = nearSite && siteD <= BOMB_PLANT_R;
-  const wantBomb = isPhone ? (wantPlant || nearBomb) : (keys['e'] && (wantPlant || nearBomb));
+  const wantBomb = isPhone ? (wantPlant || nearBomb) : (kdown('use') && (wantPlant || nearBomb));
   if(wantBomb && !nearRev){
     if(role==='T'){ bomb.plantT += dt; if(bomb.plantT>=PLANT_TIME) plantBomb(nearSite, player.team); }
     else { bomb.defuseT += dt; if(bomb.defuseT>=DEFUSE_TIME) defuseBomb(player.team); }
@@ -391,20 +431,20 @@ function updatePlayer(dt){
   if(player.jumpQueued && player.grounded){ player.vy=JUMP_V; player.grounded=false; }
   player.jumpQueued=false;
   if(!player.grounded){ player.jumpY+=player.vy*dt; player.vy-=GRAVITY*dt; if(player.jumpY<=0){ player.jumpY=0; player.vy=0; player.grounded=true; } }
-  const crouching = (!isPhone && keys['c']) || (isPhone && touchCrouch);
+  const crouching = (!isPhone && kdown('crouch')) || (isPhone && touchCrouch);
   // 飞天
-  if(flyEnabled){ if(keys['=']||flyUp)player.flyY+=7*dt; if(keys['-']||flyDown)player.flyY-=7*dt; player.flyY=Math.max(-1,Math.min(45,player.flyY)); }
+  if(flyEnabled){ if(kdown('flyup')||flyUp)player.flyY+=7*dt; if(kdown('flydown')||flyDown)player.flyY-=7*dt; player.flyY=Math.max(-1,Math.min(45,player.flyY)); }
   // 狙击枪瞄准镜：装备狙击时拉近 FOV + 显示圆形准星遮罩
   const sc=el('scope');
   if(curWeapon==='sniper'){ if(camera.fov!==32){camera.fov=32;camera.updateProjectionMatrix();} if(sc)sc.style.display='block'; }
   else { if(camera.fov!==78){camera.fov=78;camera.updateProjectionMatrix();} if(sc)sc.style.display='none'; }
   let fx=0,fz=0;
-  if(!isPhone){ fx=(keys['w']?1:0)-(keys['s']?1:0); fz=(keys['d']?1:0)-(keys['a']?1:0); }
+  if(!isPhone){ fx=(kdown('forward')?1:0)-(kdown('back')?1:0); fz=(kdown('right')?1:0)-(kdown('left')?1:0); }
   else { fx=-joy.y; fz=joy.x; }
   const sin=Math.sin(player.yaw),cos=Math.cos(player.yaw);
   const fwdX=-sin,fwdZ=-cos, rgtX=cos,rgtZ=-sin;
   let vx=fwdX*fx+rgtX*fz, vz=fwdZ*fx+rgtZ*fz; const len=Math.hypot(vx,vz); if(len>0){vx/=len;vz/=len;}
-  const sp=crouching?3.5:7; player.group.position.x+=vx*sp*dt; player.group.position.z+=vz*sp*dt;
+  const sp=(crouching?3.5:7)*slowMul(player); player.group.position.x+=vx*sp*dt; player.group.position.z+=vz*sp*dt;
   resolveCollision(player.group.position);
   player.group.position.y=player.flyY;   // 隐身，高度由 flyY 决定
   camera.position.set(player.group.position.x, EYE+player.flyY+player.jumpY-(crouching?0.7:0), player.group.position.z);
@@ -543,7 +583,8 @@ function bootScene(){
   if(el('toast')){ el('toast').textContent='纹理加载失败，请刷新重试'; el('toast').style.opacity=1; }
 });
 }
-bootScene();
+// 先等枪械 JSON（all.json）读完再建场景，保证 initAmmo 用的是 JSON 里的弹量；3s 超时则自动用内置兜底表
+whenGunsReady(bootScene);
 
 /* ---------- 7. 修改器菜单（点击「5v5」5 下开启） ---------- */
 window.__csGetState = function(){
@@ -684,6 +725,7 @@ function enterDebug(){
   // 清掉所有非玩家角色（mesh / 进度条 / hitMeshes）
   for(const c of characters.slice()){
     if(c.isPlayer) continue;
+    freeName(c.name); scene.remove(c.nameTag);
     scene.remove(c.group); scene.remove(c.reviveBar);
     const i0=hitMeshes.indexOf(c.meshes[0]); if(i0>=0) hitMeshes.splice(i0,2);
     const ci=characters.indexOf(c); if(ci>=0) characters.splice(ci,1);
@@ -750,30 +792,39 @@ function debugExit(){ location.reload(); }
 
 /* ---------- 9. 桌面输入（键盘 / 鼠标） ---------- */
 document.addEventListener('keydown', e=>{
+  if(remapAction){ e.preventDefault(); applyRemap(e); return; }   // 键位绑定捕获（keymap.js）优先级最高
+  if(e.key==='/'){ e.preventDefault(); toggleScoreboard(); return; }   // 「/」唤醒 / 收起排行榜
   const k=e.key.toLowerCase(); keys[k]=true;
   if(k==='escape'){ togglePause(); return; }
   if(k==='`'){ togglePause(); return; }   // 与 Esc 同：对局中按一次进设置(解鼠标)，再按返回对局
-  if(k===' '||e.code==='Space'){ e.preventDefault(); if(player&&player.grounded&&running&&!paused) player.jumpQueued=true; return; }
-  if(debugMode){   // DEBUG 沙盒快捷键（移动/射击仍可用）
+  if(k===keymap.jump || (keymap.jump===' '&&e.code==='Space')){ e.preventDefault(); if(player&&player.grounded&&running&&!paused) player.jumpQueued=true; return; }
+  if(debugMode){   // DEBUG 沙盒：专属键拦截 return，其余键（换枪 F / 换弹 R / 移动）放行到下方主逻辑
     if(e.repeat) return;   // 防键盘重复：避免按住 - 反复开关外挂 / 连续刷单位
-    if(k===';') debugSpawn('red');
-    else if(k==="'") debugSpawn('blue');
-    else if(k==='.') debugDown('red');
-    else if(k===',') debugDown('blue');
-    else if(k==='-') debugGod();
-    else if(k==='y') debugWin();
-    else if(k==='n') debugLose();
-    else if(k==='h') debugMedkitFront();
-    return;
+    if(k===';'){ debugSpawn('red'); return; }
+    if(k==="'"){ debugSpawn('blue'); return; }
+    if(k==='.'){ debugDown('red'); return; }
+    if(k===','){ debugDown('blue'); return; }
+    if(k==='-'){ debugGod(); return; }
+    if(k==='y'){ debugWin(); return; }
+    if(k==='n'){ debugLose(); return; }
+    if(k==='h'){ debugMedkitFront(); return; }
+    // 其余键（换枪/换弹等）放行，走到下方主逻辑
   }
   if(player&&player.downed) return;          // 倒地时禁用换弹/换枪/核弹
-  if(k==='r') startReload(player);
-  if(k==='f') switchWeapon();
-  if(k==='1') useRecon();
-  if(k==='2') useKamikaze();
-  if(k==='0') callNuke();
+  if(k===keymap.reload) startReload(player);
+  else if(k===keymap.switchw) switchWeapon();
+  else if(k===keymap.recon) useRecon();
+  else if(k===keymap.kami) useKamikaze();
+  else if(k===keymap.nuke) callNuke();
 });
 document.addEventListener('keyup', e=>{ keys[e.key.toLowerCase()]=false; });
+// 「/」唤醒的排行榜开关：对局中随时按 / 打开，再按收起
+function toggleScoreboard(){
+  const sb=el('scoreboard'); if(!sb) return;
+  const show=sb.classList.contains('hide');
+  sb.classList.toggle('hide', !show);
+  if(show) renderScoreboard();
+}
 cv.addEventListener('mousedown', e=>{
   if(!running||!player.alive||revivingNow) return;
   if(e.button===0){ if(curWeapon==='grenade')throwGrenade(player); else firing=true; }
@@ -787,6 +838,7 @@ document.addEventListener('mousemove', e=>{
   player.pitch=Math.max(-1.45,Math.min(1.45,player.pitch));
 });
 document.addEventListener('pointerlockchange', ()=>{
+  if(layoutEditing) return;   // 手指键位编辑态（需释放鼠标拖拽）不弹暂停
   // 指针锁丢失（主动 Esc/` 或意外切窗）：若在对局中，自动进暂停设置菜单，绝不弹回开始界面
   if(document.pointerLockElement!==cv && running && !paused){
     paused=true; el('pause').classList.remove('hide');
@@ -838,9 +890,11 @@ function animate(){
             if(c.isPlayer){ toast('拾取医疗箱 +'+Math.round(heal)+' 血'); updateHUD(); } }
           break; } }
     }
-    updateRockets(dt); updateDrones(dt);
+    updateRockets(dt); updateDrones(dt); tickGunSpecial(dt);
     if(bomb.planted){ bomb.timer-=dt; if(bomb.timer<=0) bombExplode(); }
-    for(const c of characters){ if(c.mark){ if(reconActive && c.alive && !c.downed && c.team!==player.team){ c.mark.visible=true; c.mark.position.set(c.group.position.x,2.7,c.group.position.z); } else c.mark.visible=false; } }
+    // 透视：侦查无人机(reconActive) 或 被带 perspective 的枪打中(markT) 都显示穿墙标记
+    for(const c of characters){ if(c.mark){ if((reconActive||c.markT>0) && c.alive && !c.downed && c.team!==player.team){ c.mark.visible=true; c.mark.position.set(c.group.position.x,2.7,c.group.position.z); } else c.mark.visible=false; } }
+    for(const c of characters){ if(c.nameTag){ c.nameTag.visible = c.alive && c.team===player.team; c.nameTag.position.set(c.group.position.x, 2.4, c.group.position.z); } }   // 头顶名字仅显示我方（敌方不显示，避免像透视挂）
     updateHUD();
   }
   renderer.render(scene,camera);
@@ -851,4 +905,4 @@ animate();
 [['dbgSpawnRed',()=>debugSpawn('red')],['dbgSpawnBlue',()=>debugSpawn('blue')],
  ['dbgDownRed',()=>debugDown('red')],['dbgDownBlue',()=>debugDown('blue')],
  ['dbgGod',debugGod],['dbgMed',debugMedkitFront],['dbgWin',debugWin],['dbgLose',debugLose],
- ['dbgExit',debugExit]].forEach(([id,fn])=>{ const b=el(id); if(b) b.addEventListener('click', e=>{ e.preventDefault(); if(!debugMode) return; fn(); }); });
+ ['dbgExit',debugExit],['dbgSwitch',()=>{ switchWeapon(); const b=el('dbgSwitch'); if(b) b.textContent='换枪（'+WEAPONS[curWeapon].name+'）'; }]].forEach(([id,fn])=>{ const b=el(id); if(b) b.addEventListener('click', e=>{ e.preventDefault(); if(!debugMode) return; fn(); }); });
