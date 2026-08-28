@@ -9,11 +9,11 @@
    ============================================================ */
 
 /* ---------- 0. 全局配置 & 秘籍参数 ---------- */
-const MAP = 60, HALF = MAP/2;
+const MAP = 100, HALF = MAP/2;
 let RES_SCALE = 0.5;
 const EYE = 1.6;
 const JUMP_V = 7, GRAVITY = 22;   // 跳跃初速 / 重力加速度（蹲跳系统）
-const SPAWN = { enemy:{z:-22,xr:16}, mid:{z:0,xr:24}, ally:{z:22,xr:16} };
+const SPAWN = { enemy:{z:-40,xr:26}, mid:{z:0,xr:40}, ally:{z:40,xr:26} };
 
 const params = new URLSearchParams(location.search);
 // —— 秘籍 ——
@@ -54,7 +54,7 @@ function el(id){ return document.getElementById(id); }
 const container = document.getElementById('game');
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x9fb8d8);
-scene.fog = new THREE.Fog(0x9fb8d8, 30, 70);
+scene.fog = new THREE.Fog(0x9fb8d8, 40, 150);
 const camera = new THREE.PerspectiveCamera(78, window.innerWidth/window.innerHeight, 0.1, 200);
 camera.rotation.order = 'YXZ';
 const renderer = new THREE.WebGLRenderer({antialias:false});
@@ -130,16 +130,41 @@ function makeCharMesh(team){
   gun.position.set(0,1.05,0.75); gun.userData.isGun=true;
   g.add(body,head,tag,gun); return {group:g,body,head,gun};
 }
+function makeMarkSprite(){
+  const c=document.createElement('canvas'); c.width=64; c.height=20;
+  const ctx=c.getContext('2d');
+  ctx.fillStyle='rgba(255,40,40,0.9)'; ctx.beginPath(); ctx.moveTo(32,2); ctx.lineTo(58,18); ctx.lineTo(6,18); ctx.closePath(); ctx.fill();
+  const tex=new THREE.CanvasTexture(c);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));
+  sp.scale.set(1.4,0.45,1); sp.visible=false; return sp;
+}
 function spawnCharacter(team,isPlayer){
   const m=makeCharMesh(team); scene.add(m.group);
-  const ch={team,isPlayer,alive:true,hp:100,respawn:0,group:m.group,meshes:[m.body,m.head],
-    yaw:team==='blue'?Math.PI:0,pitch:0,recoil:0,flyY:0,weapon:'ak',gun:m.gun,
-    ammo:{ak:WEAPONS.ak.mag,pistol:WEAPONS.pistol.mag,grenade:WEAPONS.grenade.mag},
-    reloading:false,reloadT:0,lastFire:0,aiState:'patrol',aiTarget:null,aiTimer:0,moveTarget:null,
+  const ch={team,isPlayer,alive:true,hp:(team==='red'&&!isPlayer)?82:100,respawn:0,group:m.group,meshes:[m.body,m.head],
+    yaw:team==='blue'?Math.PI:0,pitch:0,recoil:0,flyY:0,weapon:isPlayer?'ak':pickBotWeapon(),gun:m.gun,
+    ammo:{},
+    reloading:false,reloadT:0,lastFire:0,aiState:'patrol',aiTarget:null,aiTimer:0,moveTarget:null,role:null,
     downed:false,downedT:0,reviveProg:0,reviveT:0,jumpQueued:false,vy:0,jumpY:0,grounded:true};
+  initAmmo(ch);
   ch.reviveBar=makeReviveSprite(); scene.add(ch.reviveBar);
+  ch.mark=makeMarkSprite(); scene.add(ch.mark);
   m.body.userData.char=ch; m.head.userData.char=ch;
   characters.push(ch); hitMeshes.push(m.body,m.head); return ch;
+}
+// 弹药模型：每把枪 {m:弹匣内, r:备用弹}；手雷单独计数
+function initAmmo(ch){
+  ch.ammo = { grenade: WEAPONS.grenade.mag };
+  for(const w of ['ak','pistol','sniper','shotgun','rpg'])
+    ch.ammo[w] = { m: WEAPONS[w].mag, r: WEAPONS[w].reserve };
+}
+// bot 随机分配武器（ak/pistol 多，新枪少）
+function pickBotWeapon(){
+  const r=Math.random();
+  if(r<0.5) return 'ak';
+  if(r<0.72) return 'pistol';
+  if(r<0.82) return 'sniper';
+  if(r<0.92) return 'shotgun';
+  return 'rpg';
 }
 function placeAtSpawn(ch){
   const s=ch.team==='blue'?SPAWN.ally:SPAWN.enemy;
@@ -201,8 +226,8 @@ function reviveChar(ch,reviver){
 }
 function respawnChar(ch){
   ch.alive=true; ch.downed=false; ch.reviveProg=0; ch.reviveT=0; ch.downedT=0;
-  ch.hp = (ch.isPlayer && hospitalVal>0)?hospitalVal:100; ch.group.visible=!ch.isPlayer;
-  ch.ammo={ak:WEAPONS.ak.mag,pistol:WEAPONS.pistol.mag,grenade:WEAPONS.grenade.mag};
+  ch.hp = (ch.isPlayer && hospitalVal>0)?hospitalVal:((ch.team==='red'&&!ch.isPlayer)?82:100); ch.group.visible=!ch.isPlayer;
+  initAmmo(ch);
   ch.reloading=false; ch.reloadT=0; ch.flyY=0;
   ch.group.rotation.x=0; ch.group.position.y=0;
   if(ch.gun) ch.gun.visible=true;
@@ -226,18 +251,94 @@ function checkWin(){
 }
 function resetMatch(){
   if(debugMode){ enterDebug(); return; }   // DEBUG 下「再来一局」= 清空重开沙盒
+  roundNum = (roundNum % ROUND_MAX) + 1;   // 回合循环：红CT蓝T ↔ 红T蓝CT
   blueScore=0; redScore=0; matchOver=false;
+  bomb.planted=false; bomb.pos=null; bomb.timer=0; bomb.plantT=0; bomb.defuseT=0; bomb.site=null;
   for(const c of characters) respawnChar(c);
   el('victory').classList.add('hide');
   running=true; updateHUD();
   if(!isPhone) cv.requestPointerLock();
+  toast('第 '+roundNum+' 把 · 红方='+bombRoleOf('red')+' 蓝方='+bombRoleOf('blue'));
 }
 function resolveCollision(pos){
   pos.x=Math.max(-HALF+1.5,Math.min(HALF-1.5,pos.x));
   pos.z=Math.max(-HALF+1.5,Math.min(HALF-1.5,pos.z));
   for(const p of pillars){const dx=pos.x-p.x,dz=pos.z-p.z,d=Math.hypot(dx,dz);
     if(d<p.r&&d>0.0001){const push=p.r-d; pos.x+=dx/d*push; pos.z+=dz/d*push;}}
+  // 房屋墙体（矩形障碍）推出
+  for(const r of walls){
+    const minx=r.x-r.w/2, maxx=r.x+r.w/2, minz=r.z-r.d/2, maxz=r.z+r.d/2;
+    if(pos.x>minx&&pos.x<maxx&&pos.z>minz&&pos.z<maxz){
+      const dl=pos.x-minx, dr=maxx-pos.x, dt=pos.z-minz, db=maxz-pos.z;
+      const m=Math.min(dl,dr,dt,db);
+      if(m===dl) pos.x=minx; else if(m===dr) pos.x=maxx; else if(m===dt) pos.z=minz; else pos.z=maxz;
+    }
+  }
 }
+
+/* ---------- 4b. 下包系统 + 无人机技能 ---------- */
+const BOMB_TIME=40, PLANT_TIME=3, DEFUSE_TIME=5, BOMB_PLANT_R=3.5, BOMB_DEFUSE_R=3.5, ROUND_MAX=5;
+let roundNum=1;
+const bomb = { planted:false, pos:null, byTeam:null, timer:0, plantT:0, defuseT:0, site:null };
+const SITES = [ {name:'A', pos:new THREE.Vector3(0,0,0)}, {name:'B', pos:new THREE.Vector3(25,0,0)} ]; // B 在右侧房屋内
+// 回合角色：第1把 红CT/蓝T，第2把 红T/蓝CT，循环
+function bombRoleOf(team){ const redAttacker=(roundNum%2===0); return (team==='red') ? (redAttacker?'T':'CT') : (redAttacker?'CT':'T'); }
+function nearestSite(p){ let s=null,bd=1e9; for(const st of SITES){ const d=p.distanceTo(st.pos); if(d<bd){bd=d;s=st;} } return s?{site:s,d:bd}:null; }
+function plantBomb(site, team){ bomb.planted=true; bomb.pos=site.pos.clone(); bomb.byTeam=team; bomb.timer=BOMB_TIME; bomb.plantT=0; bomb.site=site.name; toast('💣 C4 已安装于站点 '+site.name+'！'+BOMB_TIME+'s 后爆炸'); updateHUD(); }
+function defuseBomb(team){ bomb.planted=false; bomb.defuseT=0; bomb.site=null; toast('✅ C4 已拆除，防守方获胜！'); bombRoundWin(team, false); }
+function bombExplode(){ const t=bomb.byTeam; bomb.planted=false; bomb.site=null; toast('💥 C4 爆炸！进攻方获胜！'); bombRoundWin(t, true); }
+function bombRoundWin(winTeam, exploded){
+  if(matchOver) return;
+  matchOver=true; running=false;
+  const playerWin = (winTeam===playerTeam);
+  el('victoryTitle').textContent = playerWin?'🎉 胜利！':'💀 失败…';
+  el('victorySub').textContent = (winTeam==='red'?'红方':'蓝方')+' 获胜（C4 '+(exploded?'爆炸':'拆除')+'）';
+  el('victory').classList.remove('hide');
+  if(document.pointerLockElement===cv) document.exitPointerLock();
+}
+// —— 侦查无人机 ——
+let reconActive=false, reconT=0, reconCd=0;
+const RECON_TIME=30, RECON_CD=45;
+let reconMesh=null;
+function useRecon(){
+  if(!player||!player.alive||player.downed) return;
+  if(reconCd>0){ toast('侦查无人机冷却中 '+Math.ceil(reconCd)+'s'); return; }
+  reconActive=true; reconT=RECON_TIME; reconCd=RECON_CD+RECON_TIME;
+  if(!reconMesh){ reconMesh=new THREE.Mesh(new THREE.SphereGeometry(0.4,10,10), new THREE.MeshBasicMaterial({color:0x66ddff})); scene.add(reconMesh); }
+  reconMesh.visible=true;
+  toast('🛰 侦查无人机升空（'+RECON_TIME+'s 透视敌方）'); updateHUD();
+}
+function updateRecon(dt){
+  if(reconCd>0) reconCd-=dt;
+  if(!reconActive){ if(reconMesh) reconMesh.visible=false; return; }
+  reconT-=dt;
+  if(reconMesh){ const p=player.group.position; reconMesh.position.set(p.x, 8+Math.sin(performance.now()/300)*0.5, p.z); }
+  if(reconT<=0){ reconActive=false; if(reconMesh) reconMesh.visible=false; }
+}
+// —— 自爆无人机 ——
+let kamikazeCd=0; const KAMI_CD=40; const kamiDrones=[];
+function useKamikaze(){
+  if(!player||!player.alive||player.downed) return;
+  if(kamikazeCd>0){ toast('自爆无人机冷却中 '+Math.ceil(kamikazeCd)+'s'); return; }
+  let cx=0,cz=0,n=0; for(const c of characters){ if(c.alive&&!c.downed&&c.team!==player.team){ cx+=c.group.position.x; cz+=c.group.position.z; n++; } }
+  if(n===0){ toast('附近没有敌人'); return; }
+  cx/=n; cz/=n; kamikazeCd=KAMI_CD;
+  const mesh=new THREE.Mesh(new THREE.SphereGeometry(0.35,10,10), new THREE.MeshBasicMaterial({color:0xff3344}));
+  mesh.position.copy(player.group.position).setY(2); scene.add(mesh);
+  kamiDrones.push({mesh, pos:player.group.position.clone().setY(2), target:new THREE.Vector3(cx,1.5,cz), t:0});
+  toast('🚀 自爆无人机出击！'); updateHUD();
+}
+function updateKami(dt){
+  if(kamikazeCd>0) kamikazeCd-=dt;
+  for(let i=kamiDrones.length-1;i>=0;i--){
+    const k=kamiDrones[i];
+    const dir=k.target.clone().sub(k.pos); const d=dir.length(); dir.normalize();
+    const sp=14; k.pos.addScaledVector(dir, Math.min(sp*dt, d));
+    k.mesh.position.copy(k.pos); k.t+=dt;
+    if(d<1.2 || k.t>6){ explode(k.pos, player, 7, 90); scene.remove(k.mesh); kamiDrones.splice(i,1); }
+  }
+}
+function updateDrones(dt){ updateRecon(dt); updateKami(dt); }
 
 /* ---------- 5. 玩家控制（含飞天 / 倒地爬行 / 救人） ---------- */
 const joy={active:false,id:null,baseX:0,baseY:0,x:0,y:0};
@@ -274,6 +375,17 @@ function updatePlayer(dt){
     if(revTarget.reviveProg<=0.001) toast(isPhone?'正在救援…':'正在救援…保持按住 E');
     tickRevive(revTarget,dt,player);
   }
+  // 下包 / 拆包（万能 E；手机靠近自动，与救人互斥：优先救人）
+  const role = player.alive ? bombRoleOf(player.team) : null;
+  let nearSite=null, siteD=1e9;
+  if(role==='T' && !bomb.planted){ const st=nearestSite(player.group.position); if(st){ nearSite=st.site; siteD=st.d; } }
+  const nearBomb = role==='CT' && bomb.planted && bomb.pos && player.group.position.distanceTo(bomb.pos) < BOMB_DEFUSE_R;
+  const wantPlant = nearSite && siteD <= BOMB_PLANT_R;
+  const wantBomb = isPhone ? (wantPlant || nearBomb) : (keys['e'] && (wantPlant || nearBomb));
+  if(wantBomb && !nearRev){
+    if(role==='T'){ bomb.plantT += dt; if(bomb.plantT>=PLANT_TIME) plantBomb(nearSite, player.team); }
+    else { bomb.defuseT += dt; if(bomb.defuseT>=DEFUSE_TIME) defuseBomb(player.team); }
+  } else if(!nearRev){ bomb.plantT=0; bomb.defuseT=0; }
   // 蹲跳系统：跳跃物理 + 蹲下
   if(player.jumpQueued && player.grounded){ player.vy=JUMP_V; player.grounded=false; }
   player.jumpQueued=false;
@@ -281,6 +393,10 @@ function updatePlayer(dt){
   const crouching = (!isPhone && keys['c']) || (isPhone && touchCrouch);
   // 飞天
   if(flyEnabled){ if(keys['=']||flyUp)player.flyY+=7*dt; if(keys['-']||flyDown)player.flyY-=7*dt; player.flyY=Math.max(-1,Math.min(45,player.flyY)); }
+  // 狙击枪瞄准镜：装备狙击时拉近 FOV + 显示圆形准星遮罩
+  const sc=el('scope');
+  if(curWeapon==='sniper'){ if(camera.fov!==32){camera.fov=32;camera.updateProjectionMatrix();} if(sc)sc.style.display='block'; }
+  else { if(camera.fov!==78){camera.fov=78;camera.updateProjectionMatrix();} if(sc)sc.style.display='none'; }
   let fx=0,fz=0;
   if(!isPhone){ fx=(keys['w']?1:0)-(keys['s']?1:0); fz=(keys['d']?1:0)-(keys['a']?1:0); }
   else { fx=-joy.y; fz=joy.x; }
@@ -292,12 +408,13 @@ function updatePlayer(dt){
   player.group.position.y=player.flyY;   // 隐身，高度由 flyY 决定
   camera.position.set(player.group.position.x, EYE+player.flyY+player.jumpY-(crouching?0.7:0), player.group.position.z);
   player.recoil*=0.85; camera.rotation.y=player.yaw; camera.rotation.x=player.pitch+player.recoil;
-  if(firing&&curWeapon==='ak'&&!revivingNow) playerFire();
+  // 全枪种统一开火（不再只限 ak）；半自动在 playerFire 内自行停火
+  if(firing && curWeapon!=='grenade' && !revivingNow && !player.downed) playerFire();
 }
 
 /* ---------- 6. 场景构建（纹理加载完成后执行，着色器材质渲染地图） ---------- */
 let player=null, playerTeam='blue';
-const pillars=[];
+const pillars=[], walls=[], buildings=[];
 
 function initScene(texMid, texAlly, texEnemy, texWall, texPIce, texPStone, texPRed){
   // 着色器选择：webgl = 自定义 GLSL 程序化光（现状）；three = three.js 标准 PBR 材质（场景灯出立体感）
@@ -316,8 +433,8 @@ function initScene(texMid, texAlly, texEnemy, texWall, texPIce, texPStone, texPR
   const wallMat=csMat(texWall,0xcfe0f5);
   function addWall(x,z,w,d){const m=new THREE.Mesh(new THREE.BoxGeometry(w,3,d),wallMat);m.position.set(x,1.5,z);scene.add(m);}
   addWall(0,-HALF,MAP,1);addWall(0,HALF,MAP,1);addWall(-HALF,0,1,MAP);addWall(HALF,0,1,MAP);
-  const pillarPos=[[-28,-28],[0,-28],[28,-28],[-28,0],[28,0],[-28,28],[0,28],[28,28],
-    [-15,-10],[0,-10],[15,-10],[-15,10],[0,10],[15,10],[-10,0],[10,0]];
+  const pillarPos=[[-42,-42],[0,-42],[42,-42],[-42,0],[42,0],[-42,42],[0,42],[42,42],
+    [-22,-22],[22,-22],[-22,22],[22,22],[-22,0],[22,0],[0,-22],[0,22],[-30,10],[30,-10]];
   const pillarMats=[
     csMat(texPIce,0xd8ecff),
     csMat(texPStone,0xb8cfe0),
@@ -328,17 +445,59 @@ function initScene(texMid, texAlly, texEnemy, texWall, texPIce, texPStone, texPR
     m.position.set(x,3,z);scene.add(m);pillars.push({x,z,r:1.7});
   }
 
+  // 房屋：四面墙 + 南侧门洞，墙体加入碰撞与导航阻挡；室内可进入
+  function addBuilding(bx,bz,w,d,withWindow){
+    const t=1, h=3.4, hw=w/2, hd=d/2, door=3, halfDoor=door/2;
+    const seg=(x,z,sw,sd)=>{
+      const m=new THREE.Mesh(new THREE.BoxGeometry(sw,h,sd),wallMat); m.position.set(x,h/2,z); scene.add(m);
+      walls.push({x,z,w:sw,d:sd});
+    };
+    seg(bx, bz+hd, w, t);                 // 北墙（实心）
+    seg(bx+hw, bz, t, d);                 // 东墙
+    seg(bx-hw, bz, t, d);                // 西墙
+    const sideW = hw - halfDoor;         // 南墙分两段，中间留门
+    seg(bx-(hw+halfDoor)/2, bz-hd, sideW, t);
+    seg(bx+(hw+halfDoor)/2, bz-hd, sideW, t);
+    buildings.push({x:bx,z:bz,w,d});
+    // 窗户：北墙中央加窗框 + 半透明玻璃（视觉，墙体仍实心不可穿）
+    if(withWindow){
+      const wz=bz+hd, fMat=new THREE.MeshLambertMaterial({color:0x222a33});
+      const gMat=new THREE.MeshBasicMaterial({color:0x9fd8ff,transparent:true,opacity:0.35,side:THREE.DoubleSide});
+      const fT=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.25,0.2),fMat); fT.position.set(bx,2.7,wz);
+      const fB=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.25,0.2),fMat); fB.position.set(bx,1.3,wz);
+      const fL=new THREE.Mesh(new THREE.BoxGeometry(0.25,1.4,0.2),fMat); fL.position.set(bx-1.2,2.0,wz);
+      const fR=new THREE.Mesh(new THREE.BoxGeometry(0.25,1.4,0.2),fMat); fR.position.set(bx+1.2,2.0,wz);
+      const glass=new THREE.Mesh(new THREE.PlaneGeometry(2.1,1.3),gMat); glass.position.set(bx,2.0,wz); glass.rotation.y=Math.PI/2;
+      scene.add(fT,fB,fL,fR,glass);
+    }
+  }
+  addBuilding(-25, 0, 10, 10, true);  // 左侧房屋（带窗户）
+  addBuilding( 25, 0, 10, 10);        // 右侧房屋（C4 站点 B 在其室内）
+  addBuilding(-15, 30, 10, 10);       // 新增建筑 1
+  addBuilding( 15,-30, 10, 10);        // 新增建筑 2
+  // A/B 下包点浮标（黄色字母，方便找位置）
+  function makeSiteLabel(txt,pos){
+    const c=document.createElement('canvas'); c.width=64; c.height=64; const x=c.getContext('2d');
+    x.fillStyle='rgba(255,200,0,0.92)'; x.beginPath(); x.arc(32,32,28,0,7); x.fill();
+    x.fillStyle='#000'; x.font='bold 38px sans-serif'; x.textAlign='center'; x.textBaseline='middle'; x.fillText(txt,32,34);
+    const tex=new THREE.CanvasTexture(c); const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));
+    sp.scale.set(3,3,1); sp.position.set(pos.x,2.6,pos.z); scene.add(sp);
+  }
+  SITES.forEach(s=>makeSiteLabel(s.name, s.pos));
+
   // 角色
   playerTeam = spy ? 'red' : 'blue';
   player = spawnCharacter(playerTeam,true);
-  const blueAI = pvp ? 0 : 4;     // 1v5 模式无队友
-  const redAI  = tryMode ? 1 : 5; // 5v1 模式敌仅1
+  const blueAI = pvp ? 0 : 10;    // 1v5 模式无队友
+  const redAI  = tryMode ? 1 : 10;// 5v1 模式敌仅1
   for(let i=0;i<blueAI;i++) spawnCharacter('blue',false);
   for(let i=0;i<redAI;i++) spawnCharacter('red',false);
   characters.forEach(placeAtSpawn);
 
-  // 医疗箱
-  [[-18,-18],[18,-18],[-18,18],[18,18],[0,0]].forEach(p=>makeMedkit(p[0],p[1]));
+  // 医疗箱（加多点，分散全图）
+  [[-18,-18],[18,-18],[-18,18],[18,18],[0,0],
+   [-38,-38],[38,-38],[-38,38],[38,38],
+   [-25,25],[25,-25],[0,40],[0,-40]].forEach(p=>makeMedkit(p[0],p[1]));
 
   // 玩家：隐身（只剩摄像机在打）+ 应用 hospital 血量
   player.group.visible=false;
@@ -609,12 +768,14 @@ document.addEventListener('keydown', e=>{
   if(player&&player.downed) return;          // 倒地时禁用换弹/换枪/核弹
   if(k==='r') startReload(player);
   if(k==='f') switchWeapon();
+  if(k==='1') useRecon();
+  if(k==='2') useKamikaze();
   if(k==='0') callNuke();
 });
 document.addEventListener('keyup', e=>{ keys[e.key.toLowerCase()]=false; });
 cv.addEventListener('mousedown', e=>{
   if(!running||!player.alive||revivingNow) return;
-  if(e.button===0){ if(curWeapon==='grenade')throwGrenade(player); else if(curWeapon==='pistol')playerFire(); else firing=true; }
+  if(e.button===0){ if(curWeapon==='grenade')throwGrenade(player); else firing=true; }
 });
 window.addEventListener('mouseup', e=>{ if(e.button===0)firing=false; });
 cv.addEventListener('contextmenu', e=>e.preventDefault());
@@ -641,10 +802,12 @@ function startGame(){
   if(typeof THREE==='undefined'){ toast('引擎未加载，请检查网络后刷新'); return; }
   if(!sceneReady){ toast('资源加载中…'); return; }
   initAudio();    // 用户手势：预加载 assets/sound 音效
+  if(isPhone && typeof requestLandscape==='function') requestLandscape();  // 尝试锁横屏
   el('overlay').classList.add('hide'); running=true;
   if(!isPhone) cv.requestPointerLock(); else toast('左摇杆移动 · 右侧开枪/换弹/换枪');
   if(imagod) toast('外挂全开：无敌+无限子弹+飞天');
   updateHUD();
+  toast('第 '+roundNum+' 把 · 红方='+bombRoleOf('red')+' 蓝方='+bombRoleOf('blue'));
 }
 el('overlay').addEventListener('click', startGame);
 
@@ -674,6 +837,9 @@ function animate(){
             if(c.isPlayer){ toast('拾取医疗箱 +'+Math.round(heal)+' 血'); updateHUD(); } }
           break; } }
     }
+    updateRockets(dt); updateDrones(dt);
+    if(bomb.planted){ bomb.timer-=dt; if(bomb.timer<=0) bombExplode(); }
+    for(const c of characters){ if(c.mark){ if(reconActive && c.alive && !c.downed && c.team!==player.team){ c.mark.visible=true; c.mark.position.set(c.group.position.x,2.7,c.group.position.z); } else c.mark.visible=false; } }
     updateHUD();
   }
   renderer.render(scene,camera);

@@ -45,6 +45,8 @@ bindBtn('btnDown', ()=>{flyDown=true;}, ()=>{flyDown=false;});
 let touchCrouch=false;
 bindBtn('btnCrouch', ()=>{touchCrouch=true;}, ()=>{touchCrouch=false;});
 bindBtn('btnJump', ()=>{ if(player&&player.grounded&&running&&!paused) player.jumpQueued=true; });
+bindBtn('btnRecon', ()=>{ useRecon(); });
+bindBtn('btnKami', ()=>{ useKamikaze(); });
 
 /* ---------- 4. 手机视角（#look 层拖拽；摇杆与按钮在其上层，互不干扰） ---------- */
 const lookEl=el('look'), look={id:null,lx:0,ly:0};
@@ -57,3 +59,24 @@ lookEl.addEventListener('touchmove', e=>{ if(look.id===null)return; e.preventDef
 function lookEnd(e){ for(const t of e.changedTouches) if(t.identifier===look.id) look.id=null; }
 lookEl.addEventListener('touchend', lookEnd, {passive:false});
 lookEl.addEventListener('touchcancel', lookEnd, {passive:false});
+
+/* ---------- 5. 手机端强制横屏 ---------- */
+function isPortrait(){ return window.innerHeight > window.innerWidth; }
+function updateOrientation(){
+  const hint = el('rotateHint');
+  if(!hint) return;
+  if(isPhone && isPortrait()) hint.classList.remove('hide');
+  else hint.classList.add('hide');
+}
+window.addEventListener('resize', updateOrientation);
+window.addEventListener('orientationchange', updateOrientation);
+updateOrientation();
+// 进入游戏时尝试锁定横屏（Android Chrome 真锁；iOS 无此能力，靠上面的提示遮罩）
+function requestLandscape(){
+  try{
+    const doc = document.documentElement;
+    const lock = ()=>{ try{ if(screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(()=>{}); }catch(e){} };
+    if(doc.requestFullscreen){ doc.requestFullscreen().then(lock).catch(()=>{ lock(); }); }
+    else lock();
+  }catch(e){}
+}

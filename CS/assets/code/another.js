@@ -7,6 +7,7 @@
 /* ---------- 0. 注入全部 UI HTML（提示、HUD、遮罩等） ---------- */
 const UI_HTML = `
 <div id="grain"></div>
+<div id="scope"></div>   <!-- 狙击枪瞄准镜遮罩（仅装备狙击时显示） -->
 
 <div id="hud">
   <div id="crosshair"></div>
@@ -20,8 +21,8 @@ const UI_HTML = `
   <div id="keyhelp">
     Power by ciallo0721-cmd<br>
     未经许可,请勿转载或用于商业用途<br>
-    键盘：WASD 移动，鼠标看视角，空格 跳，C 蹲，左键开枪，R 换弹，F 换枪，E 救队友，Esc/\` 暂停设置<br>
-    手机：左摇杆移动，右侧三键操作，拖拽屏幕看视角
+    键盘：WASD 移动，鼠标看视角，空格 跳，C 蹲，左键开枪，R 换弹，F 换枪，E 救队友/下包/拆包，1 侦查 2 自爆，Esc/\` 暂停设置<br>
+    手机：左摇杆移动，右侧三键操作，拖拽屏幕看视角，下方有侦查/自爆按钮
   </div>
   <div id="bottomleft">
     血量 <span id="hp">100</span>
@@ -31,6 +32,8 @@ const UI_HTML = `
     <div id="weapon">AK47</div>
     <div id="ammo">30 / 30</div>
     <div id="nade">雷 x2</div>
+    <div id="bombInfo" class="inf">—</div>
+    <div id="skillInfo" class="inf">侦察1 自爆2</div>
   </div>
   <div id="toast"></div>
   <!-- DEBUG 沙盒控制面板（默认隐藏，进 DEBUG 后显示；手机/桌面均可点） -->
@@ -72,6 +75,8 @@ const UI_HTML = `
   <div id="btnDown" class="tbtn flybtn">飞↓</div>
   <div id="btnCrouch" class="tbtn">蹲</div>
   <div id="btnJump" class="tbtn">跳</div>
+  <div id="btnRecon" class="tbtn">侦察</div>
+  <div id="btnKami" class="tbtn">自爆</div>
 </div>
 
 <!-- 开始界面 -->
@@ -112,6 +117,13 @@ const UI_HTML = `
   <h1 id="victoryTitle">🎉 胜利！</h1>
   <p id="victorySub">红方获胜 · 对方全员倒地</p>
   <div class="start" id="againBtn">再来一局</div>
+</div>
+
+<!-- 竖屏提示：手机端未横屏时强制提示（点击无操作，需物理旋转） -->
+<div id="rotateHint" class="overlay hide">
+  <div style="font-size:56px;line-height:1;">🔄</div>
+  <h1>请横屏游玩</h1>
+  <p>将手机旋转到<b style="color:#5aa6ff">横屏</b>方向，<br>获得更舒服的 FPS 操作体验喵~</p>
 </div>`;
 function buildUI(){ document.body.insertAdjacentHTML('beforeend', UI_HTML); }
 buildUI();
@@ -126,8 +138,18 @@ function updateHUD(){
   const w=WEAPONS[curWeapon];
   el('weapon').textContent=w.name;
   if(curWeapon==='grenade') el('ammo').textContent = infiniteAmmo?'∞':('x'+player.ammo.grenade);
-  else el('ammo').textContent = infiniteAmmo?'∞':(player.ammo[curWeapon]+' / '+w.mag);
+  else el('ammo').textContent = infiniteAmmo?'∞':(player.ammo[curWeapon].m+'/'+player.ammo[curWeapon].r);
   el('nade').textContent = '雷 '+(infiniteAmmo?'∞':('x'+player.ammo.grenade));
+  const role = bombRoleOf(player.team);
+  if(bomb.planted){
+    const left=Math.max(0,Math.ceil(bomb.timer));
+    el('bombInfo').textContent='💣 C4['+bomb.site+'] '+left+'s'+(bomb.defuseT>0?(' 拆'+Math.floor(bomb.defuseT/DEFUSE_TIME*100)+'%'):'');
+  } else if(role==='T'){
+    el('bombInfo').textContent='第'+roundNum+'把 · 你是 T ▣携带C4 → 走到 A/B 点按 E 下包';
+  } else {
+    el('bombInfo').textContent='第'+roundNum+'把 · 你是 CT 🛡 靠近 C4 按 E 拆包';
+  }
+  el('skillInfo').textContent='侦察1['+(reconCd>0?Math.ceil(reconCd)+'s':'就绪')+'] 自爆2['+(kamikazeCd>0?Math.ceil(kamikazeCd)+'s':'就绪')+']';
   el('blueScore').textContent='蓝 '+blueScore; el('redScore').textContent='红 '+redScore;
   const vg=el('viewgun'); if(vg){ vg.style.opacity=(player.downed||!player.alive)?0:1; const vn=el('viewgunName'); if(vn)vn.textContent=w.name; }
   // 秘籍状态条已隐藏（仅 README 记录，不在游戏内透露）
