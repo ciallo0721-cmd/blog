@@ -75,7 +75,7 @@
     "id": "grenade",
     "name": "手雷",
     "bullets": 2,
-    "initial": 2,
+    "initial": 10,
     "hit": 55,
     "sound": "explosion.wav",
     "special": "boom",
@@ -111,5 +111,18 @@
     "auto": false,
     "range": 1,
     "melee": true
+  },
+  {
+    "id": "rpg2",
+    "name": "激光制导导弹",
+    "bullets": 1,
+    "initial": 1,
+    "hit": 100,
+    "sound": "explosion.wav",
+    "special": "boom,track,cold",
+    "interval": 1.40,
+    "reload": 4.0,
+    "auto": false,
+    "range": 90
   }
 ]
