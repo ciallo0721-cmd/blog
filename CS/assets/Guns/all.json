@@ -87,16 +87,16 @@
   {
     "id": "taser",
     "name": "电击枪",
-    "bullets": 100,
+    "bullets": 150,
     "initial": 50,
-    "hit": 2,
+    "hit": 75,
     "sound": "shoot_pistol.wav",
     "special": "cold",
     "interval": 0.01,
-    "reload": 0,
+    "reload": 5,
     "auto": true,
     "range": 100,
-    "rays": 5
+    "rays": 50
   },
   {
     "id": "knife",
