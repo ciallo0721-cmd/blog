@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>HRAI · Horror AI 恐怖逃生</title>
+<link rel="stylesheet" href="assets/code/css.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TR4FT7JPDZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TR4FT7JPDZ');
+</script>
+<!-- GA4 统一埋点模块 -->
+<script src="../assets/js/gtag-config.js"></script>
+
+</head>
+<body>
+<div id="game"></div>
+<div id="verTag">HRAI BETA 1</div>
+
+<!-- 引擎 -->
+<script src="assets/code/three.js"></script>
+<!-- GA4 埋点 -->
+<script src="assets/code/GA.js"></script>
+<!-- 武器表 + 音效（仅小刀，AI 专用） -->
+<script src="assets/code/gun.js"></script>
+<!-- 着色器（GLSL / ShaderMaterial，暗色版） -->
+<script src="assets/Shader/Shader.js"></script>
+<!-- JS 实时纹理（Canvas 生成，暗色版） -->
+<script src="assets/screen/all.js"></script>
+<!-- 提示 / UI HTML / HUD -->
+<script src="assets/code/another.js"></script>
+<!-- 游戏主逻辑 -->
+<script src="CS.js"></script>
+<!-- 追猎者 AI -->
+<script src="assets/code/ai.js"></script>
+<!-- 暂停 / 灵敏度 / 分享 -->
+<script src="assets/code/stop.js"></script>
+<!-- 手机端 / 触控 -->
+<script src="assets/code/phone.js"></script>
+<!-- 键位自定义（键盘键位 + 手指键位布局，依赖上面全部模块，必须最后加载） -->
+<script src="assets/code/keymap.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs><linearGradient id="cylIce" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8aa8c8"/><stop offset="0.2" stop-color="#e0f0ff"/><stop offset="0.5" stop-color="#ffffff"/><stop offset="0.8" stop-color="#e0f0ff"/><stop offset="1" stop-color="#8aa8c8"/></linearGradient></defs>
+<rect width="64" height="64" fill="url(#cylIce)"/>
+
+<g stroke="#ffffff" stroke-width="1.2" opacity="0.55">
+  <line x1="6" y1="8" x2="6" y2="56"/><line x1="22" y1="8" x2="22" y2="56"/>
+  <line x1="38" y1="8" x2="38" y2="56"/><line x1="54" y1="8" x2="54" y2="56"/>
+</g>
+<g fill="#ffffff" opacity="0.5">
+  <path d="M10 16 l3 5 -3 5 -3 -5z"/><path d="M42 30 l3 5 -3 5 -3 -5z"/><path d="M26 44 l3 5 -3 5 -3 -5z"/>
+</g>
+<rect x="0" y="0" width="64" height="5" fill="#7fa0c0" opacity="0.8"/>
+<rect x="0" y="59" width="64" height="5" fill="#7fa0c0" opacity="0.8"/>
+
+</svg>
