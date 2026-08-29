@@ -65,7 +65,7 @@
     "initial": 1,
     "hit": 80,
     "sound": "explosion.wav",
-    "special": "boom,track",
+    "special": "boom",
     "interval": 1.40,
     "reload": 2.0,
     "auto": false,
