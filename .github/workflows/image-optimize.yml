@@ -16,6 +16,11 @@ on:
 permissions:
   contents: write
 
+# 与"图片自动加水印"工作流串行执行，避免两个工作流同时改同一批图片导致 push 冲突
+concurrency:
+  group: image-processing
+  cancel-in-progress: false
+
 jobs:
   optimize:
     runs-on: ubuntu-latest

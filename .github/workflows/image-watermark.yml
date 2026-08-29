@@ -1,0 +1,55 @@
+name: 图片自动加水印
+
+# 有图片被推送时，自动给新增/修改的图片打上半透明水印
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+# 与"图片自动压缩"工作流串行执行，避免两个工作流同时改同一批图片导致 push 冲突
+concurrency:
+  group: image-processing
+  cancel-in-progress: false
+
+jobs:
+  watermark:
+    runs-on: ubuntu-latest
+    # 跳过机器人自己提交的 commit，防止死循环
+    # （不用 [skip ci]，否则会连带跳过 Pages 部署，水印图就上不了线）
+    if: "!contains(github.event.head_commit.author.email, 'github-actions[bot]')"
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安装 Pillow
+        run: pip install Pillow
+
+      - name: 给本次提交的图片加水印
+        run: python .github/scripts/watermark.py
+        env:
+          COMMITS_JSON: ${{ toJSON(github.event.commits) }}
+          WATERMARK_TEXT: ciallo0721-cmd.top
+          WATERMARK_ALPHA: "10"
+
+      - name: 推送加过水印的图片
+        run: |
+          if git status --porcelain | grep -q .; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "🖼️ 自动添加图片水印"
+            git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            git push
+          else
+            echo "本次提交没有图片，跳过"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
