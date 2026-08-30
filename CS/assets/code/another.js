@@ -83,7 +83,7 @@ const UI_HTML = `
 
 <!-- 开始界面 -->
 <div id="overlay" class="overlay">
-  <h1>fy_iceworld · <span id="eggDot" style="cursor:pointer;text-decoration:underline dotted #ff8a3a;">.</span><span id="egg5v5" style="cursor:pointer;text-decoration:underline dotted #5aa6ff;">5v5</span> 团队死斗</h1>
+  <h1>30v30 fyGrid</h1>
   <p>你属于<b style="color:#5aa6ff">蓝队</b>（我方），对手是<b style="color:#ff6a6a">红队</b> AI。
      地图为蓝白做旧风的小型快节奏竞技场，柱子作掩体。<br>
       桌面：WASD+鼠标+空格跳+C蹲，点击锁定指针。手机：左摇杆移动，右侧三键操作。<br>
