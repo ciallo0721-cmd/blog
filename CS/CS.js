@@ -529,8 +529,8 @@ function initScene(texMid, texAlly, texEnemy, texWall, texPIce, texPStone, texPR
   // 角色
   playerTeam = spy ? 'red' : 'blue';
   player = spawnCharacter(playerTeam,true);
-  const blueAI = pvp ? 0 : 10;    // 1v5 模式无队友
-  const redAI  = tryMode ? 1 : 10;// 5v1 模式敌仅1
+  const blueAI = pvp ? 0 : 30;    // 1v5 模式无队友
+  const redAI  = tryMode ? 1 : 30;// 5v1 模式敌仅1
   for(let i=0;i<blueAI;i++) spawnCharacter('blue',false);
   for(let i=0;i<redAI;i++) spawnCharacter('red',false);
   characters.forEach(placeAtSpawn);
