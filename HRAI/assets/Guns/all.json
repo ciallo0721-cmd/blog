@@ -4,7 +4,7 @@
     "name": "小刀",
     "bullets": 0,
     "initial": 0,
-    "hit": 200,
+    "hit": 50,
     "sound": "shoot_pistol.wav",
     "special": "",
     "interval": 0.70,
@@ -12,6 +12,6 @@
     "auto": false,
     "range": 1.8,
     "melee": true,
-    "bot": 200
+    "bot": 50
   }
 ]
