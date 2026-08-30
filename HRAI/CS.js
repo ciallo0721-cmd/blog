@@ -43,7 +43,7 @@ function keyWaitTime(){
   return crowbar ? wt * 0.8 : wt; // 撬棍加速 20%
 }
 // —— 合成台 ——
-const CRAFT_TIME = 5,  CRAFT_RANGE = 3.0;
+const CRAFT_TIME = 2,  CRAFT_RANGE = 3.0;
 // —— 大门（敌区后方，北墙中段门洞） ——
 const GATE_HALF = 2.3;           // 门洞半宽
 const ESC_Z     = -52;           // 走到这以北 = 逃出
