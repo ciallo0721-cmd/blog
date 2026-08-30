@@ -29,7 +29,7 @@ function quitToMenu(){
 }
 function shareGame(){
   const url=location.href;
-  const intro='【fy_iceworld · 5v5 团队死斗】蓝白冰原竞技场上的快节奏射击对战：你操控角色,和 AI 队友组队 5v5,用柱子掩体周旋、倒地可爬可向队友求救、场地医疗箱回血。点开即玩,无需下载:\n'+url;
+  const intro='【30v30 fyGrid】蓝白冰原竞技场上的快节奏射击对战：你操控角色,和 AI 队友组队 30v30,用柱子掩体周旋、倒地可爬可向队友求救、场地医疗箱回血。点开即玩,无需下载:\n'+url;
   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(intro).then(()=>toast('已复制分享文案+链接'),()=>toast('复制失败')); }
   else toast(intro);
 }
