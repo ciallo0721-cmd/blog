@@ -8,7 +8,7 @@
     "sound": "shoot_pistol.wav",
     "special": "",
     "interval": 0.70,
-    "reload": 0,
+    "reload": 10,
     "auto": false,
     "range": 1.8,
     "melee": true,
