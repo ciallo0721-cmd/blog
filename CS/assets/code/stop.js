@@ -22,14 +22,14 @@ function quitToMenu(){
   el('pause').classList.add('hide');
   el('victory').classList.add('hide');
   for(const c of characters) respawnChar(c);
-  blueScore=0; redScore=0;
+  teamScores={};
   el('overlay').classList.remove('hide');
   el('startBtn').textContent='点击开始';
   updateHUD();
 }
 function shareGame(){
   const url=location.href;
-  const intro='【30v30 fyGrid】蓝白冰原竞技场上的快节奏射击对战：你操控角色,和 AI 队友组队 30v30,用柱子掩体周旋、倒地可爬可向队友求救、场地医疗箱回血。点开即玩,无需下载:\n'+url;
+  const intro='【12队大乱斗 fyGrid】1.2km×1.2km 大战场：12队×5人混战,中央200m三层大楼+全图30栋功能楼,每队1~5名Q-learning超级AI。倒地可爬可救、医疗箱回血。点开即玩,无需下载:\n'+url;
   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(intro).then(()=>toast('已复制分享文案+链接'),()=>toast('复制失败')); }
   else toast(intro);
 }
@@ -58,15 +58,49 @@ texModeBtn.addEventListener('click', ()=>{
 });
 applyTexModeLabel();
 
-// 着色器选择（webgl 程序化 GLSL / three.js 标准 PBR 材质）
-const shaderModeBtn=el('shaderModeBtn');
-function applyShaderModeLabel(){
-  const isThree = localStorage.getItem('csShaderMode')==='three';
-  shaderModeBtn.textContent = isThree ? 'three.js 标准材质' : 'webgl 程序化着色';
+// 渲染后端选择：auto / OpenGL系(WebGL) / three.js / Vulkan系(WebGPU)
+// 调研结论：WebGL 基于 OpenGL ES（Web 上的 OpenGL）；WebGPU 基于 Vulkan/Metal/D3D12 模型（Web 上的 Vulkan），
+// 2026 年 Chrome/Firefox/Safari 26 全线支持。WebGPU 不跑 GLSL（用 WGSL），因此该后端下场景用 three.js 标准材质渲染。
+const BACKENDS = [
+  { k:'auto',   label:'自动检测' },
+  { k:'webgl',  label:'OpenGL系 (WebGL)' },
+  { k:'three',  label:'three.js 标准材质' },
+  { k:'webgpu', label:'Vulkan系 (WebGPU)' },
+];
+const renderBackendBtn=el('renderBackendBtn');
+function applyBackendLabel(){
+  const saved = localStorage.getItem('csRenderBackend') || 'auto';
+  const it = BACKENDS.find(b=>b.k===saved) || BACKENDS[0];
+  const webgpuOK = !!(navigator.gpu && typeof THREE.WebGPURenderer==='function');
+  let suffix = '';
+  if(it.k==='auto')   suffix = webgpuOK ? '→WebGPU' : '→WebGL';
+  if(it.k==='webgpu') suffix = webgpuOK ? '' : '→回退WebGL';
+  renderBackendBtn.textContent = it.label + suffix;
 }
-shaderModeBtn.addEventListener('click', ()=>{
-  const next = localStorage.getItem('csShaderMode')==='three' ? 'webgl' : 'three';
-  localStorage.setItem('csShaderMode', next);
+renderBackendBtn.addEventListener('click', ()=>{
+  const saved = localStorage.getItem('csRenderBackend') || 'auto';
+  const next = BACKENDS[(BACKENDS.findIndex(b=>b.k===saved)+1) % BACKENDS.length];
+  localStorage.setItem('csRenderBackend', next.k);
   location.reload();
 });
-applyShaderModeLabel();
+applyBackendLabel();
+
+// 画面风格（自定义 GLSL 着色器循环）：马赛克程序化 / 卡通 / CRT 扫描线（仅 webgl 系后端生效）
+const STYLES = [
+  { k:'mosaic', label:'程序化马赛克' },
+  { k:'toon',   label:'卡通着色 GLSL' },
+  { k:'crt',    label:'扫描线 CRT GLSL' },
+];
+const shaderStyleBtn=el('shaderStyleBtn');
+function applyStyleLabel(){
+  const cur = localStorage.getItem('csShaderStyle') || 'mosaic';
+  const it = STYLES.find(s=>s.k===cur) || STYLES[0];
+  shaderStyleBtn.textContent = it.label;
+}
+shaderStyleBtn.addEventListener('click', ()=>{
+  const cur = localStorage.getItem('csShaderStyle') || 'mosaic';
+  const next = STYLES[(STYLES.findIndex(s=>s.k===cur)+1) % STYLES.length];
+  localStorage.setItem('csShaderStyle', next.k);
+  location.reload();
+});
+applyStyleLabel();

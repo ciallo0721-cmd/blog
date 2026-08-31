@@ -300,7 +300,7 @@ function explode(pos,owner,radius,maxdmg){
 }
 function callNuke(){   // 秘籍 gztfxxm：核弹，我方 +1000
   if(!gztfxxm) return;
-  if(playerTeam==='blue') blueScore+=1000; else redScore+=1000;
+  addScore(playerTeam,1000);
   for(const c of characters){ if(c.team!==playerTeam&&c.alive) damage(c,9999,player); }
   playExplosion(); toast('☢ 核弹已召唤！我方 +1000'); updateHUD();
 }

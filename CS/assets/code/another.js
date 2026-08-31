@@ -83,9 +83,10 @@ const UI_HTML = `
 
 <!-- 开始界面 -->
 <div id="overlay" class="overlay">
-  <h1>30v30 fyGrid</h1>
-  <p>你属于<b style="color:#5aa6ff">蓝队</b>（我方），对手是<b style="color:#ff6a6a">红队</b> AI。
-     地图为蓝白做旧风的小型快节奏竞技场，柱子作掩体。<br>
+  <h1>12队大乱斗 fyGrid</h1>
+  <p>你属于<b style="color:#5aa6ff">蓝队</b>，场上共 <b>12 队 × 5 人 = 60 人</b>混战（红橙黄绿青蓝紫…）。
+     1.2km × 1.2km 大战场，中央有 200m 三层大楼（坡道上楼、箱子补给），全图 30+ 栋功能楼。<br>
+      每队有 1~5 名<b style="color:#ffd86a">超级AI</b>（Q-learning 驱动）；50% 的 AI 爱往中央大楼跑。?bomb=1 开启下包系统。<br>
       桌面：WASD+鼠标+空格跳+C蹲，点击锁定指针。手机：左摇杆移动，右侧三键操作。<br>
       击倒≠死亡：倒地可爬行等队友救（按住 E 救队友，救人时不能开枪），一方全员倒地即分胜负；场地有医疗箱可回血。</p>
   <div id="modeRow">当前设备模式：<span id="modeLabel">桌面</span>
@@ -100,13 +101,17 @@ const UI_HTML = `
     <input type="range" id="sens" min="0.5" max="5" step="0.1" value="2.4">
     <span id="sensVal">2.4</span>
   </div>
-  <div class="row">渲染模式
+  <div class="row">渲染后端
+    <button id="renderBackendBtn" style="background:none;border:1px solid #5aa6ff;color:#5aa6ff;border-radius:6px;padding:2px 10px;cursor:pointer;"></button>
+    <span style="opacity:.65;font-size:12px;margin-left:6px;">OpenGL系=WebGL · Vulkan系=WebGPU · 不支持自动回退</span>
+  </div>
+  <div class="row">画面风格
+    <button id="shaderStyleBtn" style="background:none;border:1px solid #5aa6ff;color:#5aa6ff;border-radius:6px;padding:2px 10px;cursor:pointer;"></button>
+    <span style="opacity:.65;font-size:12px;margin-left:6px;">仅 OpenGL系(WebGL) 下生效（GLSL 着色器）</span>
+  </div>
+  <div class="row">纹理来源
     <button id="texModeBtn" style="background:none;border:1px solid #5aa6ff;color:#5aa6ff;border-radius:6px;padding:2px 10px;cursor:pointer;"></button>
     <span style="opacity:.65;font-size:12px;margin-left:6px;">切换后自动重开</span>
-  </div>
-  <div class="row">着色器选择
-    <button id="shaderModeBtn" style="background:none;border:1px solid #5aa6ff;color:#5aa6ff;border-radius:6px;padding:2px 10px;cursor:pointer;"></button>
-    <span style="opacity:.65;font-size:12px;margin-left:6px;">webgl=程序化 / three.js=标准光</span>
   </div>
   <div class="row">操作自定义
     <button id="keyMapBtn" class="setbtn" title="改键盘键位">⌨ 键盘键位</button>
@@ -176,16 +181,24 @@ function updateHUD(){
   else el('ammo').textContent = infiniteAmmo?'∞':(player.ammo[curWeapon].m+'/'+player.ammo[curWeapon].r);
   el('nade').textContent = '雷 '+(infiniteAmmo?'∞':('x'+player.ammo.grenade));
   const role = bombRoleOf(player.team);
-  if(bomb.planted){
+  if(!BOMB_ENABLED){
+    el('bombInfo').textContent='下包系统关闭（?bomb=1 开启）';
+  } else if(bomb.planted){
     const left=Math.max(0,Math.ceil(bomb.timer));
     el('bombInfo').textContent='💣 C4['+bomb.site+'] '+left+'s'+(bomb.defuseT>0?(' 拆'+Math.floor(bomb.defuseT/DEFUSE_TIME*100)+'%'):'');
   } else if(role==='T'){
-    el('bombInfo').textContent='第'+roundNum+'把 · 你是 T ▣携带C4 → 走到 A/B 点按 E 下包';
+    el('bombInfo').textContent='第'+roundNum+'把 · 携带C4 → 走到 A/B 点按 E 下包';
   } else {
-    el('bombInfo').textContent='第'+roundNum+'把 · 你是 CT 🛡 靠近 C4 按 E 拆包';
+    el('bombInfo').textContent='第'+roundNum+'把 · 靠近 C4 按 E 拆包';
   }
   el('skillInfo').textContent='侦察1['+(reconCd>0?Math.ceil(reconCd)+'s':'就绪')+'] 自爆2['+(kamikazeCd>0?Math.ceil(kamikazeCd)+'s':'就绪')+']';
-  el('blueScore').textContent='蓝 '+blueScore; el('redScore').textContent='红 '+redScore;
+  // 12队积分：显示我方排名 + 榜首
+  if(typeof TEAMS!=='undefined' && playerTeam){
+    const rank=TEAMS.map(t=>({id:t.id,s:teamScores[t.id]||0})).sort((a,b)=>b.s-a.s);
+    const myRank=rank.findIndex(r=>r.id===playerTeam)+1;
+    el('blueScore').textContent='我方'+teamName(playerTeam)+'队 '+myRank+'/12';
+    el('redScore').textContent='榜首 '+teamName(rank[0].id)+' '+rank[0].s+'分';
+  }
   const vg=el('viewgun'); if(vg){ vg.style.opacity=(player.downed||!player.alive)?0:1; const vn=el('viewgunName'); if(vn)vn.textContent=w.name; }
   // 秘籍状态条已隐藏（仅 README 记录，不在游戏内透露）
 }
@@ -198,10 +211,9 @@ function renderScoreboard(){
   let h='<div class="sbHead">🏆 排行榜 · 第 '+roundNum+' 把 <span class="sbHint">按 / 关闭</span></div>';
   rows.forEach((c,i)=>{
     const me=c.isPlayer?' sbMe':'';
-    const tc=c.team==='blue'?'sbBlue':'sbRed';
     h+='<div class="sbRow'+me+'">'
       +'<span class="sbRank">'+(i+1)+'</span>'
-      +'<span class="sbName '+tc+'">'+escapeHtml(c.name)+'</span>'
+      +'<span class="sbName" style="color:'+teamCSS(c.team)+'">'+teamName(c.team)+'·'+escapeHtml(c.name)+'</span>'
       +'<span class="sbKD">'+(c.kills||0)+' / '+(c.deaths||0)+'</span>'
       +'<span class="sbScore">'+(c.score||0)+'</span></div>';
   });

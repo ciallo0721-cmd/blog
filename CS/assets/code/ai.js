@@ -26,12 +26,12 @@
    ============================================================ */
 const AI_CFG = {
   /* —— 寻路 —— */
-  NAV_CELL:        2,        // 导航网格单元格边长(米)，越小越精细也越慢
-  NAV_MARGIN:      1.4,      // 柱子阻挡外扩裕量（柱子半径~1.7 + 机体半径）
-  REPATH_CHASE:    0.45,     // 追击时重新算路的间隔(秒)
-  REPATH_OTHER:    1.1,      // 其它状态重算间隔(秒)
-  REPATH_MOVE:     3.0,      // 目标移动超过该距离立即重算(米)
-  WP_REACH:        1.3,      // 到达航点的判定半径(米)
+  NAV_CELL:        6,        // 导航网格单元格边长(米)。1.2km 图下 6m/格 = 200×200=4万格，A* 才跑得动
+  NAV_MARGIN:      1.8,      // 柱子阻挡外扩裕量（柱半径2.1 + 机体半径）
+  REPATH_CHASE:    0.6,      // 追击时重新算路的间隔(秒)（大地图路径长，算一次管更久）
+  REPATH_OTHER:    1.5,      // 其它状态重算间隔(秒)
+  REPATH_MOVE:     8.0,      // 目标移动超过该距离立即重算(米)
+  WP_REACH:        2.2,      // 到达航点的判定半径(米)（格子大了判定跟着放大）
 
   /* —— 感知 —— */
   FOV_COS:         0.15,     // 视野半角余弦（越小视野越广，0.15≈159°）
@@ -41,8 +41,8 @@ const AI_CFG = {
   SEARCH_TIME:     3.5,      // 丢失目标后前往最后已知位置的搜索时长(秒)
 
   /* —— 战斗 —— */
-  ENGAGE_MIN:      60,        // 进入交火的最小距离
-  CHASE_MAX:       40,       // 超过该距离不再追击（放弃）
+  ENGAGE_MIN:      90,        // 进入交火的最小距离(米)（1.2km 大地图交火距离同步拉远）
+  CHASE_MAX:       60,       // 超过该距离不再追击（放弃）
   FIRE_RANGE_AK:   34,       // 超出此距离命中率显著下降
   HIT_NEAR:        0.92,     // 近距离命中率上限
   HIT_FAR:         0.42,     // 远距离命中率下限
@@ -54,8 +54,10 @@ const AI_CFG = {
   /* —— 生存 —— */
   RETREAT_HP:      35,       // 血量低于此值转入撤退/找掩体
   COVER_HP:        55,       // 血量低于此值优先躲掩体而非硬刚
-  REVIVE_RANGE:    45,       // 倒地队友在此范围内才去救
+  REVIVE_RANGE:    80,       // 倒地队友在此范围内才去救（大地图放大）
   REVIVE_SAFE:     16,       // 敌人比这近时先不救（保命）
+  THINK_MIN:       0.16,     // AI 思考节流：感知+决策最快 0.16s 一次（移动/开火每帧照常）
+  THINK_VAR:       0.08,     // 思考间隔随机抖动，避免 60+ bot 同帧齐思考造成卡顿尖峰
 
   /* —— 防卡死 —— */
   STUCK_WINDOW:    0.6,      // 卡死检测窗口(秒)
@@ -73,9 +75,9 @@ const AI_ROLES = {
 /* ============================================================
    [1] 导航网格 + A* 寻路
    ============================================================ */
-const NAV_CELL = AI_CFG.NAV_CELL;
+const NAV_CELL = AI_CFG.NAV_CELL;   // 由 CS.js 按地图尺寸设置（1.2km 图 → 6m/格，200×200）
 const NAV_HALF = MAP / 2;
-const NAV_N    = Math.round(MAP / NAV_CELL);   // 30 × 30
+const NAV_N    = Math.round(MAP / NAV_CELL);
 let navGrid  = null;     // Uint8Array: 1 = 阻挡
 let navBuilt = false;
 
@@ -151,47 +153,104 @@ function smoothPath(path, gx, gz){
   return out;
 }
 
-/* A*（八方向，对角防穿角）返回世界坐标航点数组 */
+/* A*（八方向，对角防穿角）返回世界坐标航点数组
+   性能版（1.2km 图 200×200 格 + 60 bot 高频寻路）：
+   - 二叉堆 open set（旧版线性扫 Set，最坏 O(n²) 直接把帧打穿）
+   - gScore/came/stamp/closed 缓冲全局复用，不再每次寻路 new 三个大数组喂 GC
+   - stamp 代数标记代替 fill(Infinity) 全量重置
+   - closed 集防重展开：大地图 f 值超平坦，无 closed 会出现
+     「改进→重展开→再改进」的雪球（实测 845 格被 push 18 万次）；
+     octile 启发式在均匀网格上是一致的，首次弹出即最优，closed 检查安全 */
+const _asBuf = { cap: 0, gScore: null, fScore: null, came: null, stamp: null, closed: null, gen: 0 };
 function findPath(sx, sz, gx, gz){
   ensureNav();
   if(!navGrid) return null;
+  const N = NAV_N * NAV_N;
+  if(_asBuf.cap !== N){
+    _asBuf.gScore = new Float32Array(N); _asBuf.fScore = new Float32Array(N);
+    _asBuf.came = new Int32Array(N);     _asBuf.stamp = new Uint32Array(N);
+    _asBuf.closed = new Uint32Array(N);
+    _asBuf.cap = N; _asBuf.gen = 0;
+  }
+  const { gScore, fScore, came, stamp, closed } = _asBuf;
+  const gen = ++_asBuf.gen;
   const s = navSnap(sx, sz), g = navSnap(gx, gz);
   const startIdx = s.j * NAV_N + s.i, goalIdx = g.j * NAV_N + g.i;
   if(startIdx === goalIdx) return [new THREE.Vector3(gx, 0, gz)];
-  const N = NAV_N * NAV_N;
-  const gScore = new Float32Array(N).fill(Infinity);
-  const fScore = new Float32Array(N).fill(Infinity);
-  const came   = new Int32Array(N).fill(-1);
-  const open   = new Set([startIdx]);
   const h = (i, j) => { const dx = Math.abs(i - g.i), dz = Math.abs(j - g.j); return (dx + dz) + (Math.SQRT2 - 2) * Math.min(dx, dz); };
   gScore[startIdx] = 0; fScore[startIdx] = h(s.i, s.j);
+  came[startIdx] = -1; stamp[startIdx] = gen; closed[startIdx] = gen - 1;   // gen-1 ≠ gen，即未关闭
+  const heap = [];
+  const heapPush = (idx) => {
+    heap.push(idx);
+    let i = heap.length - 1;
+    while(i > 0){
+      const p = (i - 1) >> 1;
+      if(fScore[heap[p]] <= fScore[heap[i]]) break;
+      const t = heap[p]; heap[p] = heap[i]; heap[i] = t;
+      i = p;
+    }
+  };
+  const heapPop = () => {
+    const top = heap[0], last = heap.pop(), n = heap.length;
+    if(n > 0){
+      heap[0] = last;
+      let i = 0;
+      for(;;){
+        const l = i * 2 + 1, r = l + 1; let m = i;
+        if(l < n && fScore[heap[l]] < fScore[heap[m]]) m = l;
+        if(r < n && fScore[heap[r]] < fScore[heap[m]]) m = r;
+        if(m === i) break;
+        const t = heap[m]; heap[m] = heap[i]; heap[i] = t;
+        i = m;
+      }
+    }
+    return top;
+  };
+  heapPush(startIdx);
   const DIRS = [[1,0,1],[-1,0,1],[0,1,1],[0,-1,1],[1,1,Math.SQRT2],[1,-1,Math.SQRT2],[-1,1,Math.SQRT2],[-1,-1,Math.SQRT2]];
   let guard = 0;
-  while(open.size && guard++ < 9000){
-    let cur = -1, best = Infinity;
-    for(const idx of open){ if(fScore[idx] < best){ best = fScore[idx]; cur = idx; } }
+  while(heap.length && guard++ < 46000){
+    const cur = heapPop();
     if(cur === goalIdx){
       const path = []; let c = cur;
       while(c !== -1){ const ci = c % NAV_N, cj = (c - c % NAV_N) / NAV_N; path.push(new THREE.Vector3(_navWX(ci), 0, _navWZ(cj))); c = came[c]; }
       path.reverse();
       return smoothPath(path, gx, gz);
     }
-    open.delete(cur);
+    if(closed[cur] === gen) continue;   // 已展开过（陈旧堆条目）：跳过
+    closed[cur] = gen;
     const ci = cur % NAV_N, cj = (cur - cur % NAV_N) / NAV_N;
     for(const [di, dj, cost] of DIRS){
       const ni = ci + di, nj = cj + dj;
       if(navBlocked(ni, nj)) continue;
       if(di !== 0 && dj !== 0 && (navBlocked(ci + di, cj) || navBlocked(ci, cj + dj))) continue;
       const ni2 = nj * NAV_N + ni;
+      if(closed[ni2] === gen) continue; // 已最优，不再 Relax
       const tg = gScore[cur] + cost;
-      if(tg < gScore[ni2]){ came[ni2] = cur; gScore[ni2] = tg; fScore[ni2] = tg + h(ni, nj); open.add(ni2); }
+      if(stamp[ni2] !== gen || tg < gScore[ni2]){
+        stamp[ni2] = gen; came[ni2] = cur; gScore[ni2] = tg;
+        fScore[ni2] = tg + h(ni, nj);
+        heapPush(ni2);
+      }
     }
   }
   return null;
 }
 
-/* 给某个 bot 规划到 (tx,tz) 的路径，写回 b.path 等字段 */
+/* 给某个 bot 规划到 (tx,tz) 的路径，写回 b.path 等字段
+   快路径：起点→终点直线无遮挡时直接冲（1.2km 图只有 34 柱+10 房，
+   大部分寻路命中此分支，A* 只在真正需要绕障时才跑） */
 function planTo(b, tx, tz, state){
+  const from = b.group.position;
+  const dist = Math.hypot(tx - from.x, tz - from.z);
+  if(dist > 0.5 && lineClear(from, new THREE.Vector3(tx, 0, tz))){
+    b.path = [new THREE.Vector3(tx, 0, tz)];
+    b.pathIdx = 0;
+    b.pathGoal  = new THREE.Vector3(tx, 0, tz);
+    b.pathState = state;
+    return;
+  }
   const np = findPath(b.group.position.x, b.group.position.z, tx, tz);
   if(np && np.length){
     b.path = np;
@@ -357,7 +416,11 @@ function assignRole(b){
    [5] 主状态机
    ============================================================ */
 function patrolPoint(){
-  return new THREE.Vector3((Math.random() - 0.5) * 48, 0, (Math.random() - 0.5) * 48);
+  return new THREE.Vector3((Math.random() - 0.5) * (MAP - 60), 0, (Math.random() - 0.5) * (MAP - 60));
+}
+/* 中央大楼巡逻点（50% 的 AI 爱扎堆这里：狙击/苟分/钢枪一体） */
+function towerPoint(){
+  return new THREE.Vector3((Math.random() - 0.5) * 180, 0, (Math.random() - 0.5) * 180);
 }
 
 /* 开火决策：反应时间 + 装弹 + 视线 + 命中率 + 防误伤 + 掷雷 */
@@ -389,6 +452,11 @@ function decideState(b, enemy, dtm, nd){
   // 1) 优先救队友（支援角色更积极；附近有敌人贴脸则先保命）
   if(dtm && dtm.d < AI_CFG.REVIVE_RANGE && (b.preferRev || !enemy || nd > AI_CFG.REVIVE_SAFE)){
     return 'revive';
+  }
+  // 1.5) 超级AI：Q-learning 决策覆盖（Q表 assets/Q/qlearning.json，由 train.py 训练生成）
+  if(b.superAI && typeof qPick==='function'){
+    const a=qPick(b);
+    if(a) return a;
   }
   if(enemy && nd < AI_CFG.CHASE_MAX){
     // 2) 低血：撤到医疗箱或找掩体
@@ -445,16 +513,24 @@ function updateBot(b, dt){
   if(b.reloading){ b.reloadT -= dt; if(b.reloadT <= 0) finishReload(b); }
   ensureNav();
 
-  /* —— 5.1 感知 —— */
-  const enemy = perceive(b, dt);                    // 当前可见敌人或 null
-  const nd = enemy ? b.group.position.distanceTo(enemy.group.position) : 1e9;
-  const dtm = nearestDownedTeammate(b);
-  b.aiTarget = enemy;                               // 给掷雷逻辑用方向
-
-  /* —— 5.2 状态决策 —— */
-  const state = decideState(b, enemy, dtm, nd);
-  b.aiState = state;
-  if(!enemy) b._lostT = (b._lostT || 0) + dt;       // 丢失目标计时
+  /* —— 5.1+5.2 感知 + 状态决策（思考节流版）——
+     1.2km 大地图 60+ bot：感知/决策全图扫 O(n²)，每帧跑会把 CPU 打爆。
+     现在每 bot 每 0.16~0.24s 才「思考」一次，结果缓存到 b._th；
+     移动/寻路跟随/开火仍然每帧执行，手感不变。 */
+  b._thinkT = (b._thinkT || 0) - dt;
+  if(!b._th || b._thinkT <= 0){
+    b._thinkT = AI_CFG.THINK_MIN + Math.random() * AI_CFG.THINK_VAR;
+    const enemy = perceive(b, dt);
+    const nd = enemy ? b.group.position.distanceTo(enemy.group.position) : 1e9;
+    const dtm = nearestDownedTeammate(b);
+    b.aiTarget = enemy;                               // 给掷雷逻辑用方向
+    if(!enemy) b._lostT = (b._lostT || 0) + AI_CFG.THINK_MIN;   // 丢失目标计时（按节流周期累计）
+    b._th = { enemy, nd, dtm, state: decideState(b, enemy, dtm, nd) };
+  b.aiState = b._th.state;
+  }
+  const _th = b._th;
+  const enemy = _th.enemy, nd = _th.nd, dtm = _th.dtm;
+  const state = _th.state;
 
   /* —— 5.3 选目标点 + 速度 + 行为 —— */
   let goal = null, speed = 4, fireTarget = null, strafe = false;
@@ -493,7 +569,7 @@ function updateBot(b, dt){
       break;
     case 'patrol':
     default:
-      if(!b.moveTarget || b.group.position.distanceTo(b.moveTarget) < 2.5) b.moveTarget = patrolPoint();
+      if(!b.moveTarget || b.group.position.distanceTo(b.moveTarget) < 2.5) b.moveTarget = b.lovesTower ? towerPoint() : patrolPoint();
       goal = b.moveTarget; speed = 3.4;
       break;
   }

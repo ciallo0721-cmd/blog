@@ -9,13 +9,37 @@
    ============================================================ */
 
 /* ---------- 0. 全局配置 & 秘籍参数 ---------- */
-const MAP = 100, HALF = MAP/2;
+// 大战场地图：1.2km × 1.2km（对齐和平精英「度假岛」尺度），12 队 × 5 人 = 60 人混战
+const MAP = 1200, HALF = MAP/2;
 let RES_SCALE = 0.5;
+const BASE_SCALE = RES_SCALE;   // 自适应分辨率的上限（只降不升破基线）
 const EYE = 1.6;
 const JUMP_V = 7, GRAVITY = 22;   // 跳跃初速 / 重力加速度（蹲跳系统）
-const SPAWN = { enemy:{z:-40,xr:26}, mid:{z:0,xr:40}, ally:{z:40,xr:26} };
 
 const params = new URLSearchParams(location.search);
+// —— 下包系统：?bomb=1 开启（12队模式默认关闭）——
+const BOMB_ENABLED = params.get('bomb') === '1';
+
+/* —— 12 支队伍（红橙黄绿青蓝紫 + 5 个补充色），每队 5 人，玩家是蓝队队长 —— */
+const TEAMS = [
+  {id:'blue',  name:'蓝',  hex:0x3a7bd5},
+  {id:'red',   name:'红',  hex:0xd53a3a},
+  {id:'orange',name:'橙',  hex:0xf09030},
+  {id:'yellow',name:'黄',  hex:0xe8d030},
+  {id:'green', name:'绿',  hex:0x3aad5a},
+  {id:'cyan',  name:'青',  hex:0x30b8c8},
+  {id:'purple',name:'紫',  hex:0x9a50d0},
+  {id:'pink',  name:'粉',  hex:0xe87ab0},
+  {id:'brown', name:'棕',  hex:0x9a6a40},
+  {id:'gray',  name:'灰',  hex:0x888898},
+  {id:'gold',  name:'金',  hex:0xd8b028},
+  {id:'lime',  name:'青柠',hex:0xa8d030}
+];
+const TEAM_IDX = {}; TEAMS.forEach((t,i)=>TEAM_IDX[t.id]=i);
+function teamName(id){ return (TEAMS[TEAM_IDX[id]]||TEAMS[0]).name; }
+function teamCSS(id){ return '#'+((TEAMS[TEAM_IDX[id]]||TEAMS[0]).hex+0x1000000).toString(16).slice(1); }
+let teamScores = {};   // 每队积分
+function addScore(team,n){ teamScores[team]=(teamScores[team]||0)+n; }
 // —— 秘籍 ——
 let imagod        = params.get('imagod') === '1';          // 外挂全开：无敌+无限子弹+飞天
 let fireinthehole = params.get('fireinthehole') === '1';   // 无限子弹
@@ -44,7 +68,7 @@ let debugGodOn = false;
 let running = false;        // 游戏进行中
 let revivingNow = false;    // 玩家正在救人（此时不能开枪）
 let sceneReady = false;     // 场景资源（SVG 纹理）加载完成
-let blueScore=0, redScore=0, matchOver=false;
+let matchOver=false;
 const keys = {};
 
 // 公共 DOM 简写（供所有模块使用）
@@ -54,10 +78,44 @@ function el(id){ return document.getElementById(id); }
 const container = document.getElementById('game');
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x9fb8d8);
-scene.fog = new THREE.Fog(0x9fb8d8, 40, 150);
-const camera = new THREE.PerspectiveCamera(78, window.innerWidth/window.innerHeight, 0.1, 200);
+scene.fog = new THREE.Fog(0x9fb8d8, 150, 1100);   // 1.2km 大地图：雾拉远，远处融入天色
+const camera = new THREE.PerspectiveCamera(78, window.innerWidth/window.innerHeight, 0.1, 1600);
 camera.rotation.order = 'YXZ';
-const renderer = new THREE.WebGLRenderer({antialias:false});
+
+/* —— 渲染后端检测（暂停菜单可切换）——
+   webgl  = WebGL（= Web 上的 OpenGL，基于 OpenGL ES）→ 自定义 GLSL 着色器
+   three  = three.js 标准材质管线（MeshStandardMaterial PBR）
+   webgpu = WebGPU（= Web 上的 Vulkan，基于 Vulkan/Metal/D3D12 模型）
+            注意：本地引擎文件是 three r128，未内置 WebGPURenderer；
+            检测不到时自动回退 webgl 并提示——以后换成 r167+ 引擎文件即可直接生效。
+            WebGPU 不跑 GLSL ShaderMaterial（用 WGSL），因此该后端统一用标准材质。 */
+function detectBackend(){
+  const saved = localStorage.getItem('csRenderBackend') || 'auto';
+  const webgpuOK = !!(navigator.gpu && typeof THREE.WebGPURenderer === 'function');
+  if(saved === 'auto') return webgpuOK ? 'webgpu' : 'webgl';
+  if(saved === 'webgpu' && !webgpuOK){
+    setTimeout(()=>toast && toast('本机或引擎(r128)不支持 WebGPU(Vulkan系)，已回退 WebGL(OpenGL系)'), 2500);
+    return 'webgl';
+  }
+  return saved;
+}
+const RENDER_BACKEND = detectBackend();
+// 画面风格（仅 webgl 系后端生效）：mosaic 程序化马赛克 / toon 卡通 / crt 扫描线
+const SHADER_STYLE = ['mosaic','toon','crt'].indexOf(localStorage.getItem('csShaderStyle'))>=0
+  ? localStorage.getItem('csShaderStyle') : 'mosaic';
+// 兼容旧 csShaderMode 存档：three → 渲染后端 three
+if(localStorage.getItem('csShaderMode')==='three' && localStorage.getItem('csRenderBackend')===null){
+  localStorage.setItem('csRenderBackend','three');
+}
+
+let renderer = null;
+if(RENDER_BACKEND === 'webgpu'){
+  try{
+    renderer = new THREE.WebGPURenderer({antialias:false});
+    if(renderer.init) renderer.init().catch(()=>{});   // WebGPU 异步初始化
+  }catch(e){ /* 回退在下方 */ }
+}
+if(!renderer) renderer = new THREE.WebGLRenderer({antialias:false});
 renderer.setClearColor(0x9ec8e8); // 天空蓝背景（避免围墙背面剔除后露出纯黑）
 renderer.setClearColor(0x9fc5e8, 1.0);  // 天空浅蓝（围墙背面被剔除时背景不会黑）
 renderer.setPixelRatio(1);
@@ -66,6 +124,11 @@ container.appendChild(renderer.domElement);
 scene.add(new THREE.AmbientLight(0xffffff, 0.85));
 const dirLight = new THREE.DirectionalLight(0xffffff, 0.6); dirLight.position.set(20,40,10); scene.add(dirLight);
 const cv = renderer.domElement;
+function applyResSize(){
+  camera.aspect = window.innerWidth/window.innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(Math.floor(window.innerWidth*RES_SCALE), Math.floor(window.innerHeight*RES_SCALE), false);
+  if(typeof syncShaderRes === 'function') syncShaderRes(renderer.domElement.width, renderer.domElement.height);
+}
 
 /* ---------- 2. 方块纹理（加载 assets/screen 下的 SVG，着色器渲染） ---------- */
 function makeSVGTexture(t){
@@ -97,15 +160,16 @@ function loadTex(url){ return new Promise((res,rej)=>{
 }); }
 
 /* ---------- 3. 角色系统（共享材质 & 网格构造） ---------- */
-// 共享材质：避免每个角色/医疗箱/子弹都 new 独立材质，减少 GPU 状态切换（核显关键优化）
+// 12 队各一份共享材质（避免每角色独立材质，减少 GPU 状态切换）
+const TEAM_MATS = {};
+for(const t of TEAMS) TEAM_MATS[t.id] = new THREE.MeshLambertMaterial({color:t.hex});
 const MAT = {
-  blue:   new THREE.MeshLambertMaterial({color:0x3a7bd5}),
-  red:    new THREE.MeshLambertMaterial({color:0xd53a3a}),
   head:   new THREE.MeshLambertMaterial({color:0xf0d8b0}),
   gun:    new THREE.MeshLambertMaterial({color:0x23232f}),
   medBox: new THREE.MeshLambertMaterial({color:0xd8e8ff}),
   cross:  new THREE.MeshLambertMaterial({color:0x39d06a}),
   bullet: new THREE.MeshLambertMaterial({color:0xff8a3a}),
+  loot:   new THREE.MeshLambertMaterial({color:0xd8a838}),
 };
 const characters=[], hitMeshes=[], grenades=[], medkits=[];
 const MEDKIT_HEAL = 60, MEDKIT_RADIUS = 1.6, MEDKIT_CD = 12;
@@ -122,9 +186,10 @@ function makeReviveSprite(){
 }
 function makeCharMesh(team){
   const g=new THREE.Group();
-  const body=new THREE.Mesh(new THREE.BoxGeometry(0.8,1.0,0.5), team==='blue'?MAT.blue:MAT.red); body.position.y=1.0;
+  const tm=TEAM_MATS[team]||TEAM_MATS.blue;
+  const body=new THREE.Mesh(new THREE.BoxGeometry(0.8,1.0,0.5), tm); body.position.y=1.0;
   const head=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.5,0.5),MAT.head); head.position.y=1.8;
-  const tag=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.16,0.7), team==='blue'?MAT.blue:MAT.red); tag.position.y=2.2;
+  const tag=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.16,0.7), tm); tag.position.y=2.2;
   // 枪：身前横杆，代表枪口朝向（分辨谁在打你）
   const gun=new THREE.Mesh(new THREE.BoxGeometry(0.95,0.12,0.14),MAT.gun);
   gun.position.set(0,1.05,0.75); gun.userData.isGun=true;
@@ -153,7 +218,7 @@ function makeNameSprite(text, team){
   const ctx=c.getContext('2d');
   ctx.font='bold 34px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
   ctx.lineWidth=5; ctx.strokeStyle='rgba(0,0,0,0.85)'; ctx.strokeText(text,128,34);
-  ctx.fillStyle = team==='blue' ? '#7fd0ff' : '#ff8a8a';
+  ctx.fillStyle = teamCSS(team);
   ctx.fillText(text,128,34);
   const tex=new THREE.CanvasTexture(c);
   const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));
@@ -168,9 +233,11 @@ function setCharName(ch, name){
 }
 function spawnCharacter(team,isPlayer){
   const m=makeCharMesh(team); scene.add(m.group);
-  const ch={team,isPlayer,alive:true,hp:(team==='red'&&!isPlayer)?82:100,respawn:0,group:m.group,meshes:[m.body,m.head],
-    yaw:team==='blue'?Math.PI:0,pitch:0,recoil:0,flyY:0,weapon:isPlayer?'ak':pickBotWeapon(),gun:m.gun,
-    ammo:{},
+  const ch={team,isPlayer,alive:true,hp:100,respawn:0,group:m.group,meshes:[m.body,m.head],
+    yaw:0,pitch:0,recoil:0,flyY:0,weapon:isPlayer?'ak':pickBotWeapon(),gun:m.gun,
+    ammo:{}, elev:0,          // elev：当前支撑高度（大楼分层用）
+    superAI:false,            // 超级AI（Q-learning 推理端）
+    lovesTower:Math.random()<0.5,   // 50% 的 AI 爱往中央大楼跑
     reloading:false,reloadT:0,lastFire:0,aiState:'patrol',aiTarget:null,aiTimer:0,moveTarget:null,role:null,
     downed:false,downedT:0,reviveProg:0,reviveT:0,jumpQueued:false,vy:0,jumpY:0,grounded:true,
     slowT:0,markT:0,
@@ -206,9 +273,13 @@ function pickBotWeapon(){
   return pool[pool.length-1];
 }
 function placeAtSpawn(ch){
-  const s=ch.team==='blue'?SPAWN.ally:SPAWN.enemy;
-  ch.group.position.set((Math.random()-0.5)*2*s.xr,0,s.z+(Math.random()-0.5)*6);
-  ch.group.rotation.y=ch.yaw; ch.group.rotation.x=0; ch.group.position.y=0;
+  // 12 队环形出生：每队占一个扇区，半径 540m，出生区互不相邻
+  const ti=TEAM_IDX[ch.team]||0;
+  const a=(ti/TEAMS.length)*Math.PI*2 + 0.26;
+  const R=540;
+  ch.group.position.set(Math.cos(a)*R+(Math.random()-0.5)*70, 0, Math.sin(a)*R+(Math.random()-0.5)*70);
+  ch.group.rotation.y=ch.yaw; ch.group.rotation.x=0;
+  ch.elev=0; ch.group.position.y=0;
 }
 
 /* ---------- 3b. 医疗箱 ---------- */
@@ -230,17 +301,17 @@ function damage(ch,amt,attacker){
   if(ch.hp<=0){ downChar(ch,attacker); }
   else if(ch.isPlayer) updateHUD();
 }
-// 击倒（倒地）：可以爬行、可以被队友救，全队倒地则输
+// 击倒（倒地）：可以爬行、可以被队友救，全队倒地则淘汰
 function downChar(ch,attacker,boom){
   ch.alive=false; ch.downed=true; ch.downedT=0; ch.reviveProg=0;
-  ch.group.rotation.x=Math.PI/2.1; ch.group.position.y=0.35;
+  ch.group.rotation.x=Math.PI/2.1; ch.group.position.y=(ch.elev||0)+0.35;
   if(ch.gun) ch.gun.visible=false;
   if(ch.reviveBar){ ch.reviveBar.visible=false; }
-  if(attacker&&attacker.team!==ch.team){ if(attacker.team==='blue')blueScore++; else if(attacker.team==='red')redScore++;
+  if(attacker&&attacker.team!==ch.team){ addScore(attacker.team,1);
     attacker.kills=(attacker.kills||0)+1; attacker.score=(attacker.score||0)+100; }
   ch.deaths=(ch.deaths||0)+1;
   if(ch.isPlayer) toast(boom?'你被炸倒了！爬向队友或等队友救援':'你被击倒了！爬向队友或等队友救援（被救前无法战斗）');
-  else if(attacker&&attacker.isPlayer) toast('击倒 '+((ch.team!==attacker.team)?'敌方':'友军')+' +1');
+  else if(attacker&&attacker.isPlayer) toast('击倒 '+teamName(ch.team)+'队 · '+((ch.team!==attacker.team)?'敌方':'友军')+' +1');
   updateHUD(); renderScoreboard();
   checkWin();
 }
@@ -258,48 +329,48 @@ function tickRevive(dc,dt,reviver){
 function reviveChar(ch,reviver){
   ch.alive=true; ch.downed=false; ch.reviveProg=0; ch.downedT=0;
   ch.hp = (ch.isPlayer && hospitalVal>0)?hospitalVal:50;
-  ch.group.rotation.x=0; ch.group.position.y=0;
+  ch.group.rotation.x=0; ch.group.position.y=ch.elev||0;
   if(ch.gun) ch.gun.visible=true;
   if(ch.reviveBar) ch.reviveBar.visible=false;
   if(ch.isPlayer) toast('你被救起来了！血量 '+Math.round(ch.hp));
-  else if(reviver&&reviver.isPlayer) toast('已救起 '+((ch.team===reviver.team)?'队友':'友军')+' 血量 '+Math.round(ch.hp));
+  else if(reviver&&reviver.isPlayer) toast('已救起 '+((ch.team===reviver.team)?'队友':teamName(ch.team)+'队')+' 血量 '+Math.round(ch.hp));
   updateHUD();
 }
 function respawnChar(ch){
   ch.alive=true; ch.downed=false; ch.reviveProg=0; ch.reviveT=0; ch.downedT=0;
-  ch.hp = (ch.isPlayer && hospitalVal>0)?hospitalVal:((ch.team==='red'&&!ch.isPlayer)?82:100); ch.group.visible=!ch.isPlayer;
+  ch.hp = (ch.isPlayer && hospitalVal>0)?hospitalVal:100; ch.group.visible=!ch.isPlayer;
   initAmmo(ch);
   ch.reloading=false; ch.reloadT=0; ch.flyY=0;
-  ch.group.rotation.x=0; ch.group.position.y=0;
+  ch.group.rotation.x=0;
   if(ch.gun) ch.gun.visible=true;
   if(ch.reviveBar) ch.reviveBar.visible=false;
   placeAtSpawn(ch); if(ch.isPlayer)updateHUD();
 }
-// 团灭判定：一方全员倒地即输
+// 淘汰判定：12 队混战，只剩 ≤1 支队存活时分胜负
 function teamAlive(t){ return characters.some(c=>c.team===t && c.alive); }
 function checkWin(){
   if(matchOver||debugMode) return;   // DEBUG 沙盒下不自动判胜负（空场/手动单位）
-  const blueDown=!teamAlive('blue'), redDown=!teamAlive('red');
-  if(blueDown||redDown){
+  const aliveTeams=TEAMS.map(t=>t.id).filter(teamAlive);
+  if(aliveTeams.length<=1){
     matchOver=true; running=false;
-    const winner=blueDown?'红方':'蓝方';
-    const playerWin = (blueDown&&playerTeam==='red')||(redDown&&playerTeam==='blue');
-    el('victoryTitle').textContent = playerWin?'🎉 胜利！':'💀 失败…';
-    el('victorySub').textContent = winner+' 获胜 · 对方全员倒地'+(playerWin?'':'，下局再战');
+    const w=aliveTeams[0]||null;
+    const playerWin=(w===playerTeam);
+    el('victoryTitle').textContent = playerWin?'🎉 胜利！':(w?('💀 失败… '+teamName(w)+'队获胜'):'💀 全灭…');
+    el('victorySub').textContent = w?(teamName(w)+'队存活到最后 · '+teamName(playerTeam)+'队已淘汰'):'场上无人生还';
     el('victory').classList.remove('hide');
     if(document.pointerLockElement===cv) document.exitPointerLock();
   }
 }
 function resetMatch(){
   if(debugMode){ enterDebug(); return; }   // DEBUG 下「再来一局」= 清空重开沙盒
-  roundNum = roundNum + 1;   // 对局计数持续累加（不再用 % 回到第1把）；角色交替由 roundNum%2 决定，不受影响
-  blueScore=0; redScore=0; matchOver=false;
+  roundNum = roundNum + 1;
+  teamScores={}; matchOver=false;
   bomb.planted=false; bomb.pos=null; bomb.timer=0; bomb.plantT=0; bomb.defuseT=0; bomb.site=null;
   for(const c of characters) respawnChar(c);
   el('victory').classList.add('hide');
   running=true; updateHUD();
   if(!isPhone) cv.requestPointerLock();
-  toast('第 '+roundNum+' 把 · 红方='+bombRoleOf('red')+' 蓝方='+bombRoleOf('blue'));
+  toast('第 '+roundNum+' 局 · 12队混战'+(BOMB_ENABLED?' · C4已启用':' · ?bomb=1 开启C4'));
 }
 function resolveCollision(pos){
   pos.x=Math.max(-HALF+1.5,Math.min(HALF-1.5,pos.x));
@@ -321,9 +392,9 @@ function resolveCollision(pos){
 const BOMB_TIME=40, PLANT_TIME=3, DEFUSE_TIME=5, BOMB_PLANT_R=3.5, BOMB_DEFUSE_R=3.5, ROUND_MAX=5;
 let roundNum=1;
 const bomb = { planted:false, pos:null, byTeam:null, timer:0, plantT:0, defuseT:0, site:null };
-const SITES = [ {name:'A', pos:new THREE.Vector3(0,0,0)}, {name:'B', pos:new THREE.Vector3(25,0,0)} ]; // B 在右侧房屋内
-// 回合角色：第1把 红CT/蓝T，第2把 红T/蓝CT，循环
-function bombRoleOf(team){ const redAttacker=(roundNum%2===0); return (team==='red') ? (redAttacker?'T':'CT') : (redAttacker?'CT':'T'); }
+const SITES = [ {name:'A', pos:new THREE.Vector3(0,0,0)}, {name:'B', pos:new THREE.Vector3(250,0,0)} ]; // B 在右侧 250m 处房屋内
+// 下包角色：?bomb=1 才启用；12 队模式简化为「未下包=全员T，下包后=全员CT」
+function bombRoleOf(team){ if(!BOMB_ENABLED) return null; return bomb.planted?'CT':'T'; }
 function nearestSite(p){ let s=null,bd=1e9; for(const st of SITES){ const d=p.distanceTo(st.pos); if(d<bd){bd=d;s=st;} } return s?{site:s,d:bd}:null; }
 function plantBomb(site, team){ bomb.planted=true; bomb.pos=site.pos.clone(); bomb.byTeam=team; bomb.timer=BOMB_TIME; bomb.plantT=0; bomb.site=site.name; toast('💣 C4 已安装于站点 '+site.name+'！'+BOMB_TIME+'s 后爆炸'); updateHUD(); }
 function defuseBomb(team){ bomb.planted=false; bomb.defuseT=0; bomb.site=null; toast('✅ C4 已拆除，防守方获胜！'); bombRoundWin(team, false); }
@@ -333,7 +404,7 @@ function bombRoundWin(winTeam, exploded){
   matchOver=true; running=false;
   const playerWin = (winTeam===playerTeam);
   el('victoryTitle').textContent = playerWin?'🎉 胜利！':'💀 失败…';
-  el('victorySub').textContent = (winTeam==='red'?'红方':'蓝方')+' 获胜（C4 '+(exploded?'爆炸':'拆除')+'）';
+  el('victorySub').textContent = teamName(winTeam)+'队获胜（C4 '+(exploded?'爆炸':'拆除')+'）';
   el('victory').classList.remove('hide');
   if(document.pointerLockElement===cv) document.exitPointerLock();
 }
@@ -395,8 +466,8 @@ function updatePlayer(dt){
     let vx=fwdX*fx+rgtX*fz, vz=fwdZ*fx+rgtZ*fz; const len=Math.hypot(vx,vz); if(len>0){vx/=len;vz/=len;}
     const sp=2.2; player.group.position.x+=vx*sp*dt; player.group.position.z+=vz*sp*dt;
     resolveCollision(player.group.position);
-    player.group.position.y=0.35;
-    camera.position.set(player.group.position.x, 0.5, player.group.position.z);
+    player.group.position.y=(player.elev||0)+0.35;
+    camera.position.set(player.group.position.x, 0.5+(player.elev||0), player.group.position.z);
     camera.rotation.y=player.yaw; camera.rotation.x=player.pitch;
     // 附近的 AI 队友会自动来救你
     for(const c of characters){ if(c.team===player.team&&!c.isPlayer&&c.alive&&!c.downed){
@@ -444,10 +515,12 @@ function updatePlayer(dt){
   const sin=Math.sin(player.yaw),cos=Math.cos(player.yaw);
   const fwdX=-sin,fwdZ=-cos, rgtX=cos,rgtZ=-sin;
   let vx=fwdX*fx+rgtX*fz, vz=fwdZ*fx+rgtZ*fz; const len=Math.hypot(vx,vz); if(len>0){vx/=len;vz/=len;}
-  const sp=(crouching?3.5:7)*slowMul(player); player.group.position.x+=vx*sp*dt; player.group.position.z+=vz*sp*dt;
+  const sp=(crouching?4.5:9)*slowMul(player); player.group.position.x+=vx*sp*dt; player.group.position.z+=vz*sp*dt;
   resolveCollision(player.group.position);
-  player.group.position.y=player.flyY;   // 隐身，高度由 flyY 决定
-  camera.position.set(player.group.position.x, EYE+player.flyY+player.jumpY-(crouching?0.7:0), player.group.position.z);
+  // 分层支撑：中央大楼楼板/坡道（走进大楼自动上楼板，走下边缘逐层掉落）
+  player.elev = groundHeightAt(player.group.position.x, player.group.position.z, player.elev+0.01);
+  player.group.position.y=player.elev+player.flyY;
+  camera.position.set(player.group.position.x, EYE+player.elev+player.flyY+player.jumpY-(crouching?0.7:0), player.group.position.z);
   player.recoil*=0.85; camera.rotation.y=player.yaw; camera.rotation.x=player.pitch+player.recoil;
   // 全枪种统一开火（不再只限 ak）；半自动在 playerFire 内自行停火
   if(firing && curWeapon!=='grenade' && !revivingNow && !player.downed) playerFire();
@@ -458,47 +531,83 @@ let player=null, playerTeam='blue';
 const pillars=[], walls=[], buildings=[];
 
 function initScene(texMid, texAlly, texEnemy, texWall, texPIce, texPStone, texPRed){
-  // 着色器选择：webgl = 自定义 GLSL 程序化光（现状）；three = three.js 标准 PBR 材质（场景灯出立体感）
+  // 材质选择（按渲染后端 + 画面风格）：
+  //   three / webgpu 后端 → three.js 标准材质（WebGPU 不跑 GLSL，统一走标准管线）
+  //   webgl 系后端 → 自定义 GLSL：mosaic 马赛克 / toon 卡通 / crt 扫描线
   function csMat(tex, tint, cells){
-    if(SHADER_MODE==='three'){
+    if(RENDER_BACKEND==='three' || RENDER_BACKEND==='webgpu'){
       return new THREE.MeshStandardMaterial({ map:tex, color:0xffffff, roughness:0.9, metalness:0.0, side:THREE.DoubleSide });
     }
+    if(SHADER_STYLE==='toon') return makeToonMaterial(tex,tint);
+    if(SHADER_STYLE==='crt')  return makeScanMaterial(tex,tint);
     return (typeof cells==='number') ? makeMosaicMaterial(tex,tint,cells) : makeSmoothMaterial(tex,tint);
   }
   // 地图（地面用马赛克着色器，墙/柱用平滑材质保留贴图细节）
-  function addGround(z,len,tex,tint){ tex.repeat.set(6,2);
+  // 1.2km 地面：三块 400m 深的分区（敌方/中场/我方）
+  function addGround(z,len,tex,tint){ tex.repeat.set(72,24);
     const m=new THREE.Mesh(new THREE.PlaneGeometry(MAP,len), csMat(tex,tint,8));
     m.rotation.x=-Math.PI/2; m.position.set(0,0,z); scene.add(m);
   }
-  addGround(-20,20,texEnemy,0xd8c0c0); addGround(0,20,texMid,0xffffff); addGround(20,20,texAlly,0xc0d0ff);
+  addGround(-400,400,texEnemy,0xd8c0c0); addGround(0,400,texMid,0xffffff); addGround(400,400,texAlly,0xc0d0ff);
   const wallMat=csMat(texWall,0xcfe0f5);
-  function addWall(x,z,w,d){const m=new THREE.Mesh(new THREE.BoxGeometry(w,3,d),wallMat);m.position.set(x,1.5,z);scene.add(m);}
+  function addWall(x,z,w,d){const m=new THREE.Mesh(new THREE.BoxGeometry(w,3,d),wallMat);m.position.set(x,1.5,z);scene.add(m);m.updateMatrix();m.matrixAutoUpdate=false;}
   addWall(0,-HALF,MAP,1);addWall(0,HALF,MAP,1);addWall(-HALF,0,1,MAP);addWall(HALF,0,1,MAP);
-  const pillarPos=[[-42,-42],[0,-42],[42,-42],[-42,0],[42,0],[-42,42],[0,42],[42,42],
-    [-22,-22],[22,-22],[-22,22],[22,22],[-22,0],[22,0],[0,-22],[0,22],[-30,10],[30,-10]];
+
+  // 静态优化：墙体/柱子/建筑构建时统一 updateMatrix + matrixAutoUpdate=false（省 CPU）
+
+  // 柱子掩体：固定种子伪随机散布 34 根（1.2km 地图上均匀铺开，避开中心站点与出生区）
+  const pillarPos=[];
+  { let seed=42; const rnd=()=>{ seed=(seed*1103515245+12345)%2147483648; return seed/2147483648; };
+    let guard=0;
+    while(pillarPos.length<34 && guard++<500){
+      const x=Math.round((rnd()-0.5)*1080), z=Math.round((rnd()-0.5)*1080);
+      if(Math.hypot(x,z)<90) continue;          // 中心 A 站点留空
+      if(Math.abs(z)>520) continue;              // 出生区留空
+      if(pillarPos.some(p=>Math.hypot(p[0]-x,p[1]-z)<60)) continue;  // 间距 ≥60m
+      pillarPos.push([x,z]);
+    } }
   const pillarMats=[
     csMat(texPIce,0xd8ecff),
     csMat(texPStone,0xb8cfe0),
     csMat(texPRed,0xd07070)
   ];
   for(const [i,[x,z]] of pillarPos.entries()){
-    const m=new THREE.Mesh(new THREE.CylinderGeometry(1.2,1.2,6,16),pillarMats[i%3]);
-    m.position.set(x,3,z);scene.add(m);pillars.push({x,z,r:1.7});
+    const m=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.6,6,12),pillarMats[i%3]);
+    m.position.set(x,3,z);scene.add(m);
+    m.updateMatrix(); m.matrixAutoUpdate=false;   // 静态物体关掉矩阵自动更新
+    pillars.push({x,z,r:2.1});
   }
 
   // 房屋：四面墙 + 南侧门洞，墙体加入碰撞与导航阻挡；室内可进入
-  function addBuilding(bx,bz,w,d,withWindow){
-    const t=1, h=3.4, hw=w/2, hd=d/2, door=3, halfDoor=door/2;
+  // openHall=钢枪楼：南北对门 + 室内双柱，无窗（大开间贴脸对枪）
+  // height=自定义墙高（狙击楼 7m，配高位窗带）
+  function addBuilding(bx,bz,w,d,withWindow,openHall,h){
+    h=h||3.4;
+    const t=1, hw=w/2, hd=d/2, door=3, halfDoor=door/2;
     const seg=(x,z,sw,sd)=>{
       const m=new THREE.Mesh(new THREE.BoxGeometry(sw,h,sd),wallMat); m.position.set(x,h/2,z); scene.add(m);
+      m.updateMatrix(); m.matrixAutoUpdate=false;
       walls.push({x,z,w:sw,d:sd});
     };
-    seg(bx, bz+hd, w, t);                 // 北墙（实心）
-    seg(bx+hw, bz, t, d);                 // 东墙
-    seg(bx-hw, bz, t, d);                // 西墙
-    const sideW = hw - halfDoor;         // 南墙分两段，中间留门
-    seg(bx-(hw+halfDoor)/2, bz-hd, sideW, t);
-    seg(bx+(hw+halfDoor)/2, bz-hd, sideW, t);
+    if(openHall){
+      // 南北各一个 5m 大门（墙分两段），东西实心
+      const bigDoor=5, hd2=bigDoor/2;
+      seg(bx-(hw+hd2)/2, bz-hd, (hw-hd2), t); seg(bx+(hw+hd2)/2, bz-hd, (hw-hd2), t);
+      seg(bx-(hw+hd2)/2, bz+hd, (hw-hd2), t); seg(bx+(hw+hd2)/2, bz+hd, (hw-hd2), t);
+      seg(bx-hw, bz, t, d); seg(bx+hw, bz, t, d);
+      // 室内两根钢枪柱
+      const pm=new THREE.Mesh(new THREE.CylinderGeometry(0.8,0.8,h,10),wallMat);
+      pm.position.set(bx-3,h/2,bz); scene.add(pm); pm.updateMatrix(); pm.matrixAutoUpdate=false;
+      const pm2=pm.clone(); pm2.position.set(bx+3,h/2,bz); scene.add(pm2);
+      pillars.push({x:bx-3,z:bz,r:1.2},{x:bx+3,z:bz,r:1.2});
+    } else {
+      seg(bx, bz+hd, w, t);                 // 北墙（实心）
+      seg(bx+hw, bz, t, d);                 // 东墙
+      seg(bx-hw, bz, t, d);                // 西墙
+      const sideW = hw - halfDoor;         // 南墙分两段，中间留门
+      seg(bx-(hw+halfDoor)/2, bz-hd, sideW, t);
+      seg(bx+(hw+halfDoor)/2, bz-hd, sideW, t);
+    }
     buildings.push({x:bx,z:bz,w,d});
     // 窗户：北墙中央加窗框 + 半透明玻璃（视觉，墙体仍实心不可穿）
     if(withWindow){
@@ -510,35 +619,75 @@ function initScene(texMid, texAlly, texEnemy, texWall, texPIce, texPStone, texPR
       const fR=new THREE.Mesh(new THREE.BoxGeometry(0.25,1.4,0.2),fMat); fR.position.set(bx+1.2,2.0,wz);
       const glass=new THREE.Mesh(new THREE.PlaneGeometry(2.1,1.3),gMat); glass.position.set(bx,2.0,wz); glass.rotation.y=Math.PI/2;
       scene.add(fT,fB,fL,fR,glass);
+    } else if(h>5){
+      // 狙击楼高位窗带：四面 5m 高处的深色窗框条（视觉标识：这楼能架狙）
+      const fMat=new THREE.MeshLambertMaterial({color:0x1a222c});
+      [[0,bz+hd,w,0.25,0.2],[0,bz-hd,w,0.25,0.2],[bx-hw,0,0.25,0.2,d],[bx+hw,0,0.25,0.2,d]].forEach(([wx,wz,sw,sh,sd])=>{
+        const m=new THREE.Mesh(new THREE.BoxGeometry(sw===0.25?0.3:Math.min(4,sw*0.4), 0.6, sd===0.25?0.3:Math.min(4,sd*0.4)),fMat);
+        m.position.set(wx,h-1.5,wz); scene.add(m); m.updateMatrix(); m.matrixAutoUpdate=false;
+      });
     }
   }
-  addBuilding(-25, 0, 10, 10, true);  // 左侧房屋（带窗户）
-  addBuilding( 25, 0, 10, 10);        // 右侧房屋（C4 站点 B 在其室内）
-  addBuilding(-15, 30, 10, 10);       // 新增建筑 1
-  addBuilding( 15,-30, 10, 10);        // 新增建筑 2
-  // A/B 下包点浮标（黄色字母，方便找位置）
-  function makeSiteLabel(txt,pos){
-    const c=document.createElement('canvas'); c.width=64; c.height=64; const x=c.getContext('2d');
-    x.fillStyle='rgba(255,200,0,0.92)'; x.beginPath(); x.arc(32,32,28,0,7); x.fill();
-    x.fillStyle='#000'; x.font='bold 38px sans-serif'; x.textAlign='center'; x.textBaseline='middle'; x.fillText(txt,32,34);
-    const tex=new THREE.CanvasTexture(c); const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));
-    sp.scale.set(3,3,1); sp.position.set(pos.x,2.6,pos.z); scene.add(sp);
+  // 30 栋功能楼铺开全图：3 类循环（钢枪=开阔大厅 / 苟分=封闭小屋 / 狙击=高楼窗台），站点 B 在 (250,0) 楼内
+  { let seed=777; const rnd=()=>{ seed=(seed*1103515245+12345)%2147483648; return seed/2147483648; };
+    let placed=0, guard=0;
+    const spots=[];
+    while(placed<30 && guard++<800){
+      const x=Math.round((rnd()-0.5)*1040), z=Math.round((rnd()-0.5)*1040);
+      if(Math.hypot(x,z)<150) continue;                  // 中央大楼 200×200 周边留空
+      if(spots.some(s=>Math.hypot(s[0]-x,s[1]-z)<70)) continue;   // 楼间距 ≥70m
+      if(Math.hypot(x-250,z)<40) continue;               // 给 B 点建筑留位
+      spots.push([x,z]); placed++;
+      const type=placed%3;   // 0=钢枪 1=苟分 2=狙击
+      if(type===0){        // 钢枪楼：18×18 开阔大厅，两侧对门，中间两根柱，适合贴脸对枪
+        addBuilding(x,z,18,18,false,true);
+      } else if(type===1){ // 苟分楼：12×12 封闭小屋带窗，蹲里面苟
+        addBuilding(x,z,12,12,true);
+      } else {             // 狙击楼：10×10 加高（墙 7m）+ 高位窗带，架狙看外面
+        addBuilding(x,z,10,10,false,false,7);
+      }
+    }
+    addBuilding(250,0,14,14,true);   // B 站点建筑（带窗户）
   }
-  SITES.forEach(s=>makeSiteLabel(s.name, s.pos));
+  // 中央大楼：200×200×50m，3 层楼板 + 顶层，四角坡道上楼，楼内补给箱
+  buildTower(wallMat);
+  // A/B 下包点浮标（?bomb=1 时才用；A 就在大楼一层，B 在东侧 250m 楼内）
+  if(BOMB_ENABLED){
+    function makeSiteLabel(txt,pos){
+      const c=document.createElement('canvas'); c.width=64; c.height=64; const x=c.getContext('2d');
+      x.fillStyle='rgba(255,200,0,0.92)'; x.beginPath(); x.arc(32,32,28,0,7); x.fill();
+      x.fillStyle='#000'; x.font='bold 38px sans-serif'; x.textAlign='center'; x.textBaseline='middle'; x.fillText(txt,32,34);
+      const tex=new THREE.CanvasTexture(c); const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));
+      sp.scale.set(12,12,1); sp.position.set(pos.x,8,pos.z); scene.add(sp);
+    }
+    SITES.forEach(s=>makeSiteLabel(s.name, s.pos));
+  }
 
-  // 角色
+  // 角色：12 队 × 5 人（玩家占蓝队 1 席），pvp/try 模式保留特殊化
   playerTeam = spy ? 'red' : 'blue';
   player = spawnCharacter(playerTeam,true);
-  const blueAI = pvp ? 0 : 30;    // 1v5 模式无队友
-  const redAI  = tryMode ? 1 : 30;// 5v1 模式敌仅1
-  for(let i=0;i<blueAI;i++) spawnCharacter('blue',false);
-  for(let i=0;i<redAI;i++) spawnCharacter('red',false);
+  for(const t of TEAMS){
+    let n=5;
+    if(t.id===playerTeam) n = pvp?0:4;           // 玩家队：4 AI 队友
+    else if(tryMode && t.id==='red') n=1;        // 5v1 模式红队仅1
+    for(let i=0;i<n;i++) spawnCharacter(t.id,false);
+  }
   characters.forEach(placeAtSpawn);
 
-  // 医疗箱（加多点，分散全图）
-  [[-18,-18],[18,-18],[-18,18],[18,18],[0,0],
-   [-38,-38],[38,-38],[-38,38],[38,38],
-   [-25,25],[25,-25],[0,40],[0,-40]].forEach(p=>makeMedkit(p[0],p[1]));
+  // 超级AI分配：每队随机 1~5 个（Q-learning 推理端，Q表 assets/Q/qlearning.json）
+  for(const t of TEAMS){
+    const members=characters.filter(c=>c.team===t.id && !c.isPlayer);
+    const n=Math.min(members.length, 1+Math.floor(Math.random()*5));
+    for(let i=members.length-1;i>0;i--){ const j=(Math.random()*(i+1))|0; const tmp=members[i];members[i]=members[j];members[j]=tmp; }
+    for(let i=0;i<n;i++) members[i].superAI=true;
+  }
+
+  // 医疗箱（大地图按区域分散铺 17 个）
+  [[-250,-250],[250,-250],[-250,250],[250,250],[0,0],
+   [250,0],[-250,0],[0,-250],[0,250],
+   [-500,-500],[500,-500],[-500,500],[500,500],
+   [0,-500],[0,500],[-550,0],[550,0]].forEach(p=>makeMedkit(p[0],p[1]));
+  for(const mk of medkits){ mk.group.traverse(o=>{ if(o.isMesh){ o.updateMatrix(); o.matrixAutoUpdate=false; } }); }
 
   // 玩家：隐身（只剩摄像机在打）+ 应用 hospital 血量
   player.group.visible=false;
@@ -550,10 +699,105 @@ function initScene(texMid, texAlly, texEnemy, texWall, texPIce, texPStone, texPR
   updateHUD();
 }
 
+/* ---------- 6b. 中央大楼：200×200×50m，3 层 + 顶层，四角坡道，楼内补给箱 ---------- */
+const loots=[];   // 补给箱
+const LOOT_CD = 30;
+const TOWER_FLOORS = [12.5, 25, 37.5, 50];
+const TOWER_RAMPS = [   // 四角坡道：a=低边坐标，沿 axis 升 12.5m/40m
+  {x1:  60,x2: 100,z1:-100,z2: -60, y0:   0,  axis:'z', a: -60},   // R1: z=-60(0m)→z=-100(12.5m)
+  {x1:  60,x2: 100,z1:  60,z2: 100, y0:12.5,  axis:'z', a:  60},   // R2: z=60(12.5m)→z=100(25m)
+  {x1:-100,x2: -60,z1:  60,z2: 100, y0:  25,  axis:'x', a: -60},   // R3: x=-60(25m)→x=-100(37.5m)
+  {x1:-100,x2: -60,z1:-100,z2: -60, y0:37.5,  axis:'z', a: -60},   // R4: z=-60(37.5m)→z=-100(50m)
+];
+// 分层地面高度：取「≤ 当前脚高+1.3m」的最高支撑（楼板/坡道/地面）→ 走下楼板边缘会逐层掉落
+function groundHeightAt(x,z,curY){
+  if(Math.abs(x)>100 || Math.abs(z)>100) return 0;   // 大楼外都是平地
+  const lim = curY + 1.3;
+  let g = 0;
+  for(const r of TOWER_RAMPS){
+    if(x>=r.x1 && x<=r.x2 && z>=r.z1 && z<=r.z2){
+      const t = Math.max(0, Math.min(1, (r.axis==='z') ? (r.a - z)/40 : (r.a - x)/40));
+      const y = r.y0 + t*12.5;
+      if(y<=lim && y>g) g=y;
+    }
+  }
+  for(const fy of TOWER_FLOORS){ if(fy<=lim && fy>g) g=fy; }
+  return g;
+}
+function buildTower(wallMat){
+  const H=50, half=100;
+  // 外墙：每侧中央 12m 门洞 → 两段；墙高 50m
+  const door=12, seg=(x,z,w,d)=>{
+    const m=new THREE.Mesh(new THREE.BoxGeometry(w,H,d),wallMat); m.position.set(x,H/2,z); scene.add(m);
+    m.updateMatrix(); m.matrixAutoUpdate=false; walls.push({x,z,w,d});
+  };
+  const sideLen=(half*2-door)/2, off=door/2+sideLen/2;
+  seg(-off,-half, sideLen, 2); seg(off,-half, sideLen, 2);      // 北墙(z=-100)
+  seg(-off, half, sideLen, 2); seg(off, half, sideLen, 2);      // 南墙
+  seg(-half,-off, 2, sideLen); seg(-half, off, 2, sideLen);     // 西墙
+  seg( half,-off, 2, sideLen); seg( half, off, 2, sideLen);     // 东墙
+  // 4 层楼板（196×196 留墙厚）
+  const slabMat=new THREE.MeshLambertMaterial({color:0x9aa8b8});
+  for(const fy of TOWER_FLOORS){
+    const m=new THREE.Mesh(new THREE.BoxGeometry(196,0.6,196),slabMat);
+    m.position.set(0,fy-0.3,0); scene.add(m); m.updateMatrix(); m.matrixAutoUpdate=false;
+  }
+  // 4 条坡道（视觉斜板；实际高度由 groundHeightAt 计算）
+  const rampLen=Math.sqrt(40*40+12.5*12.5);
+  for(const r of TOWER_RAMPS){
+    const m=new THREE.Mesh(new THREE.BoxGeometry(40,0.6,rampLen),slabMat);
+    const t0=(r.axis==='z') ? (r.a-r.z1)/40 : (r.a-r.x1)/40;    // 起端高度
+    const yA=r.y0+Math.max(0,Math.min(1,t0))*12.5;
+    const t1=(r.axis==='z') ? (r.a-r.z2)/40 : (r.a-r.x2)/40;
+    const yB=r.y0+Math.max(0,Math.min(1,t1))*12.5;
+    m.position.set((r.x1+r.x2)/2,(yA+yB)/2-0.3,(r.z1+r.z2)/2);
+    m.rotation.x = (r.axis==='z') ? Math.atan2(yB-yA, r.z2-r.z1) : 0;
+    m.rotation.z = (r.axis==='x') ? -Math.atan2(yB-yA, r.x2-r.x1) : 0;
+    scene.add(m); m.updateMatrix(); m.matrixAutoUpdate=false;
+  }
+  // 内部承重柱 ×4（高层 50m）
+  const colMat=new THREE.MeshLambertMaterial({color:0x6a7684});
+  [[-40,-40],[40,-40],[-40,40],[40,40]].forEach(([x,z])=>{
+    const m=new THREE.Mesh(new THREE.CylinderGeometry(3,3,H,10),colMat);
+    m.position.set(x,H/2,z); scene.add(m); m.updateMatrix(); m.matrixAutoUpdate=false;
+    walls.push({x,z,w:6,d:6});
+  });
+  // 补给箱：每层 4 个（+备用弹 +回血），黄金小箱
+  let seed=555; const rnd=()=>{ seed=(seed*1103515245+12345)%2147483648; return seed/2147483648; };
+  for(const fy of [0].concat(TOWER_FLOORS)){
+    for(let i=0;i<4;i++){
+      const x=Math.round((rnd()-0.5)*150), z=Math.round((rnd()-0.5)*150);
+      const g=new THREE.Group();
+      const box=new THREE.Mesh(new THREE.BoxGeometry(1.5,1.5,1.5),MAT.loot); box.position.y=fy+0.75;
+      const band=new THREE.Mesh(new THREE.BoxGeometry(1.6,0.3,1.6),MAT.head); band.position.y=fy+0.75;
+      g.add(box,band); g.position.set(x,0,z); scene.add(g);
+      g.traverse(o=>{ if(o.isMesh){ o.updateMatrix(); o.matrixAutoUpdate=false; } });
+      loots.push({group:g,pos:new THREE.Vector3(x,fy,z),active:true,cd:0});
+    }
+  }
+}
+// 补给箱拾取（主循环调用）：碰到 +90 备用弹(当前枪) +25 血
+function tickLoots(dt){
+  for(const lt of loots){
+    if(lt.cd>0){ lt.cd-=dt||1/60; if(lt.cd<=0){ lt.active=true; lt.group.visible=true; } continue; }
+    for(const c of characters){
+      if(!c.alive||c.downed) continue;
+      const p=c.group.position;
+      if(Math.abs(p.x-lt.pos.x)<2.2 && Math.abs(p.z-lt.pos.z)<2.2 && Math.abs((c.elev||0)-lt.pos.y)<3){
+        const wn=c.isPlayer?curWeapon:c.weapon;
+        const a=c.ammo[wn]; if(a) a.r+=90;
+        c.hp=Math.min(200,c.hp+25);
+        lt.active=false; lt.group.visible=false; lt.cd=LOOT_CD;
+        if(c.isPlayer){ toast('📦 补给箱：备用弹+90 血量+25'); updateHUD(); }
+        break;
+      }
+    }
+  }
+}
+
 // 渲染模式：js = Canvas 实时纹理(清晰)，svg = SVG 贴图(轻量)。暂停界面可切换，存 localStorage
 const TEX_MODE = localStorage.getItem('csTexMode') === 'svg' ? 'svg' : 'js';
-// 着色器选择：webgl = 自定义 GLSL 程序化光（现状）；three = three.js 标准 PBR 材质（场景灯出立体感）
-const SHADER_MODE = localStorage.getItem('csShaderMode') === 'three' ? 'three' : 'webgl';
+// 渲染后端 / 画面风格 已在文件头部检测（RENDER_BACKEND / SHADER_STYLE）
 
 // svg 模式：异步加载 7 张 SVG 纹理 → 构建场景
 function loadSVGTextures(){
@@ -730,7 +974,7 @@ function enterDebug(){
     const i0=hitMeshes.indexOf(c.meshes[0]); if(i0>=0) hitMeshes.splice(i0,2);
     const ci=characters.indexOf(c); if(ci>=0) characters.splice(ci,1);
   }
-  debugMode=true; debugGodOn=false; blueScore=0; redScore=0; matchOver=false;
+  debugMode=true; debugGodOn=false; teamScores={}; matchOver=false;
   // 复位玩家
   player.alive=true; player.downed=false; player.hp=100; player.flyY=0;
   player.group.rotation.x=0; player.group.position.y=0; player.group.visible=false;
@@ -864,12 +1108,45 @@ function startGame(){
 }
 el('overlay').addEventListener('click', startGame);
 
-window.addEventListener('resize', ()=>{
-  camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix();
-  renderer.setSize(Math.floor(window.innerWidth*RES_SCALE),Math.floor(window.innerHeight*RES_SCALE),false);
-});
+window.addEventListener('resize', applyResSize);
 
 const clock=new THREE.Clock();
+
+/* —— 渲染性能系统（大地图 + 60~120 人不卡的核心）—— */
+// 1) 角色 LOD：按距离分级显示部件，砍掉远处的 draw call
+//    近(<70m) 全部件+头顶名 | 中(70~180m) 身体+头+枪 | 远(>180m) 只留身体
+//    每 0.25s 才更新一轮，别每帧全图扫
+function updateLOD(){
+  const pp=player.group.position, mine=player.team;
+  for(const c of characters){
+    const d=c.group.position.distanceTo(pp);
+    const body=c.meshes[0], head=c.meshes[1];
+    if(d>180){
+      if(body)body.visible=true; if(head)head.visible=false; if(c.gun)c.gun.visible=false;   // 远处：只留身体一个 draw call
+      if(c.nameTag)c.nameTag.visible=false;
+      c._lod=2;
+    } else {
+      if(body)body.visible=true; if(head)head.visible=true;
+      if(c.gun)c.gun.visible=c.alive&&!c.downed;
+      // 头顶名只给存活队友；>70m 也不显示（看不清还费 draw call）
+      if(c.nameTag)c.nameTag.visible=c.alive&&c.team===mine&&d<=70;
+      c._lod=1;
+    }
+  }
+}
+// 2) 自适应分辨率：FPS<42 自动降渲染比例（最低 0.33），FPS>57 缓慢回升
+let _fpsAcc=0,_fpsN=0,_adaptT=0;
+function adaptResolution(dt){
+  _adaptT+=dt; _fpsAcc+=dt; _fpsN++;
+  if(_adaptT<2) return;
+  const fps=_fpsN/Math.max(_fpsAcc,0.001);
+  _adaptT=0;_fpsAcc=0;_fpsN=0;
+  if(fps<42 && RES_SCALE>0.33){ RES_SCALE=Math.max(0.33,RES_SCALE-0.08); applyResSize(); }
+  else if(fps>57 && RES_SCALE<BASE_SCALE){ RES_SCALE=Math.min(BASE_SCALE,RES_SCALE+0.05); applyResSize(); }
+}
+// 3) HUD DOM 刷新节流（每帧改 DOM 在低配机上是隐形杀手）
+let _hudT=0;
+
 function animate(){
   requestAnimationFrame(animate);
   let dt=clock.getDelta(); if(dt>0.05)dt=0.05;
@@ -890,14 +1167,19 @@ function animate(){
             if(c.isPlayer){ toast('拾取医疗箱 +'+Math.round(heal)+' 血'); updateHUD(); } }
           break; } }
     }
-    updateRockets(dt); updateDrones(dt); tickGunSpecial(dt);
+    updateRockets(dt); updateDrones(dt); tickGunSpecial(dt); tickLoots();
     if(bomb.planted){ bomb.timer-=dt; if(bomb.timer<=0) bombExplode(); }
     // 透视：侦查无人机(reconActive) 或 被带 perspective 的枪打中(markT) 都显示穿墙标记
     for(const c of characters){ if(c.mark){ if((reconActive||c.markT>0) && c.alive && !c.downed && c.team!==player.team){ c.mark.visible=true; c.mark.position.set(c.group.position.x,2.7,c.group.position.z); } else c.mark.visible=false; } }
-    for(const c of characters){ if(c.nameTag){ c.nameTag.visible = c.alive && c.team===player.team; c.nameTag.position.set(c.group.position.x, 2.4, c.group.position.z); } }   // 头顶名字仅显示我方（敌方不显示，避免像透视挂）
+    // 名字牌位置每帧跟随（只改 3 个浮点，开销可忽略；可见性交给 LOD 节流管）
+    for(const c of characters){ if(c.nameTag && c.nameTag.visible) c.nameTag.position.set(c.group.position.x, 2.4, c.group.position.z); }
+    // 头顶名字/LOD 节流刷新（原来每帧全图扫 sprites，现在 0.25s 一轮）
+    _hudT+=dt;
+    if(_hudT>0.25){ _hudT=0; updateLOD(); }
     updateHUD();
+    adaptResolution(dt);
   }
-  renderer.render(scene,camera);
+  try{ renderer.render(scene,camera); }catch(e){ /* WebGPU 初始化中的首帧等瞬态错误直接吞掉 */ }
 }
 animate();
 

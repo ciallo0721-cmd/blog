@@ -4,19 +4,19 @@
     "name": "AK47",
     "bullets": 360,
     "initial": 30,
-    "hit": 40,
+    "hit": 33,
     "sound": "shoot_ak.wav",
     "special": "",
     "interval": 0.10,
     "reload": 1.8,
     "auto": true,
-    "range": 60,
+    "range": 250,
     "bot": 18
   },
   {
     "id": "pistol",
     "name": "手枪",
-    "bullets": 30,
+    "bullets": 36,
     "initial": 12,
     "hit": 18,
     "sound": "shoot_pistol.wav",
@@ -24,7 +24,7 @@
     "interval": 0.30,
     "reload": 1.3,
     "auto": false,
-    "range": 45,
+    "range": 80,
     "bot": 14
   },
   {
@@ -32,15 +32,16 @@
     "name": "狙击枪",
     "bullets": 30,
     "initial": 5,
-    "hit": 30,
+    "hit": 65,
     "sound": "shoot_ak.wav",
     "special": "perspective",
     "interval": 1.00,
     "reload": 2.5,
     "auto": false,
-    "range": 140,
-    "rays": 5,
+    "range": 500,
+    "rays": 2,
     "spread": 0.015,
+    "bot": 45,
     "hidden": true
   },
   {
@@ -48,15 +49,16 @@
     "name": "霰弹枪",
     "bullets": 20,
     "initial": 5,
-    "hit": 12,
+    "hit": 14,
     "sound": "shoot_ak.wav",
     "special": "cold",
     "interval": 0.75,
     "reload": 2.2,
     "auto": false,
-    "range": 32,
-    "rays": 5,
-    "spread": 0.22
+    "range": 24,
+    "rays": 7,
+    "spread": 0.22,
+    "bot": 10
   },
   {
     "id": "rpg",
@@ -69,7 +71,8 @@
     "interval": 1.40,
     "reload": 2.0,
     "auto": false,
-    "range": 90
+    "range": 200,
+    "radius": 9
   },
   {
     "id": "grenade",
@@ -82,21 +85,22 @@
     "interval": 0.90,
     "reload": 0,
     "auto": false,
-    "range": 0
+    "range": 0,
+    "radius": 7
   },
   {
     "id": "taser",
     "name": "电击枪",
     "bullets": 150,
     "initial": 50,
-    "hit": 75,
+    "hit": 15,
     "sound": "shoot_pistol.wav",
     "special": "cold",
-    "interval": 0.01,
-    "reload": 5,
+    "interval": 0.06,
+    "reload": 3,
     "auto": true,
-    "range": 100,
-    "rays": 50
+    "range": 15,
+    "rays": 1
   },
   {
     "id": "knife",
@@ -109,7 +113,7 @@
     "interval": 0.30,
     "reload": 0,
     "auto": false,
-    "range": 1,
+    "range": 2.2,
     "melee": true
   },
   {
@@ -123,6 +127,7 @@
     "interval": 1.40,
     "reload": 4.0,
     "auto": false,
-    "range": 90
+    "range": 200,
+    "radius": 10
   }
 ]

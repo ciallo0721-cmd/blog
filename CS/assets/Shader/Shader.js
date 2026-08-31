@@ -61,6 +61,58 @@ void main(){
 }
 `;
 
+/* ---------- 卡通着色片元着色器：光照色阶量化（三档 hard shading）+ 轻微描边感 ----------
+   和马赛克着色器同款 tint 调色思路，但光照按 0.35/0.65/1.0 三档量化，出赛璐璐卡通感 */
+const CS_FRAG_TOON = `
+precision highp float;
+varying vec2 vUv;
+varying vec3 vNormal;
+uniform sampler2D map;
+uniform vec3 tint;
+uniform vec3 lightDir;
+
+void main(){
+  vec4 tex = texture2D(map, vUv);
+  vec3 N = normalize(vNormal);
+  if(!gl_FrontFacing) N = -N;
+  float diff = max(dot(N, normalize(lightDir)), 0.0);
+  // 三档色阶量化 → 卡通 hard shading
+  diff = diff < 0.35 ? 0.35 : (diff < 0.7 ? 0.65 : 1.0);
+  float lum = dot(tex.rgb, vec3(0.333));
+  vec3 col = tint * (0.5 + 0.5 * lum) * diff;
+  gl_FragColor = vec4(col, 1.0);
+}
+`;
+
+/* ---------- 扫描线复古片元着色器：CRT 阴极射线管风（横向扫描线 + 轻微暗角） ----------
+   gl_FragCoord 是屏幕像素坐标，扫描线随屏幕不随物体 → 真·CRT 显示器质感 */
+const CS_FRAG_CRT = `
+precision highp float;
+varying vec2 vUv;
+varying vec3 vNormal;
+uniform sampler2D map;
+uniform vec3 tint;
+uniform vec3 lightDir;
+uniform vec2 uRes;      // 渲染分辨率（用于扫描线密度与暗角）
+
+void main(){
+  vec4 tex = texture2D(map, vUv);
+  vec3 N = normalize(vNormal);
+  if(!gl_FrontFacing) N = -N;
+  float diff = 0.55 + 0.45 * max(dot(N, normalize(lightDir)), 0.0);
+  float lum = dot(tex.rgb, vec3(0.333));
+  vec3 col = tint * (0.55 + 0.45 * lum) * diff;
+  // CRT 扫描线：每 3 条像素线压暗一次
+  float scan = 0.85 + 0.15 * step(1.5, mod(gl_FragCoord.y, 3.0));
+  col *= scan;
+  // 轻微暗角（离屏幕中心越远越暗）
+  vec2 ndc = gl_FragCoord.xy / uRes * 2.0 - 1.0;
+  float vig = 1.0 - 0.25 * dot(ndc, ndc);
+  col *= vig;
+  gl_FragColor = vec4(col, 1.0);
+}
+`;
+
 /* ---------- 平滑材质工厂（无马赛克，直接采样贴图 UV） ----------
    tex      : SVG 纹理（assets/screen/*.svg）
    tintHex  : 0xRRGGBB 叠加色 */
@@ -93,4 +145,40 @@ function makeMosaicMaterial(tex, tintHex, cells){
     fragmentShader: CS_FRAG,
     side: THREE.DoubleSide   // 围墙/圆柱从内部也要可见（玩家在盒子内部）
   });
+}
+
+/* ---------- 卡通材质工厂（三档色阶 hard shading） ---------- */
+function makeToonMaterial(tex, tintHex){
+  return new THREE.ShaderMaterial({
+    uniforms: {
+      map:      { value: tex },
+      tint:     { value: new THREE.Color(tintHex) },
+      lightDir: { value: new THREE.Vector3(0.45, 0.75, 0.35).normalize() }
+    },
+    vertexShader: CS_VERT,
+    fragmentShader: CS_FRAG_TOON,
+    side: THREE.DoubleSide
+  });
+}
+
+/* ---------- 扫描线 CRT 材质工厂（复古显示器风） ----------
+   uRes 跟随渲染分辨率：窗口 resize 时由 CS.js 的 syncShaderRes() 统一刷新 */
+const _crtMats = [];
+function makeScanMaterial(tex, tintHex){
+  const m = new THREE.ShaderMaterial({
+    uniforms: {
+      map:      { value: tex },
+      tint:     { value: new THREE.Color(tintHex) },
+      lightDir: { value: new THREE.Vector3(0.45, 0.75, 0.35).normalize() },
+      uRes:     { value: new THREE.Vector2(960, 540) }
+    },
+    vertexShader: CS_VERT,
+    fragmentShader: CS_FRAG_CRT,
+    side: THREE.DoubleSide
+  });
+  _crtMats.push(m);
+  return m;
+}
+function syncShaderRes(w, h){
+  for(const m of _crtMats){ m.uniforms.uRes.value.set(w, h); }
 }
