@@ -9,8 +9,8 @@
    ============================================================ */
 
 /* ---------- 0. 全局配置 & 秘籍参数 ---------- */
-// 大战场地图：1.2km × 1.2km（对齐和平精英「度假岛」尺度），12 队 × 5 人 = 60 人混战
-const MAP = 1200, HALF = MAP/2;
+// 中型战场地图：600m × 600m，12 队 × 5 人 = 60 人混战
+const MAP = 600, HALF = MAP/2;
 let RES_SCALE = 0.5;
 const BASE_SCALE = RES_SCALE;   // 自适应分辨率的上限（只降不升破基线）
 const EYE = 1.6;
@@ -78,7 +78,7 @@ function el(id){ return document.getElementById(id); }
 const container = document.getElementById('game');
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x9fb8d8);
-scene.fog = new THREE.Fog(0x9fb8d8, 150, 1100);   // 1.2km 大地图：雾拉远，远处融入天色
+scene.fog = new THREE.Fog(0x9fb8d8, 100, 700);   // 600m 地图：雾随地图收窄，远处融入天色
 const camera = new THREE.PerspectiveCamera(78, window.innerWidth/window.innerHeight, 0.1, 1600);
 camera.rotation.order = 'YXZ';
 
@@ -204,7 +204,7 @@ function makeMarkSprite(){
   sp.scale.set(1.4,0.45,1); sp.visible=false; return sp;
 }
 /* ---------- 2b. 名字 / 计分（排行榜用） ---------- */
-const AI_NAMES = ['Alex','Ben','Carl','Dan','Eve','Finn','Grace','Hugo','Ivy','Jack','Kai','Leo','Mia','Nash','Owen','Pam','Quinn','Rex','Sara','Tom','Uma','Vic','Will','Xena','Yara','Zoe','Blaze','Cody','Drew','Eli','Fox','Gus','Hana','Iris','Jude','Kira','Liam','Milo','Nina','Otto','Pia','Rune','Sage','Tess','Ugo','Vera','Wade','Xander','Yuki','Zane'];
+const AI_NAMES = ['雪绪','小菲','菲球','小皮','二狗','铁蛋','大锤','翠花','狗剩','阿强','阿伟','大熊','静香','胖虎','小夫','皮皮','蛋蛋','毛毛','球球','豆豆','米米','花花','果果','多多','东东','西西','南南','北北','老六','刚枪王','伏地魔','蹲坑怪','快递员','外卖员','医疗兵','狙击手','冲锋哥','苟分王','舔包怪','雷神','枪王','白给侠','送人头','战神','萌新','大佬','学妹','学长','班长','体育生','老王','大聪明','小机灵','憨憨','机灵鬼','夜猫子','早八人','摸鱼精','干饭人','小学生'];
 const usedNames = new Set();
 function pickAIName(){
   const free = AI_NAMES.filter(n=>!usedNames.has(n));
@@ -273,11 +273,11 @@ function pickBotWeapon(){
   return pool[pool.length-1];
 }
 function placeAtSpawn(ch){
-  // 12 队环形出生：每队占一个扇区，半径 540m，出生区互不相邻
+  // 12 队环形出生：每队占一个扇区，半径按地图比例（0.45×MAP），出生区互不相邻
   const ti=TEAM_IDX[ch.team]||0;
   const a=(ti/TEAMS.length)*Math.PI*2 + 0.26;
-  const R=540;
-  ch.group.position.set(Math.cos(a)*R+(Math.random()-0.5)*70, 0, Math.sin(a)*R+(Math.random()-0.5)*70);
+  const R=HALF*0.9;
+  ch.group.position.set(Math.cos(a)*R+(Math.random()-0.5)*35, 0, Math.sin(a)*R+(Math.random()-0.5)*35);
   ch.group.rotation.y=ch.yaw; ch.group.rotation.x=0;
   ch.elev=0; ch.group.position.y=0;
 }
@@ -312,6 +312,10 @@ function downChar(ch,attacker,boom){
   ch.deaths=(ch.deaths||0)+1;
   if(ch.isPlayer) toast(boom?'你被炸倒了！爬向队友或等队友救援':'你被击倒了！爬向队友或等队友救援（被救前无法战斗）');
   else if(attacker&&attacker.isPlayer) toast('击倒 '+teamName(ch.team)+'队 · '+((ch.team!==attacker.team)?'敌方':'友军')+' +1');
+  // —— 淘汰播报（屏幕中下方）——
+  if(attacker && attacker!==ch) addKillFeed(kfName(attacker)+' <span style="color:#ff8a8a">☠</span> '+kfName(ch));
+  else addKillFeed('<span style="color:#ffd86a">💥</span> '+kfName(ch));
+  if(!characters.some(c=>c.team===ch.team && c.alive)) addKillFeed('🏅 <b style="color:#ffd86a">'+teamName(ch.team)+'队 全军覆没</b>');
   updateHUD(); renderScoreboard();
   checkWin();
 }
@@ -340,6 +344,7 @@ function respawnChar(ch){
   ch.alive=true; ch.downed=false; ch.reviveProg=0; ch.reviveT=0; ch.downedT=0;
   ch.hp = (ch.isPlayer && hospitalVal>0)?hospitalVal:100; ch.group.visible=!ch.isPlayer;
   initAmmo(ch);
+  ch.orderGoal=null;   // 重生清空「前往标记点」指令
   ch.reloading=false; ch.reloadT=0; ch.flyY=0;
   ch.group.rotation.x=0;
   if(ch.gun) ch.gun.visible=true;
@@ -366,6 +371,7 @@ function resetMatch(){
   roundNum = roundNum + 1;
   teamScores={}; matchOver=false;
   bomb.planted=false; bomb.pos=null; bomb.timer=0; bomb.plantT=0; bomb.defuseT=0; bomb.site=null;
+  worldMark=null; if(markBeacon) markBeacon.visible=false;   // 新一局清空标点
   for(const c of characters) respawnChar(c);
   el('victory').classList.add('hide');
   running=true; updateHUD();
@@ -392,7 +398,7 @@ function resolveCollision(pos){
 const BOMB_TIME=40, PLANT_TIME=3, DEFUSE_TIME=5, BOMB_PLANT_R=3.5, BOMB_DEFUSE_R=3.5, ROUND_MAX=5;
 let roundNum=1;
 const bomb = { planted:false, pos:null, byTeam:null, timer:0, plantT:0, defuseT:0, site:null };
-const SITES = [ {name:'A', pos:new THREE.Vector3(0,0,0)}, {name:'B', pos:new THREE.Vector3(250,0,0)} ]; // B 在右侧 250m 处房屋内
+const SITES = [ {name:'A', pos:new THREE.Vector3(0,0,0)}, {name:'B', pos:new THREE.Vector3(125,0,0)} ]; // B 在右侧 125m 处房屋内
 // 下包角色：?bomb=1 才启用；12 队模式简化为「未下包=全员T，下包后=全员CT」
 function bombRoleOf(team){ if(!BOMB_ENABLED) return null; return bomb.planted?'CT':'T'; }
 function nearestSite(p){ let s=null,bd=1e9; for(const st of SITES){ const d=p.distanceTo(st.pos); if(d<bd){bd=d;s=st;} } return s?{site:s,d:bd}:null; }
@@ -515,7 +521,9 @@ function updatePlayer(dt){
   const sin=Math.sin(player.yaw),cos=Math.cos(player.yaw);
   const fwdX=-sin,fwdZ=-cos, rgtX=cos,rgtZ=-sin;
   let vx=fwdX*fx+rgtX*fz, vz=fwdZ*fx+rgtZ*fz; const len=Math.hypot(vx,vz); if(len>0){vx/=len;vz/=len;}
-  const sp=(crouching?4.5:9)*slowMul(player); player.group.position.x+=vx*sp*dt; player.group.position.z+=vz*sp*dt;
+  // Shift 跑步加速（蹲下时不算；手机端暂无跑步键）
+  const sprinting = !crouching && !isPhone && kdown('sprint');
+  const sp=(crouching?4.5:(sprinting?13.5:9))*slowMul(player); player.group.position.x+=vx*sp*dt; player.group.position.z+=vz*sp*dt;
   resolveCollision(player.group.position);
   // 分层支撑：中央大楼楼板/坡道（走进大楼自动上楼板，走下边缘逐层掉落）
   player.elev = groundHeightAt(player.group.position.x, player.group.position.z, player.elev+0.01);
@@ -543,27 +551,27 @@ function initScene(texMid, texAlly, texEnemy, texWall, texPIce, texPStone, texPR
     return (typeof cells==='number') ? makeMosaicMaterial(tex,tint,cells) : makeSmoothMaterial(tex,tint);
   }
   // 地图（地面用马赛克着色器，墙/柱用平滑材质保留贴图细节）
-  // 1.2km 地面：三块 400m 深的分区（敌方/中场/我方）
-  function addGround(z,len,tex,tint){ tex.repeat.set(72,24);
+  // 600m 地面：三块 200m 深的分区（敌方/中场/我方）
+  function addGround(z,len,tex,tint){ tex.repeat.set(36,12);
     const m=new THREE.Mesh(new THREE.PlaneGeometry(MAP,len), csMat(tex,tint,8));
     m.rotation.x=-Math.PI/2; m.position.set(0,0,z); scene.add(m);
   }
-  addGround(-400,400,texEnemy,0xd8c0c0); addGround(0,400,texMid,0xffffff); addGround(400,400,texAlly,0xc0d0ff);
+  addGround(-200,200,texEnemy,0xd8c0c0); addGround(0,200,texMid,0xffffff); addGround(200,200,texAlly,0xc0d0ff);
   const wallMat=csMat(texWall,0xcfe0f5);
   function addWall(x,z,w,d){const m=new THREE.Mesh(new THREE.BoxGeometry(w,3,d),wallMat);m.position.set(x,1.5,z);scene.add(m);m.updateMatrix();m.matrixAutoUpdate=false;}
   addWall(0,-HALF,MAP,1);addWall(0,HALF,MAP,1);addWall(-HALF,0,1,MAP);addWall(HALF,0,1,MAP);
 
   // 静态优化：墙体/柱子/建筑构建时统一 updateMatrix + matrixAutoUpdate=false（省 CPU）
 
-  // 柱子掩体：固定种子伪随机散布 34 根（1.2km 地图上均匀铺开，避开中心站点与出生区）
+  // 柱子掩体：固定种子伪随机散布 34 根（600m 地图上均匀铺开，避开中心站点与出生区）
   const pillarPos=[];
   { let seed=42; const rnd=()=>{ seed=(seed*1103515245+12345)%2147483648; return seed/2147483648; };
     let guard=0;
     while(pillarPos.length<34 && guard++<500){
-      const x=Math.round((rnd()-0.5)*1080), z=Math.round((rnd()-0.5)*1080);
-      if(Math.hypot(x,z)<90) continue;          // 中心 A 站点留空
-      if(Math.abs(z)>520) continue;              // 出生区留空
-      if(pillarPos.some(p=>Math.hypot(p[0]-x,p[1]-z)<60)) continue;  // 间距 ≥60m
+      const x=Math.round((rnd()-0.5)*540), z=Math.round((rnd()-0.5)*540);
+      if(Math.hypot(x,z)<45) continue;           // 中心 A 站点留空
+      if(Math.abs(z)>HALF-40) continue;          // 出生区留空
+      if(pillarPos.some(p=>Math.hypot(p[0]-x,p[1]-z)<30)) continue;  // 间距 ≥30m
       pillarPos.push([x,z]);
     } }
   const pillarMats=[
@@ -628,15 +636,15 @@ function initScene(texMid, texAlly, texEnemy, texWall, texPIce, texPStone, texPR
       });
     }
   }
-  // 30 栋功能楼铺开全图：3 类循环（钢枪=开阔大厅 / 苟分=封闭小屋 / 狙击=高楼窗台），站点 B 在 (250,0) 楼内
+  // 30 栋功能楼铺开全图：3 类循环（钢枪=开阔大厅 / 苟分=封闭小屋 / 狙击=高楼窗台），站点 B 在 (125,0) 楼内
   { let seed=777; const rnd=()=>{ seed=(seed*1103515245+12345)%2147483648; return seed/2147483648; };
     let placed=0, guard=0;
     const spots=[];
     while(placed<30 && guard++<800){
-      const x=Math.round((rnd()-0.5)*1040), z=Math.round((rnd()-0.5)*1040);
-      if(Math.hypot(x,z)<150) continue;                  // 中央大楼 200×200 周边留空
-      if(spots.some(s=>Math.hypot(s[0]-x,s[1]-z)<70)) continue;   // 楼间距 ≥70m
-      if(Math.hypot(x-250,z)<40) continue;               // 给 B 点建筑留位
+      const x=Math.round((rnd()-0.5)*540), z=Math.round((rnd()-0.5)*540);
+      if(Math.hypot(x,z)<75) continue;                   // 中央大楼 100×100 周边留空
+      if(spots.some(s=>Math.hypot(s[0]-x,s[1]-z)<35)) continue;   // 楼间距 ≥35m
+      if(Math.hypot(x-125,z)<25) continue;               // 给 B 点建筑留位
       spots.push([x,z]); placed++;
       const type=placed%3;   // 0=钢枪 1=苟分 2=狙击
       if(type===0){        // 钢枪楼：18×18 开阔大厅，两侧对门，中间两根柱，适合贴脸对枪
@@ -647,9 +655,9 @@ function initScene(texMid, texAlly, texEnemy, texWall, texPIce, texPStone, texPR
         addBuilding(x,z,10,10,false,false,7);
       }
     }
-    addBuilding(250,0,14,14,true);   // B 站点建筑（带窗户）
+    addBuilding(125,0,14,14,true);   // B 站点建筑（带窗户）
   }
-  // 中央大楼：200×200×50m，3 层楼板 + 顶层，四角坡道上楼，楼内补给箱
+  // 中央大楼：100×100×25m，3 层楼板 + 顶层，四角坡道上楼，楼内补给箱
   buildTower(wallMat);
   // A/B 下包点浮标（?bomb=1 时才用；A 就在大楼一层，B 在东侧 250m 楼内）
   if(BOMB_ENABLED){
@@ -682,11 +690,11 @@ function initScene(texMid, texAlly, texEnemy, texWall, texPIce, texPStone, texPR
     for(let i=0;i<n;i++) members[i].superAI=true;
   }
 
-  // 医疗箱（大地图按区域分散铺 17 个）
-  [[-250,-250],[250,-250],[-250,250],[250,250],[0,0],
-   [250,0],[-250,0],[0,-250],[0,250],
-   [-500,-500],[500,-500],[-500,500],[500,500],
-   [0,-500],[0,500],[-550,0],[550,0]].forEach(p=>makeMedkit(p[0],p[1]));
+  // 医疗箱（按区域分散铺 17 个）
+  [[-125,-125],[125,-125],[-125,125],[125,125],[0,0],
+   [125,0],[-125,0],[0,-125],[0,125],
+   [-250,-250],[250,-250],[-250,250],[250,250],
+   [0,-250],[0,250],[-275,0],[275,0]].forEach(p=>makeMedkit(p[0],p[1]));
   for(const mk of medkits){ mk.group.traverse(o=>{ if(o.isMesh){ o.updateMatrix(); o.matrixAutoUpdate=false; } }); }
 
   // 玩家：隐身（只剩摄像机在打）+ 应用 hospital 血量
@@ -699,25 +707,25 @@ function initScene(texMid, texAlly, texEnemy, texWall, texPIce, texPStone, texPR
   updateHUD();
 }
 
-/* ---------- 6b. 中央大楼：200×200×50m，3 层 + 顶层，四角坡道，楼内补给箱 ---------- */
+/* ---------- 6b. 中央大楼：100×100×25m，3 层 + 顶层，四角坡道，楼内补给箱 ---------- */
 const loots=[];   // 补给箱
 const LOOT_CD = 30;
-const TOWER_FLOORS = [12.5, 25, 37.5, 50];
-const TOWER_RAMPS = [   // 四角坡道：a=低边坐标，沿 axis 升 12.5m/40m
-  {x1:  60,x2: 100,z1:-100,z2: -60, y0:   0,  axis:'z', a: -60},   // R1: z=-60(0m)→z=-100(12.5m)
-  {x1:  60,x2: 100,z1:  60,z2: 100, y0:12.5,  axis:'z', a:  60},   // R2: z=60(12.5m)→z=100(25m)
-  {x1:-100,x2: -60,z1:  60,z2: 100, y0:  25,  axis:'x', a: -60},   // R3: x=-60(25m)→x=-100(37.5m)
-  {x1:-100,x2: -60,z1:-100,z2: -60, y0:37.5,  axis:'z', a: -60},   // R4: z=-60(37.5m)→z=-100(50m)
+const TOWER_FLOORS = [6.25, 12.5, 18.75, 25];
+const TOWER_RAMPS = [   // 四角坡道：a=低边坐标，沿 axis 升 6.25m/20m
+  {x1:  30,x2:  50,z1: -50,z2: -30, y0:    0,  axis:'z', a: -30},   // R1: z=-30(0m)→z=-50(6.25m)
+  {x1:  30,x2:  50,z1:  30,z2:  50, y0:6.25,  axis:'z', a:  30},   // R2: z=30(6.25m)→z=50(12.5m)
+  {x1: -50,x2: -30,z1:  30,z2:  50, y0:12.5,  axis:'x', a: -30},   // R3: x=-30(12.5m)→x=-50(18.75m)
+  {x1: -50,x2: -30,z1: -50,z2: -30, y0:18.75, axis:'z', a: -30},   // R4: z=-30(18.75m)→z=-50(25m)
 ];
 // 分层地面高度：取「≤ 当前脚高+1.3m」的最高支撑（楼板/坡道/地面）→ 走下楼板边缘会逐层掉落
 function groundHeightAt(x,z,curY){
-  if(Math.abs(x)>100 || Math.abs(z)>100) return 0;   // 大楼外都是平地
+  if(Math.abs(x)>50 || Math.abs(z)>50) return 0;   // 大楼外都是平地
   const lim = curY + 1.3;
   let g = 0;
   for(const r of TOWER_RAMPS){
     if(x>=r.x1 && x<=r.x2 && z>=r.z1 && z<=r.z2){
-      const t = Math.max(0, Math.min(1, (r.axis==='z') ? (r.a - z)/40 : (r.a - x)/40));
-      const y = r.y0 + t*12.5;
+      const t = Math.max(0, Math.min(1, (r.axis==='z') ? (r.a - z)/20 : (r.a - x)/20));
+      const y = r.y0 + t*6.25;
       if(y<=lim && y>g) g=y;
     }
   }
@@ -725,48 +733,49 @@ function groundHeightAt(x,z,curY){
   return g;
 }
 function buildTower(wallMat){
-  const H=50, half=100;
-  // 外墙：每侧中央 12m 门洞 → 两段；墙高 50m
+  const H=25, half=50;
+  // 外墙：每侧中央 12m 门洞 → 两段；墙高 25m
   const door=12, seg=(x,z,w,d)=>{
     const m=new THREE.Mesh(new THREE.BoxGeometry(w,H,d),wallMat); m.position.set(x,H/2,z); scene.add(m);
     m.updateMatrix(); m.matrixAutoUpdate=false; walls.push({x,z,w,d});
   };
   const sideLen=(half*2-door)/2, off=door/2+sideLen/2;
-  seg(-off,-half, sideLen, 2); seg(off,-half, sideLen, 2);      // 北墙(z=-100)
+  seg(-off,-half, sideLen, 2); seg(off,-half, sideLen, 2);      // 北墙(z=-50)
   seg(-off, half, sideLen, 2); seg(off, half, sideLen, 2);      // 南墙
   seg(-half,-off, 2, sideLen); seg(-half, off, 2, sideLen);     // 西墙
   seg( half,-off, 2, sideLen); seg( half, off, 2, sideLen);     // 东墙
-  // 4 层楼板（196×196 留墙厚）
+  // 4 层楼板（96×96 留墙厚）
   const slabMat=new THREE.MeshLambertMaterial({color:0x9aa8b8});
   for(const fy of TOWER_FLOORS){
-    const m=new THREE.Mesh(new THREE.BoxGeometry(196,0.6,196),slabMat);
+    const m=new THREE.Mesh(new THREE.BoxGeometry(96,0.6,96),slabMat);
     m.position.set(0,fy-0.3,0); scene.add(m); m.updateMatrix(); m.matrixAutoUpdate=false;
   }
   // 4 条坡道（视觉斜板；实际高度由 groundHeightAt 计算）
-  const rampLen=Math.sqrt(40*40+12.5*12.5);
+  const rampLen=Math.sqrt(20*20+6.25*6.25);
   for(const r of TOWER_RAMPS){
-    const m=new THREE.Mesh(new THREE.BoxGeometry(40,0.6,rampLen),slabMat);
-    const t0=(r.axis==='z') ? (r.a-r.z1)/40 : (r.a-r.x1)/40;    // 起端高度
-    const yA=r.y0+Math.max(0,Math.min(1,t0))*12.5;
-    const t1=(r.axis==='z') ? (r.a-r.z2)/40 : (r.a-r.x2)/40;
-    const yB=r.y0+Math.max(0,Math.min(1,t1))*12.5;
+    const m=new THREE.Mesh(new THREE.BoxGeometry(20,0.6,rampLen),slabMat);
+    const t0=(r.axis==='z') ? (r.a-r.z1)/20 : (r.a-r.x1)/20;    // 起端高度
+    const yA=r.y0+Math.max(0,Math.min(1,t0))*6.25;
+    const t1=(r.axis==='z') ? (r.a-r.z2)/20 : (r.a-r.x2)/20;
+    const yB=r.y0+Math.max(0,Math.min(1,t1))*6.25;
     m.position.set((r.x1+r.x2)/2,(yA+yB)/2-0.3,(r.z1+r.z2)/2);
-    m.rotation.x = (r.axis==='z') ? Math.atan2(yB-yA, r.z2-r.z1) : 0;
-    m.rotation.z = (r.axis==='x') ? -Math.atan2(yB-yA, r.x2-r.x1) : 0;
+    // 旋转方向：让网格低端贴地、高端贴楼板（原符号反了 → 坡道一头戳穿楼板、一头贴地，看着像上不去）
+    m.rotation.x = (r.axis==='z') ? -Math.atan2(yB-yA, r.z2-r.z1) : 0;
+    m.rotation.z = (r.axis==='x') ?  Math.atan2(yB-yA, r.x2-r.x1) : 0;
     scene.add(m); m.updateMatrix(); m.matrixAutoUpdate=false;
   }
-  // 内部承重柱 ×4（高层 50m）
+  // 内部承重柱 ×4（高层 25m）
   const colMat=new THREE.MeshLambertMaterial({color:0x6a7684});
-  [[-40,-40],[40,-40],[-40,40],[40,40]].forEach(([x,z])=>{
-    const m=new THREE.Mesh(new THREE.CylinderGeometry(3,3,H,10),colMat);
+  [[-20,-20],[20,-20],[-20,20],[20,20]].forEach(([x,z])=>{
+    const m=new THREE.Mesh(new THREE.CylinderGeometry(2,2,H,10),colMat);
     m.position.set(x,H/2,z); scene.add(m); m.updateMatrix(); m.matrixAutoUpdate=false;
-    walls.push({x,z,w:6,d:6});
+    walls.push({x,z,w:4,d:4});
   });
   // 补给箱：每层 4 个（+备用弹 +回血），黄金小箱
   let seed=555; const rnd=()=>{ seed=(seed*1103515245+12345)%2147483648; return seed/2147483648; };
   for(const fy of [0].concat(TOWER_FLOORS)){
     for(let i=0;i<4;i++){
-      const x=Math.round((rnd()-0.5)*150), z=Math.round((rnd()-0.5)*150);
+      const x=Math.round((rnd()-0.5)*70), z=Math.round((rnd()-0.5)*70);
       const g=new THREE.Group();
       const box=new THREE.Mesh(new THREE.BoxGeometry(1.5,1.5,1.5),MAT.loot); box.position.y=fy+0.75;
       const band=new THREE.Mesh(new THREE.BoxGeometry(1.6,0.3,1.6),MAT.head); band.position.y=fy+0.75;
@@ -1034,9 +1043,212 @@ function debugLose(){
 }
 function debugExit(){ location.reload(); }
 
+/* ---------- 8b. 小地图 / 淘汰播报 / 队伍聊天 / 标点指挥 ---------- */
+// —— 标点系统：Q 标记当前位置（小地图黄点 + 3D 信标），直到下一次标点 ——
+let worldMark=null, markBeacon=null;
+function ensureMarkBeacon(){
+  if(markBeacon) return;
+  const c=document.createElement('canvas'); c.width=64; c.height=64; const x=c.getContext('2d');
+  x.fillStyle='rgba(255,216,58,0.95)'; x.beginPath(); x.moveTo(32,4); x.lineTo(58,60); x.lineTo(6,60); x.closePath(); x.fill();
+  x.fillStyle='#000'; x.font='bold 40px sans-serif'; x.textAlign='center'; x.textBaseline='middle'; x.fillText('!',32,44);
+  const tex=new THREE.CanvasTexture(c);
+  markBeacon=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));
+  markBeacon.scale.set(4,4,1); markBeacon.visible=false; scene.add(markBeacon);
+}
+function placeMark(){
+  if(!player||!player.alive||player.downed) return;
+  worldMark=player.group.position.clone(); worldMark.y=0;
+  ensureMarkBeacon(); markBeacon.visible=true; markBeacon.position.set(worldMark.x,5,worldMark.z);
+  toast('📍 已标记位置（小地图黄点 · 聊天 @队友名 可派TA前来）');
+}
+// —— 淘汰播报：屏幕中下方，最多同时 4 条，3.8s 后淡出 ——
+function kfName(c){ return '<span style="color:'+teamCSS(c.team)+';font-weight:bold">'+escapeHtml(c.name)+'</span>'; }
+function addKillFeed(html){
+  const kf=el('killfeed'); if(!kf) return;
+  const d=document.createElement('div'); d.className='kfLine'; d.innerHTML=html;
+  kf.appendChild(d);
+  while(kf.children.length>4) kf.removeChild(kf.firstChild);
+  setTimeout(()=>{ d.style.opacity=0; setTimeout(()=>d.remove(),450); },3800);
+}
+// —— 队伍聊天：AI 不定时发固定消息（100 条池），玩家可按 T 打字 ——
+const CHAT_POOL=[
+  '冲了冲了！','稳住别送','我在楼里蹲着呢','有人摸过来了！','队友牛逼！','这波不亏','医疗箱在哪儿','中心大楼有人架狙','绕后偷一个','我卡他们后面了',
+  '别站在楼顶装逼','老六实锤了','前面有柱子掩体','补个弹先','谁把我打倒的？！','救我！快救我！','我看见红色那边了','东边有枪声','西边好像没人','撤撤撤打不过',
+  '换弹中别指望我','手雷给我留一个','楼下有人守门','我上去狙他们','苟住就是胜利','隔壁队打起来了','捡了个补给箱','血量健康放心冲','有人抢我人头？','蹲坑使我快乐',
+  '别吵，我在听脚步','他们要冲脸了？','我们稳如老狗','这地图我熟','跟着我冲A点','B点空了','又白给一个','别扔雷！会误伤','我枪法一般，别指望我','塔不灭！',
+  '关注永雏塔菲喵','Ciallo～(∠・ω< )⌒★','谁抢我医疗箱谁是狗','楼上有人！走楼梯','我从坡道绕上去了','狙楼那位别睡了','全都窝在大楼里？','外面安全，快跑','不好意思走错了','刚才那波是我操作的',
+  '别拍我，我在装死','这把我稳了','完了我弹药没了','有RPG的那位悠着点','给我一把喷子谢谢','移动靶打不中的，站着别动（指我）','对面有个挂哥吧','别骂了别骂了','这波配合给我打满分','下次我一定救你（下次一定）',
+  '萌新瑟瑟发抖','谁也别抢我的人头','侦察无人机好了，要照吗','自爆无人机蓄力中','友军！自己人！别开枪！','蹲草丛里的小可爱是我','楼里在开派对，全是人','三缺一，来打牌吗','前面打完了，过去舔包','别舔了快撤，有人来了',
+  '我这把稳如泰山','敌人的敌人就是朋友','报告位置：北边柱子','南边出生点方向有人','中心大楼四层风景不错','我在顶楼看戏','卧倒！有狙击','这狙也太准了','收枪收枪，打不过','虚晃一枪，溜了',
+  '包抄成功！他们屁股对我了','别开枪是我！','友军伤害警告','今晚吃鸡…啊不对这是CS','波波波，收到请回答','谁有多的弹药分我点','我数到三一起冲','一…二…你们怎么不等我','赢了一起去吃火锅','输了就当练枪',
+  '这准星是不是歪的','键盘侠上线','把中心大楼围起来！','他们五个人蹲一间房？','笑死，对面全在乱跑','下一个淘汰的就是我（不是）','稳住，我们能赢','别管我了，你们冲','摸鱼摸鱼，苟到前五','收到收到'
+];
+let aiChatT=9;
+// —— 0.1B 对话模型（真AI回复）：Worker 懒加载，点了开始就开始后台加载 ——
+let aiWorker=null, aiReady=false, aiBusy=false, aiReplyWait=null;
+function initChatAI(){
+  if(aiWorker) return;
+  window.__aiLog=window.__aiLog||[];
+  try{
+    aiWorker=new Worker('assets/code/chatai-worker.js',{type:'module'});
+    aiWorker.onmessage=e=>{
+      const d=e.data||{};
+      window.__aiLog.push(d.type);
+      if(d.type==='ready'){ aiReady=true; toast('🤖 AI队友已上线（'+(d.ms/1000|0)+'s 加载完成）'); }
+      else if(d.type==='reply'){ aiBusy=false; if(aiReplyWait){ const f=aiReplyWait; aiReplyWait=null; f(d.reply); } }
+      else if(d.type==='error'){ aiBusy=false; console.error('[chatai] worker error:', d.msg||d.err); }
+    };
+    aiWorker.onerror=ev=>{ aiWorker=null; aiReady=false; aiBusy=false; console.error('[chatai] worker onerror:', ev.message||ev.filename+':'+ev.lineno); };
+  }catch(e){ aiWorker=null; console.error('[chatai] init failed:', e); }
+}
+// 玩家说话后队友的回复池（1~2 个队友会接话）
+const REPLY_POOL=[
+  '收到！','收到收到','6','哈哈哈哈','说得好','中！','听你的','冲！','好耶','懂了懂了',
+  '这就来','等我一秒','别催了别催了','嗯嗯','你说了算','行行行','没问题','稳','跟着大哥混','塔不灭！',
+  '你在哪儿我去找你','注意隐蔽','先苟一波','同意','反对！我没说完呢','啊对对对','OK的','包在我身上','又画大饼','你先撤我掩护'
+];
+function aiReply(text){
+  // 0.1B 模型就绪且空闲 → 真·AI 生成回复（Worker 线程）；否则/超时 → 固定回复池
+  const pool=characters.filter(c=>c.team===playerTeam&&!c.isPlayer&&c.alive&&!c.downed);
+  if(!pool.length) return;
+  if(aiWorker && aiReady && !aiBusy){
+    const c=pool[(Math.random()*pool.length)|0];
+    aiBusy=true;
+    const fallback=setTimeout(()=>{ if(aiReplyWait){ const f=aiReplyWait; aiReplyWait=null; f(null); } }, 8000);
+    aiReplyWait=reply=>{
+      clearTimeout(fallback);
+      addChatLine(c.name, c.team, reply || REPLY_POOL[(Math.random()*REPLY_POOL.length)|0]);
+    };
+    aiWorker.postMessage({type:'gen', text});
+  } else {
+    const n=1+(Math.random()<0.35?1:0);
+    for(let i=0;i<n;i++){
+      const c2=pool[(Math.random()*pool.length)|0];
+      const msg=REPLY_POOL[(Math.random()*REPLY_POOL.length)|0];
+      setTimeout(()=>addChatLine(c2.name, c2.team, msg), 600+Math.random()*1800);
+    }
+  }
+}
+function addChatLine(name, team, msg, isMe){
+  const box=el('chatbox'); if(!box) return;
+  const d=document.createElement('div'); d.className='chatLine'+(isMe?' chatMe':'');
+  d.innerHTML='<span style="color:'+teamCSS(team)+';font-weight:bold">'+escapeHtml(name)+'：</span>'+escapeHtml(msg);
+  box.appendChild(d);
+  while(box.children.length>6) box.removeChild(box.firstChild);
+  setTimeout(()=>{ d.style.opacity=0; setTimeout(()=>d.remove(),500); },7000);
+}
+function updateAIChat(dt){
+  if(!running||paused) return;
+  aiChatT-=dt;
+  if(aiChatT>0) return;
+  aiChatT=7+Math.random()*13;
+  const pool=characters.filter(c=>!c.isPlayer&&c.alive&&!c.downed);
+  if(!pool.length) return;
+  const mine=pool.filter(c=>c.team===playerTeam);
+  const c=(mine.length&&Math.random()<0.75)?mine[(Math.random()*mine.length)|0]:pool[(Math.random()*pool.length)|0];
+  addChatLine(c.name, c.team, CHAT_POOL[(Math.random()*CHAT_POOL.length)|0]);
+}
+// —— 聊天输入（T 唤起）：@队友名 + 已有标点 → 派 TA 前往标记点（超级AI同样听令）——
+let chatOpen=false;
+function openChatInput(){
+  if(!running||paused||matchOver) return;
+  chatOpen=true;
+  const bar=el('chatInputBar'); const inp=el('chatInput');
+  if(bar) bar.classList.remove('hide');
+  if(inp){ inp.value=''; setTimeout(()=>inp.focus(),0); }
+  if(!isPhone && document.pointerLockElement===cv) document.exitPointerLock();
+}
+function closeChatInput(back){
+  chatOpen=false;
+  const bar=el('chatInputBar'), inp=el('chatInput');
+  if(bar) bar.classList.add('hide');
+  if(inp) inp.blur();
+  if(back && !isPhone && running && !paused){ try{ cv.requestPointerLock(); }catch(e){} }
+}
+function sendChat(){
+  const inp=el('chatInput'); if(!inp) return;
+  const text=(inp.value||'').trim();
+  if(text){
+    addChatLine('你', playerTeam, text, true);
+    aiReply(text);   // 队友会接话（0.1B模型生成，超时回退固定池）
+    if(text.indexOf('@')>=0){
+      if(!worldMark){ toast('先按 Q 标记地点，再 @队友 派TA过去'); }
+      else{
+        const mts=text.match(/@([^\s@，。！？!?,.]+)/g)||[];
+        let hit=false;
+        for(const raw of mts){
+          const nm=raw.slice(1);
+          const t=characters.find(c=>c.team===playerTeam&&!c.isPlayer&&c.alive&&(c.name===nm||c.name.indexOf(nm)>=0||nm.indexOf(c.name)>=0));
+          if(t){ t.orderGoal=worldMark.clone(); hit=true;
+            addKillFeed('📢 <span style="color:#ffd86a">指挥</span> '+kfName(t)+' 前往标记点！'); }
+        }
+        if(!hit) toast('没找到这个队友名（看看头顶名牌/小地图）');
+        else toast('📢 已下令！队友正在赶往标记点');
+      }
+    }
+  }
+  closeChatInput(true);
+}
+// 聊天输入框事件（输入框内 stopPropagation，键盘不会漏进游戏逻辑）
+(function(){
+  const inp=el('chatInput'); if(!inp) return;
+  inp.addEventListener('keydown', e=>{
+    e.stopPropagation();
+    if(e.key==='Enter'){ e.preventDefault(); sendChat(); }
+    else if(e.key==='Escape'){ e.preventDefault(); closeChatInput(true); }
+  });
+  const send=el('chatSend'); if(send) send.addEventListener('click', e=>{ e.preventDefault(); sendChat(); });
+})();
+// —— 小地图：左下角（手机端右上），画队友/玩家朝向/标点/侦查透视敌人 ——
+const MM_SIZE=156;
+function updateMinimap(){
+  const mc=el('minimap'); if(!mc||!player) return;
+  const ctx=mc.getContext('2d');
+  const S=MM_SIZE, sc=S/(MAP+40);
+  const w2m=v=>(v+HALF)*sc;
+  ctx.clearRect(0,0,S,S);
+  // 中央大楼 + 各栋房屋
+  ctx.fillStyle='rgba(120,160,220,.30)';
+  ctx.fillRect(S/2-50*sc, S/2-50*sc, 100*sc, 100*sc);
+  ctx.fillStyle='rgba(150,180,230,.22)';
+  for(const b of buildings) ctx.fillRect(w2m(b.x-b.w/2), w2m(b.z-b.d/2), b.w*sc, b.d*sc);
+  // 标点（黄菱形）
+  if(worldMark){
+    const mx=w2m(worldMark.x), my=w2m(worldMark.z);
+    ctx.fillStyle='#ffd83a';
+    ctx.beginPath(); ctx.moveTo(mx,my-5); ctx.lineTo(mx+5,my); ctx.lineTo(mx,my+5); ctx.lineTo(mx-5,my); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='rgba(255,216,58,.5)'; ctx.beginPath(); ctx.arc(mx,my,8,0,7); ctx.stroke();
+  }
+  // 侦查无人机透视：敌人红点
+  if(reconActive){
+    ctx.fillStyle='rgba(255,80,80,.9)';
+    for(const c of characters){
+      if(c.team===player.team||!c.alive) continue;
+      ctx.fillRect(w2m(c.group.position.x)-2, w2m(c.group.position.z)-2, 4, 4);
+    }
+  }
+  // 队友（倒地半透明）
+  for(const c of characters){
+    if(c.isPlayer||c.team!==player.team) continue;
+    ctx.globalAlpha=c.downed?0.45:1;
+    ctx.fillStyle=teamCSS(c.team);
+    ctx.beginPath(); ctx.arc(w2m(c.group.position.x), w2m(c.group.position.z), 3, 0, 7); ctx.fill();
+    ctx.globalAlpha=1;
+  }
+  // 玩家箭头（白，朝向实际视角）
+  const px=w2m(player.group.position.x), py=w2m(player.group.position.z);
+  const fx=-Math.sin(player.yaw), fz=-Math.cos(player.yaw);
+  const ang=Math.atan2(fz,fx);
+  ctx.save(); ctx.translate(px,py); ctx.rotate(ang);
+  ctx.fillStyle='#ffffff';
+  ctx.beginPath(); ctx.moveTo(6,0); ctx.lineTo(-4,4); ctx.lineTo(-4,-4); ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+
 /* ---------- 9. 桌面输入（键盘 / 鼠标） ---------- */
 document.addEventListener('keydown', e=>{
-  if(remapAction){ e.preventDefault(); applyRemap(e); return; }   // 键位绑定捕获（keymap.js）优先级最高
+  if(chatOpen) return;   // 聊天输入中：按键全归输入框（输入框自身已 stopPropagation，这里是保险）
+  if(typeof remapAction!=='undefined' && remapAction){ e.preventDefault(); applyRemap(e); return; }   // 键位绑定捕获（keymap.js）优先级最高
   if(e.key==='/'){ e.preventDefault(); toggleScoreboard(); return; }   // 「/」唤醒 / 收起排行榜
   const k=e.key.toLowerCase(); keys[k]=true;
   if(k==='escape'){ togglePause(); return; }
@@ -1055,6 +1267,8 @@ document.addEventListener('keydown', e=>{
     // 其余键（换枪/换弹等）放行，走到下方主逻辑
   }
   if(player&&player.downed) return;          // 倒地时禁用换弹/换枪/核弹
+  if(k===keymap.mark){ placeMark(); return; }
+  if(k===keymap.chat){ openChatInput(); return; }
   if(k===keymap.reload) startReload(player);
   else if(k===keymap.switchw) switchWeapon();
   else if(k===keymap.recon) useRecon();
@@ -1084,7 +1298,8 @@ document.addEventListener('mousemove', e=>{
 document.addEventListener('pointerlockchange', ()=>{
   if(layoutEditing) return;   // 手指键位编辑态（需释放鼠标拖拽）不弹暂停
   // 指针锁丢失（主动 Esc/` 或意外切窗）：若在对局中，自动进暂停设置菜单，绝不弹回开始界面
-  if(document.pointerLockElement!==cv && running && !paused){
+  // 聊天输入时主动解锁属正常操作，不触发暂停
+  if(document.pointerLockElement!==cv && running && !paused && !chatOpen){
     paused=true; el('pause').classList.remove('hide');
   }
 });
@@ -1099,6 +1314,7 @@ function startGame(){
   if(typeof THREE==='undefined'){ toast('引擎未加载，请检查网络后刷新'); return; }
   if(!sceneReady){ toast('资源加载中…'); return; }
   initAudio();    // 用户手势：预加载 assets/sound 音效
+  // initChatAI();   // [隐藏] 0.1B 对话模型暂未上线：模型未量化 + ORT CPU wasm 缺失，先禁用；上线前取消此注释并补齐全模型/ort
   if(isPhone && typeof requestLandscape==='function') requestLandscape();  // 尝试锁横屏
   el('overlay').classList.add('hide'); running=true;
   if(!isPhone) cv.requestPointerLock(); else toast('左摇杆移动 · 右侧开枪/换弹/换枪');
@@ -1168,6 +1384,7 @@ function animate(){
           break; } }
     }
     updateRockets(dt); updateDrones(dt); tickGunSpecial(dt); tickLoots();
+    updateAIChat(dt); updateMinimap();
     if(bomb.planted){ bomb.timer-=dt; if(bomb.timer<=0) bombExplode(); }
     // 透视：侦查无人机(reconActive) 或 被带 perspective 的枪打中(markT) 都显示穿墙标记
     for(const c of characters){ if(c.mark){ if((reconActive||c.markT>0) && c.alive && !c.downed && c.team!==player.team){ c.mark.visible=true; c.mark.position.set(c.group.position.x,2.7,c.group.position.z); } else c.mark.visible=false; } }

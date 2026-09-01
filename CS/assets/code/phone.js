@@ -48,6 +48,8 @@ bindBtn('btnCrouch', ()=>{touchCrouch=true;}, ()=>{touchCrouch=false;});
 bindBtn('btnJump', ()=>{ if(player&&player.grounded&&running&&!paused) player.jumpQueued=true; });
 bindBtn('btnRecon', ()=>{ useRecon(); });
 bindBtn('btnKami', ()=>{ useKamikaze(); });
+bindBtn('btnMark', ()=>{ placeMark(); });
+bindBtn('btnChat', ()=>{ openChatInput(); });
 
 /* ---------- 4. 手机视角（#look 层拖拽；摇杆与按钮在其上层，互不干扰） ---------- */
 const lookEl=el('look'), look={id:null,lx:0,ly:0};

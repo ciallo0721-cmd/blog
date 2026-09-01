@@ -29,7 +29,7 @@ function quitToMenu(){
 }
 function shareGame(){
   const url=location.href;
-  const intro='【12队大乱斗 fyGrid】1.2km×1.2km 大战场：12队×5人混战,中央200m三层大楼+全图30栋功能楼,每队1~5名Q-learning超级AI。倒地可爬可救、医疗箱回血。点开即玩,无需下载:\n'+url;
+  const intro='【12队大乱斗 fyGrid】600m×600m 大战场：12队×5人混战,中央100m三层大楼+全图30栋功能楼,每队1~5名Q-learning超级AI。倒地可爬可救、医疗箱回血。点开即玩,无需下载:\n'+url;
   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(intro).then(()=>toast('已复制分享文案+链接'),()=>toast('复制失败')); }
   else toast(intro);
 }

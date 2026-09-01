@@ -180,3 +180,31 @@ body.layoutedit .tbtn,body.layoutedit #joystick{outline:1px dashed rgba(255,216,
 #scoreboard .sbRed{color:#ff8a8a;}
 #scoreboard .sbKD{width:44px;text-align:center;color:#aebdd8;font-size:11px;}
 #scoreboard .sbScore{width:34px;text-align:right;color:#ffd86a;font-weight:bold;}
+
+/* ---------- 小地图（桌面左下 / 手机右上） ---------- */
+#minimap{position:absolute;left:14px;bottom:64px;width:156px;height:156px;
+  border:1px solid #3a5a8a;border-radius:8px;background:rgba(8,16,32,.62);}
+body.phone #minimap{left:auto;right:12px;top:54px;bottom:auto;width:120px;height:120px;}
+/* ---------- 淘汰播报（屏幕中下方） ---------- */
+#killfeed{position:absolute;left:50%;top:68%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:3px;pointer-events:none;}
+.kfLine{background:rgba(10,20,40,.68);border:1px solid rgba(90,166,255,.35);border-radius:5px;
+  padding:2px 12px;font-size:13px;text-shadow:0 1px 2px #000;transition:opacity .4s;white-space:nowrap;}
+/* ---------- 队伍聊天（左上） ---------- */
+#chatbox{position:absolute;left:14px;top:168px;width:236px;display:flex;flex-direction:column;gap:2px;pointer-events:none;}
+body.phone #chatbox{top:60px;width:200px;}
+.chatLine{font-size:12px;line-height:1.45;background:rgba(10,20,40,.55);border-radius:4px;
+  padding:2px 7px;text-shadow:0 1px 2px #000;transition:opacity .5s;}
+.chatLine.chatMe{background:rgba(40,80,140,.6);}
+/* ---------- 聊天输入条 ---------- */
+#chatInputBar{position:fixed;left:50%;top:78%;transform:translateX(-50%);z-index:48;
+  display:flex;align-items:center;gap:6px;background:rgba(10,18,34,.92);
+  border:1px solid #5aa6ff;border-radius:8px;padding:6px 8px;}
+#chatInputBar span{font-size:13px;color:#ffd86a;}
+#chatInputBar input{font-family:inherit;font-size:14px;width:min(300px,52vw);background:#0a1430;
+  color:#cfe3ff;border:1px solid #3a5a8a;border-radius:5px;padding:5px 8px;outline:none;}
+#chatInputBar button{font-family:inherit;font-size:13px;padding:5px 12px;border-radius:5px;cursor:pointer;
+  background:#1d5fb0;border:1px solid #9fe0ff;color:#fff;}
+/* ---------- 手机标点 / 聊天按钮（蹲的上方一排） ---------- */
+#btnChat{right:18px;bottom:292px;width:64px;height:52px;font-size:15px;}
+#btnMark{right:130px;bottom:292px;width:64px;height:52px;font-size:15px;}

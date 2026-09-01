@@ -14,17 +14,19 @@ const KEYMAP_DEFAULT = {
   jump:' ',   crouch:'c',
   reload:'r', switchw:'f', use:'e',
   flyup:'=',  flydown:'-',
-  recon:'1',  kami:'2',    nuke:'0'
+  recon:'1',  kami:'2',    nuke:'0',
+  sprint:'shift', mark:'q', chat:'t'
 };
 const KEYMAP_LABEL = {
   forward:'前进', back:'后退', left:'左移', right:'右移',
   jump:'跳跃', crouch:'蹲下',
   reload:'换弹', switchw:'换枪', use:'救援 / 下包 / 拆包',
   flyup:'飞↑（升高）', flydown:'飞↓（下降）',
-  recon:'侦查无人机', kami:'自爆无人机', nuke:'核弹'
+  recon:'侦查无人机', kami:'自爆无人机', nuke:'核弹',
+  sprint:'跑步（Shift）', mark:'标点（指挥用）', chat:'聊天'
 };
 const KEYMAP_ORDER = ['forward','back','left','right','jump','crouch',
-  'reload','switchw','use','flyup','flydown','recon','kami','nuke'];
+  'reload','switchw','use','flyup','flydown','recon','kami','nuke','sprint','mark','chat'];
 const LS_KEYMAP = 'csKeymap';
 
 let keymap = (function(){
@@ -54,7 +56,7 @@ function keyName(k){
 }
 
 /* ---------- A2. 绑定捕获 ---------- */
-let remapAction = null;   // 非 null = 正在等待按键（CS.js 的 keydown 会优先交给 applyRemap）
+var remapAction = null;   // 非 null = 正在等待按键（CS.js 的 keydown 会优先交给 applyRemap）；用 var 挂到 window，确保跨脚本可见
 
 function beginRemap(action){
   remapAction = action;
@@ -105,7 +107,7 @@ function closeKeyPanel(){ remapAction=null; el('keyPanel').classList.add('hide')
 
 /* ================= B. 手指键位（触屏布局） ================= */
 const TOUCH_IDS = ['joystick','btnFire','btnReload','btnSwitch','btnUp','btnDown',
-  'btnCrouch','btnJump','btnRecon','btnKami'];
+  'btnCrouch','btnJump','btnRecon','btnKami','btnMark','btnChat'];
 const LS_LAYOUT = 'csTouchLayout';
 var layoutEditing = false;      // var：phone.js 先加载，事件回调里访问更安全
 let layoutDirty = false;

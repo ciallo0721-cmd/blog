@@ -420,7 +420,7 @@ function patrolPoint(){
 }
 /* 中央大楼巡逻点（50% 的 AI 爱扎堆这里：狙击/苟分/钢枪一体） */
 function towerPoint(){
-  return new THREE.Vector3((Math.random() - 0.5) * 180, 0, (Math.random() - 0.5) * 180);
+  return new THREE.Vector3((Math.random() - 0.5) * 90, 0, (Math.random() - 0.5) * 90);
 }
 
 /* 开火决策：反应时间 + 装弹 + 视线 + 命中率 + 防误伤 + 掷雷 */
@@ -486,6 +486,7 @@ function decideState(b, enemy, dtm, nd){
 }
 
 function updateBot(b, dt){
+  if(!b || !b.group) return;   // 铁桶守卫：任何空角色/已回收模型都直接跳过，绝不崩帧
   /* —— 倒地：缓慢爬向最近的存活队友，方便被救（不再原地躺平） —— */
   if(b.downed){
     b.downedT += dt;
@@ -529,8 +530,20 @@ function updateBot(b, dt){
   b.aiState = b._th.state;
   }
   const _th = b._th;
-  const enemy = _th.enemy, nd = _th.nd, dtm = _th.dtm;
-  const state = _th.state;
+  let enemy = _th.enemy, nd = _th.nd, dtm = _th.dtm;
+  if(enemy && (!enemy.group || !enemy.alive)) enemy = null;   // 敌人模型已回收/已阵亡 → 视为失去目标
+  if(dtm && (!dtm.ch || !dtm.ch.group || !dtm.ch.alive || !dtm.ch.downed)) dtm = null;   // 救援目标已离场/已救起 → 失效
+  let state = _th.state;
+  // 状态需要敌人却已丢失 → 降级巡逻；需要救援目标却失效 → 降级巡逻（下一思考周期会重新感知）
+  if(!enemy && (state==='fight'||state==='chase'||state==='flank'||state==='cover')) state='patrol';
+  if(!dtm && state==='revive') state='patrol';
+  /* —— 指挥系统：玩家 @队友 后 TA 放下一切直奔标记点（超级AI同样听令）—— */
+  if(b.orderGoal){
+    if(b.group.position.distanceTo(b.orderGoal) < 3.5){
+      b.orderGoal=null;
+      if(b.team===playerTeam) toast(b.name+' 已到达标记点');
+    } else state='order';
+  }
 
   /* —— 5.3 选目标点 + 速度 + 行为 —— */
   let goal = null, speed = 4, fireTarget = null, strafe = false;
@@ -540,6 +553,9 @@ function updateBot(b, dt){
       // 否则目标点每帧甩动 → 救援者朝向狂摆 → 看着像高速自转开挂
       if(dtm.d <= REVIVE_RANGE){ goal = b.group.position.clone(); speed = 0; }
       else { goal = dtm.ch.group.position; speed = 4.5; }
+      break;
+    case 'order':   // 玩家指挥：放下一切，直奔标记点
+      goal = b.orderGoal; speed = 6.2;
       break;
     case 'chase':
       goal = enemy.group.position; speed = 5.2 * (b.pushMul || 1);
@@ -576,12 +592,12 @@ function updateBot(b, dt){
 
   /* —— 5.3b 下包 / 拆包目标（覆盖普通目标；附近有敌人则优先战斗） —— */
   const brole = b.team ? bombRoleOf(b.team) : null;
-  if(brole==='T' && !bomb.planted && (!enemy || nd>24)){
+  if(!b.orderGoal && brole==='T' && !bomb.planted && (!enemy || nd>24)){
     const st = nearestSite(b.group.position);
     if(st){ goal = st.site.pos.clone(); speed = 4.5;
       if(st.d <= BOMB_PLANT_R){ b.bombProg = (b.bombProg||0) + dt; if(b.bombProg>=PLANT_TIME) plantBomb(st.site, b.team); }
       else b.bombProg = 0; }
-  } else if(brole==='CT' && bomb.planted && bomb.pos && (!enemy || nd>24)){
+  } else if(!b.orderGoal && brole==='CT' && bomb.planted && bomb.pos && (!enemy || nd>24)){
     const db = b.group.position.distanceTo(bomb.pos);
     if(db <= BOMB_DEFUSE_R){ b.bombProg = (b.bombProg||0) + dt; if(b.bombProg>=DEFUSE_TIME) defuseBomb(b.team); goal = null; }
     else { goal = bomb.pos.clone(); speed = 5; }

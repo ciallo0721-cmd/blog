@@ -33,3 +33,6 @@ blog_backup_20260822/
 # CS 游戏：本地测试副本 & 调试脚本（临时，严禁入库）
 CS_test/
 CS/debug-*.js
+
+# CS 模型 & ORT 推理运行时（大文件，408MB onnx + wasm，严禁入库；上线需单独 CDN/git-lfs）
+CS/assets/model/

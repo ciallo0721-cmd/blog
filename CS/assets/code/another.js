@@ -21,7 +21,7 @@ const UI_HTML = `
   <div id="keyhelp">
     Power by ciallo0721-cmd<br>
     未经许可,请勿转载或用于商业用途<br>
-    键盘：WASD 移动，鼠标看视角，空格 跳，C 蹲，左键开枪，R 换弹，F 换枪，E 救队友/下包/拆包，1 侦查 2 自爆，/ 排行榜，Esc/\` 暂停设置<br>
+    键盘：WASD 移动，Shift 跑步，鼠标看视角，空格 跳，C 蹲，左键开枪，R 换弹，F 换枪，E 救队友/下包/拆包，Q 标点，T 聊天（@队友名 派TA去标记点），1 侦查 2 自爆，/ 排行榜，Esc/\` 暂停设置<br>
     手机：左摇杆移动，右侧三键操作，拖拽屏幕看视角，下方有侦查/自爆按钮
   </div>
   <div id="bottomleft">
@@ -65,6 +65,9 @@ const UI_HTML = `
     <div id="viewgunName">AK47</div>
   </div>
   <div id="scoreboard" class="hide"></div>
+  <canvas id="minimap" width="156" height="156"></canvas>
+  <div id="chatbox"></div>
+  <div id="killfeed"></div>
 </div>
 
 <div id="touch">
@@ -79,16 +82,26 @@ const UI_HTML = `
   <div id="btnJump" class="tbtn">跳</div>
   <div id="btnRecon" class="tbtn">侦察</div>
   <div id="btnKami" class="tbtn">自爆</div>
+  <div id="btnMark" class="tbtn">标点</div>
+  <div id="btnChat" class="tbtn">聊天</div>
+</div>
+
+<!-- 聊天输入条（T 唤起 / 手机「聊天」按钮） -->
+<div id="chatInputBar" class="hide">
+  <span>聊天</span>
+  <input id="chatInput" type="text" maxlength="40" placeholder="说话…或 @队友名 派TA去标记点">
+  <button id="chatSend">发送</button>
 </div>
 
 <!-- 开始界面 -->
 <div id="overlay" class="overlay">
   <h1>12队大乱斗 fyGrid</h1>
   <p>你属于<b style="color:#5aa6ff">蓝队</b>，场上共 <b>12 队 × 5 人 = 60 人</b>混战（红橙黄绿青蓝紫…）。
-     1.2km × 1.2km 大战场，中央有 200m 三层大楼（坡道上楼、箱子补给），全图 30+ 栋功能楼。<br>
+     600m × 600m 大战场，中央有 100m 三层大楼（坡道上楼、箱子补给），全图 30+ 栋功能楼。<br>
       每队有 1~5 名<b style="color:#ffd86a">超级AI</b>（Q-learning 驱动）；50% 的 AI 爱往中央大楼跑。?bomb=1 开启下包系统。<br>
       桌面：WASD+鼠标+空格跳+C蹲，点击锁定指针。手机：左摇杆移动，右侧三键操作。<br>
-      击倒≠死亡：倒地可爬行等队友救（按住 E 救队友，救人时不能开枪），一方全员倒地即分胜负；场地有医疗箱可回血。</p>
+      击倒≠死亡：倒地可爬行等队友救（按住 E 救队友，救人时不能开枪），一方全员倒地即分胜负；场地有医疗箱可回血。<br>
+      <b style="color:#ffd86a">Shift 跑步</b> · 左下角<b style="color:#ffd86a">小地图</b>看队友位置 · <b style="color:#ffd86a">Q 标点</b>后在聊天里 @队友名 可指挥TA前往标记点（超级AI也听令）· AI 会不定时在左上发聊天。</p>
   <div id="modeRow">当前设备模式：<span id="modeLabel">桌面</span>
     <button id="modeBtn">切换为手机</button></div>
   <div class="start" id="startBtn">点击开始</div>
