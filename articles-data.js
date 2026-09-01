@@ -860,6 +860,17 @@ window.articlesData = {
             readTime: 9,
             featured: true
         },
+        {
+            id: 80,
+            category: "心理学",
+            fileName: "心理学/80/",
+            title: "锐评“BV1yRFQzqEyo”和“游乐园在前面左边”这个人",
+            excerpt: "一篇从心理学视角，对“读书先看作者性别”言论的深度拆解。用认知行为疗法、防御机制等工具，剖析其中的绝对化、二极管、投射等七重认知谬误，并以《实践论》《论持久战》等经典作为反例，论证“思想的价值与性别无关”。言辞激烈，逻辑在线。",
+            date: "2026-09-01",
+            tags: ["心理学", "认知偏差", "性别批判", "逻辑谬误", "阅读思考", "社会评论"],
+            readTime: 11,
+            featured: true
+        },
 ];
         return raw.sort(function(a, b) { return a.id - b.id; });
     })(),
