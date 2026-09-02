@@ -97,7 +97,8 @@ jobs:
                       bc=fresh("bm"); new_nodes.append(helper.make_node("Mul",[Yc,bn],[bc])); Yc=bc
                   ad=fresh("add"); new_nodes.append(helper.make_node("Add",[cur,Yc],[ad])); cur=ad
               new_nodes.append(helper.make_node("Identity",[cur],[n.output[0]]))
-          g.node[:]=new_nodes
+          del g.node[:]
+          g.node.extend(new_nodes)
 
           mm2=sum(1 for n in g.node if n.op_type=="MatMul")
           print("AFTER_REWRITE MatMul=%d"%mm2,flush=True)
