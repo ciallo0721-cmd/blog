@@ -31,18 +31,85 @@ jobs:
       - name: Quantize to int4 (MatMulNBits)
         run: |
           cat > quant.py <<'PYEOF'
-          import onnx, onnxruntime, os, time
+          import onnx, os, time
+          import numpy as np
+          from onnx import helper, numpy_helper
           from onnxruntime.quantization.matmul_nbits_quantizer import MatMulNBitsQuantizer
-          SRC = "model.onnx"
-          DST = "model_q4.onnx"
-          t0 = time.time()
-          print("loading onnx...", flush=True)
-          m = onnx.load(SRC)
-          print("loaded in %.1fs, quantizing int4 block32..." % (time.time() - t0), flush=True)
-          q = MatMulNBitsQuantizer(m, bits=4, block_size=32, is_symmetric=True, accuracy_level=4)
+
+          SRC="model.onnx"; DST="model_q4.onnx"
+          m=onnx.load(SRC); g=m.graph
+          inits={i.name:i for i in g.initializer}
+
+          # ---- 诊断 ----
+          matmul=gemm=0; mm_c=gemm_c=0; tb={}
+          for n in g.node:
+              if n.op_type=="MatMul":
+                  matmul+=1
+                  if n.input[1] in inits: mm_c+=1
+              elif n.op_type=="Gemm":
+                  gemm+=1
+                  if n.input[1] in inits: gemm_c+=1
+                  for a in n.attribute:
+                      if a.name=="transB": tb[a.i]=tb.get(a.i,0)+1
+          print(f"DIAG inits={len(inits)} MatMul={matmul}(const={mm_c}) Gemm={gemm}(const={gemm_c}) transB={tb}",flush=True)
+
+          # ---- 1) Constant 节点 -> initializer 折叠 ----
+          for n in list(g.node):
+              if n.op_type=="Constant" and len(n.output)==1:
+                  v=None
+                  for a in n.attribute:
+                      if a.name=="value": v=a.t
+                  if v is not None:
+                      v.name=n.output[0]
+                      g.initializer.append(v)
+                      g.node.remove(n)
+                      inits[v.name]=v
+
+          # ---- 2) Gemm -> MatMul(+转置权重) + (alpha Mul) + (beta*C Add) ----
+          cnt=[0]
+          def fresh(s):
+              cnt[0]+=1; return "_rw%d_%s"%(cnt[0],s)
+          new_nodes=[]
+          for n in g.node:
+              if n.op_type!="Gemm":
+                  new_nodes.append(n); continue
+              alpha=1.0; beta=1.0; transA=0; transB=0
+              for a in n.attribute:
+                  if a.name=="alpha": alpha=a.f
+                  elif a.name=="beta": beta=a.f
+                  elif a.name=="transA": transA=a.i
+                  elif a.name=="transB": transB=a.i
+              A=n.input[0]; Bname=n.input[1]; Yc=n.input[2] if len(n.input)>2 else None
+              assert Bname in inits, "Gemm weight %s not initializer"%Bname
+              Bw=numpy_helper.to_array(inits[Bname]).astype(np.float32)
+              W = Bw.T if transB==1 else Bw
+              cur=A
+              if transA==1:
+                  t=fresh("tA"); new_nodes.append(helper.make_node("Transpose",[cur],[t],perm=[1,0])); cur=t
+              Wname=fresh("W"); g.initializer.append(numpy_helper.from_array(W,name=Wname))
+              mm=fresh("mm"); new_nodes.append(helper.make_node("MatMul",[cur,Wname],[mm])); cur=mm
+              if alpha!=1.0:
+                  an=fresh("a"); g.initializer.append(numpy_helper.from_array(np.array(alpha,np.float32),name=an))
+                  a2=fresh("am"); new_nodes.append(helper.make_node("Mul",[cur,an],[a2])); cur=a2
+              if Yc is not None:
+                  if beta!=1.0:
+                      bn=fresh("b"); g.initializer.append(numpy_helper.from_array(np.array(beta,np.float32),name=bn))
+                      bc=fresh("bm"); new_nodes.append(helper.make_node("Mul",[Yc,bn],[bc])); Yc=bc
+                  ad=fresh("add"); new_nodes.append(helper.make_node("Add",[cur,Yc],[ad])); cur=ad
+              new_nodes.append(helper.make_node("Identity",[cur],[n.output[0]]))
+          g.node[:]=new_nodes
+
+          mm2=sum(1 for n in g.node if n.op_type=="MatMul")
+          print("AFTER_REWRITE MatMul=%d"%mm2,flush=True)
+
+          # ---- 3) int4 量化 ----
+          t0=time.time()
+          q=MatMulNBitsQuantizer(m, bits=4, block_size=32, is_symmetric=True, accuracy_level=4)
           q.process()
           q.model.save_model_to_file(DST, use_external_data_format=False)
-          print("done: %s (%.1f MB)" % (DST, os.path.getsize(DST) / 1024 / 1024), flush=True)
+          qm=onnx.load(DST)
+          nbits=sum(1 for n in qm.graph.node if n.op_type=="MatMulNBits")
+          print("DONE size=%.1fMB MatMulNBits=%d time=%.0fs"%(os.path.getsize(DST)/1024/1024, nbits, time.time()-t0),flush=True)
           PYEOF
           python quant.py
 
