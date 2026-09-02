@@ -1,0 +1,54 @@
+name: Quantize CS model (int4)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  quant:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install --no-cache-dir onnx==1.22.0 onnxruntime==1.29.0 protobuf==3.20.3
+
+      - name: Download fp32 model parts from release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download cs-model-fp32 --repo ciallo0721-cmd/ciallo0721-cmd.github.io --pattern 'model.onnx.part.*' -D .
+          cat model.onnx.part.* > model.onnx
+          echo "merged size: $(wc -c < model.onnx) bytes"
+
+      - name: Quantize to int4 (MatMulNBits)
+        run: |
+          cat > quant.py <<'PYEOF'
+          import onnx, onnxruntime, os, time
+          from onnxruntime.quantization.matmul_nbits_quantizer import MatMulNBitsQuantizer
+          SRC = "model.onnx"
+          DST = "model_q4.onnx"
+          t0 = time.time()
+          print("loading onnx...", flush=True)
+          m = onnx.load(SRC)
+          print("loaded in %.1fs, quantizing int4 block32..." % (time.time() - t0), flush=True)
+          q = MatMulNBitsQuantizer(m, bits=4, block_size=32, is_symmetric=True, accuracy_level=4)
+          q.process()
+          q.model.save_model_to_file(DST, use_external_data_format=False)
+          print("done: %s (%.1f MB)" % (DST, os.path.getsize(DST) / 1024 / 1024), flush=True)
+          PYEOF
+          python quant.py
+
+      - name: Upload q4 model to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload cs-model-q4 model_q4.onnx --repo ciallo0721-cmd/ciallo0721-cmd.github.io --clobber \
+            || gh release create cs-model-q4 --repo ciallo0721-cmd/ciallo0721-cmd.github.io --title "CS q4 model (~51MB)" --notes "int4 quantized CS chat model" model_q4.onnx
