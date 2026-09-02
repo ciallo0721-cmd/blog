@@ -18,7 +18,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --no-cache-dir onnx==1.22.0 onnxruntime==1.29.0
+          pip install --no-cache-dir onnx==1.22.0 onnxruntime==1.29.0 onnx_ir==1.0.0
 
       - name: Download fp32 model parts from release
         env:
