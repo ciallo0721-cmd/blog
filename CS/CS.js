@@ -1314,7 +1314,7 @@ function startGame(){
   if(typeof THREE==='undefined'){ toast('引擎未加载，请检查网络后刷新'); return; }
   if(!sceneReady){ toast('资源加载中…'); return; }
   initAudio();    // 用户手势：预加载 assets/sound 音效
-  // initChatAI();   // [隐藏] 0.1B 对话模型暂未上线：模型未量化 + ORT CPU wasm 缺失，先禁用；上线前取消此注释并补齐全模型/ort
+  initChatAI();   // [已上线] 0.1B 对话模型 int4 量化版已部署（git-lfs 托管 model.onnx，ORT CPU wasm + transformers.min.js 同域加载）
   if(isPhone && typeof requestLandscape==='function') requestLandscape();  // 尝试锁横屏
   el('overlay').classList.add('hide'); running=true;
   if(!isPhone) cv.requestPointerLock(); else toast('左摇杆移动 · 右侧开枪/换弹/换枪');

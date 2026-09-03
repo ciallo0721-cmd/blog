@@ -34,5 +34,8 @@ blog_backup_20260822/
 CS_test/
 CS/debug-*.js
 
-# CS 模型 & ORT 推理运行时（大文件，408MB onnx + wasm，严禁入库；上线需单独 CDN/git-lfs）
-CS/assets/model/
+# CS 模型 & ORT 推理运行时：全部直接入库（含 int4 量化模型）。
+# 当前模型：onnx-community/Qwen2.5-0.5B-Instruct（q4f16，460MB），放 CS/assets/model/qwen25/。
+# 因 GitHub Pages 单文件限 100MB、且不支持 LFS，模型被切成 model.onnx.00~.04 五块（各 <100MB），
+# 由 CS/assets/code/chatai-worker.js 在 worker 内拼合后喂给引擎。
+# 旧模型 CS/assets/model/gpt2ft/ 已废弃（仅本地残留，未入库）。
