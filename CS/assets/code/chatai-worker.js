@@ -41,7 +41,7 @@ const SYSTEM_PROMPT = '你是 CS 射击游戏里玩家的 AI 队友，说话简�
 const _origFetch = globalThis.fetch ? globalThis.fetch.bind(globalThis) : null;
 globalThis.fetch = async (input, init) => {
   const url = typeof input === 'string' ? input : (input && input.url ? input.url : '');
-  if (fullModel && typeof url === 'string' && /\/qwen25\/[^/]*\.onnx($|\?)/.test(url)) {
+  if (fullModel && typeof url === 'string' && /\/qwen25\/onnx\/[^/]*\.onnx($|\?)/.test(url)) {
     return new Response(fullModel, {
       status: 200,
       headers: {
@@ -60,7 +60,7 @@ async function loadModelChunks() {
   const sizes = [];
   let i = 0;
   for (;;) {
-    const url = `${MODEL_DIR}/model.onnx.${String(i).padStart(2, '0')}`;
+    const url = `${MODEL_DIR}/onnx/model.onnx.${String(i).padStart(2, '0')}`;
     const head = await fetch(url, { method: 'HEAD' });
     if (!head.ok) break;
     sizes.push(Number(head.headers.get('content-length')) || 0);
@@ -91,7 +91,7 @@ async function load() {
 
   try {
     // subfolder:'' → 默认找 <MODEL_DIR>/model.onnx，被上面 fetch 拦截返回拼合数据
-    model = await AutoModelForCausalLM.from_pretrained(MODEL_DIR, { subfolder: '', device: 'wasm' });
+    model = await AutoModelForCausalLM.from_pretrained(MODEL_DIR, { subfolder: 'onnx', device: 'wasm' });
     post({ type:'log', msg:'✅ 模型加载成功' });
   } catch (e) {
     post({ type:'error', msg:'模型加载失败: ' + (e && e.message ? e.message : e) });
