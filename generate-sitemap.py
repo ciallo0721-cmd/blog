@@ -116,10 +116,12 @@ static_pages = [
     ('/status.html', 'monthly', '0.6'),
 ]
 for path, freq, pri in static_pages:
+    if not os.path.exists(os.path.join(blog_root, path.lstrip('/'))):
+        continue  # 页面已删除，不写入 sitemap（防死链）
     ld = get_file_lastmod(path) or today
     urls.append((encode_url_path(path), ld, freq, pri))
 
-# 游戏页面
+# 游戏页面（已废弃下架的项目若目录被删，自动跳过）
 games = [
     ('/bjqy/index.html', '0.6'),
     ('/fors/index.html', '0.6'),
@@ -130,22 +132,27 @@ games = [
     ('/work/index.html', '0.6'),
 ]
 for path, pri in games:
+    if not os.path.exists(os.path.join(blog_root, path.lstrip('/'))):
+        continue  # 游戏已下架，不写入 sitemap
     ld = get_file_lastmod(path) or '2026-06-01'
     urls.append((encode_url_path(path), ld, 'monthly', pri))
 
-# 百科页面
-wiki_ld = get_file_lastmod('/wiki/index.html') or '2026-06-13'
-urls.append((encode_url_path('/wiki/index.html'), wiki_ld, 'weekly', '0.8'))
+# 百科页面（wiki 站点存在才收录）
+if os.path.exists(os.path.join(blog_root, 'wiki', 'index.html')):
+    wiki_ld = get_file_lastmod('/wiki/index.html') or '2026-06-13'
+    urls.append((encode_url_path('/wiki/index.html'), wiki_ld, 'weekly', '0.8'))
 
-# 百科词条子页面
-wiki_terms = [
-    'dashichang', 'mediapipe', 'openutau', 'paddleocr',
-    'python', 'renpy', 'tongshiting', 'unity', 'utau', 'vocaloid'
-]
-for term in wiki_terms:
-    path = f'/wiki/{term}/index.html'
-    ld = get_file_lastmod(path) or wiki_ld
-    urls.append((encode_url_path(path), ld, 'monthly', '0.5'))
+    # 百科词条子页面
+    wiki_terms = [
+        'dashichang', 'mediapipe', 'openutau', 'paddleocr',
+        'python', 'renpy', 'tongshiting', 'unity', 'utau', 'vocaloid'
+    ]
+    for term in wiki_terms:
+        if not os.path.exists(os.path.join(blog_root, 'wiki', term, 'index.html')):
+            continue
+        path = f'/wiki/{term}/index.html'
+        ld = get_file_lastmod(path) or wiki_ld
+        urls.append((encode_url_path(path), ld, 'monthly', '0.5'))
 
 # 特色站点
 feature_sites = [
@@ -155,6 +162,8 @@ feature_sites = [
     ('/WeiShan/index.html', 'weekly', '0.8'),      # 伪善Club 超自然行动组陪玩服务
 ]
 for path, freq, pri in feature_sites:
+    if not os.path.exists(os.path.join(blog_root, path.lstrip('/'))):
+        continue  # 已下线，不写入 sitemap
     ld = get_file_lastmod(path) or today
     urls.append((encode_url_path(path), ld, freq, pri))
 
@@ -169,14 +178,20 @@ app_pages = [
     ('/cs2/index.html', '0.5'),
 ]
 for path, pri in app_pages:
+    if not os.path.exists(os.path.join(blog_root, path.lstrip('/'))):
+        continue  # 已删除，不写入 sitemap
     ld = get_file_lastmod(path) or today
     urls.append((encode_url_path(path), ld, 'monthly', pri))
 
-# 所有博客文章
+# 所有博客文章（目录不存在的旧数据自动跳过）
 for a in articles:
     fileName = a.get('fileName', str(a['id']))
     lastmod = pick_lastmod(a)
     full_path = f'/blog/{fileName}'
+    _t = full_path.lstrip('/')
+    _f = _t if _t.endswith('.html') else os.path.join(_t, 'index.html')
+    if not os.path.exists(os.path.join(blog_root, _f)):
+        continue  # 文章文件已不存在，不写入 sitemap（防死链）
     urls.append((encode_url_path(full_path), lastmod, 'monthly', '0.6'))
 
 # 生成 XML
