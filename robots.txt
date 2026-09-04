@@ -26,7 +26,6 @@ Allow: /blog/
 Allow: /wiki/
 Allow: /app/
 Allow: /exp/
-Allow: /pages/
 Allow: /images/
 
 # 特别配置主流搜索引擎

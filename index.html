@@ -7,7 +7,7 @@
     <!-- 子域名路由器：status/wiki/baicai/taffy.ciallo0721-cmd.top 客户端路由 -->
     <script src="./js/js/subdomain-router.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ciallo0721-cmd's blog</title>
+    <title>ciallo0721-cmd｜Ren'Py视觉小说开发者 · 二次元创作博客</title>
     <!-- SEO Meta Tags -->
     <meta name="description" content="ciallo0721-cmd 的个人创作博客与开发者空间，专注于 Ren'Py 视觉小说开发教程、二次元文化深度解析（VTuber、ACG 萌属性）、心理学系列科普与技术文章分享。包含原创游戏作品、在线工具和开发心得，一个初中生开发者的全栈创作记录。">
     
@@ -26,20 +26,21 @@
     <meta property="og:image" content="https://ciallo0721-cmd.top/og-image.png">
     
     <!-- Twitter Card -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://ciallo0721-cmd.top/">
-    <meta property="twitter:title" content="ciallo0721-cmd | Ren'Py视觉小说开发者 | 二次元创作博客">
-    <meta property="twitter:description" content="ciallo0721-cmd 的个人创作博客，专注于 Ren'Py 视觉小说开发、二次元文化分享与游戏创作。">
-    <meta property="twitter:image" content="https://ciallo0721-cmd.top/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ciallo0721-cmd.top/">
+    <meta name="twitter:title" content="ciallo0721-cmd | Ren'Py视觉小说开发者 | 二次元创作博客">
+    <meta name="twitter:description" content="ciallo0721-cmd 的个人创作博客，专注于 Ren'Py 视觉小说开发、二次元文化分享与游戏创作。">
+    <meta name="twitter:image" content="https://ciallo0721-cmd.top/og-image.png">
     
     <!-- Structured Data (Schema.org) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "ciallo0721-cmd 创作博客",
+      "name": "ciallo0721-cmd 个人网站",
       "url": "https://ciallo0721-cmd.top/",
-      "description": "ciallo0721-cmd 的个人创作博客，专注于 Ren'Py 视觉小说开发、二次元文化分享与游戏创作",
+      "description": "Ren'Py视觉小说开发者的个人网站，包含游戏作品、技术文章和创作心得",
+      "inLanguage": "zh-CN",
       "publisher": {
         "@type": "Person",
         "name": "ciallo0721-cmd",
@@ -47,7 +48,10 @@
       },
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://ciallo0721-cmd.top/wz/?search={search_term_string}",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://ciallo0721-cmd.top/wz/?search={search_term_string}"
+        },
         "query-input": "required name=search_term_string"
       }
     }
@@ -84,6 +88,12 @@
         } catch (e) { /* ignore */ }
 
         var ua = navigator.userAgent.toLowerCase();
+        // 主流搜索引擎爬虫白名单直通（'bot'/'spider' 子串会误伤 Googlebot/Bingbot 等，必须先放行）
+        var seoBots = ['googlebot', 'bingbot', 'baiduspider', 'yandexbot', 'bytespider',
+            'sogou', 'toutiaospider', 'duckduckbot', '360spider', 'yisouspider'];
+        for (var s = 0; s < seoBots.length; s++) {
+            if (ua.indexOf(seoBots[s]) !== -1) return;
+        }
         var bots = ['bot', 'crawler', 'spider', 'scraper', 'curl', 'wget',
             'python-requests', 'httpclient', 'okhttp', 'go-http', 'axios', 'node-fetch',
             'headless', 'phantom', 'selenium', 'puppeteer', 'playwright', 'scrapy',
@@ -120,20 +130,6 @@
     }
     </script>
     
-    <!-- 结构化数据 - Website -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "ciallo0721-cmd 个人网站",
-        "url": "https://ciallo0721-cmd.top/",
-        "description": "Ren'Py视觉小说开发者的个人网站，包含游戏作品、技术文章和创作心得",
-        "publisher": {
-            "@type": "Person",
-            "name": "ciallo0721-cmd"
-        }
-    }
-    </script>
     <!-- IE9检测：非IE9加载高饱和度现代CSS增强 -->
     <!--[if lte IE 9]>
     
@@ -172,6 +168,11 @@
 }
 #tagline { font-size:0.82rem; color:#aaa; text-align:right; margin-top:4px; }
 #tagline .hk-author { color:#ec4899; font-weight:500; }
+/* 无障碍：尊重系统"减弱动态效果"设置 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
 </style>
 </head>
 <body class="auth-passed">
@@ -179,7 +180,7 @@
     <div class="backdrop-gradient"></div>
     <div class="backdrop-orbs"></div>
     <!-- 骨架屏 -->
-    <div id="skeletonOverlay" class="skeleton-overlay">
+    <div id="skeletonOverlay" class="skeleton-overlay" aria-hidden="true">
         <div class="skeleton-block" style="width:200px;height:28px;margin-bottom:8px;"></div>
         <div class="skeleton-block" style="width:320px;height:18px;margin-bottom:16px;"></div>
         <div class="skeleton-block" style="width:280px;height:14px;margin-bottom:10px;"></div>
@@ -192,17 +193,17 @@
         </div>
     </div>
     <!-- HTTP 检测提示框 -->
-    <div class="http-warning-overlay" id="httpWarningOverlay" style="display:none;">
+    <div class="http-warning-overlay" id="httpWarningOverlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="httpWarningTitle">
         <div class="http-warning-box">
-            <div class="http-warning-icon"><i class="fas fa-exclamation-triangle"></i></div>
-            <h2 class="http-warning-title">不安全连接警告</h2>
+            <div class="http-warning-icon"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+            <h2 class="http-warning-title" id="httpWarningTitle">不安全连接警告</h2>
             <p class="http-warning-text">
                 您正在通过 <strong style="color:#ff9800;">HTTP</strong> 不安全连接访问此网站。<br>
                 建议您切换到 <strong style="color:#4CAF50;">HTTPS</strong> 安全连接以保护您的数据安全。
             </p>
             <div>
                 <button class="http-warning-btn primary" onclick="switchToHTTPS()">
-                    <i class="fas fa-lock"></i> 进入 HTTPS 安全连接
+                    <i class="fas fa-lock" aria-hidden="true"></i> 进入 HTTPS 安全连接
                 </button>
                 <button class="http-warning-btn secondary" onclick="continueHTTP()">
                     继续访问（不安全）
@@ -271,31 +272,31 @@
     <!-- <button class="theme-switcher" id="themeSwitch"><i class="fas fa-moon"></i><span>暗色模式</span></button> -->
 
     <!-- 移动端菜单按钮 -->
-    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+    <button class="menu-toggle" id="menuToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu"><i class="fas fa-bars" aria-hidden="true"></i></button>
 
     <!-- 移动端菜单 -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header"><div><div style="font-weight:bold;">ciallo0721-cmd</div><div style="font-size:0.8rem;color:#666;">Ren'Py 视觉小说创作者</div></div></div>
         <ul class="mobile-menu-links">
-            <li><a href="#articles"><i class="fas fa-newspaper"></i> 文章喵～</a></li>
-            <li><a href="#iframes"><i class="fas fa-gamepad"></i> 游戏预览喵～</a></li>
-            <li><a href="#changelog"><i class="fas fa-history"></i> 更新记录喵～</a></li>
-            <li><a href="https://space.bilibili.com/478967440" target="_blank" rel="noopener noreferrer"><i class="fab fa-bilibili"></i> Bilibili</a></li>
-            <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> 抖音的说～</a></li>
-            <li><a href="https://www.tiktok.com/@ciallo0721cmd" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> TikTok</a></li>
-            <li><a href="https://lit.link/zh-tw/ciallo0721cmd" target="_blank" rel="noopener noreferrer"><i class="fas fa-link"></i> 链接聚合</a></li>
-            <li><a href="https://ifdian.net/a/ciallo0721-cmd" target="_blank" rel="noopener noreferrer"><i class="fas fa-heart"></i> 爱发电</a></li>
+            <li><a href="#articles"><i class="fas fa-newspaper" aria-hidden="true"></i> 文章喵～</a></li>
+            <li><a href="#iframes"><i class="fas fa-gamepad" aria-hidden="true"></i> 游戏预览喵～</a></li>
+            <li><a href="#changelog"><i class="fas fa-history" aria-hidden="true"></i> 更新记录喵～</a></li>
+            <li><a href="https://space.bilibili.com/478967440" target="_blank" rel="noopener noreferrer"><i class="fab fa-bilibili" aria-hidden="true"></i> Bilibili</a></li>
+            <li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok" aria-hidden="true"></i> 抖音的说～</a></li>
+            <li><a href="https://www.tiktok.com/@ciallo0721cmd" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok" aria-hidden="true"></i> TikTok</a></li>
+            <li><a href="https://lit.link/zh-tw/ciallo0721cmd" target="_blank" rel="noopener noreferrer"><i class="fas fa-link" aria-hidden="true"></i> 链接聚合</a></li>
+            <li><a href="https://ifdian.net/a/ciallo0721-cmd" target="_blank" rel="noopener noreferrer"><i class="fas fa-heart" aria-hidden="true"></i> 爱发电</a></li>
         
-        <li><a href="./mathtovideo/"><i class="fas fa-square-root-variable"></i> 塔珀动画</a></li>
-        <li><a href="https://ciallo0721-cmd.top/scraper" target="_blank" rel="noopener noreferrer" rel="noopener noreferrer">🎬 新番数据库</a></li>
-        <li><a href="https://ciallo0721-cmd.top/moeface" target="_blank" rel="noopener noreferrer" rel="noopener noreferrer">😊 人脸识别</a></li>
+        <li><a href="./mathtovideo/"><i class="fas fa-square-root-variable" aria-hidden="true"></i> 塔珀动画</a></li>
+        <li><a href="https://ciallo0721-cmd.top/scraper" target="_blank" rel="noopener noreferrer">🎬 新番数据库</a></li>
+        <li><a href="https://ciallo0721-cmd.top/moeface" target="_blank" rel="noopener noreferrer">😊 人脸识别</a></li>
 
         </ul>
     </div>
     <div class="menu-overlay" id="menuOverlay"></div>
 
     <!-- 头部区域 -->
-    <header><div class="container header-content"><div class="header-text"><h1 id="hitokoto-text"></h1><p class="tagline" id="tagline"></p><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1391726352&auto=1&height=66"></iframe></div></div></header>
+    <header><div class="container header-content"><div class="header-text"><h1 id="hitokoto-text"></h1><p class="tagline" id="tagline"></p><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 title="网易云音乐播放器（点击播放）" loading="lazy" src="//music.163.com/outchain/player?type=2&id=1391726352&auto=0&height=66"></iframe></div></div></header>
 
     <!-- 导航栏 -->
     <nav><div class="container nav-container"><a href="index.html" class="logo"><i class="fas fa-gamepad"></i> 关于我的说～</a><ul class="nav-links"><li><a href="#articles"><i class="fas fa-newspaper"></i> 文章喵～</a></li><li><a href="#iframes"><i class="fas fa-gamepad"></i> 游戏预览喵～</a></li><li><a href="#changelog"><i class="fas fa-history"></i> 更新记录喵～</a></li><li><a href="https://space.bilibili.com/478967440" target="_blank" rel="noopener noreferrer"><i class="fab fa-bilibili"></i> Bilibili</a></li><li><a href="https://www.douyin.com/user/MS4wLjABAAAA-r_cTw_4f1RrpzWAs3twxb_iWcLYXmNlgGeXbl-2m8k" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> 抖音的说～</a></li><li><a href="https://ifdian.net/a/ciallo0721-cmd" target="_blank" rel="noopener noreferrer"><i class="fas fa-heart"></i> 爱发电</a></li><li><a href="./mathtovideo/"><i class="fas fa-square-root-variable"></i> 塔珀动画</a></li><li><a href="#tools"><i class="fas fa-wand-magic-sparkles"></i> 工具</a></li><li><a href="./friends.html"><i class="fas fa-link"></i> 友链</a></li><li><a href="adss.html"><i class="fas fa-envelope"></i> 联系方式</a></li>
@@ -384,17 +385,17 @@
           <div style="margin-top:30px;padding:20px;background:rgba(255,255,255,0.95);border-radius:16px;">
             <h3 style="margin-bottom:15px;">文章列表</h3>
             <ul style="list-style:none;padding:0;">
-              <li style="margin-bottom:8px;"><a href="/blog/兴趣/Music/1/?blog_id=1" style="color:#00A1D6;">UTAU教程：从调音到发布完全指南</a></li>
-              <li style="margin-bottom:8px;"><a href="/blog/科技/Unity/2/?blog_id=2" style="color:#00A1D6;">Unity 2D角色移动系统完全指南</a></li>
-              <li style="margin-bottom:8px;"><a href="/blog/科技/python/21/?blog_id=21" style="color:#00A1D6;">Python 截图识别文字完全教程</a></li>
-              <li style="margin-bottom:8px;"><a href="/blog/科技/算法/17/?blog_id=17" style="color:#00A1D6;">优化X(Twitter)推荐算法</a></li>
-              <li style="margin-bottom:8px;"><a href="/blog/兴趣/Vtuber/真白花音/13/?blog_id=13" style="color:#00A1D6;">再见了，我的白菜</a></li>
-              <li style="margin-bottom:8px;"><a href="/blog/兴趣/另一个次元/22/?blog_id=22" style="color:#00A1D6;">雌小鬼：从贬义词到萌属性的进化史</a></li>
-              <li style="margin-bottom:8px;"><a href="/blog/心理/巴纳姆效应/23/?blog_id=23" style="color:#00A1D6;">占卜的原理：心理学拆解</a></li>
-              <li style="margin-bottom:8px;"><a href="/blog/兴趣/另一个次元/24/?blog_id=24" style="color:#00A1D6;">番剧分享 | 免费分享我收藏的番剧</a></li>
-              <li style="margin-bottom:8px;"><a href="/blog/科技/renpy/19/?blog_id=19" style="color:#00A1D6;">Ren'Py 人物立绘怎么换？</a></li>
-              <li style="margin-bottom:8px;"><a href="/blog/科技/Github/16/?blog_id=16" style="color:#00A1D6;">从零开始注册GitHub并克隆仓库</a></li>
-              <li style="margin-top:12px;"><a href="/blog/" style="color:#FB7299;font-weight:600;">查看全部 24 篇文章 →</a></li>
+              <li style="margin-bottom:8px;"><a href="/blog/科技/69/" style="color:#00A1D6;">CMD —— 命令提示符，Windows 的灵魂之窗</a></li>
+              <li style="margin-bottom:8px;"><a href="/blog/科技/64/" style="color:#00A1D6;">16位, 32位, 64位操作系统, 都是什么东西</a></li>
+              <li style="margin-bottom:8px;"><a href="/blog/科技/17/" style="color:#00A1D6;">优化X(Twitter)推荐算法</a></li>
+              <li style="margin-bottom:8px;"><a href="/blog/生活/76/" style="color:#00A1D6;">我与AI</a></li>
+              <li style="margin-bottom:8px;"><a href="/blog/生活/55/" style="color:#00A1D6;">我的音乐品味三年进化史（2023-2026）</a></li>
+              <li style="margin-bottom:8px;"><a href="/blog/生活/52/" style="color:#00A1D6;">从 UTAU 到心理学——我的 51 篇文章进化路</a></li>
+              <li style="margin-bottom:8px;"><a href="/blog/生活/48/" style="color:#00A1D6;">红烧五花肉——入口即化的幸福</a></li>
+              <li style="margin-bottom:8px;"><a href="/blog/生活/49/" style="color:#00A1D6;">蒜蓉西兰花——健康又美味的快手菜</a></li>
+              <li style="margin-bottom:8px;"><a href="/blog/闲聊/72/" style="color:#00A1D6;">NN 聊天室 —— 一个 Flask 项目的血泪修复史</a></li>
+              <li style="margin-bottom:8px;"><a href="/blog/生活/57/" style="color:#00A1D6;">浪漫文案？那是词语废料</a></li>
+              <li style="margin-top:12px;"><a href="/blog/" style="color:#FB7299;font-weight:600;">查看全部文章 →</a></li>
             </ul>
           </div>
         </noscript>
@@ -418,8 +419,8 @@
 
         <!-- 5. 更多功能（折叠容器，默认收起） -->
         <section id="more-content" class="section collapsible-section collapsed">
-            <div class="section-title collapsible-header" style="cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;" onclick="toggleCollapse(this)">
-                <h2>更多功能喵～ <i class="fas fa-chevron-down collapse-icon" style="font-size:0.85rem;"></i></h2>
+            <div class="section-title collapsible-header" style="cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;" onclick="toggleCollapse(this)" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCollapse(this);}">
+                <h2>更多功能喵～ <i class="fas fa-chevron-down collapse-icon" style="font-size:0.85rem;" aria-hidden="true"></i></h2>
             </div>
             <div class="collapsible-body">
 
@@ -443,8 +444,8 @@
             <a href="./tools/renpy-template-generator/" class="game-card" style="text-decoration:none;color:inherit;"><div style="padding:28px 24px;text-align:center;"><i class="fas fa-code" style="font-size:2.2rem;color:var(--bili-blue);margin-bottom:14px;"></i><h3 style="margin-bottom:8px;font-size:1.1rem;">Ren'Py 模板生成器</h3><p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;">一键生成 script.rpy + options.rpy 完整项目文件</p></div></a>
             <a href="./tools/vtuber-personality-test/" class="game-card" style="text-decoration:none;color:inherit;"><div style="padding:28px 24px;text-align:center;"><i class="fas fa-brain" style="font-size:2.2rem;color:#e056a0;margin-bottom:14px;"></i><h3 style="margin-bottom:8px;font-size:1.1rem;">VTuber 人格测试</h3><p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;">测测你适合什么样的 VTuber 人设</p></div></a>
             <a href="./tools/anime-color-analyzer/" class="game-card" style="text-decoration:none;color:inherit;"><div style="padding:28px 24px;text-align:center;"><i class="fas fa-palette" style="font-size:2.2rem;color:#f5a623;margin-bottom:14px;"></i><h3 style="margin-bottom:8px;font-size:1.1rem;">二次元色彩分析器</h3><p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;">上传图片分析配色方案，生成调色板</p></div></a>
-            <a href="https://ciallo0721-cmd.top/scraper" target="_blank" rel="noopener noreferrer" rel="noopener noreferrer" class="game-card" style="text-decoration:none;color:inherit;"><div style="padding:28px 24px;text-align:center;"><i class="fas fa-film" style="font-size:2.2rem;color:#ec4899;margin-bottom:14px;"></i><h3 style="margin-bottom:8px;font-size:1.1rem;">新番数据库</h3><p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;">实时查询当季新番动画信息，追番必备喵～</p></div></a>
-            <a href="https://ciallo0721-cmd.top/moeface" target="_blank" rel="noopener noreferrer" rel="noopener noreferrer" class="game-card" style="text-decoration:none;color:inherit;"><div style="padding:28px 24px;text-align:center;"><i class="fas fa-face-smile" style="font-size:2.2rem;color:#ff6699;margin-bottom:14px;"></i><h3 style="margin-bottom:8px;font-size:1.1rem;">人脸识别</h3><p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;">上传图片识别动漫角色，纯浏览器端 AI 处理喵～</p></div></a>
+            <a href="https://ciallo0721-cmd.top/scraper" target="_blank" rel="noopener noreferrer" class="game-card" style="text-decoration:none;color:inherit;"><div style="padding:28px 24px;text-align:center;"><i class="fas fa-film" style="font-size:2.2rem;color:#ec4899;margin-bottom:14px;" aria-hidden="true"></i><h3 style="margin-bottom:8px;font-size:1.1rem;">新番数据库</h3><p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;">实时查询当季新番动画信息，追番必备喵～</p></div></a>
+            <a href="https://ciallo0721-cmd.top/moeface" target="_blank" rel="noopener noreferrer" class="game-card" style="text-decoration:none;color:inherit;"><div style="padding:28px 24px;text-align:center;"><i class="fas fa-face-smile" style="font-size:2.2rem;color:#ff6699;margin-bottom:14px;" aria-hidden="true"></i><h3 style="margin-bottom:8px;font-size:1.1rem;">人脸识别</h3><p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;">上传图片识别动漫角色，纯浏览器端 AI 处理喵～</p></div></a>
         </div><div style="text-align:center;margin-top:30px;"><a href="./tools/" class="game-jump-btn" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;"><i class="fas fa-wand-magic-sparkles"></i> 查看全部工具的说～</a></div></section>
 
         <section id="promo" class="section" style="background:linear-gradient(135deg, rgba(236,72,153,0.04), rgba(37,117,252,0.04));border:1px solid rgba(236,72,153,0.15);">
