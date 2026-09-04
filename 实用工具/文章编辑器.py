@@ -194,6 +194,50 @@ def build_article_html(meta: dict, content_html: str, toc_html: str = "",
     tpl = re.sub(r'<meta name="description" content="[^"]*">',
                  f'<meta name="description" content="{excerpt_e}">', tpl, count=1)
 
+    # ── SEO 自动注入：og / twitter / BlogPosting JSON-LD（预览与导出都会带上）──
+    # 1) 若模板是旧文章（可能残留旧 og/twitter/BlogPosting），先清掉，保证幂等
+    tpl = re.sub(r'\s*<meta (?:property|name)="(?:og|twitter):[^"]*"[^>]*>\n', '', tpl)
+    tpl = re.sub(
+        r'<script type="application/ld\+json">.*?</script>',
+        lambda m: '' if '"@type": "BlogPosting"' in m.group(0) else m.group(0),
+        tpl, flags=re.S)
+    # 2) 注入新块
+    has_date = bool(re.match(r'\d{4}-\d{2}-\d{2}', date_str))
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": meta["title"],
+        "description": meta["excerpt"],
+        "author": {"@type": "Person", "name": "ciallo0721-cmd"},
+        "publisher": {"@type": "Person", "name": "ciallo0721-cmd"},
+        "mainEntityOfPage": article_url,
+        "image": f"{SITE}/og-image.png",
+        "inLanguage": "zh-CN",
+    }
+    if has_date:
+        ld["datePublished"] = date_str
+        ld["dateModified"] = date_str
+    excerpt_150 = html.escape(meta["excerpt"][:150])
+    ld_body = json.dumps(ld, ensure_ascii=False, indent=2).splitlines()
+    seo_block = "\n".join([
+        "    <!-- Open Graph / 社交分享预览 -->",
+        '    <meta property="og:type" content="article">',
+        f'    <meta property="og:title" content="{title_e}">',
+        f'    <meta property="og:description" content="{excerpt_150}">',
+        f'    <meta property="og:url" content="{article_url}">',
+        '    <meta property="og:site_name" content="ciallo0721-cmd">',
+        f'    <meta property="og:image" content="{SITE}/og-image.png">',
+        '    <meta name="twitter:card" content="summary">',
+        f'    <meta name="twitter:title" content="{title_e}">',
+        f'    <meta name="twitter:description" content="{excerpt_150}">',
+        "",
+        "    <!-- 结构化数据: BlogPosting -->",
+        '    <script type="application/ld+json">',
+        "\n".join("    " + ln for ln in ld_body),
+        "    </script>",
+    ])
+    tpl = tpl.replace("</head>", seo_block + "\n</head>", 1)
+
     # 文章头部
     tpl = re.sub(r'<div class="article-number">.*?</div>',
                  f'<div class="article-number">{html.escape(cat)}</div>', tpl, count=1, flags=re.S)
